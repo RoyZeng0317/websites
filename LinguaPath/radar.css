@@ -1,0 +1,87 @@
+.radar-section{
+    max-width: 900px;;
+    margin: 2rem auto 3rem;
+    padding: 0 2.5rem;
+}
+.radar-header{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+}
+.radar-title{
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #e8e6e0;
+}
+.radar-subtitle{
+    font-size: 0.82rem;
+    color: #7a7870;
+    margin-top: 0.3rem;
+}
+.radar-avg{
+    font-size: 0.88rem;
+    color: #7a7870;
+    text-align: right;
+}
+.radar-avg strong{
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #e8c97e;
+    margin-right: 2px;
+}
+.radar-avg span{
+    font-size: 0.82rem;
+}
+.radar-body{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: #161920;
+    border: 1px solid #252830;
+    border-radius: 16px;
+    padding: 2rem;
+}
+#radar{
+    width: 100% !important;
+    height: auto !important;
+}
+.radar-legend{
+    display: flex;
+    flex-direction: column;
+    grid-auto-flow: 0.75rem;
+}
+.legend-item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.legend-header{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+.legend-name{
+    color: #e8e6e0;
+}
+.legend-score{
+    font-weight: 600;
+}
+.legend-bar{
+    height: 6px;
+    background: #252830;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.legend-fill{
+    text-align: center;
+    color: #7a7870;
+    font-size: 0.85rem;
+    margin-top: 0.8rem;
+}
+@media (max-width: 640px) {
+    .radar-body{
+        grid-template-columns: 1fr;
+    }
+}

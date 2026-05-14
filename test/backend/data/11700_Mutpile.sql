@@ -1,0 +1,38 @@
+-- 11700 數位電子乙級 複選題 題庫
+-- 格式: INSERT INTO questions (id, type, question, options, answer) VALUES (ID, 'multiple', '題目', '選項1,選項2,選項3,選項4', '正確索引(0-based)');
+
+INSERT INTO questions (id, type, question, options, answer) VALUES (1, 'multiple', '下圖之符號為何種元件？', 'Thermistor,光敏電阻,NTC 型溫度電阻,Photocell', '2,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (2, 'multiple', '下圖為低態動作的三態閘，下列敘述何者正確？', '當B=0 時，C=A=1,當B=0 時，C=A=0,當B=1 時，C=A=1,當B=1 時，C=A=0', '0,1');
+INSERT INTO questions (id, type, question, options, answer) VALUES (3, 'multiple', '下圖所示，下列敘述何者正確？', '互補式輸出的緩衝器，當D=0 時，E=0 及F=1,互補式輸出的緩衝器，當D=1 時，E=1 及F=0,互補式輸出的 反相器，當D=0 時，E=1 及F=0,互補式輸出的反相器，當D=1 時，E=0 及F=1', '0,1');
+INSERT INTO questions (id, type, question, options, answer) VALUES (4, 'multiple', '下圖所示，下列敘述何者正確？', 'T1 為NMOS 元件,T1 為PMOS 元件,T2 為PMOS 元件,T2 為NMOS 元件', '1,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (5, 'multiple', '下列圖示哪些是與光電有關的組件？', '①data/img/q5-1.png,②data/img/q5-2.png,③data/img/q5-3.png,④data/img/q5-4.png', '0,1');
+INSERT INTO questions (id, type, question, options, answer) VALUES (6, 'multiple', '下列圖示哪些為被動元件？', '①data/img/q6-1.png,②data/img/q6-2.png,③data/img/q6-3.png,④data/img/q6-4.png', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (7, 'multiple', '下列圖示哪些為主動元件？', '①data/img/q7-1.png,②data/img/q7-2.png,③data/img/q7-3.png,④data/img/q7-4.png', '2,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (8, 'multiple', '依據美國國家標準協會（ANSI）編製的標準流程圖符號，下列符號表示何者正確？', '處理,迴圈,判斷,結束', '1,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (9, 'multiple', '下列何者工作於逆向偏壓？', '①data/img/q9-1.png,②data/img/q9-2.png,③data/img/q9-3.png,④data/img/q9-4.png', '1,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (10, 'multiple', '有關印刷電路板元件面的安排與繪製，下列敘述何者正確？', '以IC 或電晶體位置為中心向外安排其他元件,IC 依形狀擺放不需特別標示腳位,連接器必須標示第一腳位,並排電阻盡量靠近以節省空間及連接線', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (11, 'multiple', '有關含有一個小數點的七段顯示器敘述，下列何者正確？', '9 隻接腳,10 隻接腳,CA 型或CK 型,8 顆LED 所組成', '1,2,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (12, 'multiple', '下圖所示，下列敘述何者正確？', 'Pre 接0 時，輸出Q=0,Pre 接0 時，輸出Q=1,Clr 接0 時，輸出Q=0,Clr 接0 時，輸出Q=1', '1,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (13, 'multiple', '下列何者是穩壓IC 的型號類別？', 'LM78XX,LD1117-XX,NE555-X,EPM3064-ALCXX', '0,1');
+INSERT INTO questions (id, type, question, options, answer) VALUES (14, 'multiple', '有關固態繼電器（Solid State Relay）的敘述，下列何者正確？', '一種電子式無接點開關,內部含有發光二極體與光電晶體組成光耦合器,利用低電壓控制高電壓之驅動裝置,利用高電流控制低電流之驅動裝置', '0,1,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (15, 'multiple', '下圖所示，感溫IC AD590 的溫度係數為1μA/K，25°C 時，其端電流為298.2μA，則下列敘述何者正確？', '0°C 時，其端電流為273.2μA,0°C 時，Vo=0V,15°C 時，Vo=0.15V,25°C 時，Vo=2.982V', '0,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (16, 'multiple', '若白金感溫電阻Pt100 之電阻溫度係數為3850ppm/°C，下列敘述何者正確？', '每1°C 電阻變化量為0.385Ω,每1°C 電阻變化量為3.85Ω,0°C 時，其電阻值為100Ω,常溫25°C 時，其電阻值為100Ω', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (17, 'multiple', '應用於感測器模組中，除微控制器外尚會使用下列哪幾項元件？', '現場可程式化邏輯閘陣列（FPGA）,複雜的可規劃邏輯元件（CPLD）,特殊應用積體電路（ASIC）,中央處理器（CPU）', '0,1,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (18, 'multiple', '常用的陶瓷及薄膜電容器代碼標示，下列敘述何者正確？', '102J 是指電容值為10×10^2pf±5％,221M 是指電容值為22×10^1pf±15％,104G 是指電容值為10×10^4pf±1％,100K 是指電容值為100pf±10％', '0,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (19, 'multiple', '有關電荷電位敘述，下列何者正確？', '愈靠近正電荷處電位愈高,有方向性,距電場無窮遠處之電位為零,與溫度成正比', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (20, 'multiple', 'IEEE-488 標準介面的相關規定中，下列敘述何者正確？', '屬於儀器中的串列通信介面,可連接的儀器裝置最多不能超過15 台,各裝置間的通信距離不能超過20 公尺,傳輸的信號為標準TTL 位準，且採用負邏輯方式', '1,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (21, 'multiple', '一般電路模擬軟體工具為避免量測電壓時而產生負載效應，其電壓表的內阻合理設定值可為', '10G,1M,1G,100K', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (22, 'multiple', '一般指針式電表內部不裝電池時，可用來量測', '電壓值,電阻值,電流值,電感值', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (23, 'multiple', '三用電表主要功能是用來量測下列哪幾種物理量？', '電壓（Volt）,電阻（Ohm）,電流（Ampere）,電容（Farad）', '0,1,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (24, 'multiple', '下列敘述何者正確？', '電壓表之靈敏度通常以歐姆伏特比（Ω/V）表示,電壓表之內阻值愈大，則靈敏度愈佳,電流表內阻值愈大，則負載效應愈小,瓦特表係同時測量待測物的電壓與電流值而獲得待測物之消耗功率', '0,1,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (25, 'multiple', '使用日系指針式三用電表時，下列敘述何者正確？', '量測電壓時，電表與待測者並聯,量測電流時，電表與待測者並聯,量測電阻時，電表需先作歸零,設定於歐姆檔時，紅、黑色測試棒分別代表內部電池的正端與負端', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (26, 'multiple', '下圖之直流電源供應器使用，下列敘述何者正確？', '獨立模式：可分別調整輸出電壓及限定電流的大小,串聯追蹤模式：兩組電源的輸出電壓值相同，並由CH1 主電源輸出調整鈕控制電壓大小,並聯追蹤模式：輸出電壓與最大電流完全由CH1 控制，可提供最多一倍的電流輸出,輸出控制開關OFF 時輸出端隔離，無電壓輸出也無法顯示設定的最大電流', '0,1');
+INSERT INTO questions (id, type, question, options, answer) VALUES (27, 'multiple', '使用三用電表量測某電路各點結果分別如下圖A、B、C、D，下列之判讀何者正確？', '當指針偏轉於圖中A 所示位置且檔數置於ACV 1000V 時，量測之交流電壓值約為460V,當指針偏轉於圖中B 所示位置且檔數置於ACV 250V 時，量測之交流電壓值約為165V,當指針偏轉於圖中C 所示位置且檔數置於ACV 50V 時，量測之交流電壓值約為42V,當指針偏轉於圖中D 所示位置且檔數置於ACV 10V 時，量測之交流電壓值約為3.3V', '0,1,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (28, 'multiple', '若將一大小為60 伏特之直流電壓源加至兩個電阻大小，分別為5 歐姆與10 歐姆，且串聯之電阻電路，下列敘述何者正確？', '總電阻等於15 歐姆,總電流等於4 安培,5 歐姆上的壓降為40 伏特,10 歐姆上的壓降為20 伏特', '0,1');
+INSERT INTO questions (id, type, question, options, answer) VALUES (29, 'multiple', '有關示波器被動式探棒及主動式探棒的比較，下列敘述何者正確？', '主動式探棒適合高速訊號,被動式探棒適合高速訊號,主動式探棒適合低電壓邏輯訊號,被動式探棒負載效應較小', '0,2');
+INSERT INTO questions (id, type, question, options, answer) VALUES (30, 'multiple', '有三個都是6 歐姆的電阻，下列敘述何者正確？', '兩個串聯後再與第三個並聯時電阻為6 歐姆,兩個串聯後再與第三個並聯時電阻為4 歐姆,兩個並聯後再與第三個串聯時電阻為9 歐姆,全部電阻並聯時電阻為2 歐姆', '1,2,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (31, 'multiple', 'ICT（In Circuit Test）基本上可以執行檢測出下列哪些功能或零件缺陷？', '開路,冷/假焊,零件「偏移」,短路', '0,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (32, 'multiple', '使用ICT（In Circuit Test）測試電路板的優點為', '測試速度快、時間短,產品修理成本大幅降低,提高電路板佈線的使用率,提高產品品質', '0,1,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (33, 'multiple', '數位儲存示波器功能，下列何者正確？', '系統架構中，不須衰減器,觸發控制可以選擇水平觸發位準,垂直解析度是指將輸入電壓轉換成數位值的精準度,將訊號數位化後重建波形，具有記憶與儲存功能', '2,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (34, 'multiple', '數位儲存示波器中，下列對於觸發的敘述何者正確？', '邊緣觸發是一種以時間點做為條件的觸發，只要訊號跨過某時間點就觸發,脈波寬度是一種以頻率區間來當作條件的觸發模式，只要波寬大於頻率區間就觸發,低準位觸發允許擷取和檢視越過一個邏輯臨界值、但沒有同時越過兩個邏輯臨界值的脈衝,觸發設定可針對輸入訊號的特定條件作出回應', '2,3');
+INSERT INTO questions (id, type, question, options, answer) VALUES (35, 'multiple', '數位儲存示波器中，在不同的X：Y 比率頻率下，相位偏移量測結果，下列敘述何者正確？', 'X：Y=1：1,X：Y=1：2,X：Y=1：3,X：Y=1：4', '0,3');

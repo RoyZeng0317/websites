@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="dashboard.css">
+  <title>LinguaPath - My Progress</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Lingua<span>Path</span></a>
+  <div style="display:flex;gap:1rem;align-items:center">
+    <div id="user-info" style="display:none;align-items:center;gap:0.8rem">
+      <img id="user-avatar" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--accent)" src="" alt=""/>
+      <span id="user-name" style="font-size:0.9rem"></span>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <a href="index.html" class="btn btn-primary" id="signin-link" style="display:none">Sign In</a>
+    <a href="#" class="btn btn-ghost theme-toggle-icon" onclick="themeToggle()" style="font-size:1.1rem;padding:0.4rem 0.7rem">☀️</a>
+  </div>
+</nav>
+
+<div class="page" id="page-content"></div>
+
+<script src="script.js"></script>
+
+<script type="module">
+  import { 
+    auth, db, 
+    onAuthStateChanged, signOut, 
+    doc, getDoc, setDoc, serverTimestamp 
+  } from "./firebase-config.js";
+
+  const COURSES = [
+    { id: "beginner-foundations", title: "Foundations of English", level: "Beginner", icon: "B", total: 8 },
+    { id: "everyday-conversations", title: "Everyday Conversations", level: "Elementary", icon: "E", total: 7 },
+    { id: "grammar-essentials", title: "Grammar Essentials", level: "Intermediate", icon: "G", total: 9 },
+    { id: "advanced-fluency", title: "Advanced Fluency", level: "Advanced", icon: "A", total: 8 },
+  ];
+
+  const LESSON_NAMES = {
+    "beginner-foundations": ["The English Alphabet", "Basic Greetings", "Numbers 1-100", "Colors & Shapes", "Days & Months", "Common Nouns", "Simple Sentences", "Asking for Help"],
+    "everyday-conversations": ["Introducing Yourself", "At a Restaurant", "Shopping", "Asking for Directions", "Talking About Weather", "Making Plans", "Talking on the Phone"],
+  };
+
+  const SKILL_KEYS = ['grammar', 'vocabulary', 'reading', 'listening', 'speaking', 'writing'];
+  const SKILL_NAMES = {
+    grammar: 'Grammar',
+    vocabulary: 'Vocabulary',
+    reading: 'Reading',
+    listening: 'Listening',
+    speaking: 'Speaking',
+    writing: 'Writing'
+  };
+  const SKILL_COLORS = {
+    grammar: '#e8c97e',
+    vocabulary: '#7eb8e8',
+    reading: '#7ec8a0',
+    listening: '#c87ee8',
+    speaking: '#e8a07e',
+    writing: '#e87e9e'
+  };
+  const COURSE_SKILL_WEIGHTS = {
+    'beginner-foundations': { grammar: 30, vocabulary: 40, reading: 30, listening: 20, speaking: 10, writing: 10 },
+    'everyday-conversations': { grammar: 10, vocabulary: 20, reading: 10, listening: 30, speaking: 40, writing: 5 },
+    'grammar-essentials': { grammar: 50, vocabulary: 15, reading: 20, listening: 5, speaking: 5, writing: 30 },
+    'advanced-fluency': { grammar: 20, vocabulary: 25, reading: 20, listening: 15, speaking: 20, writing: 30 }
+  };
+
+  function completedCount(progress, courseId) {
+    return progress[courseId] ? Object.values(progress[courseId]).filter(Boolean).length : 0;
+  }
+
+  function computeSkills(progress = {}) {
+    const raw = {};
+    const max = {};
+    SKILL_KEYS.forEach(skill => {
+      raw[skill] = 0;
+      max[skill] = 0;
+    });
+
+    Object.entries(COURSE_SKILL_WEIGHTS).forEach(([courseId, weights]) => {
+      const courseTotal = COURSES.find(course => course.id === courseId)?.total || 1;
+      const ratio = Math.min(completedCount(progress, courseId) / courseTotal, 1);
+      SKILL_KEYS.forEach(skill => {
+        raw[skill] += weights[skill] * ratio;
+        max[skill] += weights[skill];
+      });
+    });
+
+    return SKILL_KEYS.reduce((scores, skill) => {
+      scores[skill] = max[skill] > 0 ? Math.round((raw[skill] / max[skill]) * 100) : 0;
+      return scores;
+    }, {});
+  }
+
+  function polarToCartesian(cx, cy, radius, angle) {
+    return { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+  }
+
+  function renderSkills(scores) {
+    const canvas = document.getElementById('skills-radar');
+    const legend = document.getElementById('skills-legend');
+    const avg = document.getElementById('avgValue');
+    if (!canvas || !legend || !avg) return;
+
+    const average = SKILL_KEYS.reduce((sum, skill) => sum + (scores[skill] || 0), 0) / SKILL_KEYS.length;
+    avg.textContent = Math.round(average).toString();
+    legend.innerHTML = SKILL_KEYS.map(skill => `
+      <div class="radar-legend-item">
+        <span class="radar-dot" style="background:${SKILL_COLORS[skill]}"></span>
+        <span>${SKILL_NAMES[skill]}</span>
+        <strong>${scores[skill] || 0}</strong>
+      </div>
+    `).join('');
+
+    const dpr = window.devicePixelRatio || 1;
+    const size = 320;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size, size);
+
+    const cx = size / 2;
+    const cy = size / 2;
+    const radius = size * 0.32;
+    const startAngle = -Math.PI / 2;
+    const step = (Math.PI * 2) / SKILL_KEYS.length;
+
+    for (let ring = 1; ring <= 4; ring += 1) {
+      const ringRadius = (radius * ring) / 4;
+      ctx.beginPath();
+      SKILL_KEYS.forEach((_, index) => {
+        const point = polarToCartesian(cx, cy, ringRadius, startAngle + step * index);
+        index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.stroke();
+    }
+
+    SKILL_KEYS.forEach((skill, index) => {
+      const angle = startAngle + step * index;
+      const axis = polarToCartesian(cx, cy, radius, angle);
+      const label = polarToCartesian(cx, cy, radius + 28, angle);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(axis.x, axis.y);
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.stroke();
+      ctx.fillStyle = '#e8e6e0';
+      ctx.font = "500 12px 'DM Sans', sans-serif";
+      ctx.textAlign = label.x < cx - 5 ? 'right' : label.x > cx + 5 ? 'left' : 'center';
+      ctx.textBaseline = label.y < cy - 5 ? 'bottom' : label.y > cy + 5 ? 'top' : 'middle';
+      ctx.fillText(SKILL_NAMES[skill], label.x, label.y);
+    });
+
+    ctx.beginPath();
+    SKILL_KEYS.forEach((skill, index) => {
+      const value = Math.max(0, Math.min(scores[skill] || 0, 100));
+      const point = polarToCartesian(cx, cy, radius * (value / 100), startAngle + step * index);
+      index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(232, 201, 126, 0.18)';
+    ctx.strokeStyle = '#e8c97e';
+    ctx.lineWidth = 2;
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    const page = document.getElementById('page-content');
+
+    if (!user) {
+      document.getElementById('signin-link').style.display = 'inline-block';
+      document.getElementById('user-info').style.display = 'none';
+      page.innerHTML = `<div class="not-logged-in">
+        <h2>Track Your Progress</h2>
+        <p>Sign in to see your learning dashboard and completed lessons.</p>
+        <a href="index.html" class="btn btn-primary" style="padding:0.75rem 2rem;font-size:1rem">Sign In / Create Account</a>
+      </div>`;
+      return;
+    }
+
+    document.getElementById('signin-link').style.display = 'none';
+    document.getElementById('user-info').style.display = 'flex';
+    document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('user-avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'U')}&background=e8c97e&color=0d0f14`;
+    
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) logoutBtn.onclick = () => signOut(auth).then(() => location.href = 'index.html');
+
+    let progress = {};
+    let dashboardWarning = '';
+
+    console.log("Checking progress for user:", user.uid);
+
+    try {
+      const snap = await getDoc(doc(db, 'progress', user.uid));
+      if (snap.exists()) {
+        progress = snap.data();
+        console.log("Progress found:", progress);
+      } else {
+        console.log("No progress document found for this user.");
+      }
+    } catch (error) {
+      console.error('Failed to load progress:', error);
+      dashboardWarning = 'Could not load progress from Firestore. Please check your internet or Firebase Rules.';
+    }
+
+    const scores = computeSkills(progress);
+    console.log("Computed Scores:", scores);
+
+    // Save abilities for future use
+    try {
+      if (user.uid) {
+        await setDoc(doc(db, 'abilities', user.uid), {
+          scores,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      }
+    } catch (e) { console.warn("Failed to save abilities (non-critical)"); }
+
+    // Summary calculations
+    let totalCompleted = 0;
+    let totalLessons = 0;
+    let activeCourses = 0;
+    COURSES.forEach(course => {
+      const done = completedCount(progress, course.id);
+      totalCompleted += done;
+      totalLessons += course.total;
+      if (done > 0) activeCourses += 1;
+    });
+
+    const recent = [];
+    COURSES.forEach(course => {
+      if (!progress[course.id]) return;
+      Object.keys(progress[course.id]).forEach(index => {
+        if (!progress[course.id][index]) return;
+        const lesson = (LESSON_NAMES[course.id] && LESSON_NAMES[course.id][index]) || `Lesson ${Number(index) + 1}`;
+        recent.push({ course: course.title, lesson });
+      });
+    });
+
+    // Final UI Rendering
+    page.innerHTML = `
+      <div class="page-header">
+        <h1>My Progress</h1>
+        <p>Welcome back, ${user.displayName || user.email.split('@')[0] || 'Learner'}</p>
+      </div>
+
+      ${dashboardWarning ? `<div class="dashboard-warning">${dashboardWarning}</div>` : ''}
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-label">Lessons Completed</div>
+          <div class="stat-card-value">${totalCompleted}</div>
+          <div class="stat-card-sub">of ${totalLessons} total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Courses Started</div>
+          <div class="stat-card-value">${activeCourses}</div>
+          <div class="stat-card-sub">of ${COURSES.length} available</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Overall Progress</div>
+          <div class="stat-card-value">${totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0}%</div>
+          <div class="stat-card-sub">Current Status</div>
+        </div>
+      </div>
+
+      <div class="skills-card">
+        <div class="skills-header">
+          <div>
+            <div class="section-label" style="margin-bottom:0">Skill Distribution</div>
+            <div class="skills-subtitle">Based on your learning history</div>
+          </div>
+          <div class="skills-average">Average <strong id="avgValue">0</strong><span>/100</span></div>
+        </div>
+        <div class="radar-body" style="background: rgba(255,255,255,0.02); border-radius: 12px;">
+          <canvas id="skills-radar"></canvas>
+        </div>
+        <div class="radar-legend" id="skills-legend"></div>
+      </div>
+
+      <div class="section-label">Course Progress</div>
+      <div class="course-progress-list">
+        ${COURSES.map(course => {
+          const done = completedCount(progress, course.id);
+          const pct = Math.round((done / course.total) * 100);
+          const nextLesson = Math.min(done, course.total - 1);
+          return `<div class="cpl-item">
+            <div class="cpl-icon">${course.icon}</div>
+            <div class="cpl-info">
+              <div class="cpl-level">${course.level}</div>
+              <div class="cpl-title">${course.title}</div>
+              <div class="progress-bar" style="margin-top:0.6rem"><div class="progress-fill" style="width:${pct}%"></div></div>
+              <a href="lesson.html?course=${course.id}&lesson=${nextLesson}" class="cpl-link">${done === course.total ? 'Review' : 'Continue'} -></a>
+            </div>
+            <div class="cpl-stats">
+              <div class="cpl-pct">${pct}%</div>
+              <div class="cpl-done">${done}/${course.total}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      ${recent.length > 0 ? `
+        <div class="section-label">Recently Completed</div>
+        <div class="activity-list">
+          ${recent.slice().reverse().map(item => `
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-text">${item.lesson} <span>- ${item.course}</span></div>
+            </div>
+          `).join('')}
+        </div>` : '<div class="no-progress"><p>No progress yet. Start your first lesson!</p></div>'}
+    `;
+
+    // Ensure chart is drawn after DOM is ready
+    setTimeout(() => renderSkills(scores), 100);
+  });
+</script>
+</body>
+</html>

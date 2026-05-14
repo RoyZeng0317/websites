@@ -1,0 +1,46 @@
+*{
+    --w: #fff;
+    --gr: #ccc;
+    --b: #000;
+    --bl: #033ff0;
+}
+body{
+    background: var(--b);
+    color: var(--w);
+}
+/* title */
+.container span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* file input */
+.file{
+    display: none;
+}
+.file-input{
+    color: var(--gr);
+}
+.file-box{
+    box-shadow: 0 0 5px var(--gr);
+    height: 10rem;
+    width: 10rem;
+    justify-content: center;
+    display: block;
+}
+.functions ul{
+    list-style: none;
+}
+/* links */
+.link{
+    color: var(--w);
+    text-decoration: none;
+}
+/* footer */
+footer{
+    display: flex;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}

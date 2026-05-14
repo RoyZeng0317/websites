@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="style.css">
+        <title>LinguaPath — Learn English</title>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    </head>
+<body>
+<nav>
+  <div class="logo">Lingua<span>Path</span></div>
+  <div class="nav-right">
+    <div id="user-info" style="display:none">
+      <img id="user-avatar" src="" alt="avatar"/>
+      <span id="user-name"></span>
+      <a href="dashboard.html" class="btn btn-ghost">My Progress</a>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <div id="auth-buttons">
+      <button class="btn btn-ghost" id="signin-btn">Sign In</button>
+      <button class="btn btn-primary" id="signup-btn">Get Started</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">✦ English Language Platform</div>
+  <h1>Master English with<br><em>structured paths</em></h1>
+  <p>From beginner foundations to advanced fluency — track your progress and learn at your own pace.</p>
+  <button class="btn btn-primary" style="padding:0.75rem 2rem;font-size:1rem" id="cta-btn">Start Learning Free</button>
+</section>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">Courses</div></div>
+  <div class="stat"><div class="stat-num">32</div><div class="stat-label">Lessons</div></div>
+  <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Forever</div></div>
+</div>
+
+<div style="padding:0 2.5rem;max-width:1200px;margin:0 auto">
+  <div class="section-title">All Courses</div>
+</div>
+
+<div class="courses-grid" id="courses-grid">
+  <!-- Populated by JS -->
+</div>
+
+<div class="padding:0 2.5rem;max-width:1200px;margin:0 auto">
+  <div class="section-title">Level</div>
+</div>
+
+<script src="level.js"></script>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h2 id="modal-title">Welcome back</h2>
+    <p id="modal-subtitle">Sign in to track your progress</p>
+    <div class="tab-switch">
+      <button class="tab-btn active" id="tab-signin">Sign In</button>
+      <button class="tab-btn" id="tab-signup">Sign Up</button>
+    </div>
+    <button class="btn-google" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div class="divider">or</div>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="email-input" placeholder="you@example.com"/>
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password-input" placeholder="••••••••"/>
+    </div>
+    <div class="error-msg" id="auth-error"></div>
+    <button class="btn btn-primary btn-full" id="auth-submit">Sign In</button>
+  </div>
+</div>
+<!-- Skill Level Section -->
+<div class="radar-section">
+  <div class="radar-header">
+    <div>
+      <div class="radar-title">Skill Distribution</div>
+      <div class="radar-subtitle">Automatically calculated from your completed lessons</div>
+    </div>
+    <div class="radar-avg">
+      Average: <strong id="avgValue">0</strong><span>/ 100</span>
+    </div>
+  </div>
+  <div class="radar-body">
+    <canvas id="radar" aria-label="Skill Radar Chart"></canvas>
+    <div class="radar-legend" id="radar-legend"></div>
+  </div>
+  <div id="radar-login-msg" class="radar-login-msg" style="display:none">
+    Sign in to see your personalised skill distribution
+  </div>
+</div>
+
+<style>
+  .radar-section { max-width:900px; margin:2rem auto 3rem; padding:0 2.5rem; }
+  .radar-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:1.2rem; }
+  .radar-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:#e8e6e0; }
+  .radar-subtitle { font-size:0.82rem; color:#7a7870; margin-top:0.3rem; }
+  .radar-avg { font-size:0.88rem; color:#7a7870; text-align:right; }
+  .radar-avg strong { font-family:'Playfair Display',serif; font-size:2rem; color:#e8c97e; margin-right:2px; }
+  .radar-avg span { font-size:0.82rem; }
+  .radar-body {
+    display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;
+    background:#161920; border:1px solid #252830; border-radius:16px; padding:2rem;
+  }
+  #radar { width:100% !important; height:auto !important; }
+  .radar-legend { display:flex; flex-direction:column; gap:0.75rem; }
+  .legend-item { display:flex; flex-direction:column; gap:0.25rem; }
+  .legend-header { display:flex; justify-content:space-between; font-size:0.85rem; }
+  .legend-name { color:#e8e6e0; }
+  .legend-score { font-weight:600; }
+  .legend-bar { height:6px; background:#252830; border-radius:3px; overflow:hidden; }
+  .legend-fill { height:100%; border-radius:3px; transition:width 1s ease; }
+  .radar-login-msg { text-align:center; color:#7a7870; font-size:0.85rem; margin-top:0.8rem; }
+  @media(max-width:640px){ .radar-body{ grid-template-columns:1fr; } }
+</style>
+
+<script>
+  const SKILL_KEYS   = ['grammar','vocabulary','reading','listening','speaking','writing'];
+  const SKILL_NAMES  = { grammar:'Grammar', vocabulary:'Vocabulary', reading:'Reading', listening:'Listening', speaking:'Speaking', writing:'Writing' };
+  const SKILL_COLORS = { grammar:'#e8c97e', vocabulary:'#7eb8e8', reading:'#7ec8a0', listening:'#c87ee8', speaking:'#e8a07e', writing:'#e87e9e' };
+
+  const COURSE_SKILL_WEIGHTS = {
+    'beginner-foundations':   { grammar:30, vocabulary:40, reading:30, listening:20, speaking:10, writing:10 },
+    'everyday-conversations': { grammar:10, vocabulary:20, reading:10, listening:30, speaking:40, writing:5  },
+    'grammar-essentials':     { grammar:50, vocabulary:15, reading:20, listening:5,  speaking:5,  writing:30 },
+    'advanced-fluency':       { grammar:20, vocabulary:25, reading:20, listening:15, speaking:20, writing:30 },
+  };
+  const COURSE_TOTALS = { 'beginner-foundations':8, 'everyday-conversations':7, 'grammar-essentials':9, 'advanced-fluency':8 };
+
+  function computeSkills(progress) {
+    const raw = {}, max = {};
+
+    SKILL_KEYS.forEach(s => {
+        raw[s]=0;
+        max[s]=0;
+    });
+
+    Object.entries(COURSE_SKILL_WEIGHTS).forEach(([id, weights]) => {
+      const total = COURSE_TOTALS[id] || 1;
+      const done  = progress[id] ? Object.keys(progress[id]).filter(k => progress[id][k]).length : 0;
+      const ratio = done / total;
+      SKILL_KEYS.forEach(s => {
+        raw[s]+=weights[s]*ratio;
+        max[s]+=weights[s];
+    });
+    });
+    const out={};
+    SKILL_KEYS.forEach(s=>{ out[s]=max[s]>0?Math.round((raw[s]/max[s])*100):0; });
+    return out;
+  }
+
+  function polarToCartesian(cx,cy,r,angle){
+    return { x: cx+r*Math.cos(angle), y: cy+r*Math.sin(angle) };
+  }
+
+  function drawRadar(scores) {
+    const canvas = document.getElementById('radar');
+    const dpr    = window.devicePixelRatio||1;
+    const size   = Math.min(canvas.parentElement.offsetWidth*0.9, 340);
+    canvas.width  = size*dpr; canvas.height = size*dpr;
+    canvas.style.width=size+'px'; canvas.style.height=size+'px';
+    const ctx=canvas.getContext('2d');
+    ctx.scale(dpr,dpr);
+    ctx.clearRect(0,0,size,size);
+    const n=SKILL_KEYS.length, cx=size/2, cy=size/2;
+    const maxR=size*0.34, RINGS=4, startA=-Math.PI/2, step=(Math.PI*2)/n;
+    // rings
+    for(let ring=1;ring<=RINGS;ring++){
+      const r=(maxR*ring)/RINGS;
+      ctx.beginPath();
+      SKILL_KEYS.forEach((_,i)=>{ const p=polarToCartesian(cx,cy,r,startA+step*i); i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y); });
+      ctx.closePath(); ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1; ctx.stroke();
+    }
+    // axes & labels
+    SKILL_KEYS.forEach((key,i)=>{
+      const p=polarToCartesian(cx,cy,maxR,startA+step*i);
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(p.x,p.y);
+      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=1; ctx.stroke();
+      const lp=polarToCartesian(cx,cy,maxR+22,startA+step*i);
+      ctx.fillStyle='#e8e6e0'; ctx.font="500 12px 'DM Sans',sans-serif";
+      ctx.textAlign=lp.x<cx-5?'right':lp.x>cx+5?'left':'center';
+      ctx.textBaseline=lp.y<cy-5?'bottom':lp.y>cy+5?'top':'middle';
+      ctx.fillText(SKILL_NAMES[key],lp.x,lp.y);
+    });
+    // fill
+    ctx.beginPath();
+    SKILL_KEYS.forEach((key,i)=>{
+      const p=polarToCartesian(cx,cy,maxR*(scores[key]/100),startA+step*i);
+      i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+    });
+    ctx.closePath(); ctx.fillStyle='rgba(232,201,126,0.18)'; ctx.strokeStyle='#e8c97e'; ctx.lineWidth=2; ctx.fill(); ctx.stroke();
+    // dots
+    SKILL_KEYS.forEach((key,i)=>{
+      const p=polarToCartesian(cx,cy,maxR*(scores[key]/100),startA+step*i);
+      ctx.beginPath(); ctx.arc(p.x,p.y,4.5,0,Math.PI*2);
+      ctx.fillStyle=SKILL_COLORS[key]; ctx.strokeStyle='#0d0f14'; ctx.lineWidth=2; ctx.fill(); ctx.stroke();
+    });
+  }
+
+  function renderLegend(scores){
+    const avg=Math.round(SKILL_KEYS.reduce((s,k)=>s+scores[k],0)/SKILL_KEYS.length);
+    document.getElementById('avgValue').textContent=avg;
+    document.getElementById('radar-legend').innerHTML=SKILL_KEYS.map(key=>`
+      <div class="legend-item">
+        <div class="legend-header">
+          <span class="legend-name">${SKILL_NAMES[key]}</span>
+          <span class="legend-score" style="color:${SKILL_COLORS[key]}">${scores[key]}%</span>
+        </div>
+        <div class="legend-bar"><div class="legend-fill" style="width:0%;background:${SKILL_COLORS[key]}" data-target="${scores[key]}"></div></div>
+      </div>`).join('');
+    setTimeout(()=>{ document.querySelectorAll('.legend-fill').forEach(el=>el.style.width=el.dataset.target+'%'); },80);
+  }
+
+  window.updateRadar = function(progress){
+    window._lastProgress = progress;
+    const scores=computeSkills(progress||{});
+    drawRadar(scores); renderLegend(scores);
+    document.getElementById('radar-login-msg').style.display='none';
+  };
+  window.showRadarLoginMsg = function(){
+    const empty={}; SKILL_KEYS.forEach(k=>empty[k]=0);
+    drawRadar(empty); renderLegend(empty);
+    document.getElementById('radar-login-msg').style.display='block';
+  };
+
+  window.showRadarLoginMsg();
+  window.addEventListener('resize',()=>{ const s=computeSkills(window._lastProgress||{}); drawRadar(s); });
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBh-ugjnWXOIFgaujjvEoHJ4jx_KfcXezU",
+    authDomain: "english-language-platform.firebaseapp.com",
+    projectId: "english-language-platform",
+    storageBucket: "english-language-platform.firebasestorage.app",
+    messagingSenderId: "398558443265",
+    appId: "1:398558443265:web:7cca79b438a3994e9bcd00"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  const courses = [
+    { id: "beginner-foundations", level: "Beginner", title: "Foundations of English", desc: "Master the alphabet, basic grammar, and everyday vocabulary. Perfect for complete beginners.", lessons: 8, badge: "popular", videoUrl: "https://www.youtube.com/playlist?list=PLF4D61E68A7F2A0B5" },
+    { id: "everyday-conversations", level: "Elementary", title: "Everyday Conversations", desc: "Learn to introduce yourself, ask for directions, and navigate common social situations.", lessons: 7, badge: null, videoUrl: "" },
+    { id: "grammar-essentials", level: "Intermediate", title: "Grammar Essentials", desc: "Deep dive into tenses, conditionals, and sentence structures that elevate your writing.", lessons: 9, badge: "new", videoUrl: "" },
+    { id: "advanced-fluency", level: "Advanced", title: "Advanced Fluency", desc: "Idioms, nuance, academic writing, and presentation skills for professional contexts.", lessons: 8, badge: null, videoUrl: "" },
+
+  ];
+
+  // Render courses
+  const grid = document.getElementById('courses-grid');
+  courses.forEach(c => {
+    const card = document.createElement('a');
+    card.href = `lesson.html?course=${c.id}`;
+    card.className = 'course-card';
+    card.dataset.courseId = c.id;
+    card.innerHTML = `
+      <div class="course-level">${c.level}</div>
+      <div class="course-title">${c.title} ${c.badge ? `<span class="badge badge-${c.badge}">${c.badge}</span>` : ''}</div>
+      <div class="course-desc">${c.desc}</div>
+      <div class="course-meta">
+        <span class="course-lessons">${c.lessons} lessons</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-${c.id}" style="width:0%"></div></div>
+      <div class="progress-label" id="prog-label-${c.id}">Not started</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Auth state
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      document.getElementById('auth-buttons').style.display = 'none';
+      document.getElementById('user-info').style.display = 'flex';
+      document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
+      if (user.photoURL) document.getElementById('user-avatar').src = user.photoURL;
+      else document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=e8c97e&color=0d0f14`;
+      // Load progress
+      const snap = await getDoc(doc(db, 'progress', user.uid));
+      const data = snap.exists() ? snap.data() : {};
+      courses.forEach(c => {
+        const completed = data[c.id] ? Object.keys(data[c.id]).filter(k => data[c.id][k]).length : 0;
+        const pct = Math.round((completed / c.lessons) * 100);
+        const fill = document.getElementById(`prog-${c.id}`);
+        const label = document.getElementById(`prog-label-${c.id}`);
+        if (fill) fill.style.width = pct + '%';
+        if (label) label.textContent = pct === 0 ? 'Not started' : pct === 100 ? '✓ Completed' : `${pct}% complete`;
+      });
+      // Update radar chart with real progress data
+      if (window.updateRadar) window.updateRadar(data);
+    } else {
+      document.getElementById('auth-buttons').style.display = 'flex';
+      document.getElementById('user-info').style.display = 'none';
+      if (window.showRadarLoginMsg) window.showRadarLoginMsg();
+    }
+  });
+
+  // Modal logic
+  const overlay = document.getElementById('modal-overlay');
+  let isSignUp = false;
+
+  function openModal(signup = false) {
+    isSignUp = signup;
+    overlay.classList.add('active');
+    document.getElementById('tab-signin').classList.toggle('active', !signup);
+    document.getElementById('tab-signup').classList.toggle('active', signup);
+    document.getElementById('modal-title').textContent = signup ? 'Create account' : 'Welcome back';
+    document.getElementById('modal-subtitle').textContent = signup ? 'Start tracking your progress today' : 'Sign in to track your progress';
+    document.getElementById('auth-submit').textContent = signup ? 'Create Account' : 'Sign In';
+  }
+
+  document.getElementById('signin-btn').onclick = () => openModal(false);
+  document.getElementById('signup-btn').onclick = () => openModal(true);
+  document.getElementById('cta-btn').onclick = () => openModal(true);
+  document.getElementById('modal-close').onclick = () => overlay.classList.remove('active');
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.classList.remove('active'); };
+  document.getElementById('tab-signin').onclick = () => openModal(false);
+  document.getElementById('tab-signup').onclick = () => openModal(true);
+
+  document.getElementById('logout-btn').onclick = () => signOut(auth);
+
+  document.getElementById('google-btn').onclick = async () => {
+    try { await signInWithPopup(auth, provider); overlay.classList.remove('active'); }
+    catch(e) { showError(e.message); }
+  };
+
+  document.getElementById('auth-submit').onclick = async () => {
+    const email = document.getElementById('email-input').value;
+    const pass = document.getElementById('password-input').value;
+    try {
+      if (isSignUp) await createUserWithEmailAndPassword(auth, email, pass);
+      else await signInWithEmailAndPassword(auth, email, pass);
+      overlay.classList.remove('active');
+    } catch(e) {
+      showError(e.code === 'auth/wrong-password' ? 'Incorrect password.' :
+                e.code === 'auth/user-not-found' ? 'No account found with this email.' :
+                e.code === 'auth/email-already-in-use' ? 'Email already in use.' :
+                e.code === 'auth/weak-password' ? 'Password must be at least 6 characters.' :
+                e.message);
+    }
+  };
+
+  function showError(msg) {
+    const el = document.getElementById('auth-error');
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 4000);
+  }
+</script>
+  </body>
+    <footer>&copy;Author: Roy Zeng</footer>
+    <script src="auth.js"></script>
+    <script src="firebase.js"></script>
+    <script src="progress.js"></script>
+</html>

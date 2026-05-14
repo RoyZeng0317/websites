@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "word": "Diligent",
+    "definition": "Showing care and conscientiousness in one's work or duties.",
+    "example": "He was a diligent student who always finished his homework on time.",
+    "mastered": false
+  },
+  {
+    "id": 2,
+    "word": "Ephemeral",
+    "definition": "Lasting for a very short time.",
+    "example": "The beauty of a sunset is ephemeral, so enjoy it while it lasts.",
+    "mastered": false
+  },
+  {
+    "id": 3,
+    "word": "Ubiquitous",
+    "definition": "Present, appearing, or found everywhere.",
+    "example": "Mobile phones are ubiquitous in modern society.",
+    "mastered": false
+  }
+]

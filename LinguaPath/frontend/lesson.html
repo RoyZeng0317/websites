@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaPath — Lesson</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14; --surface: #161920; --border: #252830;
+      --accent: #e8c97e; --accent2: #7eb8e8; --text: #e8e6e0;
+      --muted: #7a7870; --success: #7ec8a0;
+    }
+    body.dark {
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --border: #e9ecef;
+      --text: #1a1c20;
+      --muted: #5f6368;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); text-decoration: none; }
+    .logo span { color: var(--text); }
+    .btn { padding: 0.5rem 1.2rem; border-radius: 6px; font-family: 'DM Sans'; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+    .btn-primary { background: var(--accent); color: #0d0f14; }
+    .btn-primary:hover { opacity: 0.88; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: calc(100vh - 65px);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 0;
+      position: sticky; top: 65px; height: calc(100vh - 65px);
+      overflow-y: auto;
+    }
+    .sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      padding: 0 1.5rem 1rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-course {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .lesson-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.7rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .lesson-item:hover { background: rgba(255,255,255,0.03); }
+    .lesson-item.active {
+      background: rgba(232,201,126,0.07);
+      border-left-color: var(--accent);
+    }
+    .lesson-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: var(--muted);
+      flex-shrink: 0;
+    }
+    .lesson-item.done .lesson-num {
+      background: var(--success); border-color: var(--success);
+      color: #0d0f14; font-weight: bold;
+    }
+    .lesson-item.active .lesson-num {
+      border-color: var(--accent); color: var(--accent);
+    }
+    .lesson-name { font-size: 0.88rem; color: var(--muted); }
+    .lesson-item.active .lesson-name { color: var(--text); }
+    .lesson-item.done .lesson-name { color: var(--success); }
+    .sidebar-progress {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 0.5rem; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s; }
+
+    /* MAIN CONTENT */
+    .main { padding: 2.5rem 3rem; max-width: 820px; animation: fadeUp 0.5s ease; }
+    .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+    .lesson-header { margin-bottom: 2rem; }
+    .lesson-level { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.5rem; }
+    .lesson-title { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+    .lesson-meta { font-size: 0.85rem; color: var(--muted); display: flex; gap: 1.5rem; }
+
+    .video-wrapper {
+      position: relative; padding-bottom: 56.25%; height: 0;
+      border-radius: 12px; overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--muted); gap: 0.8rem;
+    }
+    .video-placeholder .play-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .lesson-content { line-height: 1.8; color: var(--text); }
+    .lesson-content h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin: 1.8rem 0 0.8rem; color: var(--accent); }
+    .lesson-content p { margin-bottom: 1rem; color: rgba(232,230,224,0.85); }
+    .lesson-content ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .lesson-content li { margin-bottom: 0.4rem; color: rgba(232,230,224,0.85); }
+    .example-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      margin: 1rem 0; font-size: 0.92rem;
+    }
+    .example-box strong { color: var(--accent2); }
+
+    .lesson-actions {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .btn-complete {
+      background: var(--success); color: #0d0f14;
+      padding: 0.75rem 1.8rem; border-radius: 8px;
+      font-family: 'DM Sans'; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s;
+    }
+    .btn-complete:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-complete.completed { background: var(--border); color: var(--muted); cursor: default; transform: none; }
+    .nav-btns { display: flex; gap: 0.8rem; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+    .login-prompt {
+      background: rgba(232,201,126,0.07);
+      border: 1px solid rgba(232,201,126,0.2);
+      border-radius: 10px; padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;
+    }
+    .login-prompt p { font-size: 0.9rem; color: var(--muted); }
+    .login-prompt a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Lingua<span>Path</span></a>
+  <div style="display:flex;gap:1rem;align-items:center">
+    <div id="user-info" style="display:none;align-items:center;gap:0.8rem">
+      <img id="user-avatar" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--accent)" src="" alt=""/>
+      <span id="user-name" style="font-size:0.9rem"></span>
+      <a href="dashboard.html" class="btn btn-ghost">My Progress</a>
+    </div>
+    <div id="auth-buttons">
+      <a href="index.html" class="btn btn-primary">Sign In</a>
+    </div>
+    <a href="#" class="btn btn-ghost theme-toggle-icon" onclick="themeToggle()" style="font-size:1.1rem;padding:0.4rem 0.7rem">☀️</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-course" id="sidebar-course-label">Course</div>
+    <div class="sidebar-title" id="sidebar-course-title">Loading...</div>
+    <div id="lesson-list"></div>
+    <div class="sidebar-progress">
+      <div style="display:flex;justify-content:space-between;font-size:0.8rem">
+        <span style="color:var(--muted)">Progress</span>
+        <span id="sidebar-pct" style="color:var(--accent)">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="sidebar-prog" style="width:0%"></div></div>
+    </div>
+  </aside>
+
+  <main class="main" id="main-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> / <span id="bc-course">Course</span> / <span id="bc-lesson">Lesson</span>
+    </div>
+
+    <div id="login-prompt" class="login-prompt" style="display:none">
+      <span style="font-size:1.4rem">!</span>
+      <p>Sign in to track your progress and save your completed lessons. <a href="index.html">Sign in or create a free account</a></p>
+    </div>
+
+    <div class="lesson-header">
+      <div class="lesson-level" id="lesson-level">Level</div>
+      <div class="lesson-title" id="lesson-title">Loading lesson...</div>
+      <div class="lesson-meta">
+        <span id="lesson-number"></span>
+        <span id="lesson-duration">~8 min read</span>
+      </div>
+    </div>
+
+    <div class="video-wrapper" id="video-wrapper">
+      <div class="video-placeholder">
+        <div class="play-icon">Play</div>
+        <span style="font-size:0.85rem">Video resource</span>
+      </div>
+    </div>
+
+    <div class="lesson-content" id="lesson-body"></div>
+
+    <div class="lesson-actions">
+      <button class="btn btn-ghost" id="prev-btn">&lt; Previous</button>
+      <button class="btn-complete" id="complete-btn">Mark as Complete</button>
+      <button class="btn btn-ghost" id="next-btn">Next &gt;</button>
+    </div>
+  </main>
+</div>
+
+<script src="script.js"></script>
+<script type="module">
+  import { 
+    auth, db, 
+    onAuthStateChanged, 
+    doc, getDoc, setDoc 
+  } from "./firebase-config.js";
+
+  const COURSES = {
+    "beginner-foundations": {
+      title: "Foundations of English",
+      level: "Beginner",
+      lessons: [
+        { title: "The English Alphabet", duration: "6 min", videoId: "36IBDpTRVNE", body: `<h3>Introduction</h3><p>The English alphabet consists of 26 letters: 5 vowels (A, E, I, O, U) and 21 consonants. Understanding each letter's sound is the foundation of reading and speaking English.</p><h3>Vowels vs Consonants</h3><p>Vowels are the sounds produced with an open vocal tract. Every English syllable contains at least one vowel sound.</p><div class="example-box"><strong>Vowels:</strong> A, E, I, O, U<br><strong>Consonants:</strong> B, C, D, F, G, H, J, K, L, M, N, P, Q, R, S, T, V, W, X, Y, Z</div><h3>Practice</h3><ul><li>Say each letter out loud slowly</li><li>Practice writing uppercase and lowercase forms</li><li>Identify vowels in common words like "apple", "engine", "island"</li></ul>` },
+        { title: "Basic Greetings", duration: "5 min", videoId: null, body: `<h3>Saying Hello</h3><p>Greetings are the first words you'll use in any English conversation. They set the tone and show respect for the other person.</p><h3>Formal vs Informal</h3><div class="example-box"><strong>Formal:</strong> "Good morning", "Good afternoon", "How do you do?"<br><strong>Informal:</strong> "Hi", "Hey", "What's up?"</div><h3>Common Responses</h3><ul><li>"I'm doing well, thank you." - polite response</li><li>"Not bad!" - casual, positive</li><li>"Fine, thanks. And you?" - standard reply</li></ul>` },
+        { title: "Numbers 1-100", duration: "8 min", videoId: null, body: `<h3>Counting in English</h3><p>Numbers are essential for shopping, telling time, and everyday life. Let's break them into groups.</p><h3>1-20</h3><div class="example-box">One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten<br>Eleven, Twelve, Thirteen, Fourteen, Fifteen, Sixteen, Seventeen, Eighteen, Nineteen, Twenty</div><h3>Tens</h3><div class="example-box">Twenty, Thirty, Forty, Fifty, Sixty, Seventy, Eighty, Ninety, One Hundred</div><p>For numbers like 21-99, combine a ten with a unit: <em>Twenty-one, Thirty-five, Ninety-nine</em>.</p>` },
+        { title: "Colors & Shapes", duration: "7 min", videoId: null, body: `<h3>Basic Colors</h3><p>Colors help you describe the world around you. In English, adjectives usually come before the noun.</p><div class="example-box"><strong>Primary:</strong> Red, Blue, Yellow<br><strong>Secondary:</strong> Green, Orange, Purple<br><strong>Neutral:</strong> Black, White, Gray, Brown</div><h3>Basic Shapes</h3><ul><li>Circle, Square, Triangle, Rectangle</li><li>Oval, Diamond, Star, Heart</li></ul><h3>Using Colors in Sentences</h3><div class="example-box">"The <strong>red</strong> car is fast."<br>"She wore a <strong>blue</strong> dress."<br>"The <strong>green</strong> tree is tall."</div>` },
+        { title: "Days & Months", duration: "6 min", videoId: null, body: `<h3>Days of the Week</h3><div class="example-box">Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday</div><p>Note: Days of the week are always capitalized in English.</p><h3>Months of the Year</h3><div class="example-box">January, February, March, April, May, June,<br>July, August, September, October, November, December</div><h3>Common Phrases</h3><ul><li>"Today is Monday."</li><li>"My birthday is in March."</li><li>"See you next Friday!"</li></ul>` },
+        { title: "Common Nouns", duration: "9 min", videoId: null, body: `<h3>What is a Noun?</h3><p>A noun is a word that names a person, place, thing, or idea. They are the building blocks of sentences.</p><h3>Categories</h3><div class="example-box"><strong>People:</strong> teacher, doctor, child, friend<br><strong>Places:</strong> school, park, hospital, home<br><strong>Things:</strong> book, chair, phone, food<br><strong>Ideas:</strong> love, freedom, happiness</div><h3>Singular vs Plural</h3><p>Most nouns become plural by adding -s or -es:</p><div class="example-box">cat -> cats | box -> boxes | baby -> babies</div>` },
+        { title: "Simple Sentences", duration: "10 min", videoId: null, body: `<h3>Subject -> Verb -> Object</h3><p>The most basic English sentence follows this structure: Subject -> Verb -> Object (SVO).</p><div class="example-box"><strong>S:</strong> She | <strong>V:</strong> eats | <strong>O:</strong> an apple<br><strong>S:</strong> The dog | <strong>V:</strong> chases | <strong>O:</strong> the ball</div><h3>Negative Sentences</h3><p>Add "do not" (don't) or "does not" (doesn't) before the main verb:</p><div class="example-box">"I <strong>don't</strong> like coffee."<br>"She <strong>doesn't</strong> have a car."</div><h3>Questions</h3><p>Move the helping verb before the subject:</p><div class="example-box">"<strong>Do</strong> you speak English?"<br>"<strong>Does</strong> he live here?"</div>` },
+        { title: "Asking for Help", duration: "7 min", videoId: null, body: `<h3>Polite Requests</h3><p>Knowing how to ask for help is crucial. Politeness in English often involves modal verbs like "can", "could", and "would".</p><div class="example-box"><strong>Can you help me?</strong> - casual<br><strong>Could you help me, please?</strong> - polite<br><strong>Would you mind helping me?</strong> - very polite</div><h3>Useful Phrases</h3><ul><li>"Excuse me, where is the bathroom?"</li><li>"I'm sorry, I don't understand."</li><li>"Could you repeat that, please?"</li><li>"How do you say ___ in English?"</li></ul>` }
+      ]
+    },
+    "everyday-conversations": {
+      title: "Everyday Conversations", level: "Elementary",
+      lessons: [
+        { title: "Introducing Yourself", duration: "7 min", videoId: null, body: `<h3>First Impressions</h3><p>Knowing how to introduce yourself confidently opens doors to new relationships and opportunities.</p><h3>Basic Introduction</h3><div class="example-box">"Hi, my name is Sarah."<br>"I'm from Taiwan."<br>"I'm 25 years old."<br>"I work as a teacher."<br>"Nice to meet you!"</div><h3>Asking About Others</h3><ul><li>"What's your name?" / "What do you do?"</li><li>"Where are you from?" / "Where do you live?"</li></ul>` },
+        { title: "At a Restaurant", duration: "8 min", videoId: null, body: `<h3>Ordering Food</h3><p>Dining out in English requires specific vocabulary for ordering, asking questions, and making payments.</p><div class="example-box">"I'd like to order the grilled salmon, please."<br>"Could I see the menu?"<br>"What do you recommend?"<br>"I'm allergic to nuts."<br>"Can we get the bill, please?"</div>` },
+        { title: "Shopping", duration: "6 min", videoId: null, body: `<h3>In a Store</h3><p>Shopping vocabulary helps you find what you need, ask about prices, and complete transactions.</p><div class="example-box">"Do you have this in a smaller size?"<br>"How much does this cost?"<br>"Is this on sale?"<br>"Can I try this on?"<br>"I'll take it!"</div>` },
+        { title: "Asking for Directions", duration: "9 min", videoId: null, body: `<h3>Getting Around</h3><p>Navigating a new place is much easier when you know how to ask for and understand directions.</p><div class="example-box">"Excuse me, how do I get to the train station?"<br>"Turn left at the traffic lights."<br>"Go straight ahead for two blocks."<br>"It's on the right, next to the bank."</div>` },
+        { title: "Talking About Weather", duration: "5 min", videoId: null, body: `<h3>Weather Vocabulary</h3><p>Weather is one of the most common conversation topics in English-speaking cultures.</p><div class="example-box"><strong>Sunny, cloudy, rainy, windy, foggy, snowy</strong><br>"It's a beautiful day today!"<br>"The weather is terrible this week."<br>"It's supposed to rain tomorrow."</div>` },
+        { title: "Making Plans", duration: "8 min", videoId: null, body: `<h3>Scheduling & Inviting</h3><p>Learn how to invite friends, suggest activities, and confirm arrangements.</p><div class="example-box">"Would you like to go to the movies on Friday?"<br>"That sounds great! What time?"<br>"Let's meet at 7pm outside the theater."<br>"Sorry, I can't make it. How about Saturday?"</div>` },
+        { title: "Talking on the Phone", duration: "7 min", videoId: null, body: `<h3>Phone Etiquette</h3><p>Phone conversations in English have their own set of conventions and useful phrases.</p><div class="example-box">"Hello, this is David speaking."<br>"May I speak with Mr. Chen?"<br>"Could you hold on a moment?"<br>"I'll call you back later."<br>"Thank you for calling. Goodbye!"</div>` }
+      ]
+    },
+    "grammar-essentials": {
+      title: "Grammar Essentials", level: "Intermediate",
+      lessons: Array.from({length:9}, (_,i) => ({ title: `Grammar Lesson ${i+1}`, duration: "10 min", videoId: null, body: `<h3>Coming Soon</h3><p>This lesson is being prepared. Check back soon!</p>` }))
+    },
+    "advanced-fluency": {
+      title: "Advanced Fluency", level: "Advanced",
+      lessons: Array.from({length:8}, (_,i) => ({ title: `Advanced Lesson ${i+1}`, duration: "12 min", videoId: null, body: `<h3>Coming Soon</h3><p>This lesson is being prepared. Check back soon!</p>` }))
+    }
+  };
+
+  const params = new URLSearchParams(location.search);
+  let courseId = params.get('course') || 'beginner-foundations';
+  let lessonIdx = parseInt(params.get('lesson') || '0');
+  let currentUser = null;
+  let userProgress = {};
+
+  const course = COURSES[courseId] || COURSES['beginner-foundations'];
+
+  function renderSidebar() {
+    document.getElementById('sidebar-course-label').textContent = course.level;
+    document.getElementById('sidebar-course-title').textContent = course.title;
+    const list = document.getElementById('lesson-list');
+    list.innerHTML = '';
+    course.lessons.forEach((l, i) => {
+      const done = userProgress[courseId] && userProgress[courseId][i];
+      const item = document.createElement('div');
+      item.className = `lesson-item ${i === lessonIdx ? 'active' : ''} ${done ? 'done' : ''}`;
+      item.innerHTML = `<div class="lesson-num">${done ? 'Done' : i + 1}</div><div class="lesson-name">${l.title}</div>`;
+      item.onclick = () => { lessonIdx = i; updateURL(); renderLesson(); renderSidebar(); };
+      list.appendChild(item);
+    });
+    const completed = course.lessons.filter((_,i) => userProgress[courseId]?.[i]).length;
+    const pct = Math.round((completed / course.lessons.length) * 100);
+    document.getElementById('sidebar-prog').style.width = pct + '%';
+    document.getElementById('sidebar-pct').textContent = pct + '%';
+  }
+
+  function renderLesson() {
+    const l = course.lessons[lessonIdx];
+    document.title = `LinguaPath - ${l.title}`;
+    document.getElementById('bc-course').textContent = course.title;
+    document.getElementById('bc-lesson').textContent = l.title;
+    document.getElementById('lesson-level').textContent = course.level;
+    document.getElementById('lesson-title').textContent = l.title;
+    document.getElementById('lesson-number').textContent = `Lesson ${lessonIdx + 1} of ${course.lessons.length}`;
+    document.getElementById('lesson-duration').textContent = l.duration + ' read';
+    document.getElementById('lesson-body').innerHTML = l.body;
+
+    const vw = document.getElementById('video-wrapper');
+    if (l.videoId) {
+      vw.innerHTML = `<iframe src="https://www.youtube.com/embed/${l.videoId}" allowfullscreen></iframe>`;
+    } else {
+      vw.innerHTML = `<div class="video-placeholder"><div class="play-icon">Play</div><span style="font-size:0.85rem">No video for this lesson</span></div>`;
+    }
+
+    const done = userProgress[courseId]?.[lessonIdx];
+    const completeBtn = document.getElementById('complete-btn');
+    completeBtn.textContent = done ? 'Completed' : 'Mark as Complete';
+    completeBtn.className = done ? 'btn-complete completed' : 'btn-complete';
+
+    document.getElementById('prev-btn').style.visibility = lessonIdx > 0 ? 'visible' : 'hidden';
+    document.getElementById('next-btn').style.visibility = lessonIdx < course.lessons.length - 1 ? 'visible' : 'hidden';
+
+    document.getElementById('main-content').scrollTo?.(0,0);
+    window.scrollTo(0,0);
+  }
+
+  function updateURL() {
+    history.replaceState({}, '', `?course=${courseId}&lesson=${lessonIdx}`);
+  }
+
+  document.getElementById('prev-btn').onclick = () => { if (lessonIdx > 0) { lessonIdx--; updateURL(); renderLesson(); renderSidebar(); } };
+  document.getElementById('next-btn').onclick = () => { if (lessonIdx < course.lessons.length - 1) { lessonIdx++; updateURL(); renderLesson(); renderSidebar(); } };
+
+  document.getElementById('complete-btn').onclick = async () => {
+    if (!currentUser) { alert('Please sign in to track your progress!'); return; }
+    const already = userProgress[courseId]?.[lessonIdx];
+    if (already) return;
+    if (!userProgress[courseId]) userProgress[courseId] = {};
+    userProgress[courseId][lessonIdx] = true;
+    const ref = doc(db, 'progress', currentUser.uid);
+    const completeBtn = document.getElementById('complete-btn');
+    completeBtn.disabled = true;
+    completeBtn.textContent = 'Saving...';
+
+    try {
+      await setDoc(ref, userProgress, { merge: true });
+      renderLesson();
+      renderSidebar();
+    } catch (error) {
+      console.error('Failed to save progress:', error);
+      userProgress[courseId][lessonIdx] = false;
+      alert('Could not save your progress. Please check your connection or Firestore permissions.');
+      renderLesson();
+      renderSidebar();
+    } finally {
+      completeBtn.disabled = false;
+    }
+  };
+
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    document.getElementById('login-prompt').style.display = user ? 'none' : 'flex';
+    if (user) {
+      document.getElementById('auth-buttons').style.display = 'none';
+      document.getElementById('user-info').style.display = 'flex';
+      document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
+      document.getElementById('user-avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=e8c97e&color=0d0f14`;
+      try {
+        const snap = await getDoc(doc(db, 'progress', user.uid));
+        userProgress = snap.exists() ? snap.data() : {};
+      } catch (error) {
+        console.error('Failed to load progress:', error);
+        userProgress = {};
+        alert('Could not load your saved progress. Please check your connection or Firestore permissions.');
+      }
+    }
+    renderLesson(); renderSidebar();
+  });
+
+  renderLesson(); renderSidebar();
+</script>
+</body>
+</html>

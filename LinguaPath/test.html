@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>能力分布圖設計</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f8fc;
+        --card: #ffffff;
+        --text: #1f2a44;
+        --muted: #667085;
+        --axis: #c7d2e2;
+        --ring: #dde4f0;
+        --fill: rgba(59, 130, 246, 0.25);
+        --stroke: #2563eb;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+        background: linear-gradient(135deg, #f8fbff 0%, #edf3ff 100%);
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .title {
+        margin-bottom: 20px;
+      }
+
+      .title h1 {
+        margin: 0;
+        font-size: clamp(1.4rem, 2.5vw, 2rem);
+      }
+
+      .title p {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+
+      .layout {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1.3fr 1fr;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        padding: 20px;
+      }
+
+      .chart-box {
+        position: relative;
+        min-height: 480px;
+      }
+
+      canvas {
+        width: 100%;
+        height: 460px;
+        display: block;
+      }
+
+      .score {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .score strong {
+        font-size: 2rem;
+        color: #1d4ed8;
+      }
+
+      .controls h2 {
+        margin-top: 0;
+        font-size: 1.1rem;
+      }
+
+      .control {
+        margin-bottom: 14px;
+      }
+
+      .control label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .value-tag {
+        color: #1d4ed8;
+        font-weight: 700;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: #2563eb;
+      }
+
+      .toolbar {
+        margin-top: 14px;
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .btn-primary {
+        background: #2563eb;
+        color: #fff;
+      }
+
+      .btn-ghost {
+        background: #eef2ff;
+        color: #1d4ed8;
+      }
+
+      @media (max-width: 900px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="title">
+        <h1>能力分布圖（Radar Chart）</h1>
+        <p>可即時調整六項能力分數，視覺化個人能力結構與總體均衡度。</p>
+      </header>
+
+      <section class="layout">
+        <article class="card chart-box">
+          <canvas id="radar" width="620" height="460" aria-label="能力分布圖"></canvas>
+          <div class="score">
+            <span>平均分數：</span>
+            <strong id="avgValue">0.0</strong>
+            <span>/ 10</span>
+          </div>
+        </article>
+
+        <aside class="card controls" id="controls">
+          <h2>能力設定</h2>
+          <div id="controlList"></div>
+          <div class="toolbar">
+            <button class="btn-primary" id="randomBtn" type="button">隨機產生</button>
+            <button class="btn-ghost" id="resetBtn" type="button">重設</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const skills = [
+        { name: "溝通表達", value: 8 },
+        { name: "問題分析", value: 7 },
+        { name: "技術實作", value: 9 },
+        { name: "協作能力", value: 6 },
+        { name: "學習敏捷", value: 8 },
+        { name: "領導潛力", value: 5 }
+      ];
+
+      const MAX_VALUE = 10;
+      const RINGS = 5;
+      const canvas = document.getElementById("radar");
+      const ctx = canvas.getContext("2d");
+      const controlList = document.getElementById("controlList");
+      const avgValueEl = document.getElementById("avgValue");
+
+      function polarToCartesian(centerX, centerY, radius, angle) {
+        return {
+          x: centerX + radius * Math.cos(angle),
+          y: centerY + radius * Math.sin(angle)
+        };
+      }
+
+      function drawChart() {
+        const { width, height } = canvas;
+        ctx.clearRect(0, 0, width, height);
+
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const radius = Math.min(width, height) * 0.35;
+        const step = (Math.PI * 2) / skills.length;
+        const startAngle = -Math.PI / 2;
+
+        // 背景環
+        for (let ring = 1; ring <= RINGS; ring += 1) {
+          const ringRadius = (radius * ring) / RINGS;
+          ctx.beginPath();
+          for (let i = 0; i < skills.length; i += 1) {
+            const p = polarToCartesian(centerX, centerY, ringRadius, startAngle + step * i);
+            if (i === 0) ctx.moveTo(p.x, p.y);
+            else ctx.lineTo(p.x, p.y);
+          }
+          ctx.closePath();
+          ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--ring");
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+
+        // 軸線與標籤
+        skills.forEach((skill, index) => {
+          const p = polarToCartesian(centerX, centerY, radius, startAngle + step * index);
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(p.x, p.y);
+          ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--axis");
+          ctx.stroke();
+
+          const labelP = polarToCartesian(centerX, centerY, radius + 24, startAngle + step * index);
+          ctx.fillStyle = "#334155";
+          ctx.font = "14px 'Noto Sans TC', sans-serif";
+          ctx.textAlign = labelP.x < centerX - 5 ? "right" : labelP.x > centerX + 5 ? "left" : "center";
+          ctx.textBaseline = labelP.y < centerY ? "bottom" : "top";
+          ctx.fillText(skill.name, labelP.x, labelP.y);
+        });
+
+        // 能力面積
+        ctx.beginPath();
+        skills.forEach((skill, index) => {
+          const valueRatio = skill.value / MAX_VALUE;
+          const p = polarToCartesian(centerX, centerY, radius * valueRatio, startAngle + step * index);
+          if (index === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        });
+        ctx.closePath();
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--fill");
+        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--stroke");
+        ctx.lineWidth = 2;
+        ctx.fill();
+        ctx.stroke();
+
+        // 節點
+        skills.forEach((skill, index) => {
+          const valueRatio = skill.value / MAX_VALUE;
+          const p = polarToCartesian(centerX, centerY, radius * valueRatio, startAngle + step * index);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#1d4ed8";
+          ctx.fill();
+        });
+
+        updateAverage();
+      }
+
+      function updateAverage() {
+        const avg = skills.reduce((sum, s) => sum + s.value, 0) / skills.length;
+        avgValueEl.textContent = avg.toFixed(1);
+      }
+
+      function renderControls() {
+        controlList.innerHTML = "";
+
+        skills.forEach((skill, index) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "control";
+
+          const label = document.createElement("label");
+          label.innerHTML = `${skill.name}<span class="value-tag" id="value-${index}">${skill.value}</span>`;
+
+          const input = document.createElement("input");
+          input.type = "range";
+          input.min = 0;
+          input.max = MAX_VALUE;
+          input.step = 1;
+          input.value = skill.value;
+
+          input.addEventListener("input", (e) => {
+            skill.value = Number(e.target.value);
+            document.getElementById(`value-${index}`).textContent = skill.value;
+            drawChart();
+          });
+
+          wrapper.appendChild(label);
+          wrapper.appendChild(input);
+          controlList.appendChild(wrapper);
+        });
+      }
+
+      function bindActions() {
+        document.getElementById("randomBtn").addEventListener("click", () => {
+          skills.forEach((skill) => {
+            skill.value = Math.floor(Math.random() * (MAX_VALUE + 1));
+          });
+          renderControls();
+          drawChart();
+        });
+
+        document.getElementById("resetBtn").addEventListener("click", () => {
+          const defaults = [8, 7, 9, 6, 8, 5];
+          skills.forEach((skill, idx) => {
+            skill.value = defaults[idx];
+          });
+          renderControls();
+          drawChart();
+        });
+      }
+
+      renderControls();
+      bindActions();
+      drawChart();
+      window.addEventListener("resize", drawChart);
+    </script>
+  </body>
+</html>
