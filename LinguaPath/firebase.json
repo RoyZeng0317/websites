@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "public": "frontend",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      ".git/**",
+      ".firebase/**",
+      "node_modules/**",
+      "src/**",
+      "vite.config.ts",
+      "tsconfig*.json",
+      "eslint.config.js"
+    ],
+    "rewrites": [
+      {
+        "source": "/dist/**",
+        "destination": "/dist/index.html"
+      }
+    ]
+  },
+  "firestore": {
+    "database": "default",
+    "location": "asia-east1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

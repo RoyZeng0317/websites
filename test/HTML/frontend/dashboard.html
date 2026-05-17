@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>即測即評線上測驗</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="auth-bar" id="auth-bar">
+        <div id="user-info" class="user-info" style="display:none;">
+            <img id="user-avatar" src="" alt="">
+            <span id="user-name"></span>
+            <button class="btn-logout" onclick="logout()">登出</button>
+        </div>
+        <button class="btn-google" id="login-btn" onclick="login()">
+            <img src="https://www.google.com/favicon.ico" alt="">
+            <span>使用 Google 登入</span>
+        </button>
+    </div>
+    <span class="title"><a href="index.html" class="link">即測即評題庫網</a></span>
+    <div class="container">
+        <div class="content">
+            <div class="menu-wrapper">
+                        <div class="menu-item">
+                            <span class="menu-label" id="Computer-and-Electronic">資訊電子</span>
+                            <ul class="dropdown" id="Computer-and-Electronic-menu">
+                                <li><a href="#" class="link" onclick="computer(event)">資訊職類</a></li>
+                                <li><a href="#" class="link" onclick="electronic(event)">電子儀表種類</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">電機機械</span>
+                            <ul class="dropdown">
+                                <li><a href="">電機職類</a></li>
+                                <li><a href="">金屬及機械加工職類</a></li>
+                                <li><a href="">機械及設備修護職類</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">勞安營造</span>
+                            <ul class="dropdown" id="">
+                                <li><a href="">勞工安全衛生操作職類</a></li>
+                                <li><a href="">營造職類</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">美容餐飲</span>
+                            <ul class="dropdown" id="">
+                                <li><a href="#">美容美髮服飾職類</a></li>
+                                <li><a href="#">餐飲食品相關職類</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">商業農業</span>
+                            <ul class="dropdown" id="">
+                                <li><a href="">商業服務印刷製版職類</a></li>
+                                <li><a href="#">農業職類</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">化工配管</span>
+                            <ul class="dropdown" id="">
+                                <li><a href="#">化工職類</a></li>
+                                <li><a href="#">焊接配管職類</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">製圖職類</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-label" id="">其他職類</span>
+                        </div>
+                    </div>
+
+            <div class="score-section" id="score-section" style="display:none;">
+                <div id="login-prompt" class="login-prompt">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <p>登入後即可查看成績紀錄與能力分析</p>
+                </div>
+                <div id="score-content" style="display:none;">
+                    <h2>成績總覽</h2>
+                    <div class="score-summary">
+                        <div class="score-card">
+                            <div class="num" id="total-answered">0</div>
+                            <div class="label">總答題數</div>
+                        </div>
+                        <div class="score-card">
+                            <div class="num" id="total-correct" style="color:var(--success);">0</div>
+                            <div class="label">正確</div>
+                        </div>
+                        <div class="score-card">
+                            <div class="num" id="total-rate">0%</div>
+                            <div class="label">正確率</div>
+                        </div>
+                    </div>
+                    <h2>能力分析</h2>
+                    <div class="chart-wrap">
+                        <canvas id="ability-chart"></canvas>
+                    </div>
+                    <h2>最近作答記錄</h2>
+                    <div class="recent-scores">
+                        <table>
+                            <thead><tr><th>日期</th><th>題型</th><th>正確</th><th>總題數</th><th>正確率</th></tr></thead>
+                            <tbody id="score-history-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-us">
+                    <div class="under">
+                        <span>聯絡我們</span>
+                        <li><a href="mailto:你的信箱@gmail.com" class="link">[聯絡信箱]</a></li>
+                        <p>~~~有任何想要建議的都可以聯絡信箱告知我們~~~</p>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <footer class="bottom">&copy; 2026 即測即評題庫網. All rights reserved.</footer>
+
+    <script src="script.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

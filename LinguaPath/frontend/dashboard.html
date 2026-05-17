@@ -22,7 +22,7 @@
   </div>
 </nav>
 
-<div class="page" id="page-content"></div>
+<div class="page" id="page-content"><p style="text-align:center;color:var(--muted);padding:3rem">Loading...</p></div>
 
 <script src="script.js"></script>
 
@@ -38,11 +38,20 @@
     { id: "everyday-conversations", title: "Everyday Conversations", level: "Elementary", icon: "E", total: 7 },
     { id: "grammar-essentials", title: "Grammar Essentials", level: "Intermediate", icon: "G", total: 9 },
     { id: "advanced-fluency", title: "Advanced Fluency", level: "Advanced", icon: "A", total: 8 },
+    { id: "skill-listening", title: "Listening", level: "All Levels", icon: "L", total: 5 },
+    { id: "skill-speaking", title: "Speaking", level: "All Levels", icon: "S", total: 5 },
+    { id: "skill-reading", title: "Reading", level: "All Levels", icon: "R", total: 5 },
+    { id: "skill-writing", title: "Writing", level: "All Levels", icon: "W", total: 5 },
   ];
 
   const LESSON_NAMES = {
     "beginner-foundations": ["The English Alphabet", "Basic Greetings", "Numbers 1-100", "Colors & Shapes", "Days & Months", "Common Nouns", "Simple Sentences", "Asking for Help"],
     "everyday-conversations": ["Introducing Yourself", "At a Restaurant", "Shopping", "Asking for Directions", "Talking About Weather", "Making Plans", "Talking on the Phone"],
+    "grammar-essentials": ["Nouns & Pronouns", "Verbs — Action & State", "Subject-Verb Agreement", "Sentence Structure (SVO)", "Adjectives & Adverbs", "Tenses — Present, Past, Future", "Articles — A, An, The", "Prepositions — Place & Time", "Conjunctions & Review"],
+    "skill-listening": ["Sound Foundations", "Listening for Key Information", "Following Conversations", "Interpreting Nuance", "Native-Level Comprehension"],
+    "skill-speaking": ["Pronunciation & First Words", "Everyday Interactions", "Conversation Skills", "Advanced Expression", "Fluent Communication"],
+    "skill-reading": ["Phonics & Word Recognition", "Reading Sentences & Signs", "Articles & Narratives", "Analytical Reading", "Academic & Literary Reading"],
+    "skill-writing": ["Letters, Spelling & Punctuation", "Writing Sentences", "Paragraph Structure", "Essays & Formal Writing", "Professional & Creative Writing"],
   };
 
   const SKILL_KEYS = ['grammar', 'vocabulary', 'reading', 'listening', 'speaking', 'writing'];
@@ -66,7 +75,11 @@
     'beginner-foundations': { grammar: 30, vocabulary: 40, reading: 30, listening: 20, speaking: 10, writing: 10 },
     'everyday-conversations': { grammar: 10, vocabulary: 20, reading: 10, listening: 30, speaking: 40, writing: 5 },
     'grammar-essentials': { grammar: 50, vocabulary: 15, reading: 20, listening: 5, speaking: 5, writing: 30 },
-    'advanced-fluency': { grammar: 20, vocabulary: 25, reading: 20, listening: 15, speaking: 20, writing: 30 }
+    'advanced-fluency': { grammar: 20, vocabulary: 25, reading: 20, listening: 15, speaking: 20, writing: 30 },
+    'skill-listening': { grammar: 0, vocabulary: 0, reading: 0, listening: 100, speaking: 0, writing: 0 },
+    'skill-speaking': { grammar: 0, vocabulary: 0, reading: 0, listening: 0, speaking: 100, writing: 0 },
+    'skill-reading': { grammar: 0, vocabulary: 0, reading: 100, listening: 0, speaking: 0, writing: 0 },
+    'skill-writing': { grammar: 0, vocabulary: 0, reading: 0, listening: 0, speaking: 0, writing: 100 }
   };
 
   function completedCount(progress, courseId) {
@@ -175,8 +188,10 @@
     ctx.stroke();
   }
 
-  onAuthStateChanged(auth, async (user) => {
+  // ─── Render function (used by both auth observer and fallback) ───
+  function renderDashboard(user) {
     const page = document.getElementById('page-content');
+    try {
 
     if (!user) {
       document.getElementById('signin-link').style.display = 'inline-block';
@@ -189,6 +204,7 @@
       return;
     }
 
+    // ─── Show layout immediately (no Firestore needed) ───
     document.getElementById('signin-link').style.display = 'none';
     document.getElementById('user-info').style.display = 'flex';
     document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
@@ -197,45 +213,60 @@
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) logoutBtn.onclick = () => signOut(auth).then(() => location.href = 'index.html');
 
-    let progress = {};
-    let dashboardWarning = '';
+    // Render placeholder stats immediately, then load Firestore data async
+    page.innerHTML = `
+      <div class="page-header">
+        <h1>My Progress</h1>
+        <p>Welcome back, ${user.displayName || user.email.split('@')[0] || 'Learner'}</p>
+      </div>
+      <p style="text-align:center;color:var(--muted);padding:2rem">Loading progress data...</p>
+    `;
 
-    console.log("Checking progress for user:", user.uid);
+    // ─── Load Firestore data with timeout ───
+    loadProgress(user);
+  } catch (err) {
+    console.error('Dashboard error:', err);
+    page.innerHTML = `<div class="not-logged-in"><h2>Something went wrong</h2><p style="color:#e87e7e">${err.message}</p></div>`;
+  }
+  }
 
-    try {
-      const snap = await getDoc(doc(db, 'progress', user.uid));
-      if (snap.exists()) {
-        progress = snap.data();
-        console.log("Progress found:", progress);
-      } else {
-        console.log("No progress document found for this user.");
-      }
-    } catch (error) {
-      console.error('Failed to load progress:', error);
-      dashboardWarning = 'Could not load progress from Firestore. Please check your internet or Firebase Rules.';
+  function loadProgress(user) {
+    const page = document.getElementById('page-content');
+    let resolved = false;
+
+    function finish(progress, warning) {
+      if (resolved) return;
+      resolved = true;
+      renderFullDashboard(page, user, progress, warning);
     }
 
+    // Timeout fallback: if Firestore doesn't respond in 4s, show empty
+    const timer = setTimeout(() => {
+      console.warn('Firestore timeout — showing empty data');
+      finish({}, 'Firestore is taking too long. Data will appear once the connection is ready.');
+    }, 4000);
+
+    getDoc(doc(db, 'progress', user.uid))
+      .then(snap => {
+        clearTimeout(timer);
+        finish(snap.exists() ? snap.data() : {}, '');
+      })
+      .catch(err => {
+        clearTimeout(timer);
+        console.error('Failed to load progress:', err);
+        finish({}, 'Could not load progress from Firestore.');
+      });
+  }
+
+  function renderFullDashboard(page, user, progress, dashboardWarning) {
     const scores = computeSkills(progress);
-    console.log("Computed Scores:", scores);
 
-    // Save abilities for future use
-    try {
-      if (user.uid) {
-        await setDoc(doc(db, 'abilities', user.uid), {
-          scores,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-      }
-    } catch (e) { console.warn("Failed to save abilities (non-critical)"); }
+    setDoc(doc(db, 'abilities', user.uid), { scores, updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
 
-    // Summary calculations
-    let totalCompleted = 0;
-    let totalLessons = 0;
-    let activeCourses = 0;
+    let totalCompleted = 0, totalLessons = 0, activeCourses = 0;
     COURSES.forEach(course => {
       const done = completedCount(progress, course.id);
-      totalCompleted += done;
-      totalLessons += course.total;
+      totalCompleted += done; totalLessons += course.total;
       if (done > 0) activeCourses += 1;
     });
 
@@ -249,15 +280,12 @@
       });
     });
 
-    // Final UI Rendering
     page.innerHTML = `
       <div class="page-header">
         <h1>My Progress</h1>
         <p>Welcome back, ${user.displayName || user.email.split('@')[0] || 'Learner'}</p>
       </div>
-
       ${dashboardWarning ? `<div class="dashboard-warning">${dashboardWarning}</div>` : ''}
-
       <div class="stats-row">
         <div class="stat-card">
           <div class="stat-card-label">Lessons Completed</div>
@@ -275,21 +303,40 @@
           <div class="stat-card-sub">Current Status</div>
         </div>
       </div>
-
+      <div class="skill-four">
+        <div class="skill-four-item" style="--sc:${SKILL_COLORS.listening}">
+          <div class="skill-four-label">Listening</div>
+          <div class="skill-four-val">${scores.listening}%</div>
+          <div class="skill-four-bar"><div class="skill-four-fill" style="width:${scores.listening}%"></div></div>
+        </div>
+        <div class="skill-four-item" style="--sc:${SKILL_COLORS.speaking}">
+          <div class="skill-four-label">Speaking</div>
+          <div class="skill-four-val">${scores.speaking}%</div>
+          <div class="skill-four-bar"><div class="skill-four-fill" style="width:${scores.speaking}%"></div></div>
+        </div>
+        <div class="skill-four-item" style="--sc:${SKILL_COLORS.reading}">
+          <div class="skill-four-label">Reading</div>
+          <div class="skill-four-val">${scores.reading}%</div>
+          <div class="skill-four-bar"><div class="skill-four-fill" style="width:${scores.reading}%"></div></div>
+        </div>
+        <div class="skill-four-item" style="--sc:${SKILL_COLORS.writing}">
+          <div class="skill-four-label">Writing</div>
+          <div class="skill-four-val">${scores.writing}%</div>
+          <div class="skill-four-bar"><div class="skill-four-fill" style="width:${scores.writing}%"></div></div>
+        </div>
+      </div>
       <div class="skills-card">
         <div class="skills-header">
           <div>
-            <div class="section-label" style="margin-bottom:0">Skill Distribution</div>
-            <div class="skills-subtitle">Based on your learning history</div>
+            <div class="section-label" style="margin-bottom:0">Ability Distribution</div>
           </div>
-          <div class="skills-average">Average <strong id="avgValue">0</strong><span>/100</span></div>
+          <div class="skills-average">Average <strong id="avgValue">${Math.round((scores.listening + scores.speaking + scores.reading + scores.writing) / 4)}</strong><span>/100</span></div>
         </div>
-        <div class="radar-body" style="background: rgba(255,255,255,0.02); border-radius: 12px;">
+        <div class="radar-body" style="background:rgba(255,255,255,0.02);border-radius:12px">
           <canvas id="skills-radar"></canvas>
         </div>
         <div class="radar-legend" id="skills-legend"></div>
       </div>
-
       <div class="section-label">Course Progress</div>
       <div class="course-progress-list">
         ${COURSES.map(course => {
@@ -311,7 +358,6 @@
           </div>`;
         }).join('')}
       </div>
-
       ${recent.length > 0 ? `
         <div class="section-label">Recently Completed</div>
         <div class="activity-list">
@@ -323,10 +369,11 @@
           `).join('')}
         </div>` : '<div class="no-progress"><p>No progress yet. Start your first lesson!</p></div>'}
     `;
-
-    // Ensure chart is drawn after DOM is ready
     setTimeout(() => renderSkills(scores), 100);
-  });
+  }
+
+  // ─── Auth observer ───
+  onAuthStateChanged(auth, (user) => { renderDashboard(user); });
 </script>
 </body>
 </html>

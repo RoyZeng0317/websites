@@ -29,7 +29,7 @@
     .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
     .btn-primary { background: var(--accent); color: #0d0f14; }
 
-    .page { max-width: 900px; margin: 0 auto; padding: 3rem 2.5rem; animation: fadeUp 0.6s ease; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 3rem 2.5rem; animation: fadeUp 0.6s ease; }
     .page-header { margin-bottom: 2.5rem; }
     .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 0.4rem; }
     .page-header p { color: var(--muted); }
@@ -100,6 +100,31 @@
     }
     .no-progress a { color: var(--accent); text-decoration: none; }
 
+    .skill-four {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .skill-four-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1rem;
+      text-align: center;
+    }
+    .skill-four-label {
+      font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .skill-four-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700;
+      color: var(--sc, var(--accent)); margin-bottom: 0.6rem;
+    }
+    .skill-four-bar {
+      height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;
+    }
+    .skill-four-fill {
+      height: 100%; border-radius: 2px;
+      background: var(--sc, var(--accent)); transition: width 0.7s ease;
+    }
+
     .dashboard-warning {
       background: rgba(232, 126, 126, 0.1);
       border: 1px solid rgba(232, 126, 126, 0.25);
@@ -165,3 +190,8 @@
     .not-logged-in p { color: var(--muted); margin-bottom: 2rem; }
 
     @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+    @media (max-width:600px) {
+      .skill-four { grid-template-columns: repeat(2,1fr); }
+      .stats-row { grid-template-columns: 1fr; }
+    }

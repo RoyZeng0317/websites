@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <title>工業電子丙級</title>
+    <link rel="stylesheet" href="../main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="quiz-header">
+                <span>丙級學科題庫線上測驗</span>
+                <div class="subtitle" id="subtitle">逐題練習模式</div>
+            </div>
+            <div class="quiz-controls">
+                <select id="subject" onchange="loadSubject()">
+                    <option value="02800">02800 工業電子丙級</option>
+                    <option value="common">共同科目</option>
+                </select>
+                <select id="work-item">
+                    <option value="0">全部工作項目</option>
+                </select>
+                <select id="question-type">
+                    <option value="all">全部題型</option>
+                    <option value="single">單選題</option>
+                    <option value="multiple">複選題</option>
+                </select>
+                <span class="stats">題號: <span id="q-num">0</span>/<span id="q-total">0</span></span>
+                <button onclick="goToQuestion()" class="primary">跳至題號</button>
+                <input type="number" id="goto-input" min="1" placeholder="題號" style="width: 60px;">
+                <button onclick="toggleExamOverview()" id="overview-btn" style="display:none;">作答總覽</button>
+                <button onclick="toggleMode()" id="mode-toggle">練習模式</button>
+            </div>
+            <div class="progress-bar"><div class="fill" id="progress-fill" style="width:0%"></div></div>
+            <div id="exam-overview-container" style="display:none;"></div>
+            <div id="question-container"></div>
+            <div class="nav-buttons" id="practice-nav">
+                <button onclick="prevQuestion()" id="prev-btn" disabled>← 上一題</button>
+                <button onclick="nextQuestion()" id="next-btn">下一題 →</button>
+            </div>
+        </div>
+    </div>
+
+<script src="main.js"></script>
+</body>
+</html>

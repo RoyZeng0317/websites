@@ -1,0 +1,288 @@
+:root {
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8;
+    --success: #4ade80;
+    --error: #f87171;
+    --border: #334155;
+    --hover-bg: #1e293b;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: clamp(14px, 1.2vw, 18px);
+    line-height: 1.5;
+}
+
+/* ── Title ── */
+.title {
+    display: block;
+    text-align: center;
+    padding: clamp(20px, 4vw, 50px) clamp(10px, 2vw, 20px) clamp(10px, 2vw, 20px);
+    font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+}
+
+/* ── Toggle B button ── */
+.class-B {
+    position: fixed;
+    top: clamp(10px, 2vw, 20px);
+    right: clamp(10px, 2vw, 20px);
+    height: 32px;
+    padding: 0 16px;
+    background: var(--accent);
+    color: #0f172a;
+    border: none;
+    border-radius: 6px;
+    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 100;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+}
+.class-B:hover { opacity: 0.85; }
+
+/* ── Container ── */
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.container > .content {
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 clamp(10px, 3vw, 30px);
+}
+
+/* ── Menu ── */
+.menu {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    padding: clamp(8px, 1.5vw, 16px) 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    margin-top: clamp(10px, 2vw, 20px);
+}
+.menu-wrapper {
+    display: flex;
+    gap: clamp(6px, 1vw, 12px);
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 clamp(8px, 2vw, 16px);
+}
+
+.menu-item {
+    position: relative;
+}
+.menu-label {
+    display: block;
+    padding: clamp(6px, 1vw, 10px) clamp(10px, 1.5vw, 18px);
+    font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+    color: var(--text-primary);
+    background: var(--card-bg);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+    white-space: nowrap;
+    text-align: center;
+}
+.menu-label:hover { background: var(--border); }
+
+/* ── Dropdown ── */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: -4px;
+    min-width: 150px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    list-style: none;
+    padding: 1px 0;
+    z-index: 99;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.dropdown li a {
+    display: block;
+    padding: clamp(3px, 0.5vw, 10px) clamp(10px, 1.35vw, 16px);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: clamp(0.7rem, 1vw, 0.85rem);
+    transition: background 0.15s, color 0.15s;
+}
+.dropdown li a:hover {
+    background: var(--border);
+    color: var(--text-primary);
+}
+.menu-item:hover .dropdown,
+.menu-item:focus-within .dropdown {
+    display: block;
+}
+
+/* ── Links ── */
+.link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.link:hover { color: var(--accent); }
+
+/* ── Panels (ClassB / ClassC) ── */
+.ClassB, .ClassC {
+    margin-top: clamp(10px, 2vw, 20px);
+}
+.pannel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1.5vw, 16px);
+    flex-direction: column;
+    padding: clamp(10px, 2vw, 20px);
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.25s, max-height 0.3s ease, visibility 0.25s;
+}
+.pannel.show,
+.ClassB.show .pannel,
+.ClassC.show .pannel {
+    opacity: 1;
+    visibility: visible;
+    max-height: 400px;
+}
+.pannel span {
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+.pannel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(8px, 1.5vw, 16px);
+    justify-content: center;
+}
+.pannel li {
+    margin: 0;
+}
+.pannel li a {
+    display: inline-block;
+    padding: clamp(8px, 1.2vw, 14px) clamp(14px, 2vw, 24px);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+.pannel li a:hover {
+    border-color: var(--accent);
+    background: var(--hover-bg);
+}
+
+/* ── Contact ── */
+.contact-us {
+    text-align: center;
+    padding: clamp(24px, 4vw, 48px) 0 clamp(16px, 2vw, 24px);
+    color: var(--text-secondary);
+    font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+}
+.contact-us ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+}
+.contact-us li {
+    margin: 4px 0;
+}
+.contact-us p {
+    margin: clamp(6px, 1vw, 12px) 0 0;
+    opacity: 0.7;
+}
+
+/* ── Footer ── */
+footer {
+    text-align: center;
+    padding: clamp(14px, 2vw, 24px);
+    font-size: clamp(0.7rem, 1vw, 0.85rem);
+    color: var(--text-secondary);
+    background: rgba(15, 23, 42, 0.4);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: auto;
+}
+
+/* ── Responsive: Tablet & below ── */
+@media (max-width: 768px) {
+    .menu-wrapper {
+        gap: 6px;
+    }
+    .menu-label {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    .dropdown {
+        min-width: 150px;
+    }
+    .pannel ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .pannel li a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 480px) {
+    body { font-size: 14px; }
+    .menu-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+    .menu-item {
+        width: 100%;
+    }
+    .menu-label {
+        width: 100%;
+        text-align: center;
+    }
+    .dropdown {
+        position: static;
+        min-width: unset;
+        margin-top: 0;
+        border-radius: 4px;
+    }
+    .class-B {
+        font-size: 0.7rem;
+        height: 28px;
+        padding: 0 10px;
+    }
+    .pannel.show,
+    .ClassB.show .pannel,
+    .ClassC.show .pannel {
+        max-height: 500px;
+    }
+}

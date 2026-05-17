@@ -10,6 +10,10 @@ const courses = [
     { id: "everyday-conversations", level: "Elementary", title: "Everyday Conversations", desc: "Learn to introduce yourself, ask for directions, and navigate common social situations.", lessons: 7, badge: null, videoUrl: "" },
     { id: "grammar-essentials", level: "Intermediate", title: "Grammar Essentials", desc: "Deep dive into tenses, conditionals, and sentence structures that elevate your writing.", lessons: 9, badge: "new", videoUrl: "" },
     { id: "advanced-fluency", level: "Advanced", title: "Advanced Fluency", desc: "Idioms, nuance, academic writing, and presentation skills for professional contexts.", lessons: 8, badge: null, videoUrl: "" },
+    { id: "skill-listening", level: "All Levels", title: "Listening", desc: "Develop your ability to understand spoken English from basic sounds to native-speed conversations.", lessons: 5, badge: "new", videoUrl: "" },
+    { id: "skill-speaking", level: "All Levels", title: "Speaking", desc: "Build confidence in spoken English from first words to fluent conversation and public speaking.", lessons: 5, badge: "new", videoUrl: "" },
+    { id: "skill-reading", level: "All Levels", title: "Reading", desc: "Learn to read English effectively from phonics and simple texts to academic papers and literature.", lessons: 5, badge: "new", videoUrl: "" },
+    { id: "skill-writing", level: "All Levels", title: "Writing", desc: "Master written expression in English from forming letters to writing essays and professional documents.", lessons: 5, badge: "new", videoUrl: "" },
 ];
 
 // Render courses

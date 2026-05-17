@@ -2,10 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyADqjDtdvxuM2Hqh4ple3M1uCD9OSmMUk4",
+  authDomain: "linugapath.firebaseapp.com",
+  projectId: "linugapath",
+  storageBucket: "linugapath.firebasestorage.app",
+  messagingSenderId: "821191704090",
+  appId: "1:821191704090:web:030812138a98d844eb1ba3",
+  measurementId: "G-1Z2DRPKCRD",
 };
 
 const app = initializeApp(firebaseConfig);

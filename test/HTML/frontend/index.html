@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即測即評線上測驗</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <span class="title">即測即評題庫網</span>
+    <button class="class-B" onclick="ClassB(event)">切換乙級</button>
+
+    <div class="container">
+        <div class="content">
+            <div class="menu">
+                <div class="menu-wrapper">
+                    <div class="menu-item">
+                        <span class="menu-label">資訊電子</span>
+                        <ul class="dropdown">
+                            <li><a href="#" class="link" onclick="computer(event)">資訊職類</a></li>
+                            <li><a href="#" class="link" onclick="electronic(event)">電子儀表種類</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">電機機械</span>
+                        <ul class="dropdown">
+                            <li><a href="">電機職類</a></li>
+                            <li><a href="">金屬及機械加工職類</a></li>
+                            <li><a href="">機械及設備修護職類</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">勞安營造</span>
+                        <ul class="dropdown">
+                            <li><a href="">勞工安全衛生操作職類</a></li>
+                            <li><a href="">營造職類</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">美容餐飲</span>
+                        <ul class="dropdown">
+                            <li><a href="#">美容美髮服飾職類</a></li>
+                            <li><a href="#">餐飲食品相關職類</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">商業農業</span>
+                        <ul class="dropdown">
+                            <li><a href="">商業服務印刷製版職類</a></li>
+                            <li><a href="#">農業職類</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">化工配管</span>
+                        <ul class="dropdown">
+                            <li><a href="#">化工職類</a></li>
+                            <li><a href="#">焊接配管職類</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">製圖職類</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-label">其他職類</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ClassC" id="ClassC">
+                <div class="pannel computer" id="computer">
+                    <span>丙級題庫</span>
+                    <ul>
+                        <li><a href="ClassC/11800.html" class="link" target="_blank">電腦軟體應用</a></li>
+                        <li><a href="ClassC/11900.html" class="link" target="_blank">電腦軟體設計</a></li>
+                        <li><a href="ClassC/12000.html" class="link" target="_blank">電腦硬體裝修</a></li>
+                    </ul>
+                </div>
+                <div class="pannel electronic" id="electronic">
+                    <span>丙級題庫</span>
+                    <ul>
+                        <li><a href="ClassC/02800.html" class="link" target="_blank">工業電子丙級</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ClassB" id="ClassB">
+                <div class="pannel computer">
+                    <span>乙級題庫</span>
+                    <ul>
+                        <li><a href="ClassB/11700.html" class="link" target="_blank">數位電子乙級</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="contact-us">
+                <span>聯絡我們</span>
+                <ul>
+                    <li><a href="mailto:你的信箱@gmail.com" class="link">[聯絡信箱]</a></li>
+                </ul>
+                <p>~~~有任何想要建議的都可以聯絡信箱告知我們~~~</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 即測即評題庫網. All rights reserved.</footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

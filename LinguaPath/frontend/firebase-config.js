@@ -3,13 +3,13 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPas
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBh-ugjnWXOIFgaujjvEoHJ4jx_KfcXezU",
-    authDomain: "english-language-platform.firebaseapp.com",
-    projectId: "english-language-platform",
-    storageBucket: "english-language-platform.firebasestorage.app",
-    messagingSenderId: "398558443265",
-    appId: "1:398558443265:web:7cca79b438a3994e9bcd00",
-    measurementId: "G-MSNCYB2MTZ"
+    apiKey: "AIzaSyADqjDtdvxuM2Hqh4ple3M1uCD9OSmMUk4",
+    authDomain: "linugapath.firebaseapp.com",
+    projectId: "linugapath",
+    storageBucket: "linugapath.firebasestorage.app",
+    messagingSenderId: "821191704090",
+    appId: "1:821191704090:web:030812138a98d844eb1ba3",
+    measurementId: "G-1Z2DRPKCRD"
 };
 
 const app = initializeApp(firebaseConfig);

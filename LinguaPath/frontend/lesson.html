@@ -145,6 +145,21 @@
     }
     .example-box strong { color: var(--accent2); }
 
+    .speaking-exercise {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0;
+    }
+    .speaking-exercise p { margin-bottom: 0.6rem; }
+    .speaking-exercise .example-box {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(245, 158, 11, 0.15);
+      border-left-color: #f59e0b;
+      margin: 0;
+    }
+
     .lesson-actions {
       display: flex; align-items: center; justify-content: space-between;
       margin-top: 3rem; padding-top: 2rem;
@@ -170,6 +185,126 @@
     }
     .login-prompt p { font-size: 0.9rem; color: var(--muted); }
     .login-prompt a { color: var(--accent); text-decoration: none; font-weight: 500; }
+
+    .speaking-robot {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 300;
+    }
+    .speaking-robot .micronphone {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #f59e0b; color: #0d0f14;
+      border: none; font-size: 1.8rem; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(245,158,11,0.5);
+      transition: all 0.25s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .speaking-robot .micronphone:hover { transform: scale(1.1); }
+
+    .robot-panel {
+      position: fixed; bottom: 6rem; right: 2rem; z-index: 299;
+      width: 380px; max-height: 520px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      display: none; flex-direction: column;
+      overflow: hidden; animation: fadeUp 0.3s ease;
+    }
+    .robot-panel.open { display: flex; }
+    .robot-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(245,158,11,0.08);
+    }
+    .robot-header-title { font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+    .robot-close { background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; }
+    .robot-close:hover { color: var(--text); }
+
+    .robot-messages {
+      flex: 1; overflow-y: auto; padding: 1rem;
+      display: flex; flex-direction: column; gap: 0.8rem;
+    }
+    .robot-msg {
+      max-width: 85%; padding: 0.7rem 1rem;
+      border-radius: 12px; font-size: 0.9rem; line-height: 1.5;
+      animation: fadeUp 0.3s ease;
+    }
+    .robot-msg.ai {
+      align-self: flex-start;
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-bottom-left-radius: 4px;
+    }
+    .robot-msg.user {
+      align-self: flex-end;
+      background: var(--accent); color: #0d0f14;
+      border-bottom-right-radius: 4px;
+    }
+    .robot-msg .time {
+      font-size: 0.7rem; opacity: 0.6; margin-top: 0.3rem; display: block;
+    }
+
+    .robot-input-area {
+      display: flex; gap: 0.5rem; padding: 0.8rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .robot-input-area input {
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.6rem 0.8rem;
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      outline: none;
+    }
+    .robot-input-area input:focus { border-color: #f59e0b; }
+    .robot-input-mic {
+      background: transparent; color: var(--muted); border: 1px solid var(--border);
+      border-radius: 8px; width: 38px; cursor: pointer;
+      font-size: 1rem; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .robot-input-mic:hover { color: #f59e0b; border-color: #f59e0b; }
+    .robot-input-mic.listening {
+      color: #e87e7e; border-color: #e87e7e;
+      animation: pulse-mic-btn 1s infinite;
+    }
+    @keyframes pulse-mic-btn {
+      0% { box-shadow: 0 0 0 0 rgba(232,126,126,0.4); }
+      100% { box-shadow: 0 0 0 10px rgba(232,126,126,0); }
+    }
+    .robot-send {
+      background: #f59e0b; color: #0d0f14; border: none;
+      border-radius: 8px; width: 38px; cursor: pointer;
+      font-size: 1rem; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .robot-send:hover { opacity: 0.85; }
+    .robot-send:disabled { opacity: 0.4; cursor: default; }
+
+    .robot-status {
+      font-size: 0.75rem; color: var(--muted); text-align: center;
+      padding: 0.3rem 1rem 0.6rem;
+    }
+
+    .robot-waveform {
+      display: none; padding: 0 1rem 0.5rem;
+    }
+    .robot-waveform.active { display: block; }
+    .waveform-container {
+      display: flex; align-items: center; justify-content: center; gap: 3px;
+      height: 50px;
+    }
+    .waveform-bar {
+      width: 4px; border-radius: 2px;
+      background: #f59e0b;
+      height: 4px;
+      transition: height 0.05s ease;
+    }
+    .waveform-label {
+      text-align: center; font-size: 0.78rem;
+      color: #f59e0b; margin-top: 0.2rem;
+      animation: pulse-text 1.2s infinite;
+    }
+    @keyframes pulse-text {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
   </style>
 </head>
 <body>
@@ -238,7 +373,28 @@
     </div>
   </main>
 </div>
-
+<div class="speaking-robot">
+  <button class="micronphone" id="robot-toggle">🎤</button>
+</div>
+<div class="robot-panel" id="robot-panel">
+  <div class="robot-header">
+    <div class="robot-header-title">🤖 Speaking Partner</div>
+    <button class="robot-close" id="robot-close">&times;</button>
+  </div>
+  <div class="robot-messages" id="robot-messages">
+    <div class="robot-msg ai">Hi! I'm your Speaking Partner. Click the mic and start speaking, or type below.</div>
+  </div>
+  <div class="robot-waveform" id="robot-waveform">
+    <div class="waveform-container" id="waveform-container"></div>
+    <div class="waveform-label" id="waveform-label">Speak now...</div>
+  </div>
+  <div class="robot-status" id="robot-status">Click the mic button to start speaking</div>
+  <div class="robot-input-area">
+    <button class="robot-input-mic" id="robot-input-mic">🎤</button>
+    <input type="text" id="robot-input" placeholder="Type a message..." />
+    <button class="robot-send" id="robot-send">➤</button>
+  </div>
+</div>
 <script src="script.js"></script>
 <script type="module">
   import { 
@@ -276,11 +432,62 @@
     },
     "grammar-essentials": {
       title: "Grammar Essentials", level: "Intermediate",
-      lessons: Array.from({length:9}, (_,i) => ({ title: `Grammar Lesson ${i+1}`, duration: "10 min", videoId: null, body: `<h3>Coming Soon</h3><p>This lesson is being prepared. Check back soon!</p>` }))
+      lessons: [
+        { title: "Nouns & Pronouns", duration: "10 min", videoId: null, body: `<h3>What is a Noun?</h3><p>A noun is a word that names a person, place, thing, or idea. Nouns are the building blocks of sentences — every sentence has at least one.</p><div class="example-box"><strong>Person:</strong> teacher, doctor, Maria, friend<br><strong>Place:</strong> school, park, London, home<br><strong>Thing:</strong> book, chair, phone, water<br><strong>Idea:</strong> love, freedom, happiness, time</div><h3>Types of Nouns</h3><p>Nouns can be common or proper. Proper nouns name specific things and are always capitalized.</p><div class="example-box"><strong>Common:</strong> city, dog, month, river<br><strong>Proper:</strong> Taipei, Max (the dog), January, the Amazon</div><h3>Pronouns</h3><p>Pronouns replace nouns to avoid repetition. The main types are subject pronouns and object pronouns.</p><div class="example-box"><strong>Subject:</strong> I, you, he, she, it, we, they<br><strong>Object:</strong> me, you, him, her, it, us, them<br><br>"<strong>She</strong> gave <strong>him</strong> a gift."<br>"<strong>They</strong> invited <strong>us</strong> to dinner."</div><h3>Possessive Pronouns</h3><p>Possessive pronouns show ownership: my/mine, your/yours, his, her/hers, its, our/ours, their/theirs.</p><div class="example-box">"This is <strong>my</strong> bag." → "This bag is <strong>mine</strong>."<br>"Is that <strong>your</strong> car?" → "Yes, it's <strong>mine</strong>."</div><div class="speaking-exercise"><p><strong>Practice — Replace the noun with a pronoun:</strong></p><div class="example-box">"Sarah went to the store." → "<strong>She</strong> went to the store."<br>"I gave the book to John." → "I gave the book to <strong>him</strong>."<br>"The children did their homework." → "<strong>They</strong> did <strong>their</strong> homework."</div></div>` },
+        { title: "Verbs — Action & State", duration: "10 min", videoId: null, body: `<h3>What is a Verb?</h3><p>A verb describes an action, an event, or a state of being. Every sentence needs a verb — it's the engine of the sentence.</p><div class="example-box"><strong>Action verbs:</strong> run, eat, write, play, read, sing<br><strong>State verbs:</strong> be, have, know, like, want, need, believe<br>"She <strong>runs</strong> every morning." (action)<br>"I <strong>know</strong> the answer." (state)</div><h3>The Verb "To Be"</h3><p>The verb "to be" is the most important verb in English. It changes form based on the subject.</p><div class="example-box"><strong>I am</strong> a student. &nbsp;|&nbsp; <strong>He/She/It is</strong> happy.<br><strong>You/We/They are</strong> friends. &nbsp;|&nbsp; <strong>I was</strong> tired yesterday.<br><strong>They were</strong> at home last night.</div><h3>Auxiliary (Helping) Verbs</h3><p>Helping verbs work with main verbs to form questions, negatives, and tenses.</p><div class="example-box"><strong>do / does / did</strong> — questions & negatives<br>"<strong>Do</strong> you like coffee?" / "I <strong>don't</strong> like tea."<br><br><strong>can / could / will / would / should / must</strong> — modal verbs<br>"<strong>Can</strong> you help me?" / "You <strong>should</strong> study more."</div><div class="speaking-exercise"><p><strong>Practice — Fill in the correct verb form:</strong></p><div class="example-box">"She ___ (be) a teacher." → "<strong>is</strong>"<br>"They ___ (play) soccer every weekend." → "<strong>play</strong>"<br>"___ you like ice cream?" → "<strong>Do</strong>"<br>"He ___ (not/eat) meat." → "<strong>doesn't eat</strong>"</div></div>` },
+        { title: "Subject-Verb Agreement", duration: "10 min", videoId: null, body: `<h3>The Golden Rule</h3><p>The subject and verb must agree in number: singular subjects take singular verbs, plural subjects take plural verbs.</p><div class="example-box"><strong>Singular:</strong> "The dog <strong>barks</strong>." / "He <strong>runs</strong> fast."<br><strong>Plural:</strong> "The dogs <strong>bark</strong>." / "They <strong>run</strong> fast."</div><h3>Third Person Singular -s</h3><p>In the present simple, add -s or -es to the verb when the subject is he, she, it, or a singular noun.</p><div class="example-box">"I <strong>work</strong> → He <strong>works</strong>"<br>"They <strong>go</strong> → She <strong>goes</strong>"<br>"We <strong>study</strong> → It <strong>studies</strong>" (y → ies)</div><h3>Special Cases</h3><div class="example-box"><strong>Each / Every:</strong> "Each student <strong>has</strong> a book." (singular)<br><strong>Either / Neither:</strong> "Neither answer <strong>is</strong> correct." (singular)<br><strong>Collective nouns:</strong> "The team <strong>is</strong> winning." (singular in US English)<br><strong>With "and":</strong> "Tom and Jerry <strong>are</strong> characters." (plural)</div><div class="speaking-exercise"><p><strong>Practice — Choose the correct verb:</strong></p><div class="example-box">"My brother ___ (like/likes) pizza." → "likes"<br>"The children ___ (play/plays) outside." → "play"<br>"Everybody ___ (want/wants) to be happy." → "wants"<br>"There ___ (is/are) five apples on the table." → "are"</div></div>` },
+        { title: "Sentence Structure (SVO)", duration: "10 min", videoId: null, body: `<h3>Basic Word Order</h3><p>English follows a strict word order: <strong>Subject → Verb → Object (SVO)</strong>. This pattern is consistent for most sentences.</p><div class="example-box"><strong>S</strong> &nbsp; <strong>V</strong> &nbsp; <strong>O</strong><br>"<strong>She</strong> <strong>reads</strong> <strong>books</strong>."<br>"<strong>The cat</strong> <strong>chased</strong> <strong>the mouse</strong>."<br>"<strong>They</strong> <strong>bought</strong> <strong>a new car</strong>."</div><h3>Adding Descriptions</h3><p>Adjectives go before nouns; adverbs can go before or after verbs.</p><div class="example-box">"She reads <strong>interesting</strong> books." (adjective before noun)<br>"They <strong>quickly</strong> left." (adverb before verb)<br>"He speaks English <strong>well</strong>." (adverb after object)</div><h3>Negative Sentences</h3><p>Add "do not" (don't) or "does not" (doesn't) before the main verb for present tense negatives.</p><div class="example-box">"I <strong>don't</strong> like coffee."<br>"She <strong>doesn't</strong> have a car."<br>"They <strong>didn't</strong> go to the party." (past tense)</div><h3>Questions</h3><p>Move the auxiliary verb before the subject to form questions.</p><div class="example-box">"<strong>Do</strong> you speak English?"<br>"<strong>Does</strong> he live here?"<br>"<strong>Did</strong> they arrive on time?"<br>"<strong>Where do</strong> you work?" (WH-question)</div><div class="speaking-exercise"><p><strong>Practice — Rearrange into correct SVO order:</strong></p><div class="example-box">"eats / the dog / food" → "The dog eats food."<br>"a letter / writing / is / she" → "She is writing a letter."<br>"like / do / you / pizza" → "Do you like pizza?"<br>"don't / I / play / guitar / the" → "I don't play the guitar."</div></div>` },
+        { title: "Adjectives & Adverbs", duration: "10 min", videoId: null, body: `<h3>Adjectives — Describing Nouns</h3><p>An adjective describes a noun — it tells you what something is like. Adjectives come before the noun or after the verb "to be".</p><div class="example-box"><strong>Before a noun:</strong> "a <strong>beautiful</strong> day", "a <strong>fast</strong> car", "<strong>delicious</strong> food"<br><strong>After "be":</strong> "The weather is <strong>nice</strong>.", "She is <strong>tall</strong>."</div><h3>Comparative & Superlative</h3><p>Compare things using comparative (-er/more) and superlative (-est/most) forms.</p><div class="example-box"><strong>Short adjectives:</strong> tall → taller → tallest<br>"John is <strong>taller</strong> than Mike." "She is the <strong>tallest</strong>."<br><br><strong>Long adjectives:</strong> beautiful → more beautiful → most beautiful<br>"This is <strong>more beautiful</strong> than that." "It's the <strong>most beautiful</strong>."</div><h3>Adverbs — Describing Verbs</h3><p>An adverb describes a verb, adjective, or another adverb. Many adverbs end in -ly.</p><div class="example-box">"She sings <strong>beautifully</strong>." (describes how)<br>"He arrived <strong>early</strong>." (describes when)<br>"They <strong>almost</strong> finished." (describes how much)</div><div class="speaking-exercise"><p><strong>Practice — Add the correct adjective or adverb:</strong></p><div class="example-box">"She is a ___ (careful/carefully) driver." → "careful" (adjective)<br>"She drives ___ (careful/carefully)." → "carefully" (adverb)<br>"This book is ___ (interesting/more interesting) than that one." → "more interesting"<br>"He ran ___ (quick/quickly) to catch the bus." → "quickly"</div></div>` },
+        { title: "Tenses — Present, Past, Future", duration: "12 min", videoId: null, body: `<h3>Present Simple</h3><p>The present simple describes habits, facts, and routines.</p><div class="example-box">"I <strong>wake up</strong> at 7 AM every day." (habit)<br>"Water <strong>boils</strong> at 100°C." (fact)<br>"She <strong>works</strong> in a hospital." (routine)</div><h3>Present Continuous</h3><p>Use am/is/are + verb-ing for actions happening right now.</p><div class="example-box">"I <strong>am reading</strong> a book right now."<br>"They <strong>are playing</strong> soccer at the moment."<br>"She <strong>is studying</strong> for her exam."</div><h3>Past Simple</h3><p>Use the past simple for completed actions in the past. Regular verbs add -ed; irregular verbs change form.</p><div class="example-box"><strong>Regular:</strong> walk → walked, play → played, study → studied<br><strong>Irregular:</strong> go → went, eat → ate, see → saw, buy → bought<br>"I <strong>went</strong> to the store yesterday."<br>"She <strong>ate</strong> lunch an hour ago."</div><h3>Future (will / going to)</h3><p>Use "will" for spontaneous decisions and promises; use "going to" for planned actions.</p><div class="example-box"><strong>Will:</strong> "I <strong>will</strong> help you with that." (offer)<br>"I think it <strong>will</strong> rain tomorrow." (prediction)<br><strong>Going to:</strong> "We <strong>are going to</strong> visit Japan next year." (plan)<br>"Look at those clouds! It <strong>is going to</strong> rain." (evidence)</div><div class="speaking-exercise"><p><strong>Practice — Fill in the correct tense:</strong></p><div class="example-box">"She ___ (go) to school every day." → "goes" (present)<br>"They ___ (play) basketball now." → "are playing" (present continuous)<br>"He ___ (buy) a new phone yesterday." → "bought" (past)<br>"We ___ (visit) our grandparents next weekend." → "are going to visit" (future)</div></div>` },
+        { title: "Articles — A, An, The", duration: "8 min", videoId: null, body: `<h3>Indefinite Articles: A and An</h3><p>Use "a" before consonant sounds and "an" before vowel sounds. They introduce a noun that is not specific.</p><div class="example-box"><strong>A</strong> (before consonant sound): a cat, a house, a university (sounds like "y")<br><strong>An</strong> (before vowel sound): an apple, an hour (silent h), an umbrella</div><h3>Definite Article: The</h3><p>Use "the" when both the speaker and listener know which thing is being talked about.</p><div class="example-box">"Please close <strong>the</strong> door." (we both know which door)<br>"I saw <strong>a</strong> movie. <strong>The</strong> movie was great." (first mention → a, second → the)<br>"<strong>The</strong> sun rises in the east." (only one sun)</div><h3>No Article</h3><p>Some situations use no article at all:</p><div class="example-box"><strong>General plurals:</strong> "I like cats." (not "the cats" in general)<br><strong>Uncountable nouns:</strong> "Water is essential." / "I need information."<br><strong>Proper nouns:</strong> "I live in Taiwan." / "She studies English."<br><strong>Meals:</strong> "Breakfast is ready." / "I had lunch at noon."</div><div class="speaking-exercise"><p><strong>Practice — Fill in a, an, the, or nothing (—):</strong></p><div class="example-box">"I need ___ new phone." → "a"<br>"She is ___ honest person." → "an" (h is silent)<br>"Can you pass me ___ salt?" → "the" (specific salt)<br>"___ dogs are loyal animals." → "—" (general)<br>"We went to ___ restaurant. ___ food was amazing." → "a / The"</div></div>` },
+        { title: "Prepositions — Place & Time", duration: "10 min", videoId: null, body: `<h3>Prepositions of Place</h3><p>Prepositions tell us where something is. The most common ones are in, on, at, under, next to, between, and behind.</p><div class="example-box"><strong>In:</strong> "The book is <strong>in</strong> my bag." (inside)<br><strong>On:</strong> "The cup is <strong>on</strong> the table." (surface)<br><strong>At:</strong> "She is <strong>at</strong> the bus stop." (specific point)<br><strong>Under:</strong> "The cat is <strong>under</strong> the chair."<br><strong>Next to:</strong> "The bank is <strong>next to</strong> the post office."<br><strong>Between:</strong> "The park is <strong>between</strong> the school and the library."</div><h3>Prepositions of Time</h3><p>Prepositions also tell us when something happens.</p><div class="example-box"><strong>At:</strong> specific times — "at 3 PM", "at midnight", "at noon"<br><strong>On:</strong> days and dates — "on Monday", "on March 15th", "on my birthday"<br><strong>In:</strong> months, years, seasons — "in July", "in 2024", "in summer", "in the morning"</div><h3>Common Mistakes</h3><div class="example-box">"I will meet you <strong>on</strong> Monday." (NOT "in Monday")<br>"She was born <strong>in</strong> March." (NOT "on March" for month)<br>"The meeting is <strong>at</strong> 3 PM." (NOT "in 3 PM")<br>"I sleep <strong>at</strong> night." (NOT "in the night" — special case)</div><div class="speaking-exercise"><p><strong>Practice — Fill in the correct preposition:</strong></p><div class="example-box">"I was born ___ May 10th." → "on"<br>"The store opens ___ 9 AM." → "at"<br>"She lives ___ Tokyo." → "in"<br>"We go to the beach ___ summer." → "in"<br>"The remote is ___ the TV." → "on/next to"</div></div>` },
+        { title: "Conjunctions — Connecting Ideas", duration: "8 min", videoId: null, body: `<h3>Coordinating Conjunctions (FANBOYS)</h3><p>These join equal parts of a sentence: for, and, nor, but, or, yet, so.</p><div class="example-box"><strong>And:</strong> adds information — "I like tea <strong>and</strong> coffee."<br><strong>But:</strong> shows contrast — "She is tired <strong>but</strong> happy."<br><strong>Or:</strong> shows a choice — "Do you want tea <strong>or</strong> coffee?"<br><strong>So:</strong> shows result — "It was raining, <strong>so</strong> we stayed home."<br><strong>Yet:</strong> shows contrast — "He is young <strong>yet</strong> very wise."</div><h3>Subordinating Conjunctions</h3><p>These connect a dependent clause to an independent clause: because, although, when, while, if, since, unless.</p><div class="example-box"><strong>Because:</strong> "I stayed home <strong>because</strong> I was sick." (reason)<br><strong>Although:</strong> "<strong>Although</strong> it was cold, we went out." (contrast)<br><strong>When:</strong> "Call me <strong>when</strong> you arrive." (time)<br><strong>If:</strong> "<strong>If</strong> it rains, we'll cancel the trip." (condition)</div><h3>Building Complex Sentences</h3><p>Combine simple sentences using conjunctions to make your speech and writing more fluent.</p><div class="example-box"><strong>Simple:</strong> "I woke up. I brushed my teeth. I had breakfast."<br><strong>Complex:</strong> "I woke up, <strong>then</strong> I brushed my teeth <strong>and</strong> had breakfast."<br><br>"She studied hard, <strong>so</strong> she passed the exam. <strong>However</strong>, her brother didn't study <strong>because</strong> he was already confident."</div><div class="speaking-exercise"><p><strong>Practice — Combine the sentences:</strong></p><div class="example-box">"I like apples. I like bananas." → "I like apples <strong>and</strong> bananas."<br>"He was tired. He kept working." → "He was tired, <strong>but</strong> he kept working."<br>"We can go to the park. We can stay home." → "We can go to the park <strong>or</strong> stay home."<br>"She didn't come. She was busy." → "She didn't come <strong>because</strong> she was busy."</div></div>` },
+        { title: "Review & Practice", duration: "12 min", videoId: null, body: `<h3>Lesson Summary</h3><p>Great work! Let's review everything we've learned in Grammar Essentials:</p><div class="example-box"><strong>Nouns & Pronouns</strong> — words for people, places, things, and ideas; pronouns replace them<br><strong>Verbs</strong> — action and state words; every sentence needs one<br><strong>Subject-Verb Agreement</strong> — singular subjects need singular verbs<br><strong>Sentence Structure (SVO)</strong> — Subject → Verb → Object order<br><strong>Adjectives & Adverbs</strong> — describe nouns and verbs<br><strong>Tenses</strong> — present, past, and future time frames<br><strong>Articles</strong> — a, an, and the<br><strong>Prepositions</strong> — show place and time relationships<br><strong>Conjunctions</strong> — connect ideas in a sentence</div><h3>Mixed Practice</h3><div class="speaking-exercise"><p><strong>Exercise 1 — Correct the mistakes:</strong></p><div class="example-box">"She go to school every day." → "She <strong>goes</strong> to school every day."<br>"I buyed a new phone yesterday." → "I <strong>bought</strong> a new phone yesterday."<br>"He don't like vegetables." → "He <strong>doesn't</strong> like vegetables."<br>"We are here since Monday." → "We <strong>have been</strong> here since Monday."</div></div><div class="speaking-exercise"><p><strong>Exercise 2 — Fill in the blanks:</strong></p><div class="example-box">"___ (a/an) elephant is ___ (a/an) large animal." → "An / a"<br>"She ___ (be) a doctor. She ___ (work) at City Hospital." → "is / works"<br>"They ___ (go) to Japan last year." → "went"<br>"I ___ (meet) my friend ___ (on/in) Friday evening." → "met / on"<br>"___ you ___ (like) coffee?" → "Do / like"</div></div><div class="speaking-exercise"><p><strong>Exercise 3 — Build a sentence from the words:</strong></p><div class="example-box">"every / reads / she / morning / newspaper / the"<br>→ "She reads the newspaper every morning."<br><br>"don't / because / going / like / I / rain / the / walks / in"<br>→ "I don't like going for walks in the rain."</div></div><h3>Speaking Challenge</h3><p>Now try to speak for 30 seconds about your daily routine using:<br>✓ Present simple tense<br>✓ At least one adverb (always, usually, sometimes)<br>✓ At least one preposition of time (in the morning, at 7 PM, on weekdays)</p>` }
+      ]
     },
     "advanced-fluency": {
       title: "Advanced Fluency", level: "Advanced",
       lessons: Array.from({length:8}, (_,i) => ({ title: `Advanced Lesson ${i+1}`, duration: "12 min", videoId: null, body: `<h3>Coming Soon</h3><p>This lesson is being prepared. Check back soon!</p>` }))
+    },
+    "skill-listening": {
+      title: "Listening", level: "All Levels",
+      lessons: [
+        { title: "Sound Foundations", duration: "12 min", videoId: null, body: `<h3>Introduction to English Sounds</h3><p>English has 44 distinct sounds (phonemes): 24 consonant sounds and 20 vowel sounds. Learning to hear and produce these sounds is the first step to understanding spoken English.</p><h3>The Vowel System</h3><p>English vowels are divided into short vowels, long vowels, and diphthongs.</p><div class="example-box"><strong>Short vowels:</strong> /æ/ as in <em>cat</em>, /ɛ/ as in <em>bed</em>, /ɪ/ as in <em>sit</em>, /ɒ/ as in <em>hot</em>, /ʌ/ as in <em>cup</em><br><strong>Long vowels:</strong> /iː/ as in <em>sheep</em>, /uː/ as in <em>food</em>, /ɑː/ as in <em>car</em>, /ɔː/ as in <em>door</em>, /ɜː/ as in <em>bird</em><br><strong>Diphthongs:</strong> /aɪ/ as in <em>time</em>, /eɪ/ as in <em>day</em>, /oʊ/ as in <em>home</em>, /aʊ/ as in <em>house</em>, /ɔɪ/ as in <em>boy</em></div><h3>Minimal Pairs</h3><p>Minimal pairs are words that differ by only one sound. Practice hearing the difference:</p><div class="example-box"><strong>sheep vs ship</strong> — /iː/ vs /ɪ/<br><strong>bat vs bet</strong> — /æ/ vs /ɛ/<br><strong>rice vs lice</strong> — /r/ vs /l/<br><strong>fan vs van</strong> — /f/ vs /v/<br><strong>thin vs tin</strong> — /θ/ vs /t/<br><strong>ship vs chip</strong> — /ʃ/ vs /tʃ/</div><h3>Word Stress</h3><p>English words have stressed and unstressed syllables. Stressed syllables are louder, longer, and higher in pitch.</p><div class="example-box"><strong>RE-cord</strong> (noun) vs <strong>re-CORD</strong> (verb)<br><strong>PHO-to-graph</strong> vs <strong>pho-TO-graphy</strong> vs <strong>pho-to-GRAPH-ic</strong></div><h3>Practice Tips</h3><ul><li>Listen to a word and repeat it immediately — shadowing builds muscle memory</li><li>Record yourself and compare with a native speaker</li><li>Focus on sounds that don't exist in your first language</li></ul>` },
+        { title: "Listening for Key Information", duration: "10 min", videoId: null, body: `<h3>Understanding Numbers</h3><p>Numbers appear everywhere in spoken English: prices, phone numbers, dates, times, and quantities. Each has its own pattern.</p><div class="example-box"><strong>Phone numbers:</strong> "Oh" for zero, grouped digits — 555-0198 = "five-five-five oh-one-nine-eight"<br><strong>Prices:</strong> "$4.99" = "four ninety-nine" or "four dollars and ninety-nine cents"<br><strong>Dates:</strong> "March 15th" = "March fifteenth" or "the fifteenth of March"<br><strong>Times:</strong> "2:45" = "quarter to three" or "two forty-five"</div><h3>Listening for Names</h3><p>Names can be challenging because they vary widely. Listen for spelling clues or context.</p><div class="example-box"><em>Dialog:</em><br>A: "Could I get your name, please?"<br>B: "It's Smith. S-M-I-T-H."<br>A: "Thank you, Mr. Smith."</div><h3>Following Instructions</h3><p>Instructions often follow a sequence. Listen for order words like <em>first, next, then, after that, finally</em>.</p><div class="example-box">"First, turn left at the traffic lights. Next, go straight for two blocks. Then, you'll see the library on your right."</div><h3>Practice</h3><ul><li>Listen to a weather forecast and write down temperatures and conditions</li><li>Practice catching names and numbers from short audio clips</li><li>Follow a simple recipe video without looking at the screen</li></ul>` },
+        { title: "Following Conversations", duration: "14 min", videoId: null, body: `<h3>Everyday Dialogues</h3><p>Conversations contain fillers, interruptions, and topic shifts. Learn to follow the main thread even when you miss a word.</p><div class="example-box"><em>At a coffee shop:</em><br>Barista: "Hi, what can I get for you today?"<br>Customer: "I'll have a latte with oat milk, please."<br>Barista: "Would you like that hot or iced?"<br>Customer: "Hot, please. And a blueberry muffin."<br>Barista: "That'll be $7.50. Your name?"<br>Customer: "Emily."</div><h3>Phone Conversations</h3><p>Phone calls lack visual cues. Listen even more carefully for tone and key words.</p><div class="example-box"><em>Making a reservation:</em><br>"Hello, I'd like to book a table for two at 7pm on Friday evening. The name is Chen. C-H-E-N. Could you confirm that?"</div><h3>Short News Clips</h3><p>News follows a predictable structure: headline, summary, details. Listen for the 5 Ws: Who, What, When, Where, Why.</p><div class="example-box"><strong>Structure of a news report:</strong><br>1. Lead sentence — the most important facts<br>2. Background — context and previous events<br>3. Details — quotes, statistics, expert opinions</div><h3>Practice</h3><ul><li>Watch a 1-minute news clip and write down the 5 Ws</li><li>Listen to a dialogue and summarize what each person wants</li><li>Practice following phone conversations in movies or TV shows</li></ul>` },
+        { title: "Interpreting Nuance", duration: "14 min", videoId: null, body: `<h3>Tone and Attitude</h3><p>A speaker's tone can completely change the meaning of their words. Listen for pitch, volume, and speed.</p><div class="example-box"><strong>Sarcasm:</strong> "Oh, <em>great</em>." (said flatly = not great at all)<br><strong>Excitement:</strong> "That's <em>amazing</em>!" (high pitch, fast)<br><strong>Doubt:</strong> "Are you <em>sure</em>?" (rising intonation, slow)<br><strong>Disappointment:</strong> "I see." (low pitch, trailing off)</div><h3>Regional Accents</h3><p>English sounds different around the world. Key differences include pronunciation, vocabulary, and rhythm.</p><div class="example-box"><strong>American:</strong> "water" = /wɑːtər/, "schedule" starts with /sk/<br><strong>British:</strong> "water" = /wɔːtə/, "schedule" starts with /ʃ/<br><strong>Australian:</strong> "day" sounds like "die", "mate" is common for "friend"<br><strong>Indian:</strong> rhythmic, often uses "only" for emphasis ("I told you only")</div><h3>Implied Meaning</h3><p>Native speakers often imply rather than state directly. Learn to read between the lines.</p><div class="example-box"><em>"It's a bit cold in here."</em><br>Literal: stating the temperature<br>Implied: please close the window or turn up the heat<br><br><em>"I might be late tomorrow."</em><br>Literal: possible lateness<br>Implied: I'm warning you in advance, don't wait for me</div><h3>Practice</h3><ul><li>Listen to the same clip in three different accents and note differences</li><li>Watch a movie scene without subtitles and describe each character's attitude</li><li>Practice identifying implied requests in everyday conversations</li></ul>` },
+        { title: "Native-Level Comprehension", duration: "16 min", videoId: null, body: `<h3>Rapid Speech Features</h3><p>Native speakers connect words, reduce syllables, and use contractions extensively. Understanding these patterns is key.</p><div class="example-box"><strong>Connected speech:</strong><br>"What do you want?" → "Whaddaya want?"<br>"I don't know" → "I dunno"<br>"Going to" → "Gonna"<br>"Let me" → "Lemme"<br>"Did you eat?" → "Djeet?"</div><h3>Academic Lectures</h3><p>Lectures use structured language with signposts like <em>firstly, however, in conclusion</em>. Listen for the framework.</p><div class="example-box"><strong>Lecture signposts:</strong><br>"Today we'll explore three key theories..." — overview<br>"To illustrate this point..." — example coming<br>"This leads to an important question..." — key insight<br>"In summary..." — conclusion</div><h3>Specialized Topics</h3><p>Professional and academic fields use specialized vocabulary. Build your listening by exposing yourself to content in your field.</p><div class="example-box"><strong>Technology:</strong> algorithm, framework, deployment, scalability, API<br><strong>Business:</strong> revenue, stakeholder, quarterly report, ROI, benchmark<br><strong>Medicine:</strong> diagnosis, symptom, prescription, chronic, acute</div><h3>Comprehension Strategies</h3><ul><li>Focus on the main idea, not every word</li><li>Use context to guess unfamiliar terms</li><li>Listen for structural markers ("the problem is...", "the solution is...")</li><li>Practice with podcasts at 1.25x speed to challenge yourself</li></ul>` }
+      ]
+    },
+    "skill-speaking": {
+      title: "Speaking", level: "All Levels",
+      lessons: [
+        { title: "Pronunciation & First Words", duration: "14 min", videoId: null, body: `<h3>Building Blocks of Speech</h3><p>Clear pronunciation starts with understanding how your mouth forms each sound. Focus on the position of your tongue, lips, and jaw.</p><h3>Key Consonant Pairs</h3><p>Many English consonants come in voiced/unvoiced pairs. Feel the vibration in your throat for voiced sounds.</p><div class="example-box"><strong>/p/ vs /b/:</strong> "pat" vs "bat" — /p/ has a puff of air, /b/ vibrates<br><strong>/t/ vs /d/:</strong> "tin" vs "din" — same tongue position, different voicing<br><strong>/f/ vs /v/:</strong> "fan" vs "van" — bottom lip on top teeth<br><strong>/s/ vs /z/:</strong> "sip" vs "zip" — /z/ vibrates, /s/ does not<br><strong>/θ/ vs /ð/:</strong> "thin" vs "this" — tongue between teeth</div><h3>Basic Greetings</h3><div class="example-box"><strong>Hello / Hi</strong> — informal greetings<br><strong>Good morning / afternoon / evening</strong> — formal greetings<br><strong>"Nice to meet you."</strong> — first meeting<br><strong>"How are you?"</strong> — "I'm doing well, thanks! And you?"<br><strong>"Goodbye / See you later / Take care"</strong> — farewells</div><h3>Self-Introduction</h3><p>Practice introducing yourself with confidence:</p><div class="example-box">"Hello, my name is [name]. I'm from [country]. I'm a [job/student]. I've been learning English for [time]. Nice to meet you!"</div><h3>Speaking Practice</h3><div class="speaking-exercise"><p><strong>Exercise 1 — Shadowing:</strong> Read each sentence aloud 3 times. Focus on clear pronunciation.</p><div class="example-box"><strong>Say these greetings:</strong><br>"Good morning! How are you today?"<br>"Hi, my name is David. Nice to meet you."<br>"See you later! Have a great day."<br><strong>Introduce yourself:</strong><br>"Hello, I'm [your name]. I'm a student. I'm learning English."</div></div><div class="speaking-exercise"><p><strong>Exercise 2 — Minimal Pairs Drill:</strong> Say each pair. Feel the difference in your mouth.</p><div class="example-box">/p/ pat — /b/ bat &nbsp;|&nbsp; /t/ tin — /d/ din<br>/f/ fan — /v/ van &nbsp;|&nbsp; /s/ sip — /z/ zip<br>/θ/ thin — /ð/ this &nbsp;|&nbsp; /ʃ/ ship — /tʃ/ chip</div></div><div class="speaking-exercise"><p><strong>Exercise 3 — Q&A (answer aloud):</strong></p><div class="example-box">Q: "What is your name?"<br>A: "My name is ________."<br>Q: "Where are you from?"<br>A: "I'm from ________."<br>Q: "How are you today?"<br>A: "I'm ________, thank you!"</div></div>` },
+        { title: "Everyday Interactions", duration: "14 min", videoId: null, body: `<h3>Ordering at a Restaurant</h3><p>Dining out requires specific phrases for ordering, asking questions, and handling special requests.</p><div class="example-box"><em>Server:</em> "Welcome to Bella's. I'm your server today. Can I start you with something to drink?"<br><em>You:</em> "Yes, I'd like a lemonade, please."<br><em>Server:</em> "Great. And are you ready to order, or do you need a few minutes?"<br><em>You:</em> "I'm ready. I'll have the grilled chicken salad."<br><em>Server:</em> "Excellent choice. I'll put that in for you."</div><h3>Shopping</h3><p>Whether at a store or market, these phrases will help:</p><div class="example-box"><strong>Finding items:</strong> "Excuse me, where can I find the coffee?"<br><strong>Sizes & colors:</strong> "Do you have this in a small?" / "I'm looking for this in blue."<br><strong>Prices:</strong> "How much is this?" / "Is this on sale this week?"<br><strong>Checkout:</strong> "I'll take it." / "Can I pay with credit card?"</div><h3>Asking Questions</h3><p>Questions drive conversations. Master the two main types:</p><div class="example-box"><strong>Yes/No questions:</strong> start with auxiliary verb — "Do you like coffee?" / "Are you a student?"<br><strong>WH- questions:</strong> start with a question word — "What do you do?" / "Where do you live?" / "When does the bus arrive?"</div><h3>Speaking Practice</h3><div class="speaking-exercise"><p><strong>Exercise 1 — Role-Play (read both parts aloud):</strong></p><div class="example-box">You: "Hi, I'd like a table for two, please."<br>Server: "Right this way. Here are your menus."<br>You: "Thank you. What do you recommend?"<br>Server: "The pasta is excellent today."<br>You: "I'll have the pasta and a glass of water."</div></div><div class="speaking-exercise"><p><strong>Exercise 2 — Shopping Role-Play:</strong> Say each line with expression.</p><div class="example-box">"Excuse me, how much is this jacket?"<br>"Do you have it in a smaller size?"<br>"Can I try it on?"<br>"I'll take it. Here's my card."</div></div><div class="speaking-exercise"><p><strong>Exercise 3 — Question Practice (say the full question aloud):</strong></p><div class="example-box">"What time does the bus arrive?"<br>"Do you know where the nearest bank is?"<br>"Can you tell me how much this costs?"<br>"Is there a good restaurant near here?"</div></div>` },
+        { title: "Conversation Skills", duration: "16 min", videoId: null, body: `<h3>Giving Opinions</h3><p>Expressing opinions is central to meaningful conversation. Use these phrases to sound natural:</p><div class="example-box"><strong>Strong opinion:</strong> "In my opinion..." / "I firmly believe that..." / "There's no doubt that..."<br><strong>Mild opinion:</strong> "I think..." / "I feel like..." / "It seems to me that..."<br><strong>Asking for opinions:</strong> "What do you think?" / "How do you feel about that?" / "What's your take?"</div><h3>Describing Experiences</h3><p>Talking about past experiences requires using past tenses naturally:</p><div class="example-box"><em>"Last summer, I traveled to Japan. I visited Tokyo and Kyoto. The food was incredible — I've never tasted sushi that fresh before. I'd recommend it to anyone!"</em></div><h3>Small Talk</h3><p>Small talk is the art of light, casual conversation. Common topics include weather, weekend plans, and current events.</p><div class="example-box"><strong>Weather:</strong> "Beautiful day today, isn't it?" / "Can you believe this rain?"<br><strong>Weekend:</strong> "Got any plans for the weekend?" / "I'm thinking of checking out that new café."<br><strong>Work/School:</strong> "How's your project going?" / "Busy week?"</div><h3>Active Listening Responses</h3><p>Good conversation requires showing you're listening:</p><div class="example-box">"Oh, really?" — interest &nbsp;|&nbsp; "That's interesting!" — engagement<br>"I see what you mean." — understanding &nbsp;|&nbsp; "Wow, that's amazing!" — enthusiasm</div><h3>Speaking Practice</h3><div class="speaking-exercise"><p><strong>Exercise 1 — Opinion Drill:</strong> Read the prompt, then say your opinion aloud using a phrase from the lesson.</p><div class="example-box"><strong>Prompt:</strong> "What do you think about social media?"<br><strong>Sample:</strong> "In my opinion, social media is useful for staying connected, but it can be distracting."<br><strong>Prompt:</strong> "How do you feel about remote work?"<br><strong>Sample:</strong> "I think remote work gives people more flexibility, but it can feel lonely sometimes."</div></div><div class="speaking-exercise"><p><strong>Exercise 2 — Describe Your Weekend (say it aloud):</strong></p><div class="example-box">"Last weekend, I ________. First, I ________. Then, I ________. It was ________."<br><br>"Tell about something fun you did recently. Use past tense!"</div></div><div class="speaking-exercise"><p><strong>Exercise 3 — Small Talk Script:</strong> Read both sides of this conversation aloud.</p><div class="example-box">A: "Beautiful day, isn't it?"<br>B: "Yeah, finally some sunshine! Got any plans?"<br>A: "I'm thinking of going for a hike. You?"<br>B: "That sounds great! I might join you."</div></div>` },
+        { title: "Advanced Expression", duration: "16 min", videoId: null, body: `<h3>Structured Opinions & Debates</h3><p>Presenting a structured argument requires a clear claim, evidence, and reasoning. Use the P.E.E. method: Point, Evidence, Explanation.</p><div class="example-box"><strong>Point:</strong> "Remote work improves productivity."<br><strong>Evidence:</strong> "A Stanford study found a 13% increase in performance among remote workers."<br><strong>Explanation:</strong> "This is because employees save commuting time and can create focused work environments."</div><h3>Delivering a Short Presentation</h3><p>Presentations follow a simple formula:</p><div class="example-box"><strong>Opening:</strong> "Good morning, everyone. Today I'd like to talk about..."<br><strong>Main points:</strong> "Firstly... Secondly... Finally..."<br><strong>Conclusion:</strong> "To wrap up..." / "In conclusion..."</div><h3>Hypotheticals & Conditionals</h3><div class="example-box"><strong>First conditional:</strong> "If it rains, I'll stay home."<br><strong>Second conditional:</strong> "If I won the lottery, I'd travel the world."<br><strong>Third conditional:</strong> "If I had studied harder, I would have passed."</div><h3>Idiomatic Expressions</h3><div class="example-box"><strong>"Break the ice"</strong> — start a conversation<br><strong>"Hit the nail on the head"</strong> — describe exactly right<br><strong>"Piece of cake"</strong> — very easy<br><strong>"Once in a blue moon"</strong> — very rarely</div><h3>Speaking Practice</h3><div class="speaking-exercise"><p><strong>Exercise 1 — P.E.E. Argument Drill:</strong> Read the structure aloud, then say your own version.</p><div class="example-box"><strong>Point:</strong> "Public transport should be free."<br><strong>Evidence:</strong> "Cities with free transit reduced traffic by 20%."<br><strong>Explanation:</strong> "This shows that free transport benefits both people and the environment."<br><br>Now try your own argument about a topic you care about.</div></div><div class="speaking-exercise"><p><strong>Exercise 2 — Conditional Speaking:</strong> Complete each sentence aloud with your own idea.</p><div class="example-box">"If I had more free time, I would ________."<br>"If I could live anywhere, I would choose ________."<br>"If I had studied something different, I would ________."</div></div><div class="speaking-exercise"><p><strong>Exercise 3 — Mini Presentation:</strong> Read this short presentation aloud. Then create your own version about a different topic.</p><div class="example-box">"Good morning. Today I want to talk about the importance of learning English. First, English opens career opportunities. Second, it connects you with people worldwide. Finally, it gives you access to global knowledge. In conclusion, learning English is one of the best investments you can make. Thank you."</div></div>` },
+        { title: "Fluent Communication", duration: "18 min", videoId: null, body: `<h3>Persuasion & Negotiation</h3><p>Persuasion is about understanding the other person's needs and presenting your case effectively.</p><div class="example-box"><strong>Finding common ground:</strong> "I understand your concern. Let me show you how this helps."<br><strong>Softening disagreement:</strong> "I see your point, but have you considered...?"<br><strong>Making a proposal:</strong> "What if we compromise on timeline in exchange for a lower price?"</div><h3>Public Speaking</h3><p>Speaking to a group requires confidence, pacing, and audience awareness.</p><div class="example-box"><strong>Before:</strong> pause, look at the audience, smile<br><strong>During:</strong> make eye contact, vary your pace, use gestures<br><strong>Ending:</strong> summarize and end with a call to action</div><h3>Register & Appropriateness</h3><div class="example-box"><strong>Formal:</strong> "I believe my experience aligns with this role."<br><strong>Neutral:</strong> "I think we should consider a different approach."<br><strong>Informal:</strong> "Honestly, just go for it!"</div><h3>Cultural Nuance</h3><div class="example-box"><strong>British:</strong> indirect — "I wonder if you might consider..."<br><strong>American:</strong> direct — "I think you should..."<br><strong>Australian:</strong> casual, uses humor</div><h3>Speaking Practice</h3><div class="speaking-exercise"><p><strong>Exercise 1 — Persuasion Script:</strong> Read this negotiation dialogue aloud with expression.</p><div class="example-box">A: "I'd like to discuss the project deadline."<br>B: "Sure. What are your thoughts?"<br>A: "I understand the timeline is tight, but I believe we need one more week for quality."<br>B: "I see your point. Could we deliver the core features on time and add the rest later?"<br>A: "That sounds like a fair compromise. Let's do that."</div></div><div class="speaking-exercise"><p><strong>Exercise 2 — Adapt Your Register:</strong> Say the same message in three different ways.</p><div class="example-box"><strong>Informal:</strong> "Hey, can you help me with this? Thanks!"<br><strong>Neutral:</strong> "Could you please help me with this task?"<br><strong>Formal:</strong> "I would greatly appreciate your assistance with this matter."</div></div><div class="speaking-exercise"><p><strong>Exercise 3 — Speech Practice:</strong> Read this short speech aloud. Then give your own 1-minute speech on a topic you choose.</p><div class="example-box">"Good afternoon, everyone. I'm here to talk about the power of small habits. Small daily actions, repeated over time, create remarkable results. Reading for 10 minutes a day means 60 hours of reading a year. Walking 15 minutes daily means 90 hours of exercise annually. The key is consistency, not intensity. Start small, stay consistent, and watch the transformation. Thank you."</div></div>` }
+      ]
+    },
+    "skill-reading": {
+      title: "Reading", level: "All Levels",
+      lessons: [
+        { title: "Phonics & Word Recognition", duration: "11 min", videoId: null, body: `<h3>Letter Sounds</h3><p>English letters don't always make the same sound. Phonics teaches the relationship between letters and sounds. Master these basic patterns first.</p><div class="example-box"><strong>Short vowels in CVC words:</strong><br>cat = /k/ + /æ/ + /t/<br>dog = /d/ + /ɒ/ + /g/<br>sit = /s/ + /ɪ/ + /t/<br><br><strong>Common consonant digraphs:</strong><br>sh = /ʃ/ as in <em>ship</em><br>ch = /tʃ/ as in <em>chip</em><br>th = /θ/ or /ð/ as in <em>thin</em> or <em>this</em><br>wh = /w/ as in <em>what</em></div><h3>Sight Words</h3><p>Some common words don't follow phonics rules and must be memorized by sight. These appear frequently in texts.</p><div class="example-box"><strong>Top sight words:</strong> the, and, is, it, in, of, to, that, was, for, are, with, have, be, this, from, they, which, what, their</div><h3>Reading Simple Signs</h3><p>Environmental print is everywhere. Practice by reading signs, labels, and notices:</p><div class="example-box">"Exit" — way out<br>"Entrance" — way in<br>"Push / Pull" — door directions<br>"Open / Closed" — business hours<br>"Caution: Wet Floor" — warning</div><h3>Practice</h3><ul><li>Read 10 CVC words aloud and write each one</li><li>Review the sight word list until you recognize each one instantly</li><li>Find 5 signs or labels around you and read them out loud</li></ul>` },
+        { title: "Reading Sentences & Signs", duration: "12 min", videoId: null, body: `<h3>Simple Sentences</h3><p>Read short, clear sentences. Pay attention to the subject-verb-object pattern.</p><div class="example-box">"The cat sits on the mat."<br>"She drinks coffee every morning."<br>"They live near the park."<br>"He is reading a book."</div><h3>Everyday Texts</h3><p>Real-world reading includes menus, schedules, and simple instructions. Learn to scan for key information.</p><div class="example-box"><strong>Menu:</strong><br>"Grilled Chicken Sandwich — $8.50<br>Served with fries and coleslaw"<br><br><strong>Bus schedule:</strong><br>"Route 42 — Departs Main St at 8:15 AM, arrives Airport at 9:00 AM"</div><h3>Simple Instructions</h3><p>Instructions use imperative verbs (commands). Look for sequence words:</p><div class="example-box">"How to make instant coffee:<br>First, boil water. Then, put one spoon of coffee in a cup. Next, pour the hot water. Finally, stir and enjoy!"</div><h3>Children's Stories</h3><p>Graded readers and children's books use simple vocabulary and repetitive structures — perfect for practice.</p><div class="example-box">"The boy has a red balloon. The balloon floats up, up, up into the sky. The boy is sad. But then a bird brings the balloon back. The boy is happy again."</div><h3>Practice</h3><ul><li>Read a children's short story and summarize it in 3 sentences</li><li>Look at a menu online and find 5 items you would order</li><li>Write down 3 sets of instructions you follow regularly</li></ul>` },
+        { title: "Articles & Narratives", duration: "14 min", videoId: null, body: `<h3>News Articles</h3><p>News writing follows the inverted pyramid: most important information first, details later. This structure helps you get the main idea quickly.</p><div class="example-box"><strong>Headline:</strong> "Local Library Launches Free English Classes"<br><strong>Lead:</strong> "The downtown library will offer free English conversation classes starting March 1st, officials announced Tuesday."<br><strong>Details:</strong> "Classes will run every Wednesday evening from 6-8 PM. Registration is available online or in person. Space is limited to 30 participants."</div><h3>Narrative Structure</h3><p>Stories follow a structure that helps you predict what comes next:</p><div class="example-box"><strong>1. Exposition:</strong> introduces characters and setting<br><strong>2. Rising action:</strong> the problem or conflict develops<br><strong>3. Climax:</strong> the turning point or peak of the story<br><strong>4. Falling action:</strong> events after the climax<br><strong>5. Resolution:</strong> how the story ends</div><h3>Identifying Main Ideas</h3><p>Every paragraph has a main idea, usually in the first sentence. Supporting details expand on it.</p><div class="example-box">"Renewable energy is growing rapidly worldwide. <em>(main idea)</em> Solar power installations increased by 35% last year alone. Wind energy now supplies 10% of global electricity. Many countries have committed to net-zero emissions by 2050. <em>(supporting details)</em>"</div><h3>Context Clues</h3><p>Don't reach for a dictionary immediately. Use context to guess unfamiliar words.</p><div class="example-box">"The weather was <strong>inclement</strong>, so we stayed indoors."<br>Clue: "stayed indoors" suggests inclement means bad or stormy.</div><h3>Practice</h3><ul><li>Read a short news article and identify the 5 Ws</li><li>Find the main idea of each paragraph in a short story</li><li>Read 3 sentences with unfamiliar words and guess the meaning from context</li></ul>` },
+        { title: "Analytical Reading", duration: "14 min", videoId: null, body: `<h3>Analyzing Opinion Pieces</h3><p>Opinion articles present an argument. Identify the author's claim, evidence, and persuasive techniques.</p><div class="example-box"><strong>Claim:</strong> "Public transportation should be free for all residents."<br><strong>Evidence:</strong> "Cities with free transit saw a 20% reduction in traffic and improved air quality."<br><strong>Counter-argument:</strong> "Critics say this would be too expensive, but the long-term savings in healthcare and infrastructure outweigh the costs."<br><strong>Techniques:</strong> statistics, expert quotes, emotional appeals, logical reasoning</div><h3>Understanding Perspective</h3><p>Every author writes from a particular viewpoint. Consider the source and purpose:</p><div class="example-box"><strong>News article:</strong> aims to inform (should be objective)<br><strong>Editorial:</strong> aims to persuade (clearly biased)<br><strong>Review:</strong> aims to evaluate (subjective but based on criteria)<br><strong>Blog post:</strong> aims to share personal experience (highly subjective)</div><h3>Inference</h3><p>Authors don't always state everything directly. Infer meaning from what is implied:</p><div class="example-box">"She checked her watch three times during the meeting."<br>Inference: She was impatient, bored, or had somewhere else to be.<br><br>"He cleared his throat and adjusted his tie before walking in."<br>Inference: He was nervous or wanted to make a good impression.</div><h3>Literary Devices</h3><p>Recognizing metaphors, similes, and symbolism deepens your understanding:</p><div class="example-box"><strong>Simile:</strong> "Her voice was like honey." (uses "like" or "as")<br><strong>Metaphor:</strong> "The world is a stage." (direct comparison)<br><strong>Personification:</strong> "The wind whispered through the trees."</div><h3>Practice</h3><ul><li>Read an editorial and identify the author's claim and supporting evidence</li><li>Find 3 examples of inference in a short story</li><li>Identify the perspective of 3 different articles on the same topic</li></ul>` },
+        { title: "Academic & Literary Reading", duration: "16 min", videoId: null, body: `<h3>Academic Texts</h3><p>Academic writing is structured, formal, and evidence-based. Key sections include abstract, introduction, methodology, results, discussion, and conclusion.</p><div class="example-box"><strong>Abstract:</strong> a 150-250 word summary of the entire paper<br><strong>Introduction:</strong> states the research question and why it matters<br><strong>Methodology:</strong> describes how the research was conducted<br><strong>Results:</strong> presents findings (often with tables and charts)<br><strong>Discussion:</strong> interprets the results and their implications</div><h3>Reading Literature</h3><p>Literary texts require attention to language, imagery, and structure. Read slowly and reflectively.</p><div class="example-box"><em>"It was a bright cold day in April, and the clocks were striking thirteen."</em><br>— George Orwell, 1984<br>The impossible image of "clocks striking thirteen" immediately signals something is wrong with this world.</div><h3>Complex Arguments</h3><p>Academic arguments build on previous research. Track the logical flow:</p><div class="example-box"><strong>Thesis:</strong> "Climate change is the defining challenge of our generation."<br><strong>Premise 1:</strong> Global temperatures have risen 1.1C since pre-industrial times.<br><strong>Premise 2:</strong> This warming is primarily caused by human activity.<br><strong>Premise 3:</strong> The effects are already visible and accelerating.<br><strong>Conclusion:</strong> Immediate and sustained action is required.</div><h3>Reading Strategies for Difficult Texts</h3><ul><li>Preview: read headings, subheadings, and summary first</li><li>Annotate: underline key points, write questions in margins</li><li>Reread: difficult passages often make more sense on a second read</li><li>Discuss: explaining what you read to someone else solidifies understanding</li></ul><h3>Practice</h3><ul><li>Read an academic abstract and summarize the research in your own words</li><li>Read a poem or short literary passage and describe the imagery used</li><li>Map out the argument structure of an opinion article (thesis, premises, conclusion)</li></ul>` }
+      ]
+    },
+    "skill-writing": {
+      title: "Writing", level: "All Levels",
+      lessons: [
+        { title: "Letters, Spelling & Punctuation", duration: "10 min", videoId: null, body: `<h3>Letter Formation</h3><p>Clear handwriting and typing accuracy are essential written communication skills. Practice both uppercase and lowercase forms.</p><div class="example-box"><strong>Uppercase:</strong> A B C D E F G H I J K L M N O P Q R S T U V W X Y Z<br><strong>Lowercase:</strong> a b c d e f g h i j k l m n o p q r s t u v w x y z</div><h3>Basic Spelling Rules</h3><p>English spelling has patterns that make it more predictable than it first appears:</p><div class="example-box"><strong>I before E except after C:</strong> believe, receive, ceiling<br><strong>Silent E makes the vowel long:</strong> cap → cape, hop → hope, kit → kite<br><strong>Double the consonant before -ing:</strong> run → running, sit → sitting, swim → swimming</div><h3>Punctuation Basics</h3><p>Punctuation guides the reader through your sentences. Master these first:</p><div class="example-box"><strong>Period (.):</strong> ends a sentence — "She likes coffee."<br><strong>Question mark (?):</strong> ends a question — "Do you like coffee?"<br><strong>Exclamation mark (!):</strong> shows strong emotion — "I love this!"<br><strong>Comma (,):</strong> separates items — "I bought apples, bread, and milk."</div><h3>Writing Personal Information</h3><p>You'll often need to write basic personal details on forms:</p><div class="example-box">Name: Sarah Chen<br>Email: sarah.chen@email.com<br>Phone: 555-0192<br>Address: 123 Main Street, Apt 4B, New York, NY 10001</div><h3>Practice</h3><ul><li>Write the alphabet in uppercase and lowercase (print and cursive)</li><li>Write 5 sentences with correct punctuation</li><li>Fill out a mock form with your personal information</li></ul>` },
+        { title: "Writing Sentences", duration: "12 min", videoId: null, body: `<h3>Simple Sentences</h3><p>A simple sentence has one subject and one verb, expressing one complete thought.</p><div class="example-box">"The sun is shining."<br>"Birds sing in the morning."<br>"I walk to school every day."<br>"She enjoys reading novels."</div><h3>Compound Sentences</h3><p>Connect two related ideas with conjunctions: and, but, or, so, yet.</p><div class="example-box"><strong>With "and":</strong> "I like tea, and my sister likes coffee."<br><strong>With "but":</strong> "He studied hard, but he didn't pass the test."<br><strong>With "so":</strong> "It was raining, so we stayed inside."<br><strong>With "or":</strong> "We can go to the park, or we can watch a movie."</div><h3>Writing Questions</h3><p>Two main question types: yes/no and WH-questions:</p><div class="example-box"><strong>Yes/No:</strong> "Are you a student?" / "Do you have a car?" / "Is it raining?"<br><strong>WH-:</strong> "What is your name?" / "Where do you live?" / "When does class start?" / "Why are you late?" / "How does this work?"</div><h3>Describing Your Day</h3><p>Daily routine descriptions use present simple tense and time expressions:</p><div class="example-box">"I wake up at 7 AM. First, I brush my teeth and take a shower. Then, I eat breakfast. I usually have toast and eggs. I leave for work at 8:30. I get home at 6 PM. In the evening, I watch TV or read a book. I go to bed at 11 PM."</div><h3>Practice</h3><ul><li>Write 5 simple sentences about things you see right now</li><li>Write 3 compound sentences using and, but, and so</li><li>Write a paragraph describing your morning routine</li></ul>` },
+        { title: "Paragraph Structure", duration: "14 min", videoId: null, body: `<h3>What Makes a Good Paragraph</h3><p>A paragraph is a group of sentences about one main idea. Every paragraph needs three elements: topic sentence, supporting sentences, and a concluding sentence.</p><div class="example-box"><strong>Topic sentence:</strong> "Learning a new language has many benefits."<br><strong>Supporting sentences:</strong> "It improves cognitive function and memory. Bilingual people often have better problem-solving skills. Learning a language also opens up new career opportunities."<br><strong>Concluding sentence:</strong> "For all these reasons, learning a language is one of the most rewarding things you can do."</div><h3>Writing Emails</h3><p>Email has a standard format. Learn formal and informal styles:</p><div class="example-box"><strong>Formal email:</strong><br>Subject: Meeting Request<br>Dear Mr. Johnson,<br>I am writing to request a meeting to discuss the Q3 results. Please let me know your availability next week.<br>Best regards,<br>Sarah Chen<br><br><strong>Informal email:</strong><br>Hey Tom,<br>Just checking in about Friday. Want to grab lunch before the meeting?<br>See you,<br>Sarah</div><h3>Opinion Paragraphs</h3><p>Express an opinion and support it with reasons:</p><div class="example-box"><strong>Topic sentence:</strong> "I believe that reading fiction is essential for personal growth."<br><strong>Reason 1:</strong> "Fiction helps develop empathy by allowing readers to experience life through different perspectives."<br><strong>Reason 2:</strong> "It also improves vocabulary and understanding of human nature."<br><strong>Conclusion:</strong> "That's why I try to read at least one novel every month."</div><h3>Linking Words</h3><p>Transitional words connect your ideas smoothly:</p><div class="example-box"><strong>Addition:</strong> moreover, furthermore, in addition, also<br><strong>Contrast:</strong> however, on the other hand, although, nevertheless<br><strong>Cause/Effect:</strong> therefore, as a result, consequently, because<br><strong>Sequence:</strong> first, next, then, after that, finally</div><h3>Practice</h3><ul><li>Write a paragraph about your favorite hobby (topic sentence + 3 supports + conclusion)</li><li>Write a short email requesting information from a company</li><li>Rewrite a paragraph by adding 3 linking words</li></ul>` },
+        { title: "Essays & Formal Writing", duration: "15 min", videoId: null, body: `<h3>Essay Structure</h3><p>An essay has a clear structure: introduction, body paragraphs, and conclusion. Each part serves a specific purpose.</p><div class="example-box"><strong>Introduction:</strong> Hook + Background + Thesis statement<br><strong>Body paragraph 1:</strong> First main point with evidence<br><strong>Body paragraph 2:</strong> Second main point with evidence<br><strong>Body paragraph 3:</strong> Third main point (or counter-argument)<br><strong>Conclusion:</strong> Restate thesis + Summarize + Final thought</div><h3>Compare & Contrast</h3><p>Structuring a comparison essay requires balance. Two common approaches:</p><div class="example-box"><strong>Block method:</strong> discuss all of A, then all of B<br>"Living in the city offers convenience and entertainment. On the other hand, living in the countryside provides peace and space."<br><br><strong>Point-by-point method:</strong> alternate A vs B for each point<br>"In terms of cost, cities are more expensive than rural areas. However, for career opportunities, cities offer far more options."</div><h3>Formal Letters</h3><p>Formal letters follow a strict format. Common types include cover letters, complaint letters, and inquiry letters.</p><div class="example-box"><strong>Cover letter excerpt:</strong><br>Dear Hiring Manager,<br>I am writing to apply for the Marketing Coordinator position at Bright Ideas Inc. With three years of experience in digital marketing and a proven track record of increasing social media engagement by 40%, I am confident I would be a strong addition to your team.<br>Sincerely,<br>Alex Rivera</div><h3>Using Evidence</h3><p>Support your claims with evidence: facts, statistics, examples, and expert opinions.</p><div class="example-box"><strong>Claim:</strong> "Remote work increases productivity."<br><strong>Statistic:</strong> "According to Stanford research, remote workers are 13% more productive."<br><strong>Example:</strong> "My team completed 20% more projects after switching to remote work."</div><h3>Practice</h3><ul><li>Write a 5-paragraph essay outline on a topic of your choice</li><li>Write a compare-and-contrast paragraph about two cities or two movies</li><li>Write a formal letter requesting information about a product or service</li></ul>` },
+        { title: "Professional & Creative Writing", duration: "16 min", videoId: null, body: `<h3>Academic Essays</h3><p>Academic essays require a formal tone, precise vocabulary, and proper citation. Every claim needs evidence from credible sources.</p><div class="example-box"><strong>Formal vocabulary:</strong><br>Instead of "a lot of" → "a significant number of"<br>Instead of "show" → "demonstrate" / "indicate"<br>Instead of "help" → "facilitate" / "enable"<br><br><strong>Citation styles:</strong><br>APA: (Author, Year)<br>MLA: (Author Page Number)<br>Chicago: footnotes or endnotes</div><h3>Creative Writing</h3><p>Creative writing uses descriptive language, sensory details, and figurative language to create vivid scenes.</p><div class="example-box">"The old bookstore smelled of paper and possibility. Dust motes danced in the afternoon light streaming through the window. Every shelf held a story waiting to be discovered, and she had all afternoon to find one."</div><h3>Business Writing</h3><p>Professional documents require clarity, conciseness, and an appropriate tone:</p><div class="example-box"><strong>Memo:</strong><br>TO: All Staff<br>FROM: Management<br>SUBJECT: Office Holiday Schedule<br><br>The office will be closed from December 24th to January 2nd. Please submit any pending reports by December 20th. Wishing everyone a safe and happy holiday season.</div><h3>Persuasive Writing</h3><p>Persuasion combines logical argument with emotional appeal. Use the rhetorical triangle: Logos (logic), Pathos (emotion), Ethos (credibility).</p><div class="example-box"><strong>Logos:</strong> "Studies show that cycling to work reduces stress by 40%."<br><strong>Pathos:</strong> "Imagine starting every day feeling fresh, energized, and happy."<br><strong>Ethos:</strong> "As a doctor who has studied workplace wellness for 15 years, I recommend..."</div><h3>Practice</h3><ul><li>Write an academic paragraph on a topic you've researched, with one citation</li><li>Write a short descriptive scene (50-100 words) using sensory details</li><li>Write a persuasive paragraph convincing someone to adopt a habit or buy a product</li></ul>` }
+      ]
     }
   };
 
@@ -349,7 +556,7 @@
   document.getElementById('next-btn').onclick = () => { if (lessonIdx < course.lessons.length - 1) { lessonIdx++; updateURL(); renderLesson(); renderSidebar(); } };
 
   document.getElementById('complete-btn').onclick = async () => {
-    if (!currentUser) { alert('Please sign in to track your progress!'); return; }
+    if (!currentUser) { document.getElementById('login-prompt').style.outline = '2px solid #e87e7e'; setTimeout(() => document.getElementById('login-prompt').style.outline = '', 2000); return; }
     const already = userProgress[courseId]?.[lessonIdx];
     if (already) return;
     if (!userProgress[courseId]) userProgress[courseId] = {};
@@ -366,7 +573,6 @@
     } catch (error) {
       console.error('Failed to save progress:', error);
       userProgress[courseId][lessonIdx] = false;
-      alert('Could not save your progress. Please check your connection or Firestore permissions.');
       renderLesson();
       renderSidebar();
     } finally {
@@ -388,13 +594,323 @@
       } catch (error) {
         console.error('Failed to load progress:', error);
         userProgress = {};
-        alert('Could not load your saved progress. Please check your connection or Firestore permissions.');
       }
     }
     renderLesson(); renderSidebar();
   });
 
   renderLesson(); renderSidebar();
+</script>
+
+<!-- Speaking Robot -->
+<script>
+(function() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const panel = document.getElementById('robot-panel');
+  const toggle = document.getElementById('robot-toggle');
+  const closeBtn = document.getElementById('robot-close');
+  const messages = document.getElementById('robot-messages');
+  const input = document.getElementById('robot-input');
+  const sendBtn = document.getElementById('robot-send');
+  const micBtn = document.getElementById('robot-input-mic');
+  const status = document.getElementById('robot-status');
+  const waveform = document.getElementById('robot-waveform');
+  const waveformContainer = document.getElementById('waveform-container');
+  const waveformLabel = document.getElementById('waveform-label');
+  let recognition = null;
+  let mediaRecorder = null;
+  let audioChunks = [];
+  let isListening = false;
+  let audioContext = null;
+  let analyser = null;
+  let source = null;
+  let stream = null;
+  let animId = null;
+  const BAR_COUNT = 40;
+
+  // Create waveform bars
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'waveform-bar';
+    waveformContainer.appendChild(bar);
+  }
+  const bars = waveformContainer.querySelectorAll('.waveform-bar');
+
+  const responses = {
+    greeting: ['Hello! How are you today?', 'Hi there! Great to see you practicing.', 'Hey! Ready to practice English?'],
+    feeling: ["That's great to hear!", "I'm glad you're doing well!", "Wonderful! What would you like to talk about?"],
+    name: ["Nice to meet you! I'm your Speaking Partner.", "Great to meet you! Where are you from?", "Lovely name! Tell me about yourself."],
+    hobby: ["That sounds fun! How often do you do that?", "Interesting! I'd love to hear more.", "Great hobby! Does it help you relax?"],
+    food: ["Yum! What's your favorite cuisine?", "I love that too! Do you cook it yourself?", "Delicious choice! Have you tried making it?"],
+    travel: ["Traveling is amazing! What was your favorite place?", "I'd love to visit there! What did you enjoy most?", "Travel broadens the mind. Tell me more!"],
+    work: ["That sounds rewarding! What do you enjoy most about it?", "Interesting career! How long have you been doing that?", "Work-life balance is important. Do you have time for hobbies?"],
+    learn: ["That's fantastic! Practice makes perfect. What skill are you focusing on?", "Great attitude! Consistency is key when learning.", "Keep going! You're making excellent progress."],
+    agree: ["I completely agree with you.", "That's a great point!", "You're absolutely right about that."],
+    bye: ["Goodbye! Keep practicing and see you next time!", "Take care! You did great today.", "See you later! Keep up the good work!"],
+    fallback: [
+      "That's interesting! Tell me more about that.",
+      "I see! How does that make you feel?",
+      "Great! Can you explain a bit more?",
+      "Wonderful! What else comes to mind?",
+      "I'd love to hear more about your thoughts on this.",
+      "That's a good point! Do you have any examples?",
+      "Interesting perspective! What made you think that way?"
+    ]
+  };
+
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function getResponse(text) {
+    const t = text.toLowerCase();
+    if (/\b(hi|hello|hey|good morning|good afternoon|good evening)\b/.test(t)) return pick(responses.greeting);
+    if (/\b(i'?m|i am)\s+(fine|good|great|ok|okay|well|wonderful|fantastic|doing well|not bad)\b/.test(t)) return pick(responses.feeling);
+    if (/\b(my name is|i'?m|call me|name'?s)\b/.test(t)) return pick(responses.name);
+    if (/\b(hobby|like to|love to|enjoy|free time|spare time|weekend)\b/.test(t)) return pick(responses.hobby);
+    if (/\b(food|eat|cook|restaurant|dinner|lunch|breakfast|cuisine|dish|tasty|delicious)\b/.test(t)) return pick(responses.food);
+    if (/\b(travel|visit|trip|vacation|holiday|go abroad|country|culture)\b/.test(t)) return pick(responses.travel);
+    if (/\b(work|job|career|office|company|boss|colleague|profession)\b/.test(t)) return pick(responses.work);
+    if (/\b(learn|study|practice|english|lesson|language|improve|skill)\b/.test(t)) return pick(responses.learn);
+    if (/\b(yes|agree|right|exactly|true|sure|absolutely|definitely)\b/.test(t)) return pick(responses.agree);
+    if (/\b(bye|goodbye|see you|exit|quit|leave|done|finished)\b/.test(t)) return pick(responses.bye);
+    return pick(responses.fallback);
+  }
+
+  function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.9;
+    const voices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+    if (voices.length) utter.voice = voices[0];
+    window.speechSynthesis.speak(utter);
+  }
+
+  function addMessage(text, who) {
+    const div = document.createElement('div');
+    div.className = 'robot-msg ' + who;
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    div.innerHTML = text + '<span class="time">' + time + '</span>';
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function handleUserMessage(text) {
+    if (!text.trim()) return;
+    addMessage(text, 'user');
+    input.value = '';
+    status.textContent = 'Thinking...';
+    const reply = getResponse(text);
+    setTimeout(() => {
+      addMessage(reply, 'ai');
+      speak(reply);
+      status.textContent = 'Tap the mic or type to continue';
+    }, 500 + Math.random() * 800);
+  }
+
+  function drawWaveform() {
+    if (!analyser) return;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(data);
+    const step = Math.floor(data.length / BAR_COUNT);
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const val = data[i * step] / 255;
+      const h = Math.max(4, val * 46);
+      bars[i].style.height = h + 'px';
+    }
+    animId = requestAnimationFrame(drawWaveform);
+  }
+
+  async function startMic() {
+    try {
+      if (!window.isSecureContext) {
+        status.textContent = 'Microphone requires HTTPS or localhost. Use Live Server or npm run dev.';
+        return false;
+      }
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      source = audioContext.createMediaStreamSource(stream);
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+      source.connect(analyser);
+      waveform.classList.add('active');
+      drawWaveform();
+      return true;
+    } catch (err) {
+      console.error('Mic error:', err);
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        status.textContent = 'Microphone blocked. Please allow microphone access in your browser settings, then refresh.';
+      } else if (err.name === 'NotFoundError') {
+        status.textContent = 'No microphone found. Connect a mic or type instead.';
+      } else {
+        status.textContent = 'Microphone access denied. Type instead.';
+      }
+      return false;
+    }
+  }
+
+  function stopMic() {
+    if (animId) { cancelAnimationFrame(animId); animId = null; }
+    if (source) { source.disconnect(); source = null; }
+    if (audioContext) { audioContext.close(); audioContext = null; }
+    if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+    analyser = null;
+    waveform.classList.remove('active');
+    bars.forEach(b => b.style.height = '4px');
+  }
+
+  function stopListening() {
+    if (recognition) { try { recognition.abort(); } catch(e) {} }
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      audioChunks = [];
+      mediaRecorder.stop();
+    }
+    isListening = false;
+    micBtn.classList.remove('listening');
+    stopMic();
+    status.textContent = 'Tap the mic or type to continue';
+  }
+
+  // Toggle panel
+  toggle.addEventListener('click', () => {
+    if (panel.classList.contains('open')) {
+      panel.classList.remove('open');
+      stopListening();
+    } else {
+      panel.classList.add('open');
+      input.focus();
+    }
+  });
+  closeBtn.addEventListener('click', () => { panel.classList.remove('open'); stopListening(); });
+
+  // Send
+  sendBtn.addEventListener('click', () => handleUserMessage(input.value));
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleUserMessage(input.value); });
+
+  // Speech recognition + waveform
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      stopListening();
+      handleUserMessage(transcript);
+    };
+    recognition.onerror = (e) => {
+      stopListening();
+      if (e.error !== 'aborted') status.textContent = e.error === 'no-speech' ? 'No speech detected. Try again.' : 'Mic error: ' + e.error;
+    };
+    recognition.onend = () => {
+      isListening = false;
+      micBtn.classList.remove('listening');
+      stopMic();
+    };
+
+    micBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (isListening) { stopListening(); return; }
+      if (!panel.classList.contains('open')) panel.classList.add('open');
+      status.textContent = 'Starting microphone...';
+      const ok = await startMic();
+      if (!ok) return;
+      try {
+        recognition.start();
+        isListening = true;
+        micBtn.classList.add('listening');
+        waveformLabel.textContent = 'Listening... Speak now';
+        status.textContent = '';
+      } catch(err) {
+        stopMic();
+        status.textContent = 'Speech recognition failed. Type instead.';
+      }
+    });
+  } else {
+    const STT_API = window.STT_API_URL
+      ? window.STT_API_URL + '/api/speech-to-text'
+      : '/api/speech-to-text';
+
+    micBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (isListening) {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        return;
+      }
+      if (!panel.classList.contains('open')) panel.classList.add('open');
+      status.textContent = 'Starting microphone...';
+      const ok = await startMic();
+      if (!ok) return;
+
+      audioChunks = [];
+      try {
+        const mimeType = MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')
+          ? 'audio/ogg;codecs=opus'
+          : 'audio/webm;codecs=opus';
+        mediaRecorder = new MediaRecorder(stream, { mimeType });
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          isListening = false;
+          micBtn.classList.remove('listening');
+          if (audioChunks.length === 0) { stopMic(); return; }
+
+          waveformLabel.textContent = 'Processing speech...';
+          status.textContent = 'Transcribing...';
+
+          const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+
+          const reader = new FileReader();
+          reader.onload = async () => {
+            const base64Audio = reader.result.split(',')[1];
+            try {
+              const res = await fetch(STT_API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ audio: base64Audio, mimeType: mediaRecorder.mimeType })
+              });
+              const data = await res.json();
+              if (data.transcript) {
+                handleUserMessage(data.transcript);
+              } else if (res.status === 429) {
+                status.textContent = 'Gemini API quota exceeded. Please wait and try again.';
+              } else {
+                status.textContent = data.error || 'Transcription failed. Try again.';
+              }
+            } catch (err) {
+              console.error('STT error:', err);
+              status.textContent = 'Cannot reach speech server. Make sure backend is running.';
+            }
+            stopMic();
+          };
+          reader.readAsDataURL(blob);
+          } catch (err) {
+            console.error('STT error:', err);
+            status.textContent = 'Cannot reach speech server. Make sure backend is running (npm run dev in backend/).';
+          }
+          stopMic();
+        };
+
+        mediaRecorder.start();
+        isListening = true;
+        micBtn.classList.add('listening');
+        waveformLabel.textContent = 'Recording... Click mic to stop';
+        status.textContent = '';
+      } catch (err) {
+        console.error('MediaRecorder error:', err);
+        stopMic();
+        status.textContent = 'Recording failed. Type instead.';
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>

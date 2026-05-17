@@ -192,6 +192,30 @@ nav {
 }
 .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
 
+/* SKILL INDICATORS */
+.skills-section {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 1.2rem;
+  max-width: 1200px; margin: 0 auto 3rem; padding: 0 2.5rem;
+  animation: fadeUp 0.7s 0.25s ease both;
+}
+.skill-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.5rem;
+  text-align: center; transition: all 0.25s;
+}
+.skill-card:hover { border-color: var(--sc, var(--accent)); transform: translateY(-3px); }
+.skill-card-char {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; font-weight: 700;
+  color: var(--sc, var(--accent)); margin-bottom: 0.5rem;
+}
+.skill-card-label {
+  font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem;
+}
+.skill-card-desc {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.5;
+}
+
 /* COURSES */
 .section-title {
   font-family: 'Playfair Display', serif;
@@ -397,6 +421,10 @@ footer{
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width:600px) {
+  .skills-section { grid-template-columns: repeat(2,1fr); }
 }
 
 /* soicety */
