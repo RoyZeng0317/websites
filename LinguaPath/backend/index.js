@@ -109,7 +109,7 @@ app.post('/api/speech-to-text', async (req, res) => {
         }
 
         const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
 
         const result = await model.generateContent([
             { text: 'Transcribe the speech in this audio. Return only the transcribed text, nothing else.' },
