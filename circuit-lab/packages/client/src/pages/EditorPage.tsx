@@ -53,13 +53,13 @@ export function EditorPage() {
               dpr={[1, 2]}
               shadows
               camera={{ position: [12, 9, 12], fov: 40, near: 0.1, far: 100 }}
-              gl={{ antialias: true, toneMapping: 3, toneMappingExposure: 1.1 }}
+              gl={{ antialias: true, toneMapping: 3, toneMappingExposure: 1.0 }}
               style={{ background: '#0a0a1a' }}
             >
-              <ambientLight intensity={0.2} color="#4466aa" />
+              <ambientLight intensity={0.12} color="#556677" />
               <directionalLight
                 position={[8, 15, 6]}
-                intensity={1.8}
+                intensity={1.2}
                 color="#fff5e6"
                 castShadow
                 shadow-mapSize-width={2048}
@@ -67,20 +67,20 @@ export function EditorPage() {
               />
               <directionalLight
                 position={[-5, 8, -8]}
-                intensity={0.6}
-                color="#6688cc"
+                intensity={0.3}
+                color="#6688aa"
               />
               <directionalLight
                 position={[3, 2, -10]}
-                intensity={0.3}
-                color="#ff8866"
+                intensity={0.15}
+                color="#cc8866"
               />
               <spotLight
                 position={[0, 12, 0]}
                 angle={0.6}
                 penumbra={0.8}
-                intensity={0.4}
-                color="#4466ff"
+                intensity={0.2}
+                color="#4466aa"
                 distance={30}
               />
 
@@ -88,9 +88,9 @@ export function EditorPage() {
 
               <ContactShadows
                 position={[0, -0.3, 0]}
-                opacity={0.5}
+                opacity={0.3}
                 scale={20}
-                blur={2.5}
+                blur={2}
                 far={4}
                 resolution={1024}
               />
@@ -108,17 +108,11 @@ export function EditorPage() {
                 enableDamping
               />
 
-              <Environment
-                preset="studio"
-                resolution={256}
-                background={false}
-              />
-
               <EffectComposer>
                 <Bloom
-                  luminanceThreshold={0.6}
-                  luminanceSmoothing={0.8}
-                  intensity={0.4}
+                  luminanceThreshold={0.9}
+                  luminanceSmoothing={0.95}
+                  intensity={0.08}
                   mipmapBlur
                 />
                 <ToneMapping adaptive />
