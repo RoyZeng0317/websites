@@ -5,17 +5,13 @@ import { RoundedBox, Text } from '@react-three/drei';
 const COLUMNS = 30;
 const ROWS = 10;
 const PITCH = 0.5;
-const HOLE_RADIUS = 0.055;
-const HOLE_DEPTH = 0.22;
+const HOLE_RADIUS = 0.07;
 const BOARD_WIDTH = COLUMNS * PITCH + 0.6;
 const BOARD_DEPTH = ROWS * PITCH + 1.0;
 const BOARD_HEIGHT = 0.35;
 const RAIL_WIDTH = 0.35;
 const CENTER_GAP = 2;
 const BOARD_TOP = BOARD_HEIGHT / 2;
-const HOLE_START = BOARD_TOP - 0.002;
-const BODY_COLOR = '#e3d8c2';
-const TOP_COLOR = '#d8cdb7';
 
 export function BreadboardMesh() {
   const holes = useMemo(() => {
@@ -38,33 +34,33 @@ export function BreadboardMesh() {
   return (
     <group>
       <RoundedBox args={[BOARD_WIDTH, BOARD_HEIGHT, BOARD_DEPTH]} radius={0.08} smoothness={4} receiveShadow castShadow>
-        <meshStandardMaterial color={BODY_COLOR} roughness={0.85} metalness={0} />
+        <meshStandardMaterial color="#e6dbc5" roughness={0.85} metalness={0} />
       </RoundedBox>
 
       <mesh position={[0, BOARD_TOP - 0.005, 0]}>
         <boxGeometry args={[BOARD_WIDTH - 0.1, 0.01, BOARD_DEPTH - 0.1]} />
-        <meshStandardMaterial color={TOP_COLOR} roughness={0.85} metalness={0} />
+        <meshStandardMaterial color="#dbd0ba" roughness={0.85} metalness={0} />
       </mesh>
 
-      <mesh position={[0, BOARD_TOP - 0.015, 0]}>
-        <boxGeometry args={[BOARD_WIDTH - 1.2, 0.008, 0.04]} />
-        <meshStandardMaterial color="#ccc0ac" roughness={0.8} />
+      <mesh position={[0, BOARD_TOP - 0.02, 0]}>
+        <boxGeometry args={[BOARD_WIDTH - 1.5, 0.008, 0.04]} />
+        <meshStandardMaterial color="#b8ad98" roughness={0.8} />
       </mesh>
 
       <RoundedBox args={[RAIL_WIDTH, BOARD_HEIGHT - 0.06, BOARD_DEPTH - 0.4]} radius={0.03} smoothness={3} position={[-BOARD_WIDTH * 0.5 + RAIL_WIDTH * 0.5 + 0.15, -0.03, 0]}>
-        <meshStandardMaterial color={BODY_COLOR} roughness={0.8} />
+        <meshStandardMaterial color="#e6dbc5" roughness={0.8} />
       </RoundedBox>
       <RoundedBox args={[RAIL_WIDTH, BOARD_HEIGHT - 0.06, BOARD_DEPTH - 0.4]} radius={0.03} smoothness={3} position={[BOARD_WIDTH * 0.5 - RAIL_WIDTH * 0.5 - 0.15, -0.03, 0]}>
-        <meshStandardMaterial color={BODY_COLOR} roughness={0.8} />
+        <meshStandardMaterial color="#e6dbc5" roughness={0.8} />
       </RoundedBox>
 
       <mesh position={[-BOARD_WIDTH * 0.5 + RAIL_WIDTH * 0.5 + 0.15, BOARD_TOP - 0.015, 0]}>
         <boxGeometry args={[RAIL_WIDTH - 0.08, 0.01, BOARD_DEPTH - 0.6]} />
-        <meshStandardMaterial color="#e8b8b8" roughness={0.6} />
+        <meshStandardMaterial color="#f0c0c0" roughness={0.6} />
       </mesh>
       <mesh position={[BOARD_WIDTH * 0.5 - RAIL_WIDTH * 0.5 - 0.15, BOARD_TOP - 0.015, 0]}>
         <boxGeometry args={[RAIL_WIDTH - 0.08, 0.01, BOARD_DEPTH - 0.6]} />
-        <meshStandardMaterial color="#b0c0e0" roughness={0.6} />
+        <meshStandardMaterial color="#b0c8e8" roughness={0.6} />
       </mesh>
 
       {['+', '–', '+', '–'].map((label, i) => {
@@ -85,18 +81,14 @@ export function BreadboardMesh() {
 
         return (
           <group key={`hole-${i}`}>
-            <mesh position={[hole.x, HOLE_START, hole.z]} rotation={[-Math.PI / 2, 0, 0]}>
-              <ringGeometry args={[HOLE_RADIUS - 0.005, HOLE_RADIUS + 0.005, 16]} />
-              <meshBasicMaterial color="#88807a" side={THREE.DoubleSide} transparent opacity={0.5} />
-            </mesh>
-            <mesh position={[hole.x, HOLE_START - HOLE_DEPTH / 2, hole.z]}>
-              <cylinderGeometry args={[HOLE_RADIUS - 0.003, HOLE_RADIUS - 0.003, HOLE_DEPTH, 12]} />
-              <meshStandardMaterial color="#1a1a18" roughness={1} metalness={0} />
+            <mesh position={[hole.x, BOARD_TOP - 0.002, hole.z]}>
+              <circleGeometry args={[HOLE_RADIUS, 16]} />
+              <meshBasicMaterial color="#1a1a1a" side={THREE.DoubleSide} />
             </mesh>
             {connected && (
-              <mesh position={[hole.x, HOLE_START - HOLE_DEPTH * 0.4, hole.z]}>
-                <cylinderGeometry args={[HOLE_RADIUS * 0.28, HOLE_RADIUS * 0.28, HOLE_DEPTH * 0.35, 6]} />
-                <meshStandardMaterial color="#c0b8a8" metalness={0.7} roughness={0.2} />
+              <mesh position={[hole.x, BOARD_TOP - 0.008, hole.z]}>
+                <circleGeometry args={[HOLE_RADIUS * 0.3, 8]} />
+                <meshBasicMaterial color="#c8c0b0" side={THREE.DoubleSide} />
               </mesh>
             )}
           </group>
@@ -128,7 +120,7 @@ export function BreadboardMesh() {
 
       <mesh position={[0, -0.01, 0]}>
         <boxGeometry args={[BOARD_WIDTH - 1.2, 0.004, 0.03]} />
-        <meshStandardMaterial color="#ccc0ac" roughness={0.8} />
+        <meshStandardMaterial color="#b8ad98" roughness={0.8} />
       </mesh>
     </group>
   );
