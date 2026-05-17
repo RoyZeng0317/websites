@@ -12,19 +12,20 @@
   "dependencies": {
     "@circuit-lab/shared": "*",
     "@circuit-lab/simulator-core": "*",
-    "@react-three/fiber": "^9.1.0",
-    "@react-three/drei": "^10.0.0",
-    "@react-three/rapier": "^1.5.0",
-    "three": "^0.174.0",
     "@monaco-editor/react": "^4.7.0",
+    "@react-three/drei": "^10.0.0",
+    "@react-three/fiber": "^9.1.0",
+    "@react-three/rapier": "^1.5.0",
+    "axios": "^1.7.0",
+    "firebase": "^12.13.0",
+    "immer": "^10.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.0",
-    "zustand": "^5.0.0",
     "socket.io-client": "^4.8.0",
-    "axios": "^1.7.0",
-    "immer": "^10.1.0",
-    "uuid": "^11.1.0"
+    "three": "^0.174.0",
+    "uuid": "^11.1.0",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",
