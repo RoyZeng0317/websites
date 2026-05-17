@@ -829,14 +829,54 @@
       }
     });
   } else {
-    const STT_API = (window.STT_API_URL || 'https://linguapath-backend.onrender.com') + '/api/speech-to-text';
+    let whisperPipeline = null;
+    let whisperLoading = false;
+
+    async function loadWhisper() {
+      if (whisperPipeline) return whisperPipeline;
+      if (whisperLoading) return null;
+      whisperLoading = true;
+      status.textContent = 'Loading speech model (first time ~40MB)...';
+      try {
+        const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+        whisperPipeline = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en', {
+          progress_callback: (p) => {
+            if (p.status === 'progress') {
+              const pct = Math.round(p.loaded / p.total * 100);
+              status.textContent = 'Loading model... ' + pct + '%';
+            }
+          }
+        });
+        status.textContent = 'Model ready! Tap mic to speak.';
+        setTimeout(() => { if (!isListening) status.textContent = 'Tap the mic or type to continue'; }, 2000);
+        return whisperPipeline;
+      } catch (err) {
+        console.error('Whisper load error:', err);
+        status.textContent = 'Failed to load speech model. Type instead.';
+        return null;
+      } finally {
+        whisperLoading = false;
+      }
+    }
+
+    async function audioToFloat32(blob) {
+      const buf = await blob.arrayBuffer();
+      const ctx = new AudioContext();
+      const decoded = await ctx.decodeAudioData(buf);
+      ctx.close();
+      const offline = new OfflineAudioContext(1, decoded.duration * 16000, 16000);
+      const src = offline.createBufferSource();
+      src.buffer = decoded;
+      src.connect(offline.destination);
+      src.start();
+      const rendered = await offline.startRendering();
+      return rendered.getChannelData(0);
+    }
 
     micBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       if (isListening) {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-          mediaRecorder.stop();
-        }
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
         return;
       }
       if (!panel.classList.contains('open')) panel.classList.add('open');
@@ -863,33 +903,24 @@
           waveformLabel.textContent = 'Processing speech...';
           status.textContent = 'Transcribing...';
 
-          const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
-          const reader = new FileReader();
+          try {
+            const model = await loadWhisper();
+            if (!model) { stopMic(); return; }
 
-          reader.onload = async () => {
-            try {
-              const base64Audio = reader.result.split(',')[1];
-              const res = await fetch(STT_API, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ audio: base64Audio, mimeType: mediaRecorder.mimeType })
-              });
-              const data = await res.json();
-              if (data.transcript) {
-                handleUserMessage(data.transcript);
-              } else if (res.status === 429) {
-                status.textContent = 'Gemini API quota exceeded. Please wait and try again.';
-              } else {
-                status.textContent = data.error || 'Transcription failed. Try again.';
-              }
-            } catch (err) {
-              console.error('STT error:', err);
-              status.textContent = 'Cannot reach speech server. Make sure backend is running.';
+            const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+            const audioData = await audioToFloat32(blob);
+            const result = await model(audioData);
+
+            if (result?.text?.trim()) {
+              handleUserMessage(result.text.trim());
+            } else {
+              status.textContent = 'No speech detected. Try again.';
             }
-            stopMic();
-          };
-
-          reader.readAsDataURL(blob);
+          } catch (err) {
+            console.error('Whisper error:', err);
+            status.textContent = 'Transcription failed. Try again.';
+          }
+          stopMic();
         };
 
         mediaRecorder.start();
@@ -903,6 +934,8 @@
         status.textContent = 'Recording failed. Type instead.';
       }
     });
+
+    setTimeout(() => { if (!whisperPipeline && !whisperLoading) loadWhisper(); }, 2000);
   }
 })();
 </script>
