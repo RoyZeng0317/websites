@@ -829,9 +829,7 @@
       }
     });
   } else {
-    const STT_API = window.STT_API_URL
-      ? window.STT_API_URL + '/api/speech-to-text'
-      : '/api/speech-to-text';
+    const STT_API = (window.STT_API_URL || 'https://linguapath-backend.onrender.com') + '/api/speech-to-text';
 
     micBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
