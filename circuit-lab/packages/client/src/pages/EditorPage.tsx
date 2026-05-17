@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Grid, Environment } from '@react-three/drei';
+import { OrbitControls, Grid } from '@react-three/drei';
 import { useCircuitStore } from '../stores/circuitStore.js';
 import { useAuthStore } from '../stores/authStore.js';
 import { connectSocket, joinProject } from '../services/socket.js';
@@ -22,6 +22,25 @@ export function EditorPage() {
       joinProject(projectId);
     }
   }, [projectId]);
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    const sel = store.selectedComponentId;
+    if ((e.key === 'Delete' || e.key === 'Backspace') && sel) {
+      store.removeComponent(sel);
+      store.selectComponent(null);
+      e.preventDefault();
+    }
+    if (e.key === 'Escape') {
+      store.selectComponent(null);
+      store.setSelectedTool('select');
+      store.setPlacingComponentType(null);
+    }
+  }, [store]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <div style={styles.container}>

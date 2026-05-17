@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import type { PlacedComponent, SimulationState } from '@circuit-lab/shared';
+import type { PlacedComponent } from '@circuit-lab/shared';
 import { COMPONENT_LIBRARY } from '@circuit-lab/simulator-core';
 import { useCircuitStore } from '../../stores/circuitStore.js';
 
@@ -298,71 +297,127 @@ function ButtonShape({ size, color }: { size: any; color: string }) {
 }
 
 function ArduinoShape({ size }: { size: any }) {
+  const w = size.width;
+  const h = size.height;
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#00979d" roughness={0.6} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[w, 0.06, h]} />
+        <meshStandardMaterial color="#1a6b3c" roughness={0.7} metalness={0.05} />
       </mesh>
-      <mesh position={[-0.5, 0.05, -0.6]}>
-        <boxGeometry args={[0.6, 0.08, 0.5]} />
-        <meshStandardMaterial color="#006064" />
+      <mesh position={[-0.48, 0.05, -0.3]}>
+        <boxGeometry args={[0.04, 0.02, 0.85]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
+      </mesh>
+      <mesh position={[0.48, 0.05, -0.3]}>
+        <boxGeometry args={[0.04, 0.02, 0.85]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
       {[0, 1, 2, 3, 4, 5].map((i) => (
-        <mesh key={`pin-l-${i}`} position={[-0.6, 0.05, -0.4 + i * 0.2]}>
-          <cylinderGeometry args={[0.02, 0.02, 0.15, 6]} />
-          <meshStandardMaterial color={i === 0 ? '#ff4444' : i === 5 ? '#4444ff' : '#cccccc'} />
+        <mesh key={`dl-${i}`} position={[-0.55, 0.04, -0.45 + i * 0.13]}>
+          <cylinderGeometry args={[0.018, 0.022, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
         </mesh>
       ))}
       {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-        <mesh key={`pin-r-${i}`} position={[0.6, 0.05, -0.5 + i * 0.15]}>
-          <cylinderGeometry args={[0.02, 0.02, 0.15, 6]} />
-          <meshStandardMaterial color="#cccccc" />
+        <mesh key={`dr-${i}`} position={[0.55, 0.04, -0.55 + i * 0.13]}>
+          <cylinderGeometry args={[0.018, 0.022, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
         </mesh>
       ))}
-      <mesh position={[0.5, 0.05, 0.5]}>
-        <cylinderGeometry args={[0.2, 0.2, 0.02, 16]} />
-        <meshStandardMaterial color="#cccccc" metalness={0.5} />
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh key={`al-${i}`} position={[-0.55, 0.04, 0.2 + i * 0.13]}>
+          <cylinderGeometry args={[0.018, 0.022, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
+      {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+        <mesh key={`ar-${i}`} position={[0.55, 0.04, 0.25 + i * 0.13]}>
+          <cylinderGeometry args={[0.018, 0.022, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
+      <mesh position={[0.35, 0.03, 0.35]}>
+        <boxGeometry args={[0.4, 0.06, 0.4]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
-      <mesh position={[-0.5, 0.05, 0.5]}>
-        <cylinderGeometry args={[0.05, 0.05, 0.02, 8]} />
-        <meshStandardMaterial color="#ff4444" />
+      <mesh position={[-0.15, 0.04, 0.35]}>
+        <boxGeometry args={[0.12, 0.02, 0.12]} />
+        <meshStandardMaterial color="#222222" roughness={0.8} />
+      </mesh>
+      <mesh position={[-0.5, 0.06, 0.55]}>
+        <boxGeometry args={[0.2, 0.04, 0.12]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.6} />
+      </mesh>
+      <mesh position={[0.1, 0.03, -0.55]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.04, 12]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[0.15, 0.07, -0.55]}>
+        <cylinderGeometry args={[0.02, 0.02, 0.04, 8]} />
+        <meshStandardMaterial color="#44cc44" emissive="#44cc44" emissiveIntensity={0.3} />
+      </mesh>
+      <mesh position={[-0.25, 0.03, 0.6]}>
+        <cylinderGeometry args={[0.05, 0.05, 0.04, 12]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
     </group>
   );
 }
 
 function MegaShape({ size }: { size: any }) {
+  const w = size.width;
+  const h = size.height;
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#008184" roughness={0.6} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[w, 0.06, h]} />
+        <meshStandardMaterial color="#1a6b3c" roughness={0.7} metalness={0.05} />
       </mesh>
-      <mesh position={[-0.8, 0.05, -0.8]}>
-        <boxGeometry args={[0.8, 0.08, 0.6]} />
-        <meshStandardMaterial color="#005f60" />
-      </mesh>
-      <mesh position={[0.5, 0.05, 0.7]}>
-        <cylinderGeometry args={[0.15, 0.15, 0.02, 16]} />
-        <meshStandardMaterial color="#cccccc" metalness={0.5} />
-      </mesh>
-      <mesh position={[-0.5, 0.05, 0.7]}>
-        <cylinderGeometry args={[0.05, 0.05, 0.02, 8]} />
-        <meshStandardMaterial color="#ff4444" />
-      </mesh>
-      {Array.from({ length: 16 }, (_, i) => (
-        <mesh key={`lpin-${i}`} position={[-0.9, 0.05, -1.0 + i * 0.13]}>
-          <cylinderGeometry args={[0.015, 0.015, 0.12, 6]} />
-          <meshStandardMaterial color={i < 2 ? '#ff4444' : '#cccccc'} />
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
+        <mesh key={`dl-${i}`} position={[-0.85, 0.04, -1.0 + i * 0.12]}>
+          <cylinderGeometry args={[0.016, 0.02, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
         </mesh>
       ))}
-      {Array.from({ length: 16 }, (_, i) => (
-        <mesh key={`rpin-${i}`} position={[0.9, 0.05, -1.0 + i * 0.13]}>
-          <cylinderGeometry args={[0.015, 0.015, 0.12, 6]} />
-          <meshStandardMaterial color="#cccccc" />
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
+        <mesh key={`dr-${i}`} position={[0.85, 0.04, -1.0 + i * 0.12]}>
+          <cylinderGeometry args={[0.016, 0.02, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
         </mesh>
       ))}
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
+        <mesh key={`au-${i}`} position={[-0.3 + i * 0.1, 0.04, -1.05]}>
+          <cylinderGeometry args={[0.016, 0.02, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
+        <mesh key={`ab-${i}`} position={[-0.3 + i * 0.1, 0.04, 1.05]}>
+          <cylinderGeometry args={[0.016, 0.02, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
+      <mesh position={[0.45, 0.03, -0.1]}>
+        <boxGeometry args={[0.5, 0.05, 0.5]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.45, 0.03, 0.5]}>
+        <boxGeometry args={[0.3, 0.05, 0.3]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
+      </mesh>
+      <mesh position={[-0.55, 0.06, 0.7]}>
+        <boxGeometry args={[0.2, 0.04, 0.12]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.6} />
+      </mesh>
+      <mesh position={[0.75, 0.03, -0.85]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.04, 12]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[-0.65, 0.04, -0.1]}>
+        <boxGeometry args={[0.15, 0.02, 0.15]} />
+        <meshStandardMaterial color="#222222" roughness={0.8} />
+      </mesh>
     </group>
   );
 }
@@ -370,13 +425,25 @@ function MegaShape({ size }: { size: any }) {
 function PicoShape({ size }: { size: any }) {
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#a8463a" roughness={0.5} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[size.width, 0.06, size.height]} />
+        <meshStandardMaterial color="#1a6b3c" roughness={0.7} metalness={0.05} />
       </mesh>
-      <mesh position={[0, 0.05, 0.5]}>
-        <cylinderGeometry args={[0.08, 0.08, 0.02, 12]} />
-        <meshStandardMaterial color="#ffcc00" metalness={0.7} />
+      <mesh position={[-0.4, 0.03, -0.35]}>
+        <boxGeometry args={[0.04, 0.02, 0.6]} />
+        <meshStandardMaterial color="#c0a040" metalness={0.6} />
+      </mesh>
+      <mesh position={[0.4, 0.03, -0.35]}>
+        <boxGeometry args={[0.04, 0.02, 0.6]} />
+        <meshStandardMaterial color="#c0a040" metalness={0.6} />
+      </mesh>
+      <mesh position={[0, 0.03, 0.3]}>
+        <boxGeometry args={[0.25, 0.04, 0.25]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 0.05, -0.45]}>
+        <boxGeometry args={[0.12, 0.02, 0.06]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
     </group>
   );
@@ -385,56 +452,164 @@ function PicoShape({ size }: { size: any }) {
 function Pico2WShape({ size }: { size: any }) {
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#8b3a2e" roughness={0.5} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[size.width, 0.06, size.height]} />
+        <meshStandardMaterial color="#1a6b3c" roughness={0.7} metalness={0.05} />
       </mesh>
-      <mesh position={[-0.3, 0.05, 0.55]}>
-        <cylinderGeometry args={[0.08, 0.08, 0.02, 12]} />
-        <meshStandardMaterial color="#ffcc00" metalness={0.7} />
+      <mesh position={[-0.4, 0.03, -0.4]}>
+        <boxGeometry args={[0.04, 0.02, 0.7]} />
+        <meshStandardMaterial color="#c0a040" metalness={0.6} />
       </mesh>
-      <mesh position={[0.1, 0.06, -0.55]}>
-        <boxGeometry args={[0.2, 0.02, 0.08]} />
-        <meshStandardMaterial color="#cccccc" metalness={0.6} />
+      <mesh position={[0.4, 0.03, -0.4]}>
+        <boxGeometry args={[0.04, 0.02, 0.7]} />
+        <meshStandardMaterial color="#c0a040" metalness={0.6} />
+      </mesh>
+      <mesh position={[0, 0.03, 0.35]}>
+        <boxGeometry args={[0.3, 0.04, 0.3]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
+      </mesh>
+      <mesh position={[-0.2, 0.04, 0.15]}>
+        <boxGeometry args={[0.1, 0.02, 0.1]} />
+        <meshStandardMaterial color="#222222" roughness={0.8} />
+      </mesh>
+      <mesh position={[0, 0.05, -0.5]}>
+        <boxGeometry args={[0.12, 0.02, 0.06]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
     </group>
   );
 }
 
 function RPi4Shape({ size }: { size: any }) {
+  const w = size.width;
+  const h = size.height;
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#bc1142" roughness={0.5} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[w, 0.06, h]} />
+        <meshStandardMaterial color="#1a6b3c" roughness={0.7} metalness={0.05} />
       </mesh>
-      <mesh position={[0, 0.05, 0.6]}>
-        <boxGeometry args={[0.3, 0.03, 0.3]} />
-        <meshStandardMaterial color="#cccccc" metalness={0.5} />
+      <mesh position={[0.35, 0.03, 0.45]}>
+        <boxGeometry args={[0.35, 0.04, 0.35]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
+      <mesh position={[-0.7, 0.05, 0.1]}>
+        <boxGeometry args={[0.3, 0.04, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
+      </mesh>
+      <mesh position={[-0.7, 0.05, 0.35]}>
+        <boxGeometry args={[0.3, 0.04, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
+      </mesh>
+      <mesh position={[-0.7, 0.05, 0.6]}>
+        <boxGeometry args={[0.3, 0.04, 0.15]} />
+        <meshStandardMaterial color="#888888" roughness={0.6} />
+      </mesh>
+      <mesh position={[-0.2, 0.05, -0.6]}>
+        <boxGeometry args={[0.4, 0.04, 0.1]} />
+        <meshStandardMaterial color="#666666" roughness={0.5} />
+      </mesh>
+      <mesh position={[0.6, 0.05, -0.6]}>
+        <boxGeometry args={[0.3, 0.04, 0.1]} />
+        <meshStandardMaterial color="#666666" roughness={0.5} />
+      </mesh>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh key={`usb-${i}`} position={[-0.6 + i * 0.25, 0.05, -0.65]}>
+          <boxGeometry args={[0.18, 0.04, 0.08]} />
+          <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
+        </mesh>
+      ))}
+      <mesh position={[0.65, 0.04, 0.6]}>
+        <boxGeometry args={[0.08, 0.02, 0.3]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.4} />
+      </mesh>
+      <mesh position={[-0.8, 0.03, -0.35]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[-0.8, 0.03, 0.35]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[0.8, 0.03, -0.35]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[0.8, 0.03, 0.35]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39].map((i) => (
+        <mesh key={`gpio-${i}`} position={[-0.58 + ((i % 20) * 0.065), 0.04, 0.65 - (i >= 20 ? 0.08 : 0)]}>
+          <cylinderGeometry args={[0.012, 0.015, 0.1, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
     </group>
   );
 }
 
 function RPi5Shape({ size }: { size: any }) {
+  const w = size.width;
+  const h = size.height;
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#005c99" roughness={0.5} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[w, 0.06, h]} />
+        <meshStandardMaterial color="#1a6b3c" roughness={0.7} metalness={0.05} />
       </mesh>
-      <mesh position={[0.7, 0.05, 0.7]}>
-        <boxGeometry args={[0.25, 0.03, 0.25]} />
-        <meshStandardMaterial color="#888888" metalness={0.6} />
+      <mesh position={[0.5, 0.03, 0.5]}>
+        <boxGeometry args={[0.4, 0.04, 0.4]} />
+        <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
-      <mesh position={[-0.7, 0.05, 0.7]}>
-        <boxGeometry args={[0.15, 0.03, 0.15]} />
-        <meshStandardMaterial color="#ff4444" />
+      <mesh position={[-0.8, 0.05, 0.1]}>
+        <boxGeometry args={[0.35, 0.04, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
-      <mesh position={[0, 0.05, -0.7]}>
-        <boxGeometry args={[0.3, 0.02, 0.1]} />
-        <meshStandardMaterial color="#aaaaaa" />
+      <mesh position={[-0.8, 0.05, 0.4]}>
+        <boxGeometry args={[0.35, 0.04, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
+      <mesh position={[-0.5, 0.05, -0.7]}>
+        <boxGeometry args={[0.4, 0.04, 0.1]} />
+        <meshStandardMaterial color="#666666" roughness={0.5} />
+      </mesh>
+      <mesh position={[0.5, 0.05, -0.7]}>
+        <boxGeometry args={[0.3, 0.04, 0.1]} />
+        <meshStandardMaterial color="#666666" roughness={0.5} />
+      </mesh>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh key={`usb-${i}`} position={[-0.55 + i * 0.25, 0.05, -0.75]}>
+          <boxGeometry args={[0.18, 0.04, 0.08]} />
+          <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
+        </mesh>
+      ))}
+      <mesh position={[0.7, 0.03, 0.5]}>
+        <boxGeometry args={[0.08, 0.02, 0.25]} />
+        <meshStandardMaterial color="#888888" roughness={0.5} />
+      </mesh>
+      <mesh position={[-0.9, 0.03, -0.4]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[-0.9, 0.03, 0.4]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[0.9, 0.03, -0.4]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      <mesh position={[0.9, 0.03, 0.4]}>
+        <cylinderGeometry args={[0.03, 0.03, 0.04, 8]} />
+        <meshStandardMaterial color="#d0d0d0" metalness={0.4} />
+      </mesh>
+      {Array.from({ length: 40 }, (_, i) => (
+        <mesh key={`gpio-${i}`} position={[-0.58 + ((i % 20) * 0.065), 0.04, 0.7 - (i >= 20 ? 0.08 : 0)]}>
+          <cylinderGeometry args={[0.012, 0.015, 0.1, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
     </group>
   );
 }
@@ -442,13 +617,29 @@ function RPi5Shape({ size }: { size: any }) {
 function ESP32Shape({ size }: { size: any }) {
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#1fa854" roughness={0.5} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[size.width, 0.06, size.height]} />
+        <meshStandardMaterial color="#0d3b7a" roughness={0.6} metalness={0.05} />
       </mesh>
+      <mesh position={[0, 0.03, 0]}>
+        <boxGeometry args={[0.45, 0.04, 0.45]} />
+        <meshStandardMaterial color="#888888" metalness={0.6} roughness={0.3} />
+      </mesh>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh key={`pl-${i}`} position={[-0.5, 0.04, -0.35 + i * 0.14]}>
+          <cylinderGeometry args={[0.016, 0.02, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh key={`pr-${i}`} position={[0.5, 0.04, -0.35 + i * 0.14]}>
+          <cylinderGeometry args={[0.016, 0.02, 0.12, 6]} />
+          <meshStandardMaterial color="#999999" metalness={0.4} />
+        </mesh>
+      ))}
       <mesh position={[0, 0.05, 0.4]}>
-        <cylinderGeometry args={[0.1, 0.1, 0.02, 12]} />
-        <meshStandardMaterial color="#cccccc" metalness={0.6} />
+        <boxGeometry args={[0.15, 0.02, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
     </group>
   );
@@ -457,17 +648,37 @@ function ESP32Shape({ size }: { size: any }) {
 function ESP32S3Shape({ size }: { size: any }) {
   return (
     <group>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[size.width, 0.05, size.height]} />
-        <meshStandardMaterial color="#e85d26" roughness={0.5} />
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[size.width, 0.06, size.height]} />
+        <meshStandardMaterial color="#0d3b7a" roughness={0.6} metalness={0.05} />
       </mesh>
-      <mesh position={[0.5, 0.05, 0.5]}>
-        <cylinderGeometry args={[0.08, 0.08, 0.02, 12]} />
-        <meshStandardMaterial color="#cccccc" metalness={0.6} />
+      <mesh position={[0.1, 0.03, 0.05]}>
+        <boxGeometry args={[0.5, 0.04, 0.5]} />
+        <meshStandardMaterial color="#888888" metalness={0.6} roughness={0.3} />
       </mesh>
-      <mesh position={[-0.5, 0.05, 0.5]}>
-        <boxGeometry args={[0.1, 0.02, 0.06]} />
-        <meshStandardMaterial color="#222222" />
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => {
+        const side = i < 8 ? -1 : 1;
+        const idx = i < 8 ? i : i - 8;
+        return (
+          <mesh key={`p-${i}`} position={[side * 0.6, 0.04, -0.4 + idx * 0.1]}>
+            <cylinderGeometry args={[0.014, 0.018, 0.12, 6]} />
+            <meshStandardMaterial color="#999999" metalness={0.4} />
+          </mesh>
+        );
+      })}
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => {
+        const side = i < 8 ? -1 : 1;
+        const idx = i < 8 ? i : i - 8;
+        return (
+          <mesh key={`pu-${i}`} position={[side * (0.1 + idx * 0.08), 0.04, 0.5]}>
+            <cylinderGeometry args={[0.014, 0.018, 0.12, 6]} />
+            <meshStandardMaterial color="#999999" metalness={0.4} />
+          </mesh>
+        );
+      })}
+      <mesh position={[-0.5, 0.05, 0.45]}>
+        <boxGeometry args={[0.12, 0.02, 0.06]} />
+        <meshStandardMaterial color="#c0c0c0" metalness={0.5} />
       </mesh>
     </group>
   );
