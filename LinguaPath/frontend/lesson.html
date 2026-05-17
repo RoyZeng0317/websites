@@ -866,11 +866,11 @@
           status.textContent = 'Transcribing...';
 
           const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
-
           const reader = new FileReader();
+
           reader.onload = async () => {
-            const base64Audio = reader.result.split(',')[1];
             try {
+              const base64Audio = reader.result.split(',')[1];
               const res = await fetch(STT_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -890,12 +890,8 @@
             }
             stopMic();
           };
+
           reader.readAsDataURL(blob);
-          } catch (err) {
-            console.error('STT error:', err);
-            status.textContent = 'Cannot reach speech server. Make sure backend is running (npm run dev in backend/).';
-          }
-          stopMic();
         };
 
         mediaRecorder.start();
