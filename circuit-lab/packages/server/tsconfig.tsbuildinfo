@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/collab/socket.ts","./src/db/database.ts","./src/routes/auth.ts","./src/routes/projects.ts","./src/services/auth.ts"],"version":"5.9.3"}
