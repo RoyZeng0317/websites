@@ -9,4 +9,4 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const API_BASE = 'https://exam-bank-manager.onrender.com/api';
+const API_BASE = 'https://gold-schools-crash.loca.lt/api';

@@ -14,7 +14,8 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:3000',
   'https://exam-bank-manager.web.app',
-  'https://exam-bank-manager.firebaseapp.com'
+  'https://exam-bank-manager.firebaseapp.com',
+  'https://gold-schools-crash.loca.lt'
 ];
 
 app.use(cors({
