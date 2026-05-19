@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const { initDatabase } = require('./config/db');
+const { initDatabase, isDbReady } = require('./config/db');
 const authRoutes = require('./routes/auth');
 const fileRoutes = require('./routes/files');
 
@@ -31,7 +31,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    db: isDbReady() ? 'connected' : 'disconnected',
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.use((err, req, res, next) => {
@@ -40,15 +44,10 @@ app.use((err, req, res, next) => {
 });
 
 const startServer = async () => {
-  try {
-    await initDatabase();
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`題庫管理系統後端啟動，端口: ${PORT}`);
-    });
-  } catch (error) {
-    console.error('伺服器啟動失敗:', error);
-    process.exit(1);
-  }
+  await initDatabase();
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`題庫管理系統後端啟動，端口: ${PORT}`);
+  });
 };
 
 startServer();
