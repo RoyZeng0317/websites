@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>題庫管理系統</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="auth-page" class="page active">
+      <div class="auth-container">
+        <div class="auth-box">
+          <h1 class="auth-title">題庫管理系統</h1>
+          <p class="auth-subtitle">Test Bank Manager</p>
+
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">登入</button>
+            <button class="auth-tab" data-tab="register">註冊</button>
+          </div>
+
+          <form id="login-form" class="auth-form active">
+            <div class="form-group">
+              <label for="login-email">電子郵件</label>
+              <input type="email" id="login-email" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">密碼</label>
+              <input type="password" id="login-password" placeholder="輸入密碼" required autocomplete="off">
+            </div>
+            <div id="login-error" class="form-error"></div>
+            <button type="submit" class="btn btn-primary btn-full">登入</button>
+            <div class="auth-divider"><span>或</span></div>
+            <button type="button" id="google-login-btn" class="btn btn-google btn-full">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              使用 Google 登入
+            </button>
+          </form>
+
+          <form id="register-form" class="auth-form">
+            <div class="form-group">
+              <label for="reg-name">顯示名稱</label>
+              <input type="text" id="reg-name" placeholder="您的名稱">
+            </div>
+            <div class="form-group">
+              <label for="reg-email">電子郵件</label>
+              <input type="email" id="reg-email" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-password">密碼</label>
+              <input type="password" id="reg-password" placeholder="至少 6 個字元" required autocomplete="off">
+            </div>
+            <div id="register-error" class="form-error"></div>
+            <button type="submit" class="btn btn-primary btn-full">註冊</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="dashboard-page" class="page">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <h1>題庫管理系統</h1>
+        </div>
+        <div class="header-right">
+          <span id="user-display-name" class="user-name"></span>
+          <button id="logout-btn" class="btn btn-outline">登出</button>
+        </div>
+      </header>
+
+      <main class="dashboard-main">
+        <aside class="dashboard-sidebar">
+          <nav class="sidebar-nav">
+            <button class="nav-item active" data-section="files">
+              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
+              我的題庫
+            </button>
+            <button class="nav-item" data-section="create">
+              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              建立題庫
+            </button>
+            <button class="nav-item" data-section="profile">
+              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              個人資料
+            </button>
+          </nav>
+        </aside>
+
+        <section class="dashboard-content">
+          <div id="section-files" class="content-section active">
+            <div class="section-header">
+              <h2>我的題庫</h2>
+              <div class="section-actions">
+                <select id="filter-subject" class="form-select">
+                  <option value="">所有科目</option>
+                  <option value="chinese">國文</option>
+                  <option value="english">英文</option>
+                  <option value="math">數學</option>
+                  <option value="science">自然</option>
+                  <option value="social">社會</option>
+                </select>
+                <button id="refresh-files-btn" class="btn btn-secondary">重新整理</button>
+              </div>
+            </div>
+            <div id="files-grid" class="files-grid"></div>
+            <div id="files-pagination" class="pagination"></div>
+          </div>
+
+          <div id="section-create" class="content-section">
+            <div class="section-header">
+              <h2>建立題庫</h2>
+            </div>
+            <form id="create-file-form" class="create-form">
+              <div class="form-row">
+                <div class="form-group flex-2">
+                  <label for="create-filename">題庫名稱 *</label>
+                  <input type="text" id="create-filename" placeholder="例如：第一次段考題庫" required>
+                </div>
+                <div class="form-group">
+                  <label for="create-subject">科目</label>
+                  <select id="create-subject" class="form-select">
+                    <option value="">選擇科目</option>
+                    <option value="chinese">國文</option>
+                    <option value="english">英文</option>
+                    <option value="math">數學</option>
+                    <option value="science">自然</option>
+                    <option value="social">社會</option>
+                    <option value="other">其他</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="create-grade">年級</label>
+                  <select id="create-grade" class="form-select">
+                    <option value="">選擇年級</option>
+                    <option value="grade1">一年級</option>
+                    <option value="grade2">二年級</option>
+                    <option value="grade3">三年級</option>
+                    <option value="grade4">四年級</option>
+                    <option value="grade5">五年級</option>
+                    <option value="grade6">六年級</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="create-description">描述</label>
+                <textarea id="create-description" rows="3" placeholder="題庫簡要說明..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>題目類型</label>
+                <div class="radio-group">
+                  <label class="radio-label"><input type="radio" name="fileType" value="choice" checked> 選擇題</label>
+                  <label class="radio-label"><input type="radio" name="fileType" value="fill"> 填充題</label>
+                  <label class="radio-label"><input type="radio" name="fileType" value="essay"> 問答題</label>
+                  <label class="radio-label"><input type="radio" name="fileType" value="mixed"> 混合題型</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>題目列表</label>
+                <div id="questions-container"></div>
+                <button type="button" id="add-question-btn" class="btn btn-secondary btn-sm">+ 新增題目</button>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">儲存題庫</button>
+                <button type="button" id="save-draft-btn" class="btn btn-outline">儲存草稿</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="section-profile" class="content-section">
+            <div class="section-header">
+              <h2>個人資料</h2>
+            </div>
+            <div class="profile-card">
+              <div class="profile-avatar" id="profile-avatar"></div>
+              <div class="profile-info">
+                <p><strong>顯示名稱：</strong><span id="profile-name"></span></p>
+                <p><strong>電子郵件：</strong><span id="profile-email"></span></p>
+                <p><strong>加入時間：</strong><span id="profile-joined"></span></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="edit-modal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="edit-modal-title">編輯題庫</h3>
+          <button class="modal-close" id="edit-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="edit-file-form">
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label for="edit-filename">題庫名稱</label>
+                <input type="text" id="edit-filename">
+              </div>
+              <div class="form-group">
+                <label for="edit-subject">科目</label>
+                <select id="edit-subject" class="form-select">
+                  <option value="">選擇科目</option>
+                  <option value="chinese">國文</option>
+                  <option value="english">英文</option>
+                  <option value="math">數學</option>
+                  <option value="science">自然</option>
+                  <option value="social">社會</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="edit-grade">年級</label>
+                <select id="edit-grade" class="form-select">
+                  <option value="">選擇年級</option>
+                  <option value="grade1">一年級</option>
+                  <option value="grade2">二年級</option>
+                  <option value="grade3">三年級</option>
+                  <option value="grade4">四年級</option>
+                  <option value="grade5">五年級</option>
+                  <option value="grade6">六年級</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="edit-description">描述</label>
+              <textarea id="edit-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>題目列表</label>
+              <div id="edit-questions-container"></div>
+              <button type="button" id="edit-add-question-btn" class="btn btn-secondary btn-sm">+ 新增題目</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="edit-modal-cancel">取消</button>
+          <button class="btn btn-primary" id="edit-modal-save">儲存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading-spinner" class="spinner hidden">
+    <div class="spinner-circle"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

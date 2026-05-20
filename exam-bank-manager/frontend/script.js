@@ -251,6 +251,119 @@ document.getElementById('edit-add-question-btn').addEventListener('click', () =>
   addQuestionToContainer('edit-questions-container', ++editQuestionCounter);
 });
 
+const latexButtons = [
+  { label: 'x²', template: '$x^{$}$', tooltip: '上標' },
+  { label: 'x₂', template: '$x_{$}$', tooltip: '下標' },
+  { label: '√', template: '$\\sqrt{$}$', tooltip: '平方根' },
+  { label: '∛', template: '$\\sqrt[3]{$}$', tooltip: '立方根' },
+  { label: '∑', template: '$\\sum_{$}^{$}$', tooltip: '總和' },
+  { label: '∫', template: '$\\int_{$}^{$}$', tooltip: '積分' },
+  { label: 'π', template: '$\\pi$', tooltip: '圓周率' },
+  { label: '∞', template: '$\\infty$', tooltip: '無限' },
+  { label: '±', template: '$\\pm$', tooltip: '正負' },
+  { label: '≠', template: '$\\neq$', tooltip: '不等於' },
+  { label: '≈', template: '$\\approx$', tooltip: '約等於' },
+  { label: '≤', template: '$\\leq$', tooltip: '小於等於' },
+  { label: '≥', template: '$\\geq$', tooltip: '大於等於' },
+  { label: '→', template: '$\\to$', tooltip: '向右箭頭' },
+  { label: 'α', template: '$\\alpha$', tooltip: 'Alpha' },
+  { label: 'β', template: '$\\beta$', tooltip: 'Beta' },
+  { label: 'θ', template: '$\\theta$', tooltip: 'Theta' },
+  { label: 'μ', template: '$\\mu$', tooltip: 'Mu' },
+  { label: '分數', template: '$\\frac{$}{$}$', tooltip: '分數' },
+  { label: '矩陣', template: '$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$', tooltip: '矩陣' },
+  { label: 'Δ', template: '$\\Delta$', tooltip: 'Delta' },
+  { label: '聯立', template: '$\\begin{cases} $ \\\\ $ \\end{cases}$', tooltip: '聯立方程式' },
+  { label: '極限', template: '$\\lim_{$\\to $} $', tooltip: '極限' },
+];
+
+function insertLatex(textarea, template) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selected = textarea.value.substring(start, end);
+
+  let inserted;
+  if (template.includes('$') && selected) {
+    inserted = template.replace('$', selected);
+  } else if (template.includes('$')) {
+    inserted = template;
+  } else {
+    inserted = template;
+  }
+
+  textarea.focus();
+  document.execCommand('insertText', false, inserted);
+  textarea.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function createLatexToolbar(textarea, previewEl) {
+  const toolbar = document.createElement('div');
+  toolbar.className = 'latex-toolbar';
+
+  latexButtons.forEach(btn => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'latex-btn';
+    b.textContent = btn.label;
+    b.title = btn.tooltip || '';
+    b.addEventListener('click', () => insertLatex(textarea, btn.template));
+    toolbar.appendChild(b);
+  });
+
+  const previewBtn = document.createElement('button');
+  previewBtn.type = 'button';
+  previewBtn.className = 'latex-btn preview-toggle';
+  previewBtn.textContent = '👁 預覽';
+  previewBtn.addEventListener('click', () => {
+    previewEl.classList.toggle('visible');
+    renderLatexPreview(textarea.value, previewEl);
+  });
+  toolbar.appendChild(previewBtn);
+
+  textarea.addEventListener('input', () => {
+    if (previewEl.classList.contains('visible')) {
+      renderLatexPreview(textarea.value, previewEl);
+    }
+  });
+
+  return toolbar;
+}
+
+function renderLatexPreview(text, previewEl) {
+  if (!previewEl.classList.contains('visible')) return;
+  const mathRegex = /\$\$(.+?)\$\$|\$(.+?)\$/gs;
+  let html = text;
+  let match;
+  const replacements = [];
+  while ((match = mathRegex.exec(text)) !== null) {
+    const isBlock = !!match[1];
+    const expr = match[1] || match[2];
+    try {
+      const rendered = katex.renderToString(expr, {
+        displayMode: isBlock,
+        throwOnError: false
+      });
+      replacements.push({ from: match[0], to: rendered });
+    } catch {
+      replacements.push({ from: match[0], to: `<span class="latex-error">${match[0]}</span>` });
+    }
+  }
+  replacements.forEach(r => { html = html.replace(r.from, r.to); });
+  html = html.replace(/\n/g, '<br>');
+  previewEl.innerHTML = html || '<span style="color:var(--text-secondary)">無 LaTeX 內容</span>';
+}
+
+function renderAllLatex(container) {
+  if (typeof katex === 'undefined') return;
+  container.querySelectorAll('.latex-render').forEach(el => {
+    const expr = el.dataset.expr || el.textContent;
+    const display = el.classList.contains('display');
+    try {
+      el.innerHTML = katex.renderToString(expr, { displayMode: display, throwOnError: false });
+    } catch { }
+  });
+}
+
 function addQuestionToContainer(containerId, index, data = null) {
   const container = document.getElementById(containerId);
   const div = document.createElement('div');
@@ -280,7 +393,9 @@ function addQuestionToContainer(containerId, index, data = null) {
       <span class="question-number">第 ${index} 題</span>
       <button type="button" class="question-remove">&times;</button>
     </div>
-    <textarea placeholder="輸入題目內容..." class="question-text">${questionText}</textarea>
+    <textarea placeholder="輸入題目內容... (可用 $...$ 或 $$...$$ 插入 LaTeX 數學式)" class="question-text">${questionText}</textarea>
+    <div class="latex-toolbar-wrapper"></div>
+    <div class="latex-preview"></div>
     <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center;">
       <label style="font-size:13px;font-weight:500;">題型：
         <select class="question-type-select" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;font-size:13px;">
@@ -294,6 +409,11 @@ function addQuestionToContainer(containerId, index, data = null) {
     <div class="options-section">${optionsHtml}</div>
     ${fileType !== 'choice' ? `<div style="margin-top:8px;"><input type="text" placeholder="答案" value="${escapeHtml(answer)}" class="answer-input" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;"></div>` : ''}
   `;
+
+  const textarea = div.querySelector('.question-text');
+  const previewEl = div.querySelector('.latex-preview');
+  const toolbarWrapper = div.querySelector('.latex-toolbar-wrapper');
+  toolbarWrapper.appendChild(createLatexToolbar(textarea, previewEl));
 
   const removeBtn = div.querySelector('.question-remove');
   removeBtn.addEventListener('click', () => div.remove());

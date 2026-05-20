@@ -659,4 +659,77 @@ body {
   .files-grid { grid-template-columns: 1fr; }
   .auth-box { padding: 24px; }
   .profile-card { flex-direction: column; text-align: center; }
+  .latex-toolbar { flex-wrap: wrap; }
+}
+
+.latex-toolbar-wrapper {
+  margin-bottom: 8px;
+}
+
+.latex-toolbar {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: -1px;
+}
+
+.latex-btn {
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: "Times New Roman", serif;
+  transition: all 0.15s;
+}
+
+.latex-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.latex-btn.preview-toggle {
+  margin-left: auto;
+  font-family: inherit;
+}
+
+.latex-preview {
+  display: none;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #fafafa;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  font-size: 15px;
+  line-height: 2;
+  min-height: 40px;
+}
+
+.latex-preview.visible {
+  display: block;
+}
+
+.latex-preview .katex { font-size: 1.1em; }
+.latex-preview .katex-display { margin: 0.5em 0; }
+
+.latex-error {
+  color: var(--danger);
+  border-bottom: 1px wavy var(--danger);
+}
+
+.latex-render {
+  display: inline;
+}
+
+.latex-render.display {
+  display: block;
+  text-align: center;
+  margin: 8px 0;
 }
