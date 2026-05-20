@@ -117,7 +117,8 @@ document.getElementById('google-login-btn').addEventListener('click', async () =
     const provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
   } catch (err) {
-    showError('login-error', 'Google 登入失敗');
+    console.error('Google login error:', err);
+    showError('login-error', 'Google 登入失敗: ' + (err.code || err.message));
   } finally {
     showLoading(false);
   }
