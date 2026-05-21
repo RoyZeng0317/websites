@@ -29,6 +29,52 @@ _YF_SESSION.headers.update({
     "Accept-Language": "en-US,en;q=0.9",
 })
 
+def _normalize_key(key):
+    k = key.strip()
+    if k.isdigit() or (k.startswith("00") and not k.endswith(".TW")):
+        return k + ".TW"
+    return k
+
+STOCK_NAMES = {}
+_raw_names = {
+    "1301": "台塑", "2002": "中鋼", "2303": "聯電", "2308": "台達電",
+    "2317": "鴻海", "2324": "仁寶", "2327": "國巨", "2330": "台積電",
+    "2337": "旺宏", "2344": "華邦電", "2345": "智邦", "2353": "宏碁",
+    "2357": "華碩", "2376": "技嘉", "2377": "微星", "2408": "南亞科",
+    "2409": "友達", "2412": "中華電", "2426": "鼎元", "2454": "聯發科",
+    "2515": "中工", "2610": "華航", "2646": "星宇航空",
+    "2882": "國泰金", "2885": "元大金", "2887": "台新新光金", "2891": "中信金",
+    "3008": "大立光", "3260": "威剛", "3481": "群創", "3714": "富采",
+    "4916": "事欣科", "4967": "十銓", "5007": "三星（台）",
+    "5880": "合庫金", "6605": "帝寶", "6770": "力積電",
+    "7418": "香繼光", "8046": "南電", "8110": "華東",
+    "0050": "元大台灣50", "0053": "元大電子", "0056": "元大高股息",
+    "009816": "凱基台灣TOP50", "00403A": "主動統一升級50",
+    "00981A": "主動統一台股增長",
+}
+for k, v in _raw_names.items():
+    STOCK_NAMES[_normalize_key(k)] = {"name": v, "market": "TW"}
+
+# 常見美股
+_us_stocks = {
+    "AAPL": "Apple Inc.", "MSFT": "Microsoft", "GOOGL": "Alphabet Inc.",
+    "GOOG": "Alphabet Class C", "AMZN": "Amazon.com", "TSLA": "Tesla Inc.",
+    "META": "Meta Platforms", "NVDA": "NVIDIA", "AMD": "AMD",
+    "INTC": "Intel", "JPM": "JPMorgan Chase", "V": "Visa",
+    "MA": "Mastercard", "TSM": "台積電 ADR", "BABA": "阿里巴巴 ADR",
+    "NKE": "Nike", "DIS": "Disney", "BA": "Boeing",
+}
+for k, v in _us_stocks.items():
+    STOCK_NAMES[k] = {"name": v, "market": "US"}
+
+# 常見港股
+_hk_stocks = {
+    "0700.HK": "騰訊控股", "9988.HK": "阿里巴巴", "0005.HK": "匯豐控股",
+    "1299.HK": "友邦保險", "2888.HK": "渣打集團", "0700": "騰訊控股",
+    "9988": "阿里巴巴", "0005": "匯豐控股",
+}
+for k, v in _hk_stocks.items():
+    STOCK_NAMES[_normalize_key(k)] = {"name": v, "market": "HK"}
 
 def _fetch_yahoo_chart(symbol: str) -> dict:
     """Fetch price/quote data from Yahoo Finance v8 chart API (reliable, no auth needed)."""
@@ -127,6 +173,10 @@ def _fetch_twse_quote(symbol: str) -> dict:
             return {}
 
         q = msg[0]
+        twse_name = q.get("nf", q.get("n", ""))
+        known_name = STOCK_NAMES.get(symbol, {}).get("name", "")
+        display_name = twse_name if twse_name and twse_name != symbol else known_name if known_name else symbol
+
         prev_close = float(q.get("y", 0) or 0)
         current = float(q.get("z", q.get("y", 0)) if q.get("z") and q["z"] != "-" else q.get("y", 0))
         open_p = float(q.get("o", 0) or 0)
@@ -138,8 +188,8 @@ def _fetch_twse_quote(symbol: str) -> dict:
 
         return {
             "symbol": symbol,
-            "longName": q.get("nf", q.get("n", symbol)),
-            "shortName": q.get("n", ""),
+            "longName": display_name,
+            "shortName": q.get("n", known_name),
             "currentPrice": current,
             "regularMarketPrice": current,
             "regularMarketChange": round(change, 2),
@@ -195,6 +245,9 @@ def _get_stock_info(symbol: str) -> dict:
 
     rate_limit()
 
+    # Look up known stock name
+    known = STOCK_NAMES.get(symbol, {})
+
     # Method 1: TWSE API for Taiwan stocks (most accurate for TWSE)
     if symbol.endswith(".TW") or symbol.endswith(".TWO"):
         result = _fetch_twse_quote(symbol)
@@ -205,6 +258,9 @@ def _get_stock_info(symbol: str) -> dict:
     # Method 2: Yahoo Finance v8 chart API (reliable price data)
     result = _fetch_yahoo_chart(symbol)
     if result.get("currentPrice", 0) > 0:
+        if known and (not result.get("longName") or result["longName"] == symbol):
+            result["longName"] = known["name"]
+            result["shortName"] = known["name"]
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
@@ -270,34 +326,13 @@ def rate_limit():
 async def search_stocks(query: str = Query(..., min_length=1)):
     results = []
 
-    popular = [
-        ("AAPL", "Apple Inc."),
-        ("MSFT", "Microsoft Corporation"),
-        ("GOOGL", "Alphabet Inc."),
-        ("AMZN", "Amazon.com Inc."),
-        ("TSLA", "Tesla Inc."),
-        ("META", "Meta Platforms Inc."),
-        ("NVDA", "NVIDIA Corporation"),
-        ("AMD", "Advanced Micro Devices Inc."),
-        ("0700.HK", "Tencent Holdings Ltd."),
-        ("9988.HK", "Alibaba Group Holding Ltd."),
-        ("2330.TW", "Taiwan Semiconductor Manufacturing"),
-        ("2317.TW", "Hon Hai Precision Industry"),
-        ("2454.TW", "MediaTek Inc."),
-        ("2888.HK", "HSBC Holdings plc"),
-        ("0005.HK", "HSBC Holdings"),
-        ("1299.HK", "AIA Group Ltd."),
-        ("V", "Visa Inc."),
-        ("MA", "Mastercard Inc."),
-        ("JPM", "JPMorgan Chase & Co."),
-        ("TSM", "Taiwan Semiconductor ADR"),
-        ("BABA", "Alibaba Group ADR"),
-    ]
-
     q = query.lower()
-    for sym, name in popular:
+    for sym, info in STOCK_NAMES.items():
+        name = info["name"]
         if q in sym.lower() or q in name.lower():
             results.append({"symbol": sym, "name": name, "exchange": _detect_exchange(sym)})
+            if len(results) >= 20:
+                break
 
     try:
         info = _get_stock_info(query)
