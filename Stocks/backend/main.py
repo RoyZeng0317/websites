@@ -1,30 +1,31 @@
-from fastapi import FastAPI, Query, WebSocket, WebSocketDisconnect
-from fastapi.middleware.cors import CORSMiddleware
-import yfinance as yf
-import asyncio
-import json
-import time
+import os
+import sys
 import tempfile
-import requests
+# Must set TZPATH before yfinance import to avoid os.stat(None) on Python 3.14
+_tz_cache = tempfile.mkdtemp(prefix="yf_tz_")
+os.environ["TZPATH"] = _tz_cache
+
+import json
+import math
+import time
 from datetime import datetime, timezone
 from typing import Optional
 
-# Set a proper tz cache path for yfinance (required for Python 3.14+)
-_tz_cache = tempfile.mkdtemp(prefix="yf_tz_")
-yf.set_tz_cache_location(_tz_cache)
+import requests
+import yfinance as yf
+from fastapi import FastAPI, Query, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 
-# Initialize shared session for yfinance
+# yfinance cache workaround
+try:
+    yf.set_tz_cache_location(_tz_cache)
+except Exception:
+    pass
+
 _YF_SESSION = requests.Session()
 _YF_SESSION.headers.update({
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 })
-# Initialize yfinance cache
-try:
-    import yfinance.cache as yfc
-    if not yfc._cache:
-        yfc._cache = {}
-except Exception:
-    pass
 
 
 def _get_stock_info(symbol: str) -> dict:
@@ -54,6 +55,7 @@ def _get_stock_info(symbol: str) -> dict:
 
     return {}
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         try:
@@ -62,6 +64,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return super().default(obj)
         except TypeError:
             return str(obj)
+
 
 app = FastAPI(title="Stock Info API")
 app.json_encoder = CustomJSONEncoder
@@ -109,8 +112,6 @@ async def search_stocks(query: str = Query(..., min_length=1)):
         ("2888.HK", "HSBC Holdings plc"),
         ("0005.HK", "HSBC Holdings"),
         ("1299.HK", "AIA Group Ltd."),
-        ("AAPL34.SA", "Apple Inc."),
-        ("PETR4.SA", "Petrobras"),
         ("V", "Visa Inc."),
         ("MA", "Mastercard Inc."),
         ("JPM", "JPMorgan Chase & Co."),
@@ -127,8 +128,7 @@ async def search_stocks(query: str = Query(..., min_length=1)):
         info = _get_stock_info(query)
         if info and info.get("symbol"):
             sym = info["symbol"]
-            exists = any(r["symbol"] == sym for r in results)
-            if not exists:
+            if not any(r["symbol"] == sym for r in results):
                 results.insert(0, {
                     "symbol": sym,
                     "name": info.get("longName", info.get("shortName", query)),
@@ -154,13 +154,13 @@ async def get_stock_info(symbol: str):
     if not info or not info.get("symbol"):
         return {"error": "Failed to fetch stock info"}
 
-    import math
+    import math as _math
 
     def safe(val, default=None):
         if val is None:
             return default
         try:
-            if isinstance(val, float) and (math.isnan(val) or math.isinf(val)):
+            if isinstance(val, float) and (_math.isnan(val) or _math.isinf(val)):
                 return default
             if hasattr(val, 'item'):
                 return val.item()
@@ -234,7 +234,6 @@ async def get_stock_info(symbol: str):
         "logoUrl": safe_str(info.get("logo_url")),
     }
 
-    CACHE[cache_key] = {"data": result, "time": now}
     return result
 
 
@@ -295,7 +294,6 @@ async def get_financials(symbol: str):
     ticker = yf.Ticker(symbol, session=_YF_SESSION)
 
     result = {}
-
     for stmt_name, stmt in [
         ("incomeStatement", ticker.income_stmt),
         ("balanceSheet", ticker.balance_sheet),
@@ -314,7 +312,7 @@ async def get_financials(symbol: str):
                     try:
                         values[col_str] = round(float(val), 2) if val is not None and val == val else None
                     except (ValueError, TypeError):
-                        values[col_str] = val
+                        values[col_str] = str(val) if val is not None else None
                 stmt_data[label] = values
         result[stmt_name] = stmt_data
 
@@ -344,29 +342,19 @@ async def get_holders(symbol: str):
 @app.websocket("/ws/price/{symbol}")
 async def websocket_price(websocket: WebSocket, symbol: str):
     await websocket.accept()
-    try:
-        while True:
-            await asyncio.sleep(5)
-            rate_limit()
-            try:
-                info = _get_stock_info(symbol)
-                price = info.get("currentPrice") or info.get("regularMarketPrice")
-                change = info.get("regularMarketChange", 0)
-                change_pct = info.get("regularMarketChangePercent", 0)
-
-                if price is not None:
-                    await websocket.send_json({
-                        "symbol": symbol,
-                        "price": price,
-                        "change": change,
-                        "changePercent": change_pct,
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                    })
-            except Exception as e:
-                await websocket.send_json({"error": str(e)})
-
-            await asyncio.sleep(5)
-    except WebSocketDisconnect:
-        pass
-    except Exception:
-        pass
+    while True:
+        await asyncio.sleep(5)
+        rate_limit()
+        try:
+            info = _get_stock_info(symbol)
+            price = info.get("currentPrice") or info.get("regularMarketPrice")
+            if price is not None:
+                await websocket.send_json({
+                    "symbol": symbol,
+                    "price": price,
+                    "change": info.get("change", 0),
+                    "changePercent": info.get("changePercent", 0),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                })
+        except Exception:
+            pass
