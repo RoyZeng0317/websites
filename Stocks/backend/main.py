@@ -37,25 +37,29 @@ def _get_stock_info(symbol: str) -> dict:
         return CACHE[cache_key]["data"]
 
     rate_limit()
+    errors = []
     try:
         ticker = yf.Ticker(symbol)
         info = dict(ticker.info) if ticker.info else {}
         if info.get("symbol"):
             CACHE[cache_key] = {"data": info, "time": now_val}
             return info
-    except Exception as e1:
-        pass
+        errors.append("no symbol in info")
+    except Exception as e:
+        errors.append(f"ticker.info: {e}")
 
     try:
         d = yf.download(symbol, period="5d", progress=False)
-        if not d.empty:
+        if d is not None and not d.empty:
             result = {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
-    except Exception:
-        pass
+        errors.append(f"download empty: {d}")
+    except Exception as e:
+        errors.append(f"download: {e}")
 
-    return {}
+    errors.append("all methods failed")
+    return {"_debug": errors, "symbol": symbol}
 
 
 class CustomJSONEncoder(json.JSONEncoder):
