@@ -70,7 +70,7 @@ export default function StockPage() {
 
       <StockHeader info={info} />
 
-      <PriceChart symbol={symbol!} />
+      <PriceChart symbol={symbol!} exchange={info.exchange} />
 
       <Fundamentals info={info} />
 
