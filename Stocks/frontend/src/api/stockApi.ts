@@ -8,6 +8,7 @@ import type {
 } from '../types/stock'
 
 const BASE = import.meta.env.VITE_API_BASE_URL || '/api'
+const API_HOST = BASE.startsWith('http') ? BASE.replace(/^https?:\/\//, '').replace(/\/api.*$/, '') : window.location.host
 
 export async function searchStocks(query: string): Promise<StockSearchResult[]> {
   const res = await fetch(`${BASE}/search?query=${encodeURIComponent(query)}`)
@@ -54,8 +55,8 @@ export function createPriceWebSocket(
   onMessage: (data: RealtimePrice) => void,
   onError?: (err: Event) => void
 ): WebSocket {
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const host = window.location.host
+  const protocol = BASE.startsWith('https') ? 'wss:' : 'ws:'
+  const host = API_HOST
   const ws = new WebSocket(`${protocol}//${host}/ws/price/${encodeURIComponent(symbol)}`)
 
   ws.onmessage = (event) => {
