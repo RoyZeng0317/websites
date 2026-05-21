@@ -1,6 +1,7 @@
 import os
 import sys
 import tempfile
+import urllib.parse
 # Must set TZPATH before yfinance import to avoid os.stat(None) on Python 3.14
 _tz_cache = tempfile.mkdtemp(prefix="yf_tz_")
 os.environ["TZPATH"] = _tz_cache
@@ -11,6 +12,7 @@ import time
 from datetime import datetime, timezone
 from typing import Optional
 
+import asyncio
 import requests
 import yfinance as yf
 from fastapi import FastAPI, Query, WebSocket, WebSocketDisconnect
@@ -152,6 +154,120 @@ def _fetch_yahoo_chart(symbol: str) -> dict:
     return {}
 
 
+FUNDAMENTALS_CACHE = {}
+FUNDAMENTALS_TTL = 21600  # 6 hours for fundamentals (rarely changes)
+
+def _fetch_fundamentals(symbol: str) -> dict:
+    """Fetch EPS, PE ratio, dividend yield, ROE etc. from Yahoo Finance v7 quote API."""
+    cache_key = f"fund_{symbol}"
+    now_val = time.time()
+    if cache_key in FUNDAMENTALS_CACHE and now_val - FUNDAMENTALS_CACHE[cache_key]["time"] < FUNDAMENTALS_TTL:
+        return FUNDAMENTALS_CACHE[cache_key]["data"]
+
+    result = {}
+    # Try Yahoo Finance v7 quote API
+    for ua in [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    ]:
+        try:
+            rate_limit()
+            s = requests.Session()
+            s.headers.update({"User-Agent": ua, "Accept": "application/json"})
+            r = s.get(
+                f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={symbol}",
+                timeout=8,
+            )
+            if r.status_code != 200:
+                continue
+            q = r.json().get("quoteResponse", {}).get("result", [])
+            if not q:
+                continue
+            q = q[0]
+            result = {
+                "trailingPE": q.get("trailingPE"),
+                "forwardPE": q.get("forwardPE"),
+                "trailingEps": q.get("epsTrailingTwelveMonths"),
+                "forwardEps": q.get("epsForward"),
+                "dividendYield": q.get("dividendYield"),
+                "dividendRate": q.get("dividendRate"),
+                "exDividendDate": q.get("exDividendDate"),
+                "payoutRatio": q.get("payoutRatio"),
+                "fiveYearAvgDividendYield": q.get("fiveYearAvgDividendYield"),
+                "returnOnEquity": q.get("returnOnEquity"),
+                "returnOnAssets": q.get("returnOnAssets"),
+                "totalRevenue": q.get("totalRevenue"),
+                "revenuePerShare": q.get("revenuePerShare"),
+                "profitMargins": q.get("profitMargins"),
+                "operatingMargins": q.get("operatingMargins"),
+                "debtToEquity": q.get("debtToEquity"),
+                "bookValue": q.get("bookValue"),
+                "priceToBook": q.get("priceToBook"),
+                "marketCap": q.get("marketCap"),
+                "averageVolume": q.get("averageVolume"),
+                "beta": q.get("beta"),
+                "fiftyTwoWeekHigh": q.get("fiftyTwoWeekHigh"),
+                "fiftyTwoWeekLow": q.get("fiftyTwoWeekLow"),
+                "52WeekChange": q.get("52WeekChange"),
+                "sector": q.get("sector", ""),
+                "industry": q.get("industry", ""),
+                "country": q.get("country", ""),
+                "website": q.get("website", ""),
+                "longBusinessSummary": q.get("longBusinessSummary", ""),
+                "fullTimeEmployees": q.get("fullTimeEmployees"),
+                "logo_url": q.get("logo_url"),
+            }
+            break
+        except Exception:
+            continue
+
+    # Fallback: yfinance Ticker.info
+    if not result:
+        try:
+            rate_limit()
+            ticker = yf.Ticker(symbol)
+            info = dict(ticker.info) if ticker.info else {}
+            if info.get("symbol"):
+                result = {
+                    "trailingPE": info.get("trailingPE"),
+                    "forwardPE": info.get("forwardPE"),
+                    "trailingEps": info.get("trailingEps"),
+                    "forwardEps": info.get("forwardEps"),
+                    "dividendYield": info.get("dividendYield"),
+                    "dividendRate": info.get("dividendRate"),
+                    "exDividendDate": info.get("exDividendDate"),
+                    "payoutRatio": info.get("payoutRatio"),
+                    "fiveYearAvgDividendYield": info.get("fiveYearAvgDividendYield"),
+                    "returnOnEquity": info.get("returnOnEquity"),
+                    "returnOnAssets": info.get("returnOnAssets"),
+                    "totalRevenue": info.get("totalRevenue"),
+                    "revenuePerShare": info.get("revenuePerShare"),
+                    "profitMargins": info.get("profitMargins"),
+                    "operatingMargins": info.get("operatingMargins"),
+                    "debtToEquity": info.get("debtToEquity"),
+                    "bookValue": info.get("bookValue"),
+                    "priceToBook": info.get("priceToBook"),
+                    "marketCap": info.get("marketCap"),
+                    "averageVolume": info.get("averageVolume"),
+                    "beta": info.get("beta"),
+                    "fiftyTwoWeekHigh": info.get("fiftyTwoWeekHigh"),
+                    "fiftyTwoWeekLow": info.get("fiftyTwoWeekLow"),
+                    "52WeekChange": info.get("52WeekChange"),
+                    "sector": info.get("sector", ""),
+                    "industry": info.get("industry", ""),
+                    "country": info.get("country", ""),
+                    "website": info.get("website", ""),
+                    "longBusinessSummary": info.get("longBusinessSummary", ""),
+                    "fullTimeEmployees": info.get("fullTimeEmployees"),
+                    "logo_url": info.get("logo_url"),
+                }
+        except Exception:
+            pass
+
+    FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
+    return result
+
+
 def _fetch_twse_quote(symbol: str) -> dict:
     """Fetch real-time quote from Taiwan Stock Exchange for .TW symbols."""
     stock_no = symbol.replace(".TW", "").replace(".TWO", "")
@@ -253,6 +369,8 @@ def _get_stock_info(symbol: str) -> dict:
         result = _fetch_twse_quote(symbol)
         if result.get("currentPrice", 0) > 0:
             _cache_stock_name(symbol, result.get("longName", ""))
+            fund = _fetch_fundamentals(symbol)
+            result.update({k: v for k, v in fund.items() if v is not None})
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
 
@@ -263,6 +381,9 @@ def _get_stock_info(symbol: str) -> dict:
             result["longName"] = known["name"]
             result["shortName"] = known["name"]
         _cache_stock_name(symbol, result.get("longName", ""))
+        # Merge fundamentals (cached separately, longer TTL)
+        fund = _fetch_fundamentals(symbol)
+        result.update({k: v for k, v in fund.items() if v is not None})
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
@@ -343,7 +464,7 @@ async def search_stocks(query: str = Query(..., min_length=1)):
         s = requests.Session()
         s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
         r = s.get(
-            f"https://query1.finance.yahoo.com/v1/finance/search?q={requests.utils.quote(query)}&quotesCount=10&newsCount=0",
+            f"https://query1.finance.yahoo.com/v1/finance/search?q={urllib.parse.quote(query)}&quotesCount=10&newsCount=0",
             timeout=8,
         )
         if r.status_code == 200:
@@ -357,7 +478,12 @@ async def search_stocks(query: str = Query(..., min_length=1)):
     except Exception:
         pass
 
-    # Source 2: STOCK_NAMES dictionary (fast lookup for known stocks)
+    # Source 2: STOCK_NAMES dictionary (supplement with Chinese names / known names)
+    for result in results:
+        sym = result["symbol"]
+        if sym in STOCK_NAMES:
+            result["name"] = STOCK_NAMES[sym]["name"]
+
     for sym, info in STOCK_NAMES.items():
         name = info["name"]
         if sym not in seen and (q in sym.lower() or q in name.lower()):
