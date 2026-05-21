@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import tempfile
 import urllib.parse
 # Must set TZPATH before yfinance import to avoid os.stat(None) on Python 3.14
@@ -171,6 +172,28 @@ _TWSE_BWIBBU_CACHE = {"data": None, "time": 0}
 _TWSE_BWIBBU_TTL = 3600  # 1 hour cache
 
 
+def _load_bwibbu_fallback():
+    """Load BWIBBU data from local fallback file."""
+    try:
+        fp = os.path.join(os.path.dirname(__file__), "bwibbu_fallback.json")
+        with open(fp, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, list) and len(data) > 0:
+            lookup = {}
+            for item in data:
+                code = item.get("Code", "")
+                if code:
+                    lookup[code] = {
+                        "pe": _safe_float(item.get("PEratio")),
+                        "divYield": _safe_float(item.get("DividendYield")),
+                        "pb": _safe_float(item.get("PBratio")),
+                    }
+            return lookup
+    except Exception:
+        pass
+    return {}
+
+
 def _fetch_twse_bwibbu():
     """Fetch PE ratio, dividend yield, PB ratio for all TWSE stocks."""
     now_val = time.time()
@@ -207,7 +230,12 @@ def _fetch_twse_bwibbu():
                         return lookup
         except Exception:
             continue
-    return _TWSE_BWIBBU_CACHE["data"] or {}
+    # Fallback: load local snapshot
+    fallback = _load_bwibbu_fallback()
+    if fallback:
+        _TWSE_BWIBBU_CACHE["data"] = fallback
+        _TWSE_BWIBBU_CACHE["time"] = now_val
+    return fallback
 
 
 def _safe_float(val):
