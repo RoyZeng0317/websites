@@ -178,52 +178,58 @@ def _fetch_fundamentals(symbol: str) -> dict:
 
     # Method 1: Finnhub (requires API key, free at finnhub.io)
     if FINNHUB_API_KEY:
-        try:
-            rate_limit()
-            stock_no = symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")
-            r = requests.get(
-                f"https://finnhub.io/api/v1/stock/metric?symbol={stock_no}&metric=all",
-                headers={"X-Finnhub-Token": FINNHUB_API_KEY},
-                timeout=10,
-            )
-            if r.status_code == 200:
+        for sym_try in [symbol, symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")]:
+            try:
+                r = requests.get(
+                    f"https://finnhub.io/api/v1/stock/metric?symbol={sym_try}&metric=all&token={FINNHUB_API_KEY}",
+                    timeout=10,
+                )
+                if r.status_code != 200:
+                    continue
                 m = r.json().get("metric", {})
-                if m:
-                    result = {
-                        "trailingPE": m.get("peBasicExclExtraTTM"),
-                        "forwardPE": m.get("forwardPE"),
-                        "trailingEps": m.get("epsBasicExclExtraItemsTTM"),
-                        "forwardEps": None,
-                        "dividendYield": m.get("dividendYieldIndicatedAnnual"),
-                        "dividendRate": m.get("dividendRate"),
-                        "exDividendDate": m.get("exDividendDate"),
-                        "payoutRatio": m.get("payoutRatio"),
-                        "fiveYearAvgDividendYield": m.get("dividendYield5Y"),
-                        "returnOnEquity": m.get("roeTTM"),
-                        "returnOnAssets": m.get("returnOnAssets"),
-                        "totalRevenue": m.get("revenueTTM"),
-                        "revenuePerShare": None,
-                        "profitMargins": m.get("profitMargin"),
-                        "operatingMargins": m.get("operatingMargin"),
-                        "debtToEquity": m.get("totalDebt/totalEquity"),
-                        "bookValue": m.get("bookValuePerShare"),
-                        "priceToBook": m.get("pbQuarterly"),
-                        "marketCap": m.get("marketCapitalization"),
-                        "averageVolume": None,
-                        "beta": m.get("beta"),
-                        "fiftyTwoWeekHigh": m.get("52WeekHigh"),
-                        "fiftyTwoWeekLow": m.get("52WeekLow"),
-                        "52WeekChange": m.get("52WeekHigh", 0) / m.get("52WeekLow", 1) - 1 if m.get("52WeekHigh") and m.get("52WeekLow") else None,
-                        "sector": "",
-                        "industry": "",
-                        "country": "",
-                        "website": "",
-                        "longBusinessSummary": "",
-                        "fullTimeEmployees": None,
-                        "logo_url": None,
-                    }
-        except Exception:
-            pass
+                if not m:
+                    continue
+
+                def fh(key):
+                    v = m.get(key)
+                    return None if v is None or (isinstance(v, str) and v == "None") else v
+
+                result = {
+                    "trailingPE": fh("peBasicExclExtraTTM"),
+                    "forwardPE": fh("forwardPE"),
+                    "trailingEps": fh("epsBasicExclExtraItemsTTM"),
+                    "forwardEps": None,
+                    "dividendYield": fh("dividendYieldIndicatedAnnual"),
+                    "dividendRate": fh("dividendRate"),
+                    "exDividendDate": fh("exDividendDate"),
+                    "payoutRatio": fh("payoutRatio"),
+                    "fiveYearAvgDividendYield": fh("dividendYield5Y"),
+                    "returnOnEquity": fh("roeTTM"),
+                    "returnOnAssets": fh("returnOnAssets"),
+                    "totalRevenue": fh("revenueTTM"),
+                    "revenuePerShare": None,
+                    "profitMargins": fh("profitMargin"),
+                    "operatingMargins": fh("operatingMargin"),
+                    "debtToEquity": fh("totalDebt/totalEquity"),
+                    "bookValue": fh("bookValuePerShare"),
+                    "priceToBook": fh("pbQuarterly"),
+                    "marketCap": fh("marketCapitalization"),
+                    "averageVolume": None,
+                    "beta": fh("beta"),
+                    "fiftyTwoWeekHigh": fh("52WeekHigh"),
+                    "fiftyTwoWeekLow": fh("52WeekLow"),
+                    "52WeekChange": None,
+                    "sector": "",
+                    "industry": "",
+                    "country": "",
+                    "website": "",
+                    "longBusinessSummary": "",
+                    "fullTimeEmployees": None,
+                    "logo_url": None,
+                }
+                break
+            except Exception:
+                continue
 
     if not result or not any(v is not None for v in result.values()):
         try:
