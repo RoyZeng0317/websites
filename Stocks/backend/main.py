@@ -252,6 +252,7 @@ def _get_stock_info(symbol: str) -> dict:
     if symbol.endswith(".TW") or symbol.endswith(".TWO"):
         result = _fetch_twse_quote(symbol)
         if result.get("currentPrice", 0) > 0:
+            _cache_stock_name(symbol, result.get("longName", ""))
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
 
@@ -261,6 +262,7 @@ def _get_stock_info(symbol: str) -> dict:
         if known and (not result.get("longName") or result["longName"] == symbol):
             result["longName"] = known["name"]
             result["shortName"] = known["name"]
+        _cache_stock_name(symbol, result.get("longName", ""))
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
@@ -313,6 +315,13 @@ CACHE_TTL = 120
 _LAST_REQUEST_TIME = 0
 
 
+def _cache_stock_name(symbol: str, name: str):
+    """Auto-populate STOCK_NAMES from API responses."""
+    if symbol and name and name != symbol and symbol not in STOCK_NAMES:
+        market = "TW" if symbol.endswith(".TW") else "HK" if symbol.endswith(".HK") else "US"
+        STOCK_NAMES[symbol] = {"name": name, "market": market}
+
+
 def rate_limit():
     global _LAST_REQUEST_TIME
     now = time.time()
@@ -324,30 +333,49 @@ def rate_limit():
 
 @app.get("/api/search")
 async def search_stocks(query: str = Query(..., min_length=1)):
+    seen = set()
     results = []
-
     q = query.lower()
-    for sym, info in STOCK_NAMES.items():
-        name = info["name"]
-        if q in sym.lower() or q in name.lower():
-            results.append({"symbol": sym, "name": name, "exchange": _detect_exchange(sym)})
-            if len(results) >= 20:
-                break
 
+    # Source 1: Yahoo Finance search API (covers all global stocks)
+    rate_limit()
     try:
-        info = _get_stock_info(query)
-        if info and info.get("symbol"):
-            sym = info["symbol"]
-            if not any(r["symbol"] == sym for r in results):
-                results.insert(0, {
-                    "symbol": sym,
-                    "name": info.get("longName", info.get("shortName", query)),
-                    "exchange": _detect_exchange(sym),
-                })
+        s = requests.Session()
+        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
+        r = s.get(
+            f"https://query1.finance.yahoo.com/v1/finance/search?q={requests.utils.quote(query)}&quotesCount=10&newsCount=0",
+            timeout=8,
+        )
+        if r.status_code == 200:
+            for quote in r.json().get("quotes", []):
+                sym = quote.get("symbol", "")
+                name = quote.get("longname", quote.get("shortname", ""))
+                exch = quote.get("exchange", "")
+                if sym and name and sym not in seen:
+                    seen.add(sym)
+                    results.append({"symbol": sym, "name": name, "exchange": exch})
     except Exception:
         pass
 
-    return results[:20]
+    # Source 2: STOCK_NAMES dictionary (fast lookup for known stocks)
+    for sym, info in STOCK_NAMES.items():
+        name = info["name"]
+        if sym not in seen and (q in sym.lower() or q in name.lower()):
+            seen.add(sym)
+            results.append({"symbol": sym, "name": name, "exchange": _detect_exchange(sym)})
+
+    # Source 3: Try direct Ticker lookup (for numeric TW stock codes)
+    if not results or len(results) < 5:
+        try:
+            info = _get_stock_info(query)
+            if info and info.get("symbol") and info.get("symbol") not in seen:
+                sym = info["symbol"]
+                name = info.get("longName", info.get("shortName", sym))
+                results.insert(0, {"symbol": sym, "name": name, "exchange": _detect_exchange(sym)})
+        except Exception:
+            pass
+
+    return results[:15]
 
 
 def _detect_exchange(symbol: str) -> str:
