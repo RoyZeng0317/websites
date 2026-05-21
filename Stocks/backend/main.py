@@ -176,27 +176,37 @@ def _fetch_twse_bwibbu():
     now_val = time.time()
     if now_val - _TWSE_BWIBBU_CACHE["time"] < _TWSE_BWIBBU_TTL and _TWSE_BWIBBU_CACHE["data"]:
         return _TWSE_BWIBBU_CACHE["data"]
-    try:
-        r = requests.get(
-            "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
-            timeout=15,
-        )
-        if r.status_code == 200:
-            data = r.json()
-            lookup = {}
-            for item in data:
-                code = item.get("Code", "")
-                lookup[code] = {
-                    "pe": _safe_float(item.get("PEratio")),
-                    "divYield": _safe_float(item.get("DividendYield")),
-                    "pb": _safe_float(item.get("PBratio")),
-                }
-            _TWSE_BWIBBU_CACHE["data"] = lookup
-            _TWSE_BWIBBU_CACHE["time"] = now_val
-            return lookup
-    except Exception:
-        pass
+
+    twse_urls = [
+        "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
+        "https://www.twse.com.tw/exchangeReport/BWIBBU_ALL?response=json",
+        "http://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
+    ]
+    for url in twse_urls:
+        try:
+            r = requests.get(
+                url,
+                headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
+                timeout=15,
+            )
+            if r.status_code == 200:
+                data = r.json()
+                if isinstance(data, list) and len(data) > 0:
+                    lookup = {}
+                    for item in data:
+                        code = item.get("Code", "")
+                        if code:
+                            lookup[code] = {
+                                "pe": _safe_float(item.get("PEratio")),
+                                "divYield": _safe_float(item.get("DividendYield")),
+                                "pb": _safe_float(item.get("PBratio")),
+                            }
+                    if lookup:
+                        _TWSE_BWIBBU_CACHE["data"] = lookup
+                        _TWSE_BWIBBU_CACHE["time"] = now_val
+                        return lookup
+        except Exception:
+            continue
     return _TWSE_BWIBBU_CACHE["data"] or {}
 
 
