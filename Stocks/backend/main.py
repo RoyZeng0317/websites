@@ -30,79 +30,80 @@ _YF_SESSION.headers.update({
 })
 
 
-def _fetch_yahoo_quote(symbol: str) -> dict:
-    """Fetch quote data directly from Yahoo Finance API and map to yfinance-like fields."""
-    ua_list = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-    ]
-    for ua in ua_list:
+def _fetch_yahoo_chart(symbol: str) -> dict:
+    """Fetch price/quote data from Yahoo Finance v8 chart API (reliable, no auth needed)."""
+    for ua in [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    ]:
         try:
             s = requests.Session()
             s.headers.update({"User-Agent": ua, "Accept": "application/json"})
-            url = f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={symbol}"
-            r = s.get(url, timeout=10)
-            if r.status_code == 200:
-                data = r.json()
-                quotes = data.get("quoteResponse", {}).get("result", [])
-                if quotes:
-                    q = quotes[0]
-                    return _map_quote_to_info(q, symbol)
+            r = s.get(
+                f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=5d&interval=1d",
+                timeout=10,
+            )
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            result = data.get("chart", {}).get("result", [])
+            if not result:
+                continue
+            meta = result[0].get("meta", {})
+            quotes = result[0].get("indicators", {}).get("quote", [{}])[0] if result[0].get("indicators", {}).get("quote") else {}
+            closelist = quotes.get("close", [])
+            cur_price = meta.get("regularMarketPrice", closelist[-1] if closelist else 0)
+
+            return {
+                "symbol": symbol,
+                "longName": meta.get("longName", meta.get("shortName", symbol)),
+                "shortName": meta.get("shortName", ""),
+                "currentPrice": cur_price,
+                "regularMarketPrice": cur_price,
+                "regularMarketChange": round(cur_price - meta.get("chartPreviousClose", cur_price), 2),
+                "regularMarketChangePercent": 0,
+                "regularMarketOpen": quotes.get("open", [None])[-1] if quotes.get("open") else 0,
+                "regularMarketDayHigh": meta.get("regularMarketDayHigh", quotes.get("high", [None])[-1] if quotes.get("high") else 0),
+                "regularMarketDayLow": meta.get("regularMarketDayLow", quotes.get("low", [None])[-1] if quotes.get("low") else 0),
+                "regularMarketVolume": meta.get("regularMarketVolume", quotes.get("volume", [None])[-1] if quotes.get("volume") else 0),
+                "previousClose": meta.get("chartPreviousClose", 0),
+                "marketCap": 0,
+                "averageVolume": 0,
+                "fiftyTwoWeekHigh": meta.get("fiftyTwoWeekHigh"),
+                "fiftyTwoWeekLow": meta.get("fiftyTwoWeekLow"),
+                "currency": meta.get("currency", "USD"),
+                "exchange": meta.get("fullExchangeName", meta.get("exchangeName", "")),
+                "trailingPE": None,
+                "forwardPE": None,
+                "trailingEps": None,
+                "forwardEps": None,
+                "dividendYield": None,
+                "dividendRate": None,
+                "exDividendDate": None,
+                "payoutRatio": None,
+                "fiveYearAvgDividendYield": None,
+                "returnOnEquity": None,
+                "returnOnAssets": None,
+                "totalRevenue": None,
+                "revenuePerShare": None,
+                "profitMargins": None,
+                "operatingMargins": None,
+                "debtToEquity": None,
+                "bookValue": None,
+                "priceToBook": None,
+                "52WeekChange": None,
+                "beta": None,
+                "sector": "",
+                "industry": "",
+                "country": "",
+                "website": "",
+                "longBusinessSummary": "",
+                "fullTimeEmployees": None,
+                "logo_url": None,
+            }
         except Exception:
             continue
     return {}
-
-
-def _map_quote_to_info(q: dict, symbol: str) -> dict:
-    """Map Yahoo Finance v7 quote fields to yfinance.info-style fields."""
-    return {
-        "symbol": q.get("symbol", symbol),
-        "longName": q.get("longName", q.get("shortName", q.get("symbol", symbol))),
-        "shortName": q.get("shortName", ""),
-        "currentPrice": q.get("regularMarketPrice", q.get("marketPrice", 0)),
-        "regularMarketPrice": q.get("regularMarketPrice", 0),
-        "regularMarketChange": q.get("regularMarketChange", 0),
-        "regularMarketChangePercent": q.get("regularMarketChangePercent", 0),
-        "regularMarketOpen": q.get("regularMarketOpen", 0),
-        "regularMarketDayHigh": q.get("regularMarketDayHigh", 0),
-        "regularMarketDayLow": q.get("regularMarketDayLow", 0),
-        "regularMarketVolume": q.get("regularMarketVolume", 0),
-        "previousClose": q.get("regularMarketPreviousClose", q.get("previousClose", 0)),
-        "marketCap": q.get("marketCap", 0),
-        "averageVolume": q.get("averageDailyVolume10Day", q.get("averageVolume", 0)),
-        "trailingPE": q.get("trailingPE"),
-        "forwardPE": q.get("forwardPE"),
-        "trailingEps": q.get("epsTrailingTwelveMonths", q.get("trailingEps")),
-        "forwardEps": q.get("epsForward", q.get("forwardEps")),
-        "dividendYield": q.get("dividendYield"),
-        "dividendRate": q.get("dividendRate"),
-        "exDividendDate": q.get("exDividendDate"),
-        "payoutRatio": q.get("payoutRatio"),
-        "fiveYearAvgDividendYield": q.get("fiveYearAvgDividendYield"),
-        "returnOnEquity": q.get("returnOnEquity"),
-        "returnOnAssets": q.get("returnOnAssets"),
-        "totalRevenue": q.get("totalRevenue"),
-        "revenuePerShare": q.get("revenuePerShare"),
-        "profitMargins": q.get("profitMargins"),
-        "operatingMargins": q.get("operatingMargins"),
-        "debtToEquity": q.get("debtToEquity"),
-        "bookValue": q.get("bookValue"),
-        "priceToBook": q.get("priceToBook"),
-        "fiftyTwoWeekHigh": q.get("fiftyTwoWeekHigh"),
-        "fiftyTwoWeekLow": q.get("fiftyTwoWeekLow"),
-        "52WeekChange": q.get("52WeekChange"),
-        "beta": q.get("beta"),
-        "sector": q.get("sector", ""),
-        "industry": q.get("industry", ""),
-        "country": q.get("country", ""),
-        "website": q.get("website", ""),
-        "longBusinessSummary": q.get("longBusinessSummary", ""),
-        "fullTimeEmployees": q.get("fullTimeEmployees"),
-        "exchange": q.get("fullExchangeName", q.get("exchange", "")),
-        "currency": q.get("currency", ""),
-        "logo_url": None,
-    }
 
 
 def _fetch_twse_quote(symbol: str) -> dict:
@@ -201,13 +202,13 @@ def _get_stock_info(symbol: str) -> dict:
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
 
-    # Method 3: Direct Yahoo Finance API
-    result = _fetch_yahoo_quote(symbol)
-    if result.get("symbol"):
+    # Method 2: Yahoo Finance v8 chart API (reliable price data)
+    result = _fetch_yahoo_chart(symbol)
+    if result.get("currentPrice", 0) > 0:
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
-    # Method 4: yfinance download for price fallback
+    # Method 3: yfinance download for price fallback
     try:
         d = yf.download(symbol, period="5d", progress=False)
         if d is not None and not d.empty:
@@ -414,105 +415,152 @@ async def get_stock_info(symbol: str):
     return result
 
 
+def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d") -> list:
+    """Fetch chart data from Yahoo Finance v8 chart API."""
+    range_map = {"1d": "1d", "5d": "5d", "1mo": "1mo", "3mo": "3mo", "6mo": "6mo", "1y": "1y", "2y": "2y", "5y": "5y", "10y": "10y", "ytd": "ytd", "max": "max"}
+    interval_map = {"1m": "1m", "2m": "2m", "5m": "5m", "15m": "15m", "30m": "30m", "60m": "60m", "1d": "1d", "5d": "5d", "1wk": "1wk", "1mo": "1mo"}
+    r = range_map.get(period, "1y")
+    i = interval_map.get(interval, "1d")
+
+    try:
+        s = requests.Session()
+        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range={r}&interval={i}"
+        resp = s.get(url, timeout=15)
+        if resp.status_code != 200:
+            return []
+
+        data = resp.json()
+        result = data.get("chart", {}).get("result", [])
+        if not result:
+            return []
+
+        timestamps = result[0].get("timestamp", [])
+        quotes = result[0].get("indicators", {}).get("quote", [{}])[0] if result[0].get("indicators", {}).get("quote") else {}
+        opens = quotes.get("open", [])
+        highs = quotes.get("high", [])
+        lows = quotes.get("low", [])
+        closes = quotes.get("close", [])
+        volumes = quotes.get("volume", [])
+
+        chart_data = []
+        for i in range(len(timestamps)):
+            dt = datetime.fromtimestamp(timestamps[i], tz=timezone.utc)
+            chart_data.append({
+                "date": dt.strftime("%Y-%m-%d %H:%M"),
+                "open": round(float(opens[i]), 2) if i < len(opens) and opens[i] is not None else 0,
+                "high": round(float(highs[i]), 2) if i < len(highs) and highs[i] is not None else 0,
+                "low": round(float(lows[i]), 2) if i < len(lows) and lows[i] is not None else 0,
+                "close": round(float(closes[i]), 2) if i < len(closes) and closes[i] is not None else 0,
+                "volume": int(volumes[i]) if i < len(volumes) and volumes[i] is not None else 0,
+            })
+        return chart_data
+    except Exception:
+        return []
+
+
 @app.get("/api/stock/{symbol}/chart")
 async def get_chart(
     symbol: str,
     period: str = Query("1y", description="1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max"),
     interval: str = Query("1d", description="1m,2m,5m,15m,30m,60m,1d,5d,1wk,1mo"),
 ):
-    rate_limit()
-    ticker = yf.Ticker(symbol)
-    hist = ticker.history(period=period, interval=interval)
-
-    data = []
-    for index, row in hist.iterrows():
-        data.append({
-            "date": index.strftime("%Y-%m-%d %H:%M") if isinstance(index, datetime) else str(index),
-            "open": round(float(row["Open"]), 2),
-            "high": round(float(row["High"]), 2),
-            "low": round(float(row["Low"]), 2),
-            "close": round(float(row["Close"]), 2),
-            "volume": int(row["Volume"]),
-        })
-
+    data = _fetch_yahoo_chart_data(symbol, period, interval)
+    if not data:
+        rate_limit()
+        try:
+            ticker = yf.Ticker(symbol)
+            hist = ticker.history(period=period, interval=interval)
+            for index, row in hist.iterrows():
+                data.append({
+                    "date": index.strftime("%Y-%m-%d %H:%M") if isinstance(index, datetime) else str(index),
+                    "open": round(float(row["Open"]), 2),
+                    "high": round(float(row["High"]), 2),
+                    "low": round(float(row["Low"]), 2),
+                    "close": round(float(row["Close"]), 2),
+                    "volume": int(row["Volume"]),
+                })
+        except Exception:
+            pass
     return {"symbol": symbol, "period": period, "interval": interval, "data": data}
 
 
 @app.get("/api/stock/{symbol}/dividends")
 async def get_dividends(symbol: str):
-    rate_limit()
-    ticker = yf.Ticker(symbol)
-    dividends = ticker.dividends
-    splits = ticker.splits
-
     div_data = []
-    if dividends is not None and not dividends.empty:
-        for index, value in dividends.items():
-            dt = index if isinstance(index, datetime) else datetime.fromtimestamp(index.timestamp()) if hasattr(index, 'timestamp') else index
-            div_data.append({
-                "date": dt.strftime("%Y-%m-%d") if hasattr(dt, 'strftime') else str(dt),
-                "amount": round(float(value), 4),
-            })
-
     split_data = []
-    if splits is not None and not splits.empty:
-        for index, value in splits.items():
-            split_data.append({
-                "date": index.strftime("%Y-%m-%d"),
-                "ratio": round(float(value), 4),
-            })
-
+    rate_limit()
+    try:
+        ticker = yf.Ticker(symbol)
+        dividends = ticker.dividends
+        splits = ticker.splits
+        if dividends is not None and not dividends.empty:
+            for index, value in dividends.items():
+                dt = index if isinstance(index, datetime) else datetime.fromtimestamp(index.timestamp()) if hasattr(index, 'timestamp') else index
+                div_data.append({
+                    "date": dt.strftime("%Y-%m-%d") if hasattr(dt, 'strftime') else str(dt),
+                    "amount": round(float(value), 4),
+                })
+        if splits is not None and not splits.empty:
+            for index, value in splits.items():
+                split_data.append({
+                    "date": index.strftime("%Y-%m-%d"),
+                    "ratio": round(float(value), 4),
+                })
+    except Exception:
+        pass
     return {"symbol": symbol, "dividends": div_data, "splits": split_data}
 
 
 @app.get("/api/stock/{symbol}/financials")
 async def get_financials(symbol: str):
-    rate_limit()
-    ticker = yf.Ticker(symbol)
-
     result = {}
-    for stmt_name, stmt in [
-        ("incomeStatement", ticker.income_stmt),
-        ("balanceSheet", ticker.balance_sheet),
-        ("cashFlow", ticker.cashflow),
-    ]:
-        stmt_data = {}
-        if stmt is not None and not stmt.empty:
-            for index, row in stmt.iterrows():
-                label = str(index)
-                values = {}
-                for col in row.index:
-                    val = row[col]
-                    col_str = str(col)
-                    if hasattr(col, 'strftime'):
-                        col_str = col.strftime("%Y-%m-%d")
-                    try:
-                        values[col_str] = round(float(val), 2) if val is not None and val == val else None
-                    except (ValueError, TypeError):
-                        values[col_str] = str(val) if val is not None else None
-                stmt_data[label] = values
-        result[stmt_name] = stmt_data
-
+    rate_limit()
+    try:
+        ticker = yf.Ticker(symbol)
+        for stmt_name, stmt in [
+            ("incomeStatement", ticker.income_stmt),
+            ("balanceSheet", ticker.balance_sheet),
+            ("cashFlow", ticker.cashflow),
+        ]:
+            stmt_data = {}
+            if stmt is not None and not stmt.empty:
+                for index, row in stmt.iterrows():
+                    label = str(index)
+                    values = {}
+                    for col in row.index:
+                        val = row[col]
+                        col_str = str(col)
+                        if hasattr(col, 'strftime'):
+                            col_str = col.strftime("%Y-%m-%d")
+                        try:
+                            values[col_str] = round(float(val), 2) if val is not None and val == val else None
+                        except (ValueError, TypeError):
+                            values[col_str] = str(val) if val is not None else None
+                    stmt_data[label] = values
+            result[stmt_name] = stmt_data
+    except Exception:
+        pass
     return {"symbol": symbol, **result}
 
 
 @app.get("/api/stock/{symbol}/holders")
 async def get_holders(symbol: str):
-    rate_limit()
-    ticker = yf.Ticker(symbol)
-    major = ticker.major_holders
-    institutional = ticker.institutional_holders
-
     major_data = {}
-    if major is not None and not major.empty:
-        for index, row in major.iterrows():
-            major_data[str(index)] = [str(v) for v in row.values]
-
     inst_data = []
-    if institutional is not None and not institutional.empty:
-        for _, row in institutional.iterrows():
-            inst_data.append({str(k): str(v) for k, v in row.items()})
-
+    rate_limit()
+    try:
+        ticker = yf.Ticker(symbol)
+        major = ticker.major_holders
+        institutional = ticker.institutional_holders
+        if major is not None and not major.empty:
+            for index, row in major.iterrows():
+                major_data[str(index)] = [str(v) for v in row.values]
+        if institutional is not None and not institutional.empty:
+            for _, row in institutional.iterrows():
+                inst_data.append({str(k): str(v) for k, v in row.items()})
+    except Exception:
+        pass
     return {"symbol": symbol, "majorHolders": major_data, "institutionalHolders": inst_data}
 
 
