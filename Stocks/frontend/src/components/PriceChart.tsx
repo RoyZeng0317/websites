@@ -7,7 +7,6 @@ import type { ChartDataPoint } from '../types/stock'
 
 interface Props {
   symbol: string
-  exchange?: string
 }
 
 const PERIODS = [
@@ -21,7 +20,7 @@ const PERIODS = [
   { label: '最大', value: 'max', interval: '1mo' },
 ]
 
-export default function PriceChart({ symbol, exchange }: Props) {
+export default function PriceChart({ symbol }: Props) {
   const [period, setPeriod] = useState('1y')
   const [interval, setInterval_] = useState('1d')
   const [data, setData] = useState<ChartDataPoint[]>([])
@@ -63,7 +62,7 @@ export default function PriceChart({ symbol, exchange }: Props) {
   const startPrice = data[0]?.close ?? 0
   const endPrice = data[data.length - 1]?.close ?? 0
   const isUp = endPrice >= startPrice
-  const isTw = exchange === 'TWSE'
+  const isTw = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
   const upColor = isTw ? '#f87171' : '#34d399'
   const downColor = isTw ? '#34d399' : '#f87171'
   const color = isUp ? upColor : downColor

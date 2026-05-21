@@ -24,7 +24,7 @@ export default function StockHeader({ info }: Props) {
   const change = rt?.change ?? info.change
   const changePct = rt?.changePercent ?? info.changePercent
   const isPositive = change >= 0
-  const isTw = info.exchange === 'TWSE'
+  const isTw = info.symbol.endsWith('.TW') || info.symbol.endsWith('.TWO')
   const upColor = isTw ? 'text-red-400' : 'text-emerald-400'
   const downColor = isTw ? 'text-emerald-400' : 'text-red-400'
   const upBg = isTw ? 'bg-red-400/10' : 'bg-emerald-400/10'
