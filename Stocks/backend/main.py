@@ -4,8 +4,16 @@ import yfinance as yf
 import asyncio
 import json
 import time
+import requests
 from datetime import datetime, timezone
 from typing import Optional
+
+# Initialize shared session for yfinance
+_YF_SESSION = requests.Session()
+_YF_SESSION.headers.update({
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+})
+yf.set_tz_cache_location(None)
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -104,11 +112,19 @@ async def get_stock_info(symbol: str):
     if cache_key in CACHE and now - CACHE[cache_key]["time"] < CACHE_TTL:
         return CACHE[cache_key]["data"]
 
+    info = {}
     try:
-        ticker = get_ticker(symbol)
+        ticker = yf.Ticker(symbol, session=_YF_SESSION)
         info = ticker.info
     except Exception as e:
-        return {"error": f"Failed to fetch ticker: {str(e)}"}
+        try:
+            d = yf.download(symbol, period="1d", progress=False, session=_YF_SESSION)
+            if not d.empty:
+                info = {"symbol": symbol}
+        except Exception:
+            pass
+        if not info:
+            return {"error": f"Failed to fetch ticker: {str(e)}"}
 
     import math
 
