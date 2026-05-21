@@ -105,6 +105,87 @@ def _map_quote_to_info(q: dict, symbol: str) -> dict:
     }
 
 
+def _fetch_twse_quote(symbol: str) -> dict:
+    """Fetch real-time quote from Taiwan Stock Exchange for .TW symbols."""
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+    market = "otc" if ".TWO" in symbol else "tse"
+
+    try:
+        s = requests.Session()
+        s.headers.update({"User-Agent": "Mozilla/5.0"})
+        s.get("http://mis.twse.com.tw/stock/index.jsp", timeout=5)
+
+        url = f"https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch={market}_{stock_no}.tw&json=1&delay=0"
+        r = s.get(url, timeout=10)
+        if r.status_code != 200:
+            return {}
+
+        data = r.json()
+        msg = data.get("msgArray", [])
+        if not msg:
+            return {}
+
+        q = msg[0]
+        prev_close = float(q.get("y", 0) or 0)
+        current = float(q.get("z", q.get("y", 0)) if q.get("z") and q["z"] != "-" else q.get("y", 0))
+        open_p = float(q.get("o", 0) or 0)
+        high = float(q.get("h", 0) or 0)
+        low = float(q.get("l", 0) or 0)
+        volume = int(q.get("v", "0").replace(",", "") or 0)
+        change = current - prev_close
+        change_pct = (change / prev_close * 100) if prev_close else 0
+
+        return {
+            "symbol": symbol,
+            "longName": q.get("nf", q.get("n", symbol)),
+            "shortName": q.get("n", ""),
+            "currentPrice": current,
+            "regularMarketPrice": current,
+            "regularMarketChange": round(change, 2),
+            "regularMarketChangePercent": round(change_pct, 2),
+            "regularMarketOpen": open_p,
+            "regularMarketDayHigh": high,
+            "regularMarketDayLow": low,
+            "regularMarketVolume": volume,
+            "previousClose": prev_close,
+            "marketCap": 0,
+            "averageVolume": volume,
+            "trailingPE": None,
+            "forwardPE": None,
+            "trailingEps": None,
+            "forwardEps": None,
+            "dividendYield": None,
+            "dividendRate": None,
+            "exDividendDate": None,
+            "payoutRatio": None,
+            "fiveYearAvgDividendYield": None,
+            "returnOnEquity": None,
+            "returnOnAssets": None,
+            "totalRevenue": None,
+            "revenuePerShare": None,
+            "profitMargins": None,
+            "operatingMargins": None,
+            "debtToEquity": None,
+            "bookValue": None,
+            "priceToBook": None,
+            "fiftyTwoWeekHigh": high,
+            "fiftyTwoWeekLow": low,
+            "52WeekChange": None,
+            "beta": None,
+            "sector": "",
+            "industry": "",
+            "country": "Taiwan",
+            "website": "",
+            "longBusinessSummary": "",
+            "fullTimeEmployees": None,
+            "exchange": "TWSE",
+            "currency": "TWD",
+            "logo_url": None,
+        }
+    except Exception:
+        return {}
+
+
 def _get_stock_info(symbol: str) -> dict:
     cache_key = f"info_{symbol}"
     now_val = time.time()
@@ -113,13 +194,20 @@ def _get_stock_info(symbol: str) -> dict:
 
     rate_limit()
 
-    # Method 1: Direct Yahoo Finance API (bypasses yfinance cache issues on Python 3.14)
+    # Method 1: TWSE API for Taiwan stocks (most accurate for TWSE)
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        result = _fetch_twse_quote(symbol)
+        if result.get("currentPrice", 0) > 0:
+            CACHE[cache_key] = {"data": result, "time": now_val}
+            return result
+
+    # Method 3: Direct Yahoo Finance API
     result = _fetch_yahoo_quote(symbol)
     if result.get("symbol"):
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
-    # Method 2: yfinance download for price fallback
+    # Method 4: yfinance download for price fallback
     try:
         d = yf.download(symbol, period="5d", progress=False)
         if d is not None and not d.empty:
@@ -129,7 +217,7 @@ def _get_stock_info(symbol: str) -> dict:
     except Exception:
         pass
 
-    # Method 3: yfinance Ticker.info as last resort
+    # Method 5: yfinance Ticker.info as last resort
     try:
         ticker = yf.Ticker(symbol)
         info = dict(ticker.info) if ticker.info else {}
