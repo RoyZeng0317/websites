@@ -94,54 +94,81 @@ async def get_stock_info(symbol: str):
     if cache_key in CACHE and now - CACHE[cache_key]["time"] < CACHE_TTL:
         return CACHE[cache_key]["data"]
 
-    ticker = get_ticker(symbol)
-    info = ticker.info
+    try:
+        ticker = get_ticker(symbol)
+        info = ticker.info
+    except Exception as e:
+        return {"error": f"Failed to fetch ticker: {str(e)}"}
+
+    def safe(val, default=None):
+        if val is None:
+            return default
+        import math
+        if isinstance(val, float) and (math.isnan(val) or math.isinf(val)):
+            return default
+        return val
+
+    def safe_str(val, default=None):
+        if val is None:
+            return default
+        try:
+            return str(val)
+        except Exception:
+            return default
+
+    def safe_date(val):
+        if val is None:
+            return None
+        try:
+            return str(val)
+        except Exception:
+            return None
 
     result = {
         "symbol": symbol,
-        "name": info.get("longName", info.get("shortName", symbol)),
-        "currentPrice": info.get("currentPrice") or info.get("regularMarketPrice") or info.get("previousClose", 0),
-        "previousClose": info.get("previousClose", 0),
-        "open": info.get("regularMarketOpen", 0),
-        "dayHigh": info.get("dayHigh", info.get("regularMarketDayHigh", 0)),
-        "dayLow": info.get("dayLow", info.get("regularMarketDayLow", 0)),
-        "change": info.get("regularMarketChange", 0),
-        "changePercent": info.get("regularMarketChangePercent", 0),
-        "marketCap": info.get("marketCap", 0),
-        "volume": info.get("regularMarketVolume", 0),
-        "avgVolume": info.get("averageVolume", 0),
-        "peRatio": info.get("trailingPE"),
-        "forwardPE": info.get("forwardPE"),
-        "eps": info.get("trailingEps"),
-        "forwardEps": info.get("forwardEps"),
-        "earningsDate": str(info.get("earningsDate", [None, None])[0]) if info.get("earningsDate") else None,
-        "dividendYield": info.get("dividendYield"),
-        "dividendRate": info.get("dividendRate"),
-        "exDividendDate": str(info.get("exDividendDate")) if info.get("exDividendDate") else None,
-        "payoutRatio": info.get("payoutRatio"),
-        "fiveYearAvgDividendYield": info.get("fiveYearAvgDividendYield"),
-        "roe": info.get("returnOnEquity"),
-        "roa": info.get("returnOnAssets"),
-        "revenue": info.get("totalRevenue"),
-        "revenuePerShare": info.get("revenuePerShare"),
-        "profitMargin": info.get("profitMargins"),
-        "operatingMargin": info.get("operatingMargins"),
-        "debtToEquity": info.get("debtToEquity"),
-        "bookValue": info.get("bookValue"),
-        "priceToBook": info.get("priceToBook"),
-        "fiftyTwoWeekHigh": info.get("fiftyTwoWeekHigh"),
-        "fiftyTwoWeekLow": info.get("fiftyTwoWeekLow"),
-        "fiftyTwoWeekChange": info.get("52WeekChange"),
-        "beta": info.get("beta"),
-        "sector": info.get("sector"),
-        "industry": info.get("industry"),
-        "country": info.get("country"),
-        "website": info.get("website"),
-        "description": info.get("longBusinessSummary"),
-        "employees": info.get("fullTimeEmployees"),
-        "exchange": info.get("exchange"),
-        "currency": info.get("currency"),
-        "logoUrl": info.get("logo_url"),
+        "name": safe(info.get("longName"), safe(info.get("shortName"), symbol)),
+        "currentPrice": safe(info.get("currentPrice"), safe(info.get("regularMarketPrice"), safe(info.get("previousClose"), 0))),
+        "previousClose": safe(info.get("previousClose"), 0),
+        "open": safe(info.get("regularMarketOpen"), 0),
+        "dayHigh": safe(info.get("dayHigh"), safe(info.get("regularMarketDayHigh"), 0)),
+        "dayLow": safe(info.get("dayLow"), safe(info.get("regularMarketDayLow"), 0)),
+        "change": safe(info.get("regularMarketChange"), 0),
+        "changePercent": safe(info.get("regularMarketChangePercent"), 0),
+        "marketCap": safe(info.get("marketCap"), 0),
+        "volume": safe(info.get("regularMarketVolume"), 0),
+        "avgVolume": safe(info.get("averageVolume"), 0),
+        "peRatio": safe(info.get("trailingPE")),
+        "forwardPE": safe(info.get("forwardPE")),
+        "eps": safe(info.get("trailingEps")),
+        "forwardEps": safe(info.get("forwardEps")),
+        "earningsDate": None,
+        "dividendYield": safe(info.get("dividendYield")),
+        "dividendRate": safe(info.get("dividendRate")),
+        "exDividendDate": safe_date(info.get("exDividendDate")),
+        "payoutRatio": safe(info.get("payoutRatio")),
+        "fiveYearAvgDividendYield": safe(info.get("fiveYearAvgDividendYield")),
+        "roe": safe(info.get("returnOnEquity")),
+        "roa": safe(info.get("returnOnAssets")),
+        "revenue": safe(info.get("totalRevenue")),
+        "revenuePerShare": safe(info.get("revenuePerShare")),
+        "profitMargin": safe(info.get("profitMargins")),
+        "operatingMargin": safe(info.get("operatingMargins")),
+        "debtToEquity": safe(info.get("debtToEquity")),
+        "bookValue": safe(info.get("bookValue")),
+        "priceToBook": safe(info.get("priceToBook")),
+        "fiftyTwoWeekHigh": safe(info.get("fiftyTwoWeekHigh")),
+        "fiftyTwoWeekLow": safe(info.get("fiftyTwoWeekLow")),
+        "fiftyTwoWeekChange": safe(info.get("52WeekChange")),
+        "beta": safe(info.get("beta")),
+        "sector": safe(info.get("sector")),
+        "industry": safe(info.get("industry")),
+        "country": safe(info.get("country")),
+        "website": safe(info.get("website")),
+        "description": safe_str(info.get("longBusinessSummary")),
+        "employees": safe(info.get("fullTimeEmployees")),
+        "exchange": safe(info.get("exchange")),
+        "currency": safe(info.get("currency")),
+        "logoUrl": safe_str(info.get("logo_url")),
     }
 
     CACHE[cache_key] = {"data": result, "time": now}
