@@ -30,6 +30,81 @@ _YF_SESSION.headers.update({
 })
 
 
+def _fetch_yahoo_quote(symbol: str) -> dict:
+    """Fetch quote data directly from Yahoo Finance API and map to yfinance-like fields."""
+    ua_list = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    ]
+    for ua in ua_list:
+        try:
+            s = requests.Session()
+            s.headers.update({"User-Agent": ua, "Accept": "application/json"})
+            url = f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={symbol}"
+            r = s.get(url, timeout=10)
+            if r.status_code == 200:
+                data = r.json()
+                quotes = data.get("quoteResponse", {}).get("result", [])
+                if quotes:
+                    q = quotes[0]
+                    return _map_quote_to_info(q, symbol)
+        except Exception:
+            continue
+    return {}
+
+
+def _map_quote_to_info(q: dict, symbol: str) -> dict:
+    """Map Yahoo Finance v7 quote fields to yfinance.info-style fields."""
+    return {
+        "symbol": q.get("symbol", symbol),
+        "longName": q.get("longName", q.get("shortName", q.get("symbol", symbol))),
+        "shortName": q.get("shortName", ""),
+        "currentPrice": q.get("regularMarketPrice", q.get("marketPrice", 0)),
+        "regularMarketPrice": q.get("regularMarketPrice", 0),
+        "regularMarketChange": q.get("regularMarketChange", 0),
+        "regularMarketChangePercent": q.get("regularMarketChangePercent", 0),
+        "regularMarketOpen": q.get("regularMarketOpen", 0),
+        "regularMarketDayHigh": q.get("regularMarketDayHigh", 0),
+        "regularMarketDayLow": q.get("regularMarketDayLow", 0),
+        "regularMarketVolume": q.get("regularMarketVolume", 0),
+        "previousClose": q.get("regularMarketPreviousClose", q.get("previousClose", 0)),
+        "marketCap": q.get("marketCap", 0),
+        "averageVolume": q.get("averageDailyVolume10Day", q.get("averageVolume", 0)),
+        "trailingPE": q.get("trailingPE"),
+        "forwardPE": q.get("forwardPE"),
+        "trailingEps": q.get("epsTrailingTwelveMonths", q.get("trailingEps")),
+        "forwardEps": q.get("epsForward", q.get("forwardEps")),
+        "dividendYield": q.get("dividendYield"),
+        "dividendRate": q.get("dividendRate"),
+        "exDividendDate": q.get("exDividendDate"),
+        "payoutRatio": q.get("payoutRatio"),
+        "fiveYearAvgDividendYield": q.get("fiveYearAvgDividendYield"),
+        "returnOnEquity": q.get("returnOnEquity"),
+        "returnOnAssets": q.get("returnOnAssets"),
+        "totalRevenue": q.get("totalRevenue"),
+        "revenuePerShare": q.get("revenuePerShare"),
+        "profitMargins": q.get("profitMargins"),
+        "operatingMargins": q.get("operatingMargins"),
+        "debtToEquity": q.get("debtToEquity"),
+        "bookValue": q.get("bookValue"),
+        "priceToBook": q.get("priceToBook"),
+        "fiftyTwoWeekHigh": q.get("fiftyTwoWeekHigh"),
+        "fiftyTwoWeekLow": q.get("fiftyTwoWeekLow"),
+        "52WeekChange": q.get("52WeekChange"),
+        "beta": q.get("beta"),
+        "sector": q.get("sector", ""),
+        "industry": q.get("industry", ""),
+        "country": q.get("country", ""),
+        "website": q.get("website", ""),
+        "longBusinessSummary": q.get("longBusinessSummary", ""),
+        "fullTimeEmployees": q.get("fullTimeEmployees"),
+        "exchange": q.get("fullExchangeName", q.get("exchange", "")),
+        "currency": q.get("currency", ""),
+        "logo_url": None,
+    }
+
+
 def _get_stock_info(symbol: str) -> dict:
     cache_key = f"info_{symbol}"
     now_val = time.time()
@@ -37,29 +112,34 @@ def _get_stock_info(symbol: str) -> dict:
         return CACHE[cache_key]["data"]
 
     rate_limit()
-    errors = []
-    try:
-        ticker = yf.Ticker(symbol)
-        info = dict(ticker.info) if ticker.info else {}
-        if info.get("symbol"):
-            CACHE[cache_key] = {"data": info, "time": now_val}
-            return info
-        errors.append("no symbol in info")
-    except Exception as e:
-        errors.append(f"ticker.info: {e}")
 
+    # Method 1: Direct Yahoo Finance API (bypasses yfinance cache issues on Python 3.14)
+    result = _fetch_yahoo_quote(symbol)
+    if result.get("symbol"):
+        CACHE[cache_key] = {"data": result, "time": now_val}
+        return result
+
+    # Method 2: yfinance download for price fallback
     try:
         d = yf.download(symbol, period="5d", progress=False)
         if d is not None and not d.empty:
             result = {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
-        errors.append(f"download empty: {d}")
-    except Exception as e:
-        errors.append(f"download: {e}")
+    except Exception:
+        pass
 
-    errors.append("all methods failed")
-    return {"_debug": errors, "symbol": symbol}
+    # Method 3: yfinance Ticker.info as last resort
+    try:
+        ticker = yf.Ticker(symbol)
+        info = dict(ticker.info) if ticker.info else {}
+        if info.get("symbol"):
+            CACHE[cache_key] = {"data": info, "time": now_val}
+            return info
+    except Exception:
+        pass
+
+    return {}
 
 
 class CustomJSONEncoder(json.JSONEncoder):
