@@ -36,15 +36,17 @@ export default function StockHeader({ info }: Props) {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold text-slate-100">{info.nameCn || info.name}</h1>
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-bold text-slate-100">{info.nameCn || info.name}</h1>
+              <span className="text-sm text-slate-500 bg-slate-800 px-2 py-0.5 rounded">{info.symbol}</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
+                {info.exchange}
+              </span>
+            </div>
             {info.nameEn && info.nameEn !== (info.nameCn || info.name) && (
-              <span className="text-sm text-slate-400 font-normal">{info.nameEn}</span>
+              <div className="text-xs text-slate-400 mt-0.5">{info.nameEn}</div>
             )}
-            <span className="text-sm text-slate-500 bg-slate-800 px-2 py-0.5 rounded">{info.symbol}</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
-              {info.exchange}
-            </span>
           </div>
           <div className="flex items-baseline gap-3 mt-2">
             <span className="text-4xl font-bold text-slate-100">
