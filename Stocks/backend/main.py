@@ -26,14 +26,22 @@ except Exception:
 
 _YF_SESSION = requests.Session()
 _YF_SESSION.headers.update({
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     "Accept": "text/html,application/json,*/*",
     "Accept-Language": "en-US,en;q=0.9",
+    "Origin": "https://finance.yahoo.com",
+    "Referer": "https://finance.yahoo.com/",
 })
 
 def _normalize_key(key):
     k = key.strip()
-    if k.isdigit() or (k.startswith("00") and not k.endswith(".TW")):
+    if k.endswith(".TW"):
+        return k
+    if k.endswith(".TWO"):
+        return k
+    if k.endswith(".HK"):
+        return k
+    if k.isdigit() or (k.startswith("00") and not (k.endswith(".TW") or k.endswith(".TWO") or k.endswith(".HK"))):
         return k + ".TW"
     return k
 
@@ -158,14 +166,50 @@ FUNDAMENTALS_CACHE = {}
 FUNDAMENTALS_TTL = 21600  # 6 hours for fundamentals (rarely changes)
 
 def _fetch_fundamentals(symbol: str) -> dict:
-    """Fetch EPS, PE ratio, dividend yield, ROE etc. from Yahoo Finance v7 quote API."""
+    """Fetch EPS, PE ratio, dividend yield, ROE etc. from Yahoo Finance APIs."""
     cache_key = f"fund_{symbol}"
     now_val = time.time()
     if cache_key in FUNDAMENTALS_CACHE and now_val - FUNDAMENTALS_CACHE[cache_key]["time"] < FUNDAMENTALS_TTL:
         return FUNDAMENTALS_CACHE[cache_key]["data"]
 
+    def _extract(q: dict) -> dict:
+        return {
+            "trailingPE": q.get("trailingPE"),
+            "forwardPE": q.get("forwardPE"),
+            "trailingEps": q.get("trailingEps") or q.get("epsTrailingTwelveMonths"),
+            "forwardEps": q.get("forwardEps") or q.get("epsForward"),
+            "dividendYield": q.get("dividendYield"),
+            "dividendRate": q.get("dividendRate"),
+            "exDividendDate": q.get("exDividendDate"),
+            "payoutRatio": q.get("payoutRatio"),
+            "fiveYearAvgDividendYield": q.get("fiveYearAvgDividendYield"),
+            "returnOnEquity": q.get("returnOnEquity"),
+            "returnOnAssets": q.get("returnOnAssets"),
+            "totalRevenue": q.get("totalRevenue"),
+            "revenuePerShare": q.get("revenuePerShare"),
+            "profitMargins": q.get("profitMargins"),
+            "operatingMargins": q.get("operatingMargins"),
+            "debtToEquity": q.get("debtToEquity"),
+            "bookValue": q.get("bookValue"),
+            "priceToBook": q.get("priceToBook"),
+            "marketCap": q.get("marketCap"),
+            "averageVolume": q.get("averageVolume"),
+            "beta": q.get("beta"),
+            "fiftyTwoWeekHigh": q.get("fiftyTwoWeekHigh"),
+            "fiftyTwoWeekLow": q.get("fiftyTwoWeekLow"),
+            "52WeekChange": q.get("52WeekChange"),
+            "sector": q.get("sector", ""),
+            "industry": q.get("industry", ""),
+            "country": q.get("country", ""),
+            "website": q.get("website", ""),
+            "longBusinessSummary": q.get("longBusinessSummary", ""),
+            "fullTimeEmployees": q.get("fullTimeEmployees"),
+            "logo_url": q.get("logo_url"),
+        }
+
     result = {}
-    # Try Yahoo Finance v7 quote API
+
+    # Method 1: Yahoo v10 quoteSummary (modules-based, often more accessible)
     for ua in [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
@@ -173,98 +217,101 @@ def _fetch_fundamentals(symbol: str) -> dict:
         try:
             rate_limit()
             s = requests.Session()
-            s.headers.update({"User-Agent": ua, "Accept": "application/json"})
+            s.headers.update({
+                "User-Agent": ua,
+                "Accept": "application/json",
+                "Origin": "https://finance.yahoo.com",
+                "Referer": "https://finance.yahoo.com/",
+            })
             r = s.get(
-                f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={symbol}",
-                timeout=8,
+                f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{symbol}?modules=assetProfile,financialData,defaultKeyStatistics,calendarEvents",
+                timeout=10,
             )
             if r.status_code != 200:
                 continue
-            q = r.json().get("quoteResponse", {}).get("result", [])
-            if not q:
+            d = r.json().get("quoteSummary", {}).get("result", [])
+            if not d:
                 continue
-            q = q[0]
+            d = d[0]
+            fd = d.get("financialData", {}) or {}
+            ks = d.get("defaultKeyStatistics", {}) or {}
+            ap = d.get("assetProfile", {}) or {}
+
             result = {
-                "trailingPE": q.get("trailingPE"),
-                "forwardPE": q.get("forwardPE"),
-                "trailingEps": q.get("epsTrailingTwelveMonths"),
-                "forwardEps": q.get("epsForward"),
-                "dividendYield": q.get("dividendYield"),
-                "dividendRate": q.get("dividendRate"),
-                "exDividendDate": q.get("exDividendDate"),
-                "payoutRatio": q.get("payoutRatio"),
-                "fiveYearAvgDividendYield": q.get("fiveYearAvgDividendYield"),
-                "returnOnEquity": q.get("returnOnEquity"),
-                "returnOnAssets": q.get("returnOnAssets"),
-                "totalRevenue": q.get("totalRevenue"),
-                "revenuePerShare": q.get("revenuePerShare"),
-                "profitMargins": q.get("profitMargins"),
-                "operatingMargins": q.get("operatingMargins"),
-                "debtToEquity": q.get("debtToEquity"),
-                "bookValue": q.get("bookValue"),
-                "priceToBook": q.get("priceToBook"),
-                "marketCap": q.get("marketCap"),
-                "averageVolume": q.get("averageVolume"),
-                "beta": q.get("beta"),
-                "fiftyTwoWeekHigh": q.get("fiftyTwoWeekHigh"),
-                "fiftyTwoWeekLow": q.get("fiftyTwoWeekLow"),
-                "52WeekChange": q.get("52WeekChange"),
-                "sector": q.get("sector", ""),
-                "industry": q.get("industry", ""),
-                "country": q.get("country", ""),
-                "website": q.get("website", ""),
-                "longBusinessSummary": q.get("longBusinessSummary", ""),
-                "fullTimeEmployees": q.get("fullTimeEmployees"),
-                "logo_url": q.get("logo_url"),
+                "trailingPE": (fd.get("trailingPE") or {}).get("raw"),
+                "forwardPE": (fd.get("forwardPE") or {}).get("raw"),
+                "trailingEps": (fd.get("epsTrailingTwelveMonths") or {}).get("raw") or (ks.get("trailingEps") or {}).get("raw"),
+                "forwardEps": (fd.get("epsForward") or {}).get("raw"),
+                "dividendYield": (fd.get("dividendYield") or {}).get("raw") or (ks.get("dividendYield") or {}).get("raw"),
+                "dividendRate": (fd.get("dividendRate") or {}).get("raw") or (ks.get("dividendRate") or {}).get("raw"),
+                "exDividendDate": (ks.get("exDividendDate") or {}).get("raw"),
+                "payoutRatio": (ks.get("payoutRatio") or {}).get("raw"),
+                "fiveYearAvgDividendYield": (ks.get("fiveYearAvgDividendYield") or {}).get("raw"),
+                "returnOnEquity": (ks.get("returnOnEquity") or {}).get("raw"),
+                "returnOnAssets": (ks.get("returnOnAssets") or {}).get("raw"),
+                "totalRevenue": (fd.get("totalRevenue") or {}).get("raw"),
+                "revenuePerShare": (fd.get("revenuePerShare") or {}).get("raw"),
+                "profitMargins": (fd.get("profitMargins") or {}).get("raw"),
+                "operatingMargins": (fd.get("operatingMargins") or {}).get("raw"),
+                "debtToEquity": (fd.get("debtToEquity") or {}).get("raw"),
+                "bookValue": (ks.get("bookValue") or {}).get("raw"),
+                "priceToBook": (ks.get("priceToBook") or {}).get("raw"),
+                "marketCap": (fd.get("marketCap") or {}).get("raw") or (ks.get("marketCap") or {}).get("raw"),
+                "averageVolume": (ks.get("averageVolume") or {}).get("raw"),
+                "beta": (ks.get("beta") or {}).get("raw"),
+                "fiftyTwoWeekHigh": (ks.get("fiftyTwoWeekHigh") or {}).get("raw"),
+                "fiftyTwoWeekLow": (ks.get("fiftyTwoWeekLow") or {}).get("raw"),
+                "52WeekChange": (ks.get("52WeekChange") or {}).get("raw"),
+                "sector": ap.get("sector", ""),
+                "industry": ap.get("industry", ""),
+                "country": ap.get("country", ""),
+                "website": ap.get("website", ""),
+                "longBusinessSummary": ap.get("longBusinessSummary", ""),
+                "fullTimeEmployees": ap.get("fullTimeEmployees"),
+                "logo_url": None,
             }
             break
         except Exception:
             continue
 
-    # Fallback: yfinance Ticker.info
-    if not result:
+    # Method 2: Yahoo Finance v7 quote API
+    if not result or not any(v is not None for v in result.values()):
+        for ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                s = requests.Session()
+                s.headers.update({"User-Agent": ua, "Accept": "application/json"})
+                r = s.get(
+                    f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={symbol}",
+                    timeout=8,
+                )
+                if r.status_code != 200:
+                    continue
+                q = r.json().get("quoteResponse", {}).get("result", [])
+                if not q:
+                    continue
+                result = _extract(q[0])
+                break
+            except Exception:
+                continue
+
+    # Method 3: yfinance Ticker.info as last resort
+    if not result or not any(v is not None for v in result.values()):
         try:
             rate_limit()
             ticker = yf.Ticker(symbol)
             info = dict(ticker.info) if ticker.info else {}
             if info.get("symbol"):
-                result = {
-                    "trailingPE": info.get("trailingPE"),
-                    "forwardPE": info.get("forwardPE"),
-                    "trailingEps": info.get("trailingEps"),
-                    "forwardEps": info.get("forwardEps"),
-                    "dividendYield": info.get("dividendYield"),
-                    "dividendRate": info.get("dividendRate"),
-                    "exDividendDate": info.get("exDividendDate"),
-                    "payoutRatio": info.get("payoutRatio"),
-                    "fiveYearAvgDividendYield": info.get("fiveYearAvgDividendYield"),
-                    "returnOnEquity": info.get("returnOnEquity"),
-                    "returnOnAssets": info.get("returnOnAssets"),
-                    "totalRevenue": info.get("totalRevenue"),
-                    "revenuePerShare": info.get("revenuePerShare"),
-                    "profitMargins": info.get("profitMargins"),
-                    "operatingMargins": info.get("operatingMargins"),
-                    "debtToEquity": info.get("debtToEquity"),
-                    "bookValue": info.get("bookValue"),
-                    "priceToBook": info.get("priceToBook"),
-                    "marketCap": info.get("marketCap"),
-                    "averageVolume": info.get("averageVolume"),
-                    "beta": info.get("beta"),
-                    "fiftyTwoWeekHigh": info.get("fiftyTwoWeekHigh"),
-                    "fiftyTwoWeekLow": info.get("fiftyTwoWeekLow"),
-                    "52WeekChange": info.get("52WeekChange"),
-                    "sector": info.get("sector", ""),
-                    "industry": info.get("industry", ""),
-                    "country": info.get("country", ""),
-                    "website": info.get("website", ""),
-                    "longBusinessSummary": info.get("longBusinessSummary", ""),
-                    "fullTimeEmployees": info.get("fullTimeEmployees"),
-                    "logo_url": info.get("logo_url"),
-                }
+                result = _extract(info)
         except Exception:
             pass
 
-    FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
+    has_data = any(v is not None for v in result.values())
+    if has_data:
+        FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
     return result
 
 
@@ -482,13 +529,13 @@ async def search_stocks(query: str = Query(..., min_length=1)):
     for result in results:
         sym = result["symbol"]
         if sym in STOCK_NAMES:
-            result["name"] = STOCK_NAMES[sym]["name"]
+            result["nameCn"] = STOCK_NAMES[sym]["name"]
 
     for sym, info in STOCK_NAMES.items():
         name = info["name"]
         if sym not in seen and (q in sym.lower() or q in name.lower()):
             seen.add(sym)
-            results.append({"symbol": sym, "name": name, "exchange": _detect_exchange(sym)})
+            results.append({"symbol": sym, "name": name, "exchange": _detect_exchange(sym), "nameCn": name})
 
     # Source 3: Try direct Ticker lookup (for numeric TW stock codes)
     if not results or len(results) < 5:
@@ -554,9 +601,12 @@ async def get_stock_info(symbol: str):
         except Exception:
             return None
 
+    known_entry = STOCK_NAMES.get(symbol, {})
     result = {
         "symbol": symbol,
-        "name": safe(info.get("longName"), safe(info.get("shortName"), symbol)),
+        "name": safe(known_entry.get("name") if known_entry else info.get("longName"), safe(info.get("shortName"), symbol)),
+        "nameCn": safe(known_entry.get("name")),
+        "nameEn": safe(info.get("longName"), safe(info.get("shortName"), symbol)),
         "currentPrice": safe(info.get("currentPrice"), safe(info.get("regularMarketPrice"), safe(info.get("previousClose"), 0))),
         "previousClose": safe(info.get("previousClose"), 0),
         "open": safe(info.get("regularMarketOpen"), 0),

@@ -85,8 +85,11 @@ export default function SearchBar() {
               className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-700 transition-colors text-left"
             >
               <div>
-                <span className="font-medium text-slate-100">{r.name}</span>
+                <span className="font-medium text-slate-100">{r.nameCn || r.name}</span>
                 <span className="ml-2 text-sm text-slate-400">{r.symbol}</span>
+                {r.nameCn && r.name !== r.nameCn && (
+                  <span className="ml-2 text-xs text-slate-500">{r.name}</span>
+                )}
               </div>
               <span className="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">
                 {exchangeLabel(r.exchange)}

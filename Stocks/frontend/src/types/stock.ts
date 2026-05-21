@@ -2,11 +2,14 @@ export interface StockSearchResult {
   symbol: string
   name: string
   exchange: string
+  nameCn?: string
 }
 
 export interface StockInfo {
   symbol: string
   name: string
+  nameCn?: string
+  nameEn?: string
   currentPrice: number
   previousClose: number
   open: number
