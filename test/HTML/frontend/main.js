@@ -8,6 +8,33 @@ let examOverviewVisible = false;
 let answeredMap = {};
 let submittedMap = {};
 let currentSubject = '11700';
+let currentUser = null;
+let db = null;
+if (typeof _fbReady !== 'undefined' && _fbReady) {
+    try { db = firebase.firestore(); } catch(e) { console.warn('Firestore init failed', e.message); }
+}
+try {
+    firebase.auth().onAuthStateChanged(user => {
+        currentUser = user;
+        const el = document.getElementById('top-user');
+        const btn = document.getElementById('top-login-btn');
+        if (user && el && btn) {
+            el.style.display = 'inline';
+            el.textContent = user.displayName || user.email;
+            btn.textContent = '登出';
+            btn.onclick = () => firebase.auth().signOut();
+        } else if (el && btn) {
+            el.style.display = 'none';
+            btn.textContent = '登入';
+            btn.onclick = topLogin;
+        }
+    });
+} catch(e) {}
+function topLogin() {
+    if (!firebase.apps.length) return;
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).catch(() => {});
+}
 
 const subjectConfig = {
     '11700': {
@@ -344,6 +371,93 @@ function submitExam() {
     if (examOverviewVisible) { examOverviewVisible = false; document.getElementById('exam-overview-container').style.display = 'none'; }
     currentIndex = 0;
     renderExam();
+    saveExamResult(correct, total, score);
+    renderResultPanel(correct, total, score);
+}
+
+function renderResultPanel(correct, total, score) {
+    const container = document.getElementById('question-container');
+    const cfg = subjectConfig[currentSubject];
+    const wiScores = {};
+    for (let wi = 1; wi <= cfg.wiCount; wi++) {
+        const wiQs = examQuestions.filter(q => getWI(q.id) === wi);
+        const wiCorrect = wiQs.filter(q => {
+            const sel = answeredMap[q.id] || [];
+            return JSON.stringify([...sel].sort()) === JSON.stringify([...q.answer].sort());
+        }).length;
+        if (wiQs.length) wiScores[wi] = { correct: wiCorrect, total: wiQs.length, rate: Math.round(wiCorrect/wiQs.length*100) };
+    }
+
+    const pass = score >= 60;
+    let h = `<div class="result-panel"><div class="result-header">
+        <div class="big-score ${pass?'pass':'fail'}">${Math.round(score)}<span style="font-size:1rem;">分</span></div>
+        <div class="score-label">${pass?'✓ 及格':'✗ 不及格'}</div>
+        <div class="score-detail">${correct} / ${total} 題正確</div>
+    </div>`;
+
+    if (Object.keys(wiScores).length > 1) {
+        h += `<div class="wi-breakdown"><h4><i class="fas fa-chart-simple"></i> 各工作項目能力分布</h4>`;
+        for (const [wi, v] of Object.entries(wiScores)) {
+            const name = cfg.wiNames[wi]?.replace(/工作項目\d+：/, '') || `工作項目 ${wi}`;
+            const barClass = v.rate >= 60 ? 'good' : v.rate >= 40 ? 'mid' : 'poor';
+            h += `<div class="wi-row">
+                <div class="wi-label" title="${cfg.wiNames[wi]||''}">${name}</div>
+                <div class="wi-bar-bg"><div class="wi-bar-fill ${barClass}" style="width:${v.rate}%"></div></div>
+                <div class="wi-stat">${v.rate}% (${v.correct}/${v.total})</div>
+            </div>`;
+        }
+        h += `</div>`;
+    }
+
+    h += `<div class="result-actions">
+        <a href="dashboard.html" class="btn-dash"><i class="fas fa-chart-bar"></i> 查看完整分析</a>
+        <button class="btn-retry" onclick="retryExam()"><i class="fas fa-redo"></i> 再考一次</button>
+    </div></div>`;
+
+    container.insertAdjacentHTML('afterend', h);
+}
+
+function retryExam() {
+    const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+    examQuestions = shuffled.slice(0, Math.min(80, shuffled.length));
+    answeredMap = {};
+    submittedMap = {};
+    examSubmitted = false;
+    currentIndex = 0;
+    document.querySelector('.result-panel')?.remove();
+    renderExam();
+}
+
+function saveExamResult(correct, total, score) {
+    if (!currentUser || !db) return;
+    const wiScores = {};
+    const wiCount = subjectConfig[currentSubject].wiCount || 1;
+    for (let wi = 1; wi <= wiCount; wi++) {
+        const wiQs = examQuestions.filter(q => getWI(q.id) === wi);
+        const wiCorrect = wiQs.filter(q => {
+            const sel = answeredMap[q.id] || [];
+            return JSON.stringify([...sel].sort()) === JSON.stringify([...q.answer].sort());
+        }).length;
+        wiScores[wi] = { correct: wiCorrect, total: wiQs.length };
+    }
+    db.collection('users').doc(currentUser.uid).collection('scores').add({
+        subject: currentSubject,
+        type: examQuestions[0]?.type || 'mixed',
+        total, correct, score,
+        wiScores,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(e => console.error('Save exam error:', e));
+    // Save each answer individually
+    examQuestions.forEach(q => {
+        const sel = answeredMap[q.id] || [];
+        db.collection('users').doc(currentUser.uid).collection('answers').doc(`${currentSubject}_${q.id}`).set({
+            subject: currentSubject,
+            questionId: q.id,
+            selected: sel,
+            correct: JSON.stringify([...sel].sort()) === JSON.stringify([...q.answer].sort()),
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(() => {});
+    });
 }
 
 function nextQuestion() { if(currentIndex<filteredQuestions.length-1){ currentIndex++; renderQuestion(); } }

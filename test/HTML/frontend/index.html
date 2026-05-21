@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>即測即評線上測驗</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="auth-bar" id="auth-bar">
+        <div class="auth-left">
+            <button class="class-B" onclick="ClassB(event)">切換乙級</button>
+        </div>
+        <div id="user-info" class="user-info" style="display:none;">
+            <img id="user-avatar" src="" alt="">
+            <span id="user-name"></span>
+            <button class="btn-logout" onclick="logout()">登出</button>
+        </div>
+        <button class="btn-google" id="login-btn" onclick="login()">
+            <img src="https://www.google.com/favicon.ico" alt="">
+            <span>使用 Google 登入</span>
+        </button>
+    </div>
     <span class="title">即測即評題庫網</span>
-    <button class="class-B" onclick="ClassB(event)">切換乙級</button>
-
     <div class="container">
         <div class="content">
             <div class="menu">
@@ -96,7 +109,7 @@
             <div class="contact-us">
                 <span>聯絡我們</span>
                 <ul>
-                    <li><a href="mailto:你的信箱@gmail.com" class="link">[聯絡信箱]</a></li>
+                    <li><a href="mailto:你的信箱@yahoo.com" class="link">[聯絡信箱]</a></li>
                 </ul>
                 <p>~~~有任何想要建議的都可以聯絡信箱告知我們~~~</p>
             </div>
@@ -105,6 +118,30 @@
 
     <footer>&copy; 2026 即測即評題庫網. All rights reserved.</footer>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js"></script>
+    <script>
+    function login() {
+        if (!_fbReady) return alert('請先設定 Firebase 專案');
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).catch(e => alert('登入失敗：' + e.message));
+    }
+    function logout() { firebase.auth().signOut(); }
+    firebase.auth().onAuthStateChanged(user => {
+        const loginBtn = document.getElementById('login-btn');
+        const userInfo = document.getElementById('user-info');
+        if (user) {
+            loginBtn.style.display = 'none';
+            userInfo.style.display = 'flex';
+            document.getElementById('user-avatar').src = user.photoURL || '';
+            document.getElementById('user-name').textContent = user.displayName || user.email;
+        } else {
+            loginBtn.style.display = 'inline-flex';
+            userInfo.style.display = 'none';
+        }
+    });
+    </script>
 </body>
 </html>

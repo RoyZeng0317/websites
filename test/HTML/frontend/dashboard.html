@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
     <meta charset="utf-8">
-    <title>即測即評線上測驗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成績分析 — 即測即評線上測驗</title>
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -12,6 +13,10 @@
 </head>
 <body>
     <div class="auth-bar" id="auth-bar">
+        <div class="auth-left">
+            <a href="index.html"><i class="fas fa-home"></i> 回首頁</a>
+            <a href="login.html"><i class="fas fa-sign-in-alt"></i> 登入</a>
+        </div>
         <div id="user-info" class="user-info" style="display:none;">
             <img id="user-avatar" src="" alt="">
             <span id="user-name"></span>
@@ -23,104 +28,125 @@
         </button>
     </div>
     <span class="title"><a href="index.html" class="link">即測即評題庫網</a></span>
-    <div class="container">
-        <div class="content">
-            <div class="menu-wrapper">
-                        <div class="menu-item">
-                            <span class="menu-label" id="Computer-and-Electronic">資訊電子</span>
-                            <ul class="dropdown" id="Computer-and-Electronic-menu">
-                                <li><a href="#" class="link" onclick="computer(event)">資訊職類</a></li>
-                                <li><a href="#" class="link" onclick="electronic(event)">電子儀表種類</a></li>
-                            </ul>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">電機機械</span>
-                            <ul class="dropdown">
-                                <li><a href="">電機職類</a></li>
-                                <li><a href="">金屬及機械加工職類</a></li>
-                                <li><a href="">機械及設備修護職類</a></li>
-                            </ul>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">勞安營造</span>
-                            <ul class="dropdown" id="">
-                                <li><a href="">勞工安全衛生操作職類</a></li>
-                                <li><a href="">營造職類</a></li>
-                            </ul>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">美容餐飲</span>
-                            <ul class="dropdown" id="">
-                                <li><a href="#">美容美髮服飾職類</a></li>
-                                <li><a href="#">餐飲食品相關職類</a></li>
-                            </ul>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">商業農業</span>
-                            <ul class="dropdown" id="">
-                                <li><a href="">商業服務印刷製版職類</a></li>
-                                <li><a href="#">農業職類</a></li>
-                            </ul>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">化工配管</span>
-                            <ul class="dropdown" id="">
-                                <li><a href="#">化工職類</a></li>
-                                <li><a href="#">焊接配管職類</a></li>
-                            </ul>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">製圖職類</span>
-                        </div>
-                        <div class="menu-item">
-                            <span class="menu-label" id="">其他職類</span>
-                        </div>
-                    </div>
 
-            <div class="score-section" id="score-section" style="display:none;">
-                <div id="login-prompt" class="login-prompt">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <p>登入後即可查看成績紀錄與能力分析</p>
+    <div class="dashboard-container">
+        <!-- Login prompt -->
+        <div id="login-prompt" class="login-prompt">
+            <i class="fas fa-chart-line"></i>
+            <h2>成績分析</h2>
+            <p>登入後即可查看您的作答記錄、成績趨勢與各工作項目能力分析</p>
+            <button class="btn-google" onclick="login()" style="display:inline-flex;width:auto;margin:0 auto;">
+                <img src="https://www.google.com/favicon.ico" alt="">
+                <span>使用 Google 登入</span>
+            </button>
+        </div>
+
+        <!-- Dashboard content (hidden until login) -->
+        <div id="dash-content" style="display:none;">
+            <!-- Subject tabs -->
+            <div class="subject-tabs">
+                <button class="tab active" data-subject="11700" onclick="switchSubject('11700')">11700 數位電子乙級</button>
+                <button class="tab" data-subject="11800" onclick="switchSubject('11800')">11800 電腦軟體應用丙級</button>
+                <button class="tab" data-subject="common" onclick="switchSubject('common')">共同科目</button>
+            </div>
+
+            <!-- Stats cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-exams">0</div>
+                        <div class="stat-label">測驗次數</div>
+                    </div>
                 </div>
-                <div id="score-content" style="display:none;">
-                    <h2>成績總覽</h2>
-                    <div class="score-summary">
-                        <div class="score-card">
-                            <div class="num" id="total-answered">0</div>
-                            <div class="label">總答題數</div>
-                        </div>
-                        <div class="score-card">
-                            <div class="num" id="total-correct" style="color:var(--success);">0</div>
-                            <div class="label">正確</div>
-                        </div>
-                        <div class="score-card">
-                            <div class="num" id="total-rate">0%</div>
-                            <div class="label">正確率</div>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-answered">0</div>
+                        <div class="stat-label">總答題數</div>
                     </div>
-                    <h2>能力分析</h2>
-                    <div class="chart-wrap">
-                        <canvas id="ability-chart"></canvas>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-best">0%</div>
+                        <div class="stat-label">最高分</div>
                     </div>
-                    <h2>最近作答記錄</h2>
-                    <div class="recent-scores">
-                        <table>
-                            <thead><tr><th>日期</th><th>題型</th><th>正確</th><th>總題數</th><th>正確率</th></tr></thead>
-                            <tbody id="score-history-body"></tbody>
-                        </table>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-avg">0%</div>
+                        <div class="stat-label">平均正確率</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-latest">0%</div>
+                        <div class="stat-label">最近一次</div>
                     </div>
                 </div>
             </div>
-            <div class="contact-us">
-                    <div class="under">
-                        <span>聯絡我們</span>
-                        <li><a href="mailto:你的信箱@gmail.com" class="link">[聯絡信箱]</a></li>
-                        <p>~~~有任何想要建議的都可以聯絡信箱告知我們~~~</p>
+
+            <!-- Charts row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-bar"></i> 各工作項目正確率</h3>
+                    <div class="chart-wrap">
+                        <canvas id="wi-bar-chart"></canvas>
                     </div>
                 </div>
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-pie"></i> 能力分布雷達圖</h3>
+                    <div class="chart-wrap">
+                        <canvas id="ability-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score trend -->
+            <div class="chart-card full">
+                <h3><i class="fas fa-wave-square"></i> 成績趨勢</h3>
+                <div class="chart-wrap">
+                    <canvas id="trend-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="history-section">
+                <div class="history-header">
+                    <h3><i class="fas fa-history"></i> 測驗歷史紀錄</h3>
+                    <div class="history-controls">
+                        <select id="history-type-filter" onchange="renderHistory()">
+                            <option value="all">全部題型</option>
+                            <option value="single">單選題</option>
+                            <option value="multiple">複選題</option>
+                        </select>
+                        <button class="btn-sm" onclick="exportHistory()"><i class="fas fa-download"></i> 匯出 CSV</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>日期</th>
+                                <th>題型</th>
+                                <th>正確</th>
+                                <th>總題數</th>
+                                <th>正確率</th>
+                                <th>各工作項目</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-history-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-    <footer class="bottom">&copy; 2026 即測即評題庫網. All rights reserved.</footer>
+
+    <footer>&copy; 2026 即測即評題庫網. All rights reserved.</footer>
 
     <script src="script.js"></script>
     <script src="firebase-config.js"></script>

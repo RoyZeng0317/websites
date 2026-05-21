@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 — 即測即評線上測驗</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="auth-bar" id="auth-bar">
+        <div class="auth-left">
+            <a href="index.html" class="link"><i class="fas fa-home"></i> 回首頁</a>
+            <a href="dashboard.html" class="link"><i class="fas fa-chart-bar"></i> 成績分析</a>
+        </div>
+    </div>
+    <span class="title"><a href="index.html" class="link">即測即評題庫網</a></span>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-icon"><i class="fas fa-user-circle"></i></div>
+            <h2>歡迎回來</h2>
+            <p class="login-desc">登入後可儲存作答記錄與成績</p>
+
+            <button class="btn-google" onclick="googleLogin()">
+                <img src="https://www.google.com/favicon.ico" alt="">
+                <span>使用 Google 帳號登入</span>
+            </button>
+
+            <div class="divider">或</div>
+
+            <div id="email-section">
+                <div class="input-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" placeholder="you@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="password"><i class="fas fa-lock"></i> 密碼</label>
+                    <input type="password" id="password" placeholder="至少 6 位">
+                </div>
+                <div class="error-msg" id="auth-error"></div>
+                <button class="btn-submit" id="auth-btn" onclick="emailAuth()">
+                    <i class="fas fa-sign-in-alt"></i> <span>登入</span>
+                </button>
+                <p class="switch-text" id="switch-text">
+                    還沒有帳號？<a href="#" onclick="toggleAuth()">立即註冊</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 即測即評題庫網. All rights reserved.</footer>
+
+<script src="firebase-config.js"></script>
+<script>
+let isSignUp = false;
+
+function showError(msg) {
+    const el = document.getElementById('auth-error');
+    el.textContent = msg;
+    el.style.display = 'flex';
+    setTimeout(() => el.style.display = 'none', 4000);
+}
+
+function toggleAuth() {
+    isSignUp = !isSignUp;
+    document.getElementById('auth-btn').innerHTML = isSignUp
+        ? '<i class="fas fa-user-plus"></i> <span>註冊</span>'
+        : '<i class="fas fa-sign-in-alt"></i> <span>登入</span>';
+    document.getElementById('switch-text').innerHTML = isSignUp
+        ? '已經有帳號？<a href="#" onclick="toggleAuth()">登入</a>'
+        : '還沒有帳號？<a href="#" onclick="toggleAuth()">立即註冊</a>';
+}
+
+function googleLogin() {
+    if (!_fbReady) return showError('請先設定 Firebase 專案');
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+        .then(() => window.location.href = 'index.html')
+        .catch(e => showError(e.message));
+}
+
+async function emailAuth() {
+    if (!_fbReady) return showError('請先設定 Firebase 專案');
+    const email = document.getElementById('email').value;
+    const pass = document.getElementById('password').value;
+    if (!email || !pass) return showError('請輸入 Email 和密碼');
+    try {
+        if (isSignUp) {
+            await firebase.auth().createUserWithEmailAndPassword(email, pass);
+        } else {
+            await firebase.auth().signInWithEmailAndPassword(email, pass);
+        }
+        window.location.href = 'index.html';
+    } catch (e) {
+        const map = {
+            'auth/wrong-password': '密碼錯誤',
+            'auth/user-not-found': '此 Email 尚未註冊',
+            'auth/email-already-in-use': '此 Email 已被註冊',
+            'auth/weak-password': '密碼至少需要 6 位',
+            'auth/invalid-email': 'Email 格式不正確',
+            'auth/invalid-credential': 'Email 或密碼錯誤',
+        };
+        showError(map[e.code] || e.message);
+    }
+}
+
+firebase.auth().onAuthStateChanged(user => {
+    if (user) window.location.href = 'index.html';
+});
+</script>
+</body>
+</html>

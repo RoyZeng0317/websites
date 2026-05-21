@@ -39,7 +39,6 @@ export const useCircuitStore = create<CircuitStore>()(
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       isPublic: false,
-      viewMode: '3d',
     },
     simulationState: null,
     isSimulating: false,
