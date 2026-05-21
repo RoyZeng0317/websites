@@ -156,9 +156,12 @@ def _detect_exchange(symbol: str) -> str:
 
 @app.get("/api/stock/{symbol}")
 async def get_stock_info(symbol: str):
-    info = _get_stock_info(symbol)
+    try:
+        info = _get_stock_info(symbol)
+    except Exception as e:
+        return {"error": f"exception: {e}", "symbol": symbol}
     if not info or not info.get("symbol"):
-        return {"error": "Failed to fetch stock info"}
+        return {"error": "Failed to fetch stock info", "debug": info.get("_debug", "no debug info"), "symbol": symbol}
 
     import math as _math
 
