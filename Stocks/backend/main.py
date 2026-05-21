@@ -46,6 +46,69 @@ def _normalize_key(key):
         return k + ".TW"
     return k
 
+STOCK_SECTORS = {
+    # sector mapping for Taiwan stocks
+    "2330.TW": {"sector": "半導體", "industry": "晶圓代工"},
+    "2454.TW": {"sector": "半導體", "industry": "IC 設計"},
+    "2303.TW": {"sector": "半導體", "industry": "晶圓代工"},
+    "3711.TW": {"sector": "半導體", "industry": "封測"},
+    "2344.TW": {"sector": "半導體", "industry": "記憶體製造"},
+    "2408.TW": {"sector": "半導體", "industry": "記憶體製造"},
+    "5347.TW": {"sector": "半導體", "industry": "晶圓代工"},
+    "3443.TW": {"sector": "半導體", "industry": "IC 設計"},
+    "3661.TW": {"sector": "半導體", "industry": "IC 設計"},
+    "5274.TW": {"sector": "半導體", "industry": "IC 設計"},
+    "3037.TW": {"sector": "半導體", "industry": "PCB"},
+    "8046.TW": {"sector": "半導體", "industry": "PCB"},
+    "3374.TW": {"sector": "半導體", "industry": "封測"},
+    "2449.TW": {"sector": "半導體", "industry": "封測"},
+    "3583.TW": {"sector": "半導體", "industry": "設備"},
+    "2337.TW": {"sector": "半導體", "industry": "記憶體製造"},
+    "2317.TW": {"sector": "電子代工", "industry": "組裝"},
+    "2308.TW": {"sector": "電子零組件", "industry": "電源供應"},
+    "2327.TW": {"sector": "電子零組件", "industry": "被動元件"},
+    "2353.TW": {"sector": "電腦硬體", "industry": "PC 製造"},
+    "2357.TW": {"sector": "電腦硬體", "industry": "PC 製造"},
+    "2376.TW": {"sector": "電腦硬體", "industry": "板卡"},
+    "2377.TW": {"sector": "電腦硬體", "industry": "板卡"},
+    "2324.TW": {"sector": "電子代工", "industry": "組裝"},
+    "3008.TW": {"sector": "光電", "industry": "光學鏡頭"},
+    "2409.TW": {"sector": "光電", "industry": "面板"},
+    "3481.TW": {"sector": "光電", "industry": "面板"},
+    "6116.TW": {"sector": "光電", "industry": "面板"},
+    "8069.TW": {"sector": "光電", "industry": "電子紙"},
+    "2345.TW": {"sector": "通訊", "industry": "網通設備"},
+    "3596.TW": {"sector": "通訊", "industry": "網通設備"},
+    "5388.TW": {"sector": "通訊", "industry": "網通設備"},
+    "2412.TW": {"sector": "電信", "industry": "電信服務"},
+    "3045.TW": {"sector": "電信", "industry": "電信服務"},
+    "4904.TW": {"sector": "電信", "industry": "電信服務"},
+    "2881.TW": {"sector": "金融", "industry": "金控"},
+    "2882.TW": {"sector": "金融", "industry": "金控"},
+    "2885.TW": {"sector": "金融", "industry": "金控"},
+    "2886.TW": {"sector": "金融", "industry": "金控"},
+    "2891.TW": {"sector": "金融", "industry": "金控"},
+    "2884.TW": {"sector": "金融", "industry": "金控"},
+    "5880.TW": {"sector": "金融", "industry": "金控"},
+    "2888.TW": {"sector": "金融", "industry": "金控"},
+    "2002.TW": {"sector": "鋼鐵", "industry": "鋼鐵"},
+    "1301.TW": {"sector": "塑膠", "industry": "塑膠"},
+    "1303.TW": {"sector": "塑膠", "industry": "塑膠"},
+    "1326.TW": {"sector": "塑膠", "industry": "塑膠"},
+    "1216.TW": {"sector": "食品", "industry": "食品"},
+    "2912.TW": {"sector": "零售", "industry": "超商"},
+    "6505.TW": {"sector": "油電", "industry": "石化"},
+    "2610.TW": {"sector": "航運", "industry": "航空"},
+    "2646.TW": {"sector": "航運", "industry": "航空"},
+    "2723.TW": {"sector": "觀光餐飲", "industry": "餐飲"},
+    "2727.TW": {"sector": "觀光餐飲", "industry": "餐飲"},
+    "2753.TW": {"sector": "觀光餐飲", "industry": "餐飲"},
+    "1268.TW": {"sector": "觀光餐飲", "industry": "餐飲"},
+    "2618.TW": {"sector": "航運", "industry": "航空"},
+    "2603.TW": {"sector": "航運", "industry": "貨櫃"},
+    "2609.TW": {"sector": "航運", "industry": "貨櫃"},
+}
+
 STOCK_NAMES = {}
 _raw_names = {
     "1301": "台塑", "2002": "中鋼", "2303": "聯電", "2308": "台達電",
@@ -407,6 +470,30 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
 
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
+
+    if not result.get("sector"):
+        sec = STOCK_SECTORS.get(symbol)
+        if sec:
+            result["sector"] = sec["sector"]
+            result["industry"] = sec["industry"]
+        elif FINNHUB_API_KEY:
+            sym_clean = symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")
+            try:
+                r = requests.get(f"https://finnhub.io/api/v1/stock/profile2?symbol={sym_clean}&token={FINNHUB_API_KEY}", timeout=5)
+                if r.status_code == 200:
+                    p = r.json()
+                    fin = p.get("finnhubIndustry") or p.get("industry") or ""
+                    if fin:
+                        result["sector"] = fin
+                        result["industry"] = fin
+                    if not result.get("country"):
+                        result["country"] = p.get("country", "")
+                    if not result.get("website"):
+                        result["website"] = p.get("weburl", "")
+                    if not result.get("logo_url"):
+                        result["logo_url"] = p.get("logo", "")
+            except Exception:
+                pass
 
     has_data = any(v is not None for v in result.values())
     if has_data:
