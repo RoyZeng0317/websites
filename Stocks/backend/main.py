@@ -7,7 +7,17 @@ import time
 from datetime import datetime, timezone
 from typing import Optional
 
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        try:
+            if hasattr(obj, 'item'):
+                return obj.item()
+            return super().default(obj)
+        except TypeError:
+            return str(obj)
+
 app = FastAPI(title="Stock Info API")
+app.json_encoder = CustomJSONEncoder
 
 app.add_middleware(
     CORSMiddleware,
@@ -100,19 +110,28 @@ async def get_stock_info(symbol: str):
     except Exception as e:
         return {"error": f"Failed to fetch ticker: {str(e)}"}
 
+    import math
+
     def safe(val, default=None):
         if val is None:
             return default
-        import math
-        if isinstance(val, float) and (math.isnan(val) or math.isinf(val)):
+        try:
+            if isinstance(val, float) and (math.isnan(val) or math.isinf(val)):
+                return default
+            if hasattr(val, 'item'):
+                return val.item()
+            if isinstance(val, (int, float)):
+                return val
+            return val
+        except Exception:
             return default
-        return val
 
     def safe_str(val, default=None):
         if val is None:
             return default
         try:
-            return str(val)
+            s = str(val)
+            return s if s != 'nan' else default
         except Exception:
             return default
 
