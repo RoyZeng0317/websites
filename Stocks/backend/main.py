@@ -109,7 +109,11 @@ def _fetch_yahoo_chart(symbol: str) -> dict:
             meta = result[0].get("meta", {})
             quotes = result[0].get("indicators", {}).get("quote", [{}])[0] if result[0].get("indicators", {}).get("quote") else {}
             closelist = quotes.get("close", [])
-            cur_price = meta.get("regularMarketPrice", closelist[-1] if closelist else 0)
+            cur_price = meta.get("regularMarketPrice")
+            if cur_price is None and closelist:
+                cur_price = closelist[-1]
+            if cur_price is None:
+                cur_price = 0
 
             return {
                 "symbol": symbol,
@@ -763,11 +767,216 @@ async def debug_stock(symbol: str):
     """Debug endpoint showing raw data from all sources."""
     raw = _get_stock_info(symbol)
     fund = _fetch_fundamentals(symbol, current_price=raw.get("currentPrice", 0))
+    bwibbu_fallback_count = 0
+    fallback_sample = ""
+    try:
+        fp = os.path.join(os.path.dirname(__file__), "bwibbu_fallback.json")
+        import os as _os
+        if _os.path.exists(fp):
+            with open(fp, "r", encoding="utf-8") as f:
+                bdata = json.load(f)
+                if isinstance(bdata, list):
+                    bwibbu_fallback_count = len(bdata)
+                    stock_no = symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")
+                    for item in bdata:
+                        if item.get("Code") == stock_no:
+                            fallback_sample = json.dumps(item)
+                            break
+        else:
+            fallback_sample = f"FILE NOT FOUND at {fp}"
+    except Exception as e:
+        fallback_sample = f"ERROR: {e}"
     return {
         "symbol": symbol,
         "raw_info_keys": list(raw.keys()),
         "raw_fundamentals": {k: v for k, v in fund.items() if v is not None},
+        "bwibbu_fallback_count": bwibbu_fallback_count,
+        "bwibbu_fallback_entry": fallback_sample,
         "stock_response": raw,
+    }
+
+
+@app.get("/api/stock/{symbol}/sentiment")
+async def get_sentiment(symbol: str):
+    """多空/利空 - Compute bullish/bearish sentiment from fundamentals and external data."""
+    info = _get_stock_info(symbol)
+    signals = []
+    bullish_count = 0
+    bearish_count = 0
+    from datetime import timedelta
+
+    pe = info.get("trailingPE")
+    if pe is not None:
+        if pe < 15:
+            signals.append({"factor": "本益比 (P/E)", "value": f"{pe:.2f}", "signal": "bullish", "reason": "低於15，股價可能被低估"})
+            bullish_count += 1
+        elif pe > 30:
+            signals.append({"factor": "本益比 (P/E)", "value": f"{pe:.2f}", "signal": "bearish", "reason": "高於30，股價可能偏高"})
+            bearish_count += 1
+        else:
+            signals.append({"factor": "本益比 (P/E)", "value": f"{pe:.2f}", "signal": "neutral", "reason": "位於合理區間 15-30"})
+
+    fpe = info.get("forwardPE")
+    if fpe is not None and pe is not None:
+        if fpe < pe:
+            signals.append({"factor": "預估本益比", "value": f"{fpe:.2f}", "signal": "bullish", "reason": "低於目前本益比，預期獲利成長"})
+            bullish_count += 1
+        elif fpe > pe:
+            signals.append({"factor": "預估本益比", "value": f"{fpe:.2f}", "signal": "bearish", "reason": "高於目前本益比，預期獲利衰退"})
+            bearish_count += 1
+
+    roe = info.get("returnOnEquity")
+    if roe is not None:
+        if roe > 0.15:
+            signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "bullish", "reason": "高於15%，獲利能力優異"})
+            bullish_count += 1
+        elif roe < 0.05:
+            signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "bearish", "reason": "低於5%，獲利能力不佳"})
+            bearish_count += 1
+        else:
+            signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "neutral", "reason": "位於5%-15%之間"})
+
+    pb = info.get("priceToBook")
+    if pb is not None:
+        if pb < 1.5:
+            signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "bullish", "reason": "低於1.5，股價低於淨值"})
+            bullish_count += 1
+        elif pb > 5:
+            signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "bearish", "reason": "高於5，股價可能偏高"})
+            bearish_count += 1
+        else:
+            signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "neutral", "reason": "位於1.5-5之間"})
+
+    dy = info.get("dividendYield")
+    if dy is not None:
+        if dy > 0.03:
+            signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "bullish", "reason": "高於3%，配息穩定"})
+            bullish_count += 1
+        elif dy < 0.01:
+            signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "bearish", "reason": "低於1%，配息較低"})
+            bearish_count += 1
+        else:
+            signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "neutral", "reason": "位於1%-3%之間"})
+
+    dte = info.get("debtToEquity")
+    if dte is not None:
+        if dte < 0.5:
+            signals.append({"factor": "負債權益比", "value": f"{dte:.2f}", "signal": "bullish", "reason": "低於0.5，財務結構穩健"})
+            bullish_count += 1
+        elif dte > 2:
+            signals.append({"factor": "負債權益比", "value": f"{dte:.2f}", "signal": "bearish", "reason": "高於2，負債偏高"})
+            bearish_count += 1
+
+    pm = info.get("profitMargins")
+    if pm is not None:
+        if pm > 0.15:
+            signals.append({"factor": "利潤率", "value": f"{pm*100:.2f}%", "signal": "bullish", "reason": "高於15%，獲利能力強"})
+            bullish_count += 1
+        elif pm < 0.05:
+            signals.append({"factor": "利潤率", "value": f"{pm*100:.2f}%", "signal": "bearish", "reason": "低於5%，利潤空間有限"})
+            bearish_count += 1
+
+    chg52 = info.get("52WeekChange")
+    if chg52 is not None:
+        if chg52 > 0:
+            signals.append({"factor": "52週漲跌幅", "value": f"{chg52*100:.2f}%", "signal": "bullish", "reason": "過去一年上漲，趨勢向好"})
+            bullish_count += 1
+        else:
+            signals.append({"factor": "52週漲跌幅", "value": f"{chg52*100:.2f}%", "signal": "bearish", "reason": "過去一年下跌，趨勢偏弱"})
+            bearish_count += 1
+
+    beta = info.get("beta")
+    if beta is not None:
+        if beta < 0.8:
+            signals.append({"factor": "β 值", "value": f"{beta:.2f}", "signal": "bullish", "reason": "低於0.8，波動較小，防禦性強"})
+            bullish_count += 1
+        elif beta > 1.5:
+            signals.append({"factor": "β 值", "value": f"{beta:.2f}", "signal": "bearish", "reason": "高於1.5，波動劇烈，風險較高"})
+            bearish_count += 1
+
+    recommendations = []
+    inst_trading = {}
+
+    if FINNHUB_API_KEY and not (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        for sym_try in [symbol, symbol.replace(".HK", "")]:
+            try:
+                r = requests.get(f"https://finnhub.io/api/v1/stock/recommendation?symbol={sym_try}&token={FINNHUB_API_KEY}", timeout=8)
+                if r.status_code == 200:
+                    recs = r.json()
+                    if isinstance(recs, list) and len(recs) > 0:
+                        recommendations = recs[:5]
+                        latest = recs[0]
+                        strong_buy = latest.get("strongBuy", 0) or 0
+                        buy = latest.get("buy", 0) or 0
+                        hold = latest.get("hold", 0) or 0
+                        sell = latest.get("sell", 0) or 0
+                        strong_sell = latest.get("strongSell", 0) or 0
+                        total = strong_buy + buy + hold + sell + strong_sell
+                        if total > 0:
+                            rec_score = (strong_buy * 2 + buy - sell - strong_sell * 2) / total
+                            if rec_score > 0:
+                                signals.append({"factor": "分析師評級", "value": f"買進{(strong_buy+buy)/total*100:.0f}%/中立{hold/total*100:.0f}%/賣出{(sell+strong_sell)/total*100:.0f}%", "signal": "bullish" if rec_score > 0.3 else "neutral", "reason": f"分析師共識評分 {rec_score:.2f}"})
+                                if rec_score > 0.3:
+                                    bullish_count += 1
+                            else:
+                                signals.append({"factor": "分析師評級", "value": f"買進{(strong_buy+buy)/total*100:.0f}%/中立{hold/total*100:.0f}%/賣出{(sell+strong_sell)/total*100:.0f}%", "signal": "bearish" if rec_score < -0.3 else "neutral", "reason": f"分析師共識評分 {rec_score:.2f}"})
+                                if rec_score < -0.3:
+                                    bearish_count += 1
+                    break
+            except Exception:
+                continue
+
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+        for d_off in range(7):
+            try:
+                d = (datetime.now(timezone.utc) - timedelta(days=d_off)).strftime("%Y%m%d")
+                r = requests.get(f"https://www.twse.com.tw/fund/T86?response=json&date={d}&selectType=ALL", timeout=10)
+                if r.status_code == 200:
+                    inst_data = r.json()
+                    if inst_data.get("data") and isinstance(inst_data["data"], list):
+                        for row in inst_data["data"]:
+                            if len(row) >= 16 and row[1] == stock_no:
+                                inst_trading = {
+                                    "date": row[0],
+                                    "foreignNet": _safe_float(row[5]) or 0,
+                                    "itNet": _safe_float(row[8]) or 0,
+                                    "dealerNet": _safe_float(row[14]) or 0,
+                                    "totalNet": _safe_float(row[15]) or 0,
+                                }
+                                fn = inst_trading["foreignNet"]
+                                tn = inst_trading["totalNet"]
+                                if fn > 0:
+                                    signals.append({"factor": "外資買賣超", "value": f"{fn:+,.0f}", "signal": "bullish", "reason": "外資買超，法人看好"})
+                                    bullish_count += 1
+                                elif fn < 0:
+                                    signals.append({"factor": "外資買賣超", "value": f"{fn:+,.0f}", "signal": "bearish", "reason": "外資賣超，法人看淡"})
+                                    bearish_count += 1
+                                if tn > 0:
+                                    signals.append({"factor": "三大法人買賣超", "value": f"{tn:+,.0f}", "signal": "bullish", "reason": "法人整體買超"})
+                                    bullish_count += 1
+                                elif tn < 0:
+                                    signals.append({"factor": "三大法人買賣超", "value": f"{tn:+,.0f}", "signal": "bearish", "reason": "法人整體賣超"})
+                                    bearish_count += 1
+                                break
+                        if inst_trading:
+                            break
+            except Exception:
+                continue
+
+    total = bullish_count + bearish_count
+    score = round((bullish_count - bearish_count) / total, 2) if total > 0 else 0
+    overall = "bullish" if bullish_count > bearish_count else "bearish" if bearish_count > bullish_count else "neutral"
+
+    return {
+        "symbol": symbol,
+        "overall": overall,
+        "score": score,
+        "bullishCount": bullish_count,
+        "bearishCount": bearish_count,
+        "signals": signals,
+        "recommendations": recommendations,
+        "institutionalTrading": inst_trading,
     }
 
 

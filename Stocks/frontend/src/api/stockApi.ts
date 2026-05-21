@@ -42,6 +42,12 @@ export async function getDividends(symbol: string): Promise<StockDividends> {
   return res.json()
 }
 
+export async function getSentiment(symbol: string): Promise<import('../types/stock').SentimentData> {
+  const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/sentiment`)
+  if (!res.ok) throw new Error('Failed to fetch sentiment')
+  return res.json()
+}
+
 export async function getFinancials(symbol: string): Promise<FinancialData> {
   const res = await fetch(
     `${BASE}/stock/${encodeURIComponent(symbol)}/financials`

@@ -6,6 +6,7 @@ import StockHeader from '../components/StockHeader'
 import PriceChart from '../components/PriceChart'
 import Fundamentals from '../components/Fundamentals'
 import DividendInfo from '../components/DividendInfo'
+import Sentiment from '../components/Sentiment'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
 
 export default function StockPage() {
@@ -73,6 +74,8 @@ export default function StockPage() {
       <PriceChart symbol={symbol!} />
 
       <Fundamentals info={info} />
+
+      <Sentiment symbol={symbol!} />
 
       <DividendInfo symbol={symbol!} />
 

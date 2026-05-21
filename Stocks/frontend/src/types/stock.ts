@@ -106,3 +106,31 @@ export interface InstitutionalHolder {
   pctHeld: string
   Value: string
 }
+
+export interface SentimentSignal {
+  factor: string
+  value: string
+  signal: 'bullish' | 'bearish' | 'neutral'
+  reason?: string
+}
+
+export interface Recommendation {
+  buy: number
+  hold: number
+  period: string
+  sell: number
+  strongBuy: number
+  strongSell: number
+  symbol: string
+}
+
+export interface SentimentData {
+  symbol: string
+  overall: 'bullish' | 'bearish' | 'neutral'
+  score: number
+  bullishCount: number
+  bearishCount: number
+  signals: SentimentSignal[]
+  recommendations: Recommendation[]
+  institutionalTrading: Record<string, number | string>
+}
