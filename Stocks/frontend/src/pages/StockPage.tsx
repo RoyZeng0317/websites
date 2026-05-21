@@ -4,6 +4,7 @@ import { getStockInfo } from '../api/stockApi'
 import type { StockInfo } from '../types/stock'
 import StockHeader from '../components/StockHeader'
 import PriceChart from '../components/PriceChart'
+import RealtimeChart from '../components/RealtimeChart'
 import Fundamentals from '../components/Fundamentals'
 import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
@@ -70,6 +71,8 @@ export default function StockPage() {
       </Link>
 
       <StockHeader info={info} />
+
+      <RealtimeChart symbol={symbol!} />
 
       <PriceChart symbol={symbol!} />
 
