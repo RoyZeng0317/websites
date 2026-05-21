@@ -1,7 +1,7 @@
 import type { StockInfo, RealtimePrice } from '../types/stock'
 import { useEffect, useRef, useState } from 'react'
 import { createPriceWebSocket } from '../api/stockApi'
-import { Building2, Globe, Users, TrendingUp } from 'lucide-react'
+import { Globe, Users, TrendingUp } from 'lucide-react'
 
 interface Props {
   info: StockInfo
@@ -74,7 +74,6 @@ export default function StockHeader({ info }: Props) {
         <InfoCard icon={<TrendingUp size={16} />} label="市值" value={formatMarketCap(info.marketCap)} />
         <InfoCard icon={<Users size={16} />} label="成交量" value={formatVolume(info.volume)} />
         <InfoCard icon={<Globe size={16} />} label="產業" value={info.sector || 'N/A'} />
-        <InfoCard icon={<Building2 size={16} />} label="員工" value={info.employees ? info.employees.toLocaleString() : 'N/A'} />
       </div>
     </div>
   )
