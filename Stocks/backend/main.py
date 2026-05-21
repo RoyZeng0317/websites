@@ -167,11 +167,9 @@ FUNDAMENTALS_TTL = 7200  # 2 hours for fundamentals
 
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "")
 
-def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
-    """Fetch EPS, PE ratio, dividend yield, ROE etc. from Finnhub or TWSE."""
-
 _TWSE_BWIBBU_CACHE = {"data": None, "time": 0}
 _TWSE_BWIBBU_TTL = 3600  # 1 hour cache
+
 
 def _fetch_twse_bwibbu():
     """Fetch PE ratio, dividend yield, PB ratio for all TWSE stocks."""
@@ -181,7 +179,8 @@ def _fetch_twse_bwibbu():
     try:
         r = requests.get(
             "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
-            timeout=10,
+            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
+            timeout=15,
         )
         if r.status_code == 200:
             data = r.json()
@@ -189,9 +188,9 @@ def _fetch_twse_bwibbu():
             for item in data:
                 code = item.get("Code", "")
                 lookup[code] = {
-                    "pe": safe_float(item.get("PEratio")),
-                    "divYield": safe_float(item.get("DividendYield")),
-                    "pb": safe_float(item.get("PBratio")),
+                    "pe": _safe_float(item.get("PEratio")),
+                    "divYield": _safe_float(item.get("DividendYield")),
+                    "pb": _safe_float(item.get("PBratio")),
                 }
             _TWSE_BWIBBU_CACHE["data"] = lookup
             _TWSE_BWIBBU_CACHE["time"] = now_val
@@ -201,7 +200,7 @@ def _fetch_twse_bwibbu():
     return _TWSE_BWIBBU_CACHE["data"] or {}
 
 
-def safe_float(val):
+def _safe_float(val):
     if val is None:
         return None
     try:
