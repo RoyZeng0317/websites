@@ -24,7 +24,9 @@ except Exception:
 
 _YF_SESSION = requests.Session()
 _YF_SESSION.headers.update({
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/json,*/*",
+    "Accept-Language": "en-US,en;q=0.9",
 })
 
 
@@ -36,16 +38,16 @@ def _get_stock_info(symbol: str) -> dict:
 
     rate_limit()
     try:
-        ticker = yf.Ticker(symbol, session=_YF_SESSION)
+        ticker = yf.Ticker(symbol)
         info = dict(ticker.info) if ticker.info else {}
         if info.get("symbol"):
             CACHE[cache_key] = {"data": info, "time": now_val}
             return info
-    except Exception:
+    except Exception as e1:
         pass
 
     try:
-        d = yf.download(symbol, period="5d", progress=False, session=_YF_SESSION)
+        d = yf.download(symbol, period="5d", progress=False)
         if not d.empty:
             result = {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
             CACHE[cache_key] = {"data": result, "time": now_val}
@@ -244,7 +246,7 @@ async def get_chart(
     interval: str = Query("1d", description="1m,2m,5m,15m,30m,60m,1d,5d,1wk,1mo"),
 ):
     rate_limit()
-    ticker = yf.Ticker(symbol, session=_YF_SESSION)
+    ticker = yf.Ticker(symbol)
     hist = ticker.history(period=period, interval=interval)
 
     data = []
@@ -264,7 +266,7 @@ async def get_chart(
 @app.get("/api/stock/{symbol}/dividends")
 async def get_dividends(symbol: str):
     rate_limit()
-    ticker = yf.Ticker(symbol, session=_YF_SESSION)
+    ticker = yf.Ticker(symbol)
     dividends = ticker.dividends
     splits = ticker.splits
 
@@ -291,7 +293,7 @@ async def get_dividends(symbol: str):
 @app.get("/api/stock/{symbol}/financials")
 async def get_financials(symbol: str):
     rate_limit()
-    ticker = yf.Ticker(symbol, session=_YF_SESSION)
+    ticker = yf.Ticker(symbol)
 
     result = {}
     for stmt_name, stmt in [
@@ -322,7 +324,7 @@ async def get_financials(symbol: str):
 @app.get("/api/stock/{symbol}/holders")
 async def get_holders(symbol: str):
     rate_limit()
-    ticker = yf.Ticker(symbol, session=_YF_SESSION)
+    ticker = yf.Ticker(symbol)
     major = ticker.major_holders
     institutional = ticker.institutional_holders
 
