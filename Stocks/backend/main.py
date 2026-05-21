@@ -15,6 +15,30 @@ _YF_SESSION.headers.update({
 })
 yf.set_tz_cache_location(None)
 
+# Disable yfinance internal cache to avoid NoneType errors
+import yfinance.cache as yfc
+yfc._cache = {}
+
+
+def _get_stock_info(symbol: str) -> dict:
+    """Fetch stock info with fallback to download."""
+    try:
+        ticker = yf.Ticker(symbol, session=_YF_SESSION)
+        info = dict(ticker.info) if ticker.info else {}
+        if info.get("symbol"):
+            return info
+    except Exception:
+        pass
+
+    try:
+        d = yf.download(symbol, period="5d", progress=False, session=_YF_SESSION)
+        if not d.empty:
+            return {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
+    except Exception:
+        pass
+
+    return {}
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         try:
@@ -79,8 +103,7 @@ async def search_stocks(query: str = Query(..., min_length=1)):
             results.append({"symbol": sym, "name": name, "exchange": _detect_exchange(sym)})
 
     try:
-        ticker = yf.Ticker(query)
-        info = ticker.info
+        info = _get_stock_info(query)
         if info and info.get("symbol"):
             sym = info["symbol"]
             exists = any(r["symbol"] == sym for r in results)
@@ -112,19 +135,9 @@ async def get_stock_info(symbol: str):
     if cache_key in CACHE and now - CACHE[cache_key]["time"] < CACHE_TTL:
         return CACHE[cache_key]["data"]
 
-    info = {}
-    try:
-        ticker = yf.Ticker(symbol, session=_YF_SESSION)
-        info = ticker.info
-    except Exception as e:
-        try:
-            d = yf.download(symbol, period="1d", progress=False, session=_YF_SESSION)
-            if not d.empty:
-                info = {"symbol": symbol}
-        except Exception:
-            pass
-        if not info:
-            return {"error": f"Failed to fetch ticker: {str(e)}"}
+    info = _get_stock_info(symbol)
+    if not info or not info.get("symbol"):
+        return {"error": "Failed to fetch stock info"}
 
     import math
 
