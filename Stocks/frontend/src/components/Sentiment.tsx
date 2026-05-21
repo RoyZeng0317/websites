@@ -13,10 +13,13 @@ export default function Sentiment({ symbol }: Props) {
 
   useEffect(() => {
     setLoading(true)
+    setData(null)
+    const timer = setTimeout(() => setLoading(false), 6000)
     getSentiment(symbol)
-      .then(setData)
-      .catch(() => setData(null))
+      .then((d) => { setData(d); clearTimeout(timer) })
+      .catch(() => { setData(null); clearTimeout(timer) })
       .finally(() => setLoading(false))
+    return () => clearTimeout(timer)
   }, [symbol])
 
   if (loading) {

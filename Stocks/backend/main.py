@@ -903,7 +903,7 @@ async def get_sentiment(symbol: str):
     if FINNHUB_API_KEY and not (symbol.endswith(".TW") or symbol.endswith(".TWO")):
         for sym_try in [symbol, symbol.replace(".HK", "")]:
             try:
-                r = requests.get(f"https://finnhub.io/api/v1/stock/recommendation?symbol={sym_try}&token={FINNHUB_API_KEY}", timeout=8)
+                r = requests.get(f"https://finnhub.io/api/v1/stock/recommendation?symbol={sym_try}&token={FINNHUB_API_KEY}", timeout=5)
                 if r.status_code == 200:
                     recs = r.json()
                     if isinstance(recs, list) and len(recs) > 0:
@@ -931,10 +931,10 @@ async def get_sentiment(symbol: str):
 
     if symbol.endswith(".TW") or symbol.endswith(".TWO"):
         stock_no = symbol.replace(".TW", "").replace(".TWO", "")
-        for d_off in range(7):
+        for d_off in range(3):
+            d = (datetime.now(timezone.utc) - timedelta(days=d_off)).strftime("%Y%m%d")
             try:
-                d = (datetime.now(timezone.utc) - timedelta(days=d_off)).strftime("%Y%m%d")
-                r = requests.get(f"https://www.twse.com.tw/fund/T86?response=json&date={d}&selectType=ALL", timeout=10)
+                r = requests.get(f"https://www.twse.com.tw/fund/T86?response=json&date={d}&selectType=ALL", timeout=4)
                 if r.status_code == 200:
                     inst_data = r.json()
                     if inst_data.get("data") and isinstance(inst_data["data"], list):
