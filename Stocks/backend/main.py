@@ -21,11 +21,17 @@ yfc._cache = {}
 
 
 def _get_stock_info(symbol: str) -> dict:
-    """Fetch stock info with fallback to download."""
+    cache_key = f"info_{symbol}"
+    now_val = time.time()
+    if cache_key in CACHE and now_val - CACHE[cache_key]["time"] < CACHE_TTL:
+        return CACHE[cache_key]["data"]
+
+    rate_limit()
     try:
         ticker = yf.Ticker(symbol, session=_YF_SESSION)
         info = dict(ticker.info) if ticker.info else {}
         if info.get("symbol"):
+            CACHE[cache_key] = {"data": info, "time": now_val}
             return info
     except Exception:
         pass
@@ -33,7 +39,9 @@ def _get_stock_info(symbol: str) -> dict:
     try:
         d = yf.download(symbol, period="5d", progress=False, session=_YF_SESSION)
         if not d.empty:
-            return {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
+            result = {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
+            CACHE[cache_key] = {"data": result, "time": now_val}
+            return result
     except Exception:
         pass
 
@@ -60,11 +68,17 @@ app.add_middleware(
 )
 
 CACHE = {}
-CACHE_TTL = 30
+CACHE_TTL = 120
+_LAST_REQUEST_TIME = 0
 
 
-def get_ticker(symbol: str):
-    return yf.Ticker(symbol)
+def rate_limit():
+    global _LAST_REQUEST_TIME
+    now = time.time()
+    elapsed = now - _LAST_REQUEST_TIME
+    if elapsed < 1.5:
+        time.sleep(1.5 - elapsed)
+    _LAST_REQUEST_TIME = time.time()
 
 
 @app.get("/api/search")
@@ -129,12 +143,6 @@ def _detect_exchange(symbol: str) -> str:
 
 @app.get("/api/stock/{symbol}")
 async def get_stock_info(symbol: str):
-    cache_key = f"info_{symbol}"
-    now = time.time()
-
-    if cache_key in CACHE and now - CACHE[cache_key]["time"] < CACHE_TTL:
-        return CACHE[cache_key]["data"]
-
     info = _get_stock_info(symbol)
     if not info or not info.get("symbol"):
         return {"error": "Failed to fetch stock info"}
@@ -229,7 +237,8 @@ async def get_chart(
     period: str = Query("1y", description="1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max"),
     interval: str = Query("1d", description="1m,2m,5m,15m,30m,60m,1d,5d,1wk,1mo"),
 ):
-    ticker = get_ticker(symbol)
+    rate_limit()
+    ticker = yf.Ticker(symbol, session=_YF_SESSION)
     hist = ticker.history(period=period, interval=interval)
 
     data = []
@@ -248,7 +257,8 @@ async def get_chart(
 
 @app.get("/api/stock/{symbol}/dividends")
 async def get_dividends(symbol: str):
-    ticker = get_ticker(symbol)
+    rate_limit()
+    ticker = yf.Ticker(symbol, session=_YF_SESSION)
     dividends = ticker.dividends
     splits = ticker.splits
 
@@ -274,7 +284,8 @@ async def get_dividends(symbol: str):
 
 @app.get("/api/stock/{symbol}/financials")
 async def get_financials(symbol: str):
-    ticker = get_ticker(symbol)
+    rate_limit()
+    ticker = yf.Ticker(symbol, session=_YF_SESSION)
 
     result = {}
 
@@ -305,7 +316,8 @@ async def get_financials(symbol: str):
 
 @app.get("/api/stock/{symbol}/holders")
 async def get_holders(symbol: str):
-    ticker = get_ticker(symbol)
+    rate_limit()
+    ticker = yf.Ticker(symbol, session=_YF_SESSION)
     major = ticker.major_holders
     institutional = ticker.institutional_holders
 
@@ -327,9 +339,10 @@ async def websocket_price(websocket: WebSocket, symbol: str):
     await websocket.accept()
     try:
         while True:
+            await asyncio.sleep(5)
+            rate_limit()
             try:
-                ticker = yf.Ticker(symbol)
-                info = ticker.info
+                info = _get_stock_info(symbol)
                 price = info.get("currentPrice") or info.get("regularMarketPrice")
                 change = info.get("regularMarketChange", 0)
                 change_pct = info.get("regularMarketChangePercent", 0)
