@@ -4,18 +4,27 @@ import yfinance as yf
 import asyncio
 import json
 import time
+import tempfile
 import requests
 from datetime import datetime, timezone
 from typing import Optional
+
+# Set a proper tz cache path for yfinance (required for Python 3.14+)
+_tz_cache = tempfile.mkdtemp(prefix="yf_tz_")
+yf.set_tz_cache_location(_tz_cache)
 
 # Initialize shared session for yfinance
 _YF_SESSION = requests.Session()
 _YF_SESSION.headers.update({
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 })
-# Disable yfinance internal cache to avoid NoneType errors
-import yfinance.cache as yfc
-yfc._cache = {}
+# Initialize yfinance cache
+try:
+    import yfinance.cache as yfc
+    if not yfc._cache:
+        yfc._cache = {}
+except Exception:
+    pass
 
 
 def _get_stock_info(symbol: str) -> dict:
