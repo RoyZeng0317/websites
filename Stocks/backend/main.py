@@ -13,8 +13,6 @@ _YF_SESSION = requests.Session()
 _YF_SESSION.headers.update({
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 })
-yf.set_tz_cache_location(None)
-
 # Disable yfinance internal cache to avoid NoneType errors
 import yfinance.cache as yfc
 yfc._cache = {}
