@@ -163,9 +163,12 @@ def _fetch_yahoo_chart(symbol: str) -> dict:
 
 
 FUNDAMENTALS_CACHE = {}
-FUNDAMENTALS_TTL = 21600  # 6 hours for fundamentals (rarely changes)
+FUNDAMENTALS_TTL = 7200  # 2 hours for fundamentals
 
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "")
+
+def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
+    """Fetch EPS, PE ratio, dividend yield, ROE etc. from Finnhub or TWSE."""
 
 _TWSE_BWIBBU_CACHE = {"data": None, "time": 0}
 _TWSE_BWIBBU_TTL = 3600  # 1 hour cache
@@ -716,6 +719,19 @@ async def get_stock_info(symbol: str):
     }
 
     return result
+
+
+@app.get("/api/debug/{symbol}")
+async def debug_stock(symbol: str):
+    """Debug endpoint showing raw data from all sources."""
+    raw = _get_stock_info(symbol)
+    fund = _fetch_fundamentals(symbol, current_price=raw.get("currentPrice", 0))
+    return {
+        "symbol": symbol,
+        "raw_info_keys": list(raw.keys()),
+        "raw_fundamentals": {k: v for k, v in fund.items() if v is not None},
+        "stock_response": raw,
+    }
 
 
 def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d") -> list:
