@@ -167,7 +167,48 @@ FUNDAMENTALS_TTL = 21600  # 6 hours for fundamentals (rarely changes)
 
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "")
 
-def _fetch_fundamentals(symbol: str) -> dict:
+_TWSE_BWIBBU_CACHE = {"data": None, "time": 0}
+_TWSE_BWIBBU_TTL = 3600  # 1 hour cache
+
+def _fetch_twse_bwibbu():
+    """Fetch PE ratio, dividend yield, PB ratio for all TWSE stocks."""
+    now_val = time.time()
+    if now_val - _TWSE_BWIBBU_CACHE["time"] < _TWSE_BWIBBU_TTL and _TWSE_BWIBBU_CACHE["data"]:
+        return _TWSE_BWIBBU_CACHE["data"]
+    try:
+        r = requests.get(
+            "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
+            timeout=10,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            lookup = {}
+            for item in data:
+                code = item.get("Code", "")
+                lookup[code] = {
+                    "pe": safe_float(item.get("PEratio")),
+                    "divYield": safe_float(item.get("DividendYield")),
+                    "pb": safe_float(item.get("PBratio")),
+                }
+            _TWSE_BWIBBU_CACHE["data"] = lookup
+            _TWSE_BWIBBU_CACHE["time"] = now_val
+            return lookup
+    except Exception:
+        pass
+    return _TWSE_BWIBBU_CACHE["data"] or {}
+
+
+def safe_float(val):
+    if val is None:
+        return None
+    try:
+        v = float(str(val).replace(",", ""))
+        return None if math.isnan(v) or math.isinf(v) else v
+    except (ValueError, TypeError):
+        return None
+
+
+def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
     """Fetch EPS, PE ratio, dividend yield, ROE etc. from Finnhub or TWSE."""
     cache_key = f"fund_{symbol}"
     now_val = time.time()
@@ -175,9 +216,55 @@ def _fetch_fundamentals(symbol: str) -> dict:
         return FUNDAMENTALS_CACHE[cache_key]["data"]
 
     result = {}
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
 
-    # Method 1: Finnhub (requires API key, free at finnhub.io)
-    if FINNHUB_API_KEY:
+    # Method 1: TWSE BWIBBU API for Taiwan stocks
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        bwibbu = _fetch_twse_bwibbu()
+        entry = bwibbu.get(stock_no, {})
+        pe = entry.get("pe")
+        dy = entry.get("divYield")
+        pb = entry.get("pb")
+        if any(v is not None for v in [pe, dy, pb]):
+            eps = (current_price / pe) if pe and current_price else None
+            book_val = (current_price / pb) if pb and current_price else None
+            roe = (pb / pe) if pb and pe else None
+            result = {
+                "trailingPE": pe,
+                "forwardPE": None,
+                "trailingEps": eps,
+                "forwardEps": None,
+                "dividendYield": dy / 100 if dy else None,
+                "dividendRate": (eps * dy / 100) if eps and dy else None,
+                "exDividendDate": None,
+                "payoutRatio": None,
+                "fiveYearAvgDividendYield": None,
+                "returnOnEquity": roe,
+                "returnOnAssets": None,
+                "totalRevenue": None,
+                "revenuePerShare": None,
+                "profitMargins": None,
+                "operatingMargins": None,
+                "debtToEquity": None,
+                "bookValue": book_val,
+                "priceToBook": pb,
+                "marketCap": None,
+                "averageVolume": None,
+                "beta": None,
+                "fiftyTwoWeekHigh": None,
+                "fiftyTwoWeekLow": None,
+                "52WeekChange": None,
+                "sector": "",
+                "industry": "",
+                "country": "Taiwan",
+                "website": "",
+                "longBusinessSummary": "",
+                "fullTimeEmployees": None,
+                "logo_url": None,
+            }
+
+    # Method 2: Finnhub for US/HK stocks
+    if (not result or not any(v is not None for v in result.values())) and FINNHUB_API_KEY:
         for sym_try in [symbol, symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")]:
             try:
                 r = requests.get(
@@ -195,9 +282,9 @@ def _fetch_fundamentals(symbol: str) -> dict:
                     return None if v is None or (isinstance(v, str) and v == "None") else v
 
                 result = {
-                    "trailingPE": fh("peBasicExclExtraTTM"),
+                    "trailingPE": fh("peBasicExclExtraTTM") or fh("peExclExtraTTM"),
                     "forwardPE": fh("forwardPE"),
-                    "trailingEps": fh("epsBasicExclExtraItemsTTM"),
+                    "trailingEps": fh("epsBasicExclExtraItemsTTM") or fh("epsExclExtraItemsTTM"),
                     "forwardEps": None,
                     "dividendYield": fh("dividendYieldIndicatedAnnual"),
                     "dividendRate": fh("dividendRate"),
@@ -205,20 +292,20 @@ def _fetch_fundamentals(symbol: str) -> dict:
                     "payoutRatio": fh("payoutRatio"),
                     "fiveYearAvgDividendYield": fh("dividendYield5Y"),
                     "returnOnEquity": fh("roeTTM"),
-                    "returnOnAssets": fh("returnOnAssets"),
-                    "totalRevenue": fh("revenueTTM"),
-                    "revenuePerShare": None,
-                    "profitMargins": fh("profitMargin"),
-                    "operatingMargins": fh("operatingMargin"),
-                    "debtToEquity": fh("totalDebt/totalEquity"),
-                    "bookValue": fh("bookValuePerShare"),
-                    "priceToBook": fh("pbQuarterly"),
+                    "returnOnAssets": fh("roaTTM"),
+                    "totalRevenue": None,
+                    "revenuePerShare": fh("revenuePerShareTTM"),
+                    "profitMargins": fh("netProfitMarginTTM"),
+                    "operatingMargins": fh("operatingMarginTTM"),
+                    "debtToEquity": fh("totalDebt/totalEquityQuarterly") or fh("totalDebt/totalEquityAnnual"),
+                    "bookValue": fh("bookValuePerShareQuarterly") or fh("bookValuePerShareAnnual"),
+                    "priceToBook": fh("pbQuarterly") or fh("pbAnnual"),
                     "marketCap": fh("marketCapitalization"),
                     "averageVolume": None,
                     "beta": fh("beta"),
                     "fiftyTwoWeekHigh": fh("52WeekHigh"),
                     "fiftyTwoWeekLow": fh("52WeekLow"),
-                    "52WeekChange": None,
+                    "52WeekChange": fh("52WeekPriceReturnDaily"),
                     "sector": "",
                     "industry": "",
                     "country": "",
@@ -231,6 +318,7 @@ def _fetch_fundamentals(symbol: str) -> dict:
             except Exception:
                 continue
 
+    # Method 3: yfinance as last resort
     if not result or not any(v is not None for v in result.values()):
         try:
             rate_limit()
@@ -387,7 +475,8 @@ def _get_stock_info(symbol: str) -> dict:
                     result["_nameEn"] = yf_info["longName"]
             except Exception:
                 pass
-            fund = _fetch_fundamentals(symbol)
+            cur = result.get("currentPrice", 0)
+            fund = _fetch_fundamentals(symbol, current_price=cur)
             result.update({k: v for k, v in fund.items() if v is not None})
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
@@ -402,7 +491,8 @@ def _get_stock_info(symbol: str) -> dict:
         result["_nameEn"] = yahoo_long  # Preserve for nameEn field
         _cache_stock_name(symbol, result.get("longName", ""))
         # Merge fundamentals (cached separately, longer TTL)
-        fund = _fetch_fundamentals(symbol)
+        cur = result.get("currentPrice", result.get("regularMarketPrice", 0))
+        fund = _fetch_fundamentals(symbol, current_price=cur)
         result.update({k: v for k, v in fund.items() if v is not None})
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
