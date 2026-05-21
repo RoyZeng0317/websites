@@ -405,6 +405,9 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
         except Exception:
             pass
 
+    if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
+        result["forwardEps"] = current_price / result["forwardPE"]
+
     has_data = any(v is not None for v in result.values())
     if has_data:
         FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
@@ -1054,26 +1057,67 @@ async def get_chart(
 async def get_dividends(symbol: str):
     div_data = []
     split_data = []
-    rate_limit()
+
+    # Source 1: Yahoo v8 chart events (reliable, no auth needed)
     try:
-        ticker = yf.Ticker(symbol)
-        dividends = ticker.dividends
-        splits = ticker.splits
-        if dividends is not None and not dividends.empty:
-            for index, value in dividends.items():
-                dt = index if isinstance(index, datetime) else datetime.fromtimestamp(index.timestamp()) if hasattr(index, 'timestamp') else index
-                div_data.append({
-                    "date": dt.strftime("%Y-%m-%d") if hasattr(dt, 'strftime') else str(dt),
-                    "amount": round(float(value), 4),
-                })
-        if splits is not None and not splits.empty:
-            for index, value in splits.items():
-                split_data.append({
-                    "date": index.strftime("%Y-%m-%d"),
-                    "ratio": round(float(value), 4),
-                })
+        for ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            s = requests.Session()
+            s.headers.update({"User-Agent": ua})
+            r = s.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=10y&interval=1mo&events=div,split", timeout=15)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            result = data.get("chart", {}).get("result", [])
+            if not result:
+                continue
+            events = result[0].get("events", {})
+            divs = events.get("dividends", {})
+            if divs:
+                for ts_str, evt in divs.items():
+                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=timezone.utc)
+                    amt = _safe_float(evt.get("amount"))
+                    if amt is not None:
+                        div_data.append({"date": dt_val.strftime("%Y-%m-%d"), "amount": round(amt, 4)})
+            splits_evt = events.get("splits", {})
+            if splits_evt:
+                for ts_str, evt in splits_evt.items():
+                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=timezone.utc)
+                    num = _safe_float(evt.get("numerator"))
+                    den = _safe_float(evt.get("denominator"))
+                    if num and den:
+                        split_data.append({"date": dt_val.strftime("%Y-%m-%d"), "ratio": round(num / den, 4)})
+            if div_data or split_data:
+                break
     except Exception:
         pass
+
+    # Source 2: yfinance as fallback
+    if not div_data and not split_data:
+        rate_limit()
+        try:
+            ticker = yf.Ticker(symbol)
+            dividends = ticker.dividends
+            splits = ticker.splits
+            if dividends is not None and not dividends.empty:
+                for index, value in dividends.items():
+                    dt = index if isinstance(index, datetime) else datetime.fromtimestamp(index.timestamp()) if hasattr(index, 'timestamp') else index
+                    div_data.append({
+                        "date": dt.strftime("%Y-%m-%d") if hasattr(dt, 'strftime') else str(dt),
+                        "amount": round(float(value), 4),
+                    })
+            if splits is not None and not splits.empty:
+                for index, value in splits.items():
+                    split_data.append({
+                        "date": index.strftime("%Y-%m-%d"),
+                        "ratio": round(float(value), 4),
+                    })
+        except Exception:
+            pass
+
+    div_data.sort(key=lambda x: x["date"], reverse=True)
     return {"symbol": symbol, "dividends": div_data, "splits": split_data}
 
 
