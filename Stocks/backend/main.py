@@ -433,14 +433,17 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 if v is not None and result.get(k) is None:
                     result[k] = v
 
-    # Method 3: yfinance as last resort
-    if not result or not any(v is not None for v in result.values()):
+    # Method 3: yfinance as last resort (supplements BWIBBU for Taiwan stocks)
+    needs_yf = not result or not any(v is not None for v in result.values())
+    if not needs_yf and (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        needs_yf = any(result.get(k) is None for k in ["beta", "marketCap", "forwardPE", "fiftyTwoWeekHigh", "fiftyTwoWeekLow", "52WeekChange"])
+    if needs_yf:
         try:
             rate_limit()
             ticker = yf.Ticker(symbol)
             info = dict(ticker.info) if ticker.info else {}
             if info.get("symbol"):
-                result = {
+                yf_data = {
                     "trailingPE": info.get("trailingPE"),
                     "forwardPE": info.get("forwardPE"),
                     "trailingEps": info.get("trailingEps"),
@@ -473,6 +476,12 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                     "fullTimeEmployees": info.get("fullTimeEmployees"),
                     "logo_url": info.get("logo_url"),
                 }
+                if result and any(v is not None for v in result.values()):
+                    for k, v in yf_data.items():
+                        if v is not None and result.get(k) is None:
+                            result[k] = v
+                else:
+                    result = yf_data
         except Exception:
             pass
 
