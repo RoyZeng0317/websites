@@ -488,6 +488,41 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
 
+    # Calculate missing fields from available data
+    if result:
+        if result.get("payoutRatio") is None and result.get("dividendRate") is not None and result.get("trailingEps"):
+            if result["trailingEps"] != 0:
+                result["payoutRatio"] = result["dividendRate"] / result["trailingEps"]
+
+        _key_gaps = [k for k in ("beta", "52WeekChange", "averageVolume", "fiftyTwoWeekHigh", "fiftyTwoWeekLow") if result.get(k) is None]
+        if _key_gaps:
+            _cd = _fetch_yahoo_chart_data(symbol, period="1y", interval="1d")
+            if _cd:
+                _cl = [d["close"] for d in _cd if d.get("close", 0) > 0]
+                _vl = [d["volume"] for d in _cd]
+                if result.get("fiftyTwoWeekHigh") is None and _cl:
+                    result["fiftyTwoWeekHigh"] = max(_cl)
+                if result.get("fiftyTwoWeekLow") is None and _cl:
+                    result["fiftyTwoWeekLow"] = min(_cl)
+                if result.get("averageVolume") is None and _vl:
+                    result["averageVolume"] = int(sum(_vl) / len(_vl))
+                if result.get("52WeekChange") is None and len(_cl) >= 2:
+                    result["52WeekChange"] = round((_cl[-1] - _cl[0]) / _cl[0], 4)
+                if result.get("beta") is None and len(_cl) >= 30:
+                    _mkt = "^TWII" if symbol.endswith((".TW", ".TWO")) else "^HSI" if symbol.endswith(".HK") else "^GSPC"
+                    _md = _fetch_yahoo_chart_data(_mkt, period="1y", interval="1d")
+                    if _md:
+                        _mc = [d["close"] for d in _md if d.get("close", 0) > 0]
+                        _n = min(len(_cl), len(_mc))
+                        if _n >= 30:
+                            _sr = [(_cl[i] - _cl[i-1]) / _cl[i-1] for i in range(1, _n)]
+                            _mr = [(_mc[i] - _mc[i-1]) / _mc[i-1] for i in range(1, _n)]
+                            _mm = sum(_mr) / len(_mr)
+                            _cov = sum((_mr[i] - _mm) * (_sr[i] - _mm) for i in range(len(_mr)))
+                            _vm = sum((r - _mm) ** 2 for r in _mr)
+                            if _vm > 0:
+                                result["beta"] = round(_cov / _vm, 4)
+
     if not result.get("sector"):
         sec = STOCK_SECTORS.get(symbol)
         if sec:
@@ -589,8 +624,8 @@ def _fetch_twse_quote(symbol: str) -> dict:
                 "debtToEquity": None,
                 "bookValue": None,
                 "priceToBook": None,
-                "fiftyTwoWeekHigh": high,
-                "fiftyTwoWeekLow": low,
+                "fiftyTwoWeekHigh": None,
+                "fiftyTwoWeekLow": None,
                 "52WeekChange": None,
                 "beta": None,
                 "sector": "",
