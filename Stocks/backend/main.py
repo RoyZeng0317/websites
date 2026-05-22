@@ -505,85 +505,90 @@ def _fetch_twse_quote(symbol: str) -> dict:
     """Fetch real-time quote from Taiwan Stock Exchange for .TW symbols."""
     stock_no = symbol.replace(".TW", "").replace(".TWO", "")
     market = "otc" if ".TWO" in symbol else "tse"
+    urls = [
+        f"https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch={market}_{stock_no}.tw&json=1&delay=0",
+        f"http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch={market}_{stock_no}.tw&json=1&delay=0",
+    ]
 
-    try:
-        s = requests.Session()
-        s.headers.update({"User-Agent": "Mozilla/5.0"})
-        s.get("http://mis.twse.com.tw/stock/index.jsp", timeout=5)
+    for url in urls:
+        try:
+            s = requests.Session()
+            s.headers.update({"User-Agent": "Mozilla/5.0", "Referer": "https://mis.twse.com.tw/"})
+            r = s.get(url, timeout=8)
+            if r.status_code != 200:
+                continue
+            try:
+                data = r.json()
+            except Exception:
+                continue
+            msg = data.get("msgArray", [])
+            if not msg:
+                continue
 
-        url = f"https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch={market}_{stock_no}.tw&json=1&delay=0"
-        r = s.get(url, timeout=10)
-        if r.status_code != 200:
-            return {}
+            q = msg[0]
+            twse_name = q.get("nf", q.get("n", ""))
+            known_name = STOCK_NAMES.get(symbol, {}).get("name", "")
+            display_name = twse_name if twse_name and twse_name != symbol else known_name if known_name else symbol
 
-        data = r.json()
-        msg = data.get("msgArray", [])
-        if not msg:
-            return {}
+            prev_close = float(q.get("y", 0) or 0)
+            current = float(q.get("z", q.get("y", 0)) if q.get("z") and q["z"] != "-" else q.get("y", 0))
+            open_p = float(q.get("o", 0) or 0)
+            high = float(q.get("h", 0) or 0)
+            low = float(q.get("l", 0) or 0)
+            volume = int(q.get("v", "0").replace(",", "") or 0)
+            change = current - prev_close
+            change_pct = (change / prev_close * 100) if prev_close else 0
 
-        q = msg[0]
-        twse_name = q.get("nf", q.get("n", ""))
-        known_name = STOCK_NAMES.get(symbol, {}).get("name", "")
-        display_name = twse_name if twse_name and twse_name != symbol else known_name if known_name else symbol
-
-        prev_close = float(q.get("y", 0) or 0)
-        current = float(q.get("z", q.get("y", 0)) if q.get("z") and q["z"] != "-" else q.get("y", 0))
-        open_p = float(q.get("o", 0) or 0)
-        high = float(q.get("h", 0) or 0)
-        low = float(q.get("l", 0) or 0)
-        volume = int(q.get("v", "0").replace(",", "") or 0)
-        change = current - prev_close
-        change_pct = (change / prev_close * 100) if prev_close else 0
-
-        return {
-            "symbol": symbol,
-            "longName": display_name,
-            "shortName": q.get("n", known_name),
-            "currentPrice": current,
-            "regularMarketPrice": current,
-            "regularMarketChange": round(change, 2),
-            "regularMarketChangePercent": round(change_pct, 2),
-            "regularMarketOpen": open_p,
-            "regularMarketDayHigh": high,
-            "regularMarketDayLow": low,
-            "regularMarketVolume": volume,
-            "previousClose": prev_close,
-            "marketCap": 0,
-            "averageVolume": volume,
-            "trailingPE": None,
-            "forwardPE": None,
-            "trailingEps": None,
-            "forwardEps": None,
-            "dividendYield": None,
-            "dividendRate": None,
-            "exDividendDate": None,
-            "payoutRatio": None,
-            "fiveYearAvgDividendYield": None,
-            "returnOnEquity": None,
-            "returnOnAssets": None,
-            "totalRevenue": None,
-            "revenuePerShare": None,
-            "profitMargins": None,
-            "operatingMargins": None,
-            "debtToEquity": None,
-            "bookValue": None,
-            "priceToBook": None,
-            "fiftyTwoWeekHigh": high,
-            "fiftyTwoWeekLow": low,
-            "52WeekChange": None,
-            "beta": None,
-            "sector": "",
-            "industry": "",
-            "country": "Taiwan",
-            "website": "",
-            "longBusinessSummary": "",
-            "fullTimeEmployees": None,
-            "exchange": "TWSE",
-            "currency": "TWD",
-            "logo_url": None,
-        }
-    except Exception:
-        return {}
+            return {
+                "symbol": symbol,
+                "longName": display_name,
+                "shortName": q.get("n", known_name),
+                "currentPrice": current,
+                "regularMarketPrice": current,
+                "regularMarketChange": round(change, 2),
+                "regularMarketChangePercent": round(change_pct, 2),
+                "regularMarketOpen": open_p,
+                "regularMarketDayHigh": high,
+                "regularMarketDayLow": low,
+                "regularMarketVolume": volume,
+                "previousClose": prev_close,
+                "marketCap": 0,
+                "averageVolume": volume,
+                "trailingPE": None,
+                "forwardPE": None,
+                "trailingEps": None,
+                "forwardEps": None,
+                "dividendYield": None,
+                "dividendRate": None,
+                "exDividendDate": None,
+                "payoutRatio": None,
+                "fiveYearAvgDividendYield": None,
+                "returnOnEquity": None,
+                "returnOnAssets": None,
+                "totalRevenue": None,
+                "revenuePerShare": None,
+                "profitMargins": None,
+                "operatingMargins": None,
+                "debtToEquity": None,
+                "bookValue": None,
+                "priceToBook": None,
+                "fiftyTwoWeekHigh": high,
+                "fiftyTwoWeekLow": low,
+                "52WeekChange": None,
+                "beta": None,
+                "sector": "",
+                "industry": "",
+                "country": "Taiwan",
+                "website": "",
+                "longBusinessSummary": "",
+                "fullTimeEmployees": None,
+                "exchange": "TWSE",
+                "currency": "TWD",
+                "logo_url": None,
+            }
+        except Exception:
+            continue
+    return {}
 
 
 def _get_stock_info(symbol: str) -> dict:
@@ -1260,47 +1265,66 @@ async def get_holders(symbol: str):
     return {"symbol": symbol, "majorHolders": major_data, "institutionalHolders": inst_data}
 
 
+def _fetch_realtime_price(symbol: str) -> dict:
+    """Get real-time price from the best available source.
+    For TWSE stocks: try TWSE mis API, fall back to Yahoo v8 intraday.
+    For US/HK stocks: Yahoo v8 intraday.
+    """
+    # Taiwan stocks: TWSE mis API first
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        twse = _fetch_twse_quote(symbol)
+        if twse.get("currentPrice", 0) > 0:
+            prev = twse.get("previousClose", 0)
+            cur = twse.get("currentPrice", 0)
+            return {"price": cur, "change": round(cur - prev, 2), "changePercent": round((cur - prev) / prev * 100, 2) if prev else 0}
+
+    # All stocks: Yahoo v8 intraday
+    for ua in [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    ]:
+        try:
+            s = requests.Session()
+            s.headers.update({"User-Agent": ua, "Accept": "application/json"})
+            r = s.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1d&interval=5m", timeout=8)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            result = data.get("chart", {}).get("result", [])
+            if not result:
+                continue
+            meta = result[0].get("meta", {})
+            quotes = result[0].get("indicators", {}).get("quote", [{}])[0] if result[0].get("indicators", {}).get("quote") else {}
+            closelist = quotes.get("close", [])
+            cur_price = meta.get("regularMarketPrice")
+            if cur_price is None and closelist:
+                cur_price = closelist[-1]
+            if cur_price is None:
+                cur_price = 0
+            prev_close = meta.get("chartPreviousClose", cur_price)
+            change = round(cur_price - prev_close, 2)
+            change_pct = round(change / prev_close * 100, 2) if prev_close else 0
+            if cur_price > 0:
+                return {"price": cur_price, "change": change, "changePercent": change_pct}
+        except Exception:
+            continue
+    return {"price": 0, "change": 0, "changePercent": 0}
+
+
 @app.websocket("/ws/price/{symbol}")
 async def websocket_price(websocket: WebSocket, symbol: str):
     await websocket.accept()
     while True:
         await asyncio.sleep(5)
         try:
-            for ua in [
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-            ]:
-                s = requests.Session()
-                s.headers.update({"User-Agent": ua, "Accept": "application/json"})
-                r = s.get(
-                    f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1d&interval=5m",
-                    timeout=8,
-                )
-                if r.status_code != 200:
-                    continue
-                data = r.json()
-                result = data.get("chart", {}).get("result", [])
-                if not result:
-                    continue
-                meta = result[0].get("meta", {})
-                quotes = result[0].get("indicators", {}).get("quote", [{}])[0] if result[0].get("indicators", {}).get("quote") else {}
-                closelist = quotes.get("close", [])
-                cur_price = meta.get("regularMarketPrice")
-                if cur_price is None and closelist:
-                    cur_price = closelist[-1]
-                if cur_price is None:
-                    cur_price = 0
-                prev_close = meta.get("chartPreviousClose", cur_price)
-                change = round(cur_price - prev_close, 2)
-                change_pct = round(change / prev_close * 100, 2) if prev_close else 0
-                if cur_price > 0:
-                    await websocket.send_json({
-                        "symbol": symbol,
-                        "price": cur_price,
-                        "change": change,
-                        "changePercent": change_pct,
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                    })
-                break
+            rt = _fetch_realtime_price(symbol)
+            if rt["price"] > 0:
+                await websocket.send_json({
+                    "symbol": symbol,
+                    "price": rt["price"],
+                    "change": rt["change"],
+                    "changePercent": rt["changePercent"],
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                })
         except Exception:
             pass
