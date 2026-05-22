@@ -624,11 +624,14 @@ def _get_stock_info(symbol: str) -> dict:
         result = _fetch_twse_quote(symbol)
         if result.get("currentPrice", 0) > 0:
             _cache_stock_name(symbol, result.get("longName", ""))
-            # Try to get English name from Yahoo for TWSE stocks
+            # Supplement with Yahoo chart meta (52-week range, exchange, currency)
             try:
                 yf_info = _fetch_yahoo_chart(symbol)
                 if yf_info.get("longName") and yf_info["longName"] != symbol:
                     result["_nameEn"] = yf_info["longName"]
+                for k in ["fiftyTwoWeekHigh", "fiftyTwoWeekLow", "currency", "exchange"]:
+                    if yf_info.get(k) is not None:
+                        result[k] = yf_info.get(k)
             except Exception:
                 pass
             cur = result.get("currentPrice", 0)
