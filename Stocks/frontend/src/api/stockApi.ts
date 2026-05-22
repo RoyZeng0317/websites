@@ -81,6 +81,33 @@ export function createPriceWebSocket(
   return ws
 }
 
+export async function fetchTwseQuote(symbol: string): Promise<RealtimePrice | null> {
+  const isTwo = symbol.endsWith('.TWO')
+  const stockNo = symbol.replace('.TW', '').replace('.TWO', '')
+  const market = isTwo ? 'otc' : 'tse'
+  try {
+    const res = await fetch(`https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=${market}_${stockNo}.tw&json=1&delay=0`, {
+      mode: 'cors',
+      headers: { 'Accept': 'application/json' },
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    const msg = data.msgArray?.[0]
+    if (!msg) return null
+    const prev = parseFloat(msg.y) || 0
+    const cur = parseFloat(msg.z) || prev
+    return {
+      symbol,
+      price: cur,
+      change: cur - prev,
+      changePercent: prev ? ((cur - prev) / prev * 100) : 0,
+      timestamp: new Date().toISOString(),
+    }
+  } catch {
+    return null
+  }
+}
+
 export function formatCurrency(value: number | null | undefined, currency = 'USD'): string {
   if (value == null) return 'N/A'
   const sym = currency === 'USD' ? '$' : currency === 'HKD' ? 'HK$' : currency === 'TWD' ? 'NT$' : '$'

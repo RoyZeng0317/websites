@@ -1,6 +1,6 @@
 import type { StockInfo, RealtimePrice } from '../types/stock'
 import { useEffect, useRef, useState } from 'react'
-import { createPriceWebSocket } from '../api/stockApi'
+import { createPriceWebSocket, fetchTwseQuote } from '../api/stockApi'
 import { Globe, Users, TrendingUp } from 'lucide-react'
 
 interface Props {
@@ -10,21 +10,31 @@ interface Props {
 export default function StockHeader({ info }: Props) {
   const [rt, setRt] = useState<RealtimePrice | null>(null)
   const wsRef = useRef<WebSocket | null>(null)
+  const isTw = info.symbol.endsWith('.TW') || info.symbol.endsWith('.TWO')
 
   useEffect(() => {
+    if (isTw) {
+      const timer = setInterval(async () => {
+        try {
+          const tw = await fetchTwseQuote(info.symbol)
+          if (tw) setRt(tw)
+        } catch { /* ignore */ }
+      }, 3000)
+      fetchTwseQuote(info.symbol).then((tw) => { if (tw) setRt(tw) })
+      return () => clearInterval(timer)
+    }
     wsRef.current = createPriceWebSocket(info.symbol, (data) => {
       setRt(data)
     })
     return () => {
       wsRef.current?.close()
     }
-  }, [info.symbol])
+  }, [info.symbol, isTw])
 
   const price = rt?.price ?? info.currentPrice
   const change = rt?.change ?? info.change
   const changePct = rt?.changePercent ?? info.changePercent
   const isPositive = change >= 0
-  const isTw = info.symbol.endsWith('.TW') || info.symbol.endsWith('.TWO')
   const upColor = isTw ? 'text-red-400' : 'text-emerald-400'
   const downColor = isTw ? 'text-emerald-400' : 'text-red-400'
   const upBg = isTw ? 'bg-red-400/10' : 'bg-emerald-400/10'

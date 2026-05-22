@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts'
-import { createPriceWebSocket } from '../api/stockApi'
+import { createPriceWebSocket, fetchTwseQuote } from '../api/stockApi'
 import type { RealtimePrice } from '../types/stock'
 
 interface Props {
@@ -17,9 +17,27 @@ interface RTDataPoint {
 export default function RealtimeChart({ symbol }: Props) {
   const [data, setData] = useState<RTDataPoint[]>([])
   const wsRef = useRef<WebSocket | null>(null)
+  const isTw = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
 
   useEffect(() => {
     setData([])
+    if (isTw) {
+      const timer = setInterval(async () => {
+        try {
+          const rt = await fetchTwseQuote(symbol)
+          if (rt && rt.price > 0) {
+            setData((prev) => {
+              const next = [...prev, {
+                time: new Date(rt.timestamp).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                price: rt.price,
+              }]
+              return next.length > 60 ? next.slice(-60) : next
+            })
+          }
+        } catch { /* ignore */ }
+      }, 3000)
+      return () => clearInterval(timer)
+    }
     wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
       setData((prev) => {
         const next = [...prev, {
@@ -32,7 +50,7 @@ export default function RealtimeChart({ symbol }: Props) {
     return () => {
       wsRef.current?.close()
     }
-  }, [symbol])
+  }, [symbol, isTw])
 
   if (data.length < 2) {
     return (
@@ -50,7 +68,6 @@ export default function RealtimeChart({ symbol }: Props) {
   const first = data[0].price
   const last = data[data.length - 1].price
   const isUp = last >= first
-  const isTw = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
   const upColor = isTw ? '#f87171' : '#34d399'
   const downColor = isTw ? '#34d399' : '#f87171'
   const color = isUp ? upColor : downColor
