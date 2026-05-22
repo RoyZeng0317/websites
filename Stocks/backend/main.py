@@ -185,7 +185,7 @@ def _fetch_yahoo_chart(symbol: str) -> dict:
                 "currentPrice": cur_price,
                 "regularMarketPrice": cur_price,
                 "regularMarketChange": round(cur_price - meta.get("chartPreviousClose", cur_price), 2),
-                "regularMarketChangePercent": 0,
+                "regularMarketChangePercent": round((cur_price - meta.get("chartPreviousClose", cur_price)) / meta.get("chartPreviousClose", cur_price) * 100, 2) if meta.get("chartPreviousClose", cur_price) else 0,
                 "regularMarketOpen": quotes.get("open", [None])[-1] if quotes.get("open") else 0,
                 "regularMarketDayHigh": meta.get("regularMarketDayHigh", quotes.get("high", [None])[-1] if quotes.get("high") else 0),
                 "regularMarketDayLow": meta.get("regularMarketDayLow", quotes.get("low", [None])[-1] if quotes.get("low") else 0),
@@ -1265,17 +1265,42 @@ async def websocket_price(websocket: WebSocket, symbol: str):
     await websocket.accept()
     while True:
         await asyncio.sleep(5)
-        rate_limit()
         try:
-            info = _get_stock_info(symbol)
-            price = info.get("currentPrice") or info.get("regularMarketPrice")
-            if price is not None:
-                await websocket.send_json({
-                    "symbol": symbol,
-                    "price": price,
-                    "change": info.get("change", 0),
-                    "changePercent": info.get("changePercent", 0),
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                })
+            for ua in [
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+            ]:
+                s = requests.Session()
+                s.headers.update({"User-Agent": ua, "Accept": "application/json"})
+                r = s.get(
+                    f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1d&interval=5m",
+                    timeout=8,
+                )
+                if r.status_code != 200:
+                    continue
+                data = r.json()
+                result = data.get("chart", {}).get("result", [])
+                if not result:
+                    continue
+                meta = result[0].get("meta", {})
+                quotes = result[0].get("indicators", {}).get("quote", [{}])[0] if result[0].get("indicators", {}).get("quote") else {}
+                closelist = quotes.get("close", [])
+                cur_price = meta.get("regularMarketPrice")
+                if cur_price is None and closelist:
+                    cur_price = closelist[-1]
+                if cur_price is None:
+                    cur_price = 0
+                prev_close = meta.get("chartPreviousClose", cur_price)
+                change = round(cur_price - prev_close, 2)
+                change_pct = round(change / prev_close * 100, 2) if prev_close else 0
+                if cur_price > 0:
+                    await websocket.send_json({
+                        "symbol": symbol,
+                        "price": cur_price,
+                        "change": change,
+                        "changePercent": change_pct,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    })
+                break
         except Exception:
             pass
