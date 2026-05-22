@@ -370,8 +370,9 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 "logo_url": None,
             }
 
-    # Method 2: Finnhub for US/HK stocks
-    if (not result or not any(v is not None for v in result.values())) and FINNHUB_API_KEY:
+    # Method 2: Finnhub to supplement fundamentals (fills BWIBBU gaps for Taiwan stocks)
+    finnhub_result = {}
+    if FINNHUB_API_KEY:
         for sym_try in [symbol, symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")]:
             try:
                 r = requests.get(
@@ -388,7 +389,7 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                     v = m.get(key)
                     return None if v is None or (isinstance(v, str) and v == "None") else v
 
-                result = {
+                finnhub_result = {
                     "trailingPE": fh("peBasicExclExtraTTM") or fh("peExclExtraTTM"),
                     "forwardPE": fh("forwardPE"),
                     "trailingEps": fh("epsBasicExclExtraItemsTTM") or fh("epsExclExtraItemsTTM"),
@@ -424,6 +425,13 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 break
             except Exception:
                 continue
+    if finnhub_result:
+        if not result or not any(v is not None for v in result.values()):
+            result = finnhub_result
+        else:
+            for k, v in finnhub_result.items():
+                if v is not None and result.get(k) is None:
+                    result[k] = v
 
     # Method 3: yfinance as last resort
     if not result or not any(v is not None for v in result.values()):
