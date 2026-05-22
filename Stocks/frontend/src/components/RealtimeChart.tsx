@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts'
-import { createPriceWebSocket, fetchTwseQuote } from '../api/stockApi'
+import { createPriceWebSocket } from '../api/stockApi'
 import type { RealtimePrice } from '../types/stock'
 
 interface Props {
@@ -21,23 +21,6 @@ export default function RealtimeChart({ symbol }: Props) {
 
   useEffect(() => {
     setData([])
-    if (isTw) {
-      const timer = setInterval(async () => {
-        try {
-          const rt = await fetchTwseQuote(symbol)
-          if (rt && rt.price > 0) {
-            setData((prev) => {
-              const next = [...prev, {
-                time: new Date(rt.timestamp).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-                price: rt.price,
-              }]
-              return next.length > 60 ? next.slice(-60) : next
-            })
-          }
-        } catch { /* ignore */ }
-      }, 3000)
-      return () => clearInterval(timer)
-    }
     wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
       setData((prev) => {
         const next = [...prev, {
@@ -50,7 +33,7 @@ export default function RealtimeChart({ symbol }: Props) {
     return () => {
       wsRef.current?.close()
     }
-  }, [symbol, isTw])
+  }, [symbol])
 
   if (data.length < 2) {
     return (
