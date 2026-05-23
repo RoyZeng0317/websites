@@ -669,43 +669,18 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                     if _total_debt is not None and _total_equity is not None and _total_equity != 0:
                         result["debtToEquity"] = round(_total_debt / _total_equity, 4)
 
-                if result.get("exDividendDate") is None:
-                    _cal = _t.calendar
-                    if _cal is not None:
-                        for _k, _v in (_cal.items() if isinstance(_cal, dict) else []):
-                            if "ex-dividend" in str(_k).lower() and _v:
-                                if hasattr(_v, 'timestamp'):
-                                    result["exDividendDate"] = _v.timestamp()
-                                elif hasattr(_v, 'strftime'):
-                                    result["exDividendDate"] = _v.strftime("%Y-%m-%dT%H:%M:%S.000Z")
-                    if result.get("exDividendDate") is None:
-                        try:
-                            _divs = _t.dividends
-                            if _divs is not None and not _divs.empty:
-                                _last_ex = _divs.index[-1]
-                                if hasattr(_last_ex, 'timestamp'):
-                                    result["exDividendDate"] = _last_ex.timestamp()
-                                elif hasattr(_last_ex, 'strftime'):
-                                    result["exDividendDate"] = _last_ex.strftime("%Y-%m-%dT%H:%M:%S.000Z")
-                        except Exception:
-                            pass
+                try:
+                    _divs = _t.dividends
+                    if _divs is not None and not _divs.empty:
+                        _last_ex = _divs.index[-1]
+                        if hasattr(_last_ex, 'timestamp'):
+                            result["exDividendDate"] = _last_ex.timestamp()
+                        elif hasattr(_last_ex, 'strftime'):
+                            result["exDividendDate"] = _last_ex.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+                except Exception:
+                    pass
             except Exception:
                 pass
-
-    # Always override exDividendDate with the latest actual dividend date
-    if result:
-        try:
-            rate_limit()
-            _ex_t = yf.Ticker(symbol)
-            _ex_divs = _ex_t.dividends
-            if _ex_divs is not None and not _ex_divs.empty:
-                _ex_last = _ex_divs.index[-1]
-                if hasattr(_ex_last, 'timestamp'):
-                    result["exDividendDate"] = _ex_last.timestamp()
-                elif hasattr(_ex_last, 'strftime'):
-                    result["exDividendDate"] = _ex_last.strftime("%Y-%m-%dT%H:%M:%S.000Z")
-        except Exception:
-            pass
 
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
