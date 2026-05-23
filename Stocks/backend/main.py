@@ -494,93 +494,104 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
         needs_yf = any(result.get(k) is None for k in ["beta", "marketCap", "forwardPE", "fiftyTwoWeekHigh", "fiftyTwoWeekLow", "52WeekChange"])
     if needs_yf:
         _yf_data = None
-        try:
-            rate_limit()
-            _t = yf.Ticker(symbol)
-            _info = dict(_t.info) if _t.info else {}
-            _has_data = any(v is not None for v in _info.values())
-            if _has_data:
-                _yf_data = {
-                    "trailingPE": _info.get("trailingPE"),
-                    "forwardPE": _info.get("forwardPE"),
-                    "trailingEps": _info.get("trailingEps"),
-                    "forwardEps": _info.get("forwardEps"),
-                    "dividendYield": _info.get("dividendYield"),
-                    "dividendRate": _info.get("dividendRate"),
-                    "exDividendDate": _info.get("exDividendDate"),
-                    "payoutRatio": _info.get("payoutRatio"),
-                    "fiveYearAvgDividendYield": _info.get("fiveYearAvgDividendYield"),
-                    "returnOnEquity": _info.get("returnOnEquity"),
-                    "returnOnAssets": _info.get("returnOnAssets"),
-                    "totalRevenue": _info.get("totalRevenue"),
-                    "revenuePerShare": _info.get("revenuePerShare"),
-                    "profitMargins": _info.get("profitMargins"),
-                    "operatingMargins": _info.get("operatingMargins"),
-                    "debtToEquity": _info.get("debtToEquity"),
-                    "bookValue": _info.get("bookValue"),
-                    "priceToBook": _info.get("priceToBook"),
-                    "marketCap": _info.get("marketCap"),
-                    "averageVolume": _info.get("averageVolume"),
-                    "beta": _info.get("beta"),
-                    "fiftyTwoWeekHigh": _info.get("fiftyTwoWeekHigh"),
-                    "fiftyTwoWeekLow": _info.get("fiftyTwoWeekLow"),
-                    "52WeekChange": _info.get("52WeekChange"),
-                    "sector": _info.get("sector", ""),
-                    "industry": _info.get("industry", ""),
-                    "country": _info.get("country", ""),
-                    "website": _info.get("website", ""),
-                    "longBusinessSummary": _info.get("longBusinessSummary", ""),
-                    "fullTimeEmployees": _info.get("fullTimeEmployees"),
-                    "logo_url": _info.get("logo_url"),
-                }
-        except Exception:
-            pass
+        _v10_data = None
 
-        if _yf_data is None:
+        for ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
             try:
                 rate_limit()
                 _url = f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=price,summaryDetail,defaultKeyStatistics,financialData,incomeStatementHistory"
-                _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
-                if _rsp.status_code == 200:
-                    _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
-                    _sd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("summaryDetail", {})).items()}
-                    _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("defaultKeyStatistics", {})).items()}
-                    _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("financialData", {})).items()}
+                _rsp = requests.get(_url, headers={"User-Agent": ua, "Accept": "application/json"}, timeout=10)
+                if _rsp.status_code != 200:
+                    continue
+                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                _sd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("summaryDetail", {})).items()}
+                _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("defaultKeyStatistics", {})).items()}
+                _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("financialData", {})).items()}
+                _v10_data = {
+                    "trailingPE": _sd.get("trailingPE"),
+                    "forwardPE": _sd.get("forwardPE"),
+                    "trailingEps": _ks.get("trailingEps"),
+                    "forwardEps": _ks.get("forwardEps"),
+                    "dividendYield": _sd.get("dividendYield"),
+                    "dividendRate": _sd.get("dividendRate"),
+                    "exDividendDate": _sd.get("exDividendDate"),
+                    "payoutRatio": _sd.get("payoutRatio"),
+                    "fiveYearAvgDividendYield": _sd.get("fiveYearAvgDividendYield"),
+                    "returnOnEquity": _fd.get("returnOnEquity"),
+                    "returnOnAssets": _fd.get("returnOnAssets"),
+                    "totalRevenue": _fd.get("totalRevenue"),
+                    "revenuePerShare": _fd.get("revenuePerShare"),
+                    "profitMargins": _fd.get("profitMargins"),
+                    "operatingMargins": _fd.get("operatingMargins"),
+                    "debtToEquity": _fd.get("debtToEquity"),
+                    "bookValue": _ks.get("bookValue"),
+                    "priceToBook": _ks.get("priceToBook"),
+                    "marketCap": _sd.get("marketCap"),
+                    "averageVolume": _sd.get("averageVolume"),
+                    "beta": _sd.get("beta"),
+                    "fiftyTwoWeekHigh": _sd.get("fiftyTwoWeekHigh"),
+                    "fiftyTwoWeekLow": _sd.get("fiftyTwoWeekLow"),
+                    "52WeekChange": _ks.get("52WeekChange"),
+                    "sector": _fd.get("sector", ""),
+                    "industry": _fd.get("industry", ""),
+                    "country": _ks.get("country", ""),
+                    "website": _ks.get("website", ""),
+                    "longBusinessSummary": _ks.get("longBusinessSummary", ""),
+                    "fullTimeEmployees": _ks.get("fullTimeEmployees"),
+                    "logo_url": _ks.get("logoUrl", ""),
+                }
+                break
+            except Exception:
+                continue
+
+        if _v10_data and any(v is not None for v in _v10_data.values()):
+            _yf_data = _v10_data
+        else:
+            try:
+                rate_limit()
+                _t = yf.Ticker(symbol)
+                _info = dict(_t.info) if _t.info else {}
+                _has_data = any(v is not None for v in _info.values())
+                if _has_data:
                     _yf_data = {
-                        "trailingPE": _sd.get("trailingPE"),
-                        "forwardPE": _sd.get("forwardPE"),
-                        "trailingEps": _ks.get("trailingEps"),
-                        "forwardEps": _ks.get("forwardEps"),
-                        "dividendYield": _sd.get("dividendYield"),
-                        "dividendRate": _sd.get("dividendRate"),
-                        "exDividendDate": _sd.get("exDividendDate"),
-                        "payoutRatio": _sd.get("payoutRatio"),
-                        "fiveYearAvgDividendYield": _sd.get("fiveYearAvgDividendYield"),
-                        "returnOnEquity": _fd.get("returnOnEquity"),
-                        "returnOnAssets": _fd.get("returnOnAssets"),
-                        "totalRevenue": _fd.get("totalRevenue"),
-                        "revenuePerShare": _fd.get("revenuePerShare"),
-                        "profitMargins": _fd.get("profitMargins"),
-                        "operatingMargins": _fd.get("operatingMargins"),
-                        "debtToEquity": _fd.get("debtToEquity"),
-                        "bookValue": _ks.get("bookValue"),
-                        "priceToBook": _ks.get("priceToBook"),
-                        "marketCap": _sd.get("marketCap"),
-                        "averageVolume": _sd.get("averageVolume"),
-                        "beta": _sd.get("beta"),
-                        "fiftyTwoWeekHigh": _sd.get("fiftyTwoWeekHigh"),
-                        "fiftyTwoWeekLow": _sd.get("fiftyTwoWeekLow"),
-                        "52WeekChange": _ks.get("52WeekChange"),
-                        "sector": _fd.get("sector", ""),
-                        "industry": _fd.get("industry", ""),
-                        "country": "",
-                        "website": "",
-                        "longBusinessSummary": "",
-                        "fullTimeEmployees": _ks.get("fullTimeEmployees"),
-                        "logo_url": "",
+                        "trailingPE": _info.get("trailingPE"),
+                        "forwardPE": _info.get("forwardPE"),
+                        "trailingEps": _info.get("trailingEps"),
+                        "forwardEps": _info.get("forwardEps"),
+                        "dividendYield": _info.get("dividendYield"),
+                        "dividendRate": _info.get("dividendRate"),
+                        "exDividendDate": _info.get("exDividendDate"),
+                        "payoutRatio": _info.get("payoutRatio"),
+                        "fiveYearAvgDividendYield": _info.get("fiveYearAvgDividendYield"),
+                        "returnOnEquity": _info.get("returnOnEquity"),
+                        "returnOnAssets": _info.get("returnOnAssets"),
+                        "totalRevenue": _info.get("totalRevenue"),
+                        "revenuePerShare": _info.get("revenuePerShare"),
+                        "profitMargins": _info.get("profitMargins"),
+                        "operatingMargins": _info.get("operatingMargins"),
+                        "debtToEquity": _info.get("debtToEquity"),
+                        "bookValue": _info.get("bookValue"),
+                        "priceToBook": _info.get("priceToBook"),
+                        "marketCap": _info.get("marketCap"),
+                        "averageVolume": _info.get("averageVolume"),
+                        "beta": _info.get("beta"),
+                        "fiftyTwoWeekHigh": _info.get("fiftyTwoWeekHigh"),
+                        "fiftyTwoWeekLow": _info.get("fiftyTwoWeekLow"),
+                        "52WeekChange": _info.get("52WeekChange"),
+                        "sector": _info.get("sector", ""),
+                        "industry": _info.get("industry", ""),
+                        "country": _info.get("country", ""),
+                        "website": _info.get("website", ""),
+                        "longBusinessSummary": _info.get("longBusinessSummary", ""),
+                        "fullTimeEmployees": _info.get("fullTimeEmployees"),
+                        "logo_url": _info.get("logo_url"),
                     }
             except Exception:
                 pass
+
         if _yf_data is not None:
             if result and any(v is not None for v in result.values()):
                 for k, v in _yf_data.items():
