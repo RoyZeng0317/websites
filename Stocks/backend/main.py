@@ -652,6 +652,37 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             except Exception:
                 pass
 
+    # Comprehensive fill: derive missing fields from available data
+    if result and current_price:
+        mc = result.get("marketCap")
+        if not mc or mc <= 0:
+            try:
+                rate_limit()
+                _q_url = f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={urllib.parse.quote(symbol)}"
+                _q_rsp = requests.get(_q_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
+                if _q_rsp.status_code == 200:
+                    _qi = _q_rsp.json().get("quoteResponse", {}).get("result", [{}])[0]
+                    mc = _qi.get("marketCap") or mc
+            except Exception:
+                pass
+        if mc and mc > 0:
+            shares = mc / current_price
+            rev = result.get("totalRevenue")
+            rps = result.get("revenuePerShare")
+            if rev is None and rps is not None:
+                result["totalRevenue"] = rps * shares
+            elif rps is None and rev is not None:
+                result["revenuePerShare"] = rev / shares
+        eps_val = result.get("trailingEps")
+        rps_val = result.get("revenuePerShare")
+        if result.get("profitMargins") is None and eps_val and rps_val and rps_val != 0:
+            result["profitMargins"] = eps_val / rps_val
+        roe_val = result.get("returnOnEquity")
+        dte_val = result.get("debtToEquity")
+        if result.get("returnOnAssets") is None and roe_val and dte_val:
+            dte = dte_val / 100 if dte_val > 5 else dte_val
+            result["returnOnAssets"] = roe_val / (1 + dte)
+
     has_data = any(v is not None for v in result.values())
     if has_data:
         FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
