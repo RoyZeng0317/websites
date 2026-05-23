@@ -609,6 +609,7 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 if _is is not None and not _is.empty:
                     _total_rev = None
                     _operating_income = None
+                    _net_income = None
                     for _idx in _is.index:
                         _label = str(_idx).lower()
                         _vals = []
@@ -626,8 +627,19 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                             result["totalRevenue"] = _total_rev
                         elif "operating income" in _label and result.get("operatingMargins") is None:
                             _operating_income = _vals[0]
+                        elif "net income" in _label and not any(x in _label for x in ["diluted", "excluding", "discontinued", "minority", "non-controlling", "noncontrolling"]):
+                            _net_income = _vals[0]
                     if _operating_income is not None and result.get("totalRevenue") and result["totalRevenue"] != 0:
                         result["operatingMargins"] = round(_operating_income / result["totalRevenue"], 4)
+
+                    _teps = result.get("trailingEps")
+                    if result.get("marketCap") is None and _net_income is not None and _teps and _teps != 0 and current_price:
+                        _shares_out = _net_income / _teps
+                        result["marketCap"] = current_price * _shares_out
+
+                    if result.get("totalRevenue") is not None and current_price and result.get("revenuePerShare") is None:
+                        if result.get("marketCap") and result["marketCap"] > 0:
+                            result["revenuePerShare"] = result["totalRevenue"] / (result["marketCap"] / current_price)
 
                 _bs = _t.balance_sheet
                 if _bs is not None and not _bs.empty and result.get("debtToEquity") is None:
@@ -661,11 +673,6 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                                     result["exDividendDate"] = _v.timestamp()
                                 elif hasattr(_v, 'strftime'):
                                     result["exDividendDate"] = _v.strftime("%Y-%m-%dT%H:%M:%S.000Z")
-
-                if result.get("totalRevenue") is not None and current_price and result.get("revenuePerShare") is None:
-                    _mc_for_rps = result.get("marketCap")
-                    if _mc_for_rps and _mc_for_rps > 0:
-                        result["revenuePerShare"] = result["totalRevenue"] / (_mc_for_rps / current_price)
             except Exception:
                 pass
 
