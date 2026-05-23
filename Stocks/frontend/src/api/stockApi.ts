@@ -122,6 +122,11 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     revenue = info.revenuePerShare * (info.marketCap / p)
   }
 
+  let revenuePerShare: number | null = info.revenuePerShare
+  if (revenuePerShare == null && revenue != null && info.marketCap != null && info.marketCap > 0 && p !== 0) {
+    revenuePerShare = revenue / (info.marketCap / p)
+  }
+
   let divYield: number | null = info.dividendYield
   let divRate: number | null = info.dividendRate
   if (divYield == null && divRate != null) divYield = divRate / p
@@ -130,6 +135,11 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   let payoutRatio: number | null = info.payoutRatio
   if (payoutRatio == null && divRate != null && eps != null && eps !== 0) {
     payoutRatio = divRate / eps
+  }
+
+  let fiveYearAvgDivYield: number | null = info.fiveYearAvgDividendYield
+  if (fiveYearAvgDivYield == null && divYield != null) {
+    fiveYearAvgDivYield = divYield
   }
 
   let c: number | null = info.change
@@ -145,6 +155,16 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   if (fpe == null && feps != null && feps !== 0) fpe = p / feps
   else if (feps == null && fpe != null && fpe !== 0) feps = p / fpe
 
+  let avgVol: number | null = info.avgVolume
+  if (avgVol == null && info.volume > 0) {
+    avgVol = info.volume
+  }
+
+  let fiftyTwoWeekChange: number | null = info.fiftyTwoWeekChange
+  if (fiftyTwoWeekChange == null && info.fiftyTwoWeekHigh != null && info.fiftyTwoWeekLow != null && info.fiftyTwoWeekLow !== 0) {
+    fiftyTwoWeekChange = (p - info.fiftyTwoWeekLow) / info.fiftyTwoWeekLow
+  }
+
   return {
     ...info,
     peRatio: pe,
@@ -157,9 +177,13 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     roa,
     profitMargin,
     revenue,
+    revenuePerShare,
     dividendYield: divYield,
     dividendRate: divRate,
     payoutRatio,
+    fiveYearAvgDividendYield: fiveYearAvgDivYield,
+    avgVolume: avgVol,
+    fiftyTwoWeekChange,
     change: c,
     changePercent: cp,
   }
