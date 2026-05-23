@@ -5,7 +5,7 @@ import type { StockInfo } from '../types/stock'
 import StockHeader from '../components/StockHeader'
 import RealtimeChart from '../components/RealtimeChart'
 import PriceChart from '../components/PriceChart'
-import TradingViewChart from '../components/TradingViewChart'
+import KlineChart from '../components/KlineChart'
 import FuturesPrice from '../components/FuturesPrice'
 import Fundamentals from '../components/Fundamentals'
 import DividendInfo from '../components/DividendInfo'
@@ -76,7 +76,7 @@ export default function StockPage() {
 
       <RealtimeChart symbol={symbol!} currentPrice={info.currentPrice} previousClose={info.previousClose} />
 
-      <TradingViewChart symbol={symbol!} exchange={info.exchange} />
+      <KlineChart symbol={symbol!} />
 
       <PriceChart symbol={symbol!} />
 
