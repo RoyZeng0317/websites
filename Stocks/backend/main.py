@@ -494,68 +494,69 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
         needs_yf = any(result.get(k) is None for k in ["beta", "marketCap", "forwardPE", "fiftyTwoWeekHigh", "fiftyTwoWeekLow", "52WeekChange"])
     if needs_yf:
         _yf_data = None
-        _v10_data = None
 
-        for ua in [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-        ]:
-            try:
-                rate_limit()
-                _url = f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=price,summaryDetail,defaultKeyStatistics,financialData,incomeStatementHistory"
-                _rsp = requests.get(_url, headers={"User-Agent": ua, "Accept": "application/json"}, timeout=10)
-                if _rsp.status_code != 200:
+        for _qs in ["query1", "query2"]:
+            for ua in [
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+            ]:
+                try:
+                    rate_limit()
+                    _url = f"https://{_qs}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=price,summaryDetail,defaultKeyStatistics,financialData,incomeStatementHistory"
+                    _rsp = requests.get(_url, headers={"User-Agent": ua, "Accept": "application/json"}, timeout=8)
+                    if _rsp.status_code != 200:
+                        continue
+                    _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                    if not _q:
+                        continue
+                    _sd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("summaryDetail", {})).items()}
+                    _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("defaultKeyStatistics", {})).items()}
+                    _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("financialData", {})).items()}
+                    _yf_data = {
+                        "trailingPE": _sd.get("trailingPE"),
+                        "forwardPE": _sd.get("forwardPE"),
+                        "trailingEps": _ks.get("trailingEps"),
+                        "forwardEps": _ks.get("forwardEps"),
+                        "dividendYield": _sd.get("dividendYield"),
+                        "dividendRate": _sd.get("dividendRate"),
+                        "exDividendDate": _sd.get("exDividendDate"),
+                        "payoutRatio": _sd.get("payoutRatio"),
+                        "fiveYearAvgDividendYield": _sd.get("fiveYearAvgDividendYield"),
+                        "returnOnEquity": _fd.get("returnOnEquity"),
+                        "returnOnAssets": _fd.get("returnOnAssets"),
+                        "totalRevenue": _fd.get("totalRevenue"),
+                        "revenuePerShare": _fd.get("revenuePerShare"),
+                        "profitMargins": _fd.get("profitMargins"),
+                        "operatingMargins": _fd.get("operatingMargins"),
+                        "debtToEquity": _fd.get("debtToEquity"),
+                        "bookValue": _ks.get("bookValue"),
+                        "priceToBook": _ks.get("priceToBook"),
+                        "marketCap": _sd.get("marketCap"),
+                        "averageVolume": _sd.get("averageVolume"),
+                        "beta": _sd.get("beta"),
+                        "fiftyTwoWeekHigh": _sd.get("fiftyTwoWeekHigh"),
+                        "fiftyTwoWeekLow": _sd.get("fiftyTwoWeekLow"),
+                        "52WeekChange": _ks.get("52WeekChange"),
+                        "sector": _fd.get("sector", ""),
+                        "industry": _fd.get("industry", ""),
+                        "country": _ks.get("country", ""),
+                        "website": _ks.get("website", ""),
+                        "longBusinessSummary": _ks.get("longBusinessSummary", ""),
+                        "fullTimeEmployees": _ks.get("fullTimeEmployees"),
+                        "logo_url": _ks.get("logoUrl", ""),
+                    }
+                    break
+                except Exception:
                     continue
-                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
-                _sd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("summaryDetail", {})).items()}
-                _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("defaultKeyStatistics", {})).items()}
-                _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("financialData", {})).items()}
-                _v10_data = {
-                    "trailingPE": _sd.get("trailingPE"),
-                    "forwardPE": _sd.get("forwardPE"),
-                    "trailingEps": _ks.get("trailingEps"),
-                    "forwardEps": _ks.get("forwardEps"),
-                    "dividendYield": _sd.get("dividendYield"),
-                    "dividendRate": _sd.get("dividendRate"),
-                    "exDividendDate": _sd.get("exDividendDate"),
-                    "payoutRatio": _sd.get("payoutRatio"),
-                    "fiveYearAvgDividendYield": _sd.get("fiveYearAvgDividendYield"),
-                    "returnOnEquity": _fd.get("returnOnEquity"),
-                    "returnOnAssets": _fd.get("returnOnAssets"),
-                    "totalRevenue": _fd.get("totalRevenue"),
-                    "revenuePerShare": _fd.get("revenuePerShare"),
-                    "profitMargins": _fd.get("profitMargins"),
-                    "operatingMargins": _fd.get("operatingMargins"),
-                    "debtToEquity": _fd.get("debtToEquity"),
-                    "bookValue": _ks.get("bookValue"),
-                    "priceToBook": _ks.get("priceToBook"),
-                    "marketCap": _sd.get("marketCap"),
-                    "averageVolume": _sd.get("averageVolume"),
-                    "beta": _sd.get("beta"),
-                    "fiftyTwoWeekHigh": _sd.get("fiftyTwoWeekHigh"),
-                    "fiftyTwoWeekLow": _sd.get("fiftyTwoWeekLow"),
-                    "52WeekChange": _ks.get("52WeekChange"),
-                    "sector": _fd.get("sector", ""),
-                    "industry": _fd.get("industry", ""),
-                    "country": _ks.get("country", ""),
-                    "website": _ks.get("website", ""),
-                    "longBusinessSummary": _ks.get("longBusinessSummary", ""),
-                    "fullTimeEmployees": _ks.get("fullTimeEmployees"),
-                    "logo_url": _ks.get("logoUrl", ""),
-                }
+            if _yf_data and any(v is not None for v in _yf_data.values()):
                 break
-            except Exception:
-                continue
 
-        if _v10_data and any(v is not None for v in _v10_data.values()):
-            _yf_data = _v10_data
-        else:
+        if _yf_data is None or not any(v is not None for v in _yf_data.values()):
             try:
                 rate_limit()
                 _t = yf.Ticker(symbol)
                 _info = dict(_t.info) if _t.info else {}
-                _has_data = any(v is not None for v in _info.values())
-                if _has_data:
+                if _info and any(v is not None for v in _info.values()):
                     _yf_data = {
                         "trailingPE": _info.get("trailingPE"),
                         "forwardPE": _info.get("forwardPE"),
@@ -592,13 +593,76 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             except Exception:
                 pass
 
-        if _yf_data is not None:
+        if _yf_data and any(v is not None for v in _yf_data.values()):
             if result and any(v is not None for v in result.values()):
                 for k, v in _yf_data.items():
                     if v is not None and result.get(k) is None:
                         result[k] = v
             else:
                 result = _yf_data
+
+        if result and current_price and any(result.get(k) is None for k in ["totalRevenue", "operatingMargins", "debtToEquity", "exDividendDate", "profitMargins"]):
+            try:
+                rate_limit()
+                _t = yf.Ticker(symbol)
+                _is = _t.income_stmt
+                if _is is not None and not _is.empty:
+                    _total_rev = None
+                    _operating_income = None
+                    for _idx in _is.index:
+                        _label = str(_idx).lower()
+                        _vals = []
+                        for _c in _is.columns:
+                            _v = _is.loc[_idx, _c]
+                            if _v is not None and _v == _v:
+                                try:
+                                    _vals.append(float(_v))
+                                except (ValueError, TypeError):
+                                    pass
+                        if not _vals:
+                            continue
+                        if "total revenue" in _label and result.get("totalRevenue") is None:
+                            _total_rev = _vals[0]
+                            result["totalRevenue"] = _total_rev
+                        elif "operating income" in _label and result.get("operatingMargins") is None:
+                            _operating_income = _vals[0]
+                    if _operating_income is not None and result.get("totalRevenue") and result["totalRevenue"] != 0:
+                        result["operatingMargins"] = round(_operating_income / result["totalRevenue"], 4)
+
+                _bs = _t.balance_sheet
+                if _bs is not None and not _bs.empty and result.get("debtToEquity") is None:
+                    _total_debt = None
+                    _total_equity = None
+                    for _idx in _bs.index:
+                        _label = str(_idx).lower()
+                        _vals = []
+                        for _c in _bs.columns:
+                            _v = _bs.loc[_idx, _c]
+                            if _v is not None and _v == _v:
+                                try:
+                                    _vals.append(float(_v))
+                                except (ValueError, TypeError):
+                                    pass
+                        if not _vals:
+                            continue
+                        if "total debt" in _label:
+                            _total_debt = _vals[0]
+                        elif "total stockholder equity" in _label or "total equity" in _label:
+                            _total_equity = _vals[0]
+                    if _total_debt is not None and _total_equity is not None and _total_equity != 0:
+                        result["debtToEquity"] = round(_total_debt / _total_equity, 4)
+
+                if result.get("exDividendDate") is None:
+                    _cal = _t.calendar
+                    if _cal is not None:
+                        for _k, _v in (_cal.items() if isinstance(_cal, dict) else []):
+                            if "ex-dividend" in str(_k).lower() and _v:
+                                if hasattr(_v, 'timestamp'):
+                                    result["exDividendDate"] = _v.timestamp()
+                                elif hasattr(_v, 'strftime'):
+                                    result["exDividendDate"] = _v.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+            except Exception:
+                pass
 
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
