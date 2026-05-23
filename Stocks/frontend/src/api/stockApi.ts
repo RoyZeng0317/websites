@@ -116,6 +116,9 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     const dte = info.debtToEquity > 5 ? info.debtToEquity / 100 : info.debtToEquity
     roa = roe / (1 + dte)
   }
+  if (roa == null && roe != null) {
+    roa = roe
+  }
 
   let revenue: number | null = info.revenue
   if (revenue == null && info.marketCap != null && info.marketCap > 0 && info.revenuePerShare != null && p !== 0) {
@@ -125,6 +128,9 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   let revenuePerShare: number | null = info.revenuePerShare
   if (revenuePerShare == null && revenue != null && info.marketCap != null && info.marketCap > 0 && p !== 0) {
     revenuePerShare = revenue / (info.marketCap / p)
+  }
+  if (revenuePerShare == null && eps != null && profitMargin != null && profitMargin !== 0) {
+    revenuePerShare = eps / profitMargin
   }
 
   let divYield: number | null = info.dividendYield
@@ -154,6 +160,8 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   let feps: number | null = info.forwardEps
   if (fpe == null && feps != null && feps !== 0) fpe = p / feps
   else if (feps == null && fpe != null && fpe !== 0) feps = p / fpe
+  if (fpe == null && pe != null) fpe = pe
+  if (feps == null && eps != null) feps = eps
 
   let avgVol: number | null = info.avgVolume
   if (avgVol == null && info.volume > 0) {

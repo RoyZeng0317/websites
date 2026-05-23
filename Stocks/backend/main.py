@@ -655,15 +655,22 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
     if result and current_price:
         mc = result.get("marketCap")
         if not mc or mc <= 0:
-            try:
-                rate_limit()
-                _q_url = f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={urllib.parse.quote(symbol)}"
-                _q_rsp = requests.get(_q_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
-                if _q_rsp.status_code == 200:
-                    _qi = _q_rsp.json().get("quoteResponse", {}).get("result", [{}])[0]
-                    mc = _qi.get("marketCap") or mc
-            except Exception:
-                pass
+            for _q_url in [
+                f"https://query1.finance.yahoo.com/v6/finance/quote?symbols={urllib.parse.quote(symbol)}",
+                f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={urllib.parse.quote(symbol)}",
+                f"https://query2.finance.yahoo.com/v6/finance/quote?symbols={urllib.parse.quote(symbol)}",
+            ]:
+                try:
+                    rate_limit()
+                    _q_rsp = requests.get(_q_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=6)
+                    if _q_rsp.status_code == 200:
+                        _qi = _q_rsp.json().get("quoteResponse", {}).get("result", [{}])[0]
+                        _mc = _qi.get("marketCap")
+                        if _mc:
+                            mc = _mc
+                            break
+                except Exception:
+                    continue
         if mc and mc > 0:
             shares = mc / current_price
             rev = result.get("totalRevenue")
