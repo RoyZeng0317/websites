@@ -4,6 +4,62 @@ from datetime import datetime
 import yfinance as yf
 from firebase_functions import https_fn
 
+STOCK_MONEY = {
+    "台塑": "年配息",
+    "中鋼": "年配息",
+    "聯電": "年配息",
+    "台達電": "年配息",
+    "鴻海": "年配息",
+    "仁寶": "年配息",
+    "國巨": "不定期配息",
+    "台積電":"季配息",
+    "旺宏": "年配息",
+    "華邦電": "不定期配息",
+    "智邦": "年配息",
+    "宏碁": "年配息",
+    "華碩": "年配息",
+    "技嘉": "年配息",
+    "微星": "年配息",
+    "南亞科": "年配息",
+    "友達": "不定期配息",
+    "中華電": "年配息",
+    "鼎元": "不定期配息",
+    "聯發科": "不定期配息",
+    "中工": "年配息",
+    "華航": "年配息",
+    "星宇航空": "不配息配股",
+    "國泰金": "年配息",
+    "元大金": "年配息",
+    "台新新光金": "年配息",
+    "中信金": "年配息",
+    "大立光": "半年配息",
+    "威剛": "不配息配股",
+    "群創": "不定期配息",
+    "富采": "年配息",
+    "事欣科": "年配息",
+    "十銓": "年配息",
+    "三星(台)": "年配息",
+    "合庫金": "年配息",
+    "帝寶": "年配息",
+    "力機電": "不定期配息",
+    "香繼光": "未知",
+    "南電": "年配息",
+    "華東": "年配息",
+    "元大50": "半年配息",
+    "元大電子": "年配息",
+    "元大高股息": "季配息",
+    "凱基TOP50": "不配息配股",
+    "主動統一升級50": "季配息",
+    "主動統一台股增長": "年配息"
+    }
+
+STOCK_MEETING_URLS = {
+    "2330.TW": "https://investor.tsmc.com/chinese/quarterly-results/2026/q1",
+    "2409.TW": "https://www.auo.com/zh-TW/investor_conference/index",
+    "2515.TW": "https://www.bes.com.tw/ir-conference.php#gsc.tab=0",
+    "2412.TW": "https://www.cht.com.tw/zh-tw/home/cht/investors/shareholder-services/ir-calendar",
+}
+
 
 def cors_response(data, status=200):
     body = json.dumps(data, default=str)
@@ -113,6 +169,10 @@ def handle_stock_info(symbol):
     except Exception as e:
         return cors_response({"error": str(e)}, 500)
 
+    name_cn = info.get("shortName") or info.get("longName", "")
+    dividend_freq = STOCK_MONEY.get(name_cn)
+    meeting_url = STOCK_MEETING_URLS.get(symbol)
+
     result = {
         "symbol": symbol,
         "name": info.get("longName", info.get("shortName", symbol)),
@@ -136,6 +196,8 @@ def handle_stock_info(symbol):
         "exDividendDate": str(info.get("exDividendDate")) if info.get("exDividendDate") else None,
         "payoutRatio": info.get("payoutRatio"),
         "fiveYearAvgDividendYield": info.get("fiveYearAvgDividendYield"),
+        "dividendFrequency": dividend_freq,
+        "meetingUrl": meeting_url,
         "roe": info.get("returnOnEquity"),
         "roa": info.get("returnOnAssets"),
         "revenue": info.get("totalRevenue"),

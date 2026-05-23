@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import { getDividends } from '../api/stockApi'
 import type { StockDividends } from '../types/stock'
-import { CalendarDays } from 'lucide-react'
+import { CalendarDays, ExternalLink } from 'lucide-react'
 
 interface Props {
   symbol: string
+  meetingUrl?: string
 }
 
-export default function DividendInfo({ symbol }: Props) {
+export default function DividendInfo({ symbol, meetingUrl }: Props) {
   const [data, setData] = useState<StockDividends | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -39,6 +40,12 @@ export default function DividendInfo({ symbol }: Props) {
           <h2 className="text-lg font-semibold text-slate-200">股利歷史</h2>
         </div>
         <p className="text-slate-500 text-sm">尚無股利發放紀錄</p>
+        {meetingUrl && (
+          <a href={meetingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors mt-3">
+            <ExternalLink size={14} />
+            法說會資訊
+          </a>
+        )}
       </div>
     )
   }
@@ -73,6 +80,15 @@ export default function DividendInfo({ symbol }: Props) {
           </tbody>
         </table>
       </div>
+
+      {meetingUrl && (
+        <div className="mt-4 pt-4 border-t border-slate-700">
+          <a href={meetingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors">
+            <ExternalLink size={14} />
+            法說會資訊
+          </a>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,44 @@
+.link{
+    color: #fff;
+}
+.login button{
+    background: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.about ul{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.about span{
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+}
+.about li{
+    list-style: none;
+    justify-content: center;
+    display: flex;
+}
+.contact-us{
+    justify-content: center;
+    display: flex;
+}
+.contact-us ul{
+    flex-direction: column;
+}
+.contact-us span{
+    font-size: 16px;
+}
+.contact-us li{
+    list-style: none;
+}
+footer{
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+}

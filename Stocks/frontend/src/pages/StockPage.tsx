@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { getStockInfo } from '../api/stockApi'
+import { getStockInfo, calculateMissingFundamentals } from '../api/stockApi'
 import type { StockInfo } from '../types/stock'
 import StockHeader from '../components/StockHeader'
-import PriceChart from '../components/PriceChart'
 import RealtimeChart from '../components/RealtimeChart'
+import PriceChart from '../components/PriceChart'
+import TradingViewChart from '../components/TradingViewChart'
+import FuturesPrice from '../components/FuturesPrice'
 import Fundamentals from '../components/Fundamentals'
 import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
@@ -22,7 +24,7 @@ export default function StockPage() {
     setError('')
     try {
       const data = await getStockInfo(symbol)
-      setInfo(data)
+      setInfo(calculateMissingFundamentals(data))
     } catch {
       setError('無法取得個股資料，請確認股票代號是否正確')
     } finally {
@@ -72,15 +74,19 @@ export default function StockPage() {
 
       <StockHeader info={info} />
 
-      <RealtimeChart symbol={symbol!} />
+      <RealtimeChart symbol={symbol!} currentPrice={info.currentPrice} previousClose={info.previousClose} />
+
+      <TradingViewChart symbol={symbol!} exchange={info.exchange} />
 
       <PriceChart symbol={symbol!} />
+
+      <FuturesPrice symbol={symbol!} />
 
       <Fundamentals info={info} />
 
       <Sentiment symbol={symbol!} />
 
-      <DividendInfo symbol={symbol!} />
+      <DividendInfo symbol={symbol!} meetingUrl={info.meetingUrl} />
 
       {info.description && (
         <div className="bg-slate-800/50 rounded-xl p-6">

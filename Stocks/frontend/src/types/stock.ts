@@ -30,6 +30,8 @@ export interface StockInfo {
   exDividendDate: string | null
   payoutRatio: number | null
   fiveYearAvgDividendYield: number | null
+  dividendFrequency?: string
+  meetingUrl?: string
   roe: number | null
   roa: number | null
   revenue: number | null

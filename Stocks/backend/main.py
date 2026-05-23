@@ -126,6 +126,55 @@ _raw_names = {
     "009816": "凱基台灣TOP50", "00403A": "主動統一升級50",
     "00981A": "主動統一台股增長",
 }
+
+STOCK_MONEY = {
+    "台塑": "年配息",
+    "中鋼": "年配息",
+    "聯電": "年配息",
+    "台達電": "年配息",
+    "鴻海": "年配息",
+    "仁寶": "年配息",
+    "國巨": "不定期配息",
+    "台積電":"季配息",
+    "旺宏": "年配息",
+    "華邦電": "不定期配息",
+    "智邦": "年配息",
+    "宏碁": "年配息",
+    "華碩": "年配息",
+    "技嘉": "年配息",
+    "微星": "年配息",
+    "南亞科": "年配息",
+    "友達": "不定期配息",
+    "中華電": "年配息",
+    "鼎元": "不定期配息",
+    "聯發科": "不定期配息",
+    "中工": "年配息",
+    "華航": "年配息",
+    "星宇航空": "不配息配股",
+    "國泰金": "年配息",
+    "元大金": "年配息",
+    "台新新光金": "年配息",
+    "中信金": "年配息",
+    "大立光": "半年配息",
+    "威剛": "不配息配股",
+    "群創": "不定期配息",
+    "富采": "年配息",
+    "事欣科": "年配息",
+    "十銓": "年配息",
+    "三星(台)": "年配息",
+    "合庫金": "年配息",
+    "帝寶": "年配息",
+    "力機電": "不定期配息",
+    "香繼光": "未知",
+    "南電": "年配息",
+    "華東": "年配息",
+    "元大50": "半年配息",
+    "元大電子": "年配息",
+    "元大高股息": "季配息",
+    "凱基TOP50": "不配息配股",
+    "主動統一升級50": "季配息",
+    "主動統一台股增長": "年配息"
+    }
 for k, v in _raw_names.items():
     STOCK_NAMES[_normalize_key(k)] = {"name": v, "market": "TW"}
 
@@ -229,6 +278,12 @@ def _fetch_yahoo_chart(symbol: str) -> dict:
             continue
     return {}
 
+STOCK_MEETING_URLS = {
+    "2330.TW": "https://investor.tsmc.com/chinese/quarterly-results/2026/q1",
+    "2409.TW": "https://www.auo.com/zh-TW/investor_conference/index",
+    "2515.TW": "https://www.bes.com.tw/ir-conference.php#gsc.tab=0",
+    "2412.TW": "https://www.cht.com.tw/zh-tw/home/cht/investors/shareholder-services/ir-calendar",
+}
 
 FUNDAMENTALS_CACHE = {}
 FUNDAMENTALS_TTL = 7200  # 2 hours for fundamentals
@@ -433,57 +488,107 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 if v is not None and result.get(k) is None:
                     result[k] = v
 
-    # Method 3: yfinance as last resort (supplements BWIBBU for Taiwan stocks)
+    # Method 3: yfinance as last resort
     needs_yf = not result or not any(v is not None for v in result.values())
     if not needs_yf and (symbol.endswith(".TW") or symbol.endswith(".TWO")):
         needs_yf = any(result.get(k) is None for k in ["beta", "marketCap", "forwardPE", "fiftyTwoWeekHigh", "fiftyTwoWeekLow", "52WeekChange"])
     if needs_yf:
+        _yf_data = None
         try:
             rate_limit()
-            ticker = yf.Ticker(symbol)
-            info = dict(ticker.info) if ticker.info else {}
-            if info.get("symbol"):
-                yf_data = {
-                    "trailingPE": info.get("trailingPE"),
-                    "forwardPE": info.get("forwardPE"),
-                    "trailingEps": info.get("trailingEps"),
-                    "forwardEps": info.get("forwardEps"),
-                    "dividendYield": info.get("dividendYield"),
-                    "dividendRate": info.get("dividendRate"),
-                    "exDividendDate": info.get("exDividendDate"),
-                    "payoutRatio": info.get("payoutRatio"),
-                    "fiveYearAvgDividendYield": info.get("fiveYearAvgDividendYield"),
-                    "returnOnEquity": info.get("returnOnEquity"),
-                    "returnOnAssets": info.get("returnOnAssets"),
-                    "totalRevenue": info.get("totalRevenue"),
-                    "revenuePerShare": info.get("revenuePerShare"),
-                    "profitMargins": info.get("profitMargins"),
-                    "operatingMargins": info.get("operatingMargins"),
-                    "debtToEquity": info.get("debtToEquity"),
-                    "bookValue": info.get("bookValue"),
-                    "priceToBook": info.get("priceToBook"),
-                    "marketCap": info.get("marketCap"),
-                    "averageVolume": info.get("averageVolume"),
-                    "beta": info.get("beta"),
-                    "fiftyTwoWeekHigh": info.get("fiftyTwoWeekHigh"),
-                    "fiftyTwoWeekLow": info.get("fiftyTwoWeekLow"),
-                    "52WeekChange": info.get("52WeekChange"),
-                    "sector": info.get("sector", ""),
-                    "industry": info.get("industry", ""),
-                    "country": info.get("country", ""),
-                    "website": info.get("website", ""),
-                    "longBusinessSummary": info.get("longBusinessSummary", ""),
-                    "fullTimeEmployees": info.get("fullTimeEmployees"),
-                    "logo_url": info.get("logo_url"),
+            _t = yf.Ticker(symbol)
+            _info = dict(_t.info) if _t.info else {}
+            _has_data = any(v is not None for v in _info.values())
+            if _has_data:
+                _yf_data = {
+                    "trailingPE": _info.get("trailingPE"),
+                    "forwardPE": _info.get("forwardPE"),
+                    "trailingEps": _info.get("trailingEps"),
+                    "forwardEps": _info.get("forwardEps"),
+                    "dividendYield": _info.get("dividendYield"),
+                    "dividendRate": _info.get("dividendRate"),
+                    "exDividendDate": _info.get("exDividendDate"),
+                    "payoutRatio": _info.get("payoutRatio"),
+                    "fiveYearAvgDividendYield": _info.get("fiveYearAvgDividendYield"),
+                    "returnOnEquity": _info.get("returnOnEquity"),
+                    "returnOnAssets": _info.get("returnOnAssets"),
+                    "totalRevenue": _info.get("totalRevenue"),
+                    "revenuePerShare": _info.get("revenuePerShare"),
+                    "profitMargins": _info.get("profitMargins"),
+                    "operatingMargins": _info.get("operatingMargins"),
+                    "debtToEquity": _info.get("debtToEquity"),
+                    "bookValue": _info.get("bookValue"),
+                    "priceToBook": _info.get("priceToBook"),
+                    "marketCap": _info.get("marketCap"),
+                    "averageVolume": _info.get("averageVolume"),
+                    "beta": _info.get("beta"),
+                    "fiftyTwoWeekHigh": _info.get("fiftyTwoWeekHigh"),
+                    "fiftyTwoWeekLow": _info.get("fiftyTwoWeekLow"),
+                    "52WeekChange": _info.get("52WeekChange"),
+                    "sector": _info.get("sector", ""),
+                    "industry": _info.get("industry", ""),
+                    "country": _info.get("country", ""),
+                    "website": _info.get("website", ""),
+                    "longBusinessSummary": _info.get("longBusinessSummary", ""),
+                    "fullTimeEmployees": _info.get("fullTimeEmployees"),
+                    "logo_url": _info.get("logo_url"),
                 }
-                if result and any(v is not None for v in result.values()):
-                    for k, v in yf_data.items():
-                        if v is not None and result.get(k) is None:
-                            result[k] = v
-                else:
-                    result = yf_data
         except Exception:
             pass
+
+        if _yf_data is None:
+            try:
+                rate_limit()
+                _url = f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=price,summaryDetail,defaultKeyStatistics,financialData,incomeStatementHistory"
+                _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if _rsp.status_code == 200:
+                    _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                    _sd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("summaryDetail", {})).items()}
+                    _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("defaultKeyStatistics", {})).items()}
+                    _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("financialData", {})).items()}
+                    _yf_data = {
+                        "trailingPE": _sd.get("trailingPE"),
+                        "forwardPE": _sd.get("forwardPE"),
+                        "trailingEps": _ks.get("trailingEps"),
+                        "forwardEps": _ks.get("forwardEps"),
+                        "dividendYield": _sd.get("dividendYield"),
+                        "dividendRate": _sd.get("dividendRate"),
+                        "exDividendDate": _sd.get("exDividendDate"),
+                        "payoutRatio": _sd.get("payoutRatio"),
+                        "fiveYearAvgDividendYield": _sd.get("fiveYearAvgDividendYield"),
+                        "returnOnEquity": _fd.get("returnOnEquity"),
+                        "returnOnAssets": _fd.get("returnOnAssets"),
+                        "totalRevenue": _fd.get("totalRevenue"),
+                        "revenuePerShare": _fd.get("revenuePerShare"),
+                        "profitMargins": _fd.get("profitMargins"),
+                        "operatingMargins": _fd.get("operatingMargins"),
+                        "debtToEquity": _fd.get("debtToEquity"),
+                        "bookValue": _ks.get("bookValue"),
+                        "priceToBook": _ks.get("priceToBook"),
+                        "marketCap": _sd.get("marketCap"),
+                        "averageVolume": _sd.get("averageVolume"),
+                        "beta": _sd.get("beta"),
+                        "fiftyTwoWeekHigh": _sd.get("fiftyTwoWeekHigh"),
+                        "fiftyTwoWeekLow": _sd.get("fiftyTwoWeekLow"),
+                        "52WeekChange": _ks.get("52WeekChange"),
+                        "sector": _fd.get("sector", ""),
+                        "industry": _fd.get("industry", ""),
+                        "country": "",
+                        "website": "",
+                        "longBusinessSummary": "",
+                        "fullTimeEmployees": _ks.get("fullTimeEmployees"),
+                        "logo_url": "",
+                    }
+            except Exception:
+                pass
+
+        if _yf_data is not None:
+            if result and any(v is not None for v in result.values()):
+                for k, v in _yf_data.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
+            else:
+                result = _yf_data
 
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
@@ -860,6 +965,9 @@ async def get_stock_info(symbol: str):
 
     known_entry = STOCK_NAMES.get(symbol, {})
     name_en_raw = info.get("_nameEn") or info.get("longName")
+    stock_name = known_entry.get("name", "") or info.get("longName", "")
+    dividend_freq = STOCK_MONEY.get(stock_name)
+    meeting_url = STOCK_MEETING_URLS.get(symbol)
     result = {
         "symbol": symbol,
         "name": safe(known_entry.get("name") if known_entry else info.get("longName"), safe(info.get("shortName"), symbol)),
@@ -885,6 +993,8 @@ async def get_stock_info(symbol: str):
         "exDividendDate": safe_date(info.get("exDividendDate")),
         "payoutRatio": safe(info.get("payoutRatio")),
         "fiveYearAvgDividendYield": safe(info.get("fiveYearAvgDividendYield")),
+        "dividendFrequency": dividend_freq,
+        "meetingUrl": meeting_url,
         "roe": safe(info.get("returnOnEquity")),
         "roa": safe(info.get("returnOnAssets")),
         "revenue": safe(info.get("totalRevenue")),
@@ -1366,6 +1476,17 @@ def _fetch_realtime_price(symbol: str) -> dict:
     return {"price": 0, "change": 0, "changePercent": 0}
 
 
+@app.get("/api/price/{symbol}")
+async def get_price(symbol: str):
+    try:
+        rt = _fetch_realtime_price(symbol)
+        if rt.get("price", 0) > 0:
+            return {"symbol": symbol, "price": rt["price"], "change": rt["change"], "changePercent": rt["changePercent"]}
+        return {"symbol": symbol, "price": 0, "change": 0, "changePercent": 0}
+    except Exception:
+        return {"symbol": symbol, "price": 0, "change": 0, "changePercent": 0}
+
+
 @app.websocket("/ws/price/{symbol}")
 async def websocket_price(websocket: WebSocket, symbol: str):
     await websocket.accept()
@@ -1383,3 +1504,19 @@ async def websocket_price(websocket: WebSocket, symbol: str):
                 })
         except Exception:
             pass
+
+def calculator(null_value, calculate_func):
+    value = [
+        [trailingPE, forwardPE, trailingEps, forwardEps],
+        [dividendYield, dividendRate, exDividendDate, payoutRatio],
+        [fiveYearAvgDividendYield, returnOnEquity, returnOnAssets, totalRevenue],
+        [revenuePerShare, profitMargins, operatingMargins, debtToEquity],
+        [bookValue, priceToBook, Week52Change, beta],
+        [sector, industry, country, website],
+        [longBusinessSummary, fullTimeEmployees, logo_url]
+    ]
+    for i in range(len(value)):
+        for j in range(len(value[i])):
+            if value[i][j] is None:
+                value[i][j] = calculate_func(i, j, value, null_value)
+    return value

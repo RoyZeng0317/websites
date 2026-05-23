@@ -1,15 +1,395 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="favicon.">
-        <title>股票資料庫</title>
-    </head>
-    <body>
-        <div class="menu">
-            <span>股票資料庫</span>
-        </div>
-        <footer>&copy; Author: <a href="" class="link">Roy Zeng</a> copyright.</footer>
-    </body>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個股基本面分析 - StockInfo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #020617;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      padding: 0 16px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header a { color: #34d399; font-size: 20px; font-weight: 700; text-decoration: none; }
+    header a:hover { color: #6ee7b7; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: #94a3b8; font-size: 14px; text-decoration: none; margin-bottom: 24px;
+    }
+    .back-link:hover { color: #34d399; }
+    .loading {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 80px 0; gap: 16px;
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 2px solid #475569; border-top-color: #34d399;
+      border-radius: 50%; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading span { color: #64748b; font-size: 14px; }
+    .error-box {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 80px 0; gap: 12px;
+    }
+    .error-box p { color: #94a3b8; }
+    .error-box .retry {
+      margin-top: 8px; padding: 8px 20px; background: #1e293b;
+      color: #34d399; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;
+    }
+    .error-box .retry:hover { background: #334155; }
+
+    /* Stock Header */
+    .stock-header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+    .stock-name h1 { font-size: 24px; font-weight: 700; }
+    .stock-name .meta { margin-top: 4px; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .stock-name .meta .symbol { color: #64748b; background: #1e293b; padding: 2px 8px; border-radius: 4px; }
+    .stock-name .meta .exchange { color: #94a3b8; background: #1e293b; padding: 2px 8px; border-radius: 999px; font-size: 12px; }
+    .stock-name .name-en { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .price-section { text-align: right; }
+    .price-section .price { font-size: 36px; font-weight: 700; }
+    .price-section .currency { font-size: 14px; color: #94a3b8; margin-left: 4px; }
+    .price-section .change { font-size: 18px; font-weight: 500; margin-left: 8px; }
+    .change-up { color: #34d399; }
+    .change-down { color: #f87171; }
+    .price-section .change-pct {
+      font-size: 13px; padding: 2px 8px; border-radius: 4px; margin-left: 8px;
+    }
+    .bg-up { background: #34d3991a; }
+    .bg-down { background: #f871711a; }
+
+    /* Stat Grid */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+    .stat-item { background: #0f172a80; border-radius: 8px; padding: 8px 12px; text-align: center; }
+    .stat-item .label { font-size: 12px; color: #64748b; }
+    .stat-item .value { font-size: 14px; font-weight: 500; margin-top: 2px; }
+
+    /* Info Cards */
+    .info-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+    .info-card {
+      display: flex; align-items: center; gap: 12px;
+      background: #0f172a4d; border-radius: 8px; padding: 12px 16px;
+    }
+    .info-card .icon { color: #94a3b8; font-size: 18px; }
+    .info-card .ic-label { font-size: 12px; color: #64748b; }
+    .info-card .ic-value { font-size: 14px; font-weight: 500; }
+
+    /* Fundamentals Title */
+    .section-title { font-size: 18px; font-weight: 600; margin: 32px 0 16px; }
+
+    /* Fundamentals Grid */
+    .fund-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .fund-card { background: #0f172a80; border-radius: 12px; padding: 20px; }
+    .fund-card .card-header {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 16px; font-weight: 500; font-size: 15px;
+    }
+    .fund-card .card-header .icon { color: #34d399; }
+    .fund-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 14px;
+    }
+    .fund-item:last-child { border-bottom: none; }
+    .fund-item .fi-label { color: #94a3b8; }
+    .fund-item .fi-value { font-weight: 500; }
+    .val-up { color: #34d399; }
+    .val-down { color: #f87171; }
+    .val-na { color: #475569; }
+
+    /* Description */
+    .desc-box { background: #0f172a80; border-radius: 12px; padding: 24px; margin-top: 24px; }
+    .desc-box h2 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    .desc-box p { font-size: 14px; color: #94a3b8; line-height: 1.7; }
+
+    @media (max-width: 640px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .fund-grid { grid-template-columns: 1fr; }
+      .price-section { text-align: left; margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">StockInfo</a>
+    <span style="color:#64748b;font-size:12px;">個股基本面分析</span>
+  </header>
+  <div class="container" id="app">
+    <a class="back-link" href="javascript:history.back()">&larr; 返回搜尋</a>
+    <div id="content"></div>
+  </div>
+
+  <script>
+  const API_BASE = 'http://localhost:8000';
+
+  function formatNum(v) {
+    if (v === null || v === undefined) return null;
+    if (v === 0) return '0.00';
+    return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculateMissingValues(d) {
+    const price = d.currentPrice;
+    if (!price) return;
+
+    // 1. P/E, EPS, P/B, Book Value, ROE relationships
+    // roe = eps / bv = (price/pe) / (price/pb) = pb / pe
+    if (d.peRatio == null && d.eps != null && d.eps !== 0) d.peRatio = price / d.eps;
+    if (d.eps == null && d.peRatio != null && d.peRatio !== 0) d.eps = price / d.peRatio;
+    
+    if (d.priceToBook == null && d.bookValue != null && d.bookValue !== 0) d.priceToBook = price / d.bookValue;
+    if (d.bookValue == null && d.priceToBook != null && d.priceToBook !== 0) d.bookValue = price / d.priceToBook;
+
+    if (d.roe == null) {
+      if (d.priceToBook != null && d.peRatio != null && d.peRatio !== 0) {
+        d.roe = d.priceToBook / d.peRatio;
+      } else if (d.eps != null && d.bookValue != null && d.bookValue !== 0) {
+        d.roe = d.eps / d.bookValue;
+      }
+    } else {
+      if (d.peRatio == null && d.roe !== 0 && d.priceToBook != null) d.peRatio = d.priceToBook / d.roe;
+      if (d.priceToBook == null && d.roe != null && d.peRatio != null) d.priceToBook = d.peRatio * d.roe;
+    }
+
+    // 2. Profit Margin = eps / revenuePerShare
+    if (d.profitMargin == null && d.eps != null && d.revenuePerShare != null && d.revenuePerShare !== 0) {
+      d.profitMargin = d.eps / d.revenuePerShare;
+    }
+
+    // 3. ROA = ROE / (1 + Debt/Equity)
+    // Note: debtToEquity is often a percentage (e.g. 50 means 50%)
+    if (d.roa == null && d.roe != null && d.debtToEquity != null) {
+      const dte = d.debtToEquity > 5 ? d.debtToEquity / 100 : d.debtToEquity;
+      d.roa = d.roe / (1 + dte);
+    }
+
+    // 4. Revenue calculation
+    if (d.revenue == null && d.marketCap != null && d.revenuePerShare != null && price !== 0) {
+      const shares = d.marketCap / price;
+      d.revenue = d.revenuePerShare * shares;
+    }
+
+    // 5. Dividend Yield & Rate
+    if (d.dividendYield == null && d.dividendRate != null) {
+      d.dividendYield = d.dividendRate / price;
+    } else if (d.dividendRate == null && d.dividendYield != null) {
+      d.dividendRate = d.dividendYield * price;
+    }
+
+    // 6. Payout Ratio
+    if (d.payoutRatio == null && d.dividendRate != null && d.eps != null && d.eps !== 0) {
+      d.payoutRatio = d.dividendRate / d.eps;
+    }
+
+    // 7. Change & Change Percent
+    if (d.change == null && d.previousClose != null) {
+      d.change = price - d.previousClose;
+    }
+    if (d.changePercent == null && d.change != null && d.previousClose != null && d.previousClose !== 0) {
+      d.changePercent = (d.change / d.previousClose) * 100;
+    }
+
+    // 8. Forward P/E & Forward EPS
+    if (d.forwardPE == null && d.forwardEps != null && d.forwardEps !== 0) {
+      d.forwardPE = price / d.forwardEps;
+    } else if (d.forwardEps == null && d.forwardPE != null && d.forwardPE !== 0) {
+      d.forwardEps = price / d.forwardPE;
+    }
+  }
+  function formatPct(v) {
+    if (v === null || v === undefined) return null;
+    return (v >= 0 ? '+' : '') + (v * 100).toFixed(2) + '%';
+  }
+  function formatMarketCap(v) {
+    if (!v) return null;
+    if (v >= 1e12) return '$' + (v / 1e12).toFixed(2) + 'T';
+    if (v >= 1e9) return '$' + (v / 1e9).toFixed(2) + 'B';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(2) + 'M';
+    return '$' + (v / 1e3).toFixed(1) + 'K';
+  }
+  function formatVolume(v) {
+    if (!v) return null;
+    if (v >= 1e9) return (v / 1e9).toFixed(2) + 'B';
+    if (v >= 1e6) return (v / 1e6).toFixed(2) + 'M';
+    if (v >= 1e3) return (v / 1e3).toFixed(1) + 'K';
+    return v.toLocaleString();
+  }
+  function fv(v, suffix) {
+    if (v === null || v === undefined) return '<span class="val-na">N/A</span>';
+    return suffix ? v + suffix : v;
+  }
+  function fnum(v) {
+    return v !== null && v !== undefined ? formatNum(v) : null;
+  }
+
+  function render(val, isUp = true) {
+    if (val === null || val === undefined) return '<span class="val-na">N/A</span>';
+    const upClass = isUp ? 'val-up' : 'val-down';
+    return '<span class="' + upClass + '">' + val + '</span>';
+  }
+
+  async function fetchStock(symbol) {
+    const url = API_BASE + '/api/stock/' + encodeURIComponent(symbol);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  async function loadStock() {
+    const params = new URLSearchParams(window.location.search);
+    let symbol = params.get('symbol');
+    if (!symbol) {
+      symbol = '2330.TW';
+    }
+
+    const content = document.getElementById('content');
+    content.innerHTML = '<div class="loading"><div class="spinner"></div><span>載入 ' + symbol + ' 基本面資料中...</span></div>';
+
+    try {
+      const data = await fetchStock(symbol);
+      if (data.error) {
+        content.innerHTML = '<div class="error-box"><p>' + data.error + '</p><button class="retry" onclick="loadStock()">重試</button></div>';
+        return;
+      }
+      
+      calculateMissingValues(data);
+      renderStock(data, content);
+    } catch (e) {
+      content.innerHTML = '<div class="error-box"><p>無法取得個股資料：' + e.message + '</p><button class="retry" onclick="loadStock()">重試</button></div>';
+    }
+  }
+
+  function renderStock(d, el) {
+    const isPositive = d.change >= 0;
+    const upCls = isPositive ? 'val-up change-up' : 'val-down change-down';
+    const bgCls = isPositive ? 'bg-up' : 'bg-down';
+    const dispName = d.nameCn || d.name || d.symbol;
+
+    const priceVal = d.currentPrice || 0;
+    const changeVal = d.change || 0;
+    const changePctVal = d.changePercent || 0;
+
+    let html = '';
+
+    // Header
+    html += '<div class="stock-header">';
+    html += '  <div class="stock-name">';
+    html += '    <h1>' + dispName + '</h1>';
+    html += '    <div class="meta">';
+    html += '      <span class="symbol">' + d.symbol + '</span>';
+    if (d.exchange) html += '      <span class="exchange">' + d.exchange + '</span>';
+    html += '    </div>';
+    if (d.nameEn && d.nameEn !== dispName) {
+      html += '    <div class="name-en">' + d.nameEn + '</div>';
+    }
+    html += '  </div>';
+    html += '  <div class="price-section">';
+    html += '    <span class="price">' + priceVal.toFixed(2) + '</span>';
+    if (d.currency) html += '    <span class="currency">' + d.currency + '</span>';
+    html += '    <span class="change ' + upCls + '">' + (isPositive ? '+' : '') + changeVal.toFixed(2) + '</span>';
+    html += '    <span class="change-pct ' + bgCls + ' ' + upCls + '">' + (isPositive ? '+' : '') + changePctVal.toFixed(2) + '%</span>';
+    html += '  </div>';
+    html += '</div>';
+
+    // Stat Grid
+    html += '<div class="stat-grid">';
+    html += '  <div class="stat-item"><div class="label">開盤</div><div class="value">' + (d.open || 0).toFixed(2) + '</div></div>';
+    html += '  <div class="stat-item"><div class="label">最高</div><div class="value">' + (d.dayHigh || 0).toFixed(2) + '</div></div>';
+    html += '  <div class="stat-item"><div class="label">最低</div><div class="value">' + (d.dayLow || 0).toFixed(2) + '</div></div>';
+    html += '  <div class="stat-item"><div class="label">昨日收盤</div><div class="value">' + (d.previousClose || 0).toFixed(2) + '</div></div>';
+    html += '</div>';
+
+    // Info Cards
+    html += '<div class="info-cards">';
+    html += '  <div class="info-card"><div class="icon">&#9670;</div><div><div class="ic-label">市值</div><div class="ic-value">' + fv(formatMarketCap(d.marketCap)) + '</div></div></div>';
+    html += '  <div class="info-card"><div class="icon">&#9632;</div><div><div class="ic-label">成交量</div><div class="ic-value">' + fv(formatVolume(d.volume)) + '</div></div></div>';
+    html += '  <div class="info-card"><div class="icon">&#9679;</div><div><div class="ic-label">平均成交量</div><div class="ic-value">' + fv(formatVolume(d.avgVolume)) + '</div></div></div>';
+    html += '  <div class="info-card"><div class="icon">&#9644;</div><div><div class="ic-label">產業</div><div class="ic-value">' + fv(d.sector || d.industry) + '</div></div></div>';
+    html += '</div>';
+
+    // Fundamentals Grid
+    html += '<h2 class="section-title">基本面分析</h2>';
+    html += '<div class="fund-grid">';
+
+    // Card 1: 每股盈餘 (EPS)
+    html += '<div class="fund-card">';
+    html += '  <div class="card-header"><span class="icon">&#36;</span> EPS (每股盈餘)</div>';
+    html += '  <div class="fund-item"><span class="fi-label">EPS (TTM)</span><span class="fi-value">' + fv(fnum(d.eps)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">預估 EPS</span><span class="fi-value">' + fv(fnum(d.forwardEps)) + '</span></div>';
+    html += '</div>';
+
+    // Card 2: 殖利率與股利
+    html += '<div class="fund-card">';
+    html += '  <div class="card-header"><span class="icon">&#9678;</span> 殖利率與股利</div>';
+    html += '  <div class="fund-item"><span class="fi-label">殖利率</span><span class="fi-value">' + fv(d.dividendYield != null ? (d.dividendYield * 100).toFixed(2) + '%' : null) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">股利金額</span><span class="fi-value">' + fv(d.dividendRate != null ? '$' + d.dividendRate.toFixed(2) : null) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">5年平均殖利率</span><span class="fi-value">' + fv(d.fiveYearAvgDividendYield != null ? (d.fiveYearAvgDividendYield * 100).toFixed(2) + '%' : null) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">配息率</span><span class="fi-value">' + fv(formatPct(d.payoutRatio)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">除息日</span><span class="fi-value">' + fv(d.exDividendDate ? new Date(d.exDividendDate).toLocaleDateString('zh-TW') : null) + '</span></div>';
+    html += '</div>';
+
+    // Card 3: 估值指標
+    html += '<div class="fund-card">';
+    html += '  <div class="card-header"><span class="icon">&#9650;</span> 估值指標</div>';
+    html += '  <div class="fund-item"><span class="fi-label">本益比 (P/E)</span><span class="fi-value">' + fv(fnum(d.peRatio)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">預估 P/E</span><span class="fi-value">' + fv(fnum(d.forwardPE)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">股價淨值比 (P/B)</span><span class="fi-value">' + fv(fnum(d.priceToBook)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">每股淨值</span><span class="fi-value">' + fv(fnum(d.bookValue)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">&#946; 值</span><span class="fi-value">' + fv(fnum(d.beta)) + '</span></div>';
+    html += '</div>';
+
+    // Card 4: 獲利能力
+    html += '<div class="fund-card">';
+    html += '  <div class="card-header"><span class="icon">&#9632;</span> 獲利能力</div>';
+    html += '  <div class="fund-item"><span class="fi-label">ROE (股東權益報酬率)</span><span class="fi-value">' + fv(formatPct(d.roe)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">ROA (資產報酬率)</span><span class="fi-value">' + fv(formatPct(d.roa)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">利潤率</span><span class="fi-value">' + fv(formatPct(d.profitMargin)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">營業利益率</span><span class="fi-value">' + fv(formatPct(d.operatingMargin)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">營收</span><span class="fi-value">' + fv(d.revenue != null ? '$' + (d.revenue / 1e9).toFixed(2) + 'B' : null) + '</span></div>';
+    html += '</div>';
+
+    // Card 5: 財務健康
+    html += '<div class="fund-card">';
+    html += '  <div class="card-header"><span class="icon">&#9670;</span> 財務健康</div>';
+    html += '  <div class="fund-item"><span class="fi-label">負債權益比 (D/E)</span><span class="fi-value">' + fv(fnum(d.debtToEquity)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">52週高點</span><span class="fi-value">' + fv(fnum(d.fiftyTwoWeekHigh)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">52週低點</span><span class="fi-value">' + fv(fnum(d.fiftyTwoWeekLow)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">52週變化</span><span class="fi-value">' + fv(formatPct(d.fiftyTwoWeekChange)) + '</span></div>';
+    html += '</div>';
+
+    // Card 6: 其他資訊
+    html += '<div class="fund-card">';
+    html += '  <div class="card-header"><span class="icon">&#9679;</span> 其他資訊</div>';
+    html += '  <div class="fund-item"><span class="fi-label">營收/每股</span><span class="fi-value">' + fv(fnum(d.revenuePerShare)) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">國家</span><span class="fi-value">' + fv(d.country) + '</span></div>';
+    html += '  <div class="fund-item"><span class="fi-label">員工人數</span><span class="fi-value">' + fv(d.employees != null ? d.employees.toLocaleString() : null) + '</span></div>';
+    html += '</div>';
+
+    html += '</div>'; // end fund-grid
+
+    // Company Description
+    if (d.description) {
+      html += '<div class="desc-box">';
+      html += '  <h2>公司簡介</h2>';
+      html += '  <p>' + d.description + '</p>';
+      html += '</div>';
+    }
+
+    el.innerHTML = html;
+  }
+
+  loadStock();
+  </script>
+</body>
 </html>
