@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { onAuthStateChanged, type User } from 'firebase/auth'
-import { getPrice, formatCurrency } from '../api/stockApi'
+import { formatCurrency, getPrice } from '../api/stockApi'
 import { auth } from '../firebase'
 import { getShareCount, loadHoldings, type HoldingPosition } from '../utils/holdings'
 
@@ -13,6 +13,7 @@ export default function PortfolioOverview() {
   const [user, setUser] = useState<User | null>(null)
   const [items, setItems] = useState<HoldingRow[]>([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     return onAuthStateChanged(auth, (nextUser) => {
@@ -21,39 +22,53 @@ export default function PortfolioOverview() {
   }, [])
 
   useEffect(() => {
-    if (!user) {
-      setItems([])
-      return
-    }
-
-    const holdings = loadHoldings(user.uid)
-    if (holdings.length === 0) {
-      setItems([])
-      return
-    }
-
     let cancelled = false
-    setLoading(true)
 
-    Promise.all(
-      holdings.map(async (holding) => {
-        const price = await getPrice(holding.symbol)
-        return {
-          ...holding,
-          livePrice: price.price || holding.buyPrice,
+    async function fetchPortfolio() {
+      if (!user) {
+        setItems([])
+        setError('')
+        return
+      }
+
+      setLoading(true)
+      setError('')
+
+      try {
+        const holdings = await loadHoldings(user.uid)
+        if (cancelled) return
+
+        if (holdings.length === 0) {
+          setItems([])
+          return
         }
-      }),
-    )
-      .then((rows) => {
+
+        const rows = await Promise.all(
+          holdings.map(async (holding) => {
+            const price = await getPrice(holding.symbol)
+            return {
+              ...holding,
+              livePrice: price.price || holding.buyPrice,
+            }
+          }),
+        )
+
         if (!cancelled) {
           setItems(rows)
         }
-      })
-      .finally(() => {
+      } catch {
+        if (!cancelled) {
+          setError('讀取你的持股資料失敗，請確認 Firestore 權限設定。')
+          setItems([])
+        }
+      } finally {
         if (!cancelled) {
           setLoading(false)
         }
-      })
+      }
+    }
+
+    fetchPortfolio()
 
     return () => {
       cancelled = true
@@ -71,7 +86,7 @@ export default function PortfolioOverview() {
         </div>
         <h3 className="text-xl font-semibold text-slate-100">我的持股總覽</h3>
         <p className="mt-2 text-sm leading-6 text-slate-300">
-          登入後可儲存每檔股票的買入價格與股數，並在這裡查看整體部位與即時報酬。
+          登入後可把持股儲存到你的 Google 帳號，並在這裡查看整體部位與即時報酬。
         </p>
       </section>
     )
@@ -105,7 +120,9 @@ export default function PortfolioOverview() {
             Portfolio
           </div>
           <h3 className="text-lg font-semibold text-slate-100">我的持股總覽</h3>
-          <p className="mt-2 text-sm text-slate-400">目前顯示的是此瀏覽器中，綁定到你登入帳號的持股紀錄。</p>
+          <p className="mt-2 text-sm text-slate-400">
+            目前登入帳號：{user.email || user.uid}
+          </p>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-3">
           <div className="text-xs text-slate-400">已記錄持股</div>
@@ -115,10 +132,14 @@ export default function PortfolioOverview() {
       </div>
 
       {loading ? (
-        <div className="text-sm text-slate-500">更新持股中...</div>
+        <div className="text-sm text-slate-500">讀取持股中...</div>
+      ) : error ? (
+        <div className="rounded-2xl border border-rose-500/25 bg-rose-500/10 px-4 py-4 text-sm text-rose-200">
+          {error}
+        </div>
       ) : items.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-700 px-6 py-10 text-center text-sm text-slate-500">
-          你還沒有任何持股紀錄。進入個股頁後即可輸入買入價格與張數。
+          你目前還沒有任何持股紀錄。到個股頁輸入買入價格與股數後，就會同步到這裡。
         </div>
       ) : (
         <div className="space-y-3">
@@ -172,9 +193,7 @@ export default function PortfolioOverview() {
                   <div>
                     <div className="text-sm font-semibold text-slate-100">{item.companyName}</div>
                     <div className="mt-1 text-xs text-slate-500">
-                      {item.symbol} ・ 成本 {formatCurrency(item.buyPrice, item.currency)} ・
-                      {' '}
-                      {item.quantity} 股
+                      {item.symbol} ・ 成本 {formatCurrency(item.buyPrice, item.currency)} ・ {item.quantity} 股
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm md:min-w-[320px]">

@@ -19,6 +19,23 @@ interface Props {
   symbol: string
 }
 
+function normalizePriceInput(value: string) {
+  let next = value.replace(/[^\d.]/g, '')
+  const firstDot = next.indexOf('.')
+  if (firstDot >= 0) {
+    next =
+      next.slice(0, firstDot + 1) +
+      next
+        .slice(firstDot + 1)
+        .replace(/\./g, '')
+  }
+  return next
+}
+
+function normalizeQuantityInput(value: string) {
+  return value.replace(/\D/g, '')
+}
+
 export default function HoldingTracker({ companyName, currency, currentPrice, symbol }: Props) {
   const [user, setUser] = useState<User | null>(null)
   const [buyPrice, setBuyPrice] = useState('')
@@ -26,10 +43,10 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   const [savedAt, setSavedAt] = useState('')
   const [notice, setNotice] = useState('')
   const [livePrice, setLivePrice] = useState(currentPrice)
+  const [saving, setSaving] = useState(false)
+  const [loadingHolding, setLoadingHolding] = useState(false)
   const wsRef = useRef<WebSocket | null>(null)
   const unitLabel = getUnitLabel(symbol)
-  const quantityLabel = '股數'
-  const quantityHint = '可直接輸入整股或零股，例如 1500 或 35.5'
 
   useEffect(() => {
     return onAuthStateChanged(auth, (nextUser) => {
@@ -53,30 +70,53 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   }, [symbol])
 
   useEffect(() => {
-    if (!user) {
-      setBuyPrice('')
-      setQuantity('')
-      setSavedAt('')
-      return
+    let cancelled = false
+
+    async function fetchHolding() {
+      if (!user) {
+        setBuyPrice('')
+        setQuantity('')
+        setSavedAt('')
+        return
+      }
+
+      setLoadingHolding(true)
+      try {
+        const holding = await loadHolding(user.uid, symbol)
+        if (cancelled) return
+
+        if (!holding) {
+          setBuyPrice('')
+          setQuantity('')
+          setSavedAt('')
+          return
+        }
+
+        setBuyPrice(String(holding.buyPrice))
+        setQuantity(String(holding.quantity))
+        setSavedAt(holding.updatedAt)
+      } catch {
+        if (!cancelled) {
+          setNotice('讀取持股紀錄失敗，請稍後再試。')
+        }
+      } finally {
+        if (!cancelled) {
+          setLoadingHolding(false)
+        }
+      }
     }
 
-    const holding = loadHolding(user.uid, symbol)
-    if (!holding) {
-      setBuyPrice('')
-      setQuantity('')
-      setSavedAt('')
-      return
-    }
+    fetchHolding()
 
-    setBuyPrice(String(holding.buyPrice))
-    setQuantity(String(holding.quantity))
-    setSavedAt(holding.updatedAt)
+    return () => {
+      cancelled = true
+    }
   }, [symbol, user])
 
   const metrics = useMemo(() => {
     const parsedPrice = Number(buyPrice)
     const parsedQuantity = Number(quantity)
-    if (!(parsedPrice > 0) || !(parsedQuantity > 0)) return null
+    if (!(parsedPrice > 0) || !Number.isInteger(parsedQuantity) || parsedQuantity <= 0) return null
 
     const shares = getShareCount({ quantity: parsedQuantity, unitLabel })
     const cost = parsedPrice * shares
@@ -93,41 +133,70 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
     }
   }, [buyPrice, livePrice, quantity, unitLabel])
 
-  function handleSave() {
-    if (!user) {
-      setNotice('請先登入後再記錄持股。')
+  async function handleSave() {
+    const activeUser = auth.currentUser
+    if (!activeUser) {
+      setNotice('請先使用 Google 登入，持股才會綁定到你的帳號。')
       return
     }
 
     const parsedPrice = Number(buyPrice)
     const parsedQuantity = Number(quantity)
 
-    if (!(parsedPrice > 0) || !(parsedQuantity > 0)) {
-      setNotice('買入價格與持有數量都必須大於 0。')
+    if (!(parsedPrice > 0)) {
+      setNotice('買入價格必須大於 0，可輸入小數。')
+      return
+    }
+
+    if (!Number.isInteger(parsedQuantity) || parsedQuantity <= 0) {
+      setNotice('股數必須是正整數，例如 1、25、1500。')
       return
     }
 
     const updatedAt = new Date().toISOString()
-    saveHolding(user.uid, {
-      buyPrice: parsedPrice,
-      companyName,
-      currency,
-      quantity: parsedQuantity,
-      symbol,
-      unitLabel,
-      updatedAt,
-    })
-    setSavedAt(updatedAt)
-    setNotice('持股紀錄已儲存。')
+    setSaving(true)
+    setNotice('')
+
+    try {
+      await saveHolding(activeUser.uid, {
+        buyPrice: parsedPrice,
+        companyName,
+        currency,
+        quantity: parsedQuantity,
+        symbol,
+        unitLabel,
+        updatedAt,
+      })
+      setSavedAt(updatedAt)
+      setNotice(`已儲存到 Google 帳號 ${activeUser.email || activeUser.uid}。`)
+    } catch {
+      setNotice('儲存失敗，請確認 Firestore 權限設定後再試一次。')
+    } finally {
+      setSaving(false)
+    }
   }
 
-  function handleDelete() {
-    if (!user) return
-    deleteHolding(user.uid, symbol)
-    setBuyPrice('')
-    setQuantity('')
-    setSavedAt('')
-    setNotice('持股紀錄已刪除。')
+  async function handleDelete() {
+    const activeUser = auth.currentUser
+    if (!activeUser) {
+      setNotice('請先登入後再刪除持股紀錄。')
+      return
+    }
+
+    setSaving(true)
+    setNotice('')
+
+    try {
+      await deleteHolding(activeUser.uid, symbol)
+      setBuyPrice('')
+      setQuantity('')
+      setSavedAt('')
+      setNotice('持股紀錄已從你的 Google 帳號資料中刪除。')
+    } catch {
+      setNotice('刪除失敗，請稍後再試。')
+    } finally {
+      setSaving(false)
+    }
   }
 
   const isProfit = (metrics?.profit ?? 0) >= 0
@@ -144,7 +213,9 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
           </div>
           <h2 className="text-xl font-semibold text-slate-100">記錄買入成本並查看即時報酬</h2>
           <p className="mt-1 text-sm text-slate-400">
-            {user ? '資料目前綁定到你已登入帳號在本機瀏覽器上的紀錄。' : '請先登入，才可儲存你的持股成本。'}
+            {user
+              ? `目前登入帳號：${user.email || user.uid}，持股會儲存到這個 Google 帳號。`
+              : '請先使用 Google 登入，才可儲存並同步你的持股資料。'}
           </p>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-right">
@@ -161,38 +232,41 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
               <input
                 className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100 outline-none transition focus:border-emerald-400"
                 inputMode="decimal"
-                onChange={(event) => setBuyPrice(event.target.value)}
+                onChange={(event) => setBuyPrice(normalizePriceInput(event.target.value))}
                 placeholder="例如 875.5"
                 value={buyPrice}
               />
+              <span className="mt-2 block text-xs text-slate-500">價格可輸入小數。</span>
             </label>
             <label className="block">
-              <span className="mb-2 block text-sm font-medium text-slate-300">{quantityLabel}</span>
+              <span className="mb-2 block text-sm font-medium text-slate-300">股數</span>
               <input
                 className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100 outline-none transition focus:border-emerald-400"
-                inputMode="decimal"
-                onChange={(event) => setQuantity(event.target.value)}
-                placeholder="例如 1500 或 35.5"
+                inputMode="numeric"
+                onChange={(event) => setQuantity(normalizeQuantityInput(event.target.value))}
+                placeholder="例如 1500"
                 value={quantity}
               />
-              <span className="mt-2 block text-xs text-slate-500">{quantityHint}</span>
+              <span className="mt-2 block text-xs text-slate-500">股數只能輸入正整數，不接受小數。</span>
             </label>
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
             <button
-              className="rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
+              className="rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={!user || saving || loadingHolding}
               onClick={handleSave}
               type="button"
             >
-              儲存持股
+              {saving ? '儲存中...' : '儲存持股'}
             </button>
             <button
-              className="rounded-full border border-slate-700 px-5 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:bg-slate-800"
+              className="rounded-full border border-slate-700 px-5 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={!user || saving || loadingHolding}
               onClick={handleDelete}
               type="button"
             >
-              清除紀錄
+              刪除紀錄
             </button>
           </div>
 
@@ -201,6 +275,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
               上次更新：{new Date(savedAt).toLocaleString('zh-TW')}
             </div>
           )}
+          {loadingHolding && <div className="mt-3 text-sm text-slate-400">讀取持股紀錄中...</div>}
           {notice && <div className="mt-3 text-sm text-emerald-300">{notice}</div>}
         </div>
 

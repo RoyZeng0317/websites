@@ -1,3 +1,15 @@
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+} from 'firebase/firestore'
+import { db } from '../firebase'
+
 export interface HoldingPosition {
   buyPrice: number
   companyName: string
@@ -8,10 +20,12 @@ export interface HoldingPosition {
   updatedAt: string
 }
 
-const HOLDINGS_PREFIX = 'stock_holdings_'
+function holdingDocRef(uid: string, symbol: string) {
+  return doc(db, 'users', uid, 'holdings', symbol)
+}
 
-function createKey(uid: string) {
-  return `${HOLDINGS_PREFIX}${uid}`
+function holdingsCollectionRef(uid: string) {
+  return collection(db, 'users', uid, 'holdings')
 }
 
 export function getUnitLabel(_symbol: string): 'share' {
@@ -22,29 +36,20 @@ export function getShareCount(position: Pick<HoldingPosition, 'quantity' | 'unit
   return position.quantity
 }
 
-export function loadHoldings(uid: string): HoldingPosition[] {
-  try {
-    const raw = localStorage.getItem(createKey(uid))
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
-  }
+export async function loadHoldings(uid: string): Promise<HoldingPosition[]> {
+  const snapshot = await getDocs(query(holdingsCollectionRef(uid), orderBy('updatedAt', 'desc')))
+  return snapshot.docs.map((item) => item.data() as HoldingPosition)
 }
 
-export function loadHolding(uid: string, symbol: string): HoldingPosition | null {
-  return loadHoldings(uid).find((item) => item.symbol === symbol) ?? null
+export async function loadHolding(uid: string, symbol: string): Promise<HoldingPosition | null> {
+  const snapshot = await getDoc(holdingDocRef(uid, symbol))
+  return snapshot.exists() ? (snapshot.data() as HoldingPosition) : null
 }
 
-export function saveHolding(uid: string, position: HoldingPosition) {
-  const items = loadHoldings(uid)
-  const next = items.filter((item) => item.symbol !== position.symbol)
-  next.push(position)
-  localStorage.setItem(createKey(uid), JSON.stringify(next))
+export async function saveHolding(uid: string, position: HoldingPosition) {
+  await setDoc(holdingDocRef(uid, position.symbol), position)
 }
 
-export function deleteHolding(uid: string, symbol: string) {
-  const next = loadHoldings(uid).filter((item) => item.symbol !== symbol)
-  localStorage.setItem(createKey(uid), JSON.stringify(next))
+export async function deleteHolding(uid: string, symbol: string) {
+  await deleteDoc(holdingDocRef(uid, symbol))
 }
