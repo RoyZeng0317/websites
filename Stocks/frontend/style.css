@@ -1,44 +1,75 @@
-.link{
-    color: #fff;
+.link {
+  color: #fff;
 }
-.login button{
-    background: #fff;
-    color: #000;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+
+.link:hover {
+  color: #6ee7b7;
 }
-.about ul{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+
+body {
+  margin: 0;
 }
-.about span{
-    font-size: 18px;
-    display: flex;
-    justify-content: center;
+
+.about,
+.contact-us,
+footer {
+  padding-left: 16px;
+  padding-right: 16px;
 }
-.about li{
-    list-style: none;
-    justify-content: center;
-    display: flex;
+
+.about ul {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 0;
 }
-.contact-us{
-    justify-content: center;
-    display: flex;
+
+.about span {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
-.contact-us ul{
-    flex-direction: column;
+
+.about li {
+  list-style: none;
+  justify-content: center;
+  display: flex;
 }
-.contact-us span{
-    font-size: 16px;
+
+.contact-us {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
-.contact-us li{
-    list-style: none;
+
+.contact-us ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin: 0;
 }
-footer{
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
+
+.contact-us span {
+  font-size: 16px;
+}
+
+.contact-us li {
+  list-style: none;
+}
+
+footer {
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 16px 0 24px;
+}
+
+footer a {
+  color: #6ee7b7;
+  text-decoration: none;
 }

@@ -581,7 +581,6 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                     }
             except Exception:
                 pass
-
         if _yf_data is not None:
             if result and any(v is not None for v in result.values()):
                 for k, v in _yf_data.items():
@@ -688,6 +687,29 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
         FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
     return result
 
+def calculator(null_value, calculate_func, current_price):        
+    if( forwardPE == null_value):
+        forwardPE = current_price / forwardEps
+    else if( forwardEps == null_value):
+        LTMEPS = current_price / trailingPE
+        forwardGrowth = trailingEps * 4
+        forwardEps = LTMEPS * (1 + forwardGrowth)
+    else if( returnOnAssets == null_value):
+        returnOnAssets = 
+    else if( returnOnEquity == null_value):
+        returnOnEquity =
+        [trailingPE, forwardPE, trailingEps, forwardEps],
+        [dividendYield, dividendRate, exDividendDate, payoutRatio],
+        [fiveYearAvgDividendYield, returnOnEquity, returnOnAssets, totalRevenue],
+        [revenuePerShare, profitMargins, operatingMargins, debtToEquity],
+        [bookValue, priceToBook, Week52Change, beta],
+        [sector, industry, country, website],
+        [longBusinessSummary, fullTimeEmployees, logo_url
+    for i in range(len(value)):
+        for j in range(len(value[i])):
+            if value[i][j] is None:
+                value[i][j] = calculate_func(i, j, value, null_value)
+    return value
 
 def _fetch_twse_quote(symbol: str) -> dict:
     """Fetch real-time quote from Taiwan Stock Exchange for .TW symbols."""
@@ -1535,19 +1557,3 @@ async def websocket_price(websocket: WebSocket, symbol: str):
                 })
         except Exception:
             pass
-
-def calculator(null_value, calculate_func):
-    value = [
-        [trailingPE, forwardPE, trailingEps, forwardEps],
-        [dividendYield, dividendRate, exDividendDate, payoutRatio],
-        [fiveYearAvgDividendYield, returnOnEquity, returnOnAssets, totalRevenue],
-        [revenuePerShare, profitMargins, operatingMargins, debtToEquity],
-        [bookValue, priceToBook, Week52Change, beta],
-        [sector, industry, country, website],
-        [longBusinessSummary, fullTimeEmployees, logo_url]
-    ]
-    for i in range(len(value)):
-        for j in range(len(value[i])):
-            if value[i][j] is None:
-                value[i][j] = calculate_func(i, j, value, null_value)
-    return value

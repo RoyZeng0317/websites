@@ -1,5 +1,11 @@
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+import {
+  browserLocalPersistence,
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+} from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBT9ueRFmd8CsFtb6VyRkjwLuVNy1sDsHM',
@@ -12,6 +18,16 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+
+export const auth = getAuth(app)
+export const googleProvider = new GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: 'select_account' })
+
+if (typeof window !== 'undefined') {
+  setPersistence(auth, browserLocalPersistence).catch((error) => {
+    console.error('Failed to persist auth session:', error)
+  })
+}
 
 export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null
 export default app

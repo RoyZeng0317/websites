@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
+import PortfolioOverview from '../components/PortfolioOverview'
 
 interface StockItem {
   symbol: string
@@ -215,6 +216,8 @@ export default function HomePage() {
       </div>
 
       <SearchBar />
+
+      <PortfolioOverview />
 
       {/* 分類橫式菜單 */}
       <div>
