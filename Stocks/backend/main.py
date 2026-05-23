@@ -640,6 +640,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                     if result.get("totalRevenue") is not None and current_price and result.get("revenuePerShare") is None:
                         if result.get("marketCap") and result["marketCap"] > 0:
                             result["revenuePerShare"] = result["totalRevenue"] / (result["marketCap"] / current_price)
+                        elif _net_income is not None and _teps and _teps != 0 and _net_income != 0:
+                            result["revenuePerShare"] = result["totalRevenue"] * _teps / _net_income
+                    
+                    if result.get("profitMargins") is None and _teps and result.get("revenuePerShare") and result["revenuePerShare"] != 0:
+                        result["profitMargins"] = _teps / result["revenuePerShare"]
 
                 _bs = _t.balance_sheet
                 if _bs is not None and not _bs.empty and result.get("debtToEquity") is None:
@@ -673,6 +678,17 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                                     result["exDividendDate"] = _v.timestamp()
                                 elif hasattr(_v, 'strftime'):
                                     result["exDividendDate"] = _v.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+                    if result.get("exDividendDate") is None:
+                        try:
+                            _divs = _t.dividends
+                            if _divs is not None and not _divs.empty:
+                                _last_ex = _divs.index[-1]
+                                if hasattr(_last_ex, 'timestamp'):
+                                    result["exDividendDate"] = _last_ex.timestamp()
+                                elif hasattr(_last_ex, 'strftime'):
+                                    result["exDividendDate"] = _last_ex.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+                        except Exception:
+                            pass
             except Exception:
                 pass
 
