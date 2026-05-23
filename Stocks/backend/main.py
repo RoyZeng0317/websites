@@ -601,7 +601,7 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             else:
                 result = _yf_data
 
-        if result and current_price and any(result.get(k) is None for k in ["totalRevenue", "operatingMargins", "debtToEquity", "exDividendDate", "profitMargins"]):
+        if result and any(result.get(k) is None for k in ["totalRevenue", "operatingMargins", "debtToEquity"]):
             try:
                 rate_limit()
                 _t = yf.Ticker(symbol)
@@ -661,29 +661,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                                     result["exDividendDate"] = _v.timestamp()
                                 elif hasattr(_v, 'strftime'):
                                     result["exDividendDate"] = _v.strftime("%Y-%m-%dT%H:%M:%S.000Z")
-                    if result.get("exDividendDate") is None:
-                        try:
-                            _ex_info = _t.info or {}
-                            _ex = _ex_info.get("exDividendDate")
-                            if _ex is not None:
-                                if hasattr(_ex, 'timestamp'):
-                                    result["exDividendDate"] = _ex.timestamp()
-                                elif isinstance(_ex, (int, float)):
-                                    result["exDividendDate"] = _ex
-                        except Exception:
-                            pass
 
-                if result.get("totalRevenue") is not None and current_price > 0 and result.get("revenuePerShare") is None:
-                    try:
-                        _mc_for_rps = result.get("marketCap")
-                        if _mc_for_rps and _mc_for_rps > 0:
-                            _shares = _mc_for_rps / current_price
-                            result["revenuePerShare"] = result["totalRevenue"] / _shares
-                    except Exception:
-                        pass
-
-                if result.get("profitMargins") is None and result.get("trailingEps") and result.get("revenuePerShare") and result["revenuePerShare"] != 0:
-                    result["profitMargins"] = result["trailingEps"] / result["revenuePerShare"]
+                if result.get("totalRevenue") is not None and current_price and result.get("revenuePerShare") is None:
+                    _mc_for_rps = result.get("marketCap")
+                    if _mc_for_rps and _mc_for_rps > 0:
+                        result["revenuePerShare"] = result["totalRevenue"] / (_mc_for_rps / current_price)
             except Exception:
                 pass
 
