@@ -692,6 +692,21 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             except Exception:
                 pass
 
+    # Always override exDividendDate with the latest actual dividend date
+    if result:
+        try:
+            rate_limit()
+            _ex_t = yf.Ticker(symbol)
+            _ex_divs = _ex_t.dividends
+            if _ex_divs is not None and not _ex_divs.empty:
+                _ex_last = _ex_divs.index[-1]
+                if hasattr(_ex_last, 'timestamp'):
+                    result["exDividendDate"] = _ex_last.timestamp()
+                elif hasattr(_ex_last, 'strftime'):
+                    result["exDividendDate"] = _ex_last.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        except Exception:
+            pass
+
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
 
@@ -1490,28 +1505,34 @@ async def get_dividends(symbol: str):
     except Exception:
         pass
 
-    # Source 2: yfinance as fallback
-    if not div_data and not split_data:
-        rate_limit()
-        try:
-            ticker = yf.Ticker(symbol)
-            dividends = ticker.dividends
-            splits = ticker.splits
-            if dividends is not None and not dividends.empty:
-                for index, value in dividends.items():
-                    dt = index if isinstance(index, datetime) else datetime.fromtimestamp(index.timestamp()) if hasattr(index, 'timestamp') else index
+    # Source 2: yfinance (always runs to supplement with latest data)
+    rate_limit()
+    try:
+        ticker = yf.Ticker(symbol)
+        dividends = ticker.dividends
+        splits = ticker.splits
+        if dividends is not None and not dividends.empty:
+            existing_dates = {d["date"] for d in div_data}
+            for index, value in dividends.items():
+                dt = index if isinstance(index, datetime) else datetime.fromtimestamp(index.timestamp()) if hasattr(index, 'timestamp') else index
+                date_str = dt.strftime("%Y-%m-%d") if hasattr(dt, 'strftime') else str(dt)
+                if date_str not in existing_dates:
                     div_data.append({
-                        "date": dt.strftime("%Y-%m-%d") if hasattr(dt, 'strftime') else str(dt),
+                        "date": date_str,
                         "amount": round(float(value), 4),
                     })
-            if splits is not None and not splits.empty:
-                for index, value in splits.items():
+                    existing_dates.add(date_str)
+        if splits is not None and not splits.empty:
+            existing_split_dates = {s["date"] for s in split_data}
+            for index, value in splits.items():
+                date_str = index.strftime("%Y-%m-%d")
+                if date_str not in existing_split_dates:
                     split_data.append({
-                        "date": index.strftime("%Y-%m-%d"),
+                        "date": date_str,
                         "ratio": round(float(value), 4),
                     })
-        except Exception:
-            pass
+    except Exception:
+        pass
 
     div_data.sort(key=lambda x: x["date"], reverse=True)
     return {"symbol": symbol, "dividends": div_data, "splits": split_data}

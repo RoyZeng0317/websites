@@ -36,8 +36,8 @@ export default function Sentiment({ symbol }: Props) {
     return null
   }
 
-  const overallColor = data.overall === 'bullish' ? 'text-emerald-400' : data.overall === 'bearish' ? 'text-red-400' : 'text-slate-400'
-  const overallBg = data.overall === 'bullish' ? 'bg-emerald-400/10' : data.overall === 'bearish' ? 'bg-red-400/10' : 'bg-slate-400/10'
+  const overallColor = data.overall === 'bullish' ? 'text-red-400' : data.overall === 'bearish' ? 'text-emerald-400' : 'text-slate-400'
+  const overallBg = data.overall === 'bullish' ? 'bg-red-400/10' : data.overall === 'bearish' ? 'bg-emerald-400/10' : 'bg-slate-400/10'
   const overallIcon = data.overall === 'bullish' ? <TrendingUp size={20} /> : data.overall === 'bearish' ? <TrendingDown size={20} /> : <Minus size={20} />
   const overallLabel = data.overall === 'bullish' ? '偏多' : data.overall === 'bearish' ? '偏空' : '中立'
 
@@ -54,14 +54,14 @@ export default function Sentiment({ symbol }: Props) {
           <span className="font-semibold">{overallLabel}</span>
         </div>
         <div className="text-sm text-slate-400">
-          利多 <span className="text-emerald-400 font-medium">{data.bullishCount}</span> / 利空 <span className="text-red-400 font-medium">{data.bearishCount}</span>
+          利多 <span className="text-red-400 font-medium">{data.bullishCount}</span> / 利空 <span className="text-emerald-400 font-medium">{data.bearishCount}</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {data.signals.map((s, i) => {
-          const dotColor = s.signal === 'bullish' ? 'bg-emerald-400' : s.signal === 'bearish' ? 'bg-red-400' : 'bg-slate-500'
-          const textColor = s.signal === 'bullish' ? 'text-emerald-400' : s.signal === 'bearish' ? 'text-red-400' : 'text-slate-300'
+          const dotColor = s.signal === 'bullish' ? 'bg-red-400' : s.signal === 'bearish' ? 'bg-emerald-400' : 'bg-slate-500'
+          const textColor = s.signal === 'bullish' ? 'text-red-400' : s.signal === 'bearish' ? 'text-emerald-400' : 'text-slate-300'
           return (
             <div key={i} className="flex items-center gap-3 bg-slate-700/30 rounded-lg px-4 py-3">
               <div className={`w-2 h-2 rounded-full ${dotColor} shrink-0`} />
@@ -93,7 +93,7 @@ export default function Sentiment({ symbol }: Props) {
             ].map((item) => (
               <div key={item.label} className="bg-slate-700/30 rounded-lg px-3 py-2 text-center">
                 <div className="text-xs text-slate-500">{item.label}</div>
-                <div className={`text-sm font-medium ${item.value != null ? (item.value > 0 ? 'text-red-400' : item.value < 0 ? 'text-emerald-400' : 'text-slate-300') : 'text-slate-500'}`}>
+                <div className={`text-sm font-medium ${item.value != null ? (item.value > 0 ? 'text-emerald-400' : item.value < 0 ? 'text-red-400' : 'text-slate-300') : 'text-slate-500'}`}>
                   {item.value != null ? `${item.value > 0 ? '+' : ''}${item.value.toLocaleString()}` : 'N/A'}
                 </div>
               </div>
@@ -113,22 +113,22 @@ export default function Sentiment({ symbol }: Props) {
               <thead>
                 <tr className="text-slate-500 border-b border-slate-700">
                   <th className="text-left py-2 pr-3">期間</th>
-                  <th className="text-center px-1 py-2 text-emerald-400">強力買進</th>
-                  <th className="text-center px-1 py-2 text-green-400">買進</th>
+                  <th className="text-center px-1 py-2 text-red-400">強力買進</th>
+                  <th className="text-center px-1 py-2 text-red-400">買進</th>
                   <th className="text-center px-1 py-2 text-slate-400">中立</th>
                   <th className="text-center px-1 py-2 text-orange-400">賣出</th>
-                  <th className="text-center px-1 py-2 text-red-400">強力賣出</th>
+                  <th className="text-center px-1 py-2 text-emerald-400">強力賣出</th>
                 </tr>
               </thead>
               <tbody>
                 {data.recommendations.map((r, i) => (
                   <tr key={i} className="border-b border-slate-800">
                     <td className="py-2 pr-3 text-slate-300">{r.period}</td>
-                    <td className="text-center py-2 text-emerald-400">{r.strongBuy}</td>
-                    <td className="text-center py-2 text-green-400">{r.buy}</td>
+                    <td className="text-center py-2 text-red-400">{r.strongBuy}</td>
+                    <td className="text-center py-2 text-red-400">{r.buy}</td>
                     <td className="text-center py-2 text-slate-400">{r.hold}</td>
                     <td className="text-center py-2 text-orange-400">{r.sell}</td>
-                    <td className="text-center py-2 text-red-400">{r.strongSell}</td>
+                    <td className="text-center py-2 text-emerald-400">{r.strongSell}</td>
                   </tr>
                 ))}
               </tbody>
