@@ -891,45 +891,51 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 pass
 
     # Yahoo v8 chart dividend fallback (works for all symbols including ETFs)
-    if result and (result.get("dividendYield") is None or result.get("dividendRate") is None):
-        for _div_host in ["query1", "query2"]:
-            for _div_ua in [
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-            ]:
-                try:
-                    rate_limit()
-                    _div_url = f"https://{_div_host}.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=5y&interval=1mo&events=div"
-                    _div_rsp = requests.get(_div_url, headers={"User-Agent": _div_ua}, timeout=10)
-                    if _div_rsp.status_code != 200:
-                        continue
-                    _div_data = _div_rsp.json()
-                    _div_result = _div_data.get("chart", {}).get("result", [])
-                    if not _div_result:
-                        continue
-                    _events = _div_result[0].get("events", {})
-                    _divs = _events.get("dividends", {})
-                    if not _divs:
-                        continue
-                    _latest_amt = None
-                    _latest_ts = 0
-                    for _ts_str, _evt in _divs.items():
-                        _ts = int(_ts_str) if _ts_str.isdigit() else int(_evt.get("date", 0))
-                        if _ts > _latest_ts:
-                            _latest_ts = _ts
-                            _latest_amt = _safe_float(_evt.get("amount"))
-                    if _latest_amt is not None:
-                        if result.get("dividendRate") is None:
-                            result["dividendRate"] = _latest_amt
-                        if result.get("dividendYield") is None and current_price and current_price > 0:
-                            result["dividendYield"] = round(_latest_amt / current_price, 4)
-                        if result.get("exDividendDate") is None and _latest_ts > 0:
-                            result["exDividendDate"] = _latest_ts
-                        break
-                except Exception:
+    # Use separate result dict since upstream sources may all return empty for ETFs
+    _div_fallback = {}
+    for _div_host in ["query1", "query2"]:
+        for _div_ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                _div_url = f"https://{_div_host}.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=5y&interval=1mo&events=div"
+                _div_rsp = requests.get(_div_url, headers={"User-Agent": _div_ua}, timeout=10)
+                if _div_rsp.status_code != 200:
                     continue
-            if result.get("dividendRate") is not None or result.get("dividendYield") is not None:
-                break
+                _div_data = _div_rsp.json()
+                _div_result = _div_data.get("chart", {}).get("result", [])
+                if not _div_result:
+                    continue
+                _events = _div_result[0].get("events", {})
+                _divs = _events.get("dividends", {})
+                if not _divs:
+                    continue
+                _latest_amt = None
+                _latest_ts = 0
+                for _ts_str, _evt in _divs.items():
+                    _ts = int(_ts_str) if _ts_str.isdigit() else int(_evt.get("date", 0))
+                    if _ts > _latest_ts:
+                        _latest_ts = _ts
+                        _latest_amt = _safe_float(_evt.get("amount"))
+                if _latest_amt is not None:
+                    _div_fallback["dividendRate"] = _latest_amt
+                    if current_price and current_price > 0:
+                        _div_fallback["dividendYield"] = round(_latest_amt / current_price, 4)
+                    if _latest_ts > 0:
+                        _div_fallback["exDividendDate"] = _latest_ts
+                    break
+            except Exception:
+                continue
+        if _div_fallback:
+            break
+    if _div_fallback:
+        if not result:
+            result = {}
+        for _k, _v in _div_fallback.items():
+            if result.get(_k) is None:
+                result[_k] = _v
 
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
