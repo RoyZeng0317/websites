@@ -23,12 +23,11 @@ export default function StockHeader({ info }: Props) {
   const price = rt?.price ?? info.currentPrice
   const change = rt?.change ?? info.change
   const changePct = rt?.changePercent ?? info.changePercent
-  const isTw = info.symbol.endsWith('.TW') || info.symbol.endsWith('.TWO')
-  const isPositive = change >= 0
-  const upColor = isTw ? 'text-red-400' : 'text-emerald-400'
-  const downColor = isTw ? 'text-emerald-400' : 'text-red-400'
-  const upBg = isTw ? 'bg-red-400/10' : 'bg-emerald-400/10'
-  const downBg = isTw ? 'bg-emerald-400/10' : 'bg-red-400/10'
+  const upColor = 'text-emerald-400'
+  const downColor = 'text-red-400'
+  const upBg = 'bg-emerald-400/10'
+  const downBg = 'bg-red-400/10'
+  const isPositive = 0;
   const colorClass = isPositive ? upColor : downColor
   const bgClass = isPositive ? upBg : downBg
 

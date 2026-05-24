@@ -116,9 +116,8 @@ export default function KlineChart({ symbol }: Props) {
       },
     })
 
-    const isTw = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
-    const upColor = isTw ? '#f87171' : '#34d399'
-    const downColor = isTw ? '#34d399' : '#f87171'
+    const upColor = '#34d399'
+    const downColor = '#f87171'
 
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
       upColor,
