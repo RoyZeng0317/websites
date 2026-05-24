@@ -10,6 +10,7 @@ os.environ["TZPATH"] = _tz_cache
 import json
 import math
 import socket
+import threading
 import time
 from datetime import datetime, timezone, timedelta
 from typing import Optional
@@ -1179,6 +1180,7 @@ app.add_middleware(
 CACHE = {}
 CACHE_TTL = 120
 _LAST_REQUEST_TIME = 0
+_RATE_LIMIT_LOCK = threading.Lock()
 
 
 def _cache_stock_name(symbol: str, name: str):
@@ -1189,12 +1191,13 @@ def _cache_stock_name(symbol: str, name: str):
 
 
 def rate_limit():
-    global _LAST_REQUEST_TIME
-    now = time.time()
-    elapsed = now - _LAST_REQUEST_TIME
-    if elapsed < 1.5:
-        time.sleep(1.5 - elapsed)
-    _LAST_REQUEST_TIME = time.time()
+    global _LAST_REQUEST_TIME, _RATE_LIMIT_LOCK
+    with _RATE_LIMIT_LOCK:
+        now = time.time()
+        elapsed = now - _LAST_REQUEST_TIME
+        if elapsed < 1.5:
+            time.sleep(1.5 - elapsed)
+        _LAST_REQUEST_TIME = time.time()
 
 
 @app.get("/api/search")
@@ -1731,47 +1734,50 @@ async def get_institutional(symbol: str):
         except Exception:
             return None
 
-    with ThreadPoolExecutor(max_workers=8) as _ex:
-        _futs = {_ex.submit(_fetch_institutional, _ds): _ds for _ds in _date_strs}
-        for _f in as_completed(_futs):
-            _ds = _futs[_f]
-            try:
-                _rows = _f.result()
-                if _rows and len(_rows) >= 1:
-                    _row = _rows[0]
-                    if len(_row) >= 22:
-                        # TWSE T86 returns: [date, stock_no, stock_name,
-                        #   foreign_buy, foreign_sell, foreign_net,
-                        #   foreign_self_buy, foreign_self_sell, foreign_self_net,
-                        #   it_buy, it_sell, it_net,
-                        #   dealer_self_buy, dealer_self_sell, dealer_self_net,
-                        #   dealer_hedge_buy, dealer_hedge_sell, dealer_hedge_net,
-                        #   dealer_total_buy, dealer_total_sell, dealer_total_net,
-                        #   total_buy, total_sell, total_net]
-                        _date_raw = _row[0]
-                        _parts = _date_raw.split("/")
-                        _y = str(int(_parts[0]) + 1911) if len(_parts[0]) == 3 else _parts[0]
-                        _date_fmt = f"{_y}-{_parts[1]}-{_parts[2]}"
-                        _results[_ds] = {
-                            "date": _date_fmt,
-                            "foreignBuy": int(_row[3].replace(",", "")),
-                            "foreignSell": int(_row[4].replace(",", "")),
-                            "foreignNet": int(_row[5].replace(",", "")),
-                            "itBuy": int(_row[9].replace(",", "")),
-                            "itSell": int(_row[10].replace(",", "")),
-                            "itNet": int(_row[11].replace(",", "")),
-                            "dealerBuy": int(_row[18].replace(",", "")),
-                            "dealerSell": int(_row[19].replace(",", "")),
-                            "dealerNet": int(_row[20].replace(",", "")),
-                            "totalBuy": int(_row[21].replace(",", "")),
-                            "totalSell": int(_row[22].replace(",", "")),
-                            "totalNet": int(_row[23].replace(",", "")),
-                        }
-            except Exception:
-                pass
+    try:
+        with ThreadPoolExecutor(max_workers=4) as _ex:
+            _futs = {_ex.submit(_fetch_institutional, _ds): _ds for _ds in _date_strs}
+            for _f in as_completed(_futs):
+                _ds = _futs[_f]
+                try:
+                    _rows = _f.result()
+                    if _rows and len(_rows) >= 1:
+                        _row = _rows[0]
+                        if len(_row) >= 22:
+                            # TWSE T86 returns: [date, stock_no, stock_name,
+                            #   foreign_buy, foreign_sell, foreign_net,
+                            #   foreign_self_buy, foreign_self_sell, foreign_self_net,
+                            #   it_buy, it_sell, it_net,
+                            #   dealer_self_buy, dealer_self_sell, dealer_self_net,
+                            #   dealer_hedge_buy, dealer_hedge_sell, dealer_hedge_net,
+                            #   dealer_total_buy, dealer_total_sell, dealer_total_net,
+                            #   total_buy, total_sell, total_net]
+                            _date_raw = _row[0]
+                            _parts = _date_raw.split("/")
+                            _y = str(int(_parts[0]) + 1911) if len(_parts[0]) == 3 else _parts[0]
+                            _date_fmt = f"{_y}-{_parts[1]}-{_parts[2]}"
+                            _results[_ds] = {
+                                "date": _date_fmt,
+                                "foreignBuy": int(_row[3].replace(",", "")),
+                                "foreignSell": int(_row[4].replace(",", "")),
+                                "foreignNet": int(_row[5].replace(",", "")),
+                                "itBuy": int(_row[9].replace(",", "")),
+                                "itSell": int(_row[10].replace(",", "")),
+                                "itNet": int(_row[11].replace(",", "")),
+                                "dealerBuy": int(_row[18].replace(",", "")),
+                                "dealerSell": int(_row[19].replace(",", "")),
+                                "dealerNet": int(_row[20].replace(",", "")),
+                                "totalBuy": int(_row[21].replace(",", "")),
+                                "totalSell": int(_row[22].replace(",", "")),
+                                "totalNet": int(_row[23].replace(",", "")),
+                            }
+                except Exception:
+                    pass
 
-    _data = [_results[k] for k in sorted(_results.keys()) if k in _results]
-    return {"symbol": symbol, "data": _data}
+        _data = [_results[k] for k in sorted(_results.keys()) if k in _results]
+        return {"symbol": symbol, "data": _data}
+    except Exception:
+        return {"symbol": symbol, "data": []}
 
 
 @app.get("/api/stock/{symbol}/dividends")

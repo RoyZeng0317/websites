@@ -26,18 +26,45 @@ export default function InstitutionalInvestors({ symbol }: Props) {
   const isTW = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
 
   useEffect(() => {
+    let ignore = false
     if (!isTW) { setLoading(false); return }
     setLoading(true)
     setData(null)
     getInstitutional(symbol)
-      .then((d) => { setData(d.data) })
-      .catch(() => setData([]))
-      .finally(() => setLoading(false))
+      .then((d) => { if (!ignore) setData(d.data) })
+      .catch(() => { if (!ignore) setData([]) })
+      .finally(() => { if (!ignore) setLoading(false) })
+    return () => { ignore = true }
   }, [symbol, isTW])
 
   if (!isTW) return null
-  if (loading) return null
-  if (!data || data.length === 0) return null
+
+  if (loading) {
+    return (
+      <div className="bg-slate-800/50 rounded-xl p-6">
+        <h2 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
+          <Building2 size={18} />
+          三大法人買賣超
+        </h2>
+        <div className="flex items-center justify-center py-8">
+          <div className="w-6 h-6 border-2 border-slate-400 border-t-emerald-400 rounded-full animate-spin" />
+          <span className="ml-3 text-sm text-slate-500">載入中...</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-slate-800/50 rounded-xl p-6">
+        <h2 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
+          <Building2 size={18} />
+          三大法人買賣超
+        </h2>
+        <p className="text-sm text-slate-500 py-4 text-center">暫無資料</p>
+      </div>
+    )
+  }
 
   const latest = data[data.length - 1]
   const prev = data.length > 1 ? data[data.length - 2] : null
