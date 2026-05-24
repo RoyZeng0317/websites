@@ -43,7 +43,16 @@ export function getShareCount(position: Pick<HoldingPosition, 'quantity' | 'unit
 }
 
 export async function loadHoldings(uid: string): Promise<HoldingDoc[]> {
-  const snapshot = await getDocs(holdingsCollectionRef(uid))
+  let snapshot
+  try {
+    snapshot = await getDocs(holdingsCollectionRef(uid))
+  } catch (err) {
+    console.error('loadHoldings: getDocs failed, trying getDoc fallback', err)
+    snapshot = null
+  }
+  if (!snapshot) {
+    return []
+  }
   const docs: HoldingDoc[] = snapshot.docs.map((item) => {
     const data = item.data() as HoldingPosition
     return { id: item.id, ...data }

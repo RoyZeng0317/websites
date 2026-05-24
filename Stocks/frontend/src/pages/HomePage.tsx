@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import PortfolioOverview from '../components/PortfolioOverview'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 interface StockItem {
   symbol: string
@@ -217,7 +218,9 @@ export default function HomePage() {
 
       <SearchBar />
 
-      <PortfolioOverview />
+      <ErrorBoundary>
+        <PortfolioOverview />
+      </ErrorBoundary>
 
       {/* 分類橫式菜單 */}
       <div>

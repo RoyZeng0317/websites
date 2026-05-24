@@ -11,6 +11,7 @@ import Fundamentals from '../components/Fundamentals'
 import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
 import HoldingTracker from '../components/HoldingTracker'
+import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
 
 export default function StockPage() {
@@ -75,12 +76,14 @@ export default function StockPage() {
 
       <StockHeader info={info} />
 
-      <HoldingTracker
-        companyName={info.nameCn || info.name}
-        currency={info.currency}
-        currentPrice={info.currentPrice}
-        symbol={symbol!}
-      />
+      <ErrorBoundary>
+        <HoldingTracker
+          companyName={info.nameCn || info.name}
+          currency={info.currency}
+          currentPrice={info.currentPrice}
+          symbol={symbol!}
+        />
+      </ErrorBoundary>
 
       <RealtimeChart symbol={symbol!} currentPrice={info.currentPrice} previousClose={info.previousClose} />
 
