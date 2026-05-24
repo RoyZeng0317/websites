@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import { createChart, CandlestickSeries, ColorType } from 'lightweight-charts'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { createChart, CandlestickSeries, ColorType, LineStyle } from 'lightweight-charts'
 import { getChart } from '../api/stockApi'
 import type { ChartDataPoint } from '../types/stock'
 
@@ -16,6 +16,16 @@ const PERIODS = [
   { label: '最大', value: 'max', interval: '1mo' },
 ]
 
+const FIB_LEVELS = [
+  { level: 0, label: '0%', color: '#94a3b8' },
+  { level: 0.236, label: '23.6%', color: '#fbbf24' },
+  { level: 0.382, label: '38.2%', color: '#f97316' },
+  { level: 0.5, label: '50%', color: '#ef4444' },
+  { level: 0.618, label: '61.8%', color: '#8b5cf6' },
+  { level: 0.786, label: '78.6%', color: '#06b6d4' },
+  { level: 1, label: '100% (0%)', color: '#94a3b8' },
+]
+
 function parseDate(dateStr: string): string {
   return dateStr.split(' ')[0]
 }
@@ -23,10 +33,47 @@ function parseDate(dateStr: string): string {
 export default function KlineChart({ symbol }: Props) {
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<any>(null)
+  const seriesRef = useRef<any>(null)
+  const fibLinesRef = useRef<any[]>([])
   const [period, setPeriod] = useState('1y')
   const [interval, setInterval_] = useState('1d')
   const [data, setData] = useState<ChartDataPoint[]>([])
   const [loading, setLoading] = useState(true)
+  const [showFib, setShowFib] = useState(false)
+
+  const clearFibLines = useCallback(() => {
+    fibLinesRef.current.forEach((line) => {
+      try { seriesRef.current?.removePriceLine(line) } catch {}
+    })
+    fibLinesRef.current = []
+  }, [])
+
+  const drawFibonacci = useCallback(() => {
+    if (!seriesRef.current || data.length === 0) return
+    clearFibLines()
+
+    const highs = data.map((d) => d.high).filter((v): v is number => v != null)
+    const lows = data.map((d) => d.low).filter((v): v is number => v != null)
+    if (highs.length === 0 || lows.length === 0) return
+
+    const high = Math.max(...highs)
+    const low = Math.min(...lows)
+    const diff = high - low
+    if (diff === 0) return
+
+    for (const fib of FIB_LEVELS) {
+      const price = high - diff * fib.level
+      const line = seriesRef.current.createPriceLine({
+        price,
+        color: fib.color,
+        lineWidth: 1,
+        lineStyle: LineStyle.Dashed,
+        axisLabelVisible: true,
+        title: fib.label,
+      })
+      fibLinesRef.current.push(line)
+    }
+  }, [data, clearFibLines])
 
   useEffect(() => {
     const p = PERIODS.find((p) => p.value === period)
@@ -95,18 +142,52 @@ export default function KlineChart({ symbol }: Props) {
     candlestickSeries.setData(chartData as any)
     chart.timeScale().fitContent()
 
+    seriesRef.current = candlestickSeries
+    chartRef.current = chart
+
+    if (showFib) {
+      const highs = data.map((d) => d.high).filter((v): v is number => v != null)
+      const lows = data.map((d) => d.low).filter((v): v is number => v != null)
+      if (highs.length > 0 && lows.length > 0) {
+        const high = Math.max(...highs)
+        const low = Math.min(...lows)
+        const diff = high - low
+        if (diff > 0) {
+          for (const fib of FIB_LEVELS) {
+            const price = high - diff * fib.level
+            const line = candlestickSeries.createPriceLine({
+              price,
+              color: fib.color,
+              lineWidth: 1,
+              lineStyle: LineStyle.Dashed,
+              axisLabelVisible: true,
+              title: fib.label,
+            })
+            fibLinesRef.current.push(line)
+          }
+        }
+      }
+    }
+
     const handleResize = () => {
       chart.applyOptions({ width: container.clientWidth })
     }
     window.addEventListener('resize', handleResize)
 
-    chartRef.current = chart
-
     return () => {
       window.removeEventListener('resize', handleResize)
       chart.remove()
     }
-  }, [data, symbol])
+  }, [data, symbol, showFib])
+
+  const toggleFib = () => {
+    if (showFib) {
+      clearFibLines()
+      setShowFib(false)
+    } else {
+      setShowFib(true)
+    }
+  }
 
   if (loading) {
     return (
@@ -132,7 +213,17 @@ export default function KlineChart({ symbol }: Props) {
     <div className="bg-slate-800/50 rounded-xl p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-slate-200">K線圖</h2>
-        <div className="flex gap-1">
+        <div className="flex gap-1 items-center">
+          <button
+            onClick={toggleFib}
+            className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+              showFib
+                ? 'bg-violet-500/20 text-violet-400 ring-1 ring-violet-500/30'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+            }`}
+          >
+            斐波那契
+          </button>
           {PERIODS.map((p) => (
             <button
               key={p.value}
