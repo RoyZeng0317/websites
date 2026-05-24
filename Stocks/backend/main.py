@@ -9,6 +9,7 @@ os.environ["TZPATH"] = _tz_cache
 
 import json
 import math
+import socket
 import time
 from datetime import datetime, timezone
 from typing import Optional
@@ -554,8 +555,13 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
         if _yf_data is None or not any(v is not None for v in _yf_data.values()):
             try:
                 rate_limit()
-                _t = yf.Ticker(symbol)
-                _info = dict(_t.info) if _t.info else {}
+                _old_to = socket.getdefaulttimeout()
+                socket.setdefaulttimeout(15)
+                try:
+                    _t = yf.Ticker(symbol)
+                    _info = dict(_t.info) if _t.info else {}
+                finally:
+                    socket.setdefaulttimeout(_old_to)
                 if _info and any(v is not None for v in _info.values()):
                     _yf_data = {
                         "trailingPE": _info.get("trailingPE"),
@@ -602,11 +608,12 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 result = _yf_data
 
         if result and any(result.get(k) is None for k in ["totalRevenue", "operatingMargins", "debtToEquity"]):
+            _old_to = socket.getdefaulttimeout()
+            socket.setdefaulttimeout(20)
             try:
                 rate_limit()
                 _t = yf.Ticker(symbol)
                 _is = _t.income_stmt
-                if _is is not None and not _is.empty:
                     _total_rev = None
                     _operating_income = None
                     _net_income = None
@@ -692,8 +699,84 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                             result["exDividendDate"] = _last_ex.strftime("%Y-%m-%dT%H:%M:%S.000Z")
                 except Exception:
                     pass
+
             except Exception:
                 pass
+            finally:
+                socket.setdefaulttimeout(_old_to)
+
+        # Direct Yahoo API fallback for income statement (bypasses yfinance)
+        if result and any(result.get(k) is None for k in ["totalRevenue", "operatingMargins", "profitMargins"]):
+            _old_to2 = socket.getdefaulttimeout()
+            socket.setdefaulttimeout(15)
+            try:
+                _is_urls = [
+                    f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=incomeStatementHistory",
+                    f"https://query2.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=incomeStatementHistory",
+                    f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=incomeStatementHistory&formatted=true",
+                ]
+                for _ua in ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Mozilla/5.0 (compatible; YahooFinance/1.0)"]:
+                    for _is_url in _is_urls:
+                        try:
+                            rate_limit()
+                            _is_rsp = requests.get(_is_url, headers={"User-Agent": _ua}, timeout=10)
+                            if _is_rsp.status_code != 200:
+                                continue
+                            _is_json = _is_rsp.json()
+                            _is_result = _is_json.get("quoteSummary", {}).get("result", [])
+                            if not _is_result:
+                                continue
+                            _ish = _is_result[0].get("incomeStatementHistory", {})
+                            _quarters = _ish.get("incomeStatementHistory", [])
+                            if not _quarters:
+                                continue
+                            _latest = _quarters[0]
+                            def _qval(key):
+                                v = _latest.get(key, {})
+                                if isinstance(v, dict):
+                                    return v.get("raw")
+                                return v
+                            _total_rev = _qval("totalRevenue")
+                            _net_inc = _qval("netIncome")
+                            _op_inc = _qval("operatingIncome")
+                            if _total_rev and result.get("totalRevenue") is None:
+                                result["totalRevenue"] = float(_total_rev)
+                            if _net_inc and result.get("profitMargins") is None and _total_rev and float(_total_rev) != 0:
+                                result["profitMargins"] = round(float(_net_inc) / float(_total_rev), 4)
+                            if _op_inc and _total_rev and result.get("operatingMargins") is None and float(_total_rev) != 0:
+                                result["operatingMargins"] = round(float(_op_inc) / float(_total_rev), 4)
+                            if _total_rev and result.get("totalRevenue"):
+                                if result.get("revenuePerShare") is None and current_price:
+                                    mc = result.get("marketCap")
+                                    if mc and mc > 0:
+                                        result["revenuePerShare"] = float(_total_rev) / (mc / current_price)
+                                if result.get("debtToEquity") is None:
+                                    _bs_url = _is_url.replace("incomeStatementHistory", "balanceSheetHistory")
+                                    _bs_rsp = requests.get(_bs_url, headers={"User-Agent": _ua}, timeout=10)
+                                    if _bs_rsp.status_code == 200:
+                                        _bs_json = _bs_rsp.json()
+                                        _bs_result = _bs_json.get("quoteSummary", {}).get("result", [])
+                                        if _bs_result:
+                                            _bsh = _bs_result[0].get("balanceSheetHistory", {}).get("balanceSheetStatements", [])
+                                            if _bsh:
+                                                _bl = _bsh[0]
+                                                def _bval(key):
+                                                    v = _bl.get(key, {})
+                                                    return float(v["raw"]) if isinstance(v, dict) and v.get("raw") else None
+                                                _td = _bval("totalDebt")
+                                                _te = _bval("totalStockholderEquity")
+                                                if _td is not None and _te and _te != 0:
+                                                    result["debtToEquity"] = round(_td / _te, 4)
+                            if result.get("totalRevenue"):
+                                break
+                        except Exception:
+                            continue
+                    if result.get("totalRevenue"):
+                        break
+            except Exception:
+                pass
+            finally:
+                socket.setdefaulttimeout(_old_to2)
 
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
