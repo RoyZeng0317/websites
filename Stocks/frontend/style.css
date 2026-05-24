@@ -16,7 +16,9 @@ footer {
   padding-left: 16px;
   padding-right: 16px;
 }
-
+.about{
+  display: none;
+}
 .about ul {
   display: flex;
   justify-content: center;
