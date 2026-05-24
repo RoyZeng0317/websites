@@ -11,8 +11,9 @@ import json
 import math
 import socket
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import asyncio
 import requests
@@ -803,7 +804,10 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                             if isinstance(_ts_data, list) and _ts_data:
                                 for _entry in _ts_data:
                                     if isinstance(_entry, dict) and "reportedValue" in _entry:
-                                        _ts_map[_t] = _entry["reportedValue"]
+                                        _rv = _entry["reportedValue"]
+                        if isinstance(_rv, dict):
+                            _rv = _rv.get("raw", _rv)
+                        _ts_map[_t] = _rv
                                         break
                         _ts_rev = _ts_map.get("annualTotalRevenue")
                         _ts_ni = _ts_map.get("annualNetIncome")
@@ -835,6 +839,8 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 for _tw_url in [
                     f"https://openapi.twse.com.tw/v1/opendata/t187ap04_L",
                     f"https://www.twse.com.tw/opendata/t187ap04_L",
+                    f"https://openapi.twse.com.tw/v1/opendata/t187ap04_P",
+                    f"https://openapi.twse.com.tw/v1/opendata/t187ap04_R",
                 ]:
                     try:
                         _tw_rsp = requests.get(_tw_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
@@ -843,11 +849,29 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         _tw_data = _tw_rsp.json()
                         if not isinstance(_tw_data, list):
                             continue
+
+                        # Build a set of candidate field names to search
+                        _rev_keys = ["營業收入合計", "營業收入", "營業收入淨額", "收益", "收入"]
+                        _ni_keys = ["本期淨利", "繼續營業單位淨利", "本期淨利（淨損）", "稅後淨利", "本期損益", "淨利"]
+                        _oi_keys = ["營業利益", "營業損益", "營業淨利"]
+
+                        def _find_first(row, keys):
+                            for k in keys:
+                                v = row.get(k)
+                                if v is not None and v != "":
+                                    return v
+                            # case-insensitive fallback
+                            for rk in row:
+                                for k in keys:
+                                    if rk.lower().replace(" ", "") == k.lower().replace(" ", ""):
+                                        return row[rk]
+                            return None
+
                         for _row in _tw_data:
                             if str(_row.get("公司代號", "")) == stock_no:
-                                _rev = _safe_float(_row.get("營業收入合計") or _row.get("營業收入"))
-                                _ni = _safe_float(_row.get("本期淨利") or _row.get("繼續營業單位淨利"))
-                                _oi = _safe_float(_row.get("營業利益"))
+                                _rev = _safe_float(_find_first(_row, _rev_keys))
+                                _ni = _safe_float(_find_first(_row, _ni_keys))
+                                _oi = _safe_float(_find_first(_row, _oi_keys))
                                 if _rev and result.get("totalRevenue") is None:
                                     result["totalRevenue"] = _rev
                                 if _ni and _rev and result.get("profitMargins") is None and _rev != 0:
@@ -1621,7 +1645,133 @@ async def get_chart(
                 })
         except Exception:
             pass
+
+    # TWSE STOCK_DAY fallback: fill missing data points for TW stocks (daily only)
+    if (symbol.endswith(".TW") or symbol.endswith(".TWO")) and interval == "1d" and data:
+        try:
+            _sn = symbol.replace(".TW", "").replace(".TWO", "")
+            _built_dates = {d["date"][:10] for d in data if d.get("close", 0) > 0}
+            _tw_dates = set()
+            for _d in data:
+                _date_str = _d.get("date", "")[:10]
+                if _date_str:
+                    _year, _month = _date_str[:4], _date_str[5:7]
+                    _tw_dates.add(f"{_year}{_month}")
+            for _ym in _tw_dates:
+                try:
+                    _tw_url = f"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date={_ym}01&stockNo={_sn}"
+                    _tw_rsp = requests.get(_tw_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                    if _tw_rsp.status_code != 200:
+                        continue
+                    _tw_json = _tw_rsp.json()
+                    if _tw_json.get("stat") != "OK":
+                        continue
+                    _tw_rows = _tw_json.get("data", [])
+                    for _row in _tw_rows:
+                        if len(_row) < 7:
+                            continue
+                        _tw_date_str = _row[0].replace("/", "-")
+                        _tw_year = _tw_date_str.split("-")[0]
+                        if len(_tw_year) == 3:
+                            _tw_date_str = str(int(_tw_year) + 1911) + "-" + "-".join(_tw_date_str.split("-")[1:])
+                        _tw_close = _safe_float(_row[6])
+                        if _tw_close and _tw_date_str not in _built_dates:
+                            _tw_open = _safe_float(_row[3]) or _tw_close
+                            _tw_high = _safe_float(_row[4]) or _tw_close
+                            _tw_low = _safe_float(_row[5]) or _tw_close
+                            _tw_vol = int(float(_row[1].replace(",", ""))) if _row[1] else 0
+                            data.append({
+                                "date": _tw_date_str + " 00:00",
+                                "open": round(_tw_open, 2),
+                                "high": round(_tw_high, 2),
+                                "low": round(_tw_low, 2),
+                                "close": round(_tw_close, 2),
+                                "volume": _tw_vol,
+                            })
+                            _built_dates.add(_tw_date_str)
+                except Exception:
+                    continue
+            if data:
+                data.sort(key=lambda x: x.get("date", ""))
+        except Exception:
+            pass
+
     return {"symbol": symbol, "period": period, "interval": interval, "data": data}
+
+
+@app.get("/api/stock/{symbol}/institutional")
+async def get_institutional(symbol: str):
+    """三大法人買賣超 data for Taiwan stocks from TWSE."""
+    if not (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        return {"symbol": symbol, "data": []}
+
+    _sn = symbol.replace(".TW", "").replace(".TWO", "")
+    _today = datetime.now(timezone.utc)
+    _date_strs = []
+
+    # generate last 60 calendar days, skip weekends
+    for _i in range(60):
+        _d = _today - timedelta(days=_i)
+        if _d.weekday() < 5:
+            _date_strs.append(_d.strftime("%Y%m%d"))
+    _date_strs.sort()
+
+    _results = {}
+    def _fetch_institutional(_ds):
+        try:
+            rate_limit()
+            _u = f"https://www.twse.com.tw/fund/T86?response=json&date={_ds}&stockNo={_sn}"
+            _r = requests.get(_u, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+            if _r.status_code != 200:
+                return None
+            _j = _r.json()
+            if _j.get("stat") != "OK":
+                return None
+            return _j.get("data", [])
+        except Exception:
+            return None
+
+    with ThreadPoolExecutor(max_workers=8) as _ex:
+        _futs = {_ex.submit(_fetch_institutional, _ds): _ds for _ds in _date_strs}
+        for _f in as_completed(_futs):
+            _ds = _futs[_f]
+            try:
+                _rows = _f.result()
+                if _rows and len(_rows) >= 1:
+                    _row = _rows[0]
+                    if len(_row) >= 22:
+                        # TWSE T86 returns: [date, stock_no, stock_name,
+                        #   foreign_buy, foreign_sell, foreign_net,
+                        #   foreign_self_buy, foreign_self_sell, foreign_self_net,
+                        #   it_buy, it_sell, it_net,
+                        #   dealer_self_buy, dealer_self_sell, dealer_self_net,
+                        #   dealer_hedge_buy, dealer_hedge_sell, dealer_hedge_net,
+                        #   dealer_total_buy, dealer_total_sell, dealer_total_net,
+                        #   total_buy, total_sell, total_net]
+                        _date_raw = _row[0]
+                        _parts = _date_raw.split("/")
+                        _y = str(int(_parts[0]) + 1911) if len(_parts[0]) == 3 else _parts[0]
+                        _date_fmt = f"{_y}-{_parts[1]}-{_parts[2]}"
+                        _results[_ds] = {
+                            "date": _date_fmt,
+                            "foreignBuy": int(_row[3].replace(",", "")),
+                            "foreignSell": int(_row[4].replace(",", "")),
+                            "foreignNet": int(_row[5].replace(",", "")),
+                            "itBuy": int(_row[9].replace(",", "")),
+                            "itSell": int(_row[10].replace(",", "")),
+                            "itNet": int(_row[11].replace(",", "")),
+                            "dealerBuy": int(_row[18].replace(",", "")),
+                            "dealerSell": int(_row[19].replace(",", "")),
+                            "dealerNet": int(_row[20].replace(",", "")),
+                            "totalBuy": int(_row[21].replace(",", "")),
+                            "totalSell": int(_row[22].replace(",", "")),
+                            "totalNet": int(_row[23].replace(",", "")),
+                        }
+            except Exception:
+                pass
+
+    _data = [_results[k] for k in sorted(_results.keys()) if k in _results]
+    return {"symbol": symbol, "data": _data}
 
 
 @app.get("/api/stock/{symbol}/dividends")

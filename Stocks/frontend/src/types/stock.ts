@@ -5,6 +5,27 @@ export interface StockSearchResult {
   nameCn?: string
 }
 
+export interface InstitutionalRecord {
+  date: string
+  foreignBuy: number
+  foreignSell: number
+  foreignNet: number
+  itBuy: number
+  itSell: number
+  itNet: number
+  dealerBuy: number
+  dealerSell: number
+  dealerNet: number
+  totalBuy: number
+  totalSell: number
+  totalNet: number
+}
+
+export interface InstitutionalData {
+  symbol: string
+  data: InstitutionalRecord[]
+}
+
 export interface StockInfo {
   symbol: string
   name: string

@@ -10,6 +10,7 @@ import FuturesPrice from '../components/FuturesPrice'
 import Fundamentals from '../components/Fundamentals'
 import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
+import InstitutionalInvestors from '../components/InstitutionalInvestors'
 import HoldingTracker from '../components/HoldingTracker'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
@@ -94,6 +95,8 @@ export default function StockPage() {
       <FuturesPrice symbol={symbol!} />
 
       <Fundamentals info={info} />
+
+      <InstitutionalInvestors symbol={symbol!} />
 
       <Sentiment symbol={symbol!} />
 

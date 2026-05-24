@@ -48,6 +48,14 @@ export async function getSentiment(symbol: string): Promise<import('../types/sto
   return res.json()
 }
 
+export async function getInstitutional(symbol: string): Promise<import('../types/stock').InstitutionalData> {
+  const res = await fetch(
+    `${BASE}/stock/${encodeURIComponent(symbol)}/institutional`
+  )
+  if (!res.ok) throw new Error('Failed to fetch institutional data')
+  return res.json()
+}
+
 export async function getFinancials(symbol: string): Promise<FinancialData> {
   const res = await fetch(
     `${BASE}/stock/${encodeURIComponent(symbol)}/financials`
