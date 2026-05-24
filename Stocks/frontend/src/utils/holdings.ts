@@ -1,13 +1,13 @@
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   orderBy,
   query,
-  setDoc,
   Timestamp,
+  where,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -21,8 +21,8 @@ export interface HoldingPosition {
   updatedAt: Timestamp
 }
 
-function holdingDocRef(uid: string, symbol: string) {
-  return doc(db, 'users', uid, 'holdings', symbol)
+export interface HoldingDoc extends HoldingPosition {
+  id: string
 }
 
 function holdingsCollectionRef(uid: string) {
@@ -37,20 +37,28 @@ export function getShareCount(position: Pick<HoldingPosition, 'quantity' | 'unit
   return position.quantity
 }
 
-export async function loadHoldings(uid: string): Promise<HoldingPosition[]> {
+export async function loadHoldings(uid: string): Promise<HoldingDoc[]> {
   const snapshot = await getDocs(query(holdingsCollectionRef(uid), orderBy('updatedAt', 'desc')))
-  return snapshot.docs.map((item) => item.data() as HoldingPosition)
+  return snapshot.docs.map((item) => {
+    const data = item.data() as HoldingPosition
+    return { id: item.id, ...data }
+  })
 }
 
-export async function loadHolding(uid: string, symbol: string): Promise<HoldingPosition | null> {
-  const snapshot = await getDoc(holdingDocRef(uid, symbol))
-  return snapshot.exists() ? (snapshot.data() as HoldingPosition) : null
+export async function loadSymbolHoldings(uid: string, symbol: string): Promise<HoldingDoc[]> {
+  const snapshot = await getDocs(
+    query(holdingsCollectionRef(uid), where('symbol', '==', symbol), orderBy('updatedAt', 'desc')),
+  )
+  return snapshot.docs.map((item) => {
+    const data = item.data() as HoldingPosition
+    return { id: item.id, ...data }
+  })
 }
 
 export async function saveHolding(uid: string, position: HoldingPosition) {
-  await setDoc(holdingDocRef(uid, position.symbol), position)
+  await addDoc(holdingsCollectionRef(uid), position)
 }
 
-export async function deleteHolding(uid: string, symbol: string) {
-  await deleteDoc(holdingDocRef(uid, symbol))
+export async function deleteHolding(uid: string, docId: string) {
+  await deleteDoc(doc(holdingsCollectionRef(uid), docId))
 }

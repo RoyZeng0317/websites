@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { onAuthStateChanged, type User } from 'firebase/auth'
 import { formatCurrency, getPrice } from '../api/stockApi'
 import { auth } from '../firebase'
-import { getShareCount, loadHoldings, type HoldingPosition } from '../utils/holdings'
+import { getShareCount, loadHoldings, type HoldingDoc } from '../utils/holdings'
 
-interface HoldingRow extends HoldingPosition {
+interface HoldingRow extends HoldingDoc {
   livePrice: number
 }
 
@@ -92,6 +92,8 @@ export default function PortfolioOverview() {
     )
   }
 
+  const totalShares = items.reduce((sum, item) => sum + getShareCount(item), 0)
+
   const totalsByCurrency = Object.values(
     items.reduce<Record<string, { cost: number; value: number; currency: string }>>((acc, item) => {
       const shares = getShareCount(item)
@@ -124,10 +126,15 @@ export default function PortfolioOverview() {
             目前登入帳號：{user.email || user.uid}
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-3">
-          <div className="text-xs text-slate-400">已記錄持股</div>
-          <div className="mt-1 text-xl font-bold text-slate-100">{items.length} 檔</div>
-          <div className="text-sm text-slate-500">{totalsByCurrency.length} 種幣別</div>
+        <div className="flex gap-3">
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-3">
+            <div className="text-xs text-slate-400">買入紀錄</div>
+            <div className="mt-1 text-xl font-bold text-slate-100">{items.length} 筆</div>
+          </div>
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-3">
+            <div className="text-xs text-slate-400">持有總股數</div>
+            <div className="mt-1 text-xl font-bold text-slate-100">{totalShares.toLocaleString('en-US')}</div>
+          </div>
         </div>
       </div>
 
@@ -143,38 +150,40 @@ export default function PortfolioOverview() {
         </div>
       ) : (
         <div className="space-y-3">
-          <div className={`grid grid-cols-1 gap-3 ${totalsByCurrency.length > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
-            {totalsByCurrency.map((group) => {
-              const profit = group.value - group.cost
-              const ratio = group.cost > 0 ? profit / group.cost : 0
-              const positive = profit >= 0
+          {totalsByCurrency.length > 0 && (
+            <div className={`grid grid-cols-1 gap-3 ${totalsByCurrency.length > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
+              {totalsByCurrency.map((group) => {
+                const profit = group.value - group.cost
+                const ratio = group.cost > 0 ? profit / group.cost : 0
+                const positive = profit >= 0
 
-              return (
-                <div
-                  key={group.currency}
-                  className={`rounded-2xl border px-4 py-4 ${
-                    positive
-                      ? 'border-red-500/20 bg-red-500/10'
-                      : 'border-emerald-500/20 bg-emerald-500/10'
-                  }`}
-                >
-                  <div className="text-xs text-slate-400">{group.currency} 未實現損益</div>
-                  <div className={`mt-1 text-lg font-bold ${positive ? 'text-red-400' : 'text-emerald-400'}`}>
-                    {positive ? '+' : ''}
-                    {formatCurrency(profit, group.currency)}
+                return (
+                  <div
+                    key={group.currency}
+                    className={`rounded-2xl border px-4 py-4 ${
+                      positive
+                        ? 'border-red-500/20 bg-red-500/10'
+                        : 'border-emerald-500/20 bg-emerald-500/10'
+                    }`}
+                  >
+                    <div className="text-xs text-slate-400">{group.currency} 未實現損益</div>
+                    <div className={`mt-1 text-lg font-bold ${positive ? 'text-red-400' : 'text-emerald-400'}`}>
+                      {positive ? '+' : ''}
+                      {formatCurrency(profit, group.currency)}
+                    </div>
+                    <div className={`text-sm ${positive ? 'text-red-300' : 'text-emerald-300'}`}>
+                      {positive ? '+' : ''}
+                      {(ratio * 100).toFixed(2)}%
+                    </div>
+                    <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
+                      <InlineMetric label="投入成本" value={formatCurrency(group.cost, group.currency)} />
+                      <InlineMetric label="總市值" value={formatCurrency(group.value, group.currency)} />
+                    </div>
                   </div>
-                  <div className={`text-sm ${positive ? 'text-red-300' : 'text-emerald-300'}`}>
-                    {positive ? '+' : ''}
-                    {(ratio * 100).toFixed(2)}%
-                  </div>
-                  <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
-                    <InlineMetric label="投入成本" value={formatCurrency(group.cost, group.currency)} />
-                    <InlineMetric label="總市值" value={formatCurrency(group.value, group.currency)} />
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          )}
           <div className="space-y-2">
             {items.map((item) => {
               const shares = getShareCount(item)
@@ -186,14 +195,14 @@ export default function PortfolioOverview() {
 
               return (
                 <Link
-                  key={item.symbol}
+                  key={item.id}
                   className="flex flex-col gap-3 rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-4 transition hover:border-emerald-500/30 hover:bg-slate-900 md:flex-row md:items-center md:justify-between"
                   to={`/stock/${item.symbol}`}
                 >
                   <div>
                     <div className="text-sm font-semibold text-slate-100">{item.companyName}</div>
                     <div className="mt-1 text-xs text-slate-500">
-                      {item.symbol} ・ 成本 {formatCurrency(item.buyPrice, item.currency)} ・ {item.quantity} 股
+                      {item.symbol} ・ 買入價 {formatCurrency(item.buyPrice, item.currency)} ・ {item.quantity} 股
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm md:min-w-[320px]">

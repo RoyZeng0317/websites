@@ -9,8 +9,9 @@ import {
   deleteHolding,
   getShareCount,
   getUnitLabel,
-  loadHolding,
+  loadSymbolHoldings,
   saveHolding,
+  type HoldingDoc,
 } from '../utils/holdings'
 
 interface Props {
@@ -41,11 +42,11 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   const [user, setUser] = useState<User | null>(null)
   const [buyPrice, setBuyPrice] = useState('')
   const [quantity, setQuantity] = useState('')
-  const [savedAt, setSavedAt] = useState<Timestamp | null>(null)
+  const [lots, setLots] = useState<HoldingDoc[]>([])
   const [notice, setNotice] = useState('')
   const [livePrice, setLivePrice] = useState(currentPrice)
   const [saving, setSaving] = useState(false)
-  const [loadingHolding, setLoadingHolding] = useState(false)
+  const [loadingHoldings, setLoadingHoldings] = useState(false)
   const wsRef = useRef<WebSocket | null>(null)
   const unitLabel = getUnitLabel(symbol)
 
@@ -73,66 +74,45 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   useEffect(() => {
     let cancelled = false
 
-    async function fetchHolding() {
+    async function fetchLots() {
       if (!user) {
-        setBuyPrice('')
-        setQuantity('')
-        setSavedAt(null)
+        setLots([])
         return
       }
 
-      setLoadingHolding(true)
+      setLoadingHoldings(true)
       try {
-        const holding = await loadHolding(user.uid, symbol)
-        if (cancelled) return
-
-        if (!holding) {
-          setBuyPrice('')
-          setQuantity('')
-          setSavedAt(null)
-          return
-        }
-
-        setBuyPrice(String(holding.buyPrice))
-        setQuantity(String(holding.quantity))
-        setSavedAt(holding.updatedAt)
+        const data = await loadSymbolHoldings(user.uid, symbol)
+        if (!cancelled) setLots(data)
       } catch {
-        if (!cancelled) {
-          setNotice('讀取持股紀錄失敗，請稍後再試。')
-        }
+        if (!cancelled) setNotice('讀取持股紀錄失敗，請稍後再試。')
       } finally {
-        if (!cancelled) {
-          setLoadingHolding(false)
-        }
+        if (!cancelled) setLoadingHoldings(false)
       }
     }
 
-    fetchHolding()
+    fetchLots()
 
     return () => {
       cancelled = true
     }
   }, [symbol, user])
 
-  const metrics = useMemo(() => {
-    const parsedPrice = Number(buyPrice)
-    const parsedQuantity = Number(quantity)
-    if (!(parsedPrice > 0) || !Number.isInteger(parsedQuantity) || parsedQuantity <= 0) return null
+  const summary = useMemo(() => {
+    if (lots.length === 0) return null
 
-    const shares = getShareCount({ quantity: parsedQuantity, unitLabel })
-    const cost = parsedPrice * shares
-    const marketValue = livePrice * shares
-    const profit = marketValue - cost
-    const profitRatio = cost > 0 ? profit / cost : 0
-
-    return {
-      cost,
-      marketValue,
-      profit,
-      profitRatio,
-      shares,
+    let totalShares = 0
+    let totalCost = 0
+    for (const lot of lots) {
+      const shares = getShareCount(lot)
+      totalShares += shares
+      totalCost += lot.buyPrice * shares
     }
-  }, [buyPrice, livePrice, quantity, unitLabel])
+    const marketValue = livePrice * totalShares
+    const profit = marketValue - totalCost
+    const profitRatio = totalCost > 0 ? profit / totalCost : 0
+    return { totalShares, totalCost, marketValue, profit, profitRatio }
+  }, [lots, livePrice])
 
   async function handleSave() {
     const activeUser = auth.currentUser
@@ -168,8 +148,20 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
         unitLabel,
         updatedAt,
       })
-      setSavedAt(updatedAt)
-      setNotice(`已儲存到 Google 帳號 ${activeUser.email || activeUser.uid}。`)
+      const newLot: HoldingDoc = {
+        id: '',
+        buyPrice: parsedPrice,
+        companyName,
+        currency,
+        quantity: parsedQuantity,
+        symbol,
+        unitLabel,
+        updatedAt,
+      }
+      setLots((prev) => [newLot, ...prev])
+      setBuyPrice('')
+      setQuantity('')
+      setNotice(`已新增買入紀錄：${parsedPrice} x ${parsedQuantity} 股`)
     } catch {
       setNotice('儲存失敗，請確認 Firestore 權限設定後再試一次。')
     } finally {
@@ -177,22 +169,14 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
     }
   }
 
-  async function handleDelete() {
+  async function handleDelete(lotId: string) {
     const activeUser = auth.currentUser
-    if (!activeUser) {
-      setNotice('請先登入後再刪除持股紀錄。')
-      return
-    }
+    if (!activeUser) return
 
     setSaving(true)
-    setNotice('')
-
     try {
-      await deleteHolding(activeUser.uid, symbol)
-      setBuyPrice('')
-      setQuantity('')
-      setSavedAt(null)
-      setNotice('持股紀錄已從你的 Google 帳號資料中刪除。')
+      await deleteHolding(activeUser.uid, lotId)
+      setLots((prev) => prev.filter((l) => l.id !== lotId))
     } catch {
       setNotice('刪除失敗，請稍後再試。')
     } finally {
@@ -200,7 +184,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
     }
   }
 
-  const isProfit = (metrics?.profit ?? 0) >= 0
+  const isProfit = (summary?.profit ?? 0) >= 0
   const profitTextClass = isProfit ? 'text-red-400' : 'text-emerald-400'
   const profitBgClass = isProfit ? 'bg-red-500/10' : 'bg-emerald-500/10'
 
@@ -255,33 +239,19 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
           <div className="mt-4 flex flex-wrap gap-3">
             <button
               className="rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60"
-              disabled={!user || saving || loadingHolding}
+              disabled={!user || saving || loadingHoldings}
               onClick={handleSave}
               type="button"
             >
-              {saving ? '儲存中...' : '儲存持股'}
-            </button>
-            <button
-              className="rounded-full border border-slate-700 px-5 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-              disabled={!user || saving || loadingHolding}
-              onClick={handleDelete}
-              type="button"
-            >
-              刪除紀錄
+              {saving ? '儲存中...' : '新增買入紀錄'}
             </button>
           </div>
 
-          {savedAt && (
-            <div className="mt-4 text-xs text-slate-500">
-              上次更新：{typeof savedAt === 'object' && 'toDate' in savedAt ? savedAt.toDate().toLocaleString('zh-TW') : new Date(savedAt as string).toLocaleString('zh-TW')}
-            </div>
-          )}
-          {loadingHolding && <div className="mt-3 text-sm text-slate-400">讀取持股紀錄中...</div>}
           {notice && <div className="mt-3 text-sm text-emerald-300">{notice}</div>}
         </div>
 
         <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
-          {metrics ? (
+          {summary ? (
             <div className="space-y-4">
               <div className={`rounded-2xl px-4 py-4 ${profitBgClass}`}>
                 <div className="mb-2 flex items-center gap-2 text-sm text-slate-300">
@@ -290,19 +260,19 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
                 </div>
                 <div className={`text-2xl font-bold ${profitTextClass}`}>
                   {isProfit ? '+' : ''}
-                  {formatCurrency(metrics.profit, currency)}
+                  {formatCurrency(summary.profit, currency)}
                 </div>
                 <div className={`mt-1 text-sm ${profitTextClass}`}>
                   {isProfit ? '+' : ''}
-                  {(metrics.profitRatio * 100).toFixed(2)}%
+                  {(summary.profitRatio * 100).toFixed(2)}%
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <MetricCard label="持有股數" value={metrics.shares.toLocaleString('en-US')} />
-                <MetricCard label="投入成本" value={formatCurrency(metrics.cost, currency)} />
-                <MetricCard label="市值" value={formatCurrency(metrics.marketValue, currency)} />
-                <MetricCard label="平均成本" value={formatCurrency(Number(buyPrice), currency)} />
+                <MetricCard label="持有總股數" value={summary.totalShares.toLocaleString('en-US')} />
+                <MetricCard label="買入次數" value={`${lots.length} 次`} />
+                <MetricCard label="投入成本" value={formatCurrency(summary.totalCost, currency)} />
+                <MetricCard label="市值" value={formatCurrency(summary.marketValue, currency)} />
               </div>
             </div>
           ) : (
@@ -312,6 +282,55 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
           )}
         </div>
       </div>
+
+      {lots.length > 0 && (
+        <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+          <h3 className="mb-3 text-sm font-medium text-slate-300">買入明細</h3>
+          <div className="space-y-2">
+            {lots.map((lot) => {
+              const shares = getShareCount(lot)
+              const cost = lot.buyPrice * shares
+              const value = livePrice * shares
+              const profit = value - cost
+              const ratio = cost > 0 ? profit / cost : 0
+              const rowProfit = profit >= 0
+
+              return (
+                <div
+                  key={lot.id}
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3 text-sm"
+                >
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-slate-300">
+                    <span>
+                      買入價 <strong className="text-slate-100">{formatCurrency(lot.buyPrice, currency)}</strong>
+                    </span>
+                    <span>
+                      {lot.quantity} 股
+                    </span>
+                    <span>
+                      成本 <strong className="text-slate-100">{formatCurrency(cost, currency)}</strong>
+                    </span>
+                    <span>
+                      市值 <strong className="text-slate-100">{formatCurrency(value, currency)}</strong>
+                    </span>
+                    <span className={rowProfit ? 'text-red-400' : 'text-emerald-400'}>
+                      {rowProfit ? '+' : ''}{formatCurrency(profit, currency)} ({rowProfit ? '+' : ''}{(ratio * 100).toFixed(2)}%)
+                    </span>
+                  </div>
+                  <button
+                    className="rounded-lg border border-slate-700 px-3 py-1 text-xs text-slate-400 transition hover:border-red-400 hover:text-red-400 disabled:opacity-50"
+                    disabled={saving}
+                    onClick={() => handleDelete(lot.id)}
+                    type="button"
+                  >
+                    刪除
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
