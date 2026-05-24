@@ -614,6 +614,7 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 rate_limit()
                 _t = yf.Ticker(symbol)
                 _is = _t.income_stmt
+                if _is is not None and not _is.empty:
                     _total_rev = None
                     _operating_income = None
                     _net_income = None
