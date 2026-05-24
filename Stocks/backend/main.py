@@ -643,8 +643,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         elif _net_income is not None and _teps and _teps != 0 and _net_income != 0:
                             result["revenuePerShare"] = result["totalRevenue"] * _teps / _net_income
                     
-                    if result.get("profitMargins") is None and _teps and result.get("revenuePerShare") and result["revenuePerShare"] != 0:
-                        result["profitMargins"] = _teps / result["revenuePerShare"]
+                    if result.get("profitMargins") is None:
+                        if _net_income is not None and result.get("totalRevenue") and result["totalRevenue"] != 0:
+                            result["profitMargins"] = round(_net_income / result["totalRevenue"], 4)
+                        elif _teps and result.get("revenuePerShare") and result["revenuePerShare"] != 0:
+                            result["profitMargins"] = _teps / result["revenuePerShare"]
 
                 _bs = _t.balance_sheet
                 if _bs is not None and not _bs.empty and result.get("debtToEquity") is None:
@@ -668,6 +671,16 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                             _total_equity = _vals[0]
                     if _total_debt is not None and _total_equity is not None and _total_equity != 0:
                         result["debtToEquity"] = round(_total_debt / _total_equity, 4)
+
+                if result.get("revenuePerShare") is None and result.get("totalRevenue") is not None:
+                    try:
+                        _shares_series = _t.get_shares_full()
+                        if _shares_series is not None and not _shares_series.empty:
+                            _shares_out = float(_shares_series.iloc[-1])
+                            if _shares_out > 0:
+                                result["revenuePerShare"] = result["totalRevenue"] / _shares_out
+                    except Exception:
+                        pass
 
                 try:
                     _divs = _t.dividends

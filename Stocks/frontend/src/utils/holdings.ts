@@ -26,6 +26,14 @@ function holdingsCollectionRef(uid: string) {
   return collection(db, 'users', uid, 'holdings')
 }
 
+function toMs(ts: unknown): number {
+  if (!ts) return 0
+  if (typeof ts === 'object' && ts !== null && 'toMillis' in ts) {
+    return (ts as { toMillis: () => number }).toMillis()
+  }
+  return new Date(String(ts)).getTime()
+}
+
 export function getUnitLabel(_symbol: string): 'share' {
   return 'share'
 }
@@ -36,33 +44,17 @@ export function getShareCount(position: Pick<HoldingPosition, 'quantity' | 'unit
 
 export async function loadHoldings(uid: string): Promise<HoldingDoc[]> {
   const snapshot = await getDocs(holdingsCollectionRef(uid))
-  const docs = snapshot.docs.map((item) => {
+  const docs: HoldingDoc[] = snapshot.docs.map((item) => {
     const data = item.data() as HoldingPosition
     return { id: item.id, ...data }
   })
-  docs.sort((a, b) => {
-    const ta = 'toMillis' in a.updatedAt ? a.updatedAt.toMillis() : new Date(a.updatedAt as unknown as string).getTime()
-    const tb = 'toMillis' in b.updatedAt ? b.updatedAt.toMillis() : new Date(b.updatedAt as unknown as string).getTime()
-    return tb - ta
-  })
+  docs.sort((a, b) => toMs(b.updatedAt) - toMs(a.updatedAt))
   return docs
 }
 
 export async function loadSymbolHoldings(uid: string, symbol: string): Promise<HoldingDoc[]> {
-  const snapshot = await getDocs(holdingsCollectionRef(uid))
-  const docs: HoldingDoc[] = []
-  for (const item of snapshot.docs) {
-    const data = item.data() as HoldingPosition
-    if (data.symbol === symbol) {
-      docs.push({ id: item.id, ...data })
-    }
-  }
-  docs.sort((a, b) => {
-    const ta = 'toMillis' in a.updatedAt ? a.updatedAt.toMillis() : new Date(a.updatedAt as unknown as string).getTime()
-    const tb = 'toMillis' in b.updatedAt ? b.updatedAt.toMillis() : new Date(b.updatedAt as unknown as string).getTime()
-    return tb - ta
-  })
-  return docs
+  const all = await loadHoldings(uid)
+  return all.filter((d) => d.symbol === symbol)
 }
 
 export async function saveHolding(uid: string, position: HoldingPosition): Promise<string> {
