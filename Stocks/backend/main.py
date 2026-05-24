@@ -1582,13 +1582,15 @@ def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d
 
         chart_data = []
         for i in range(len(timestamps)):
+            if i >= len(opens) or opens[i] is None or i >= len(closes) or closes[i] is None:
+                continue
             dt = datetime.fromtimestamp(timestamps[i], tz=timezone.utc)
             chart_data.append({
                 "date": dt.strftime("%Y-%m-%d %H:%M"),
-                "open": round(float(opens[i]), 2) if i < len(opens) and opens[i] is not None else 0,
+                "open": round(float(opens[i]), 2),
                 "high": round(float(highs[i]), 2) if i < len(highs) and highs[i] is not None else 0,
                 "low": round(float(lows[i]), 2) if i < len(lows) and lows[i] is not None else 0,
-                "close": round(float(closes[i]), 2) if i < len(closes) and closes[i] is not None else 0,
+                "close": round(float(closes[i]), 2),
                 "volume": int(volumes[i]) if i < len(volumes) and volumes[i] is not None else 0,
             })
         return chart_data
