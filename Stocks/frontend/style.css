@@ -17,7 +17,11 @@ footer {
   padding-right: 16px;
   flex-direction: column;
 }
-.version{
+.under{
+  justify-content: center;
+  display: flex;
+}
+.version ul{
   list-style: none;
 }
 .about{
