@@ -273,7 +273,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
 
           {savedAt && (
             <div className="mt-4 text-xs text-slate-500">
-              上次更新：{savedAt.toDate().toLocaleString('zh-TW')}
+              上次更新：{typeof savedAt === 'object' && 'toDate' in savedAt ? savedAt.toDate().toLocaleString('zh-TW') : new Date(savedAt as string).toLocaleString('zh-TW')}
             </div>
           )}
           {loadingHolding && <div className="mt-3 text-sm text-slate-400">讀取持股紀錄中...</div>}
