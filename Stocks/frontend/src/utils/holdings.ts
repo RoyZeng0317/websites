@@ -4,10 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  orderBy,
-  query,
   Timestamp,
-  where,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -38,22 +35,33 @@ export function getShareCount(position: Pick<HoldingPosition, 'quantity' | 'unit
 }
 
 export async function loadHoldings(uid: string): Promise<HoldingDoc[]> {
-  const snapshot = await getDocs(query(holdingsCollectionRef(uid), orderBy('updatedAt', 'desc')))
-  return snapshot.docs.map((item) => {
-    const data = item.data() as HoldingPosition
-    return { id: item.id, ...data }
-  })
-}
-
-export async function loadSymbolHoldings(uid: string, symbol: string): Promise<HoldingDoc[]> {
-  const snapshot = await getDocs(
-    query(holdingsCollectionRef(uid), where('symbol', '==', symbol)),
-  )
+  const snapshot = await getDocs(holdingsCollectionRef(uid))
   const docs = snapshot.docs.map((item) => {
     const data = item.data() as HoldingPosition
     return { id: item.id, ...data }
   })
-  docs.sort((a, b) => b.updatedAt.toMillis() - a.updatedAt.toMillis())
+  docs.sort((a, b) => {
+    const ta = 'toMillis' in a.updatedAt ? a.updatedAt.toMillis() : new Date(a.updatedAt as unknown as string).getTime()
+    const tb = 'toMillis' in b.updatedAt ? b.updatedAt.toMillis() : new Date(b.updatedAt as unknown as string).getTime()
+    return tb - ta
+  })
+  return docs
+}
+
+export async function loadSymbolHoldings(uid: string, symbol: string): Promise<HoldingDoc[]> {
+  const snapshot = await getDocs(holdingsCollectionRef(uid))
+  const docs: HoldingDoc[] = []
+  for (const item of snapshot.docs) {
+    const data = item.data() as HoldingPosition
+    if (data.symbol === symbol) {
+      docs.push({ id: item.id, ...data })
+    }
+  }
+  docs.sort((a, b) => {
+    const ta = 'toMillis' in a.updatedAt ? a.updatedAt.toMillis() : new Date(a.updatedAt as unknown as string).getTime()
+    const tb = 'toMillis' in b.updatedAt ? b.updatedAt.toMillis() : new Date(b.updatedAt as unknown as string).getTime()
+    return tb - ta
+  })
   return docs
 }
 
