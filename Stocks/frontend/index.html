@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <link
       rel="icon"
       type="image/svg+xml"
@@ -13,7 +14,7 @@
   </head>
   <body class="bg-slate-950 text-slate-100">
     <div id="root"></div>
-    <div class="about">
+    <div class="version">
       <span>版本資訊</span>
       <ul>
         <li><a href="" onclick="about(event)">關於</a></li>
@@ -53,5 +54,14 @@
       &copy;<a href="https://royzeng0317.github.io/HTML/Self-Website/zh-tw/index.html" class="link">Roy Zeng</a>
     </footer>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      function about(event){
+        event.preventDefault()
+        const el = document.querySelector('.about')
+        if (el) {
+          el.style.display = el.style.display === 'none' ? 'block' : 'none'
+        }
+      }
+    </script>
   </body>
 </html>
