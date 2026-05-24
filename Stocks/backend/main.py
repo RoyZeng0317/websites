@@ -808,7 +808,7 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         if isinstance(_rv, dict):
                             _rv = _rv.get("raw", _rv)
                         _ts_map[_t] = _rv
-                                        break
+                        break
                         _ts_rev = _ts_map.get("annualTotalRevenue")
                         _ts_ni = _ts_map.get("annualNetIncome")
                         _ts_oi = _ts_map.get("annualOperatingIncome")
