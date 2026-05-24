@@ -15,6 +15,7 @@ body {
 footer {
   padding-left: 16px;
   padding-right: 16px;
+  flex-direction: column;
 }
 .about{
   display: none;
