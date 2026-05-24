@@ -17,6 +17,9 @@ footer {
   padding-right: 16px;
   flex-direction: column;
 }
+.version{
+  list-style: none;
+}
 .about{
   display: none;
 }
