@@ -7,6 +7,7 @@ import {
   orderBy,
   query,
   setDoc,
+  Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -17,7 +18,7 @@ export interface HoldingPosition {
   quantity: number
   symbol: string
   unitLabel: 'share'
-  updatedAt: string
+  updatedAt: Timestamp
 }
 
 function holdingDocRef(uid: string, symbol: string) {

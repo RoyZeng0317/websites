@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { onAuthStateChanged, type User } from 'firebase/auth'
+import { Timestamp } from 'firebase/firestore'
 import { TrendingDown, TrendingUp, Wallet } from 'lucide-react'
 import { createPriceWebSocket, formatCurrency } from '../api/stockApi'
 import { auth } from '../firebase'
@@ -40,7 +41,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   const [user, setUser] = useState<User | null>(null)
   const [buyPrice, setBuyPrice] = useState('')
   const [quantity, setQuantity] = useState('')
-  const [savedAt, setSavedAt] = useState('')
+  const [savedAt, setSavedAt] = useState<Timestamp | null>(null)
   const [notice, setNotice] = useState('')
   const [livePrice, setLivePrice] = useState(currentPrice)
   const [saving, setSaving] = useState(false)
@@ -76,7 +77,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
       if (!user) {
         setBuyPrice('')
         setQuantity('')
-        setSavedAt('')
+        setSavedAt(null)
         return
       }
 
@@ -88,7 +89,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
         if (!holding) {
           setBuyPrice('')
           setQuantity('')
-          setSavedAt('')
+          setSavedAt(null)
           return
         }
 
@@ -153,7 +154,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
       return
     }
 
-    const updatedAt = new Date().toISOString()
+    const updatedAt = Timestamp.fromDate(new Date())
     setSaving(true)
     setNotice('')
 
@@ -190,7 +191,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
       await deleteHolding(activeUser.uid, symbol)
       setBuyPrice('')
       setQuantity('')
-      setSavedAt('')
+      setSavedAt(null)
       setNotice('持股紀錄已從你的 Google 帳號資料中刪除。')
     } catch {
       setNotice('刪除失敗，請稍後再試。')
@@ -272,7 +273,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
 
           {savedAt && (
             <div className="mt-4 text-xs text-slate-500">
-              上次更新：{new Date(savedAt).toLocaleString('zh-TW')}
+              上次更新：{savedAt.toDate().toLocaleString('zh-TW')}
             </div>
           )}
           {loadingHolding && <div className="mt-3 text-sm text-slate-400">讀取持股紀錄中...</div>}
