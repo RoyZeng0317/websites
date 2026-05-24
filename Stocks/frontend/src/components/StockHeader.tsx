@@ -27,7 +27,7 @@ export default function StockHeader({ info }: Props) {
   const downColor = 'text-red-400'
   const upBg = 'bg-emerald-400/10'
   const downBg = 'bg-red-400/10'
-  const isPositive = 0;
+  const isPositive = change >= 0
   const colorClass = isPositive ? upColor : downColor
   const bgClass = isPositive ? upBg : downBg
 
