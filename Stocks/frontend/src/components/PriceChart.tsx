@@ -62,8 +62,8 @@ export default function PriceChart({ symbol }: Props) {
   const startPrice = data[0]?.close ?? 0
   const endPrice = data[data.length - 1]?.close ?? 0
   const isUp = endPrice >= startPrice
-  const upColor = '#34d399'
-  const downColor = '#f87171'
+  const upColor = '#f87171'
+  const downColor = '#34d399'
   const color = isUp ? upColor : downColor
 
   return (

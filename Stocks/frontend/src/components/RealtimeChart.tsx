@@ -134,8 +134,8 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
   const refPrice = (previousClose && previousClose > 0) ? previousClose : last
   const showPrice = last > 0
   const isUp = last >= refPrice
-  const upColor = '#34d399'
-  const downColor = '#f87171'
+  const upColor = '#f87171'
+  const downColor = '#34d399'
   const color = showPrice ? (isUp ? upColor : downColor) : '#64748b'
   const yMin = hasData ? Math.min(...prices) : (showPrice ? Math.min(last, refPrice) - 5 : 0)
   const yMax = hasData ? Math.max(...prices) : (showPrice ? Math.max(last, refPrice) + 5 : 100)

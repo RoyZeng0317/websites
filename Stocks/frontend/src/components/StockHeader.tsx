@@ -23,10 +23,10 @@ export default function StockHeader({ info }: Props) {
   const price = rt?.price ?? info.currentPrice
   const change = rt?.change ?? info.change
   const changePct = rt?.changePercent ?? info.changePercent
-  const upColor = 'text-emerald-400'
-  const downColor = 'text-red-400'
-  const upBg = 'bg-emerald-400/10'
-  const downBg = 'bg-red-400/10'
+  const upColor = 'text-red-400'
+  const downColor = 'text-emerald-400'
+  const upBg = 'bg-red-400/10'
+  const downBg = 'bg-emerald-400/10'
   const isPositive = change >= 0
   const colorClass = isPositive ? upColor : downColor
   const bgClass = isPositive ? upBg : downBg

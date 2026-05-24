@@ -116,8 +116,8 @@ export default function KlineChart({ symbol }: Props) {
       },
     })
 
-    const upColor = '#34d399'
-    const downColor = '#f87171'
+    const upColor = '#f87171'
+    const downColor = '#34d399'
 
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
       upColor,

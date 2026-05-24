@@ -154,16 +154,16 @@ export default function PortfolioOverview() {
                   key={group.currency}
                   className={`rounded-2xl border px-4 py-4 ${
                     positive
-                      ? 'border-emerald-500/20 bg-emerald-500/10'
-                      : 'border-rose-500/20 bg-rose-500/10'
+                      ? 'border-red-500/20 bg-red-500/10'
+                      : 'border-emerald-500/20 bg-emerald-500/10'
                   }`}
                 >
                   <div className="text-xs text-slate-400">{group.currency} 未實現損益</div>
-                  <div className={`mt-1 text-lg font-bold ${positive ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  <div className={`mt-1 text-lg font-bold ${positive ? 'text-red-400' : 'text-emerald-400'}`}>
                     {positive ? '+' : ''}
                     {formatCurrency(profit, group.currency)}
                   </div>
-                  <div className={`text-sm ${positive ? 'text-emerald-300' : 'text-rose-300'}`}>
+                  <div className={`text-sm ${positive ? 'text-red-300' : 'text-emerald-300'}`}>
                     {positive ? '+' : ''}
                     {(ratio * 100).toFixed(2)}%
                   </div>
@@ -203,7 +203,7 @@ export default function PortfolioOverview() {
                     <InlineMetric
                       label="報酬"
                       value={`${rowPositive ? '+' : ''}${formatCurrency(profit, item.currency)} (${rowPositive ? '+' : ''}${(ratio * 100).toFixed(2)}%)`}
-                      valueClassName={rowPositive ? 'text-emerald-400' : 'text-rose-400'}
+                      valueClassName={rowPositive ? 'text-red-400' : 'text-emerald-400'}
                     />
                   </div>
                 </Link>

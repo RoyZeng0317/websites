@@ -201,8 +201,8 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   }
 
   const isProfit = (metrics?.profit ?? 0) >= 0
-  const profitTextClass = isProfit ? 'text-emerald-400' : 'text-rose-400'
-  const profitBgClass = isProfit ? 'bg-emerald-500/10' : 'bg-rose-500/10'
+  const profitTextClass = isProfit ? 'text-red-400' : 'text-emerald-400'
+  const profitBgClass = isProfit ? 'bg-red-500/10' : 'bg-emerald-500/10'
 
   return (
     <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
