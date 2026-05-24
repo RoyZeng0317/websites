@@ -47,16 +47,19 @@ export async function loadHoldings(uid: string): Promise<HoldingDoc[]> {
 
 export async function loadSymbolHoldings(uid: string, symbol: string): Promise<HoldingDoc[]> {
   const snapshot = await getDocs(
-    query(holdingsCollectionRef(uid), where('symbol', '==', symbol), orderBy('updatedAt', 'desc')),
+    query(holdingsCollectionRef(uid), where('symbol', '==', symbol)),
   )
-  return snapshot.docs.map((item) => {
+  const docs = snapshot.docs.map((item) => {
     const data = item.data() as HoldingPosition
     return { id: item.id, ...data }
   })
+  docs.sort((a, b) => b.updatedAt.toMillis() - a.updatedAt.toMillis())
+  return docs
 }
 
-export async function saveHolding(uid: string, position: HoldingPosition) {
-  await addDoc(holdingsCollectionRef(uid), position)
+export async function saveHolding(uid: string, position: HoldingPosition): Promise<string> {
+  const docRef = await addDoc(holdingsCollectionRef(uid), position)
+  return docRef.id
 }
 
 export async function deleteHolding(uid: string, docId: string) {

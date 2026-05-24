@@ -148,17 +148,8 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
         unitLabel,
         updatedAt,
       })
-      const newLot: HoldingDoc = {
-        id: '',
-        buyPrice: parsedPrice,
-        companyName,
-        currency,
-        quantity: parsedQuantity,
-        symbol,
-        unitLabel,
-        updatedAt,
-      }
-      setLots((prev) => [newLot, ...prev])
+      const data = await loadSymbolHoldings(activeUser.uid, symbol)
+      setLots(data)
       setBuyPrice('')
       setQuantity('')
       setNotice(`已新增買入紀錄：${parsedPrice} x ${parsedQuantity} 股`)
