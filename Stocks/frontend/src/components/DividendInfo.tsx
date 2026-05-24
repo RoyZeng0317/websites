@@ -13,11 +13,13 @@ export default function DividendInfo({ symbol, meetingUrl }: Props) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let ignore = false
     setLoading(true)
+    const timer = setTimeout(() => { if (!ignore) { setData(null); setLoading(false) } }, 10000)
     getDividends(symbol)
-      .then(setData)
-      .catch(() => setData(null))
-      .finally(() => setLoading(false))
+      .then((d) => { if (!ignore) { setData(d); clearTimeout(timer); setLoading(false) } })
+      .catch(() => { if (!ignore) { setData(null); clearTimeout(timer); setLoading(false) } })
+    return () => { ignore = true; clearTimeout(timer) }
   }, [symbol])
 
   if (loading) {
