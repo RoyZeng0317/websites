@@ -1720,61 +1720,84 @@ async def get_institutional(symbol: str):
     _date_strs.sort()
 
     _results = {}
+    def _parse_int(v):
+        try:
+            return int(str(v).replace(",", ""))
+        except (ValueError, TypeError):
+            return 0
+
     def _fetch_institutional(_ds):
         try:
             rate_limit()
-            _u = f"https://www.twse.com.tw/fund/T86?response=json&date={_ds}&stockNo={_sn}"
-            _r = requests.get(_u, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+            # selectType=ALL returns ALL stocks (no per-stock filter works on TWSE T86)
+            _u = f"https://www.twse.com.tw/fund/T86?response=json&date={_ds}&selectType=ALL"
+            _r = requests.get(_u, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
             if _r.status_code != 200:
                 return None
             _j = _r.json()
             if _j.get("stat") != "OK":
                 return None
-            return _j.get("data", [])
+            return {"date": _ds, "data": _j.get("data", [])}
         except Exception:
             return None
 
     try:
-        with ThreadPoolExecutor(max_workers=4) as _ex:
-            _futs = {_ex.submit(_fetch_institutional, _ds): _ds for _ds in _date_strs}
+        with ThreadPoolExecutor(max_workers=3) as _ex:
+            _futs = {_ex.submit(_fetch_institutional, _ds): _ds for _ds in _date_strs[-10:]}  # last 10 trading days only
             for _f in as_completed(_futs):
                 _ds = _futs[_f]
                 try:
-                    _rows = _f.result()
-                    if _rows and len(_rows) >= 1:
-                        _row = _rows[0]
-                        if len(_row) >= 22:
-                            # TWSE T86 returns: [date, stock_no, stock_name,
-                            #   foreign_buy, foreign_sell, foreign_net,
-                            #   foreign_self_buy, foreign_self_sell, foreign_self_net,
-                            #   it_buy, it_sell, it_net,
-                            #   dealer_self_buy, dealer_self_sell, dealer_self_net,
-                            #   dealer_hedge_buy, dealer_hedge_sell, dealer_hedge_net,
-                            #   dealer_total_buy, dealer_total_sell, dealer_total_net,
-                            #   total_buy, total_sell, total_net]
-                            _date_raw = _row[0]
-                            _parts = _date_raw.split("/")
-                            _y = str(int(_parts[0]) + 1911) if len(_parts[0]) == 3 else _parts[0]
-                            _date_fmt = f"{_y}-{_parts[1]}-{_parts[2]}"
+                    _result = _f.result()
+                    if not _result:
+                        continue
+                    _rows = _result.get("data", [])
+                    if not _rows:
+                        continue
+                    for _row in _rows:
+                        if len(_row) >= 19 and str(_row[0]).strip() == _sn:
+                            # TWSE T86 fields (19 fields, indices 0-18):
+                            # 0:stock_code 1:stock_name
+                            # 2:foreign_buy_excl_prop 3:foreign_sell_excl_prop 4:foreign_net_excl_prop
+                            # 5:foreign_prop_buy 6:foreign_prop_sell 7:foreign_prop_net
+                            # 8:it_buy 9:it_sell 10:it_net
+                            # 11:dealer_net_combined
+                            # 12:dealer_self_buy 13:dealer_self_sell 14:dealer_self_net
+                            # 15:dealer_hedge_buy 16:dealer_hedge_sell 17:dealer_hedge_net
+                            # 18:total_net
+                            _f_buy = _parse_int(_row[2]) + _parse_int(_row[5])
+                            _f_sell = _parse_int(_row[3]) + _parse_int(_row[6])
+                            _it_buy = _parse_int(_row[8])
+                            _it_sell = _parse_int(_row[9])
+                            _d_buy = _parse_int(_row[12]) + _parse_int(_row[15])
+                            _d_sell = _parse_int(_row[13]) + _parse_int(_row[16])
+                            _total_buy = _f_buy + _it_buy + _d_buy
+                            _total_sell = _f_sell + _it_sell + _d_sell
                             _results[_ds] = {
-                                "date": _date_fmt,
-                                "foreignBuy": int(_row[3].replace(",", "")),
-                                "foreignSell": int(_row[4].replace(",", "")),
-                                "foreignNet": int(_row[5].replace(",", "")),
-                                "itBuy": int(_row[9].replace(",", "")),
-                                "itSell": int(_row[10].replace(",", "")),
-                                "itNet": int(_row[11].replace(",", "")),
-                                "dealerBuy": int(_row[18].replace(",", "")),
-                                "dealerSell": int(_row[19].replace(",", "")),
-                                "dealerNet": int(_row[20].replace(",", "")),
-                                "totalBuy": int(_row[21].replace(",", "")),
-                                "totalSell": int(_row[22].replace(",", "")),
-                                "totalNet": int(_row[23].replace(",", "")),
+                                "foreignBuy": _f_buy,
+                                "foreignSell": _f_sell,
+                                "foreignNet": _parse_int(_row[4]) + _parse_int(_row[7]),
+                                "itBuy": _it_buy,
+                                "itSell": _it_sell,
+                                "itNet": _parse_int(_row[10]),
+                                "dealerBuy": _d_buy,
+                                "dealerSell": _d_sell,
+                                "dealerNet": _parse_int(_row[11]),
+                                "totalBuy": _total_buy,
+                                "totalSell": _total_sell,
+                                "totalNet": _total_buy - _total_sell,
                             }
+                            break
                 except Exception:
                     pass
 
-        _data = [_results[k] for k in sorted(_results.keys()) if k in _results]
+        _data = []
+        for _k in sorted(_results.keys()):
+            _r = _results[_k].copy()
+            _y = _k[:4]
+            _m = _k[4:6]
+            _d = _k[6:8]
+            _r["date"] = f"{_y}-{_m}-{_d}"
+            _data.append(_r)
         return {"symbol": symbol, "data": _data}
     except Exception:
         return {"symbol": symbol, "data": []}
