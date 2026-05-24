@@ -779,6 +779,92 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             finally:
                 socket.setdefaulttimeout(_old_to2)
 
+        # Yahoo timeseries API fallback (different endpoint, works for some stocks)
+        if result and any(result.get(k) is None for k in ["totalRevenue", "profitMargins", "operatingMargins"]):
+            _old_to3 = socket.getdefaulttimeout()
+            socket.setdefaulttimeout(15)
+            try:
+                _ts_types = "annualTotalRevenue,annualOperatingIncome,annualNetIncome"
+                for _ts_host in ["query1.finance.yahoo.com", "query2.finance.yahoo.com"]:
+                    _ts_url = f"https://{_ts_host}/ws/fundamentals-timeseries/v1/finance/timeseries/{urllib.parse.quote(symbol)}?symbol={urllib.parse.quote(symbol)}&lang=en-US&region=US&type={_ts_types}"
+                    try:
+                        rate_limit()
+                        _ts_rsp = requests.get(_ts_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                        if _ts_rsp.status_code != 200:
+                            continue
+                        _ts_json = _ts_rsp.json()
+                        _ts_result = _ts_json.get("timeseries", {}).get("result", [])
+                        if not _ts_result:
+                            continue
+                        _ts_map = {}
+                        for _r in _ts_result:
+                            _t = _r.get("type", "")
+                            _ts_data = _r.get(_t, {})
+                            if isinstance(_ts_data, list) and _ts_data:
+                                for _entry in _ts_data:
+                                    if isinstance(_entry, dict) and "reportedValue" in _entry:
+                                        _ts_map[_t] = _entry["reportedValue"]
+                                        break
+                        _ts_rev = _ts_map.get("annualTotalRevenue")
+                        _ts_ni = _ts_map.get("annualNetIncome")
+                        _ts_oi = _ts_map.get("annualOperatingIncome")
+                        if _ts_rev and result.get("totalRevenue") is None:
+                            result["totalRevenue"] = float(_ts_rev)
+                        if _ts_ni and _ts_rev and result.get("profitMargins") is None and float(_ts_rev) != 0:
+                            result["profitMargins"] = round(float(_ts_ni) / float(_ts_rev), 4)
+                        if _ts_oi and _ts_rev and result.get("operatingMargins") is None and float(_ts_rev) != 0:
+                            result["operatingMargins"] = round(float(_ts_oi) / float(_ts_rev), 4)
+                        if _ts_rev and result.get("totalRevenue"):
+                            if result.get("revenuePerShare") is None and current_price:
+                                mc = result.get("marketCap")
+                                if mc and mc > 0:
+                                    result["revenuePerShare"] = float(_ts_rev) / (mc / current_price)
+                            break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
+            finally:
+                socket.setdefaulttimeout(_old_to3)
+
+        # TWSE open data fallback for Taiwan stocks (income statement & financial ratios)
+        if (symbol.endswith(".TW") or symbol.endswith(".TWO")) and result and any(
+            result.get(k) is None for k in ["totalRevenue", "profitMargins", "operatingMargins"]
+        ):
+            try:
+                for _tw_url in [
+                    f"https://openapi.twse.com.tw/v1/opendata/t187ap04_L",
+                    f"https://www.twse.com.tw/opendata/t187ap04_L",
+                ]:
+                    try:
+                        _tw_rsp = requests.get(_tw_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+                        if _tw_rsp.status_code != 200:
+                            continue
+                        _tw_data = _tw_rsp.json()
+                        if not isinstance(_tw_data, list):
+                            continue
+                        for _row in _tw_data:
+                            if str(_row.get("公司代號", "")) == stock_no:
+                                _rev = _safe_float(_row.get("營業收入合計") or _row.get("營業收入"))
+                                _ni = _safe_float(_row.get("本期淨利") or _row.get("繼續營業單位淨利"))
+                                _oi = _safe_float(_row.get("營業利益"))
+                                if _rev and result.get("totalRevenue") is None:
+                                    result["totalRevenue"] = _rev
+                                if _ni and _rev and result.get("profitMargins") is None and _rev != 0:
+                                    result["profitMargins"] = round(_ni / _rev, 4)
+                                if _oi and _rev and result.get("operatingMargins") is None and _rev != 0:
+                                    result["operatingMargins"] = round(_oi / _rev, 4)
+                                if result.get("totalRevenue"):
+                                    if result.get("revenuePerShare") is None and current_price:
+                                        mc = result.get("marketCap")
+                                        if mc and mc > 0:
+                                            result["revenuePerShare"] = _rev / (mc / current_price)
+                                break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
+
     if result.get("forwardPE") and result.get("forwardEps") is None and current_price:
         result["forwardEps"] = current_price / result["forwardPE"]
 
