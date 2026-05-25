@@ -2036,11 +2036,13 @@ async def get_price(symbol: str):
 @app.websocket("/ws/price/{symbol}")
 async def websocket_price(websocket: WebSocket, symbol: str):
     await websocket.accept()
+    _last_price = 0
     while True:
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
         try:
             rt = _fetch_realtime_price(symbol)
-            if rt["price"] > 0:
+            if rt["price"] > 0 and rt["price"] != _last_price:
+                _last_price = rt["price"]
                 await websocket.send_json({
                     "symbol": symbol,
                     "price": rt["price"],
