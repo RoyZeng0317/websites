@@ -1,4 +1,4 @@
-const API_BASE = (window.API_URL || 'http://localhost:5000') + '/api';
+const API_BASE = (typeof __API_URL__ !== 'undefined' ? __API_URL__ : 'http://localhost:5000') + '/api';
 
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
