@@ -53,6 +53,8 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
   const [data, setData] = useState<RTDataPoint[]>(() => loadFromCache(symbol) || [])
   const [loading, setLoading] = useState(() => loadFromCache(symbol) ? false : true)
   const wsRef = useRef<WebSocket | null>(null)
+  const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const mountedRef = useRef(true)
   const isTw = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
 
   const timeTicks = isTw
@@ -62,14 +64,61 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
   const domainMin = isTw ? '09:00' : '09:30'
   const domainMax = isTw ? '14:30' : '16:00'
 
+  function connectWs() {
+    if (wsRef.current?.readyState === WebSocket.OPEN || wsRef.current?.readyState === WebSocket.CONNECTING) return
+
+    wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
+      setData((prev) => {
+        const t = new Date(rt.timestamp).toLocaleTimeString('zh-TW', {
+          hour: '2-digit', minute: '2-digit',
+        })
+        let next: RTDataPoint[]
+        if (prev.length > 0 && prev[prev.length - 1].time === t) {
+          next = [...prev]
+          next[next.length - 1] = { time: t, price: rt.price }
+        } else {
+          next = [...prev, { time: t, price: rt.price }]
+        }
+        saveToCache(symbol, next)
+        return next
+      })
+    })
+
+    wsRef.current.onclose = () => {
+      if (mountedRef.current) {
+        reconnectTimer.current = setTimeout(connectWs, 5000)
+      }
+    }
+    wsRef.current.onerror = () => {
+      wsRef.current?.close()
+    }
+  }
+
   useEffect(() => {
+    mountedRef.current = true
     const cached = loadFromCache(symbol)
     if (cached) {
       setData(cached)
       setLoading(false)
     }
 
+    // fetch with fallback: 1d first, then 5d if empty
     getChart(symbol, '1d', '5m')
+      .then((res) => {
+        let points: RTDataPoint[] = []
+        const seen = new Set<string>()
+        for (const d of res.data) {
+          const t = formatTime(d.date)
+          if (t >= domainMin && t <= domainMax && !seen.has(t)) {
+            seen.add(t)
+            points.push({ time: t, price: d.close })
+          }
+        }
+        if (points.length < 2) {
+          return getChart(symbol, '5d', '5m')
+        }
+        return Promise.resolve(res)
+      })
       .then((res) => {
         const points: RTDataPoint[] = []
         const seen = new Set<string>()
@@ -94,25 +143,12 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
       .catch(() => {})
       .finally(() => setLoading(false))
 
-    wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
-      setData((prev) => {
-        const t = new Date(rt.timestamp).toLocaleTimeString('zh-TW', {
-          hour: '2-digit', minute: '2-digit',
-        })
-        let next: RTDataPoint[]
-        if (prev.length > 0 && prev[prev.length - 1].time === t) {
-          next = [...prev]
-          next[next.length - 1] = { time: t, price: rt.price }
-        } else {
-          next = [...prev, { time: t, price: rt.price }]
-        }
-        saveToCache(symbol, next)
-        return next
-      })
-    })
+    connectWs()
 
     return () => {
+      mountedRef.current = false
       wsRef.current?.close()
+      if (reconnectTimer.current) clearTimeout(reconnectTimer.current)
     }
   }, [symbol])
 
