@@ -1,15 +1,23 @@
 import json
 import os
+import io
+import tempfile
 import logging
 
 import firebase_admin
 from firebase_admin import credentials, firestore
 from google.cloud.firestore import FieldFilter
+import boto3
+from botocore.config import Config as BotoConfig
 
 from config import (
     FIREBASE_SERVICE_ACCOUNT_PATH,
     FIREBASE_SERVICE_ACCOUNT_JSON,
     UPLOAD_FOLDER,
+    B2_KEY_ID,
+    B2_APPLICATION_KEY,
+    B2_BUCKET_NAME,
+    B2_ENDPOINT,
 )
 
 logger = logging.getLogger(__name__)
@@ -17,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 class FirebaseDB:
     _initialized = False
+    _b2_client = None
 
     def _ensure_initialized(self):
         if self._initialized:
@@ -52,6 +61,16 @@ class FirebaseDB:
 
         firebase_admin.initialize_app(cred)
 
+        if B2_KEY_ID and B2_APPLICATION_KEY and B2_BUCKET_NAME:
+            self._b2_client = boto3.client(
+                's3',
+                endpoint_url=B2_ENDPOINT,
+                aws_access_key_id=B2_KEY_ID,
+                aws_secret_access_key=B2_APPLICATION_KEY,
+                config=BotoConfig(signature_version='s3v4'),
+            )
+            logger.info(f'Backblaze B2 已連接: {B2_BUCKET_NAME}')
+
         self._initialized = True
         logger.info('Firebase 初始化成功')
         return True
@@ -60,17 +79,23 @@ class FirebaseDB:
         self._ensure_initialized()
         return firestore.client()
 
-    def _get_upload_dir(self):
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        return UPLOAD_FOLDER
-
     def insert_file(self, original_name, stored_name, file_size, mime_type, file_data):
-        upload_dir = self._get_upload_dir()
-        file_path = os.path.join(upload_dir, stored_name)
         file_data.seek(0)
-        with open(file_path, 'wb') as f:
-            f.write(file_data.getvalue())
-        logger.info(f'File stored locally: {file_path}')
+
+        if self._b2_client:
+            self._b2_client.put_object(
+                Bucket=B2_BUCKET_NAME,
+                Key=f'files/{stored_name}',
+                Body=file_data,
+                ContentType=mime_type,
+            )
+            logger.info(f'File stored in B2: files/{stored_name}')
+        else:
+            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+            file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+            with open(file_path, 'wb') as f:
+                f.write(file_data.getvalue())
+            logger.info(f'File stored locally: {file_path}')
 
         db = self._get_db()
         doc_ref = db.collection('files').document()
@@ -124,11 +149,26 @@ class FirebaseDB:
         })
 
     def get_file_stream(self, stored_name):
-        file_path = os.path.join(UPLOAD_FOLDER, stored_name)
-        if not os.path.exists(file_path):
-            logger.warning(f'File not found: {file_path}')
-            return None
-        return file_path
+        if self._b2_client:
+            try:
+                obj = self._b2_client.get_object(
+                    Bucket=B2_BUCKET_NAME,
+                    Key=f'files/{stored_name}',
+                )
+                data = obj['Body'].read()
+                temp = tempfile.NamedTemporaryFile(delete=False)
+                temp.write(data)
+                temp.close()
+                return temp.name
+            except Exception as e:
+                logger.warning(f'B2 download failed: {str(e)}')
+                return None
+        else:
+            file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+            if not os.path.exists(file_path):
+                logger.warning(f'File not found: {file_path}')
+                return None
+            return file_path
 
     def check_health(self):
         try:

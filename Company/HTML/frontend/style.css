@@ -1,0 +1,16 @@
+#qrcode-container {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+#qrcode-img {
+    width: 256px;
+    height: 256px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+body{
+    background: #1f1f1f;
+}
