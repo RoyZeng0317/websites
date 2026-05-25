@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/sign_in/style.css">
+        <title>簽到記錄 - 展星股份有限公司</title>
+    </head>
+    <body>
+        <div id="history-container">
+            <h2>簽到記錄</h2>
+            <div id="toolbar">
+                <button id="refresh-btn" onclick="loadHistory()">重新整理</button>
+                <a href="/sign_in" class="back-link">返回簽到</a>
+            </div>
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>員工編號</th>
+                        <th>姓名</th>
+                        <th>Token</th>
+                        <th>簽到時間</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body">
+                    <tr><td colspan="5">載入中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <footer>&copy; Author: Roy Zeng</footer>
+        <script>
+            async function loadHistory() {
+                const btn = document.getElementById('refresh-btn');
+                btn.textContent = '載入中...';
+                btn.disabled = true;
+
+                try {
+                    const res = await fetch('/api/history');
+                    const data = await res.json();
+                    const tbody = document.getElementById('history-body');
+                    tbody.innerHTML = '';
+
+                    if (data.status !== 'ok' || data.records.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5">暫無簽到記錄</td></tr>';
+                        return;
+                    }
+
+                    for (const r of data.records) {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${r.id}</td>
+                            <td>${r.user_id}</td>
+                            <td>${r.name}</td>
+                            <td class="token-cell">${r.token}</td>
+                            <td>${r.signin_time}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    }
+                } catch (e) {
+                    document.getElementById('history-body').innerHTML =
+                        '<tr><td colspan="5">連線錯誤：' + e.message + '</td></tr>';
+                } finally {
+                    btn.textContent = '重新整理';
+                    btn.disabled = false;
+                }
+            }
+
+            loadHistory();
+        </script>
+    </body>
+</html>

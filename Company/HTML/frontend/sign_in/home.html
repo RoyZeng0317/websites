@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/sign_in/style.css">
+        <title>QR Code 簽到 - 展星股份有限公司</title>
+    </head>
+    <body>
+        <div id="app">
+            <h1>QR Code 簽到</h1>
+            <div id="qrcode-container">
+                <img id="qrcode-img" src="/qrcode" alt="QR Code">
+                <p id="qrcode-status">請掃描 QR Code 進行簽到</p>
+            </div>
+        </div>
+        <footer>&copy; Author: Roy Zeng</footer>
+        <script>
+            const img = document.getElementById('qrcode-img');
+            function refreshQR() { img.src = '/qrcode?' + Date.now(); }
+            setInterval(refreshQR, 15000);
+        </script>
+    </body>
+</html>

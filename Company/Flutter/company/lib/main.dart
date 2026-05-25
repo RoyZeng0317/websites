@@ -33,27 +33,32 @@ class CheckInScreen extends StatefulWidget {
 
 class _CheckInScreenState extends State<CheckInScreen> {
   final MobileScannerController _scanner = MobileScannerController();
+  final TextEditingController _userIdCtrl = TextEditingController();
+
   String _serverHost = '';
-  String _statusText = '請掃描 QR Code 進行簽到';
+  String _statusText = '請輸入員工編號，再掃描 QR Code';
   bool _isProcessing = false;
   bool _initialized = false;
+  DateTime _lastScanTime = DateTime(2000);
 
   @override
   void initState() {
     super.initState();
-    _loadServerHost();
+    _loadPrefs();
   }
 
   @override
   void dispose() {
     _scanner.dispose();
+    _userIdCtrl.dispose();
     super.dispose();
   }
 
-  Future<void> _loadServerHost() async {
+  Future<void> _loadPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _serverHost = prefs.getString('serverHost') ?? '';
+      _userIdCtrl.text = prefs.getString('userId') ?? '';
       _initialized = true;
     });
     if (_serverHost.isEmpty) {
@@ -61,26 +66,28 @@ class _CheckInScreenState extends State<CheckInScreen> {
     }
   }
 
-  Future<void> _saveServerHost(String host) async {
+  Future<void> _savePrefs() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('serverHost', host);
+    await prefs.setString('serverHost', _serverHost);
+    await prefs.setString('userId', _userIdCtrl.text.trim());
   }
 
   void _onDetect(BarcodeCapture capture) {
     if (_isProcessing || !_initialized) return;
+
+    final now = DateTime.now();
+    if (now.difference(_lastScanTime).inSeconds < 3) return;
+
     for (final barcode in capture.barcodes) {
       if (barcode.rawValue != null) {
-        _processQRCode(barcode.rawValue!);
+        _processQRCode(barcode.rawValue!, now);
         break;
       }
     }
   }
 
-  Future<void> _processQRCode(String data) async {
-    setState(() {
-      _isProcessing = true;
-      _statusText = '簽到中...';
-    });
+  Future<void> _processQRCode(String data, DateTime scanTime) async {
+    _lastScanTime = scanTime;
 
     String? token;
     final uri = Uri.tryParse(data);
@@ -94,49 +101,63 @@ class _CheckInScreenState extends State<CheckInScreen> {
       return;
     }
 
+    final userId = _userIdCtrl.text.trim();
+    if (userId.isEmpty) {
+      _showResult('請先輸入員工編號', false);
+      return;
+    }
+
     if (_serverHost.isEmpty) {
       _showResult('請先設定伺服器位址', false);
       return;
     }
 
+    setState(() {
+      _isProcessing = true;
+      _statusText = '簽到中...';
+    });
+
     try {
-      final url = Uri.parse('http://$_serverHost/checkin?token=$token');
+      final url = Uri.parse(
+        'http://$_serverHost/checkin?token=$token&user_id=$userId',
+      );
       final response = await http.get(url);
       final body = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 200 && body['status'] == 'ok') {
         _showResult(body['message'] as String? ?? '簽到成功！', true);
+        await Future.delayed(const Duration(seconds: 3));
       } else {
         _showResult(body['message'] as String? ?? '簽到失敗', false);
       }
     } catch (e) {
       _showResult('連線錯誤：$e', false);
     }
+
+    setState(() => _isProcessing = false);
   }
 
   void _showResult(String message, bool success) {
-    setState(() {
-      _isProcessing = false;
-      _statusText = message;
-    });
-    _scanner.start();
+    setState(() => _statusText = message);
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         backgroundColor: success ? Colors.green : Colors.red,
+        duration: const Duration(seconds: 2),
       ),
     );
   }
 
   void _showServerDialog() {
-    final controller = TextEditingController(text: _serverHost);
+    final ctrl = TextEditingController(text: _serverHost);
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: const Text('伺服器設定'),
         content: TextField(
-          controller: controller,
+          controller: ctrl,
           decoration: const InputDecoration(
             labelText: '伺服器 IP:Port',
             hintText: '192.168.1.100:8000',
@@ -145,11 +166,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              final host = controller.text.trim();
+              final host = ctrl.text.trim();
               if (host.isNotEmpty) {
                 setState(() => _serverHost = host);
-                _saveServerHost(host);
-                Navigator.pop(context);
+                _savePrefs();
+                Navigator.pop(ctx);
               }
             },
             child: const Text('確認'),
@@ -174,10 +195,30 @@ class _CheckInScreenState extends State<CheckInScreen> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: TextField(
+              controller: _userIdCtrl,
+              decoration: const InputDecoration(
+                labelText: '員工編號',
+                hintText: '請輸入員工編號',
+                prefixIcon: Icon(Icons.badge),
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.number,
+              onChanged: (_) => _savePrefs(),
+            ),
+          ),
           Expanded(
-            child: MobileScanner(
-              controller: _scanner,
-              onDetect: _onDetect,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: MobileScanner(
+                  controller: _scanner,
+                  onDetect: _onDetect,
+                ),
+              ),
             ),
           ),
           Container(
@@ -191,18 +232,20 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
-                if (_isProcessing) const Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: LinearProgressIndicator(),
-                ),
+                if (_isProcessing)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: LinearProgressIndicator(),
+                  ),
                 if (_serverHost.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '伺服器: $_serverHost',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.grey),
                     ),
                   ),
               ],

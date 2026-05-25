@@ -1,12 +1,11 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO users(user_id, name) VALUES(
+INSERT INTO users(user_id, name) VALUES
     (624826, '曾少'),
     (147526, '王大明'),
     (286876, '胡二狗'),
     (973145, '劉一一');
-)

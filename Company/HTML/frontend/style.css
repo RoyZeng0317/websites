@@ -1,16 +1,73 @@
-#qrcode-container {
-    text-align: center;
-    margin: 50px auto;
-    padding: 20px;
-}
-
-#qrcode-img {
-    width: 256px;
-    height: 256px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-}
-
-body{
+body {
     background: #1f1f1f;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 80px 20px;
+    margin: 0;
+}
+
+h1 {
+    font-size: 36px;
+    color: #ffffff;
+}
+
+#controls {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#btn-open, #btn-close {
+    display: inline-block;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#btn-open {
+    background: #2a7d2a;
+    color: #ffffff;
+}
+
+#btn-open:hover {
+    background: #359935;
+}
+
+#btn-close {
+    background: #8b2a2a;
+    color: #ffffff;
+}
+
+#btn-close:hover {
+    background: #a53535;
+}
+
+#bottom-links {
+    margin-top: 30px;
+}
+
+.nav-link {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #3a3a3a;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.nav-link:hover {
+    background: #555;
+}
+
+footer {
+    margin-top: 60px;
+    color: #888;
+    font-size: 14px;
 }
