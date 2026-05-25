@@ -82,18 +82,10 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
     wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
       setData((prev) => {
         const t = new Date(rt.timestamp).toLocaleTimeString('zh-TW', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour: '2-digit', minute: '2-digit',
         })
-        const minKey = t.slice(0, 5)
-        let next: RTDataPoint[]
-        if (prev.length > 0 && prev[prev.length - 1].time === minKey) {
-          next = [...prev]
-          next[next.length - 1] = { time: minKey, price: rt.price }
-        } else if (prev.length > 0 && prev[prev.length - 1].time < minKey) {
-          next = [...prev, { time: minKey, price: rt.price }]
-        } else {
-          next = prev
-        }
+        if (prev.length > 0 && prev[prev.length - 1].time >= t) return prev
+        const next = [...prev, { time: t, price: rt.price }]
         saveToCache(symbol, next)
         return next
       })
