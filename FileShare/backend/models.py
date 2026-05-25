@@ -1,16 +1,15 @@
 import json
 import os
-import tempfile
 import logging
 
 import firebase_admin
-from firebase_admin import credentials, firestore, storage as fb_storage
+from firebase_admin import credentials, firestore
 from google.cloud.firestore import FieldFilter
 
 from config import (
     FIREBASE_SERVICE_ACCOUNT_PATH,
     FIREBASE_SERVICE_ACCOUNT_JSON,
-    FIREBASE_STORAGE_BUCKET,
+    UPLOAD_FOLDER,
 )
 
 logger = logging.getLogger(__name__)
@@ -51,15 +50,7 @@ class FirebaseDB:
                 'FIREBASE_SERVICE_ACCOUNT_JSON 或 FIREBASE_SERVICE_ACCOUNT_PATH'
             )
 
-        options = {}
-        if FIREBASE_STORAGE_BUCKET:
-            options['storageBucket'] = FIREBASE_STORAGE_BUCKET
-
-        firebase_admin.initialize_app(cred, options)
-
-        if FIREBASE_STORAGE_BUCKET:
-            _ = fb_storage.bucket()
-            logger.info(f'Firebase Storage 已連接: {FIREBASE_STORAGE_BUCKET}')
+        firebase_admin.initialize_app(cred)
 
         self._initialized = True
         logger.info('Firebase 初始化成功')
@@ -69,12 +60,17 @@ class FirebaseDB:
         self._ensure_initialized()
         return firestore.client()
 
+    def _get_upload_dir(self):
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        return UPLOAD_FOLDER
+
     def insert_file(self, original_name, stored_name, file_size, mime_type, file_data):
-        self._ensure_initialized()
-        bucket = fb_storage.bucket()
-        blob = bucket.blob(f'files/{stored_name}')
-        blob.upload_from_file(file_data, content_type=mime_type)
-        logger.info(f'File stored in Firebase Storage: files/{stored_name}')
+        upload_dir = self._get_upload_dir()
+        file_path = os.path.join(upload_dir, stored_name)
+        file_data.seek(0)
+        with open(file_path, 'wb') as f:
+            f.write(file_data.getvalue())
+        logger.info(f'File stored locally: {file_path}')
 
         db = self._get_db()
         doc_ref = db.collection('files').document()
@@ -128,16 +124,11 @@ class FirebaseDB:
         })
 
     def get_file_stream(self, stored_name):
-        self._ensure_initialized()
-        bucket = fb_storage.bucket()
-        blob = bucket.blob(f'files/{stored_name}')
-        if not blob.exists():
-            logger.warning(f'File not found in Storage: files/{stored_name}')
+        file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+        if not os.path.exists(file_path):
+            logger.warning(f'File not found: {file_path}')
             return None
-        temp = tempfile.NamedTemporaryFile(delete=False)
-        blob.download_to_filename(temp.name)
-        temp.close()
-        return temp.name
+        return file_path
 
     def check_health(self):
         try:
