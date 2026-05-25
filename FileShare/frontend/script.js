@@ -1,4 +1,4 @@
-const API_BASE = (typeof __API_URL__ !== 'undefined' ? __API_URL__ : 'http://localhost:5000') + '/api';
+const API_BASE = (import.meta.env.VITE_API_URL || '') + '/api';
 
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
