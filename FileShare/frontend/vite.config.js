@@ -5,7 +5,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://file-share.onrender.com',
+        target: 'https://websites-eobd.onrender.com',
         changeOrigin: true,
       },
     },
