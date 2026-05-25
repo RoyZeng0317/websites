@@ -31,7 +31,16 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 app.config['SECRET_KEY'] = SECRET_KEY
 
-CORS(app)
+CORS(app, resources={
+    r'/api/*': {
+        'origins': [
+            'http://localhost:5173',
+            'http://localhost:4173',
+            'https://file-share-platfrom.web.app',
+            'https://file-share-platfrom.firebaseapp.com',
+        ],
+    },
+})
 
 db = FirebaseDB()
 
