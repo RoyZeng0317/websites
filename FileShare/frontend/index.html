@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>FileShare - 檔案共享平台</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FileShare</h1>
+            <p>安全的一次性檔案共享</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="upload">上傳檔案</button>
+            <button class="tab" data-tab="download">下載檔案</button>
+        </div>
+
+        <div id="upload-section" class="section active">
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-content">
+                    <div class="drop-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <p>拖曳檔案到此處，或 <span class="browse-text">點擊瀏覽</span></p>
+                    <p class="file-limit">最大 500MB</p>
+                </div>
+                <input type="file" id="file-input" hidden>
+            </div>
+
+            <div class="file-info" id="file-info" hidden>
+                <div class="file-details">
+                    <span class="file-name" id="file-name"></span>
+                    <span class="file-size" id="file-size"></span>
+                </div>
+                <button class="btn-remove" id="btn-remove">✕</button>
+            </div>
+
+            <button class="btn btn-primary" id="btn-upload" disabled>上傳檔案</button>
+
+            <div class="result" id="upload-result" hidden>
+                <div class="result-icon success">✓</div>
+                <p>檔案上傳成功！</p>
+                <div class="password-box">
+                    <label>一次性密碼</label>
+                    <div class="password-field">
+                        <span id="upload-password"></span>
+                        <button class="btn-copy" id="btn-copy">複製</button>
+                    </div>
+                </div>
+                <p class="password-hint">請將此密碼分享給接收者，此密碼僅能使用一次</p>
+            </div>
+
+            <div class="result error" id="upload-error" hidden>
+                <div class="result-icon error">✕</div>
+                <p id="upload-error-msg"></p>
+            </div>
+        </div>
+
+        <div id="download-section" class="section">
+            <div class="password-input-group">
+                <label for="download-password">輸入一次性密碼</label>
+                <input type="text" id="download-password" placeholder="請輸入密碼" autocomplete="off">
+            </div>
+            <button class="btn btn-primary" id="btn-download" disabled>下載檔案</button>
+
+            <div class="result error" id="download-error" hidden>
+                <div class="result-icon error">✕</div>
+                <p id="download-error-msg"></p>
+            </div>
+
+            <div class="loading" id="download-loading" hidden>
+                <div class="spinner"></div>
+                <p>正在下載檔案...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; <a href="https://royzeng0317.github.io/HTML/Self-Website/us-en/index.html" class="link">Roy Zeng</a>
+    </footer>
+
+    <script>
+        window.API_URL = window.API_URL || 'http://localhost:5000';
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
