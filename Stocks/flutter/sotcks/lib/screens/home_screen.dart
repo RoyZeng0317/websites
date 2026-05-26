@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> _recent = ['2330.TW', '0050.TW', 'AAPL', 'SPY'];
 
   void _search(String q) async {
-    if (q.length < 1) return;
+    if (q.isEmpty) return;
     setState(() => _loading = true);
     try {
       final r = await _api.search(q);
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   final r = _results[i];
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.15),
+                      backgroundColor: theme.colorScheme.primary.withOpacity(0.15),
                       child: Text(r.symbol.length > 4 ? r.symbol.substring(0, 4) : r.symbol,
                           style: TextStyle(fontSize: 10, color: theme.colorScheme.primary)),
                     ),

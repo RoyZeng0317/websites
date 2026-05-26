@@ -19,7 +19,64 @@ const downloadError = document.getElementById('download-error');
 const downloadErrorMsg = document.getElementById('download-error-msg');
 const downloadLoading = document.getElementById('download-loading');
 
+const timerRadios = document.querySelectorAll('input[name="expires_in"]');
+const customMinutes = document.getElementById('custom-minutes');
+const countdownBox = document.getElementById('countdown-box');
+const countdownTime = document.getElementById('countdown-time');
+
 let selectedFile = null;
+let countdownInterval = null;
+
+timerRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+        customMinutes.disabled = radio.value !== 'custom';
+        if (radio.value === 'custom') {
+            customMinutes.focus();
+        }
+    });
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target === customMinutes) {
+        document.querySelector('input[name="expires_in"][value="custom"]').checked = true;
+        customMinutes.disabled = false;
+    }
+});
+
+function getExpiresIn() {
+    const checked = document.querySelector('input[name="expires_in"]:checked');
+    if (!checked) return 60;
+    if (checked.value === 'custom') {
+        const minutes = parseInt(customMinutes.value, 10) || 1;
+        return minutes * 60;
+    }
+    return parseInt(checked.value, 10);
+}
+
+function formatCountdown(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function startCountdown(expiresIn) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownBox.hidden = false;
+    const endTime = Date.now() + expiresIn * 1000;
+
+    function tick() {
+        const remaining = Math.max(0, Math.round((endTime - Date.now()) / 1000));
+        countdownTime.textContent = formatCountdown(remaining);
+
+        if (remaining <= 0) {
+            clearInterval(countdownInterval);
+            countdownTime.textContent = '已過期';
+        }
+    }
+
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+}
 
 const tabs = document.querySelectorAll('.tab');
 tabs.forEach(tab => {
@@ -34,6 +91,7 @@ tabs.forEach(tab => {
         uploadError.hidden = true;
         downloadError.hidden = true;
         downloadLoading.hidden = true;
+        if (countdownInterval) clearInterval(countdownInterval);
     });
 });
 
@@ -71,6 +129,7 @@ function handleFileSelect(file) {
     btnUpload.disabled = false;
     uploadResult.hidden = true;
     uploadError.hidden = true;
+    countdownBox.hidden = true;
 }
 
 btnRemove.addEventListener('click', () => {
@@ -80,6 +139,8 @@ btnRemove.addEventListener('click', () => {
     btnUpload.disabled = true;
     uploadResult.hidden = true;
     uploadError.hidden = true;
+    countdownBox.hidden = true;
+    if (countdownInterval) clearInterval(countdownInterval);
 });
 
 function formatFileSize(bytes) {
@@ -100,6 +161,7 @@ btnUpload.addEventListener('click', async () => {
 
     const formData = new FormData();
     formData.append('file', selectedFile);
+    formData.append('expires_in', getExpiresIn());
 
     try {
         const response = await fetch(API_BASE + '/upload', {
@@ -112,6 +174,7 @@ btnUpload.addEventListener('click', async () => {
         if (response.ok) {
             uploadPassword.textContent = data.password;
             uploadResult.hidden = false;
+            startCountdown(data.expires_in);
         } else {
             uploadErrorMsg.textContent = data.error || '上傳失敗';
             uploadError.hidden = false;

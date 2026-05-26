@@ -73,7 +73,7 @@ class _StockScreenState extends State<StockScreen> {
   }
 
   Color _priceColor(double v) => v >= 0 ? Colors.red : Colors.green;
-  Color _bg(bool up) => up ? Colors.red.withValues(alpha: 0.1) : Colors.green.withValues(alpha: 0.1);
+  Color _bg(bool up) => up ? Colors.red.withOpacity(0.1) : Colors.green.withOpacity(0.1);
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,24 @@ class _StockScreenState extends State<StockScreen> {
       ]),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
+          : _info == null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.cloud_off, size: 48, color: Colors.grey),
+                      const SizedBox(height: 16),
+                      const Text('無法取得資料，請檢查網路連線', style: TextStyle(color: Colors.grey)),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: _load,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('重試'),
+                      ),
+                    ],
+                  ),
+                )
+              : RefreshIndicator(
               onRefresh: _load,
               child: ListView(
                 padding: const EdgeInsets.all(16),
@@ -322,7 +339,7 @@ class _ChartPainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [(isUp ? Colors.red : Colors.green).withValues(alpha: 0.3), Colors.transparent],
+        colors: [(isUp ? Colors.red : Colors.green).withOpacity(0.3), Colors.transparent],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     final prices = data.map((d) => d.close).toList();
@@ -352,7 +369,7 @@ class _ChartPainter extends CustomPainter {
 
     // Dashed line at zero
     final dash = Paint()
-      ..color = Colors.grey.withValues(alpha: 0.3)
+      ..color = Colors.grey.withOpacity(0.3)
       ..strokeWidth = 0.5;
     final lastY = size.height * (1 - (prices.last - min) / range);
     canvas.drawLine(Offset(size.width - 1, lastY), Offset(size.width, lastY), dash);

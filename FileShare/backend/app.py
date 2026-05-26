@@ -5,10 +5,11 @@ import uuid
 import json
 import tempfile
 import logging
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
 
 import firebase_admin
-from firebase_admin import credentials, firestore, storage as fb_storage
+from firebase_admin import credentials, firestore
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -74,6 +75,8 @@ def upload_file():
     stored_name = f"{uuid.uuid4().hex}{'.' + ext if ext else ''}"
     mime_type = file.content_type or 'application/octet-stream'
 
+    expires_in = request.form.get('expires_in', type=int, default=60)
+
     try:
         file_data = BytesIO(file.read())
         file_size = len(file_data.getvalue())
@@ -83,17 +86,19 @@ def upload_file():
             original_name, stored_name, file_size, mime_type, file_data
         )
 
+        expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
         password = generate_password()
         password_hash = generate_password_hash(password)
-        db.insert_share(file_id, password_hash)
+        db.insert_share(file_id, password_hash, expires_at)
 
-        logger.info(f'File uploaded: {original_name} ({file_size} bytes)')
+        logger.info(f'File uploaded: {original_name} ({file_size} bytes), expires in {expires_in}s')
 
         return jsonify({
             'message': '上傳成功',
             'password': password,
             'filename': original_name,
             'file_size': file_size,
+            'expires_in': expires_in,
         }), 200
 
     except ValueError as e:
@@ -127,7 +132,7 @@ def download_file():
             break
 
     if not matched_share:
-        return jsonify({'error': '無效的密碼'}), 401
+        return jsonify({'error': '無效的密碼或連結已過期'}), 401
 
     try:
         file_record = db.get_file_by_id(matched_share['file_id'])

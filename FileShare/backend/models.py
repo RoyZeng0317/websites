@@ -3,6 +3,7 @@ import os
 import io
 import tempfile
 import logging
+from datetime import datetime, timedelta, timezone
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -117,7 +118,7 @@ class FirebaseDB:
         data['id'] = doc.id
         return data
 
-    def insert_share(self, file_id, password_hash):
+    def insert_share(self, file_id, password_hash, expires_at):
         db = self._get_db()
         doc_ref = db.collection('shares').document()
         doc_ref.set({
@@ -125,6 +126,7 @@ class FirebaseDB:
             'password_hash': password_hash,
             'is_used': False,
             'created_at': firestore.SERVER_TIMESTAMP,
+            'expires_at': expires_at,
         })
         return doc_ref.id
 
@@ -133,6 +135,7 @@ class FirebaseDB:
         docs = (
             db.collection('shares')
             .where(filter=FieldFilter('is_used', '==', False))
+            .where(filter=FieldFilter('expires_at', '>', datetime.now(timezone.utc)))
             .stream()
         )
         results = []
@@ -179,3 +182,18 @@ class FirebaseDB:
         except Exception as e:
             logger.warning(f'Firebase health check failed: {str(e)}')
             return False
+
+    def delete_file(self, stored_name):
+        if self._b2_client:
+            try:
+                self._b2_client.delete_object(
+                    Bucket=B2_BUCKET_NAME,
+                    Key=f'files/{stored_name}',
+                )
+                logger.info(f'Deleted from B2: files/{stored_name}')
+            except Exception as e:
+                logger.warning(f'B2 delete failed: {str(e)}')
+        else:
+            file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+            if os.path.exists(file_path):
+                os.unlink(file_path)
