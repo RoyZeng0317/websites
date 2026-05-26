@@ -8,7 +8,7 @@ conn = sqlite3.connect('questions.db')
 # writing the MySQL
 import mysql.connector
 
-url = "https://onlinetest.tw/etest/collection/11700/117002A13.pdf"
+url = "https://onlinetest.tw/btest/collection/17300/173003A17.pdf"
 
 response = requests.get(url)
 

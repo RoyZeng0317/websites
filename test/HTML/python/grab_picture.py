@@ -2,10 +2,10 @@ import os
 import requests
 
 # 基本網址
-base_url = "https://onlinetest.tw/etest/test2/database/11700/"
+base_url = "https://onlinetest.tw/btest/test2/database/17300/"
 
 # 儲存資料夾
-img_folder = "python/11700_img"
+img_folder = "python/17300_img"
 os.makedirs(img_folder, exist_ok=True)
 
 # headers
@@ -13,10 +13,10 @@ headers = {
     "User-Agent": "Mozilla/5.0"
 }
 # 題號範圍
-for i in range(1, 5):
+for i in range(1, 2):
 
     # 圖片名稱
-    img_name = f"1-15.jpg"
+    img_name = f"3-71-x.jpg"
 
     # 完整網址
     img_url = base_url + img_name

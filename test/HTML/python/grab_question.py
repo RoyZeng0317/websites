@@ -23,7 +23,7 @@ driver.get("https://onlinetest.tw/")
 
 time.sleep(3)
 
-driver.get("https://onlinetest.tw/etest/test2/database/11700/")
+driver.get("https://onlinetest.tw/etest/test2/database/17300/")
 
 time.sleep(5)
 
