@@ -1228,6 +1228,8 @@ CACHE = {}
 CACHE_TTL = 120
 _LAST_REQUEST_TIME = 0
 _RATE_LIMIT_LOCK = threading.Lock()
+_realtime_history: dict[str, list[dict]] = {}
+_realtime_history_lock = threading.Lock()
 
 
 def _cache_stock_name(symbol: str, name: str):
@@ -1626,6 +1628,11 @@ async def get_sentiment(symbol: str):
     }
 
 
+def _stock_timezone(symbol: str) -> timezone:
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        return timezone(timedelta(hours=8))
+    return timezone(timedelta(hours=-4))
+
 def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d") -> list:
     """Fetch chart data from Yahoo Finance v8 chart API."""
     range_map = {"1d": "1d", "5d": "5d", "1mo": "1mo", "3mo": "3mo", "6mo": "6mo", "1y": "1y", "2y": "2y", "5y": "5y", "10y": "10y", "ytd": "ytd", "max": "max"}
@@ -1658,7 +1665,7 @@ def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d
         for i in range(len(timestamps)):
             if i >= len(opens) or opens[i] is None or i >= len(closes) or closes[i] is None:
                 continue
-            dt = datetime.fromtimestamp(timestamps[i], tz=timezone.utc)
+            dt = datetime.fromtimestamp(timestamps[i], tz=_stock_timezone(symbol))
             chart_data.append({
                 "date": dt.strftime("%Y-%m-%d %H:%M"),
                 "open": round(float(opens[i]), 2),
@@ -1872,16 +1879,17 @@ async def get_dividends(symbol: str):
                 continue
             events = result[0].get("events", {})
             divs = events.get("dividends", {})
+            _tz = _stock_timezone(symbol)
             if divs:
                 for ts_str, evt in divs.items():
-                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=timezone.utc)
+                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=_tz)
                     amt = _safe_float(evt.get("amount"))
                     if amt is not None:
                         div_data.append({"date": dt_val.strftime("%Y-%m-%d"), "amount": round(amt, 4)})
             splits_evt = events.get("splits", {})
             if splits_evt:
                 for ts_str, evt in splits_evt.items():
-                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=timezone.utc)
+                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=_tz)
                     num = _safe_float(evt.get("numerator"))
                     den = _safe_float(evt.get("denominator"))
                     if num and den:
@@ -2022,6 +2030,14 @@ def _fetch_realtime_price(symbol: str) -> dict:
     return {"price": 0, "change": 0, "changePercent": 0}
 
 
+@app.get("/api/stock/{symbol}/realtime-history")
+async def get_realtime_history(symbol: str):
+    """Return cached real-time price history for intraday chart."""
+    with _realtime_history_lock:
+        entries = list(_realtime_history.get(symbol, []))
+    return {"symbol": symbol, "data": entries}
+
+
 @app.get("/api/price/{symbol}")
 async def get_price(symbol: str):
     try:
@@ -2041,14 +2057,24 @@ async def websocket_price(websocket: WebSocket, symbol: str):
         await asyncio.sleep(1)
         try:
             rt = _fetch_realtime_price(symbol)
-            if rt["price"] > 0 and rt["price"] != _last_price:
-                _last_price = rt["price"]
-                await websocket.send_json({
-                    "symbol": symbol,
-                    "price": rt["price"],
-                    "change": rt["change"],
-                    "changePercent": rt["changePercent"],
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                })
+            if rt["price"] > 0:
+                with _realtime_history_lock:
+                    if symbol not in _realtime_history:
+                        _realtime_history[symbol] = []
+                    _realtime_history[symbol].append({
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "price": rt["price"],
+                    })
+                    if len(_realtime_history[symbol]) > 7200:
+                        _realtime_history[symbol] = _realtime_history[symbol][-3600:]
+                if rt["price"] != _last_price:
+                    _last_price = rt["price"]
+                    await websocket.send_json({
+                        "symbol": symbol,
+                        "price": rt["price"],
+                        "change": rt["change"],
+                        "changePercent": rt["changePercent"],
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    })
         except Exception:
             pass

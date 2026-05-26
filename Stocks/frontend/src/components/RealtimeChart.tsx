@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts'
-import { getChart, createPriceWebSocket } from '../api/stockApi'
+import { getChart, createPriceWebSocket, getRealtimeHistory } from '../api/stockApi'
 import type { RealtimePrice } from '../types/stock'
 
 interface Props {
@@ -82,10 +82,18 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
     wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
       setData((prev) => {
         const t = new Date(rt.timestamp).toLocaleTimeString('zh-TW', {
-          hour: '2-digit', minute: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
         })
-        if (prev.length > 0 && prev[prev.length - 1].time >= t) return prev
-        const next = [...prev, { time: t, price: rt.price }]
+        const minKey = t.slice(0, 5)
+        let next: RTDataPoint[]
+        if (prev.length > 0 && prev[prev.length - 1].time === minKey) {
+          next = [...prev]
+          next[next.length - 1] = { time: minKey, price: rt.price }
+        } else if (prev.length > 0 && prev[prev.length - 1].time < minKey) {
+          next = [...prev, { time: minKey, price: rt.price }]
+        } else {
+          next = prev
+        }
         saveToCache(symbol, next)
         return next
       })
@@ -101,6 +109,46 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
     }
   }
 
+  function pointsFromChart(res: { data: { date: string; close: number }[] }): RTDataPoint[] {
+    const seen = new Set<string>()
+    const out: RTDataPoint[] = []
+    for (const d of res.data) {
+      const t = formatTime(d.date)
+      if (t >= domainMin && t <= domainMax && !seen.has(t) && d.close > 0) {
+        seen.add(t)
+        out.push({ time: t, price: d.close })
+      }
+    }
+    return out
+  }
+
+  function pointsFromHistory(entries: { timestamp: string; price: number }[]): RTDataPoint[] {
+    const seen = new Set<string>()
+    const out: RTDataPoint[] = []
+    for (const e of entries) {
+      const t = new Date(e.timestamp).toLocaleTimeString('zh-TW', {
+        hour: '2-digit', minute: '2-digit',
+      })
+      if (t >= domainMin && t <= domainMax && !seen.has(t) && e.price > 0) {
+        seen.add(t)
+        out.push({ time: t, price: e.price })
+      }
+    }
+    return out.sort((a, b) => a.time.localeCompare(b.time))
+  }
+
+  function applyPoints(points: RTDataPoint[]) {
+    if (points.length < 2) return
+    setData((prev) => {
+      const merged = new Map<string, number>()
+      for (const p of prev) merged.set(p.time, p.price)
+      for (const p of points) if (!merged.has(p.time)) merged.set(p.time, p.price)
+      const arr = Array.from(merged, ([time, price]) => ({ time, price })).sort((a, b) => a.time.localeCompare(b.time))
+      saveToCache(symbol, arr)
+      return arr
+    })
+  }
+
   useEffect(() => {
     mountedRef.current = true
     const cached = loadFromCache(symbol)
@@ -111,40 +159,18 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
 
     getChart(symbol, '1d', '1m')
       .then((res) => {
-        let points: RTDataPoint[] = []
-        const seen = new Set<string>()
-        for (const d of res.data) {
-          const t = formatTime(d.date)
-          if (t >= domainMin && t <= domainMax && !seen.has(t)) {
-            seen.add(t)
-            points.push({ time: t, price: d.close })
-          }
-        }
-        if (points.length < 2) {
-          return getChart(symbol, '5d', '1m')
-        }
-        return Promise.resolve(res)
-      })
-      .then((res) => {
-        const points: RTDataPoint[] = []
-        const seen = new Set<string>()
-        for (const d of res.data) {
-          const t = formatTime(d.date)
-          if (t >= domainMin && t <= domainMax && !seen.has(t)) {
-            seen.add(t)
-            points.push({ time: t, price: d.close })
-          }
-        }
-        if (points.length >= 2) {
-          setData((prev) => {
-            const merged = new Map<string, number>()
-            for (const p of prev) merged.set(p.time, p.price)
-            for (const p of points) if (!merged.has(p.time)) merged.set(p.time, p.price)
-            const arr = Array.from(merged, ([time, price]) => ({ time, price })).sort((a, b) => a.time.localeCompare(b.time))
-            saveToCache(symbol, arr)
-            return arr
+        const pts = pointsFromChart(res)
+        if (pts.length >= 2) { applyPoints(pts); return }
+        // fallback to 5d/1m
+        return getChart(symbol, '5d', '1m').then((res2) => {
+          const pts2 = pointsFromChart(res2)
+          if (pts2.length >= 2) { applyPoints(pts2); return }
+          // fallback to realtime-history cache
+          return getRealtimeHistory(symbol).then((h) => {
+            const pts3 = pointsFromHistory(h.data)
+            if (pts3.length >= 2) applyPoints(pts3)
           })
-        }
+        })
       })
       .catch(() => {})
       .finally(() => setLoading(false))

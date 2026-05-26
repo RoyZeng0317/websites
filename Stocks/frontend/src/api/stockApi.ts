@@ -56,6 +56,14 @@ export async function getInstitutional(symbol: string): Promise<import('../types
   return res.json()
 }
 
+export async function getRealtimeHistory(symbol: string): Promise<{ symbol: string; data: { timestamp: string; price: number }[] }> {
+  const res = await fetch(
+    `${BASE}/stock/${encodeURIComponent(symbol)}/realtime-history`
+  )
+  if (!res.ok) return { symbol, data: [] }
+  return res.json()
+}
+
 export async function getFinancials(symbol: string): Promise<FinancialData> {
   const res = await fetch(
     `${BASE}/stock/${encodeURIComponent(symbol)}/financials`
