@@ -12,6 +12,8 @@ import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
 import InstitutionalInvestors from '../components/InstitutionalInvestors'
 import HoldingTracker from '../components/HoldingTracker'
+import ETFPremium from '../components/ETFPremium'
+import ETFHoldings from '../components/ETFHoldings'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
 
@@ -99,6 +101,14 @@ export default function StockPage() {
       <InstitutionalInvestors symbol={symbol!} />
 
       <Sentiment symbol={symbol!} />
+
+      <ErrorBoundary>
+        <ETFPremium symbol={symbol!} currentPrice={info.currentPrice} />
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <ETFHoldings symbol={symbol!} />
+      </ErrorBoundary>
 
       <DividendInfo symbol={symbol!} meetingUrl={info.meetingUrl} />
 

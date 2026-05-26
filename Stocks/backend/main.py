@@ -2038,6 +2038,147 @@ async def get_realtime_history(symbol: str):
     return {"symbol": symbol, "data": entries}
 
 
+@app.get("/api/stock/{symbol}/etf-nav")
+async def get_etf_nav(symbol: str):
+    """Return ETF NAV data and premium/discount history."""
+    result: dict = {"symbol": symbol, "currentNAV": None, "currentPrice": None, "premium": None, "history": []}
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+    _now = datetime.now(timezone(timedelta(hours=8)))
+
+    # 1. Yahoo v10 NAV module
+    for _host in ["query1", "query2"]:
+        for _ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                _url = f"https://{_host}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=nav,price"
+                _rsp = requests.get(_url, headers={"User-Agent": _ua}, timeout=8)
+                if _rsp.status_code != 200:
+                    continue
+                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                if not _q:
+                    continue
+                _nav = _q.get("nav", {})
+                _pr = _q.get("price", {})
+                _nav_price = _nav.get("regularMarketPrice", {})
+                result["currentNAV"] = _nav_price.get("raw") if isinstance(_nav_price, dict) else _nav_price
+                if result["currentNAV"] is None:
+                    continue
+                _mkt = _pr.get("regularMarketPrice", {})
+                result["currentPrice"] = _mkt.get("raw") if isinstance(_mkt, dict) else _mkt
+                if result["currentNAV"] and result["currentPrice"]:
+                    result["premium"] = round((result["currentPrice"] - result["currentNAV"]) / result["currentNAV"] * 100, 2)
+                _pclose = _nav.get("regularMarketPreviousClose", {})
+                result["navPreviousClose"] = _pclose.get("raw") if isinstance(_pclose, dict) else _pclose
+                break
+            except Exception:
+                continue
+        if result.get("currentNAV") is not None:
+            break
+
+    # 2. TWSE ETF NAV history
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        for _months_back in range(12):
+            _d = (_now.replace(day=1) - timedelta(days=_months_back * 30)).strftime("%Y%m%d")
+            try:
+                rate_limit()
+                _url = f"https://www.twse.com.tw/ETF/etfNAV?response=json&date={_d}"
+                _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if _rsp.status_code != 200:
+                    continue
+                _j = _rsp.json()
+                if _j.get("stat") != "OK":
+                    continue
+                for _row in _j.get("data", []):
+                    if len(_row) >= 6 and _row[1] == stock_no:
+                        result["history"].append({
+                            "date": _row[0].replace("/", "-"),
+                            "nav": _safe_float(_row[3]),
+                            "price": _safe_float(_row[4]),
+                            "premium": _safe_float(_row[5]),
+                        })
+                if result["history"]:
+                    break
+            except Exception:
+                continue
+        result["history"].sort(key=lambda x: x.get("date", ""))
+
+    return result
+
+
+@app.get("/api/stock/{symbol}/etf-holdings")
+async def get_etf_holdings(symbol: str):
+    """Return ETF constituent stocks / holdings."""
+    result: dict = {"symbol": symbol, "holdings": []}
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+
+    # 1. Yahoo v10 topHoldings
+    for _host in ["query1", "query2"]:
+        for _ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                _url = f"https://{_host}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=topHoldings"
+                _rsp = requests.get(_url, headers={"User-Agent": _ua}, timeout=8)
+                if _rsp.status_code != 200:
+                    continue
+                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                if not _q:
+                    continue
+                _top = _q.get("topHoldings", {})
+                _hl = _top.get("holdings", [])
+                if not _hl:
+                    continue
+                for _h in _hl:
+                    _sym = _h.get("symbol", "") or ""
+                    if not _sym:
+                        continue
+                    result["holdings"].append({
+                        "symbol": _sym,
+                        "name": _h.get("holdingName", ""),
+                        "weight": _h.get("holdingPercent", 0),
+                    })
+                break
+            except Exception:
+                continue
+        if result["holdings"]:
+            break
+
+    # 2. TWSE ETF constituents (fallback)
+    if not result["holdings"] and (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        _dates_to_try = [(_now := datetime.now(timezone(timedelta(hours=8)))).strftime("%Y%m%d")]
+        _dates_to_try.append((_now - timedelta(days=7)).strftime("%Y%m%d"))
+        _dates_to_try.append((_now.replace(day=1) - timedelta(days=1)).strftime("%Y%m%d"))
+        for _d in _dates_to_try:
+            try:
+                rate_limit()
+                _url = f"https://www.twse.com.tw/ETF/etfStk?response=json&date={_d}&stockNo={stock_no}"
+                _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if _rsp.status_code != 200:
+                    continue
+                _j = _rsp.json()
+                if _j.get("stat") != "OK":
+                    continue
+                for _row in _j.get("data", []):
+                    if len(_row) >= 3:
+                        result["holdings"].append({
+                            "symbol": (_row[0] + ".TW") if _row[0] and not _row[0].endswith(".TW") else _row[0],
+                            "name": _row[1] if len(_row) > 1 else "",
+                            "weight": _safe_float(_row[2]) if len(_row) > 2 else None,
+                        })
+                if result["holdings"]:
+                    break
+            except Exception:
+                continue
+
+    result["holdings"].sort(key=lambda x: -(x.get("weight") or 0))
+    return result
+
+
 @app.get("/api/price/{symbol}")
 async def get_price(symbol: str):
     try:

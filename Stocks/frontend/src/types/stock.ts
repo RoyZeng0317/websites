@@ -157,3 +157,30 @@ export interface SentimentData {
   recommendations: Recommendation[]
   institutionalTrading: Record<string, number | string>
 }
+
+export interface EtfNavRecord {
+  date: string
+  nav: number | null
+  price: number | null
+  premium: number | null
+}
+
+export interface EtfNavData {
+  symbol: string
+  currentNAV: number | null
+  currentPrice: number | null
+  premium: number | null
+  navPreviousClose: number | null
+  history: EtfNavRecord[]
+}
+
+export interface EtfHolding {
+  symbol: string
+  name: string
+  weight: number | null
+}
+
+export interface EtfHoldingsData {
+  symbol: string
+  holdings: EtfHolding[]
+}

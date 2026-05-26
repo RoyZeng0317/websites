@@ -64,6 +64,18 @@ export async function getRealtimeHistory(symbol: string): Promise<{ symbol: stri
   return res.json()
 }
 
+export async function getEtfNav(symbol: string): Promise<import('../types/stock').EtfNavData> {
+  const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/etf-nav`)
+  if (!res.ok) return { symbol, currentNAV: null, currentPrice: null, premium: null, navPreviousClose: null, history: [] }
+  return res.json()
+}
+
+export async function getEtfHoldings(symbol: string): Promise<import('../types/stock').EtfHoldingsData> {
+  const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/etf-holdings`)
+  if (!res.ok) return { symbol, holdings: [] }
+  return res.json()
+}
+
 export async function getFinancials(symbol: string): Promise<FinancialData> {
   const res = await fetch(
     `${BASE}/stock/${encodeURIComponent(symbol)}/financials`
