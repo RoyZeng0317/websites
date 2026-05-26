@@ -2078,9 +2078,9 @@ async def get_etf_nav(symbol: str):
         if result.get("currentNAV") is not None:
             break
 
-    # 2. TWSE ETF NAV history
-    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
-        for _months_back in range(12):
+    # 2. TWSE ETF NAV history (only for likely ETF symbols: start with "00")
+    if (symbol.endswith(".TW") or symbol.endswith(".TWO")) and stock_no.startswith("00"):
+        for _months_back in range(3):
             _d = (_now.replace(day=1) - timedelta(days=_months_back * 30)).strftime("%Y%m%d")
             try:
                 rate_limit()
@@ -2148,8 +2148,8 @@ async def get_etf_holdings(symbol: str):
         if result["holdings"]:
             break
 
-    # 2. TWSE ETF constituents (fallback)
-    if not result["holdings"] and (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+    # 2. TWSE ETF constituents (fallback, only for likely ETF symbols)
+    if not result["holdings"] and (symbol.endswith(".TW") or symbol.endswith(".TWO")) and stock_no.startswith("00"):
         _dates_to_try = [(_now := datetime.now(timezone(timedelta(hours=8)))).strftime("%Y%m%d")]
         _dates_to_try.append((_now - timedelta(days=7)).strftime("%Y%m%d"))
         _dates_to_try.append((_now.replace(day=1) - timedelta(days=1)).strftime("%Y%m%d"))
