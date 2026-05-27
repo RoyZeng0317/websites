@@ -36,6 +36,7 @@ const _raw: Record<string, { name: string; market: string }> = {
   "4967.TW": { name: "十銓", market: "TW" },
   "5007.TW": { name: "三星（台）", market: "TW" },
   "5880.TW": { name: "合庫金", market: "TW" },
+  "6116.TW": { name: "彩晶", market: "TW" },
   "6605.TW": { name: "帝寶", market: "TW" },
   "6770.TW": { name: "力積電", market: "TW" },
   "7418.TW": { name: "香繼光", market: "TW" },
