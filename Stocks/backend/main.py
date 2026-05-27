@@ -554,52 +554,58 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             if _yf_data and any(v is not None for v in _yf_data.values()):
                 break
 
-        if _yf_data is None or not any(v is not None for v in _yf_data.values()):
+        # Always try yfinance Ticker.info as a more comprehensive fallback
+        try:
+            rate_limit()
+            _old_to = socket.getdefaulttimeout()
+            socket.setdefaulttimeout(15)
             try:
-                rate_limit()
-                _old_to = socket.getdefaulttimeout()
-                socket.setdefaulttimeout(15)
-                try:
-                    _t = yf.Ticker(symbol)
-                    _info = dict(_t.info) if _t.info else {}
-                finally:
-                    socket.setdefaulttimeout(_old_to)
-                if _info and any(v is not None for v in _info.values()):
-                    _yf_data = {
-                        "trailingPE": _info.get("trailingPE"),
-                        "forwardPE": _info.get("forwardPE"),
-                        "trailingEps": _info.get("trailingEps"),
-                        "forwardEps": _info.get("forwardEps"),
-                        "dividendYield": _info.get("dividendYield"),
-                        "dividendRate": _info.get("dividendRate"),
-                        "exDividendDate": _info.get("exDividendDate"),
-                        "payoutRatio": _info.get("payoutRatio"),
-                        "fiveYearAvgDividendYield": _info.get("fiveYearAvgDividendYield"),
-                        "returnOnEquity": _info.get("returnOnEquity"),
-                        "returnOnAssets": _info.get("returnOnAssets"),
-                        "totalRevenue": _info.get("totalRevenue"),
-                        "revenuePerShare": _info.get("revenuePerShare"),
-                        "profitMargins": _info.get("profitMargins"),
-                        "operatingMargins": _info.get("operatingMargins"),
-                        "debtToEquity": _info.get("debtToEquity"),
-                        "bookValue": _info.get("bookValue"),
-                        "priceToBook": _info.get("priceToBook"),
-                        "marketCap": _info.get("marketCap"),
-                        "averageVolume": _info.get("averageVolume"),
-                        "beta": _info.get("beta"),
-                        "fiftyTwoWeekHigh": _info.get("fiftyTwoWeekHigh"),
-                        "fiftyTwoWeekLow": _info.get("fiftyTwoWeekLow"),
-                        "52WeekChange": _info.get("52WeekChange"),
-                        "sector": _info.get("sector", ""),
-                        "industry": _info.get("industry", ""),
-                        "country": _info.get("country", ""),
-                        "website": _info.get("website", ""),
-                        "longBusinessSummary": _info.get("longBusinessSummary", ""),
-                        "fullTimeEmployees": _info.get("fullTimeEmployees"),
-                        "logo_url": _info.get("logo_url"),
-                    }
-            except Exception:
-                pass
+                _t = yf.Ticker(symbol)
+                _info = dict(_t.info) if _t.info else {}
+            finally:
+                socket.setdefaulttimeout(_old_to)
+            if _info and any(v is not None for v in _info.values()):
+                _yf_data_v2 = {
+                    "trailingPE": _info.get("trailingPE"),
+                    "forwardPE": _info.get("forwardPE"),
+                    "trailingEps": _info.get("trailingEps"),
+                    "forwardEps": _info.get("forwardEps"),
+                    "dividendYield": _info.get("dividendYield"),
+                    "dividendRate": _info.get("dividendRate"),
+                    "exDividendDate": _info.get("exDividendDate"),
+                    "payoutRatio": _info.get("payoutRatio"),
+                    "fiveYearAvgDividendYield": _info.get("fiveYearAvgDividendYield"),
+                    "returnOnEquity": _info.get("returnOnEquity"),
+                    "returnOnAssets": _info.get("returnOnAssets"),
+                    "totalRevenue": _info.get("totalRevenue"),
+                    "revenuePerShare": _info.get("revenuePerShare"),
+                    "profitMargins": _info.get("profitMargins"),
+                    "operatingMargins": _info.get("operatingMargins"),
+                    "debtToEquity": _info.get("debtToEquity"),
+                    "bookValue": _info.get("bookValue"),
+                    "priceToBook": _info.get("priceToBook"),
+                    "marketCap": _info.get("marketCap"),
+                    "averageVolume": _info.get("averageVolume"),
+                    "beta": _info.get("beta"),
+                    "fiftyTwoWeekHigh": _info.get("fiftyTwoWeekHigh"),
+                    "fiftyTwoWeekLow": _info.get("fiftyTwoWeekLow"),
+                    "52WeekChange": _info.get("52WeekChange"),
+                    "sector": _info.get("sector", ""),
+                    "industry": _info.get("industry", ""),
+                    "country": _info.get("country", ""),
+                    "website": _info.get("website", ""),
+                    "longBusinessSummary": _info.get("longBusinessSummary", ""),
+                    "fullTimeEmployees": _info.get("fullTimeEmployees"),
+                    "logo_url": _info.get("logo_url"),
+                }
+                if _yf_data is None or not any(v is not None for v in _yf_data.values()):
+                    _yf_data = _yf_data_v2
+                else:
+                    for k, v in _yf_data_v2.items():
+                        if v is not None and _yf_data.get(k) is None:
+                            _yf_data[k] = v
+        except Exception:
+            pass
 
         if _yf_data and any(v is not None for v in _yf_data.values()):
             if result and any(v is not None for v in result.values()):

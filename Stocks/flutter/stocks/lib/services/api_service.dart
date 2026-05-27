@@ -4,14 +4,22 @@ import '../models/stock.dart';
 
 class ApiService {
   static const String _base = 'https://stock-info-backend-z6sr.onrender.com';
-  static const _timeout = Duration(seconds: 30);
+  static const _timeout = Duration(seconds: 60);
+
+  Future<http.Response> _getWithRetry(Uri uri, {int retries = 2}) async {
+    for (int i = 0; i <= retries; i++) {
+      try {
+        final res = await http.get(uri).timeout(_timeout);
+        if (res.statusCode == 200) return res;
+      } catch (_) {}
+      if (i < retries) await Future.delayed(const Duration(seconds: 2));
+    }
+    throw Exception('Request failed after $retries retries');
+  }
 
   Future<List<StockSearchResult>> search(String query) async {
     try {
-      final res = await http
-          .get(Uri.parse('$_base/api/search?query=${Uri.encodeComponent(query)}'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return [];
+      final res = await _getWithRetry(Uri.parse('$_base/api/search?query=${Uri.encodeComponent(query)}'));
       final List data = jsonDecode(res.body);
       return data.map((e) => StockSearchResult.fromJson(e)).toList();
     } catch (_) {
@@ -21,11 +29,9 @@ class ApiService {
 
   Future<StockInfo?> getStockInfo(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return null;
-      return StockInfo.fromJson(jsonDecode(res.body));
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}'));
+      final info = StockInfo.fromJson(jsonDecode(res.body));
+      return info.calculateMissing();
     } catch (_) {
       return null;
     }
@@ -34,11 +40,7 @@ class ApiService {
   Future<List<ChartDataPoint>> getChart(String symbol,
       {String period = '5d', String interval = '1m'}) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/chart?period=$period&interval=$interval'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return [];
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/chart?period=$period&interval=$interval'));
       final json = jsonDecode(res.body);
       final List data = json['data'] ?? [];
       return data.map((e) => ChartDataPoint.fromJson(e)).toList();
@@ -49,11 +51,7 @@ class ApiService {
 
   Future<List<InstitutionalRecord>> getInstitutional(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/institutional'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return [];
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/institutional'));
       final json = jsonDecode(res.body);
       final List data = json['data'] ?? [];
       return data.map((e) => InstitutionalRecord.fromJson(e)).toList();
@@ -64,11 +62,7 @@ class ApiService {
 
   Future<StockDividends?> getDividends(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/dividends'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return null;
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/dividends'));
       return StockDividends.fromJson(jsonDecode(res.body));
     } catch (_) {
       return null;
@@ -77,11 +71,7 @@ class ApiService {
 
   Future<SentimentData?> getSentiment(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/sentiment'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return null;
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/sentiment'));
       return SentimentData.fromJson(jsonDecode(res.body));
     } catch (_) {
       return null;
@@ -90,11 +80,7 @@ class ApiService {
 
   Future<EtfNavData?> getEtfNav(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/etf-nav'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return null;
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/etf-nav'));
       return EtfNavData.fromJson(jsonDecode(res.body));
     } catch (_) {
       return null;
@@ -103,11 +89,7 @@ class ApiService {
 
   Future<EtfHoldingsData?> getEtfHoldings(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/etf-holdings'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return null;
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/etf-holdings'));
       return EtfHoldingsData.fromJson(jsonDecode(res.body));
     } catch (_) {
       return null;
@@ -116,11 +98,7 @@ class ApiService {
 
   Future<List<RealtimePrice>> getRealtimeHistory(String symbol) async {
     try {
-      final res = await http
-          .get(Uri.parse(
-              '$_base/api/stock/${Uri.encodeComponent(symbol)}/realtime-history'))
-          .timeout(_timeout);
-      if (res.statusCode != 200) return [];
+      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/realtime-history'));
       final json = jsonDecode(res.body);
       final List data = json['data'] ?? [];
       return data.map((e) => RealtimePrice.fromJson(e)).toList();

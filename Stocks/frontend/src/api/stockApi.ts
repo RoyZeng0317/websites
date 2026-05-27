@@ -132,6 +132,14 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   if (roe == null) {
     if (pb != null && pe != null && pe !== 0) roe = pb / pe
     else if (eps != null && bv != null && bv !== 0) roe = eps / bv
+    else if (info.revenue != null && info.revenue > 0 && info.marketCap != null && info.marketCap > 0) {
+      const netIncome = eps != null && (p / info.marketCap) > 0
+        ? eps * (info.marketCap / p)
+        : null
+      if (netIncome != null && bv != null && bv !== 0) {
+        roe = netIncome / (bv * (info.marketCap / p))
+      }
+    }
   }
 
   let profitMargin: number | null = info.profitMargin

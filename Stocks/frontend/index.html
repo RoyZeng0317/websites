@@ -19,7 +19,7 @@
         <span>版本資訊</span>
         <ul>
           <li><a href="" onclick="about(event)">關於</a></li>
-          <li>版本 3.7.6</li>
+          <li>版本 3.7.8</li>
         </ul>
       </div>
         <div class="about">
@@ -43,16 +43,25 @@
         </ul>
       </div>
       
-        <!--       
-          <div class="notifaction">
-            <span>維護通知</span>
-            <div class="content">
-              更新通知:
-              05/30(六) 00:00-12:00 將進行平台維護作業，各項功能將暫停性使用。
-              造成不便，敬請見諒。
+          <div class="notif-overlay open" id="notifOverlay">
+            <div class="notif-window">
+              <div class="notif-header">
+                <h2>通知</h2>
+                <button id="notifClose">×</button>
+              </div>
+              <div class="notif-body">
+                <div class="notif-item warning">
+                  <span class="icon">⚠</span>
+                  <div class="msg">
+                    <p>05/30(六) 00:00-12:00 將進行平台維護作業，各項功能將暫停使用。</p>
+                    <p style="margin-top:8px">造成不便，敬請見諒。</p>
+                    <span class="time">系統通知</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          -->
+         
       </div>
     <footer>&copy;<a href="https://royzeng0317.github.io/HTML/Self-Website/zh-tw/index.html" class="link">Roy Zeng</a></footer>
     <script type="module" src="/src/main.tsx"></script>
@@ -64,6 +73,16 @@
           el.style.display = el.style.display === 'none' ? 'block' : 'none'
         }
       }
+
+      document.getElementById('notifOverlay').addEventListener('click',function(e){
+        if(e.target===this) this.classList.remove('open');
+      });
+      document.getElementById('notifClose').addEventListener('click',function(){
+        document.getElementById('notifOverlay').classList.remove('open');
+      });
+      document.addEventListener('keydown',function(e){
+        if(e.key==='Escape') document.getElementById('notifOverlay').classList.remove('open');
+      });
     </script>
   </body>
 </html>

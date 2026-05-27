@@ -25,6 +25,7 @@ class StockInfo {
   final String symbol;
   final String name;
   final String? nameCn;
+  final String? nameEn;
   final double currentPrice;
   final double previousClose;
   final double open;
@@ -37,38 +38,43 @@ class StockInfo {
   final double? peRatio;
   final double? forwardPE;
   final double? eps;
+  final double? forwardEps;
   final double? dividendYield;
   final double? dividendRate;
   final String? exDividendDate;
   final double? payoutRatio;
+  final double? fiveYearAvgDividendYield;
   final double? roe;
   final double? roa;
   final double? revenue;
+  final double? revenuePerShare;
   final double? profitMargin;
+  final double? operatingMargin;
   final double? debtToEquity;
   final double? bookValue;
   final double? priceToBook;
   final double? fiftyTwoWeekHigh;
   final double? fiftyTwoWeekLow;
+  final double? fiftyTwoWeekChange;
   final double? beta;
+  final double? avgVolume;
   final String sector;
+  final String? industry;
   final String? description;
   final String exchange;
   final String currency;
+  final String? country;
+  final String? website;
+  final int? employees;
   final String? logoUrl;
-  final double? avgVolume;
-  final double? revenuePerShare;
-  final double? fiveYearAvgDividendYield;
-  final double? forwardEps;
-  final double? operatingMargin;
-  final double? fiftyTwoWeekChange;
   final String? dividendFrequency;
   final String? meetingUrl;
 
-  StockInfo({
+  StockInfo._({
     required this.symbol,
     required this.name,
     this.nameCn,
+    this.nameEn,
     required this.currentPrice,
     required this.previousClose,
     required this.open,
@@ -81,31 +87,35 @@ class StockInfo {
     this.peRatio,
     this.forwardPE,
     this.eps,
+    this.forwardEps,
     this.dividendYield,
     this.dividendRate,
     this.exDividendDate,
     this.payoutRatio,
+    this.fiveYearAvgDividendYield,
     this.roe,
     this.roa,
     this.revenue,
+    this.revenuePerShare,
     this.profitMargin,
+    this.operatingMargin,
     this.debtToEquity,
     this.bookValue,
     this.priceToBook,
     this.fiftyTwoWeekHigh,
     this.fiftyTwoWeekLow,
+    this.fiftyTwoWeekChange,
     this.beta,
+    this.avgVolume,
     required this.sector,
+    this.industry,
     this.description,
     required this.exchange,
     required this.currency,
+    this.country,
+    this.website,
+    this.employees,
     this.logoUrl,
-    this.avgVolume,
-    this.revenuePerShare,
-    this.fiveYearAvgDividendYield,
-    this.forwardEps,
-    this.operatingMargin,
-    this.fiftyTwoWeekChange,
     this.dividendFrequency,
     this.meetingUrl,
   });
@@ -121,10 +131,11 @@ class StockInfo {
     final c = cp - pc;
     final cpct = pc > 0 ? c / pc * 100 : 0.0;
 
-    return StockInfo(
+    return StockInfo._(
       symbol: s('symbol'),
       name: s('name'),
       nameCn: json['nameCn']?.toString(),
+      nameEn: json['nameEn']?.toString(),
       currentPrice: cp,
       previousClose: pc,
       open: n('open'),
@@ -137,33 +148,143 @@ class StockInfo {
       peRatio: opt('peRatio'),
       forwardPE: opt('forwardPE'),
       eps: opt('eps'),
+      forwardEps: opt('forwardEps'),
       dividendYield: opt('dividendYield'),
       dividendRate: opt('dividendRate'),
       exDividendDate: json['exDividendDate']?.toString(),
       payoutRatio: opt('payoutRatio'),
+      fiveYearAvgDividendYield: opt('fiveYearAvgDividendYield'),
       roe: opt('roe'),
       roa: opt('roa'),
       revenue: opt('revenue'),
+      revenuePerShare: opt('revenuePerShare'),
       profitMargin: opt('profitMargin'),
+      operatingMargin: opt('operatingMargin'),
       debtToEquity: opt('debtToEquity'),
       bookValue: opt('bookValue'),
       priceToBook: opt('priceToBook'),
       fiftyTwoWeekHigh: opt('fiftyTwoWeekHigh'),
       fiftyTwoWeekLow: opt('fiftyTwoWeekLow'),
+      fiftyTwoWeekChange: opt('fiftyTwoWeekChange'),
       beta: opt('beta'),
+      avgVolume: opt('avgVolume'),
       sector: s('sector'),
+      industry: json['industry']?.toString(),
       description: json['description']?.toString(),
       exchange: s('exchange'),
       currency: s('currency'),
+      country: json['country']?.toString(),
+      website: json['website']?.toString(),
+      employees: json['employees'] != null ? (json['employees'] as num).toInt() : null,
       logoUrl: json['logoUrl']?.toString(),
-      avgVolume: opt('avgVolume'),
-      revenuePerShare: opt('revenuePerShare'),
-      fiveYearAvgDividendYield: opt('fiveYearAvgDividendYield'),
-      forwardEps: opt('forwardEps'),
-      operatingMargin: opt('operatingMargin'),
-      fiftyTwoWeekChange: opt('fiftyTwoWeekChange'),
       dividendFrequency: json['dividendFrequency']?.toString(),
       meetingUrl: json['meetingUrl']?.toString(),
+    );
+  }
+
+  StockInfo calculateMissing() {
+    final p = currentPrice;
+    if (p <= 0) return this;
+
+    double? n(double? v, double? Function() compute) => (v != null && v != 0) ? v : compute();
+
+    final pe = n(peRatio, () => eps != null && eps! != 0 ? p / eps! : null);
+    final eps2 = n(eps, () => pe != null && pe != 0 ? p / pe : null);
+    final pb = n(priceToBook, () => bookValue != null && bookValue! != 0 ? p / bookValue! : null);
+    final bv = n(bookValue, () => pb != null && pb != 0 ? p / pb : null);
+
+    double? roe2 = roe;
+    if (roe2 == null) {
+      if (pb != null && pe != null && pe != 0) {
+        roe2 = pb / pe;
+      } else if (eps2 != null && bv != null && bv != 0) {
+        roe2 = eps2 / bv;
+      }
+    }
+
+    double? pm = profitMargin;
+    if (pm == null && eps2 != null && revenuePerShare != null && revenuePerShare! != 0) {
+      pm = eps2 / revenuePerShare!;
+    }
+
+    double? roa2 = roa;
+    if (roa2 == null && roe2 != null && debtToEquity != null) {
+      final dte = debtToEquity! > 5 ? debtToEquity! / 100 : debtToEquity!;
+      roa2 = roe2 / (1 + dte);
+    }
+    if (roa2 == null && roe2 != null) roa2 = roe2;
+
+    double? rev = revenue;
+    if (rev == null && marketCap != null && revenuePerShare != null && p != 0) {
+      rev = revenuePerShare! * (marketCap! / p);
+    }
+
+    double? rps = revenuePerShare;
+    if (rps == null && rev != null && marketCap != null && p != 0) {
+      rps = rev / (marketCap! / p);
+    }
+    if (rps == null && eps2 != null && pm != null && pm != 0) {
+      rps = eps2 / pm;
+    }
+
+    double? dy = dividendYield;
+    double? dr = dividendRate;
+    if (dy == null && dr != null) {
+      dy = dr / p;
+    } else if (dr == null && dy != null) {
+      dr = dy * p;
+    }
+
+    double? pr = payoutRatio;
+    if (pr == null && dr != null && eps2 != null && eps2 != 0) {
+      pr = dr / eps2;
+    }
+
+    double? fpe = forwardPE;
+    double? feps = forwardEps;
+    if (fpe == null && feps != null && feps != 0) {
+      fpe = p / feps;
+    } else if (feps == null && fpe != null && fpe != 0) {
+      feps = p / fpe;
+    }
+    if (fpe == null && pe != null) fpe = pe;
+    if (feps == null && eps2 != null) feps = eps2;
+
+    double ch = change;
+    if (ch == 0 && previousClose > 0) ch = p - previousClose;
+    double chPct = changePercent;
+    if (chPct == 0 && previousClose > 0) chPct = ch / previousClose * 100;
+
+    double? fyd = fiveYearAvgDividendYield;
+    if (fyd == null && dy != null) fyd = dy;
+
+    double? avg = avgVolume;
+    if ((avg == null || avg == 0) && volume > 0) avg = volume.toDouble();
+
+    double? ftc = fiftyTwoWeekChange;
+    if (ftc == null && fiftyTwoWeekHigh != null && fiftyTwoWeekLow != null && fiftyTwoWeekLow! > 0) {
+      ftc = (p - fiftyTwoWeekLow!) / fiftyTwoWeekLow!;
+    }
+
+    return StockInfo._(
+      symbol: symbol, name: name, nameCn: nameCn, nameEn: nameEn,
+      currentPrice: currentPrice, previousClose: previousClose,
+      open: open, dayHigh: dayHigh, dayLow: dayLow,
+      change: ch, changePercent: chPct,
+      marketCap: marketCap, volume: volume,
+      peRatio: pe, forwardPE: fpe, eps: eps2, forwardEps: feps,
+      dividendYield: dy, dividendRate: dr,
+      exDividendDate: exDividendDate, payoutRatio: pr,
+      fiveYearAvgDividendYield: fyd,
+      roe: roe2, roa: roa2, revenue: rev, revenuePerShare: rps,
+      profitMargin: pm, operatingMargin: operatingMargin,
+      debtToEquity: debtToEquity, bookValue: bv, priceToBook: pb,
+      fiftyTwoWeekHigh: fiftyTwoWeekHigh, fiftyTwoWeekLow: fiftyTwoWeekLow,
+      fiftyTwoWeekChange: ftc, beta: beta, avgVolume: avg,
+      sector: sector, industry: industry, description: description,
+      exchange: exchange, currency: currency, country: country,
+      website: website, employees: employees, logoUrl: logoUrl,
+      dividendFrequency: dividendFrequency, meetingUrl: meetingUrl,
     );
   }
 }

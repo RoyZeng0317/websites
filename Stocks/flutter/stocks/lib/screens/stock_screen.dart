@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../models/stock.dart';
 import '../services/api_service.dart';
+import '../services/stock_cache_service.dart';
 import '../widgets/helpers.dart';
 
 class StockScreen extends StatefulWidget {
@@ -70,29 +71,29 @@ class _StockScreenState extends State<StockScreen> {
 
   Future<void> _load() async {
     setState(() => _loading = true);
-    try {
-      final results = await Future.wait([
-        _api.getStockInfo(widget.symbol),
-        _api.getChart(widget.symbol, period: '1d', interval: '1m'),
-        _api.getInstitutional(widget.symbol),
-        _api.getDividends(widget.symbol),
-        _api.getSentiment(widget.symbol),
-        _api.getEtfNav(widget.symbol),
-        _api.getEtfHoldings(widget.symbol),
-      ]);
-      if (mounted) {
-        setState(() {
-          _info = results[0] as StockInfo?;
-          _chartData = results[1] as List<ChartDataPoint>;
-          _instData = results[2] as List<InstitutionalRecord>;
-          _dividends = results[3] as StockDividends?;
-          _sentiment = results[4] as SentimentData?;
-          _etfNav = results[5] as EtfNavData?;
-          _etfHoldings = results[6] as EtfHoldingsData?;
-        });
-      }
-    } catch (_) {}
-    if (mounted) setState(() => _loading = false);
+    // Load info first (with Firestore fallback) so UI renders ASAP
+    final info = await StockCacheService.getInfo(widget.symbol);
+    if (mounted) setState(() { _info = info; _loading = info == null; });
+    // Load remaining data in parallel
+    final results = await Future.wait([
+      StockCacheService.getChart(widget.symbol),
+      StockCacheService.getInstitutional(widget.symbol),
+      StockCacheService.getDividends(widget.symbol),
+      StockCacheService.getSentiment(widget.symbol),
+      StockCacheService.getEtfNav(widget.symbol),
+      StockCacheService.getEtfHoldings(widget.symbol),
+    ]);
+    if (mounted) {
+      setState(() {
+        _chartData = results[0] as List<ChartDataPoint>;
+        _instData = results[1] as List<InstitutionalRecord>;
+        _dividends = results[2] as StockDividends?;
+        _sentiment = results[3] as SentimentData?;
+        _etfNav = results[4] as EtfNavData?;
+        _etfHoldings = results[5] as EtfHoldingsData?;
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _loadChart(String period, String interval) async {
@@ -124,7 +125,20 @@ class _StockScreenState extends State<StockScreen> {
         actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 24),
+                  Text('載入中...', style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  const Text('首次載入約需 30-60 秒', style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  const SizedBox(height: 24),
+                  TextButton(onPressed: () => Navigator.pop(context), child: const Text('返回搜尋')),
+                ],
+              ),
+            )
           : info == null
               ? _buildError(theme)
               : RefreshIndicator(
@@ -189,6 +203,8 @@ class _StockScreenState extends State<StockScreen> {
   Widget _buildPriceHeader(ThemeData theme, StockInfo info, double price, double ch, double chPct, bool isUp) {
     return sectionCard(theme: theme, title: '', children: [
       Text(info.nameCn ?? info.name, style: theme.textTheme.titleMedium?.copyWith(color: Colors.grey)),
+      if (info.nameEn != null)
+        Text(info.nameEn!, style: const TextStyle(fontSize: 11, color: Colors.grey)),
       const SizedBox(height: 8),
       Text(price > 0 ? price.toStringAsFixed(2) : 'N/A',
           style: theme.textTheme.headlineLarge?.copyWith(
@@ -220,14 +236,22 @@ class _StockScreenState extends State<StockScreen> {
         ],
       ),
       const SizedBox(height: 8),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _label('市值', info.marketCap != null ? fmtNum(info.marketCap!) : 'N/A'),
-          _label('量', info.volume.toString()),
-          _label('類股', info.sector),
-          _label('貨幣', info.currency),
-        ],
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _label('市值', info.marketCap != null ? fmtNum(info.marketCap!) : 'N/A'),
+            const SizedBox(width: 16),
+            _label('量', info.volume.toString()),
+            const SizedBox(width: 16),
+            _label('類股', info.sector),
+            const SizedBox(width: 16),
+            if (info.industry != null) ...[_label('產業', info.industry!), const SizedBox(width: 16)],
+            _label('貨幣', info.currency),
+            if (info.country != null) ...[const SizedBox(width: 16), _label('國家', info.country!)],
+            if (info.employees != null) ...[const SizedBox(width: 16), _label('員工', '${info.employees!}')],
+          ],
+        ),
       ),
     ]);
   }
