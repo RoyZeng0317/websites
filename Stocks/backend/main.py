@@ -419,11 +419,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 "fiftyTwoWeekHigh": None,
                 "fiftyTwoWeekLow": None,
                 "52WeekChange": None,
-                "sector": "",
-                "industry": "",
-                "country": "Taiwan",
-                "website": "",
-                "longBusinessSummary": "",
+                "sector": None,
+                "industry": None,
+                "country": None,
+                "website": None,
+                "longBusinessSummary": None,
                 "fullTimeEmployees": None,
                 "logo_url": None,
             }
@@ -484,11 +484,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             except Exception:
                 continue
     if finnhub_result:
-        if not result or not any(v is not None for v in result.values()):
+        if not result or not any(v is not None and v != "" for v in result.values()):
             result = finnhub_result
         else:
             for k, v in finnhub_result.items():
-                if v is not None and result.get(k) is None:
+                if v is not None and v != "" and (result.get(k) is None or result.get(k) == ""):
                     result[k] = v
 
     # Method 3: yfinance as last resort
@@ -602,10 +602,12 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 pass
 
         if _yf_data and any(v is not None for v in _yf_data.values()):
-            if result and any(v is not None for v in result.values()):
+            if result and any(v is not None and v != "" for v in result.values()):
                 for k, v in _yf_data.items():
-                    if v is not None and result.get(k) is None:
-                        result[k] = v
+                    if v is not None:
+                        existing = result.get(k)
+                        if existing is None or (isinstance(existing, str) and existing.strip() == ""):
+                            result[k] = v
             else:
                 result = _yf_data
 
@@ -1160,7 +1162,7 @@ def _get_stock_info(symbol: str) -> dict:
                 pass
             cur = result.get("currentPrice", 0)
             fund = _fetch_fundamentals(symbol, current_price=cur)
-            result.update({k: v for k, v in fund.items() if v is not None})
+            result.update({k: v for k, v in fund.items() if v is not None and v != ""})
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
 
@@ -1176,7 +1178,7 @@ def _get_stock_info(symbol: str) -> dict:
         # Merge fundamentals (cached separately, longer TTL)
         cur = result.get("currentPrice", result.get("regularMarketPrice", 0))
         fund = _fetch_fundamentals(symbol, current_price=cur)
-        result.update({k: v for k, v in fund.items() if v is not None})
+        result.update({k: v for k, v in fund.items() if v is not None and v != ""})
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 

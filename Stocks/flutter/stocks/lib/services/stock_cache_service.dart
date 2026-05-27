@@ -7,34 +7,39 @@ class StockCacheService {
   static final _api = ApiService();
 
   static Future<StockInfo?> getInfo(String symbol) async {
-    final ref = _firestore.collection('stockCache').doc(symbol);
-
-    final snap = await ref.get();
-    if (snap.exists) {
-      final data = snap.data() as Map<String, dynamic>;
-      final cachedAt = data['_cachedAt'] as int? ?? 0;
-      final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      if (now - cachedAt < 3600) {
-        return StockInfo.fromJson(data).calculateMissing();
-      }
-    }
-
+    // Try Firestore cache first; if Firestore unavailable, just call API
     try {
-      final info = await _api.getStockInfo(symbol);
-      if (info != null) {
-        final json = {
-          ..._stockInfoToJson(info),
-          '_cachedAt': DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        };
-        await ref.set(json, SetOptions(merge: true));
-      }
-      return info;
-    } catch (_) {
+      final ref = _firestore.collection('stockCache').doc(symbol);
+      final snap = await ref.get();
       if (snap.exists) {
         final data = snap.data() as Map<String, dynamic>;
-        return StockInfo.fromJson(data).calculateMissing();
+        final cachedAt = data['_cachedAt'] as int? ?? 0;
+        final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+        if (now - cachedAt < 3600) {
+          return StockInfo.fromJson(data).calculateMissing();
+        }
       }
-      return null;
+
+      try {
+        final info = await _api.getStockInfo(symbol);
+        if (info != null) {
+          final json = {
+            ..._stockInfoToJson(info),
+            '_cachedAt': DateTime.now().millisecondsSinceEpoch ~/ 1000,
+          };
+          await ref.set(json, SetOptions(merge: true));
+        }
+        return info;
+      } catch (_) {
+        if (snap.exists) {
+          final data = snap.data() as Map<String, dynamic>;
+          return StockInfo.fromJson(data).calculateMissing();
+        }
+        return null;
+      }
+    } catch (_) {
+      // Firestore unavailable — skip cache entirely
+      return _api.getStockInfo(symbol);
     }
   }
 

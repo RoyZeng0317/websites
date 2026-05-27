@@ -188,8 +188,16 @@ class StockInfo {
 
     double? n(double? v, double? Function() compute) => (v != null && v != 0) ? v : compute();
 
-    final pe = n(peRatio, () => eps != null && eps! != 0 ? p / eps! : null);
-    final eps2 = n(eps, () => pe != null && pe != 0 ? p / pe : null);
+    double? pm = profitMargin;
+    double? rps = revenuePerShare;
+
+    double? eps2 = eps;
+    if (eps2 == null && pm != null && rps != null) {
+      eps2 = pm * rps;
+    }
+
+    final pe = n(peRatio, () => eps2 != null && eps2 != 0 ? p / eps2 : null);
+    if (eps2 == null && pe != null && pe != 0) eps2 = p / pe;
     final pb = n(priceToBook, () => bookValue != null && bookValue! != 0 ? p / bookValue! : null);
     final bv = n(bookValue, () => pb != null && pb != 0 ? p / pb : null);
 
@@ -202,7 +210,6 @@ class StockInfo {
       }
     }
 
-    double? pm = profitMargin;
     if (pm == null && eps2 != null && revenuePerShare != null && revenuePerShare! != 0) {
       pm = eps2 / revenuePerShare!;
     }
@@ -215,11 +222,10 @@ class StockInfo {
     if (roa2 == null && roe2 != null) roa2 = roe2;
 
     double? rev = revenue;
-    if (rev == null && marketCap != null && revenuePerShare != null && p != 0) {
-      rev = revenuePerShare! * (marketCap! / p);
+    if (rev == null && marketCap != null && rps != null && p != 0) {
+      rev = rps * (marketCap! / p);
     }
 
-    double? rps = revenuePerShare;
     if (rps == null && rev != null && marketCap != null && p != 0) {
       rps = rev / (marketCap! / p);
     }

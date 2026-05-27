@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stock Info',
+      title: 'Stock Info 全球股票資訊網',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
