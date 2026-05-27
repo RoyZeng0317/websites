@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { searchStocks } from '../api/stockApi'
+import { searchLocal } from '../data/stockNames'
 import type { StockSearchResult } from '../types/stock'
 
 export default function SearchBar() {
@@ -15,6 +16,13 @@ export default function SearchBar() {
     if (query.length < 1) {
       setResults([])
       setOpen(false)
+      return
+    }
+    const local = searchLocal(query)
+    if (local.length > 0) {
+      setResults(local)
+      setOpen(true)
+      setLoading(false)
       return
     }
     setLoading(true)
