@@ -133,7 +133,7 @@ class _StockScreenState extends State<StockScreen> {
                   const SizedBox(height: 24),
                   Text('載入中...', style: theme.textTheme.titleMedium),
                   const SizedBox(height: 8),
-                  const Text('首次載入約需 30-60 秒', style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  const Text('伺服器喚醒中，請稍候', style: TextStyle(color: Colors.grey, fontSize: 13)),
                   const SizedBox(height: 24),
                   TextButton(onPressed: () => Navigator.pop(context), child: const Text('返回搜尋')),
                 ],

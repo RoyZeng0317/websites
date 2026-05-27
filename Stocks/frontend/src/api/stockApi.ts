@@ -123,8 +123,19 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     return compute()
   }
 
-  const pe = n(info.peRatio, () => info.eps != null && info.eps !== 0 ? p / info.eps : null)
-  const eps = n(info.eps, () => pe != null && pe !== 0 ? p / pe : null)
+  // Derive EPS from profitMargin * revenuePerShare (reverse of normal derivation)
+  let profitMargin: number | null = info.profitMargin
+  let revenuePerShare: number | null = info.revenuePerShare
+
+  let eps: number | null = info.eps
+  if (eps == null && profitMargin != null && revenuePerShare != null) {
+    eps = profitMargin * revenuePerShare
+  }
+
+  const pe = n(info.peRatio, () => eps != null && eps !== 0 ? p / eps : null)
+  if (eps == null) {
+    if (pe != null && pe !== 0) eps = p / pe
+  }
   const pb = n(info.priceToBook, () => info.bookValue != null && info.bookValue !== 0 ? p / info.bookValue : null)
   const bv = n(info.bookValue, () => pb != null && pb !== 0 ? p / pb : null)
 
@@ -132,19 +143,10 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   if (roe == null) {
     if (pb != null && pe != null && pe !== 0) roe = pb / pe
     else if (eps != null && bv != null && bv !== 0) roe = eps / bv
-    else if (info.revenue != null && info.revenue > 0 && info.marketCap != null && info.marketCap > 0) {
-      const netIncome = eps != null && (p / info.marketCap) > 0
-        ? eps * (info.marketCap / p)
-        : null
-      if (netIncome != null && bv != null && bv !== 0) {
-        roe = netIncome / (bv * (info.marketCap / p))
-      }
-    }
   }
 
-  let profitMargin: number | null = info.profitMargin
-  if (profitMargin == null && eps != null && info.revenuePerShare != null && info.revenuePerShare !== 0) {
-    profitMargin = eps / info.revenuePerShare
+  if (profitMargin == null && eps != null && revenuePerShare != null && revenuePerShare !== 0) {
+    profitMargin = eps / revenuePerShare
   }
 
   let roa: number | null = info.roa
@@ -157,11 +159,10 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   }
 
   let revenue: number | null = info.revenue
-  if (revenue == null && info.marketCap != null && info.marketCap > 0 && info.revenuePerShare != null && p !== 0) {
-    revenue = info.revenuePerShare * (info.marketCap / p)
+  if (revenue == null && info.marketCap != null && info.marketCap > 0 && revenuePerShare != null && p !== 0) {
+    revenue = revenuePerShare * (info.marketCap / p)
   }
 
-  let revenuePerShare: number | null = info.revenuePerShare
   if (revenuePerShare == null && revenue != null && info.marketCap != null && info.marketCap > 0 && p !== 0) {
     revenuePerShare = revenue / (info.marketCap / p)
   }

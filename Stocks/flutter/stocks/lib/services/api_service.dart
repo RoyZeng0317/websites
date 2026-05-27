@@ -4,9 +4,9 @@ import '../models/stock.dart';
 
 class ApiService {
   static const String _base = 'https://stock-info-backend-z6sr.onrender.com';
-  static const _timeout = Duration(seconds: 60);
+  static const _timeout = Duration(seconds: 20);
 
-  Future<http.Response> _getWithRetry(Uri uri, {int retries = 2}) async {
+  Future<http.Response> _getWithRetry(Uri uri, {int retries = 1}) async {
     for (int i = 0; i <= retries; i++) {
       try {
         final res = await http.get(uri).timeout(_timeout);
