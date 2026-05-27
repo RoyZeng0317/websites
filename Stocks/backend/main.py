@@ -112,6 +112,62 @@ STOCK_SECTORS = {
     "2609.TW": {"sector": "航運", "industry": "貨櫃"},
 }
 
+SECTOR_AVG_PE = {
+    "半導體": 20, "光電": 15, "面板": 15, "電子代工": 15,
+    "電腦周邊": 16, "通信網路": 18, "電信服務": 18,
+    "金融": 12, "銀行": 12, "保險": 12,
+    "航運": 10, "航空": 10, "貨櫃": 10,
+    "塑膠": 15, "鋼鐵": 12, "食品": 18,
+    "營建": 12, "建材": 12,
+    "電子零組件": 18, "其他電子": 16,
+    "汽車": 15, "生技醫療": 25, "電機機械": 15,
+    "運動休閒": 18, "貿易百貨": 15, "油電": 14,
+    "資訊服務": 18, "水泥": 13, "橡膠": 14,
+    "紡織": 14, "電器電纜": 13, "玻璃陶瓷": 14,
+    "造紙": 12, "觀光餐飲": 20, "物流": 12,
+    "零售": 18, "超商": 18, "餐飲": 20,
+    "IC 設計": 22, "晶圓代工": 20, "封測": 16,
+    "記憶體製造": 15, "PCB": 15,
+}
+DEFAULT_AVG_PE = 15
+
+TWSE_COMPANY_CACHE = {}
+TWSE_COMPANY_CACHE_TIME = 0
+TWSE_COMPANY_CACHE_TTL = 86400  # 24 hours
+
+def _fetch_twse_company_info(symbol: str) -> dict:
+    global TWSE_COMPANY_CACHE, TWSE_COMPANY_CACHE_TIME
+    code = symbol.replace(".TW", "").replace(".TWO", "")
+    market_type = "listed" if symbol.endswith(".TW") else "otc"
+
+    now_val = time.time()
+    full = TWSE_COMPANY_CACHE.get(market_type)
+    if full and now_val - TWSE_COMPANY_CACHE_TIME < TWSE_COMPANY_CACHE_TTL:
+        return full.get(code, {})
+
+    try:
+        url = ("https://openapi.twse.com.tw/v1/opendata/t187ap03_L"
+               if market_type == "listed"
+               else "https://openapi.twse.com.tw/v1/opendata/t187ap03_P")
+        s = requests.Session()
+        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
+        r = s.get(url, timeout=15)
+        r.encoding = "utf-8"
+        raw = r.json()
+    except Exception:
+        raw = []
+
+    index = {}
+    code_key = "\u516c\u53f8\u4ee3\u865f"
+    name_key = "\u516c\u53f8\u540d\u7a31"
+    for item in raw:
+        c = str(item.get(code_key, "")).strip()
+        if c:
+            index[c] = item
+
+    TWSE_COMPANY_CACHE[market_type] = index
+    TWSE_COMPANY_CACHE_TIME = now_val
+    return index.get(code, {})
 STOCK_NAMES = {}
 _raw_names = {
     "1301": "台塑", "2002": "中鋼", "2303": "聯電", "2308": "台達電",
@@ -1134,6 +1190,50 @@ def _fetch_twse_quote(symbol: str) -> dict:
     return {}
 
 
+def _add_company_info_and_premium(result: dict, symbol: str, current_price: float):
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        company = _fetch_twse_company_info(symbol)
+        if company:
+            fields = {
+                "_chairman": "\u8463\u4e8b\u9577",
+                "_generalManager": "\u7e3d\u7d93\u7406",
+                "_spokesperson": "\u767c\u8a00\u4eba",
+                "_spokespersonTitle": "\u767c\u8a00\u4eba\u8077\u7a31",
+                "_deputySpokesperson": "\u4ee3\u7406\u767c\u8a00\u4eba",
+                "_establishedDate": "\u6210\u7acb\u65e5\u671f",
+                "_listingDate": "\u4e0a\u5e02\u65e5\u671f",
+                "_phone": "\u7e3d\u6a5f\u96fb\u8a71",
+                "_address": "\u4f4f\u5740",
+                "_capital": "\u5be6\u6536\u8cc7\u672c\u984d",
+                "_shareTransferAgency": "\u80a1\u7968\u904e\u6236\u6a5f\u69cb",
+                "_auditorFirm": "\u7c3d\u8b49\u6703\u8a08\u5e2b\u4e8b\u52d9\u6240",
+                "_auditor1": "\u7c3d\u8b49\u6703\u8a08\u5e2b\u0031",
+                "_auditor2": "\u7c3d\u8b49\u6703\u8a08\u5e2b\u0032",
+                "_fax": "\u50b3\u771f\u6a5f\u865f\u78bc",
+                "_email": "\u96fb\u5b50\u90f5\u4ef6\u4fe1\u7bb1",
+            }
+            for eng_key, tw_key in fields.items():
+                val = company.get(tw_key)
+                if val is not None and str(val).strip():
+                    result[eng_key] = str(val).strip()
+
+    eps = result.get("trailingEps")
+    book_value = result.get("bookValue")
+    sector = result.get("sector", "")
+    avg_pe = SECTOR_AVG_PE.get(sector, DEFAULT_AVG_PE)
+    fair_value = None
+    fair_method = None
+    if eps is not None and eps > 0:
+        fair_value = eps * avg_pe
+        fair_method = "pe_based"
+    elif book_value is not None and book_value > 0:
+        fair_value = book_value * 1.2
+        fair_method = "pb_based"
+    if fair_value is not None and fair_value > 0 and current_price > 0:
+        result["_fairValue"] = fair_value
+        result["_fairValueMethod"] = fair_method
+        result["_premium"] = ((current_price - fair_value) / fair_value) * 100
+
 def _get_stock_info(symbol: str) -> dict:
     cache_key = f"info_{symbol}"
     now_val = time.time()
@@ -1163,6 +1263,7 @@ def _get_stock_info(symbol: str) -> dict:
             cur = result.get("currentPrice", 0)
             fund = _fetch_fundamentals(symbol, current_price=cur)
             result.update({k: v for k, v in fund.items() if v is not None and v != ""})
+            _add_company_info_and_premium(result, symbol, cur)
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
 
@@ -1179,6 +1280,7 @@ def _get_stock_info(symbol: str) -> dict:
         cur = result.get("currentPrice", result.get("regularMarketPrice", 0))
         fund = _fetch_fundamentals(symbol, current_price=cur)
         result.update({k: v for k, v in fund.items() if v is not None and v != ""})
+        _add_company_info_and_premium(result, symbol, cur)
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
@@ -1407,6 +1509,27 @@ async def get_stock_info(symbol: str):
         "exchange": safe(info.get("exchange")),
         "currency": safe(info.get("currency")),
         "logoUrl": safe_str(info.get("logo_url")),
+        # Premium / fair value
+        "premium": safe(info.get("_premium")),
+        "fairValue": safe(info.get("_fairValue")),
+        "fairValueMethod": safe_str(info.get("_fairValueMethod")),
+        # Company management info (Taiwan stocks)
+        "chairman": safe_str(info.get("_chairman")),
+        "generalManager": safe_str(info.get("_generalManager")),
+        "spokesperson": safe_str(info.get("_spokesperson")),
+        "spokespersonTitle": safe_str(info.get("_spokespersonTitle")),
+        "deputySpokesperson": safe_str(info.get("_deputySpokesperson")),
+        "establishedDate": safe_str(info.get("_establishedDate")),
+        "listingDate": safe_str(info.get("_listingDate")),
+        "phone": safe_str(info.get("_phone")),
+        "companyAddress": safe_str(info.get("_address")),
+        "capital": safe(info.get("_capital")),
+        "shareTransferAgency": safe_str(info.get("_shareTransferAgency")),
+        "auditorFirm": safe_str(info.get("_auditorFirm")),
+        "auditor1": safe_str(info.get("_auditor1")),
+        "auditor2": safe_str(info.get("_auditor2")),
+        "fax": safe_str(info.get("_fax")),
+        "companyEmail": safe_str(info.get("_email")),
     }
 
     return result

@@ -75,6 +75,27 @@ export interface StockInfo {
   exchange: string
   currency: string
   logoUrl: string | null
+  // Premium / fair value
+  premium?: number | null
+  fairValue?: number | null
+  fairValueMethod?: string | null
+  // Company management info (Taiwan stocks)
+  chairman?: string | null
+  generalManager?: string | null
+  spokesperson?: string | null
+  spokespersonTitle?: string | null
+  deputySpokesperson?: string | null
+  establishedDate?: string | null
+  listingDate?: string | null
+  phone?: string | null
+  companyAddress?: string | null
+  capital?: number | null
+  shareTransferAgency?: string | null
+  auditorFirm?: string | null
+  auditor1?: string | null
+  auditor2?: string | null
+  fax?: string | null
+  companyEmail?: string | null
 }
 
 export interface ChartDataPoint {

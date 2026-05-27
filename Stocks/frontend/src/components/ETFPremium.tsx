@@ -5,18 +5,27 @@ import type { EtfNavData } from '../types/stock'
 interface Props {
   symbol: string
   currentPrice?: number
+  premium?: number | null
+  fairValue?: number | null
+  fairValueMethod?: string | null
 }
 
-export default function ETFPremium({ symbol, currentPrice }: Props) {
+export default function ETFPremium({ symbol, currentPrice, premium: propPremium, fairValue: propFairValue, fairValueMethod }: Props) {
   const [data, setData] = useState<EtfNavData | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const hasPrecomputed = propPremium != null && propFairValue != null
+
   useEffect(() => {
+    if (hasPrecomputed) {
+      setLoading(false)
+      return
+    }
     setLoading(true)
     getEtfNav(symbol).then((res) => {
       setData(res)
     }).catch(() => {}).finally(() => setLoading(false))
-  }, [symbol])
+  }, [symbol, hasPrecomputed])
 
   if (loading) {
     return (
@@ -24,6 +33,39 @@ export default function ETFPremium({ symbol, currentPrice }: Props) {
         <h2 className="text-lg font-semibold text-slate-200 mb-4">折溢價</h2>
         <div className="h-[120px] flex items-center justify-center">
           <div className="w-6 h-6 border-2 border-slate-400 border-t-emerald-400 rounded-full animate-spin" />
+        </div>
+      </div>
+    )
+  }
+
+  if (hasPrecomputed) {
+    const price = currentPrice ?? 0
+    const isPositive = propPremium! >= 0
+    return (
+      <div className="bg-slate-800/50 rounded-xl p-6">
+        <h2 className="text-lg font-semibold text-slate-200 mb-4">折溢價</h2>
+
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <div className="text-xs text-slate-400 mb-1">合理價</div>
+            <div className="text-lg font-semibold text-slate-200">{propFairValue!.toFixed(2)}</div>
+          </div>
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <div className="text-xs text-slate-400 mb-1">市價</div>
+            <div className="text-lg font-semibold text-slate-200">{price > 0 ? price.toFixed(2) : 'N/A'}</div>
+          </div>
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <div className="text-xs text-slate-400 mb-1">折溢價率</div>
+            <div className={`text-lg font-semibold ${isPositive ? 'text-red-400' : 'text-emerald-400'}`}>
+              {propPremium! >= 0 ? '+' : ''}{propPremium!.toFixed(2)}%
+            </div>
+          </div>
+        </div>
+
+        <div className="text-xs text-slate-500 text-center">
+          {fairValueMethod === 'pe_based' ? '合理價依 EPS × 產業平均本益比估算' :
+           fairValueMethod === 'pb_based' ? '合理價依每股淨值推算' :
+           '合理價依基本面估算'}
         </div>
       </div>
     )
