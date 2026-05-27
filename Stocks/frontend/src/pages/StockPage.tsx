@@ -8,6 +8,7 @@ import PriceChart from '../components/PriceChart'
 import KlineChart from '../components/KlineChart'
 import FuturesPrice from '../components/FuturesPrice'
 import Fundamentals from '../components/Fundamentals'
+import BuyAnalysis from '../components/BuyAnalysis'
 import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
 import InstitutionalInvestors from '../components/InstitutionalInvestors'
@@ -97,6 +98,8 @@ export default function StockPage() {
       <FuturesPrice symbol={symbol!} />
 
       <Fundamentals info={info} />
+
+      <BuyAnalysis info={info} />
 
       <InstitutionalInvestors symbol={symbol!} />
 
