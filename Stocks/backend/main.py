@@ -344,6 +344,13 @@ STOCK_MEETING_URLS = {
     "2412.TW": "https://www.cht.com.tw/zh-tw/home/cht/investors/shareholder-services/ir-calendar",
 }
 
+ETF_DIVIDEND_FALLBACK = {
+    # ETF code -> {dividendYield (decimal), trailingPE, priceToBook}
+    "00403A.TW": {"dividendYield": None, "trailingPE": None, "priceToBook": None},
+    "009816.TW": {"dividendYield": None, "trailingPE": 32.3, "priceToBook": None},
+    "00981A.TW": {"dividendYield": None, "trailingPE": None, "priceToBook": None},
+}
+
 FUNDAMENTALS_CACHE = {}
 FUNDAMENTALS_TTL = 7200  # 2 hours for fundamentals
 
@@ -603,6 +610,14 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         "longBusinessSummary": _ks.get("longBusinessSummary", ""),
                         "fullTimeEmployees": _ks.get("fullTimeEmployees"),
                         "logo_url": _ks.get("logoUrl", ""),
+                        "ytdReturn": _ks.get("ytdReturn"),
+                        "totalAssets": _ks.get("totalAssets"),
+                        "navPrice": _ks.get("navPrice"),
+                        "threeYearAverageReturn": _ks.get("threeYearAverageReturn"),
+                        "fiveYearAverageReturn": _ks.get("fiveYearAverageReturn"),
+                        "annualReportExpenseRatio": _ks.get("annualReportExpenseRatio"),
+                        "fundFamily": _fd.get("fundFamily"),
+                        "category": _fd.get("category"),
                     }
                     break
                 except Exception:
@@ -653,6 +668,15 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         "longBusinessSummary": _info.get("longBusinessSummary", ""),
                         "fullTimeEmployees": _info.get("fullTimeEmployees"),
                         "logo_url": _info.get("logo_url"),
+                        # ETF-specific fields
+                        "ytdReturn": _info.get("ytdReturn"),
+                        "totalAssets": _info.get("totalAssets"),
+                        "navPrice": _info.get("navPrice"),
+                        "threeYearAverageReturn": _info.get("threeYearAverageReturn"),
+                        "fiveYearAverageReturn": _info.get("fiveYearAverageReturn"),
+                        "annualReportExpenseRatio": _info.get("annualReportExpenseRatio"),
+                        "fundFamily": _info.get("fundFamily"),
+                        "category": _info.get("category"),
                     }
             except Exception:
                 pass
@@ -1095,6 +1119,15 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             dte = dte_val / 100 if dte_val > 5 else dte_val
             result["returnOnAssets"] = roe_val / (1 + dte)
 
+    # ETF fallback: supplement dividend yield from manual lookup when all sources fail
+    if result is not None and symbol in ETF_DIVIDEND_FALLBACK:
+        _ef = ETF_DIVIDEND_FALLBACK[symbol]
+        for _efk in ("dividendYield", "trailingPE", "priceToBook"):
+            if result.get(_efk) is None and _ef.get(_efk) is not None:
+                result[_efk] = _ef[_efk]
+        if result.get("dividendRate") is None and result.get("dividendYield") and current_price:
+            result["dividendRate"] = round(result["dividendYield"] * current_price, 4)
+
     has_data = any(v is not None for v in result.values())
     if has_data:
         FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
@@ -1530,6 +1563,15 @@ async def get_stock_info(symbol: str):
         "auditor2": safe_str(info.get("_auditor2")),
         "fax": safe_str(info.get("_fax")),
         "companyEmail": safe_str(info.get("_email")),
+        # ETF-specific fields
+        "ytdReturn": safe(info.get("ytdReturn")),
+        "totalAssets": safe(info.get("totalAssets")),
+        "navPrice": safe(info.get("navPrice")),
+        "threeYearAverageReturn": safe(info.get("threeYearAverageReturn")),
+        "fiveYearAverageReturn": safe(info.get("fiveYearAverageReturn")),
+        "annualReportExpenseRatio": safe(info.get("annualReportExpenseRatio")),
+        "fundFamily": safe_str(info.get("fundFamily")),
+        "category": safe_str(info.get("category")),
     }
 
     return result

@@ -96,6 +96,15 @@ export interface StockInfo {
   auditor2?: string | null
   fax?: string | null
   companyEmail?: string | null
+  // ETF-specific fields
+  ytdReturn?: number | null
+  totalAssets?: number | null
+  navPrice?: number | null
+  threeYearAverageReturn?: number | null
+  fiveYearAverageReturn?: number | null
+  annualReportExpenseRatio?: number | null
+  fundFamily?: string | null
+  category?: string | null
 }
 
 export interface ChartDataPoint {
