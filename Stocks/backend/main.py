@@ -19,7 +19,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import asyncio
 import requests
 import yfinance as yf
+from dotenv import load_dotenv
 from fastapi import FastAPI, Query, WebSocket, WebSocketDisconnect
+
+load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
 
 # yfinance cache workaround
@@ -2344,6 +2347,97 @@ async def get_etf_holdings(symbol: str):
 
     result["holdings"].sort(key=lambda x: -(x.get("weight") or 0))
     return result
+
+
+@app.post("/api/ai/consult")
+async def ai_consult(body: dict):
+    try:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            return {"answer": "請先設定 GEMINI_API_KEY 環境變數才能使用 AI 諮詢功能。"}
+        symbol = body.get("symbol", "")
+        question = body.get("question", "")
+        if not symbol or not question:
+            return {"answer": "請提供股票代號與問題。"}
+        info = _get_stock_info(symbol)
+        fund = _fetch_fundamentals(symbol, current_price=info.get("currentPrice", 0))
+        context_parts = [
+            f"股票代號: {symbol}",
+            f"名稱: {info.get('longName', 'N/A')}",
+        ]
+        if info.get("nameCn"):
+            context_parts.append(f"中文名稱: {info['nameCn']}")
+        price = info.get("currentPrice")
+        chg = info.get("changePercent")
+        if price:
+            chg_str = f" ({chg*100:.2f}%)" if chg else ""
+            context_parts.append(f"現價: {price}{chg_str}")
+        for label, key, fmt in [
+            ("本益比 (P/E)", "trailingPE", ".2f"),
+            ("預估 P/E", "forwardPE", ".2f"),
+            ("EPS", "trailingEps", ".2f"),
+            ("預估 EPS", "forwardEps", ".2f"),
+            ("殖利率", "dividendYield", ".2%"),
+            ("股利金額", "dividendRate", ".2f"),
+            ("股價淨值比 (P/B)", "priceToBook", ".2f"),
+            ("每股淨值", "bookValue", ".2f"),
+            ("ROE", "returnOnEquity", ".2%"),
+            ("ROA", "returnOnAssets", ".2%"),
+            ("利潤率", "profitMargins", ".2%"),
+            ("營收", "totalRevenue", ".0f"),
+            ("市值", "marketCap", ".0f"),
+            ("β 值", "beta", ".2f"),
+            ("52週高點", "fiftyTwoWeekHigh", ".2f"),
+            ("52週低點", "fiftyTwoWeekLow", ".2f"),
+            ("52週變化", "52WeekChange", ".2%"),
+            ("負債權益比", "debtToEquity", ".2f"),
+            ("營收/每股", "revenuePerShare", ".2f"),
+            ("股本", "fullTimeEmployees", ".0f"),
+            ("產業", "industry", "s"),
+            (" sector ", "sector", "s"),
+        ]:
+            v = fund.get(key) if key in fund else info.get(key)
+            if v is not None:
+                if fmt == "s":
+                    context_parts.append(f"{label}: {v}")
+                elif fmt.endswith("%"):
+                    context_parts.append(f"{label}: {v*100:.2f}%")
+                elif fmt == ".0f":
+                    context_parts.append(f"{label}: {v:,.0f}")
+                else:
+                    context_parts.append(f"{label}: {v:.2f}")
+        if "dividendYield" in fund and fund.get("dividendYield"):
+            context_parts.append(f"殖利率: {fund['dividendYield']*100:.2f}%")
+        chairman = info.get("_chairman")
+        gm = info.get("_generalManager")
+        if chairman:
+            context_parts.append(f"董事長: {chairman}")
+        if gm:
+            context_parts.append(f"總經理: {gm}")
+        context = "\n".join(context_parts)
+        prompt = (
+            "你是一位專業的台灣股市分析師，精通台股基本面、技術面與產業分析。\n"
+            "請根據以下提供的個股資料，以繁體中文回答使用者的問題。\n"
+            "回答應客觀中立，包含數據佐證，並在適當處提供投資風險提醒。\n"
+            "請勿提供具體的買賣建議或目標價。\n\n"
+            f"【個股資料】\n{context}\n\n"
+            f"【使用者提問】\n{question}"
+        )
+        resp = requests.post(
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
+            json={"contents": [{"parts": [{"text": prompt}]}]},
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            return {"answer": f"AI 查詢失敗 (HTTP {resp.status_code})，請稍後再試。"}
+        data = resp.json()
+        candidates = data.get("candidates", [])
+        if not candidates:
+            return {"answer": "AI 無法產生回答，請重新提問。"}
+        answer = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        return {"answer": answer}
+    except Exception as e:
+        return {"answer": f"AI 查詢發生錯誤: {str(e)}"}
 
 
 @app.get("/api/price/{symbol}")

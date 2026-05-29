@@ -16,6 +16,7 @@ import HoldingTracker from '../components/HoldingTracker'
 import ETFPremium from '../components/ETFPremium'
 import CompanyInfo from '../components/CompanyInfo'
 import ETFHoldings from '../components/ETFHoldings'
+import AiConsult from '../components/AiConsult'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
 
@@ -123,6 +124,10 @@ export default function StockPage() {
       </ErrorBoundary>
 
       <DividendInfo symbol={symbol!} meetingUrl={info.meetingUrl} />
+
+      <ErrorBoundary>
+        <AiConsult symbol={symbol!} />
+      </ErrorBoundary>
 
       {info.description && (
         <div className="bg-slate-800/50 rounded-xl p-6">

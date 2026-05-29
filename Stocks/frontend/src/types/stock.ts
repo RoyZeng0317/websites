@@ -214,3 +214,7 @@ export interface EtfHoldingsData {
   symbol: string
   holdings: EtfHolding[]
 }
+
+export interface AiConsultResponse {
+  answer: string
+}

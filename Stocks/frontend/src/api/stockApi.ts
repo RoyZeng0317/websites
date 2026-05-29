@@ -5,6 +5,7 @@ import type {
   StockDividends,
   FinancialData,
   RealtimePrice,
+  AiConsultResponse,
 } from '../types/stock'
 
 const BASE = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -232,6 +233,16 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     change: c,
     changePercent: cp,
   }
+}
+
+export async function consultAi(symbol: string, question: string): Promise<AiConsultResponse> {
+  const res = await fetch(`${BASE}/ai/consult`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ symbol, question }),
+  })
+  if (!res.ok) throw new Error('AI consultation failed')
+  return res.json()
 }
 
 export function formatCurrency(value: number | null | undefined, currency = 'USD'): string {
