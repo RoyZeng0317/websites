@@ -2,30 +2,26 @@ import os
 import secrets
 import string
 import uuid
-import json
-import tempfile
 import logging
 from io import BytesIO
 
-import firebase_admin
-from firebase_admin import credentials, firestore, storage as fb_storage
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from config import (
     SECRET_KEY,
-    FIREBASE_SERVICE_ACCOUNT_PATH,
-    FIREBASE_SERVICE_ACCOUNT_JSON,
-    FIREBASE_STORAGE_BUCKET,
     PASSWORD_LENGTH,
     MAX_CONTENT_LENGTH,
     ALLOWED_EXTENSIONS,
+    log_config_status,
 )
 from models import FirebaseDB
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+log_config_status()
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
