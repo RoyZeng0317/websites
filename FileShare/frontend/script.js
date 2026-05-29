@@ -12,6 +12,8 @@ const uploadError = document.getElementById('upload-error');
 const uploadErrorMsg = document.getElementById('upload-error-msg');
 const uploadPassword = document.getElementById('upload-password');
 const btnCopy = document.getElementById('btn-copy');
+const shareUrl = document.getElementById('share-url');
+const btnCopyLink = document.getElementById('btn-copy-link');
 
 const downloadPassword = document.getElementById('download-password');
 const btnDownload = document.getElementById('btn-download');
@@ -173,6 +175,7 @@ btnUpload.addEventListener('click', async () => {
 
         if (response.ok) {
             uploadPassword.textContent = data.password;
+            shareUrl.textContent = window.location.origin + '/?password=' + data.password;
             uploadResult.hidden = false;
             startCountdown(data.expires_in);
         } else {
@@ -188,30 +191,37 @@ btnUpload.addEventListener('click', async () => {
     }
 });
 
-btnCopy.addEventListener('click', async () => {
-    const password = uploadPassword.textContent;
+async function copyToClipboard(text, button, originalText) {
     try {
-        await navigator.clipboard.writeText(password);
-        btnCopy.textContent = '已複製!';
-        btnCopy.classList.add('copied');
+        await navigator.clipboard.writeText(text);
+        button.textContent = '已複製!';
+        button.classList.add('copied');
         setTimeout(() => {
-            btnCopy.textContent = '複製';
-            btnCopy.classList.remove('copied');
+            button.textContent = originalText;
+            button.classList.remove('copied');
         }, 2000);
     } catch {
         const textArea = document.createElement('textarea');
-        textArea.value = password;
+        textArea.value = text;
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
-        btnCopy.textContent = '已複製!';
-        btnCopy.classList.add('copied');
+        button.textContent = '已複製!';
+        button.classList.add('copied');
         setTimeout(() => {
-            btnCopy.textContent = '複製';
-            btnCopy.classList.remove('copied');
+            button.textContent = originalText;
+            button.classList.remove('copied');
         }, 2000);
     }
+}
+
+btnCopy.addEventListener('click', () => {
+    copyToClipboard(uploadPassword.textContent, btnCopy, '複製');
+});
+
+btnCopyLink.addEventListener('click', () => {
+    copyToClipboard(shareUrl.textContent, btnCopyLink, '複製連結');
 });
 
 downloadPassword.addEventListener('input', () => {
@@ -296,4 +306,13 @@ function showToast(message) {
 
 document.addEventListener("contextmenu", function(e){
     e.preventDefault();
-})
+});
+
+const params = new URLSearchParams(window.location.search);
+const sharedPassword = params.get('password');
+if (sharedPassword) {
+    downloadPassword.value = sharedPassword;
+    btnDownload.disabled = false;
+    document.querySelector('.tab[data-tab="download"]').click();
+    btnDownload.click();
+}

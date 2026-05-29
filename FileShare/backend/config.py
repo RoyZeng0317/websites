@@ -14,6 +14,6 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-to-a-random-secret-key')
 
-PASSWORD_LENGTH = 12
+PASSWORD_LENGTH = 6
 MAX_CONTENT_LENGTH = 500 * 1024 * 1024
 ALLOWED_EXTENSIONS = None

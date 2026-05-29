@@ -46,8 +46,7 @@ db = FirebaseDB()
 
 
 def generate_password(length=PASSWORD_LENGTH):
-    alphabet = string.ascii_letters + string.digits
-    return ''.join(secrets.choice(alphabet) for _ in range(length))
+    return ''.join(secrets.choice(string.digits) for _ in range(length))
 
 
 def allowed_file(filename):
