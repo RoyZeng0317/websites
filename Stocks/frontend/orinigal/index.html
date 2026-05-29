@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>"/>
+    <title>StockInfo - 全球股市資訊平台</title>
+  </head>
+  <body class="bg-slate-950 text-slate-100">
+    <div id="root"></div>
+    <div class="under">
+      <div class="version">
+        <span>版本資訊</span>
+        <ul>
+          <li><a href="" onclick="about(event)">關於</a></li>
+          <li>版本 3.8.0</li>
+        </ul>
+      </div>
+        <div class="about">
+          <span>關於</span> 
+          <div class="content">
+            本平台提供查詢有關於股票資訊，有即時股價走勢、基本面分析、股利歷史等<br>
+            持有總覽將根據即時股價與購買股價相差做計算，並不包含其手續費的扣費<br>
+            實際價格仍需查看各證券公司的平台為主<br>
+            資料庫部屬採用 Google firebase 與 Google firestore 部屬，連線需要時間等待，請耐心等候
+          </div>
+        </div>
+      </div>
+      <div class="contact-us">
+        <span>聯絡我們</span>
+        <ul>
+          <li>
+            <a href="mailto:boyud9.5@yahoo.com" class="link" aria-label="我有 StockInfo 全球股市資訊平台的建議">
+              <i class="fa-regular fa-envelope"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+          <div class="notif-overlay open" id="notifOverlay">
+            <div class="notif-window">
+              <div class="notif-header">
+                <h2>通知</h2>
+                <button id="notifClose">×</button>
+              </div>
+              <div class="notif-body">
+                <div class="notif-item warning">
+                  <span class="icon">⚠</span>
+                  <div class="msg">
+                    <p>05/30(六) 00:00-12:00 將進行平台維護作業，各項功能將暫停使用。</p>
+                    <p style="margin-top:8px">造成不便，敬請見諒。</p>
+                    <span class="time">系統通知</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+      </div>
+    <footer>&copy;<a href="https://royzeng0317.github.io/HTML/Self-Website/zh-tw/index.html" class="link">Roy Zeng</a></footer>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      function about(event){
+        event.preventDefault()
+        const el = document.querySelector('.about')
+        if (el) {
+          el.style.display = el.style.display === 'none' ? 'block' : 'none'
+        }
+      }
+
+      document.getElementById('notifOverlay').addEventListener('click',function(e){
+        if(e.target===this) this.classList.remove('open');
+      });
+      document.getElementById('notifClose').addEventListener('click',function(){
+        document.getElementById('notifOverlay').classList.remove('open');
+      });
+      document.addEventListener('keydown',function(e){
+        if(e.key==='Escape') document.getElementById('notifOverlay').classList.remove('open');
+      });
+    </script>
+  </body>
+</html>
