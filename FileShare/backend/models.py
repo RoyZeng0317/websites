@@ -97,6 +97,7 @@ class FirebaseDB:
         return firestore.client()
 
     def insert_file(self, original_name, stored_name, file_size, mime_type, file_data):
+        self._ensure_initialized()
         file_data.seek(0)
 
         if self._b2_client:
@@ -168,6 +169,7 @@ class FirebaseDB:
         })
 
     def get_file_stream(self, stored_name):
+        self._ensure_initialized()
         if self._b2_client:
             try:
                 obj = self._b2_client.get_object(
@@ -202,6 +204,7 @@ class FirebaseDB:
             return False
 
     def delete_file(self, stored_name):
+        self._ensure_initialized()
         if self._b2_client:
             try:
                 self._b2_client.delete_object(
