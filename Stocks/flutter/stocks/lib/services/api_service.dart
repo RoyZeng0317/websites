@@ -1,113 +1,93 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../models/stock.dart';
+import 'package:dio/dio.dart';
 
 class ApiService {
-  static const String _base = 'https://stock-info-backend-z6sr.onrender.com';
-  static const _timeout = Duration(seconds: 20);
+  static const String baseUrl =
+      'https://stock-info-backend-z6sr.onrender.com/api';
 
-  Future<http.Response> _getWithRetry(Uri uri, {int retries = 1}) async {
-    for (int i = 0; i <= retries; i++) {
-      try {
-        final res = await http.get(uri).timeout(_timeout);
-        if (res.statusCode == 200) return res;
-      } catch (_) {}
-      if (i < retries) await Future.delayed(const Duration(seconds: 2));
-    }
-    throw Exception('Request failed after $retries retries');
+  late final Dio _dio;
+
+  ApiService() {
+    _dio = Dio(BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 60),
+      headers: {'Content-Type': 'application/json'},
+    ));
   }
 
-  Future<List<StockSearchResult>> search(String query) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/search?query=${Uri.encodeComponent(query)}'));
-      final List data = jsonDecode(res.body);
-      return data.map((e) => StockSearchResult.fromJson(e)).toList();
-    } catch (_) {
-      return [];
-    }
+  // 搜尋股票
+  Future<List<Map<String, dynamic>>> searchStocks(String query) async {
+    final res = await _dio.get('/search', queryParameters: {'query': query});
+    return List<Map<String, dynamic>>.from(res.data);
   }
 
-  Future<StockInfo?> getStockInfo(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}'));
-      final info = StockInfo.fromJson(jsonDecode(res.body));
-      return info.calculateMissing();
-    } catch (_) {
-      return null;
-    }
+  // 取得個股資料
+  Future<Map<String, dynamic>> getStockInfo(String symbol) async {
+    final res = await _dio.get('/stock/${Uri.encodeComponent(symbol)}');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<List<ChartDataPoint>> getChart(String symbol,
-      {String period = '5d', String interval = '1m'}) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/chart?period=$period&interval=$interval'));
-      final json = jsonDecode(res.body);
-      final List data = json['data'] ?? [];
-      return data.map((e) => ChartDataPoint.fromJson(e)).toList();
-    } catch (_) {
-      return [];
-    }
+  // 取得圖表資料
+  Future<Map<String, dynamic>> getChart(
+    String symbol, {
+    String period = '1y',
+    String interval = '1d',
+  }) async {
+    final res = await _dio.get(
+      '/stock/${Uri.encodeComponent(symbol)}/chart',
+      queryParameters: {'period': period, 'interval': interval},
+    );
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<List<InstitutionalRecord>> getInstitutional(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/institutional'));
-      final json = jsonDecode(res.body);
-      final List data = json['data'] ?? [];
-      return data.map((e) => InstitutionalRecord.fromJson(e)).toList();
-    } catch (_) {
-      return [];
-    }
+  // 取得股利資料
+  Future<Map<String, dynamic>> getDividends(String symbol) async {
+    final res =
+        await _dio.get('/stock/${Uri.encodeComponent(symbol)}/dividends');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<StockDividends?> getDividends(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/dividends'));
-      return StockDividends.fromJson(jsonDecode(res.body));
-    } catch (_) {
-      return null;
-    }
+  // 取得財務資料
+  Future<Map<String, dynamic>> getFinancials(String symbol) async {
+    final res =
+        await _dio.get('/stock/${Uri.encodeComponent(symbol)}/financials');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<SentimentData?> getSentiment(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/sentiment'));
-      return SentimentData.fromJson(jsonDecode(res.body));
-    } catch (_) {
-      return null;
-    }
+  // 取得情緒資料
+  Future<Map<String, dynamic>> getSentiment(String symbol) async {
+    final res =
+        await _dio.get('/stock/${Uri.encodeComponent(symbol)}/sentiment');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<EtfNavData?> getEtfNav(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/etf-nav'));
-      return EtfNavData.fromJson(jsonDecode(res.body));
-    } catch (_) {
-      return null;
-    }
+  // 取得法人資料
+  Future<Map<String, dynamic>> getInstitutional(String symbol) async {
+    final res =
+        await _dio.get('/stock/${Uri.encodeComponent(symbol)}/institutional');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<EtfHoldingsData?> getEtfHoldings(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/etf-holdings'));
-      return EtfHoldingsData.fromJson(jsonDecode(res.body));
-    } catch (_) {
-      return null;
-    }
+  // 取得 ETF 淨值
+  Future<Map<String, dynamic>> getEtfNav(String symbol) async {
+    final res =
+        await _dio.get('/stock/${Uri.encodeComponent(symbol)}/etf-nav');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  Future<List<RealtimePrice>> getRealtimeHistory(String symbol) async {
-    try {
-      final res = await _getWithRetry(Uri.parse('$_base/api/stock/${Uri.encodeComponent(symbol)}/realtime-history'));
-      final json = jsonDecode(res.body);
-      final List data = json['data'] ?? [];
-      return data.map((e) => RealtimePrice.fromJson(e)).toList();
-    } catch (_) {
-      return [];
-    }
+  // 取得 ETF 持股
+  Future<Map<String, dynamic>> getEtfHoldings(String symbol) async {
+    final res =
+        await _dio.get('/stock/${Uri.encodeComponent(symbol)}/etf-holdings');
+    return Map<String, dynamic>.from(res.data);
   }
 
-  String wsUrl(String symbol) {
-    return 'wss://stock-info-backend-z6sr.onrender.com/ws/price/${Uri.encodeComponent(symbol)}';
+  // AI 諮詢
+  Future<String> consultAi(String symbol, String question) async {
+    final res = await _dio.post('/ai/consult', data: {
+      'symbol': symbol,
+      'question': question,
+    });
+    return res.data['answer'] as String;
   }
 }

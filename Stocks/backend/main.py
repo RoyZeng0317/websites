@@ -2352,9 +2352,9 @@ async def get_etf_holdings(symbol: str):
 @app.post("/api/ai/consult")
 async def ai_consult(body: dict):
     try:
-        api_key = os.getenv("GEMINI_API_KEY")
+        api_key = os.getenv("ANTHROPIC_API_KEY")
         if not api_key:
-            return {"answer": "請先設定 GEMINI_API_KEY 環境變數才能使用 AI 諮詢功能。"}
+            return {"answer": "請先設定 ANTHROPIC_API_KEY 環境變數才能使用 AI 諮詢功能。"}
         symbol = body.get("symbol", "")
         question = body.get("question", "")
         if not symbol or not question:
@@ -2424,17 +2424,26 @@ async def ai_consult(body: dict):
             f"【使用者提問】\n{question}"
         )
         resp = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
-            json={"contents": [{"parts": [{"text": prompt}]}]},
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": "claude-sonnet-4-20250514",
+                "max_tokens": 1024,
+                "messages": [{"role": "user", "content": prompt}],
+            },
             timeout=30,
         )
         if resp.status_code != 200:
             return {"answer": f"AI 查詢失敗 (HTTP {resp.status_code})，請稍後再試。"}
         data = resp.json()
-        candidates = data.get("candidates", [])
-        if not candidates:
+        content = data.get("content", [])
+        if not content:
             return {"answer": "AI 無法產生回答，請重新提問。"}
-        answer = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        answer = content[0].get("text", "")
         return {"answer": answer}
     except Exception as e:
         return {"answer": f"AI 查詢發生錯誤: {str(e)}"}

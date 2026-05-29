@@ -1,4 +1,4 @@
-# sotcks
+# stocks
 
 A new Flutter project.
 

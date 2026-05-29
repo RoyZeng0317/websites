@@ -1,6 +1,6 @@
 {
-    "name": "sotcks",
-    "short_name": "sotcks",
+    "name": "stocks",
+    "short_name": "stocks",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
