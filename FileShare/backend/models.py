@@ -79,6 +79,7 @@ class FirebaseDB:
         firebase_admin.initialize_app(cred)
 
         if B2_KEY_ID and B2_APPLICATION_KEY and B2_BUCKET_NAME:
+            logger.info(f'B2 connecting - endpoint: {B2_ENDPOINT}, key_id: {B2_KEY_ID[:10]}..., bucket: {B2_BUCKET_NAME}')
             self._b2_client = boto3.client(
                 's3',
                 endpoint_url=B2_ENDPOINT,

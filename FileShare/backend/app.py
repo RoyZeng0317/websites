@@ -6,6 +6,9 @@ import logging
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
