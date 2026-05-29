@@ -21,6 +21,16 @@ const downloadError = document.getElementById('download-error');
 const downloadErrorMsg = document.getElementById('download-error-msg');
 const downloadLoading = document.getElementById('download-loading');
 
+const linkUrl = document.getElementById('link-url');
+const btnUploadLink = document.getElementById('btn-upload-link');
+const uploadLinkError = document.getElementById('upload-link-error');
+const uploadLinkErrorMsg = document.getElementById('upload-link-error-msg');
+
+const downloadLinkInput = document.getElementById('download-link-input');
+const btnDownloadLink = document.getElementById('btn-download-link');
+const downloadLinkError = document.getElementById('download-link-error');
+const downloadLinkErrorMsg = document.getElementById('download-link-error-msg');
+
 const timerRadios = document.querySelectorAll('input[name="expires_in"]');
 const customMinutes = document.getElementById('custom-minutes');
 const countdownBox = document.getElementById('countdown-box');
@@ -93,6 +103,8 @@ tabs.forEach(tab => {
         uploadError.hidden = true;
         downloadError.hidden = true;
         downloadLoading.hidden = true;
+        uploadLinkError.hidden = true;
+        downloadLinkError.hidden = true;
         if (countdownInterval) clearInterval(countdownInterval);
     });
 });
@@ -224,6 +236,18 @@ btnCopyLink.addEventListener('click', () => {
     copyToClipboard(shareUrl.textContent, btnCopyLink, '複製連結');
 });
 
+btnUploadLink.addEventListener('click', uploadLink);
+
+linkUrl.addEventListener('input', () => {
+    uploadLinkError.hidden = true;
+});
+
+btnDownloadLink.addEventListener('click', downloadLink);
+
+downloadLinkInput.addEventListener('input', () => {
+    downloadLinkError.hidden = true;
+});
+
 downloadPassword.addEventListener('input', () => {
     btnDownload.disabled = downloadPassword.value.trim() === '';
     downloadError.hidden = true;
@@ -283,6 +307,87 @@ btnDownload.addEventListener('click', async () => {
     }
 });
 
+async function uploadLink() {
+    const url = linkUrl.value.trim();
+    if (!url) {
+        uploadLinkErrorMsg.textContent = '請輸入檔案連結';
+        uploadLinkError.hidden = false;
+        return;
+    }
+
+    btnUploadLink.disabled = true;
+    btnUploadLink.textContent = '處理中...';
+    uploadLinkError.hidden = true;
+
+    try {
+        const response = await fetch(API_BASE + '/upload-link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showToast('連結上傳成功！');
+            linkUrl.value = '';
+        } else {
+            uploadLinkErrorMsg.textContent = data.error || '上傳失敗';
+            uploadLinkError.hidden = false;
+        }
+    } catch (err) {
+        uploadLinkErrorMsg.textContent = '無法連接到伺服器';
+        uploadLinkError.hidden = false;
+    } finally {
+        btnUploadLink.disabled = false;
+        btnUploadLink.textContent = '上傳連結';
+    }
+}
+
+async function downloadLink() {
+    const link = downloadLinkInput.value.trim();
+    if (!link) {
+        downloadLinkErrorMsg.textContent = '請輸入下載連結';
+        downloadLinkError.hidden = false;
+        return;
+    }
+
+    btnDownloadLink.disabled = true;
+    btnDownloadLink.textContent = '處理中...';
+    downloadLinkError.hidden = true;
+
+    try {
+        const response = await fetch(API_BASE + '/download-link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ link }),
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'download';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            downloadLinkInput.value = '';
+        } else {
+            const data = await response.json();
+            downloadLinkErrorMsg.textContent = data.error || '下載失敗';
+            downloadLinkError.hidden = false;
+        }
+    } catch (err) {
+        downloadLinkErrorMsg.textContent = '無法連接到伺服器';
+        downloadLinkError.hidden = false;
+    } finally {
+        btnDownloadLink.disabled = false;
+        btnDownloadLink.textContent = '下載連結';
+    }
+}
+
 function showToast(message) {
     const toast = document.createElement('div');
     toast.textContent = message;
@@ -313,6 +418,9 @@ const sharedPassword = params.get('password');
 if (sharedPassword) {
     downloadPassword.value = sharedPassword;
     btnDownload.disabled = false;
-    document.querySelector('.tab[data-tab="download"]').click();
-    btnDownload.click();
+    const downloadTab = document.querySelector('.tab[data-tab="download"]');
+    if (downloadTab) {
+        downloadTab.click();
+        btnDownload.click();
+    }
 }

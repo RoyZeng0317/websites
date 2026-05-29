@@ -15,7 +15,8 @@
 
         <div class="tabs">
             <button class="tab active" data-tab="upload">上傳檔案</button>
-            <button class="tab" data-tab="download">下載檔案</button>
+            <button class="tab" data-tab="upload-link">上傳連結</button>
+            <button class="tab" data-tab="download-link">下載連結</button>
         </div>
 
         <div id="upload-section" class="section active">
@@ -119,6 +120,32 @@
             <div class="loading" id="download-loading" hidden>
                 <div class="spinner"></div>
                 <p>正在下載檔案...</p>
+            </div>
+        </div>
+
+        <div id="upload-link-section" class="section">
+            <div class="password-input-group">
+                <label for="link-url">輸入檔案連結</label>
+                <input type="url" id="link-url" placeholder="https://example.com/file.zip">
+            </div>
+            <button class="btn btn-primary" id="btn-upload-link">上傳連結</button>
+
+            <div class="result error" id="upload-link-error" hidden>
+                <div class="result-icon error">✕</div>
+                <p id="upload-link-error-msg"></p>
+            </div>
+        </div>
+
+        <div id="download-link-section" class="section">
+            <div class="password-input-group">
+                <label for="download-link-input">輸入下載連結</label>
+                <input type="text" id="download-link-input" placeholder="貼上下載連結">
+            </div>
+            <button class="btn btn-primary" id="btn-download-link">下載連結</button>
+
+            <div class="result error" id="download-link-error" hidden>
+                <div class="result-icon error">✕</div>
+                <p id="download-link-error-msg"></p>
             </div>
         </div>
     </div>
