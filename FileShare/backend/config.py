@@ -8,18 +8,25 @@ FIREBASE_SERVICE_ACCOUNT_PATH = os.environ.get('FIREBASE_SERVICE_ACCOUNT_PATH')
 FIREBASE_SERVICE_ACCOUNT_JSON = os.environ.get('FIREBASE_SERVICE_ACCOUNT_JSON')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID')
 
+<<<<<<< HEAD
 # B2 (Backblaze) S3 相容儲存
 B2_ENDPOINT = os.environ.get('B2_ENDPOINT')
 B2_KEY_ID = os.environ.get('B2_KEY_ID')
 B2_APPLICATION_KEY = os.environ.get('B2_APPLICATION_KEY')
 B2_BUCKET_NAME = os.environ.get('B2_BUCKET_NAME')
+=======
+B2_KEY_ID = os.environ.get('B2_KEY_ID')
+B2_APPLICATION_KEY = os.environ.get('B2_APPLICATION_KEY')
+B2_BUCKET_NAME = os.environ.get('B2_BUCKET_NAME')
+B2_ENDPOINT = os.environ.get('B2_ENDPOINT', 'https://s3.us-west-002.backblazeb2.com')
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-to-a-random-secret-key')
 
-PASSWORD_LENGTH = 12
+PASSWORD_LENGTH = 6
 MAX_CONTENT_LENGTH = 500 * 1024 * 1024
 ALLOWED_EXTENSIONS = None
 

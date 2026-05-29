@@ -1,12 +1,16 @@
 import json
 import os
+import io
 import tempfile
 import logging
+from datetime import datetime, timedelta, timezone
 
 import boto3
 import firebase_admin
 from firebase_admin import credentials, firestore
 from google.cloud.firestore import FieldFilter
+import boto3
+from botocore.config import Config as BotoConfig
 
 from config import (
     B2_ENDPOINT,
@@ -15,7 +19,15 @@ from config import (
     B2_BUCKET_NAME,
     FIREBASE_SERVICE_ACCOUNT_PATH,
     FIREBASE_SERVICE_ACCOUNT_JSON,
+<<<<<<< HEAD
     log_config_status,
+=======
+    UPLOAD_FOLDER,
+    B2_KEY_ID,
+    B2_APPLICATION_KEY,
+    B2_BUCKET_NAME,
+    B2_ENDPOINT,
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 )
 
 logger = logging.getLogger(__name__)
@@ -23,6 +35,7 @@ logger = logging.getLogger(__name__)
 
 class FirebaseDB:
     _initialized = False
+<<<<<<< HEAD
     _s3 = None
 
     def _ensure_s3(self):
@@ -53,6 +66,9 @@ class FirebaseDB:
             raise ValueError(f'B2 S3 連線失敗: {e}') from e
 
         return self._s3
+=======
+    _b2_client = None
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 
     def _ensure_initialized(self):
         if self._initialized:
@@ -102,6 +118,19 @@ class FirebaseDB:
             )
 
         firebase_admin.initialize_app(cred)
+<<<<<<< HEAD
+=======
+
+        if B2_KEY_ID and B2_APPLICATION_KEY and B2_BUCKET_NAME:
+            self._b2_client = boto3.client(
+                's3',
+                endpoint_url=B2_ENDPOINT,
+                aws_access_key_id=B2_KEY_ID,
+                aws_secret_access_key=B2_APPLICATION_KEY,
+                config=BotoConfig(signature_version='s3v4'),
+            )
+            logger.info(f'Backblaze B2 已連接: {B2_BUCKET_NAME}')
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 
         self._initialized = True
         logger.info('Firebase Firestore 初始化成功')
@@ -112,6 +141,7 @@ class FirebaseDB:
         return firestore.client()
 
     def insert_file(self, original_name, stored_name, file_size, mime_type, file_data):
+<<<<<<< HEAD
         self._ensure_initialized()
         s3 = self._ensure_s3()
 
@@ -144,6 +174,24 @@ class FirebaseDB:
             raise ValueError(f'B2 上傳失敗: {error_msg}') from e
 
         logger.info(f'File stored in B2: {key}')
+=======
+        file_data.seek(0)
+
+        if self._b2_client:
+            self._b2_client.put_object(
+                Bucket=B2_BUCKET_NAME,
+                Key=f'files/{stored_name}',
+                Body=file_data,
+                ContentType=mime_type,
+            )
+            logger.info(f'File stored in B2: files/{stored_name}')
+        else:
+            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+            file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+            with open(file_path, 'wb') as f:
+                f.write(file_data.getvalue())
+            logger.info(f'File stored locally: {file_path}')
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 
         db = self._get_db()
         doc_ref = db.collection('files').document()
@@ -165,7 +213,7 @@ class FirebaseDB:
         data['id'] = doc.id
         return data
 
-    def insert_share(self, file_id, password_hash):
+    def insert_share(self, file_id, password_hash, expires_at):
         db = self._get_db()
         doc_ref = db.collection('shares').document()
         doc_ref.set({
@@ -173,6 +221,7 @@ class FirebaseDB:
             'password_hash': password_hash,
             'is_used': False,
             'created_at': firestore.SERVER_TIMESTAMP,
+            'expires_at': expires_at,
         })
         return doc_ref.id
 
@@ -181,6 +230,7 @@ class FirebaseDB:
         docs = (
             db.collection('shares')
             .where(filter=FieldFilter('is_used', '==', False))
+            .where(filter=FieldFilter('expires_at', '>', datetime.now(timezone.utc)))
             .stream()
         )
         results = []
@@ -197,6 +247,7 @@ class FirebaseDB:
         })
 
     def get_file_stream(self, stored_name):
+<<<<<<< HEAD
         self._ensure_initialized()
         s3 = self._ensure_s3()
 
@@ -214,6 +265,28 @@ class FirebaseDB:
         s3.download_fileobj(B2_BUCKET_NAME, key, temp)
         temp.close()
         return temp.name
+=======
+        if self._b2_client:
+            try:
+                obj = self._b2_client.get_object(
+                    Bucket=B2_BUCKET_NAME,
+                    Key=f'files/{stored_name}',
+                )
+                data = obj['Body'].read()
+                temp = tempfile.NamedTemporaryFile(delete=False)
+                temp.write(data)
+                temp.close()
+                return temp.name
+            except Exception as e:
+                logger.warning(f'B2 download failed: {str(e)}')
+                return None
+        else:
+            file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+            if not os.path.exists(file_path):
+                logger.warning(f'File not found: {file_path}')
+                return None
+            return file_path
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 
     def check_health(self):
         try:
@@ -227,3 +300,18 @@ class FirebaseDB:
         except Exception as e:
             logger.warning(f'Health check failed: {str(e)}')
             return False
+
+    def delete_file(self, stored_name):
+        if self._b2_client:
+            try:
+                self._b2_client.delete_object(
+                    Bucket=B2_BUCKET_NAME,
+                    Key=f'files/{stored_name}',
+                )
+                logger.info(f'Deleted from B2: files/{stored_name}')
+            except Exception as e:
+                logger.warning(f'B2 delete failed: {str(e)}')
+        else:
+            file_path = os.path.join(UPLOAD_FOLDER, stored_name)
+            if os.path.exists(file_path):
+                os.unlink(file_path)

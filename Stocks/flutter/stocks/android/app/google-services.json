@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "896423596342",
+    "project_id": "stocks-global",
+    "storage_bucket": "stocks-global.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896423596342:android:199c05f9590f4e630ae397",
+        "android_client_info": {
+          "package_name": "com.example.sotcks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896423596342-92lhlsmgu80a8ge26rtk22gt2jm8b138.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAeUN_CjHJGdLNiU1DU9vrc9h3qGnfp3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896423596342-92lhlsmgu80a8ge26rtk22gt2jm8b138.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "896423596342-00mej18v31ibt15gpie3jhcanribu80i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sotcks"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

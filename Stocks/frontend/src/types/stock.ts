@@ -75,6 +75,36 @@ export interface StockInfo {
   exchange: string
   currency: string
   logoUrl: string | null
+  // Premium / fair value
+  premium?: number | null
+  fairValue?: number | null
+  fairValueMethod?: string | null
+  // Company management info (Taiwan stocks)
+  chairman?: string | null
+  generalManager?: string | null
+  spokesperson?: string | null
+  spokespersonTitle?: string | null
+  deputySpokesperson?: string | null
+  establishedDate?: string | null
+  listingDate?: string | null
+  phone?: string | null
+  companyAddress?: string | null
+  capital?: number | null
+  shareTransferAgency?: string | null
+  auditorFirm?: string | null
+  auditor1?: string | null
+  auditor2?: string | null
+  fax?: string | null
+  companyEmail?: string | null
+  // ETF-specific fields
+  ytdReturn?: number | null
+  totalAssets?: number | null
+  navPrice?: number | null
+  threeYearAverageReturn?: number | null
+  fiveYearAverageReturn?: number | null
+  annualReportExpenseRatio?: number | null
+  fundFamily?: string | null
+  category?: string | null
 }
 
 export interface ChartDataPoint {
@@ -156,4 +186,35 @@ export interface SentimentData {
   signals: SentimentSignal[]
   recommendations: Recommendation[]
   institutionalTrading: Record<string, number | string>
+}
+
+export interface EtfNavRecord {
+  date: string
+  nav: number | null
+  price: number | null
+  premium: number | null
+}
+
+export interface EtfNavData {
+  symbol: string
+  currentNAV: number | null
+  currentPrice: number | null
+  premium: number | null
+  navPreviousClose: number | null
+  history: EtfNavRecord[]
+}
+
+export interface EtfHolding {
+  symbol: string
+  name: string
+  weight: number | null
+}
+
+export interface EtfHoldingsData {
+  symbol: string
+  holdings: EtfHolding[]
+}
+
+export interface AiConsultResponse {
+  answer: string
 }

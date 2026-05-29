@@ -19,7 +19,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import asyncio
 import requests
 import yfinance as yf
+from dotenv import load_dotenv
 from fastapi import FastAPI, Query, WebSocket, WebSocketDisconnect
+
+load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
 
 # yfinance cache workaround
@@ -112,6 +115,62 @@ STOCK_SECTORS = {
     "2609.TW": {"sector": "航運", "industry": "貨櫃"},
 }
 
+SECTOR_AVG_PE = {
+    "半導體": 20, "光電": 15, "面板": 15, "電子代工": 15,
+    "電腦周邊": 16, "通信網路": 18, "電信服務": 18,
+    "金融": 12, "銀行": 12, "保險": 12,
+    "航運": 10, "航空": 10, "貨櫃": 10,
+    "塑膠": 15, "鋼鐵": 12, "食品": 18,
+    "營建": 12, "建材": 12,
+    "電子零組件": 18, "其他電子": 16,
+    "汽車": 15, "生技醫療": 25, "電機機械": 15,
+    "運動休閒": 18, "貿易百貨": 15, "油電": 14,
+    "資訊服務": 18, "水泥": 13, "橡膠": 14,
+    "紡織": 14, "電器電纜": 13, "玻璃陶瓷": 14,
+    "造紙": 12, "觀光餐飲": 20, "物流": 12,
+    "零售": 18, "超商": 18, "餐飲": 20,
+    "IC 設計": 22, "晶圓代工": 20, "封測": 16,
+    "記憶體製造": 15, "PCB": 15,
+}
+DEFAULT_AVG_PE = 15
+
+TWSE_COMPANY_CACHE = {}
+TWSE_COMPANY_CACHE_TIME = 0
+TWSE_COMPANY_CACHE_TTL = 86400  # 24 hours
+
+def _fetch_twse_company_info(symbol: str) -> dict:
+    global TWSE_COMPANY_CACHE, TWSE_COMPANY_CACHE_TIME
+    code = symbol.replace(".TW", "").replace(".TWO", "")
+    market_type = "listed" if symbol.endswith(".TW") else "otc"
+
+    now_val = time.time()
+    full = TWSE_COMPANY_CACHE.get(market_type)
+    if full and now_val - TWSE_COMPANY_CACHE_TIME < TWSE_COMPANY_CACHE_TTL:
+        return full.get(code, {})
+
+    try:
+        url = ("https://openapi.twse.com.tw/v1/opendata/t187ap03_L"
+               if market_type == "listed"
+               else "https://openapi.twse.com.tw/v1/opendata/t187ap03_P")
+        s = requests.Session()
+        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
+        r = s.get(url, timeout=15)
+        r.encoding = "utf-8"
+        raw = r.json()
+    except Exception:
+        raw = []
+
+    index = {}
+    code_key = "\u516c\u53f8\u4ee3\u865f"
+    name_key = "\u516c\u53f8\u540d\u7a31"
+    for item in raw:
+        c = str(item.get(code_key, "")).strip()
+        if c:
+            index[c] = item
+
+    TWSE_COMPANY_CACHE[market_type] = index
+    TWSE_COMPANY_CACHE_TIME = now_val
+    return index.get(code, {})
 STOCK_NAMES = {}
 _raw_names = {
     "1301": "台塑", "2002": "中鋼", "2303": "聯電", "2308": "台達電",
@@ -123,7 +182,7 @@ _raw_names = {
     "2882": "國泰金", "2885": "元大金", "2887": "台新新光金", "2891": "中信金",
     "3008": "大立光", "3260": "威剛", "3481": "群創", "3714": "富采",
     "4916": "事欣科", "4967": "十銓", "5007": "三星（台）",
-    "5880": "合庫金", "6605": "帝寶", "6770": "力積電",
+    "5880": "合庫金", "6116": "彩晶", "6605": "帝寶", "6770": "力積電",
     "7418": "香繼光", "8046": "南電", "8110": "華東",
     "0050": "元大台灣50", "0053": "元大電子", "0056": "元大高股息",
     "009816": "凱基台灣TOP50", "00403A": "主動統一升級50",
@@ -288,6 +347,13 @@ STOCK_MEETING_URLS = {
     "2412.TW": "https://www.cht.com.tw/zh-tw/home/cht/investors/shareholder-services/ir-calendar",
 }
 
+ETF_DIVIDEND_FALLBACK = {
+    # ETF code -> {dividendYield (decimal), trailingPE, priceToBook}
+    "00403A.TW": {"dividendYield": None, "trailingPE": None, "priceToBook": None},
+    "009816.TW": {"dividendYield": None, "trailingPE": 32.3, "priceToBook": None},
+    "00981A.TW": {"dividendYield": None, "trailingPE": None, "priceToBook": None},
+}
+
 FUNDAMENTALS_CACHE = {}
 FUNDAMENTALS_TTL = 7200  # 2 hours for fundamentals
 
@@ -419,11 +485,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 "fiftyTwoWeekHigh": None,
                 "fiftyTwoWeekLow": None,
                 "52WeekChange": None,
-                "sector": "",
-                "industry": "",
-                "country": "Taiwan",
-                "website": "",
-                "longBusinessSummary": "",
+                "sector": None,
+                "industry": None,
+                "country": None,
+                "website": None,
+                "longBusinessSummary": None,
                 "fullTimeEmployees": None,
                 "logo_url": None,
             }
@@ -484,11 +550,11 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             except Exception:
                 continue
     if finnhub_result:
-        if not result or not any(v is not None for v in result.values()):
+        if not result or not any(v is not None and v != "" for v in result.values()):
             result = finnhub_result
         else:
             for k, v in finnhub_result.items():
-                if v is not None and result.get(k) is None:
+                if v is not None and v != "" and (result.get(k) is None or result.get(k) == ""):
                     result[k] = v
 
     # Method 3: yfinance as last resort
@@ -547,6 +613,14 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         "longBusinessSummary": _ks.get("longBusinessSummary", ""),
                         "fullTimeEmployees": _ks.get("fullTimeEmployees"),
                         "logo_url": _ks.get("logoUrl", ""),
+                        "ytdReturn": _ks.get("ytdReturn"),
+                        "totalAssets": _ks.get("totalAssets"),
+                        "navPrice": _ks.get("navPrice"),
+                        "threeYearAverageReturn": _ks.get("threeYearAverageReturn"),
+                        "fiveYearAverageReturn": _ks.get("fiveYearAverageReturn"),
+                        "annualReportExpenseRatio": _ks.get("annualReportExpenseRatio"),
+                        "fundFamily": _fd.get("fundFamily"),
+                        "category": _fd.get("category"),
                     }
                     break
                 except Exception:
@@ -597,15 +671,26 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         "longBusinessSummary": _info.get("longBusinessSummary", ""),
                         "fullTimeEmployees": _info.get("fullTimeEmployees"),
                         "logo_url": _info.get("logo_url"),
+                        # ETF-specific fields
+                        "ytdReturn": _info.get("ytdReturn"),
+                        "totalAssets": _info.get("totalAssets"),
+                        "navPrice": _info.get("navPrice"),
+                        "threeYearAverageReturn": _info.get("threeYearAverageReturn"),
+                        "fiveYearAverageReturn": _info.get("fiveYearAverageReturn"),
+                        "annualReportExpenseRatio": _info.get("annualReportExpenseRatio"),
+                        "fundFamily": _info.get("fundFamily"),
+                        "category": _info.get("category"),
                     }
             except Exception:
                 pass
 
         if _yf_data and any(v is not None for v in _yf_data.values()):
-            if result and any(v is not None for v in result.values()):
+            if result and any(v is not None and v != "" for v in result.values()):
                 for k, v in _yf_data.items():
-                    if v is not None and result.get(k) is None:
-                        result[k] = v
+                    if v is not None:
+                        existing = result.get(k)
+                        if existing is None or (isinstance(existing, str) and existing.strip() == ""):
+                            result[k] = v
             else:
                 result = _yf_data
 
@@ -1037,6 +1122,15 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             dte = dte_val / 100 if dte_val > 5 else dte_val
             result["returnOnAssets"] = roe_val / (1 + dte)
 
+    # ETF fallback: supplement dividend yield from manual lookup when all sources fail
+    if result is not None and symbol in ETF_DIVIDEND_FALLBACK:
+        _ef = ETF_DIVIDEND_FALLBACK[symbol]
+        for _efk in ("dividendYield", "trailingPE", "priceToBook"):
+            if result.get(_efk) is None and _ef.get(_efk) is not None:
+                result[_efk] = _ef[_efk]
+        if result.get("dividendRate") is None and result.get("dividendYield") and current_price:
+            result["dividendRate"] = round(result["dividendYield"] * current_price, 4)
+
     has_data = any(v is not None for v in result.values())
     if has_data:
         FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
@@ -1132,6 +1226,50 @@ def _fetch_twse_quote(symbol: str) -> dict:
     return {}
 
 
+def _add_company_info_and_premium(result: dict, symbol: str, current_price: float):
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        company = _fetch_twse_company_info(symbol)
+        if company:
+            fields = {
+                "_chairman": "\u8463\u4e8b\u9577",
+                "_generalManager": "\u7e3d\u7d93\u7406",
+                "_spokesperson": "\u767c\u8a00\u4eba",
+                "_spokespersonTitle": "\u767c\u8a00\u4eba\u8077\u7a31",
+                "_deputySpokesperson": "\u4ee3\u7406\u767c\u8a00\u4eba",
+                "_establishedDate": "\u6210\u7acb\u65e5\u671f",
+                "_listingDate": "\u4e0a\u5e02\u65e5\u671f",
+                "_phone": "\u7e3d\u6a5f\u96fb\u8a71",
+                "_address": "\u4f4f\u5740",
+                "_capital": "\u5be6\u6536\u8cc7\u672c\u984d",
+                "_shareTransferAgency": "\u80a1\u7968\u904e\u6236\u6a5f\u69cb",
+                "_auditorFirm": "\u7c3d\u8b49\u6703\u8a08\u5e2b\u4e8b\u52d9\u6240",
+                "_auditor1": "\u7c3d\u8b49\u6703\u8a08\u5e2b\u0031",
+                "_auditor2": "\u7c3d\u8b49\u6703\u8a08\u5e2b\u0032",
+                "_fax": "\u50b3\u771f\u6a5f\u865f\u78bc",
+                "_email": "\u96fb\u5b50\u90f5\u4ef6\u4fe1\u7bb1",
+            }
+            for eng_key, tw_key in fields.items():
+                val = company.get(tw_key)
+                if val is not None and str(val).strip():
+                    result[eng_key] = str(val).strip()
+
+    eps = result.get("trailingEps")
+    book_value = result.get("bookValue")
+    sector = result.get("sector", "")
+    avg_pe = SECTOR_AVG_PE.get(sector, DEFAULT_AVG_PE)
+    fair_value = None
+    fair_method = None
+    if eps is not None and eps > 0:
+        fair_value = eps * avg_pe
+        fair_method = "pe_based"
+    elif book_value is not None and book_value > 0:
+        fair_value = book_value * 1.2
+        fair_method = "pb_based"
+    if fair_value is not None and fair_value > 0 and current_price > 0:
+        result["_fairValue"] = fair_value
+        result["_fairValueMethod"] = fair_method
+        result["_premium"] = ((current_price - fair_value) / fair_value) * 100
+
 def _get_stock_info(symbol: str) -> dict:
     cache_key = f"info_{symbol}"
     now_val = time.time()
@@ -1160,7 +1298,8 @@ def _get_stock_info(symbol: str) -> dict:
                 pass
             cur = result.get("currentPrice", 0)
             fund = _fetch_fundamentals(symbol, current_price=cur)
-            result.update({k: v for k, v in fund.items() if v is not None})
+            result.update({k: v for k, v in fund.items() if v is not None and v != ""})
+            _add_company_info_and_premium(result, symbol, cur)
             CACHE[cache_key] = {"data": result, "time": now_val}
             return result
 
@@ -1176,7 +1315,8 @@ def _get_stock_info(symbol: str) -> dict:
         # Merge fundamentals (cached separately, longer TTL)
         cur = result.get("currentPrice", result.get("regularMarketPrice", 0))
         fund = _fetch_fundamentals(symbol, current_price=cur)
-        result.update({k: v for k, v in fund.items() if v is not None})
+        result.update({k: v for k, v in fund.items() if v is not None and v != ""})
+        _add_company_info_and_premium(result, symbol, cur)
         CACHE[cache_key] = {"data": result, "time": now_val}
         return result
 
@@ -1228,6 +1368,8 @@ CACHE = {}
 CACHE_TTL = 120
 _LAST_REQUEST_TIME = 0
 _RATE_LIMIT_LOCK = threading.Lock()
+_realtime_history: dict[str, list[dict]] = {}
+_realtime_history_lock = threading.Lock()
 
 
 def _cache_stock_name(symbol: str, name: str):
@@ -1403,6 +1545,36 @@ async def get_stock_info(symbol: str):
         "exchange": safe(info.get("exchange")),
         "currency": safe(info.get("currency")),
         "logoUrl": safe_str(info.get("logo_url")),
+        # Premium / fair value
+        "premium": safe(info.get("_premium")),
+        "fairValue": safe(info.get("_fairValue")),
+        "fairValueMethod": safe_str(info.get("_fairValueMethod")),
+        # Company management info (Taiwan stocks)
+        "chairman": safe_str(info.get("_chairman")),
+        "generalManager": safe_str(info.get("_generalManager")),
+        "spokesperson": safe_str(info.get("_spokesperson")),
+        "spokespersonTitle": safe_str(info.get("_spokespersonTitle")),
+        "deputySpokesperson": safe_str(info.get("_deputySpokesperson")),
+        "establishedDate": safe_str(info.get("_establishedDate")),
+        "listingDate": safe_str(info.get("_listingDate")),
+        "phone": safe_str(info.get("_phone")),
+        "companyAddress": safe_str(info.get("_address")),
+        "capital": safe(info.get("_capital")),
+        "shareTransferAgency": safe_str(info.get("_shareTransferAgency")),
+        "auditorFirm": safe_str(info.get("_auditorFirm")),
+        "auditor1": safe_str(info.get("_auditor1")),
+        "auditor2": safe_str(info.get("_auditor2")),
+        "fax": safe_str(info.get("_fax")),
+        "companyEmail": safe_str(info.get("_email")),
+        # ETF-specific fields
+        "ytdReturn": safe(info.get("ytdReturn")),
+        "totalAssets": safe(info.get("totalAssets")),
+        "navPrice": safe(info.get("navPrice")),
+        "threeYearAverageReturn": safe(info.get("threeYearAverageReturn")),
+        "fiveYearAverageReturn": safe(info.get("fiveYearAverageReturn")),
+        "annualReportExpenseRatio": safe(info.get("annualReportExpenseRatio")),
+        "fundFamily": safe_str(info.get("fundFamily")),
+        "category": safe_str(info.get("category")),
     }
 
     return result
@@ -1626,6 +1798,11 @@ async def get_sentiment(symbol: str):
     }
 
 
+def _stock_timezone(symbol: str) -> timezone:
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        return timezone(timedelta(hours=8))
+    return timezone(timedelta(hours=-4))
+
 def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d") -> list:
     """Fetch chart data from Yahoo Finance v8 chart API."""
     range_map = {"1d": "1d", "5d": "5d", "1mo": "1mo", "3mo": "3mo", "6mo": "6mo", "1y": "1y", "2y": "2y", "5y": "5y", "10y": "10y", "ytd": "ytd", "max": "max"}
@@ -1658,7 +1835,7 @@ def _fetch_yahoo_chart_data(symbol: str, period: str = "1y", interval: str = "1d
         for i in range(len(timestamps)):
             if i >= len(opens) or opens[i] is None or i >= len(closes) or closes[i] is None:
                 continue
-            dt = datetime.fromtimestamp(timestamps[i], tz=timezone.utc)
+            dt = datetime.fromtimestamp(timestamps[i], tz=_stock_timezone(symbol))
             chart_data.append({
                 "date": dt.strftime("%Y-%m-%d %H:%M"),
                 "open": round(float(opens[i]), 2),
@@ -1872,16 +2049,17 @@ async def get_dividends(symbol: str):
                 continue
             events = result[0].get("events", {})
             divs = events.get("dividends", {})
+            _tz = _stock_timezone(symbol)
             if divs:
                 for ts_str, evt in divs.items():
-                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=timezone.utc)
+                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=_tz)
                     amt = _safe_float(evt.get("amount"))
                     if amt is not None:
                         div_data.append({"date": dt_val.strftime("%Y-%m-%d"), "amount": round(amt, 4)})
             splits_evt = events.get("splits", {})
             if splits_evt:
                 for ts_str, evt in splits_evt.items():
-                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=timezone.utc)
+                    dt_val = datetime.fromtimestamp(evt.get("date", int(ts_str)), tz=_tz)
                     num = _safe_float(evt.get("numerator"))
                     den = _safe_float(evt.get("denominator"))
                     if num and den:
@@ -2022,6 +2200,246 @@ def _fetch_realtime_price(symbol: str) -> dict:
     return {"price": 0, "change": 0, "changePercent": 0}
 
 
+@app.get("/api/stock/{symbol}/realtime-history")
+async def get_realtime_history(symbol: str):
+    """Return cached real-time price history for intraday chart."""
+    with _realtime_history_lock:
+        entries = list(_realtime_history.get(symbol, []))
+    return {"symbol": symbol, "data": entries}
+
+
+@app.get("/api/stock/{symbol}/etf-nav")
+async def get_etf_nav(symbol: str):
+    """Return ETF NAV data and premium/discount history."""
+    result: dict = {"symbol": symbol, "currentNAV": None, "currentPrice": None, "premium": None, "history": []}
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+    _now = datetime.now(timezone(timedelta(hours=8)))
+
+    # 1. Yahoo v10 NAV module
+    for _host in ["query1", "query2"]:
+        for _ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                _url = f"https://{_host}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=nav,price"
+                _rsp = requests.get(_url, headers={"User-Agent": _ua}, timeout=8)
+                if _rsp.status_code != 200:
+                    continue
+                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                if not _q:
+                    continue
+                _nav = _q.get("nav", {})
+                _pr = _q.get("price", {})
+                _nav_price = _nav.get("regularMarketPrice", {})
+                result["currentNAV"] = _nav_price.get("raw") if isinstance(_nav_price, dict) else _nav_price
+                if result["currentNAV"] is None:
+                    continue
+                _mkt = _pr.get("regularMarketPrice", {})
+                result["currentPrice"] = _mkt.get("raw") if isinstance(_mkt, dict) else _mkt
+                if result["currentNAV"] and result["currentPrice"]:
+                    result["premium"] = round((result["currentPrice"] - result["currentNAV"]) / result["currentNAV"] * 100, 2)
+                _pclose = _nav.get("regularMarketPreviousClose", {})
+                result["navPreviousClose"] = _pclose.get("raw") if isinstance(_pclose, dict) else _pclose
+                break
+            except Exception:
+                continue
+        if result.get("currentNAV") is not None:
+            break
+
+    # 2. TWSE ETF NAV history (only for likely ETF symbols: start with "00")
+    if (symbol.endswith(".TW") or symbol.endswith(".TWO")) and stock_no.startswith("00"):
+        for _months_back in range(3):
+            _d = (_now.replace(day=1) - timedelta(days=_months_back * 30)).strftime("%Y%m%d")
+            try:
+                rate_limit()
+                _url = f"https://www.twse.com.tw/ETF/etfNAV?response=json&date={_d}"
+                _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if _rsp.status_code != 200:
+                    continue
+                _j = _rsp.json()
+                if _j.get("stat") != "OK":
+                    continue
+                for _row in _j.get("data", []):
+                    if len(_row) >= 6 and _row[1] == stock_no:
+                        result["history"].append({
+                            "date": _row[0].replace("/", "-"),
+                            "nav": _safe_float(_row[3]),
+                            "price": _safe_float(_row[4]),
+                            "premium": _safe_float(_row[5]),
+                        })
+                if result["history"]:
+                    break
+            except Exception:
+                continue
+        result["history"].sort(key=lambda x: x.get("date", ""))
+
+    return result
+
+
+@app.get("/api/stock/{symbol}/etf-holdings")
+async def get_etf_holdings(symbol: str):
+    """Return ETF constituent stocks / holdings."""
+    result: dict = {"symbol": symbol, "holdings": []}
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+
+    # 1. Yahoo v10 topHoldings
+    for _host in ["query1", "query2"]:
+        for _ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                _url = f"https://{_host}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=topHoldings"
+                _rsp = requests.get(_url, headers={"User-Agent": _ua}, timeout=8)
+                if _rsp.status_code != 200:
+                    continue
+                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                if not _q:
+                    continue
+                _top = _q.get("topHoldings", {})
+                _hl = _top.get("holdings", [])
+                if not _hl:
+                    continue
+                for _h in _hl:
+                    _sym = _h.get("symbol", "") or ""
+                    if not _sym:
+                        continue
+                    result["holdings"].append({
+                        "symbol": _sym,
+                        "name": _h.get("holdingName", ""),
+                        "weight": _h.get("holdingPercent", 0),
+                    })
+                break
+            except Exception:
+                continue
+        if result["holdings"]:
+            break
+
+    # 2. TWSE ETF constituents (fallback, only for likely ETF symbols)
+    if not result["holdings"] and (symbol.endswith(".TW") or symbol.endswith(".TWO")) and stock_no.startswith("00"):
+        _dates_to_try = [(_now := datetime.now(timezone(timedelta(hours=8)))).strftime("%Y%m%d")]
+        _dates_to_try.append((_now - timedelta(days=7)).strftime("%Y%m%d"))
+        _dates_to_try.append((_now.replace(day=1) - timedelta(days=1)).strftime("%Y%m%d"))
+        for _d in _dates_to_try:
+            try:
+                rate_limit()
+                _url = f"https://www.twse.com.tw/ETF/etfStk?response=json&date={_d}&stockNo={stock_no}"
+                _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if _rsp.status_code != 200:
+                    continue
+                _j = _rsp.json()
+                if _j.get("stat") != "OK":
+                    continue
+                for _row in _j.get("data", []):
+                    if len(_row) >= 3:
+                        result["holdings"].append({
+                            "symbol": (_row[0] + ".TW") if _row[0] and not _row[0].endswith(".TW") else _row[0],
+                            "name": _row[1] if len(_row) > 1 else "",
+                            "weight": _safe_float(_row[2]) if len(_row) > 2 else None,
+                        })
+                if result["holdings"]:
+                    break
+            except Exception:
+                continue
+
+    result["holdings"].sort(key=lambda x: -(x.get("weight") or 0))
+    return result
+
+
+@app.post("/api/ai/consult")
+async def ai_consult(body: dict):
+    try:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            return {"answer": "請先設定 GEMINI_API_KEY 環境變數才能使用 AI 諮詢功能。"}
+        symbol = body.get("symbol", "")
+        question = body.get("question", "")
+        if not symbol or not question:
+            return {"answer": "請提供股票代號與問題。"}
+        info = _get_stock_info(symbol)
+        fund = _fetch_fundamentals(symbol, current_price=info.get("currentPrice", 0))
+        context_parts = [
+            f"股票代號: {symbol}",
+            f"名稱: {info.get('longName', 'N/A')}",
+        ]
+        if info.get("nameCn"):
+            context_parts.append(f"中文名稱: {info['nameCn']}")
+        price = info.get("currentPrice")
+        chg = info.get("changePercent")
+        if price:
+            chg_str = f" ({chg*100:.2f}%)" if chg else ""
+            context_parts.append(f"現價: {price}{chg_str}")
+        for label, key, fmt in [
+            ("本益比 (P/E)", "trailingPE", ".2f"),
+            ("預估 P/E", "forwardPE", ".2f"),
+            ("EPS", "trailingEps", ".2f"),
+            ("預估 EPS", "forwardEps", ".2f"),
+            ("殖利率", "dividendYield", ".2%"),
+            ("股利金額", "dividendRate", ".2f"),
+            ("股價淨值比 (P/B)", "priceToBook", ".2f"),
+            ("每股淨值", "bookValue", ".2f"),
+            ("ROE", "returnOnEquity", ".2%"),
+            ("ROA", "returnOnAssets", ".2%"),
+            ("利潤率", "profitMargins", ".2%"),
+            ("營收", "totalRevenue", ".0f"),
+            ("市值", "marketCap", ".0f"),
+            ("β 值", "beta", ".2f"),
+            ("52週高點", "fiftyTwoWeekHigh", ".2f"),
+            ("52週低點", "fiftyTwoWeekLow", ".2f"),
+            ("52週變化", "52WeekChange", ".2%"),
+            ("負債權益比", "debtToEquity", ".2f"),
+            ("營收/每股", "revenuePerShare", ".2f"),
+            ("股本", "fullTimeEmployees", ".0f"),
+            ("產業", "industry", "s"),
+            (" sector ", "sector", "s"),
+        ]:
+            v = fund.get(key) if key in fund else info.get(key)
+            if v is not None:
+                if fmt == "s":
+                    context_parts.append(f"{label}: {v}")
+                elif fmt.endswith("%"):
+                    context_parts.append(f"{label}: {v*100:.2f}%")
+                elif fmt == ".0f":
+                    context_parts.append(f"{label}: {v:,.0f}")
+                else:
+                    context_parts.append(f"{label}: {v:.2f}")
+        if "dividendYield" in fund and fund.get("dividendYield"):
+            context_parts.append(f"殖利率: {fund['dividendYield']*100:.2f}%")
+        chairman = info.get("_chairman")
+        gm = info.get("_generalManager")
+        if chairman:
+            context_parts.append(f"董事長: {chairman}")
+        if gm:
+            context_parts.append(f"總經理: {gm}")
+        context = "\n".join(context_parts)
+        prompt = (
+            "你是一位專業的台灣股市分析師，精通台股基本面、技術面與產業分析。\n"
+            "請根據以下提供的個股資料，以繁體中文回答使用者的問題。\n"
+            "回答應客觀中立，包含數據佐證，並在適當處提供投資風險提醒。\n"
+            "請勿提供具體的買賣建議或目標價。\n\n"
+            f"【個股資料】\n{context}\n\n"
+            f"【使用者提問】\n{question}"
+        )
+        resp = requests.post(
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
+            json={"contents": [{"parts": [{"text": prompt}]}]},
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            return {"answer": f"AI 查詢失敗 (HTTP {resp.status_code})，請稍後再試。"}
+        data = resp.json()
+        candidates = data.get("candidates", [])
+        if not candidates:
+            return {"answer": "AI 無法產生回答，請重新提問。"}
+        answer = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        return {"answer": answer}
+    except Exception as e:
+        return {"answer": f"AI 查詢發生錯誤: {str(e)}"}
+
+
 @app.get("/api/price/{symbol}")
 async def get_price(symbol: str):
     try:
@@ -2041,14 +2459,24 @@ async def websocket_price(websocket: WebSocket, symbol: str):
         await asyncio.sleep(1)
         try:
             rt = _fetch_realtime_price(symbol)
-            if rt["price"] > 0 and rt["price"] != _last_price:
-                _last_price = rt["price"]
-                await websocket.send_json({
-                    "symbol": symbol,
-                    "price": rt["price"],
-                    "change": rt["change"],
-                    "changePercent": rt["changePercent"],
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                })
+            if rt["price"] > 0:
+                with _realtime_history_lock:
+                    if symbol not in _realtime_history:
+                        _realtime_history[symbol] = []
+                    _realtime_history[symbol].append({
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "price": rt["price"],
+                    })
+                    if len(_realtime_history[symbol]) > 7200:
+                        _realtime_history[symbol] = _realtime_history[symbol][-3600:]
+                if rt["price"] != _last_price:
+                    _last_price = rt["price"]
+                    await websocket.send_json({
+                        "symbol": symbol,
+                        "price": rt["price"],
+                        "change": rt["change"],
+                        "changePercent": rt["changePercent"],
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    })
         except Exception:
             pass

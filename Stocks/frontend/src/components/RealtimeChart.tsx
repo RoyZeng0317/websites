@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts'
-import { getChart, createPriceWebSocket } from '../api/stockApi'
+import { getChart, createPriceWebSocket, getRealtimeHistory } from '../api/stockApi'
 import type { RealtimePrice } from '../types/stock'
 
 interface Props {
@@ -49,6 +49,17 @@ function formatTime(dateStr: string): string {
   return parts.length >= 2 ? parts[1].slice(0, 5) : dateStr
 }
 
+function isMarketOpen(): boolean {
+  const now = new Date()
+  const tw = new Date(now.getTime() + (now.getTimezoneOffset() + 480) * 60000)
+  const h = tw.getHours()
+  const m = tw.getMinutes()
+  const day = tw.getDay()
+  if (day === 0 || day === 6) return false
+  const mins = h * 60 + m
+  return mins >= 540 && mins < 810
+}
+
 export default function RealtimeChart({ symbol, currentPrice, previousClose }: Props) {
   const [data, setData] = useState<RTDataPoint[]>(() => loadFromCache(symbol) || [])
   const [loading, setLoading] = useState(() => loadFromCache(symbol) ? false : true)
@@ -58,11 +69,12 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
   const isTw = symbol.endsWith('.TW') || symbol.endsWith('.TWO')
 
   const timeTicks = isTw
-    ? ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30']
+    ? ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30']
     : ['09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00']
 
   const domainMin = isTw ? '09:00' : '09:30'
-  const domainMax = isTw ? '14:30' : '16:00'
+  const domainMax = isTw ? '13:30' : '16:00'
+  const marketOpen = isMarketOpen()
 
   function connectWs() {
     if (wsRef.current?.readyState === WebSocket.OPEN || wsRef.current?.readyState === WebSocket.CONNECTING) return
@@ -70,14 +82,17 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
     wsRef.current = createPriceWebSocket(symbol, (rt: RealtimePrice) => {
       setData((prev) => {
         const t = new Date(rt.timestamp).toLocaleTimeString('zh-TW', {
-          hour: '2-digit', minute: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
         })
+        const minKey = t.slice(0, 5)
         let next: RTDataPoint[]
-        if (prev.length > 0 && prev[prev.length - 1].time === t) {
+        if (prev.length > 0 && prev[prev.length - 1].time === minKey) {
           next = [...prev]
-          next[next.length - 1] = { time: t, price: rt.price }
+          next[next.length - 1] = { time: minKey, price: rt.price }
+        } else if (prev.length > 0 && prev[prev.length - 1].time < minKey) {
+          next = [...prev, { time: minKey, price: rt.price }]
         } else {
-          next = [...prev, { time: t, price: rt.price }]
+          next = prev
         }
         saveToCache(symbol, next)
         return next
@@ -86,12 +101,52 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
 
     wsRef.current.onclose = () => {
       if (mountedRef.current) {
-        reconnectTimer.current = setTimeout(connectWs, 5000)
+        reconnectTimer.current = setTimeout(connectWs, marketOpen ? 3000 : 15000)
       }
     }
     wsRef.current.onerror = () => {
       wsRef.current?.close()
     }
+  }
+
+  function pointsFromChart(res: { data: { date: string; close: number }[] }): RTDataPoint[] {
+    const seen = new Set<string>()
+    const out: RTDataPoint[] = []
+    for (const d of res.data) {
+      const t = formatTime(d.date)
+      if (t >= domainMin && t <= domainMax && !seen.has(t) && d.close > 0) {
+        seen.add(t)
+        out.push({ time: t, price: d.close })
+      }
+    }
+    return out
+  }
+
+  function pointsFromHistory(entries: { timestamp: string; price: number }[]): RTDataPoint[] {
+    const seen = new Set<string>()
+    const out: RTDataPoint[] = []
+    for (const e of entries) {
+      const t = new Date(e.timestamp).toLocaleTimeString('zh-TW', {
+        hour: '2-digit', minute: '2-digit',
+      })
+      if (t >= domainMin && t <= domainMax && !seen.has(t) && e.price > 0) {
+        seen.add(t)
+        out.push({ time: t, price: e.price })
+      }
+    }
+    return out.sort((a, b) => a.time.localeCompare(b.time))
+  }
+
+  function applyPoints(points: RTDataPoint[]) {
+    if (points.length < 2) return
+    setData((prev) => {
+      const merged = new Map<string, number>()
+      for (const p of prev) merged.set(p.time, p.price)
+      for (const p of points) if (!merged.has(p.time)) merged.set(p.time, p.price)
+      const arr = Array.from(merged, ([time, price]) => ({ time, price })).sort((a, b) => a.time.localeCompare(b.time))
+      saveToCache(symbol, arr)
+      return arr
+    })
   }
 
   useEffect(() => {
@@ -102,43 +157,20 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
       setLoading(false)
     }
 
-    // fetch with fallback: 1d first, then 5d if empty
-    getChart(symbol, '1d', '5m')
+    getChart(symbol, '1d', '1m')
       .then((res) => {
-        let points: RTDataPoint[] = []
-        const seen = new Set<string>()
-        for (const d of res.data) {
-          const t = formatTime(d.date)
-          if (t >= domainMin && t <= domainMax && !seen.has(t)) {
-            seen.add(t)
-            points.push({ time: t, price: d.close })
-          }
-        }
-        if (points.length < 2) {
-          return getChart(symbol, '5d', '5m')
-        }
-        return Promise.resolve(res)
-      })
-      .then((res) => {
-        const points: RTDataPoint[] = []
-        const seen = new Set<string>()
-        for (const d of res.data) {
-          const t = formatTime(d.date)
-          if (t >= domainMin && t <= domainMax && !seen.has(t)) {
-            seen.add(t)
-            points.push({ time: t, price: d.close })
-          }
-        }
-        if (points.length >= 2) {
-          setData((prev) => {
-            const merged = new Map<string, number>()
-            for (const p of prev) merged.set(p.time, p.price)
-            for (const p of points) if (!merged.has(p.time)) merged.set(p.time, p.price)
-            const arr = Array.from(merged, ([time, price]) => ({ time, price })).sort((a, b) => a.time.localeCompare(b.time))
-            saveToCache(symbol, arr)
-            return arr
+        const pts = pointsFromChart(res)
+        if (pts.length >= 2) { applyPoints(pts); return }
+        // fallback to 5d/1m
+        return getChart(symbol, '5d', '1m').then((res2) => {
+          const pts2 = pointsFromChart(res2)
+          if (pts2.length >= 2) { applyPoints(pts2); return }
+          // fallback to realtime-history cache
+          return getRealtimeHistory(symbol).then((h) => {
+            const pts3 = pointsFromHistory(h.data)
+            if (pts3.length >= 2) applyPoints(pts3)
           })
-        }
+        })
       })
       .catch(() => {})
       .finally(() => setLoading(false))
@@ -191,6 +223,7 @@ export default function RealtimeChart({ symbol, currentPrice, previousClose }: P
               </span>
             </span>
           )}
+          {marketOpen && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="交易中" />}
         </div>
       </div>
 

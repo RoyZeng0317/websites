@@ -8,10 +8,15 @@ import PriceChart from '../components/PriceChart'
 import KlineChart from '../components/KlineChart'
 import FuturesPrice from '../components/FuturesPrice'
 import Fundamentals from '../components/Fundamentals'
+import BuyAnalysis from '../components/BuyAnalysis'
 import DividendInfo from '../components/DividendInfo'
 import Sentiment from '../components/Sentiment'
 import InstitutionalInvestors from '../components/InstitutionalInvestors'
 import HoldingTracker from '../components/HoldingTracker'
+import ETFPremium from '../components/ETFPremium'
+import CompanyInfo from '../components/CompanyInfo'
+import ETFHoldings from '../components/ETFHoldings'
+import AiConsult from '../components/AiConsult'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
 
@@ -96,11 +101,33 @@ export default function StockPage() {
 
       <Fundamentals info={info} />
 
+      <BuyAnalysis info={info} />
+
       <InstitutionalInvestors symbol={symbol!} />
 
       <Sentiment symbol={symbol!} />
 
+      <ErrorBoundary>
+        <ETFPremium
+          symbol={symbol!}
+          currentPrice={info.currentPrice}
+          premium={info.premium}
+          fairValue={info.fairValue}
+          fairValueMethod={info.fairValueMethod}
+        />
+      </ErrorBoundary>
+
+      <CompanyInfo info={info} />
+
+      <ErrorBoundary>
+        <ETFHoldings symbol={symbol!} />
+      </ErrorBoundary>
+
       <DividendInfo symbol={symbol!} meetingUrl={info.meetingUrl} />
+
+      <ErrorBoundary>
+        <AiConsult symbol={symbol!} />
+      </ErrorBoundary>
 
       {info.description && (
         <div className="bg-slate-800/50 rounded-xl p-6">

@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import AuthControls from './components/AuthControls'
+import AiConsultFloating from './components/AiConsultFloating'
 import HomePage from './pages/HomePage'
 import StockPage from './pages/StockPage'
 
@@ -31,6 +32,8 @@ export default function App() {
           <Route path="/stock/:symbol" element={<StockPage />} />
         </Routes>
       </main>
+
+      <AiConsultFloating />
     </div>
   )
 }

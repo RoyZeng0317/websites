@@ -42,11 +42,52 @@
                 <button class="btn-remove" id="btn-remove">✕</button>
             </div>
 
+            <div class="timer-section" id="timer-section">
+                <label class="timer-label">連結有效時間</label>
+                <div class="timer-options">
+                    <label class="timer-option">
+                        <input type="radio" name="expires_in" value="60" checked>
+                        <span>1 分鐘</span>
+                    </label>
+                    <label class="timer-option">
+                        <input type="radio" name="expires_in" value="180">
+                        <span>3 分鐘</span>
+                    </label>
+                    <label class="timer-option">
+                        <input type="radio" name="expires_in" value="300">
+                        <span>5 分鐘</span>
+                    </label>
+                    <label class="timer-option">
+                        <input type="radio" name="expires_in" value="600">
+                        <span>10 分鐘</span>
+                    </label>
+                    <label class="timer-option timer-custom">
+                        <input type="radio" name="expires_in" value="custom">
+                        <span>自訂</span>
+                        <input type="number" id="custom-minutes" class="timer-input" min="1" value="1" disabled>
+                        <span class="timer-unit">分鐘</span>
+                    </label>
+                </div>
+            </div>
+
             <button class="btn btn-primary" id="btn-upload" disabled>上傳檔案</button>
 
             <div class="result" id="upload-result" hidden>
                 <div class="result-icon success">✓</div>
                 <p>檔案上傳成功！</p>
+                <div class="countdown-box" id="countdown-box" hidden>
+                    <div class="countdown-display" id="countdown-display">
+                        <span class="countdown-time" id="countdown-time"></span>
+                    </div>
+                    <p class="countdown-label">剩餘有效時間</p>
+                </div>
+                <div class="share-box">
+                    <label>分享連結</label>
+                    <div class="share-field">
+                        <span class="share-url" id="share-url"></span>
+                        <button class="btn-copy" id="btn-copy-link">複製連結</button>
+                    </div>
+                </div>
                 <div class="password-box">
                     <label>一次性密碼</label>
                     <div class="password-field">
@@ -54,7 +95,7 @@
                         <button class="btn-copy" id="btn-copy">複製</button>
                     </div>
                 </div>
-                <p class="password-hint">請將此密碼分享給接收者，此密碼僅能使用一次</p>
+                <p class="password-hint">將連結或密碼分享給接收者，僅能使用一次</p>
             </div>
 
             <div class="result error" id="upload-error" hidden>

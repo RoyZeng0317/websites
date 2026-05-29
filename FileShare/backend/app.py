@@ -3,14 +3,25 @@ import secrets
 import string
 import uuid
 import logging
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
 
+<<<<<<< HEAD
+=======
+import firebase_admin
+from firebase_admin import credentials, firestore
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from config import (
     SECRET_KEY,
+<<<<<<< HEAD
+=======
+    FIREBASE_SERVICE_ACCOUNT_PATH,
+    FIREBASE_SERVICE_ACCOUNT_JSON,
+>>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
     PASSWORD_LENGTH,
     MAX_CONTENT_LENGTH,
     ALLOWED_EXTENSIONS,
@@ -27,14 +38,22 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 app.config['SECRET_KEY'] = SECRET_KEY
 
-CORS(app)
+CORS(app, resources={
+    r'/api/*': {
+        'origins': [
+            'http://localhost:5173',
+            'http://localhost:4173',
+            'https://file-share-platfrom.web.app',
+            'https://file-share-platfrom.firebaseapp.com',
+        ],
+    },
+})
 
 db = FirebaseDB()
 
 
 def generate_password(length=PASSWORD_LENGTH):
-    alphabet = string.ascii_letters + string.digits
-    return ''.join(secrets.choice(alphabet) for _ in range(length))
+    return ''.join(secrets.choice(string.digits) for _ in range(length))
 
 
 def allowed_file(filename):
@@ -62,6 +81,8 @@ def upload_file():
     stored_name = f"{uuid.uuid4().hex}{'.' + ext if ext else ''}"
     mime_type = file.content_type or 'application/octet-stream'
 
+    expires_in = request.form.get('expires_in', type=int, default=60)
+
     try:
         file_data = BytesIO(file.read())
         file_size = len(file_data.getvalue())
@@ -71,17 +92,19 @@ def upload_file():
             original_name, stored_name, file_size, mime_type, file_data
         )
 
+        expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
         password = generate_password()
         password_hash = generate_password_hash(password)
-        db.insert_share(file_id, password_hash)
+        db.insert_share(file_id, password_hash, expires_at)
 
-        logger.info(f'File uploaded: {original_name} ({file_size} bytes)')
+        logger.info(f'File uploaded: {original_name} ({file_size} bytes), expires in {expires_in}s')
 
         return jsonify({
             'message': '上傳成功',
             'password': password,
             'filename': original_name,
             'file_size': file_size,
+            'expires_in': expires_in,
         }), 200
 
     except ValueError as e:
@@ -115,7 +138,7 @@ def download_file():
             break
 
     if not matched_share:
-        return jsonify({'error': '無效的密碼'}), 401
+        return jsonify({'error': '無效的密碼或連結已過期'}), 401
 
     try:
         file_record = db.get_file_by_id(matched_share['file_id'])

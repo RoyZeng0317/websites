@@ -5,6 +5,7 @@ import type {
   StockDividends,
   FinancialData,
   RealtimePrice,
+  AiConsultResponse,
 } from '../types/stock'
 
 const BASE = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -56,6 +57,26 @@ export async function getInstitutional(symbol: string): Promise<import('../types
   return res.json()
 }
 
+export async function getRealtimeHistory(symbol: string): Promise<{ symbol: string; data: { timestamp: string; price: number }[] }> {
+  const res = await fetch(
+    `${BASE}/stock/${encodeURIComponent(symbol)}/realtime-history`
+  )
+  if (!res.ok) return { symbol, data: [] }
+  return res.json()
+}
+
+export async function getEtfNav(symbol: string): Promise<import('../types/stock').EtfNavData> {
+  const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/etf-nav`)
+  if (!res.ok) return { symbol, currentNAV: null, currentPrice: null, premium: null, navPreviousClose: null, history: [] }
+  return res.json()
+}
+
+export async function getEtfHoldings(symbol: string): Promise<import('../types/stock').EtfHoldingsData> {
+  const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/etf-holdings`)
+  if (!res.ok) return { symbol, holdings: [] }
+  return res.json()
+}
+
 export async function getFinancials(symbol: string): Promise<FinancialData> {
   const res = await fetch(
     `${BASE}/stock/${encodeURIComponent(symbol)}/financials`
@@ -103,8 +124,19 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     return compute()
   }
 
-  const pe = n(info.peRatio, () => info.eps != null && info.eps !== 0 ? p / info.eps : null)
-  const eps = n(info.eps, () => pe != null && pe !== 0 ? p / pe : null)
+  // Derive EPS from profitMargin * revenuePerShare (reverse of normal derivation)
+  let profitMargin: number | null = info.profitMargin
+  let revenuePerShare: number | null = info.revenuePerShare
+
+  let eps: number | null = info.eps
+  if (eps == null && profitMargin != null && revenuePerShare != null) {
+    eps = profitMargin * revenuePerShare
+  }
+
+  const pe = n(info.peRatio, () => eps != null && eps !== 0 ? p / eps : null)
+  if (eps == null) {
+    if (pe != null && pe !== 0) eps = p / pe
+  }
   const pb = n(info.priceToBook, () => info.bookValue != null && info.bookValue !== 0 ? p / info.bookValue : null)
   const bv = n(info.bookValue, () => pb != null && pb !== 0 ? p / pb : null)
 
@@ -114,9 +146,8 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     else if (eps != null && bv != null && bv !== 0) roe = eps / bv
   }
 
-  let profitMargin: number | null = info.profitMargin
-  if (profitMargin == null && eps != null && info.revenuePerShare != null && info.revenuePerShare !== 0) {
-    profitMargin = eps / info.revenuePerShare
+  if (profitMargin == null && eps != null && revenuePerShare != null && revenuePerShare !== 0) {
+    profitMargin = eps / revenuePerShare
   }
 
   let roa: number | null = info.roa
@@ -129,11 +160,10 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
   }
 
   let revenue: number | null = info.revenue
-  if (revenue == null && info.marketCap != null && info.marketCap > 0 && info.revenuePerShare != null && p !== 0) {
-    revenue = info.revenuePerShare * (info.marketCap / p)
+  if (revenue == null && info.marketCap != null && info.marketCap > 0 && revenuePerShare != null && p !== 0) {
+    revenue = revenuePerShare * (info.marketCap / p)
   }
 
-  let revenuePerShare: number | null = info.revenuePerShare
   if (revenuePerShare == null && revenue != null && info.marketCap != null && info.marketCap > 0 && p !== 0) {
     revenuePerShare = revenue / (info.marketCap / p)
   }
@@ -203,6 +233,16 @@ export function calculateMissingFundamentals(info: StockInfo): StockInfo {
     change: c,
     changePercent: cp,
   }
+}
+
+export async function consultAi(symbol: string, question: string): Promise<AiConsultResponse> {
+  const res = await fetch(`${BASE}/ai/consult`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ symbol, question }),
+  })
+  if (!res.ok) throw new Error('AI consultation failed')
+  return res.json()
 }
 
 export function formatCurrency(value: number | null | undefined, currency = 'USD'): string {
