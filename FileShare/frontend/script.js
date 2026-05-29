@@ -418,9 +418,6 @@ const sharedPassword = params.get('password');
 if (sharedPassword) {
     downloadPassword.value = sharedPassword;
     btnDownload.disabled = false;
-    const downloadTab = document.querySelector('.tab[data-tab="download"]');
-    if (downloadTab) {
-        downloadTab.click();
-        btnDownload.click();
-    }
+    document.querySelector('.tab[data-tab="download"]').click();
+    btnDownload.click();
 }
