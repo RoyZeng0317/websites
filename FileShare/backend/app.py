@@ -6,22 +6,12 @@ import logging
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
 
-<<<<<<< HEAD
-=======
-import firebase_admin
-from firebase_admin import credentials, firestore
->>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from config import (
     SECRET_KEY,
-<<<<<<< HEAD
-=======
-    FIREBASE_SERVICE_ACCOUNT_PATH,
-    FIREBASE_SERVICE_ACCOUNT_JSON,
->>>>>>> 12df342b8026eb010c60c72e61b459d3664eb0aa
     PASSWORD_LENGTH,
     MAX_CONTENT_LENGTH,
     ALLOWED_EXTENSIONS,
