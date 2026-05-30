@@ -1685,6 +1685,181 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
         if result.get("dividendRate") is None and result.get("dividendYield") and current_price:
             result["dividendRate"] = round(result["dividendYield"] * current_price, 4)
 
+    # DR stock handling: fetch fundamentals from parent company
+    _DR_PARENT_MAP = {
+        "9105": "CCET.BK",   # 泰金寶-DR -> Cal-Comp Electronics Thailand
+        "9104": "WHA.BK",    # 泰聚亨-DR -> WHA Corporation Thailand
+        "9103": "SCCC.BK",   # 泰崇越-DR -> Siam City Cement
+        "9102": "SCC.BK",    # 泰金屬-DR -> Siam Cement Group
+        "9101": "PTT.BK",    # 泰石油-DR -> PTT PCL
+        "9108": "HMPRO.BK",  # 泰樺-DR -> Home Product Center
+        "9110": "DELTA.BK",  # 泰達電-DR -> Delta Electronics Thailand
+    }
+    _parent_sym = _DR_PARENT_MAP.get(stock_no)
+    if _parent_sym:
+        try:
+            _dr_data = None
+            for _qs in ["query1", "query2"]:
+                try:
+                    rate_limit()
+                    _url = f"https://{_qs}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(_parent_sym)}?modules=summaryDetail,defaultKeyStatistics,financialData"
+                    _rsp = requests.get(_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                    if _rsp.status_code != 200:
+                        continue
+                    _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                    if not _q:
+                        continue
+                    _sd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in _q.get("summaryDetail", {}).items()}
+                    _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in _q.get("defaultKeyStatistics", {}).items()}
+                    _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in _q.get("financialData", {}).items()}
+                    _dr_data = {
+                        "trailingEps": _ks.get("trailingEps"),
+                        "forwardEps": _ks.get("forwardEps"),
+                        "trailingPE": _sd.get("trailingPE"),
+                        "forwardPE": _sd.get("forwardPE"),
+                        "priceToBook": _ks.get("priceToBook"),
+                        "bookValue": _ks.get("bookValue"),
+                        "returnOnEquity": _fd.get("returnOnEquity"),
+                        "returnOnAssets": _fd.get("returnOnAssets"),
+                        "profitMargins": _fd.get("profitMargins"),
+                        "operatingMargins": _fd.get("operatingMargins"),
+                        "totalRevenue": _fd.get("totalRevenue"),
+                        "revenuePerShare": _fd.get("revenuePerShare"),
+                        "debtToEquity": _fd.get("debtToEquity"),
+                        "payoutRatio": _sd.get("payoutRatio"),
+                        "dividendYield": _sd.get("dividendYield"),
+                        "dividendRate": _sd.get("dividendRate"),
+                        "fiveYearAvgDividendYield": _sd.get("fiveYearAvgDividendYield"),
+                        "beta": _ks.get("beta"),
+                    }
+                    break
+                except Exception:
+                    continue
+            # Fallback: yfinance Ticker
+            if not _dr_data or not any(v is not None for v in _dr_data.values()):
+                try:
+                    import socket as _sock
+                    _old_to = _sock.getdefaulttimeout()
+                    _sock.setdefaulttimeout(15)
+                    try:
+                        _pt = yf.Ticker(_parent_sym)
+                        _pi = dict(_pt.info) if _pt.info else {}
+                    finally:
+                        _sock.setdefaulttimeout(_old_to)
+                    if _pi:
+                        _dr_data = {
+                            "trailingEps": _pi.get("trailingEps"),
+                            "forwardEps": _pi.get("forwardEps"),
+                            "trailingPE": _pi.get("trailingPE"),
+                            "forwardPE": _pi.get("forwardPE"),
+                            "priceToBook": _pi.get("priceToBook"),
+                            "bookValue": _pi.get("bookValue"),
+                            "returnOnEquity": _pi.get("returnOnEquity"),
+                            "returnOnAssets": _pi.get("returnOnAssets"),
+                            "profitMargins": _pi.get("profitMargins"),
+                            "operatingMargins": _pi.get("operatingMargins"),
+                            "totalRevenue": _pi.get("totalRevenue"),
+                            "revenuePerShare": _pi.get("revenuePerShare"),
+                            "debtToEquity": _pi.get("debtToEquity"),
+                            "payoutRatio": _pi.get("payoutRatio"),
+                            "dividendYield": _pi.get("dividendYield"),
+                            "dividendRate": _pi.get("dividendRate"),
+                            "beta": _pi.get("beta"),
+                        }
+                except Exception:
+                    pass
+            if _dr_data:
+                if not result:
+                    result = {}
+                for k, v in _dr_data.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
+                # Normalize percentages
+                for _pk in ["dividendYield", "returnOnEquity", "returnOnAssets", "profitMargins", "operatingMargins"]:
+                    _v = result.get(_pk)
+                    if _v is not None and abs(_v) > 1:
+                        result[_pk] = _v / 100.0
+        except Exception:
+            pass
+
+    # ETF: fetch totalAssets and detailed dividend from TWSE openapi
+    if _is_etf and (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        # Try to get totalAssets from TWSE ETF openapi
+        if result.get("totalAssets") is None:
+            try:
+                for _etf_url in [
+                    "https://openapi.twse.com.tw/v1/exchangeReport/ETF_BASIC",
+                    "https://openapi.twse.com.tw/v1/opendata/t00sb08",
+                ]:
+                    try:
+                        _er = requests.get(_etf_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                        if _er.status_code != 200:
+                            continue
+                        _ed = _er.json()
+                        if not isinstance(_ed, list):
+                            continue
+                        for _row in _ed:
+                            _code = str(_row.get("證券代號", _row.get("ETFcode", ""))).strip()
+                            if _code == stock_no:
+                                _assets = _safe_float(_row.get("基金規模(億元)", _row.get("規模", _row.get("totalAssets", ""))))
+                                if _assets:
+                                    # Convert 億元 to TWD
+                                    result["totalAssets"] = _assets * 1e8
+                                _nav = _safe_float(_row.get("每單位淨值", _row.get("navPrice", "")))
+                                if _nav and result.get("navPrice") is None:
+                                    result["navPrice"] = _nav
+                                break
+                        if result.get("totalAssets"):
+                            break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
+
+        # Fetch ETF P/E ratio from TWSE ETF composition
+        if result.get("trailingPE") is None:
+            try:
+                _pe_url = f"https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL"
+                _pe_r = requests.get(_pe_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if _pe_r.status_code == 200:
+                    _pe_data = _pe_r.json()
+                    if isinstance(_pe_data, list):
+                        for _row in _pe_data:
+                            if str(_row.get("Code", "")).strip() == stock_no:
+                                _pe = _safe_float(_row.get("PEratio"))
+                                _pb = _safe_float(_row.get("PBratio"))
+                                _dy = _safe_float(_row.get("DividendYield"))
+                                if _pe and result.get("trailingPE") is None:
+                                    result["trailingPE"] = _pe
+                                if _pb and result.get("priceToBook") is None:
+                                    result["priceToBook"] = _pb
+                                    if current_price and result.get("bookValue") is None:
+                                        result["bookValue"] = round(current_price / _pb, 4)
+                                if _dy and result.get("dividendYield") is None:
+                                    result["dividendYield"] = _dy / 100
+                                    if current_price and result.get("dividendRate") is None:
+                                        result["dividendRate"] = round(_dy / 100 * current_price, 4)
+                                break
+            except Exception:
+                pass
+
+        # ETF annual return from chart data
+        if result.get("ytdReturn") is None or result.get("threeYearAverageReturn") is None:
+            try:
+                _chart_1y = _fetch_yahoo_chart_data(symbol, period="1y", interval="1mo")
+                _chart_3y = _fetch_yahoo_chart_data(symbol, period="3y", interval="1mo")
+                if _chart_1y and len(_chart_1y) >= 2:
+                    _c1 = [d["close"] for d in _chart_1y if d.get("close", 0) > 0]
+                    if _c1 and result.get("ytdReturn") is None:
+                        result["ytdReturn"] = round((_c1[-1] - _c1[0]) / _c1[0], 4)
+                if _chart_3y and len(_chart_3y) >= 12:
+                    _c3 = [d["close"] for d in _chart_3y if d.get("close", 0) > 0]
+                    if _c3 and result.get("threeYearAverageReturn") is None:
+                        _3yr = (_c3[-1] - _c3[0]) / _c3[0]
+                        result["threeYearAverageReturn"] = round(_3yr / 3, 4)
+            except Exception:
+                pass
+
     result["isETF"] = _is_etf
 
     has_data = any(v is not None for v in result.values())
