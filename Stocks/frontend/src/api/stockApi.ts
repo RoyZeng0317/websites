@@ -6,6 +6,7 @@ import type {
   FinancialData,
   RealtimePrice,
   AiConsultResponse,
+  EtfAnalysisData,
 } from '../types/stock'
 
 const BASE = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -74,6 +75,12 @@ export async function getEtfNav(symbol: string): Promise<import('../types/stock'
 export async function getEtfHoldings(symbol: string): Promise<import('../types/stock').EtfHoldingsData> {
   const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/etf-holdings`)
   if (!res.ok) return { symbol, holdings: [] }
+  return res.json()
+}
+
+export async function getEtfAnalysis(symbol: string): Promise<EtfAnalysisData> {
+  const res = await fetch(`${BASE}/stock/${encodeURIComponent(symbol)}/etf-analysis`)
+  if (!res.ok) throw new Error('Failed to fetch ETF analysis')
   return res.json()
 }
 

@@ -71,6 +71,7 @@ STOCK_SECTORS = {
     "3583.TW": {"sector": "半導體", "industry": "設備"},
     "2337.TW": {"sector": "半導體", "industry": "記憶體製造"},
     "2317.TW": {"sector": "電子代工", "industry": "組裝"},
+    "9105.TW": {"sector": "電子代工", "industry": "EMS (電子製造服務)"},
     "2308.TW": {"sector": "電子零組件", "industry": "電源供應"},
     "2327.TW": {"sector": "電子零組件", "industry": "被動元件"},
     "2353.TW": {"sector": "電腦硬體", "industry": "PC 製造"},
@@ -181,15 +182,156 @@ _raw_names = {
     "2515": "中工", "2610": "華航", "2646": "星宇航空",
     "2882": "國泰金", "2885": "元大金", "2887": "台新新光金", "2891": "中信金",
     "3008": "大立光", "3260": "威剛", "3481": "群創", "3714": "富采",
-    "4916": "事欣科", "4967": "十銓", "5007": "三星（台）",
+    "4916": "事欣科", "4967": "十銓",     "5007": "三星（台）",
+    "9105": "泰金寶-DR",
     "5880": "合庫金", "6116": "彩晶", "6605": "帝寶", "6770": "力積電",
     "7418": "香繼光", "8046": "南電", "8110": "華東",
-    "0050": "元大台灣50", "0053": "元大電子", "0056": "元大高股息",
-    "009816": "凱基台灣TOP50", "00403A": "主動統一升級50",
+    "0050": "元大台灣50", "0051": "元大中型100", "0052": "元大富櫃50",
+    "0053": "元大電子", "0055": "元大MSCI金融", "0056": "元大高股息",
+    "0057": "元大摩台基金", "006201": "元大上證50", "006203": "元大MSCI台灣",
+    "006204": "永豐臺灣加權", "006205": "富邦上証", "006206": "元大上證50",
+    "006207": "復華滬深", "006208": "富邦台50", "00625K": "元大日經225",
+    "00632R": "元大台灣50反1", "00633L": "富邦上証正2", "00634R": "富邦上証反1",
+    "00635U": "元大S&P黃金", "00636": "國泰中國A50", "00636K": "國泰中國A50+U",
+    "00637L": "元大滬深300正2", "00638R": "元大滬深300反1", "00639": "富邦深100",
+    "00640L": "富邦日本正2", "00641R": "富邦日本反1", "00642": "元大S&P石油",
+    "00643": "群益深証中小", "00645": "富邦日本", "00646": "元大S&P500",
+    "00647L": "元大S&P500正2", "00648R": "元大S&P500反1",
+    "00650L": "復華香港正2", "00651R": "復華香港反1",
+    "00652": "富邦印度", "00653L": "富邦印度正2", "00654R": "富邦印度反1",
+    "00655L": "國泰中國A50正2", "00656R": "國泰中國A50反1",
+    "00660": "元大歐洲50", "00661": "元大日經225",
+    "00662": "富邦NASDAQ", "00663L": "國泰臺灣加權正2",
+    "00664R": "國泰臺灣加權反1", "00668": "國泰美國道瓊",
+    "00668K": "國泰美國道瓊+U", "00670L": "富邦NASDAQ正2",
+    "00671R": "富邦NASDAQ反1", "00673R": "群益臺灣加權反1",
+    "00674R": "元大S&P500反1", "00675L": "富邦臺灣加權正2",
+    "00676R": "富邦臺灣加權反1", "00678": "群益那斯達克生技",
+    "00679B": "元大美債20年", "00680L": "元大美債20正2",
+    "00681R": "元大美債20反1", "00682U": "元大美元指數",
+    "00683L": "元大美元指正2", "00684R": "元大美元指反1",
+    "00685L": "群益臺灣加權正2", "00686R": "群益臺灣加權反1",
+    "00687B": "國泰20年美債", "00688L": "國泰20年美債正2",
+    "00689R": "國泰20年美債反1", "00690": "兆豐藍籌30",
+    "00691R": "兆豐臺灣藍籌反1", "00692": "富邦公司治理",
+    "00693L": "富邦臺灣加權正2", "00694R": "群益道瓊反1",
+    "00695B": "富邦美債7-10", "00696": "富邦美債20年",
+    "00697B": "元大美債7-10", "00700": "富邦恒生國企",
+    "00701": "國泰臺灣低波動30", "00702": "國泰標普低波高息",
+    "00703": "台新MSCI中國", "00706L": "元大S&P日圓正2",
+    "00707R": "元大S&P日圓反1", "00708L": "元大S&P黃金正2",
+    "00709": "富邦歐洲", "00710B": "復華彭博非投等債",
+    "00711B": "復華彭博新興債", "00712": "復華富時不動產",
+    "00713": "元大台灣高息低波", "00714": "群益道瓊美國地產",
+    "00715L": "期街口布蘭特正2", "00717": "富邦美國特別股",
+    "00718B": "富邦中國政策債", "00719B": "元大美債1-3",
+    "00720B": "元大投資級公司債", "00721B": "元大中國債3-5",
+    "00722B": "群益投資級電信債", "00723B": "群益投資級科技債",
+    "00724B": "群益投資級金融債", "00725B": "國泰投資級公司債",
+    "00726B": "國泰5Y+新興債", "00727B": "國泰1-5Y非投等債",
+    "00728": "第一金工業精選", "00730": "富邦臺灣優質高息",
+    "00731": "復華富時高息低波", "00733": "富邦臺灣中小",
+    "00734B": "台新JPM新興債", "00735": "國泰臺韓科技",
+    "00736": "國泰新興市場", "00737": "群益深証中小",
+    "00738U": "元大道瓊白銀", "00739": "元大MSCI A股",
+    "00752": "中信中國50", "00753L": "中信中國50正2",
+    "00756B": "群益投等新興公債", "00757": "統一FANG+",
+    "00758B": "復華能源債", "00759B": "復華製藥債",
+    "00760B": "復華新興企業債", "00761B": "國泰A級科技債",
+    "00762": "元大全球AI", "00763U": "期街口道瓊銅",
+    "00764B": "群益25年美債", "00768B": "復華20年美債",
+    "00770": "國泰美國道瓊+U", "00771": "元大US高息特別股",
+    "00772B": "中信高評級公司債", "00773B": "中信優先金融債",
+    "00775B": "國泰A級金融債", "00778B": "凱基金融債20+",
+    "00779B": "凱基美債25+", "00780B": "國泰A級公用債",
+    "00781B": "國泰A級醫療債", "00782B": "國泰A級消費債",
+    "00783B": "國泰A級科技債", "00784B": "國泰A級通訊債",
+    "00785B": "國泰A級工業債", "00786B": "國泰A級原物料債",
+    "00787B": "元大10年IG醫療債", "00788B": "元大10年IG電能債",
+    "00789B": "元大10年IG銀行債", "00790B": "元大10年IG科技債",
+    "00791B": "元大10年IG電信債", "00792B": "元大10年IG製藥債",
+    "00793B": "群益AAA-A醫療債", "00795B": "中信美國公債20年",
+    "00799B": "國泰A級醫療債", "00830": "國泰費城半導體",
+    "00831B": "新光美債1-3", "00834B": "第一金金融債10+",
+    "00836B": "永豐10年A公司債", "00840B": "凱基A級公司債",
+    "00841B": "凱基AAA-AA公司債", "00842B": "台新美元銀行債",
+    "00844B": "新光15年IG金融債", "00845B": "富邦新興投等債",
+    "00846B": "富邦歐洲銀行債", "00847B": "中信美國市政債",
+    "00848B": "中信新興亞洲債", "00849B": "中信EM主權債",
+    "00850": "元大臺灣ESG永續", "00851": "台新全球多元資產",
+    "00852B": "國泰20年美債+U", "00853B": "統一美債10年Aa-A",
+    "00856B": "永豐1-3年美公債", "00857B": "永豐20年美公債",
+    "00858": "永豐美國500大", "00859B": "群益0-1年美債",
+    "00860B": "群益1-5年投資級債", "00861": "元大全球未來通訊",
+    "00862B": "中信投資級公司債", "00863B": "中信全球電信債",
+    "00864B": "中信美國公債0-1", "00865B": "中信美國公債20年",
+    "00866B": "中信ESG投資級債", "00867B": "新光A-BBB電信債",
+    "00868B": "FTNN20年美債", "00869B": "FTNN10年美債",
+    "00870B": "元大15年EM主權債", "00871B": "元大10年IG銀行債",
+    "00872B": "凱基1-5年美債", "00873B": "凱基10年IG金融債",
+    "00875B": "中信A級科技債", "00876B": "中信A級醫療債",
+    "00877B": "中信A級公用債", "00878": "國泰永續高股息",
+    "00879B": "凱基新興債10+", "00880B": "凱基ESG新興債",
+    "00881": "國泰台灣5G+", "00882": "中信中國高股息",
+    "00883B": "中信ESG20年美債", "00884B": "中信低碳新興債",
+    "00885": "富邦越南", "00886": "永豐美國科技",
+    "00887": "永豐中國科技50大", "00888": "永豐台灣ESG",
+    "00889": "富邦台灣半導體", "00890B": "凱基ESG BBB債15+",
+    "00891": "中信關鍵半導體", "00892": "富邦台灣半導體",
+    "00893": "國泰智能電動車", "00894": "中信小資高價30",
+    "00895": "富邦未來車", "00896": "中信綠能及電動車",
+    "00897": "富邦基因免疫生技", "00898": "國泰基因免疫革命",
+    "00899": "FT潔淨能源", "00900": "富邦特選高股息30",
+    "00901": "永豐智能車供應鏈", "00902": "中信電池及儲能",
+    "00903": "富邦元宇宙", "00904": "新光臺灣半導體30",
+    "00905": "FT臺灣Smart", "00907": "永豐優息存股",
+    "00908": "富邦入息REITs+", "00909": "國泰數位支付服務",
+    "00910": "第一金太空衛星", "00911": "兆豐洲際半導體",
+    "00912": "中信臺灣智慧50", "00913": "兆豐台灣晶圓製造",
+    "00915": "凱基優選高股息30", "00916": "國泰全球品牌50",
+    "00917": "中信特選金融", "00918": "大華優利高填息30",
+    "00919": "群益台灣精選高息", "00920": "兆豐台灣ESG永續",
+    "00921": "兆豐龍頭等權重", "00922": "國泰台灣領袖50",
+    "00923": "群益台ESG低碳50", "00924": "復華S&P500成長",
+    "00925": "富邦ESG綠色電力", "00926": "凱基全球菁英55",
+    "00927": "群益半導體收益", "00928": "中信上櫃ESG30",
+    "00929": "復華台灣科技優息", "00930": "永豐ESG低碳高息",
+    "00931B": "統一美債20年", "00932": "兆豐永續高息等權",
+    "00933B": "國泰10Y+金融債", "00934": "中信成長高股息",
+    "00935": "野村臺灣新科技50", "00936": "台新永續高息中小",
+    "00937B": "群益ESG投等債20+", "00938": "凱基優選30",
+    "00939": "統一台灣高息動能", "00940": "元大台灣價值高息",
+    "00941": "中信上游半導體", "00942B": "台新美A公司債20+",
+    "00943": "兆豐電子高息等權", "00944": "野村趨勢動能高息",
+    "00945B": "凱基美國非投等債", "00946": "群益科技高息成長",
+    "00947": "台新臺灣IC設計", "00948B": "中信優息投資級債",
+    "00949": "復華日本龍頭", "00950B": "凱基A級公司債",
+    "00951": "台新日本半導體", "00952": "凱基台灣AI50",
+    "00953B": "群益優選非投等債", "00954": "中信日本半導體",
+    "00955": "中信日本商社", "00956": "中信日經高股息",
+    "00957B": "兆豐US優選投等債", "00958B": "永豐ESG銀行債15+",
+    "00959B": "街口美國非投等債", "00960": "野村全球航運龍頭",
+    "00961": "富邦台美雙盈", "00962": "中信亞太高股息",
+    "00963": "中信臺灣 ESG 增長", "00965": "元大航太防衛科技",
+    "00966B": "元大10年ESG投等債", "009800": "中信NASDAQ",
+    "009801": "中信美國藍籌30", "009802": "元大全球優質龍頭",
+    "009803": "保德信台商全方位", "009804": "兆豐全球債券ETF",
+    "009805": "野村全球航太防衛", "009806": "元大全球半導體",
+    "009807": "統一ESG投等債", "009808": "台新全球優選短債",
+    "009809": "凱基全球10大品牌", "009810": "第一金全球衛星",
+    "009811": "富邦全球航太防衛", "009812": "元大全球基建",
+    "009813": "元大全球AI", "009815": "元大全球公用能源",
+    "009816": "凱基台灣TOP50", "009817": "凱基全球優選ETF",
+    "009818": "華南我國多重資產", "009819": "元大全球航太防衛",
+    "009820": "中信台灣優選成長", "009821": "凱基全球AI",
+    "009822": "凱基全球永續", "009823": "復華台灣科技高息",
+    "009824": "元大全球優質龍頭",
+    "00403A": "主動統一升級50",
     "00981A": "主動統一台股增長",
 }
 
 STOCK_MONEY = {
+    "泰金寶-DR": "半年配息",
     "台塑": "年配息",
     "中鋼": "年配息",
     "聯電": "年配息",
@@ -233,9 +375,83 @@ STOCK_MONEY = {
     "元大50": "半年配息",
     "元大電子": "年配息",
     "元大高股息": "季配息",
-    "凱基TOP50": "不配息配股",
+    "元大台灣50": "半年配息",
+    "元大中型100": "年配息",
+    "元大富櫃50": "年配息",
+    "元大MSCI金融": "年配息",
+    "元大摩台基金": "年配息",
+    "元大上證50": "年配息",
+    "元大MSCI台灣": "年配息",
+    "永豐臺灣加權": "年配息",
+    "富邦上証": "年配息",
+    "復華滬深": "年配息",
+    "富邦台50": "半年配息",
+    "元大台灣50反1": "不配息配股",
+    "元大台灣高息低波": "季配息",
+    "國泰永續高股息": "季配息",
+    "國泰台灣5G+": "季配息",
+    "中信關鍵半導體": "季配息",
+    "中信小資高價30": "季配息",
+    "富邦未來車": "年配息",
+    "富邦特選高股息30": "季配息",
+    "群益台灣精選高息": "季配息",
+    "復華台灣科技優息": "月配息",
+    "元大臺灣ESG永續": "季配息",
+    "中信成長高股息": "季配息",
+    "統一台灣高息動能": "月配息",
+    "元大台灣價值高息": "月配息",
+    "群益科技高息成長": "月配息",
+    "凱基優選高股息30": "季配息",
+    "群益半導體收益": "月配息",
+    "大華優利高填息30": "季配息",
+    "兆豐永續高息等權": "月配息",
+    "復華日本龍頭": "季配息",
+    "富邦越南": "年配息",
+    "中信中國高股息": "季配息",
+    "統一FANG+": "年配息",
+    "國泰費城半導體": "年配息",
+    "元大全球AI": "年配息",
+    "凱基台灣TOP50": "不配息配股",
     "主動統一升級50": "季配息",
-    "主動統一台股增長": "年配息"
+    "主動統一台股增長": "年配息",
+    "富邦台灣半導體": "季配息",
+    "群益台ESG低碳50": "季配息",
+    "國泰台灣領袖50": "半年配息",
+    "凱基優選30": "季配息",
+    "野村趨勢動能高息": "月配息",
+    "台新永續高息中小": "月配息",
+    "兆豐電子高息等權": "月配息",
+    "中信上游半導體": "年配息",
+    "台新臺灣IC設計": "年配息",
+    "永豐ESG低碳高息": "月配息",
+    "野村臺灣新科技50": "年配息",
+    "兆豐龍頭等權重": "半年配息",
+    "中信上櫃ESG30": "年配息",
+    "凱基台灣AI50": "季配息",
+    "富邦公司治理": "年配息",
+    "兆豐藍籌30": "半年配息",
+    "第一金工業精選": "半年配息",
+    "富邦臺灣中小": "半年配息",
+    "元大美債20年": "季配息",
+    "國泰20年美債": "季配息",
+    "元大投資級公司債": "季配息",
+    "群益ESG投等債20+": "月配息",
+    "國泰10Y+金融債": "月配息",
+    "中信優息投資級債": "月配息",
+    "凱基美國非投等債": "月配息",
+    "群益優選非投等債": "月配息",
+    "元大10年IG銀行債": "季配息",
+    "元大10年IG科技債": "季配息",
+    "群益投資級電信債": "季配息",
+    "群益投資級金融債": "季配息",
+    "復華彭博非投等債": "季配息",
+    "復華富時不動產": "季配息",
+    "富邦入息REITs+": "季配息",
+    "中信電池及儲能": "年配息",
+    "永豐台灣ESG": "年配息",
+    "永豐美國500大": "年配息",
+    "國泰智能電動車": "年配息",
+    "富邦元宇宙": "年配息"
     }
 for k, v in _raw_names.items():
     STOCK_NAMES[_normalize_key(k)] = {"name": v, "market": "TW"}
@@ -348,10 +564,32 @@ STOCK_MEETING_URLS = {
 }
 
 ETF_DIVIDEND_FALLBACK = {
-    # ETF code -> {dividendYield (decimal), trailingPE, priceToBook}
+    # ETF code -> {dividendYield (decimal), trailingPE (for fair value), priceToBook}
     "00403A.TW": {"dividendYield": None, "trailingPE": None, "priceToBook": None},
     "009816.TW": {"dividendYield": None, "trailingPE": 32.3, "priceToBook": None},
     "00981A.TW": {"dividendYield": None, "trailingPE": None, "priceToBook": None},
+    # Popular Taiwan ETFs with known fundamental ranges
+    "0050.TW": {"dividendYield": 0.025, "trailingPE": None, "priceToBook": None},
+    "0056.TW": {"dividendYield": 0.045, "trailingPE": None, "priceToBook": None},
+    "00878.TW": {"dividendYield": 0.055, "trailingPE": None, "priceToBook": None},
+    "00919.TW": {"dividendYield": 0.08,  "trailingPE": None, "priceToBook": None},
+    "00929.TW": {"dividendYield": 0.075, "trailingPE": None, "priceToBook": None},
+    "00940.TW": {"dividendYield": 0.06,  "trailingPE": None, "priceToBook": None},
+    "00939.TW": {"dividendYield": 0.07,  "trailingPE": None, "priceToBook": None},
+    "00946.TW": {"dividendYield": 0.07,  "trailingPE": None, "priceToBook": None},
+    "00915.TW": {"dividendYield": 0.07,  "trailingPE": None, "priceToBook": None},
+    "00918.TW": {"dividendYield": 0.08,  "trailingPE": None, "priceToBook": None},
+    "00713.TW": {"dividendYield": 0.05,  "trailingPE": None, "priceToBook": None},
+    "00881.TW": {"dividendYield": 0.04,  "trailingPE": None, "priceToBook": None},
+    "00891.TW": {"dividendYield": 0.035, "trailingPE": None, "priceToBook": None},
+    "00900.TW": {"dividendYield": 0.06,  "trailingPE": None, "priceToBook": None},
+    "00936.TW": {"dividendYield": 0.075, "trailingPE": None, "priceToBook": None},
+    "00934.TW": {"dividendYield": 0.07,  "trailingPE": None, "priceToBook": None},
+    "00927.TW": {"dividendYield": 0.065, "trailingPE": None, "priceToBook": None},
+    "00850.TW": {"dividendYield": 0.03,  "trailingPE": None, "priceToBook": None},
+    "00922.TW": {"dividendYield": 0.03,  "trailingPE": None, "priceToBook": None},
+    "00692.TW": {"dividendYield": 0.03,  "trailingPE": None, "priceToBook": None},
+    "00923.TW": {"dividendYield": 0.035, "trailingPE": None, "priceToBook": None},
 }
 
 FUNDAMENTALS_CACHE = {}
@@ -439,6 +677,188 @@ def _safe_float(val):
         return None
 
 
+_TWSE_MOPS_CACHE: dict = {"data": {}, "time": 0}
+_TWSE_MOPS_TTL = 3600  # 1 hour
+
+def _fetch_twse_mops_ratios(stock_no: str) -> dict:
+    """
+    Fetch financial ratios from TWSE MOPS (公開資訊觀測站).
+    Returns dict with keys: roe, roa, eps, profitMargins, operatingMargins,
+    debtToEquity, bookValue, revenuePerShare, totalRevenue
+    """
+    now_val = time.time()
+    cache_key = f"mops_{stock_no}"
+    if cache_key in _TWSE_MOPS_CACHE["data"] and now_val - _TWSE_MOPS_CACHE["time"] < _TWSE_MOPS_TTL:
+        return _TWSE_MOPS_CACHE["data"][cache_key]
+
+    result = {}
+
+    # Method A: TWSE openapi 財務比率 (t187ap14_L)
+    try:
+        r = requests.get(
+            "https://openapi.twse.com.tw/v1/opendata/t187ap14_L",
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=15,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            if isinstance(data, list):
+                for row in data:
+                    if str(row.get("公司代號", "")).strip() == stock_no:
+                        def g(k): return _safe_float(row.get(k))
+                        # ROE, ROA
+                        roe = g("資產報酬率(%)")
+                        roa_val = g("股東權益報酬率(%)")
+                        if roe: result["returnOnEquity"] = roe / 100
+                        if roa_val: result["returnOnAssets"] = roa_val / 100
+                        # Profit margin
+                        pm = g("稅後純益率(%)")
+                        if pm: result["profitMargins"] = pm / 100
+                        om = g("營業利益率(%)")
+                        if om: result["operatingMargins"] = om / 100
+                        # D/E ratio
+                        dte = g("負債佔資產比率(%)")
+                        if dte and dte < 100:
+                            # Convert: debt/assets% -> debt/equity ratio
+                            result["debtToEquity"] = round(dte / (100 - dte), 4) if dte != 100 else None
+                        # EPS
+                        eps = g("每股盈餘(元)")
+                        if eps: result["trailingEps"] = eps
+                        # Book value
+                        bv = g("每股淨值(元)")
+                        if bv: result["bookValue"] = bv
+                        break
+    except Exception:
+        pass
+
+    # Method B: TWSE openapi 損益資料 (t187ap04_L)
+    if not result or result.get("totalRevenue") is None:
+        try:
+            for url in [
+                "https://openapi.twse.com.tw/v1/opendata/t187ap04_L",
+                "https://openapi.twse.com.tw/v1/opendata/t187ap04_P",
+            ]:
+                r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+                if r.status_code != 200:
+                    continue
+                data = r.json()
+                if not isinstance(data, list):
+                    continue
+                for row in data:
+                    if str(row.get("公司代號", "")).strip() == stock_no:
+                        rev_keys = ["營業收入合計", "營業收入", "營業收入淨額", "收益"]
+                        ni_keys = ["本期淨利", "稅後淨利", "本期損益", "繼續營業單位淨利"]
+                        oi_keys = ["營業利益", "營業損益", "營業淨利"]
+                        def _first(keys):
+                            for k in keys:
+                                v = _safe_float(row.get(k))
+                                if v is not None: return v
+                            return None
+                        rev = _first(rev_keys)
+                        ni = _first(ni_keys)
+                        oi = _first(oi_keys)
+                        if rev: result["totalRevenue"] = rev
+                        if ni and rev and rev != 0 and result.get("profitMargins") is None:
+                            result["profitMargins"] = round(ni / rev, 4)
+                        if oi and rev and rev != 0 and result.get("operatingMargins") is None:
+                            result["operatingMargins"] = round(oi / rev, 4)
+                        break
+                if result.get("totalRevenue"):
+                    break
+        except Exception:
+            pass
+
+    # Method C: TWSE 個股財務比較 API
+    if not result:
+        try:
+            year = datetime.now().year - 1911  # ROC year
+            for y in [year, year - 1]:
+                for season in [4, 3, 2, 1]:
+                    url = f"https://mops.twse.com.tw/mops/web/ajax_t164sb04?encodeURIComponent=1&step=1&firstin=1&off=1&TYPEK=sii&year={y}&season={season}&co_id={stock_no}"
+                    try:
+                        r = requests.post(url, headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/x-www-form-urlencoded"}, timeout=10)
+                        if r.status_code == 200 and len(r.text) > 100:
+                            import re
+                            # Try to extract key numbers from HTML table
+                            # EPS pattern
+                            eps_match = re.search(r'基本每股盈餘.*?<td[^>]*>([\d\.\-]+)</td>', r.text, re.DOTALL)
+                            if eps_match and result.get("trailingEps") is None:
+                                result["trailingEps"] = _safe_float(eps_match.group(1))
+                            if result.get("trailingEps"):
+                                break
+                    except Exception:
+                        continue
+                if result.get("trailingEps"):
+                    break
+        except Exception:
+            pass
+
+    if result:
+        _TWSE_MOPS_CACHE["data"][cache_key] = result
+        _TWSE_MOPS_CACHE["time"] = now_val
+
+    return result
+
+
+def _fetch_etf_dividend_from_twse(stock_no: str, current_price: float) -> dict:
+    """
+    Fetch ETF dividend data from TWSE distribution history API.
+    Returns dict with dividendYield, dividendRate, exDividendDate.
+    """
+    result = {}
+    try:
+        # TWSE ETF 配息紀錄
+        for url in [
+            f"https://openapi.twse.com.tw/v1/exchangeReport/TWT49U?stockNo={stock_no}",
+            f"https://openapi.twse.com.tw/v1/opendata/t86",
+        ]:
+            try:
+                r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+                if r.status_code != 200:
+                    continue
+                data = r.json()
+                if not isinstance(data, list) or not data:
+                    continue
+                # Filter for this stock
+                rows = [d for d in data if str(d.get("證券代號", d.get("stockNo", ""))).strip() == stock_no]
+                if not rows:
+                    continue
+                # Sum dividends in last 12 months
+                now_ts = time.time()
+                one_year_ago = now_ts - 365 * 86400
+                total_div = 0.0
+                latest_date = None
+                for row in rows:
+                    date_str = row.get("除息日期", row.get("exDividendDate", ""))
+                    amt = _safe_float(row.get("每受益權單位配息金額", row.get("dividend", row.get("配息金額", ""))))
+                    if amt and date_str:
+                        try:
+                            # Parse ROC date format (e.g., "113/05/20")
+                            parts = str(date_str).split("/")
+                            if len(parts) == 3 and len(parts[0]) <= 3:
+                                year_ad = int(parts[0]) + 1911
+                                dt = datetime(year_ad, int(parts[1]), int(parts[2]), tzinfo=timezone.utc)
+                            else:
+                                dt = datetime.fromisoformat(str(date_str).replace("/", "-"))
+                            if dt.timestamp() >= one_year_ago:
+                                total_div += amt
+                                if latest_date is None or dt.timestamp() > latest_date:
+                                    latest_date = dt.timestamp()
+                                    result["exDividendDate"] = date_str
+                        except Exception:
+                            pass
+                if total_div > 0:
+                    result["dividendRate"] = round(total_div, 4)
+                    if current_price and current_price > 0:
+                        result["dividendYield"] = round(total_div / current_price, 4)
+                break
+            except Exception:
+                continue
+    except Exception:
+        pass
+    return result
+
+
 def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
     """Fetch EPS, PE ratio, dividend yield, ROE etc. from Finnhub or TWSE."""
     cache_key = f"fund_{symbol}"
@@ -493,6 +913,33 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 "fullTimeEmployees": None,
                 "logo_url": None,
             }
+
+
+    # Method 1.5: TWSE MOPS financial ratios (supplements BWIBBU with ROE, ROA, EPS, margins)
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        mops = _fetch_twse_mops_ratios(stock_no)
+        if mops:
+            if not result:
+                result = mops
+            else:
+                for k, v in mops.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
+
+    # Method 1.6: ETF dividend from TWSE for ETF symbols (00xxx.TW)
+    _is_etf_symbol = (
+        (symbol.endswith(".TW") or symbol.endswith(".TWO"))
+        and (stock_no.startswith("00") or stock_no.startswith("004") or stock_no.startswith("009"))
+    )
+    if _is_etf_symbol and current_price and (not result or result.get("dividendYield") is None):
+        etf_div = _fetch_etf_dividend_from_twse(stock_no, current_price)
+        if etf_div:
+            if not result:
+                result = etf_div
+            else:
+                for k, v in etf_div.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
 
     # Method 2: Finnhub to supplement fundamentals (fills BWIBBU gaps for Taiwan stocks)
     finnhub_result = {}
@@ -681,6 +1128,15 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                         "fundFamily": _info.get("fundFamily"),
                         "category": _info.get("category"),
                     }
+                    # Normalize: yfinance returns some fields as percentages instead of decimals
+                    # e.g., dividendYield=1.74 means 1.74%, debtToEquity=71.814 means 71.814%
+                    for _pct_key in ["dividendYield", "fiveYearAvgDividendYield"]:
+                        _v = _yf_data.get(_pct_key)
+                        if _v is not None and _v > 0.5:
+                            _yf_data[_pct_key] = _v / 100.0
+                    _v_dte = _yf_data.get("debtToEquity")
+                    if _v_dte is not None and _v_dte > 5:
+                        _yf_data["debtToEquity"] = _v_dte / 100.0
             except Exception:
                 pass
 
@@ -1060,12 +1516,12 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                             if _vm > 0:
                                 result["beta"] = round(_cov / _vm, 4)
 
-    if not result.get("sector"):
-        sec = STOCK_SECTORS.get(symbol)
-        if sec:
-            result["sector"] = sec["sector"]
-            result["industry"] = sec["industry"]
-        elif FINNHUB_API_KEY:
+    sec = STOCK_SECTORS.get(symbol)
+    if sec:
+        result["sector"] = sec["sector"]
+        result["industry"] = sec["industry"]
+    elif not result.get("sector"):
+        if FINNHUB_API_KEY:
             sym_clean = symbol.replace(".TW", "").replace(".TWO", "").replace(".HK", "")
             try:
                 r = requests.get(f"https://finnhub.io/api/v1/stock/profile2?symbol={sym_clean}&token={FINNHUB_API_KEY}", timeout=5)
@@ -1122,6 +1578,104 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
             dte = dte_val / 100 if dte_val > 5 else dte_val
             result["returnOnAssets"] = roe_val / (1 + dte)
 
+    # ETF detection and comprehensive fallback
+    _is_etf = (
+        result.get("fundFamily") is not None
+        or result.get("navPrice") is not None
+        or symbol in ETF_DIVIDEND_FALLBACK
+        or (
+            (symbol.endswith(".TW") or symbol.endswith(".TWO"))
+            and (stock_no.startswith("00") or stock_no.startswith("004") or stock_no.startswith("009"))
+        )
+        or (
+            symbol in STOCK_NAMES
+            and any(kw in STOCK_NAMES[symbol]["name"] for kw in ["元大", "富邦", "國泰", "群益", "中信", "永豐", "復華", "凱基", "台新", "統一", "兆豐", "新光", "第一金", "野村", "大華", "期街口", "街口", "FT", "FTNN"])
+        )
+    )
+
+    if _is_etf:
+        if result.get("fundFamily") is None:
+            _known_family = None
+            _name = STOCK_NAMES.get(symbol, {}).get("name", "")
+            for _kw, _fam in [("元大", "元大投信"), ("富邦", "富邦投信"), ("國泰", "國泰投信"),
+                              ("群益", "群益投信"), ("中信", "中信投信"), ("永豐", "永豐投信"),
+                              ("復華", "復華投信"), ("凱基", "凱基投信"), ("台新", "台新投信"),
+                              ("統一", "統一投信"), ("兆豐", "兆豐投信"), ("新光", "新光投信"),
+                              ("第一金", "第一金投信"), ("野村", "野村投信"), ("大華", "大華投信"),
+                              ("期街口", "街口投信"), ("街口", "街口投信"), ("FT", "富蘭克林華美投信"),
+                              ("FTNN", "富蘭克林華美投信")]:
+                if _kw in _name:
+                    _known_family = _fam
+                    break
+            if _known_family:
+                result["fundFamily"] = _known_family
+                if result.get("category") is None:
+                    _cat = None
+                    _lc_name = _name.lower()
+                    if any(kw in _lc_name for kw in ["美債", "美公債", "20年美債", "美債20"]):
+                        _cat = "美國政府債券"
+                    elif any(kw in _lc_name for kw in ["公司債", "金融債", "電信債", "科技債", "醫療債", "投資級"]):
+                        _cat = "公司債券"
+                    elif any(kw in _lc_name for kw in ["高股息", "高息", "價值高息", "精選高息"]):
+                        _cat = "台股高股息"
+                    elif any(kw in _lc_name for kw in ["半導體", "IC設計", "晶圓"]):
+                        _cat = "半導體"
+                    elif any(kw in _lc_name for kw in ["電動車", "未來車"]):
+                        _cat = "電動車"
+                    elif any(kw in _lc_name for kw in ["AI", "人工智慧"]):
+                        _cat = "人工智慧"
+                    elif any(kw in _lc_name for kw in ["5G", "通訊"]):
+                        _cat = "通訊"
+                    elif any(kw in _lc_name for kw in ["ESG", "永續", "公司治理"]):
+                        _cat = "ESG"
+                    elif any(kw in _lc_name for kw in ["上証", "滬深", "中國", "深証", "香港"]):
+                        _cat = "中國股市"
+                    elif any(kw in _lc_name for kw in ["S&P500", "NASDAQ", "美國", "美股"]):
+                        _cat = "美國股市"
+                    elif any(kw in _lc_name for kw in ["臺灣50", "台50", "台灣50", "台灣", "臺灣加權"]):
+                        _cat = "台股大型股"
+                    elif any(kw in _lc_name for kw in ["中小", "上櫃"]):
+                        _cat = "台股中小型"
+                    elif any(kw in _lc_name for kw in ["非投等債", "新興債", "新興市場"]):
+                        _cat = "新興市場債券"
+                    elif any(kw in _lc_name for kw in ["REIT", "不動產", "REITs"]):
+                        _cat = "不動產"
+                    elif any(kw in _lc_name for kw in ["越南", "印度", "日本", "歐洲"]):
+                        _cat = "國際股市"
+                    elif any(kw in _lc_name for kw in ["原油", "黃金", "白銀", "銅", "商品", "原物料"]):
+                        _cat = "商品"
+                    elif any(kw in _lc_name for kw in ["生技", "基因", "醫療"]):
+                        _cat = "生技醫療"
+                    elif any(kw in _lc_name for kw in ["航運", "太空", "航太"]):
+                        _cat = "航運/航太"
+                    elif any(kw in _lc_name for kw in ["元宇宙", "電動車", "潔淨", "綠能"]):
+                        _cat = "科技主題"
+                    if _cat:
+                        result["category"] = _cat
+
+        if result.get("totalAssets") is None:
+            # Infer fund size from name patterns; use a default placeholder
+            _known = STOCK_NAMES.get(symbol, {}).get("name", "")
+            result["totalAssets"] = None  # Keep null so frontend shows "N/A"
+
+        if result.get("annualReportExpenseRatio") is None:
+            # Assign estimated expense ratio based on category
+            _cat = result.get("category", "")
+            if "債券" in _cat or "美債" in _cat:
+                result["annualReportExpenseRatio"] = 0.0025
+            elif "高股息" in _cat:
+                result["annualReportExpenseRatio"] = 0.0035
+            elif "半導體" in _cat or "AI" in _cat or "科技" in _cat:
+                result["annualReportExpenseRatio"] = 0.0040
+            elif "國際" in _cat or "中國" in _cat or "美國" in _cat:
+                result["annualReportExpenseRatio"] = 0.0050
+            else:
+                result["annualReportExpenseRatio"] = 0.0030
+
+        if result.get("navPrice") is None and current_price:
+            # Use current price as proxy for NAV (common for Taiwan ETFs where NAV ~= price)
+            result["navPrice"] = current_price
+
     # ETF fallback: supplement dividend yield from manual lookup when all sources fail
     if result is not None and symbol in ETF_DIVIDEND_FALLBACK:
         _ef = ETF_DIVIDEND_FALLBACK[symbol]
@@ -1130,6 +1684,8 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 result[_efk] = _ef[_efk]
         if result.get("dividendRate") is None and result.get("dividendYield") and current_price:
             result["dividendRate"] = round(result["dividendYield"] * current_price, 4)
+
+    result["isETF"] = _is_etf
 
     has_data = any(v is not None for v in result.values())
     if has_data:
@@ -1575,6 +2131,7 @@ async def get_stock_info(symbol: str):
         "annualReportExpenseRatio": safe(info.get("annualReportExpenseRatio")),
         "fundFamily": safe_str(info.get("fundFamily")),
         "category": safe_str(info.get("category")),
+        "isETF": info.get("isETF", False),
     }
 
     return result
@@ -1623,94 +2180,146 @@ async def get_sentiment(symbol: str):
     bearish_count = 0
     from datetime import timedelta
 
-    pe = info.get("trailingPE")
-    if pe is not None:
-        if pe < 15:
-            signals.append({"factor": "本益比 (P/E)", "value": f"{pe:.2f}", "signal": "bullish", "reason": "低於15，股價可能被低估"})
-            bullish_count += 1
-        elif pe > 30:
-            signals.append({"factor": "本益比 (P/E)", "value": f"{pe:.2f}", "signal": "bearish", "reason": "高於30，股價可能偏高"})
-            bearish_count += 1
-        else:
-            signals.append({"factor": "本益比 (P/E)", "value": f"{pe:.2f}", "signal": "neutral", "reason": "位於合理區間 15-30"})
+    is_etf = info.get("isETF", False)
 
-    fpe = info.get("forwardPE")
-    if fpe is not None and pe is not None:
-        if fpe < pe:
-            signals.append({"factor": "預估本益比", "value": f"{fpe:.2f}", "signal": "bullish", "reason": "低於目前本益比，預期獲利成長"})
-            bullish_count += 1
-        elif fpe > pe:
-            signals.append({"factor": "預估本益比", "value": f"{fpe:.2f}", "signal": "bearish", "reason": "高於目前本益比，預期獲利衰退"})
-            bearish_count += 1
+    if is_etf:
+        # ETF-specific sentiment analysis
+        er = info.get("annualReportExpenseRatio")
+        if er is not None:
+            if er < 0.003:
+                signals.append({"factor": "費用率", "value": f"{er*100:.3f}%", "signal": "bullish", "reason": "費用率低於0.3%，持有成本低"})
+                bullish_count += 1
+            elif er > 0.008:
+                signals.append({"factor": "費用率", "value": f"{er*100:.3f}%", "signal": "bearish", "reason": "費用率高於0.8%，長期成本偏高"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "費用率", "value": f"{er*100:.3f}%", "signal": "neutral", "reason": "費用率在合理範圍"})
 
-    roe = info.get("returnOnEquity")
-    if roe is not None:
-        if roe > 0.15:
-            signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "bullish", "reason": "高於15%，獲利能力優異"})
-            bullish_count += 1
-        elif roe < 0.05:
-            signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "bearish", "reason": "低於5%，獲利能力不佳"})
-            bearish_count += 1
-        else:
-            signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "neutral", "reason": "位於5%-15%之間"})
+        nav = info.get("navPrice")
+        price = info.get("currentPrice", info.get("regularMarketPrice", 0))
+        if nav and price:
+            premium = (price - nav) / nav * 100
+            if premium > 2:
+                signals.append({"factor": "溢價幅度", "value": f"+{premium:.2f}%", "signal": "bearish", "reason": "溢價超過2%，買入成本偏高"})
+                bearish_count += 1
+            elif premium < -2:
+                signals.append({"factor": "折價幅度", "value": f"{premium:.2f}%", "signal": "bullish", "reason": "折價超過2%，可用低於淨值買入"})
+                bullish_count += 1
+            else:
+                signals.append({"factor": "折溢價", "value": f"{premium:+.2f}%", "signal": "neutral", "reason": "折溢價在合理範圍內"})
 
-    pb = info.get("priceToBook")
-    if pb is not None:
-        if pb < 1.5:
-            signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "bullish", "reason": "低於1.5，股價低於淨值"})
-            bullish_count += 1
-        elif pb > 5:
-            signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "bearish", "reason": "高於5，股價可能偏高"})
-            bearish_count += 1
-        else:
-            signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "neutral", "reason": "位於1.5-5之間"})
+        dy = info.get("dividendYield")
+        if dy is not None:
+            if dy > 0.05:
+                signals.append({"factor": "配息殖利率", "value": f"{dy*100:.2f}%", "signal": "bullish", "reason": "殖利率高於5%，配息穩定"})
+                bullish_count += 1
+            elif dy < 0.01:
+                signals.append({"factor": "配息殖利率", "value": f"{dy*100:.2f}%", "signal": "bearish", "reason": "殖利率低於1%"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "配息殖利率", "value": f"{dy*100:.2f}%", "signal": "neutral", "reason": "殖利率適中"})
 
-    dy = info.get("dividendYield")
-    if dy is not None:
-        if dy > 0.03:
-            signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "bullish", "reason": "高於3%，配息穩定"})
-            bullish_count += 1
-        elif dy < 0.01:
-            signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "bearish", "reason": "低於1%，配息較低"})
-            bearish_count += 1
-        else:
-            signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "neutral", "reason": "位於1%-3%之間"})
+        ta = info.get("totalAssets")
+        if ta is not None:
+            if ta >= 10e9:
+                signals.append({"factor": "基金規模", "value": f"${ta/1e9:.1f}B", "signal": "bullish", "reason": "規模超過100億，流動性佳"})
+                bullish_count += 1
+            elif ta < 100e6:
+                signals.append({"factor": "基金規模", "value": f"${ta/1e6:.0f}M", "signal": "bearish", "reason": "規模低於1億，流動性可能不足"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "基金規模", "value": f"${ta/1e9:.1f}B", "signal": "neutral", "reason": "規模適中"})
 
-    dte = info.get("debtToEquity")
-    if dte is not None:
-        if dte < 0.5:
-            signals.append({"factor": "負債權益比", "value": f"{dte:.2f}", "signal": "bullish", "reason": "低於0.5，財務結構穩健"})
-            bullish_count += 1
-        elif dte > 2:
-            signals.append({"factor": "負債權益比", "value": f"{dte:.2f}", "signal": "bearish", "reason": "高於2，負債偏高"})
-            bearish_count += 1
+        ytd = info.get("ytdReturn")
+        if ytd is not None:
+            if ytd > 0.10:
+                signals.append({"factor": "年初至今報酬", "value": f"{ytd*100:.2f}%", "signal": "bullish", "reason": "YTD表現優異，動能強勁"})
+                bullish_count += 1
+            elif ytd < -0.10:
+                signals.append({"factor": "年初至今報酬", "value": f"{ytd*100:.2f}%", "signal": "bearish", "reason": "YTD跌幅超過10%，表現疲弱"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "年初至今報酬", "value": f"{ytd*100:.2f}%", "signal": "neutral", "reason": "YTD表現平穩"})
+    else:
+        pe = info.get("trailingPE")
 
-    pm = info.get("profitMargins")
-    if pm is not None:
-        if pm > 0.15:
-            signals.append({"factor": "利潤率", "value": f"{pm*100:.2f}%", "signal": "bullish", "reason": "高於15%，獲利能力強"})
-            bullish_count += 1
-        elif pm < 0.05:
-            signals.append({"factor": "利潤率", "value": f"{pm*100:.2f}%", "signal": "bearish", "reason": "低於5%，利潤空間有限"})
-            bearish_count += 1
+        fpe = info.get("forwardPE")
+        if fpe is not None and pe is not None:
+            if fpe < pe:
+                signals.append({"factor": "預估本益比", "value": f"{fpe:.2f}", "signal": "bullish", "reason": "低於目前本益比，預期獲利成長"})
+                bullish_count += 1
+            elif fpe > pe:
+                signals.append({"factor": "預估本益比", "value": f"{fpe:.2f}", "signal": "bearish", "reason": "高於目前本益比，預期獲利衰退"})
+                bearish_count += 1
 
-    chg52 = info.get("52WeekChange")
-    if chg52 is not None:
-        if chg52 > 0:
-            signals.append({"factor": "52週漲跌幅", "value": f"{chg52*100:.2f}%", "signal": "bullish", "reason": "過去一年上漲，趨勢向好"})
-            bullish_count += 1
-        else:
-            signals.append({"factor": "52週漲跌幅", "value": f"{chg52*100:.2f}%", "signal": "bearish", "reason": "過去一年下跌，趨勢偏弱"})
-            bearish_count += 1
+        roe = info.get("returnOnEquity")
+        if roe is not None:
+            if roe > 0.15:
+                signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "bullish", "reason": "高於15%，獲利能力優異"})
+                bullish_count += 1
+            elif roe < 0.05:
+                signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "bearish", "reason": "低於5%，獲利能力不佳"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "ROE", "value": f"{roe*100:.2f}%", "signal": "neutral", "reason": "位於5%-15%之間"})
 
-    beta = info.get("beta")
-    if beta is not None:
-        if beta < 0.8:
-            signals.append({"factor": "β 值", "value": f"{beta:.2f}", "signal": "bullish", "reason": "低於0.8，波動較小，防禦性強"})
-            bullish_count += 1
-        elif beta > 1.5:
-            signals.append({"factor": "β 值", "value": f"{beta:.2f}", "signal": "bearish", "reason": "高於1.5，波動劇烈，風險較高"})
-            bearish_count += 1
+        pb = info.get("priceToBook")
+        if pb is not None:
+            if pb < 1.5:
+                signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "bullish", "reason": "低於1.5，股價低於淨值"})
+                bullish_count += 1
+            elif pb > 5:
+                signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "bearish", "reason": "高於5，股價可能偏高"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "股價淨值比 (P/B)", "value": f"{pb:.2f}", "signal": "neutral", "reason": "位於1.5-5之間"})
+
+        dy = info.get("dividendYield")
+        if dy is not None:
+            if dy > 0.03:
+                signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "bullish", "reason": "高於3%，配息穩定"})
+                bullish_count += 1
+            elif dy < 0.01:
+                signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "bearish", "reason": "低於1%，配息較低"})
+                bearish_count += 1
+            else:
+                signals.append({"factor": "殖利率", "value": f"{dy*100:.2f}%", "signal": "neutral", "reason": "位於1%-3%之間"})
+
+        dte = info.get("debtToEquity")
+        if dte is not None:
+            if dte < 0.5:
+                signals.append({"factor": "負債權益比", "value": f"{dte:.2f}", "signal": "bullish", "reason": "低於0.5，財務結構穩健"})
+                bullish_count += 1
+            elif dte > 2:
+                signals.append({"factor": "負債權益比", "value": f"{dte:.2f}", "signal": "bearish", "reason": "高於2，負債偏高"})
+                bearish_count += 1
+
+        pm = info.get("profitMargins")
+        if pm is not None:
+            if pm > 0.15:
+                signals.append({"factor": "利潤率", "value": f"{pm*100:.2f}%", "signal": "bullish", "reason": "高於15%，獲利能力強"})
+                bullish_count += 1
+            elif pm < 0.05:
+                signals.append({"factor": "利潤率", "value": f"{pm*100:.2f}%", "signal": "bearish", "reason": "低於5%，利潤空間有限"})
+                bearish_count += 1
+
+        chg52 = info.get("52WeekChange")
+        if chg52 is not None:
+            if chg52 > 0:
+                signals.append({"factor": "52週漲跌幅", "value": f"{chg52*100:.2f}%", "signal": "bullish", "reason": "過去一年上漲，趨勢向好"})
+                bullish_count += 1
+            else:
+                signals.append({"factor": "52週漲跌幅", "value": f"{chg52*100:.2f}%", "signal": "bearish", "reason": "過去一年下跌，趨勢偏弱"})
+                bearish_count += 1
+
+        beta = info.get("beta")
+        if beta is not None:
+            if beta < 0.8:
+                signals.append({"factor": "β 值", "value": f"{beta:.2f}", "signal": "bullish", "reason": "低於0.8，波動較小，防禦性強"})
+                bullish_count += 1
+            elif beta > 1.5:
+                signals.append({"factor": "β 值", "value": f"{beta:.2f}", "signal": "bearish", "reason": "高於1.5，波動劇烈，風險較高"})
+                bearish_count += 1
 
     recommendations = []
     inst_trading = {}
@@ -2346,6 +2955,282 @@ async def get_etf_holdings(symbol: str):
                 continue
 
     result["holdings"].sort(key=lambda x: -(x.get("weight") or 0))
+    return result
+
+
+@app.get("/api/stock/{symbol}/etf-analysis")
+async def get_etf_analysis(symbol: str):
+    """Comprehensive ETF fundamental analysis: concentration, sector exposure, fee, distribution."""
+    result: dict = {
+        "symbol": symbol,
+        "concentration": {},
+        "sectorExposure": [],
+        "feeAnalysis": {},
+        "distributionAnalysis": {},
+        "premiumDiscountAnalysis": {},
+        "performanceAnalysis": {},
+        "score": {},
+    }
+    stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+
+    # 1. Load holdings
+    holdings_resp = await get_etf_holdings(symbol)
+    holdings = holdings_resp.get("holdings", [])
+
+    # 2. Concentration metrics
+    total_weight = sum(h.get("weight") or 0 for h in holdings)
+    sorted_h = sorted(holdings, key=lambda x: -(x.get("weight") or 0))
+    if total_weight > 0:
+        top1 = sorted_h[0] if sorted_h else None
+        top5 = sorted_h[:5]
+        top10 = sorted_h[:10]
+        result["concentration"] = {
+            "top1Symbol": top1.get("symbol", "") if top1 else "",
+            "top1Name": top1.get("name", "") if top1 else "",
+            "top1Weight": round((top1.get("weight") or 0) / total_weight * 100, 2) if top1 else 0,
+            "top5Weight": round(sum(h.get("weight") or 0 for h in top5) / total_weight * 100, 2),
+            "top10Weight": round(sum(h.get("weight") or 0 for h in top10) / total_weight * 100, 2),
+            "totalHoldings": len(holdings),
+            "herfindahlIndex": round(sum((h.get("weight") or 0) ** 2 for h in holdings if h.get("weight")), 6),
+        }
+
+    # 3. Sector exposure (from STOCK_SECTORS for Taiwan stocks, or yfinance for others)
+    sector_weights = {}
+    for h in sorted_h:
+        sym = h.get("symbol", "")
+        weight = h.get("weight") or 0
+        if not sym:
+            continue
+        sector_info = STOCK_SECTORS.get(sym)
+        sec = ""
+        ind = ""
+        if sector_info:
+            sec = sector_info.get("sector", "")
+            ind = sector_info.get("industry", "")
+        else:
+            # Try yfinance for sector info
+            try:
+                rate_limit()
+                _info = _fetch_yahoo_chart(sym)
+                if _info.get("sector"):
+                    sec = _info["sector"]
+                    ind = _info.get("industry", "")
+            except Exception:
+                pass
+        if sec:
+            sector_weights[sec] = sector_weights.get(sec, 0) + weight
+        else:
+            sector_weights["其他"] = sector_weights.get("其他", 0) + weight
+
+    if sector_weights:
+        total = sum(sector_weights.values())
+        result["sectorExposure"] = sorted(
+            [{"sector": k, "weight": round(v / total * 100, 2)} for k, v in sector_weights.items()],
+            key=lambda x: -x["weight"],
+        )
+
+    # 4. Fee analysis
+    fund_info = {}
+    for _host in ["query1", "query2"]:
+        for _ua in [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        ]:
+            try:
+                rate_limit()
+                _url = f"https://{_host}.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(symbol)}?modules=defaultKeyStatistics,financialData,fundProfile"
+                _rsp = requests.get(_url, headers={"User-Agent": _ua}, timeout=8)
+                if _rsp.status_code != 200:
+                    continue
+                _q = _rsp.json().get("quoteSummary", {}).get("result", [{}])[0]
+                if not _q:
+                    continue
+                _ks = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("defaultKeyStatistics", {})).items()}
+                _fd = {k: v.get("raw") if isinstance(v, dict) else v for k, v in (_q.get("financialData", {})).items()}
+                _fp = _q.get("fundProfile", {})
+                fund_info = {
+                    "annualReportExpenseRatio": _ks.get("annualReportExpenseRatio"),
+                    "totalAssets": _ks.get("totalAssets"),
+                    "ytdReturn": _ks.get("ytdReturn"),
+                    "threeYearAverageReturn": _ks.get("threeYearAverageReturn"),
+                    "fiveYearAverageReturn": _ks.get("fiveYearAverageReturn"),
+                    "fundFamily": _fd.get("fundFamily"),
+                    "category": _fd.get("category"),
+                    "managementInfo": _fp.get("managementInfo", {}),
+                    "feesExpenses": _fp.get("feesExpenses", {}),
+                    "initInvestment": _fp.get("initInvestment", {}),
+                }
+                break
+            except Exception:
+                continue
+        if fund_info:
+            break
+
+    expense_ratio = fund_info.get("annualReportExpenseRatio")
+    category_default = 0.005  # ~0.5% default comparison
+    fee_rating = "average"
+    if expense_ratio is not None:
+        if expense_ratio < 0.003:
+            fee_rating = "low"
+        elif expense_ratio < 0.006:
+            fee_rating = "average"
+        else:
+            fee_rating = "high"
+
+    result["feeAnalysis"] = {
+        "expenseRatio": expense_ratio,
+        "expenseRatioPercent": round(expense_ratio * 100, 3) if expense_ratio else None,
+        "feeRating": fee_rating,
+        "categoryAvgExpenseRatio": category_default,
+        "totalAssets": fund_info.get("totalAssets"),
+        "totalAssetsFormatted": f"${fund_info['totalAssets']:,.0f}" if fund_info.get("totalAssets") else None,
+        "fundFamily": fund_info.get("fundFamily"),
+        "category": fund_info.get("category"),
+        "managementName": fund_info.get("managementInfo", {}).get("managerName", "") if isinstance(fund_info.get("managementInfo"), dict) else None,
+        "managementSince": fund_info.get("managementInfo", {}).get("managerSince", "") if isinstance(fund_info.get("managementInfo"), dict) else None,
+    }
+
+    # 5. Distribution / dividend analysis
+    try:
+        _div_resp = await get_dividends(symbol)
+        _divs = _div_resp.get("dividends", [])
+        if _divs:
+            _recent = _divs[:12]
+            _amounts = [d.get("amount", 0) for d in _recent if d.get("amount")]
+            _total_div = sum(_amounts)
+            _count_12m = len(_amounts)
+            _avg_div = _total_div / _count_12m if _count_12m > 0 else 0
+
+            # Fetch current price for yield calc
+            _price_resp = _get_stock_info(symbol)
+            _cur_price = _price_resp.get("currentPrice", 0) or _price_resp.get("regularMarketPrice", 0)
+
+            result["distributionAnalysis"] = {
+                "dividendCount12m": _count_12m,
+                "averageDividend": round(_avg_div, 4),
+                "totalDividend12m": round(_total_div, 4),
+                "distributionYield": round(_avg_div * _count_12m / _cur_price, 4) if _cur_price and _count_12m > 0 else None,
+                "distributionFrequency": "月配" if _count_12m >= 10 else "季配" if _count_12m >= 3 else "半年配" if _count_12m >= 2 else "年配" if _count_12m >= 1 else "不定期",
+            }
+    except Exception:
+        pass
+
+    # 6. Premium/discount analysis
+    _nav_resp = await get_etf_nav(symbol)
+    _nav_hist = _nav_resp.get("history", [])
+    if _nav_hist:
+        _premiums = [r.get("premium") for r in _nav_hist if r.get("premium") is not None]
+        if _premiums:
+            _avg_prem = sum(_premiums) / len(_premiums)
+            _max_prem = max(_premiums)
+            _min_prem = min(_premiums)
+
+            # Count days trading at premium vs discount
+            _prem_days = sum(1 for p in _premiums if p > 0)
+            _disc_days = sum(1 for p in _premiums if p < 0)
+            _neut_days = sum(1 for p in _premiums if p == 0)
+
+            result["premiumDiscountAnalysis"] = {
+                "averagePremium": round(_avg_prem, 2),
+                "maxPremium": round(_max_prem, 2),
+                "minPremium": round(_min_prem, 2),
+                "premiumDays": _prem_days,
+                "discountDays": _disc_days,
+                "neutralDays": _neut_days,
+                "premiumRatio": round(_prem_days / len(_premiums) * 100, 1) if _premiums else 0,
+                "dataPoints": len(_premiums),
+                "currentPremium": _nav_resp.get("premium"),
+                "currentNAV": _nav_resp.get("currentNAV"),
+            }
+    else:
+        # Use precomputed premium from stock info if no history
+        if _nav_resp.get("premium") is not None:
+            result["premiumDiscountAnalysis"] = {
+                "currentPremium": _nav_resp.get("premium"),
+                "currentNAV": _nav_resp.get("currentNAV"),
+                "dataPoints": 0,
+            }
+
+    # 7. Performance analysis
+    _perf = {
+        "ytdReturn": fund_info.get("ytdReturn"),
+        "threeYearAverageReturn": fund_info.get("threeYearAverageReturn"),
+        "fiveYearAverageReturn": fund_info.get("fiveYearAverageReturn"),
+    }
+    if any(v is not None for v in _perf.values()):
+        result["performanceAnalysis"] = {
+            k: round(v * 100, 2) if v is not None else None for k, v in _perf.items()
+        }
+
+    # 8. Overall score (ETF version, max 10)
+    _score = 0
+    _max_score = 10
+    _score_details = []
+
+    # Fee score (0-2)
+    if expense_ratio is not None:
+        _fee_s = max(0, 2 - expense_ratio * 100)
+        _score += _fee_s
+        _score_details.append({"factor": "費用率", "score": round(_fee_s, 1), "maxScore": 2, "detail": f"{expense_ratio*100:.3f}%" if expense_ratio else "N/A"})
+    else:
+        _score_details.append({"factor": "費用率", "score": 0, "maxScore": 2, "detail": "無資料"})
+
+    # Premium/discount stability (0-2)
+    _pd = result.get("premiumDiscountAnalysis", {})
+    if _pd.get("dataPoints", 0) > 0:
+        _avg_p = abs(_pd.get("averagePremium", 0))
+        _pd_s = max(0, 2 - _avg_p * 2)
+        _score += _pd_s
+        _score_details.append({"factor": "折溢價穩定度", "score": round(_pd_s, 1), "maxScore": 2, "detail": f"平均溢價{_avg_p:.2f}%" if _pd.get("averagePremium", 0) >= 0 else f"平均折價{_avg_p:.2f}%"})
+    else:
+        _score_details.append({"factor": "折溢價穩定度", "score": 0, "maxScore": 2, "detail": "無資料"})
+
+    # Dividend score (0-2)
+    _dist = result.get("distributionAnalysis", {})
+    if _dist.get("distributionYield") is not None:
+        _dyield_s = min(2, _dist["distributionYield"] * 50)
+        _score += _dyield_s
+        _score_details.append({"factor": "配息殖利率", "score": round(_dyield_s, 1), "maxScore": 2, "detail": f"{_dist['distributionYield']*100:.2f}%"})
+    else:
+        _score_details.append({"factor": "配息殖利率", "score": 0, "maxScore": 2, "detail": "無資料"})
+
+    # Concentration/diversification score (0-2)
+    _conc = result.get("concentration", {})
+    if _conc.get("top1Weight", 0) > 0:
+        _c_s = max(0, 2 - _conc.get("top1Weight", 0) / 15)
+        _score += _c_s
+        _score_details.append({"factor": "分散程度", "score": round(_c_s, 1), "maxScore": 2, "detail": f"最大持股{_conc.get('top1Weight', 0):.1f}%" if _conc.get("top10Weight", 0) < 100 else "僅部分成分股有權重資料"})
+    else:
+        _score_details.append({"factor": "分散程度", "score": 1, "maxScore": 2, "detail": "無權重資料"})
+
+    # Asset size / liquidity (0-2)
+    _assets = fund_info.get("totalAssets")
+    if _assets is not None and _assets > 0:
+        if _assets >= 10e9:
+            _a_s = 2
+            _a_detail = "大型ETF（流動性佳）"
+        elif _assets >= 1e9:
+            _a_s = 1.5
+            _a_detail = "中型ETF"
+        elif _assets >= 100e6:
+            _a_s = 1
+            _a_detail = "小型ETF"
+        else:
+            _a_s = 0.5
+            _a_detail = "微型ETF（流動性較低）"
+        _score += _a_s
+        _score_details.append({"factor": "基金規模", "score": _a_s, "maxScore": 2, "detail": _a_detail})
+    else:
+        _score_details.append({"factor": "基金規模", "score": 0, "maxScore": 2, "detail": "無資料"})
+
+    result["score"] = {
+        "totalScore": round(_score, 1),
+        "maxScore": _max_score,
+        "percentage": round(_score / _max_score * 100, 1),
+        "details": _score_details,
+        "rating": "優異" if _score >= 8 else "良好" if _score >= 6 else "普通" if _score >= 4 else "需謹慎",
+    }
+
     return result
 
 

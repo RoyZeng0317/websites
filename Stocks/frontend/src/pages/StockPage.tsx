@@ -14,6 +14,7 @@ import Sentiment from '../components/Sentiment'
 import InstitutionalInvestors from '../components/InstitutionalInvestors'
 import HoldingTracker from '../components/HoldingTracker'
 import ETFPremium from '../components/ETFPremium'
+import ETFAnalysis from '../components/ETFAnalysis'
 import CompanyInfo from '../components/CompanyInfo'
 import ETFHoldings from '../components/ETFHoldings'
 import AiConsult from '../components/AiConsult'
@@ -121,6 +122,10 @@ export default function StockPage() {
 
       <ErrorBoundary>
         <ETFHoldings symbol={symbol!} />
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <ETFAnalysis symbol={symbol!} />
       </ErrorBoundary>
 
       <DividendInfo symbol={symbol!} meetingUrl={info.meetingUrl} />

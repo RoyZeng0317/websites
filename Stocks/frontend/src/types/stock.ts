@@ -96,6 +96,7 @@ export interface StockInfo {
   auditor2?: string | null
   fax?: string | null
   companyEmail?: string | null
+  isETF?: boolean
   // ETF-specific fields
   ytdReturn?: number | null
   totalAssets?: number | null
@@ -217,4 +218,85 @@ export interface EtfHoldingsData {
 
 export interface AiConsultResponse {
   answer: string
+}
+
+export interface EtfConcentration {
+  top1Symbol: string
+  top1Name: string
+  top1Weight: number
+  top5Weight: number
+  top10Weight: number
+  totalHoldings: number
+  herfindahlIndex: number
+}
+
+export interface EtfSectorExposure {
+  sector: string
+  weight: number
+}
+
+export interface EtfFeeAnalysis {
+  expenseRatio: number | null
+  expenseRatioPercent: number | null
+  feeRating: string
+  categoryAvgExpenseRatio: number
+  totalAssets: number | null
+  totalAssetsFormatted: string | null
+  fundFamily: string | null
+  category: string | null
+  managementName: string | null
+  managementSince: string | null
+}
+
+export interface EtfDistributionAnalysis {
+  dividendCount12m: number
+  averageDividend: number
+  totalDividend12m: number
+  distributionYield: number | null
+  distributionFrequency: string
+}
+
+export interface EtfPremiumDiscountAnalysis {
+  averagePremium: number | null
+  maxPremium: number | null
+  minPremium: number | null
+  premiumDays: number
+  discountDays: number
+  neutralDays: number
+  premiumRatio: number
+  dataPoints: number
+  currentPremium: number | null
+  currentNAV: number | null
+}
+
+export interface EtfPerformanceAnalysis {
+  ytdReturn: number | null
+  threeYearAverageReturn: number | null
+  fiveYearAverageReturn: number | null
+}
+
+export interface EtfScoreDetail {
+  factor: string
+  score: number
+  maxScore: number
+  detail: string
+}
+
+export interface EtfScore {
+  totalScore: number
+  maxScore: number
+  percentage: number
+  details: EtfScoreDetail[]
+  rating: string
+}
+
+export interface EtfAnalysisData {
+  symbol: string
+  concentration: EtfConcentration
+  sectorExposure: EtfSectorExposure[]
+  feeAnalysis: EtfFeeAnalysis
+  distributionAnalysis: EtfDistributionAnalysis
+  premiumDiscountAnalysis: EtfPremiumDiscountAnalysis
+  performanceAnalysis: EtfPerformanceAnalysis
+  score: EtfScore
 }

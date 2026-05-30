@@ -42,6 +42,7 @@ const _raw: Record<string, { name: string; market: string }> = {
   "7418.TW": { name: "香繼光", market: "TW" },
   "8046.TW": { name: "南電", market: "TW" },
   "8110.TW": { name: "華東", market: "TW" },
+  "9105.TW": { name: "泰金寶", market: "TW"},
   "0050.TW": { name: "元大台灣50", market: "TW" },
   "0053.TW": { name: "元大電子", market: "TW" },
   "0056.TW": { name: "元大高股息", market: "TW" },

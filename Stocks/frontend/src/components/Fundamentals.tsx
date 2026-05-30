@@ -17,7 +17,7 @@ function pct(v: number | null | undefined): string {
 }
 
 export default function Fundamentals({ info }: Props) {
-  const isETF = info.fundFamily != null || info.navPrice != null
+  const isETF = info.isETF === true || info.fundFamily != null || info.navPrice != null
 
   const cards = [
     ...(isETF ? [] : [{
