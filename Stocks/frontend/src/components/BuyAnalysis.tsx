@@ -231,6 +231,7 @@ export default function BuyAnalysis({ info }: Props) {
       else { divScore += 0.3; details.push({ label: '配息率偏高', score: 0.3, maxScore: 0.75, detail: `${(impliedPr * 100).toFixed(1)}%`, status: 'neutral' }) }
     }
     maxPossible += 1.5
+    totalScore = valScore + growScore + profScore + healthScore + divScore
   }
 
   totalScore = Math.min(totalScore, maxPossible)
