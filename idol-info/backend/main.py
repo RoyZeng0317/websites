@@ -22,11 +22,15 @@ from schemas import (
 )
 
 
+from seed import seed as run_seed
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     download_db()
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    await run_seed()
     yield
     await engine.dispose()
 
