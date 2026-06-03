@@ -3409,12 +3409,31 @@ async def get_etf_analysis(symbol: str):
     return result
 
 
+_GEMINI_TOKEN_USAGE: dict = {"tokens": 0, "date": ""}
+
+
+def _gemini_track_tokens(count: int) -> int:
+    today = datetime.now().date().isoformat()
+    if _GEMINI_TOKEN_USAGE["date"] != today:
+        _GEMINI_TOKEN_USAGE["tokens"] = 0
+        _GEMINI_TOKEN_USAGE["date"] = today
+    _GEMINI_TOKEN_USAGE["tokens"] += count
+    return _GEMINI_TOKEN_USAGE["tokens"]
+
+
+def _gemini_total_tokens() -> int:
+    today = datetime.now().date().isoformat()
+    if _GEMINI_TOKEN_USAGE["date"] != today:
+        return 0
+    return _GEMINI_TOKEN_USAGE["tokens"]
+
+
 @app.post("/api/ai/consult")
 async def ai_consult(body: dict):
     try:
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+        api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
-            return {"answer": "請先設定 ANTHROPIC_API_KEY 環境變數才能使用 AI 諮詢功能。"}
+            return {"answer": "請先設定 GEMINI_API_KEY 環境變數才能使用 AI 諮詢功能。"}
         symbol = body.get("symbol", "")
         question = body.get("question", "")
         if not symbol or not question:
@@ -3484,29 +3503,56 @@ async def ai_consult(body: dict):
             f"【使用者提問】\n{question}"
         )
         resp = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            },
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}",
+            headers={"content-type": "application/json"},
             json={
-                "model": "claude-sonnet-4-20250514",
-                "max_tokens": 1024,
-                "messages": [{"role": "user", "content": prompt}],
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"maxOutputTokens": 1024},
             },
             timeout=30,
         )
+        if resp.status_code == 429:
+            total = _gemini_total_tokens()
+            return {
+                "answer": "⚠️ 今日免費 AI 使用額度已達上限。",
+                "quota_exceeded": True,
+                "tokens_used": total,
+            }
         if resp.status_code != 200:
-            return {"answer": f"AI 查詢失敗 (HTTP {resp.status_code})，請稍後再試。"}
+            return {
+                "answer": f"AI 查詢失敗 (HTTP {resp.status_code})，請稍後再試。",
+                "quota_exceeded": False,
+                "tokens_used": _gemini_total_tokens(),
+            }
         data = resp.json()
-        content = data.get("content", [])
-        if not content:
-            return {"answer": "AI 無法產生回答，請重新提問。"}
-        answer = content[0].get("text", "")
-        return {"answer": answer}
+        candidates = data.get("candidates", [])
+        if not candidates:
+            return {
+                "answer": "AI 無法產生回答，請重新提問。",
+                "quota_exceeded": False,
+                "tokens_used": _gemini_total_tokens(),
+            }
+        answer = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        if not answer:
+            return {
+                "answer": "AI 無法產生回答，請重新提問。",
+                "quota_exceeded": False,
+                "tokens_used": _gemini_total_tokens(),
+            }
+        usage = data.get("usageMetadata", {})
+        token_count = usage.get("totalTokenCount", 0)
+        total = _gemini_track_tokens(token_count)
+        return {
+            "answer": answer,
+            "quota_exceeded": False,
+            "tokens_used": total,
+        }
     except Exception as e:
-        return {"answer": f"AI 查詢發生錯誤: {str(e)}"}
+        return {
+            "answer": f"AI 查詢發生錯誤: {str(e)}",
+            "quota_exceeded": False,
+            "tokens_used": _gemini_total_tokens(),
+        }
 
 
 @app.get("/api/price/{symbol}")

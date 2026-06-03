@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Bot, X } from 'lucide-react'
+import { Bot, X, Zap } from 'lucide-react'
 import AiConsult from './AiConsult'
 
 export default function AiConsultFloating() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
   const [symbol, setSymbol] = useState<string | null>(null)
+  const [tokensUsed, setTokensUsed] = useState(0)
 
   useEffect(() => {
     const match = location.pathname.match(/^\/stock\/(.+)$/)
     setSymbol(match ? match[1] : null)
   }, [location.pathname])
+
+  const formatTokens = (n: number) => {
+    if (n >= 1000) return `${(n / 1000).toFixed(1)}K`
+    return `${n}`
+  }
 
   return (
     <>
@@ -24,16 +30,26 @@ export default function AiConsultFloating() {
                 <Bot size={20} className="text-emerald-400" />
                 <h2 className="text-lg font-semibold text-slate-200">AI 智能諮詢</h2>
               </div>
-              <button
-                onClick={() => setOpen(false)}
-                className="text-slate-400 hover:text-slate-200 transition-colors rounded-lg p-1"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-3">
+                {tokensUsed > 0 && (
+                  <div className="flex items-center gap-1.5 rounded-full bg-slate-700/50 px-3 py-1">
+                    <Zap size={12} className="text-emerald-400" />
+                    <span className="text-xs text-slate-400">
+                      今日用量：<span className="text-emerald-400 font-medium">{formatTokens(tokensUsed)}</span> tokens
+                    </span>
+                  </div>
+                )}
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-slate-400 hover:text-slate-200 transition-colors rounded-lg p-1"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
             <div className="flex-1 overflow-y-auto">
               {symbol ? (
-                <AiConsult symbol={symbol} mode="panel" />
+                <AiConsult symbol={symbol} mode="panel" onTokensChange={setTokensUsed} />
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 text-center px-4">
                   <Bot size={48} className="text-slate-600 mb-4" />

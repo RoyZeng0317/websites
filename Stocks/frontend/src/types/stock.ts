@@ -218,6 +218,8 @@ export interface EtfHoldingsData {
 
 export interface AiConsultResponse {
   answer: string
+  quota_exceeded?: boolean
+  tokens_used?: number
 }
 
 export interface EtfConcentration {

@@ -93,9 +93,13 @@ export async function getFinancials(symbol: string): Promise<FinancialData> {
 }
 
 export async function getPrice(symbol: string): Promise<{ price: number; change: number; changePercent: number }> {
-  const res = await fetch(`${BASE}/price/${encodeURIComponent(symbol)}`)
-  if (!res.ok) return { price: 0, change: 0, changePercent: 0 }
-  return res.json()
+  try {
+    const res = await fetch(`${BASE}/price/${encodeURIComponent(symbol)}`)
+    if (!res.ok) return { price: 0, change: 0, changePercent: 0 }
+    return res.json()
+  } catch {
+    return { price: 0, change: 0, changePercent: 0 }
+  }
 }
 
 export function createPriceWebSocket(

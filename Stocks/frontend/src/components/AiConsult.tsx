@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 import { consultAi } from '../api/stockApi'
-import { Bot, Send, Loader2, AlertCircle } from 'lucide-react'
+import { Bot, Send, Loader2, Zap, AlertTriangle, ExternalLink } from 'lucide-react'
 
 interface Props {
   symbol: string
   mode?: 'card' | 'panel'
+  onTokensChange?: (tokens: number) => void
 }
 
 interface Message {
@@ -19,16 +20,23 @@ const QUICK_ACTIONS = [
   '財務狀況是否穩健？',
 ]
 
-export default function AiConsult({ symbol, mode = 'card' }: Props) {
+export default function AiConsult({ symbol, mode = 'card', onTokensChange }: Props) {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [showQuick, setShowQuick] = useState(true)
+  const [tokensUsed, setTokensUsed] = useState(0)
+  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  const updateTokens = (tokens: number) => {
+    setTokensUsed(tokens)
+    onTokensChange?.(tokens)
+  }
 
   const ask = async (question: string) => {
     setMessages((prev) => [...prev, { role: 'user', content: question }])
@@ -36,6 +44,12 @@ export default function AiConsult({ symbol, mode = 'card' }: Props) {
     setShowQuick(false)
     try {
       const res = await consultAi(symbol, question)
+      if (res.tokens_used !== undefined) {
+        updateTokens(res.tokens_used)
+      }
+      if (res.quota_exceeded) {
+        setShowUpgradeDialog(true)
+      }
       setMessages((prev) => [...prev, { role: 'assistant', content: res.answer }])
     } catch {
       setMessages((prev) => [...prev, { role: 'assistant', content: '查詢失敗，請稍後再試。' }])
@@ -50,6 +64,42 @@ export default function AiConsult({ symbol, mode = 'card' }: Props) {
     if (!input.trim() || loading) return
     ask(input.trim())
   }
+
+  const formatTokens = (n: number) => {
+    if (n >= 1000) return `${(n / 1000).toFixed(1)}K`
+    return `${n}`
+  }
+
+  const upgradeDialog = showUpgradeDialog && (
+    <div className="mx-4 mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+      <div className="flex items-start gap-3">
+        <AlertTriangle size={20} className="mt-0.5 shrink-0 text-amber-400" />
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-amber-300">今日免費額度已達上限</p>
+          <p className="mt-1 text-xs text-amber-400/80">
+            Gemini API 免費方案每日有使用量限制。升級付費方案後可繼續使用 AI 諮詢功能。
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <a
+              href="https://aistudio.google.com/app/apikey"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/20 px-3 py-1.5 text-xs text-amber-300 hover:bg-amber-500/30 transition-colors"
+            >
+              <ExternalLink size={12} />
+              前往升級方案
+            </a>
+            <button
+              onClick={() => setShowUpgradeDialog(false)}
+              className="rounded-lg px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200 transition-colors"
+            >
+              稍後再說
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 
   const chatContent = (
     <>
@@ -85,6 +135,8 @@ export default function AiConsult({ symbol, mode = 'card' }: Props) {
         <div ref={bottomRef} />
       </div>
 
+      {upgradeDialog}
+
       {showQuick && messages.length === 0 && (
         <div className="px-4 pb-4 grid grid-cols-2 gap-2">
           {QUICK_ACTIONS.map((q) => (
@@ -102,9 +154,7 @@ export default function AiConsult({ symbol, mode = 'card' }: Props) {
       {!showQuick && messages.length > 0 && (
         <div className="px-4 pb-2">
           <button
-            onClick={() => {
-              setShowQuick(true)
-            }}
+            onClick={() => setShowQuick(true)}
             className="text-xs text-emerald-500 hover:text-emerald-400"
           >
             + 顯示快速提問
@@ -136,9 +186,19 @@ export default function AiConsult({ symbol, mode = 'card' }: Props) {
 
   return (
     <div className="bg-slate-800/50 rounded-xl overflow-hidden">
-      <div className="flex items-center gap-2 px-5 py-4 border-b border-slate-700/50">
-        <Bot size={20} className="text-emerald-400" />
-        <h2 className="text-lg font-semibold text-slate-200">AI 智能諮詢</h2>
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-700/50">
+        <div className="flex items-center gap-2">
+          <Bot size={20} className="text-emerald-400" />
+          <h2 className="text-lg font-semibold text-slate-200">AI 智能諮詢</h2>
+        </div>
+        {tokensUsed > 0 && (
+          <div className="flex items-center gap-1.5 rounded-full bg-slate-700/50 px-3 py-1">
+            <Zap size={12} className="text-emerald-400" />
+            <span className="text-xs text-slate-400">
+              今日用量：<span className="text-emerald-400 font-medium">{formatTokens(tokensUsed)}</span> tokens
+            </span>
+          </div>
+        )}
       </div>
       {chatContent}
     </div>

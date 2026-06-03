@@ -56,9 +56,14 @@ export default function PortfolioOverview() {
         if (!cancelled) {
           setItems(rows)
         }
-      } catch {
+      } catch (err) {
         if (!cancelled) {
-          setError('讀取你的持股資料失敗，請確認 Firestore 權限設定。')
+          const msg = err instanceof Error ? err.message : String(err)
+          if (msg.toLowerCase().includes('permission') || msg.toLowerCase().includes('firestore')) {
+            setError('Firestore 權限不足，請重新登入後再試。')
+          } else {
+            setError('讀取持股資料失敗，後端伺服器可能暫時無法連線，請稍後再試。')
+          }
           setItems([])
         }
       } finally {
