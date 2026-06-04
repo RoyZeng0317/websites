@@ -21,6 +21,7 @@ const _raw: Record<string, { name: string; market: string }> = {
   "2412.TW": { name: "中華電", market: "TW" },
   "2426.TW": { name: "鼎元", market: "TW" },
   "2454.TW": { name: "聯發科", market: "TW" },
+  "2497-2516.TW": {name: "瑞工", market: "TW"},
   "2515.TW": { name: "中工", market: "TW" },
   "2610.TW": { name: "華航", market: "TW" },
   "2646.TW": { name: "星宇航空", market: "TW" },

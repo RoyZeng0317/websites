@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>"/>
+    <title>StockInfo - 全球股市資訊平台</title>
+    <script type="module" crossorigin src="/assets/index-BUHQ07gY.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ZLAHRK2F.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        .stock-info {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 16px 0;
+            font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+            width: 55%;
+            
+            color: #e6edf3;
+            align-items: center;
+            display: block;
+            justify-content: center;
+        }
+      .si-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #21262d; }
+      .si-title-block { display: flex; flex-direction: column; gap: 3px; }
+      .si-code { font-size: 11px; color: #6e7681; letter-spacing: .04em; }
+      .si-name-zh { font-size: 17px; font-weight: 700; color: #e6edf3; }
+      .si-name-en { font-size: 11px; color: #8b949e; }
+      .si-badges { display: flex; gap: 6px; margin-top: 6px; }
+      .si-badge { font-size: 10px; padding: 2px 8px; border-radius: 999px; }
+      .si-badge.market { background: #1f6feb22; border: 1px solid #1f6feb; color: #58a6ff; }
+      .si-badge.type   { background: #23862022; border: 1px solid #238620; color: #3fb950; }
+      .si-price-block  { text-align: right; }
+      .si-price  { font-size: 36px; font-weight: 700; color: #ff4444; line-height: 1; }
+      .si-change { font-size: 13px; color: #ff4444; margin-top: 5px; }
+      .si-updated{ font-size: 10px; color: #484f58; margin-top: 4px; }
+      .si-metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 20px; }
+      @media(max-width:640px){ .si-metrics{ grid-template-columns: repeat(2,1fr); } }
+      .si-metric { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 9px 12px; }
+      .si-metric-label { font-size: 10px; color: #6e7681; margin-bottom: 3px; }
+      .si-metric-value { font-size: 13px; font-weight: 600; }
+      .si-metric-value.up   { color: #ff4444; }
+      .si-metric-value.down { color: #22cc66; }
+      .si-metric-value.neu  { color: #e6edf3; }
+      .si-chart-wrap  { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; }
+      .si-chart-title { font-size: 11px; color: #8b949e; margin-bottom: 12px; letter-spacing: .03em; }
+      .si-company { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 12px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+      @media(max-width:540px){ .si-company{ grid-template-columns: 1fr; } }
+      .si-company-row { display: flex; gap: 8px; font-size: 11px; }
+      .si-company-key { color: #6e7681; white-space: nowrap; min-width: 68px; }
+      .si-company-val { color: #c9d1d9; }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-100">
+    <div id="root"></div>
+    <div class="under">
+      <div class="version">
+        <span>版本資訊</span>
+        <ul>
+          <li><a href="" onclick="about(event)">關於</a></li>
+          <li>版本 3.8.0</li>
+        </ul>
+      </div>
+        <div class="stock-info">
+
+          <!-- Header -->
+          <div class="si-header">
+            <div class="si-title-block">
+              <span class="si-code">2497-2516.TW &nbsp;·&nbsp; JFVS &nbsp;·&nbsp; 瑞工</span>
+              <span class="si-name-zh">新北市立瑞芳高級工業職業學校</span>
+              <span class="si-name-en">New Taipei Municipal Jui-Fang Industrial High School</span>
+              <div class="si-badges">
+                <span class="si-badge market">上市</span>
+                <span class="si-badge type">學習-學校</span>
+              </div>
+            </div>
+            <div class="si-price-block">
+              <div class="si-price">166.65</div>
+              <div class="si-change">▲ 10.80 &nbsp;(+6.93%)</div>
+              <div class="si-updated">2026/06/04 更新</div>
+            </div>
+          </div>
+
+          <!-- Metrics -->
+          <div class="si-metrics">
+            <div class="si-metric">
+              <div class="si-metric-label">開盤</div>
+              <div class="si-metric-value neu">145.55</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">收盤</div>
+              <div class="si-metric-value up">166.65</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">成交量</div>
+              <div class="si-metric-value neu">1,500億張</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">52週高</div>
+              <div class="si-metric-value up">77.75</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">52週低</div>
+              <div class="si-metric-value down">45.55</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">市值</div>
+              <div class="si-metric-value neu">6.6億校幣</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">本益比</div>
+              <div class="si-metric-value neu">88.8</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">股利</div>
+              <div class="si-metric-value neu">0.5 / 股</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">主力</div>
+              <div class="si-metric-value neu">校長</div>
+            </div>
+            <div class="si-metric">
+              <div class="si-metric-label">成立</div>
+              <div class="si-metric-value neu">1934 年</div>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="si-chart-wrap">
+            <div class="si-chart-title">近 12 個月股價走勢（2026/01–2026/06）</div>
+            <canvas id="jfvsChart" height="90"></canvas>
+          </div>
+
+          <!-- Company Info -->
+          <div class="si-company">
+            <div class="si-company-row">
+              <span class="si-company-key">中文名稱</span>
+              <span class="si-company-val">新北市立瑞芳高級工業職業學校</span>
+            </div>
+            <div class="si-company-row">
+              <span class="si-company-key">英文名稱</span>
+              <span class="si-company-val">New Taipei Municipal Jui-Fang Industrial High School</span>
+            </div>
+            <div class="si-company-row">
+              <span class="si-company-key">電話</span>
+              <span class="si-company-val">02-2497-2516</span>
+            </div>
+            <div class="si-company-row">
+              <span class="si-company-key">地址</span>
+              <span class="si-company-val">新北市瑞芳區瑞芳街60號</span>
+            </div>
+            <div class="si-company-row">
+              <span class="si-company-key">保管單位</span>
+              <span class="si-company-val">新北市教育局（02-2960-3456）</span>
+            </div>
+            <div class="si-company-row">
+              <span class="si-company-key">產業類別</span>
+              <span class="si-company-val">學習 - 學校</span>
+            </div>
+          </div>
+
+        </div>
+
+        <script>
+          (function(){
+            const labels = ['2025/01', '2025/02', '2025/03', '2025/04', '2025/05', '2025/06', '2025/07' , '20258/08', '2025/09', '2025/10', '2025/11','2025/12','2026/01','2026/02','2026/03','2026/04','2026/05','2026/06'];
+            const data   = [65.55, 55.45, 50.15, 45.75, 44.65, 50.55, 65.55, 50.55, 40.35, 30.35, 40.35, 45.55, 130.45, 140.55, 125.45, 145.95, 155.85, 166.65];
+            const ctx = document.getElementById('jfvsChart').getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 200);
+            grad.addColorStop(0, 'rgba(255,68,68,0.25)');
+            grad.addColorStop(1, 'rgba(255,68,68,0)');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels,
+                datasets: [{
+                  data,
+                  borderColor: '#ff4444',
+                  backgroundColor: grad,
+                  borderWidth: 2,
+                  pointRadius: 4,
+                  pointBackgroundColor: '#ff4444',
+                  pointBorderColor: '#0d1117',
+                  pointBorderWidth: 2,
+                  fill: true,
+                  tension: 0.35,
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { display: false }, tooltip: {
+                  backgroundColor: '#161b22',
+                  borderColor: '#21262d',
+                  borderWidth: 1,
+                  titleColor: '#8b949e',
+                  bodyColor: '#e6edf3',
+                  callbacks: { label: ctx => ' NT$ ' + ctx.parsed.y.toFixed(2) }
+                }},
+                scales: {
+                  x: { grid: { color: '#21262d' }, ticks: { color: '#6e7681', font: { size: 11 } } },
+                  y: { grid: { color: '#21262d' }, ticks: { color: '#6e7681', font: { size: 11 } }, position: 'right' }
+                }
+              }
+            });
+          })();
+        </script>
+      </div>
+      <div class="contact-us">
+        <span>聯絡我們</span>
+        <ul>
+          <li>
+            <a href="mailto:boyud9.5@yahoo.com" class="link" aria-label="我有 StockInfo 全球股市資訊平台的建議">
+              <i class="fa-regular fa-envelope"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      </div>
+    <footer>&copy;<a href="https://royzeng0317.github.io/HTML/Self-Website/zh-tw/index.html" class="link">Roy Zeng</a></footer>
+    <script>
+      function about(event){
+        event.preventDefault()
+        const el = document.querySelector('.about')
+        if (el) {
+          el.style.display = el.style.display === 'none' ? 'block' : 'none'
+        }
+      }
+
+      document.getElementById('notifOverlay').addEventListener('click',function(e){
+        if(e.target===this) this.classList.remove('open');
+      });
+      document.getElementById('notifClose').addEventListener('click',function(){
+        document.getElementById('notifOverlay').classList.remove('open');
+      });
+      document.addEventListener('keydown',function(e){
+        if(e.key==='Escape') document.getElementById('notifOverlay').classList.remove('open');
+      });
+    </script>
+  </body>
+</html>
+
+<!-- 
+@*//                               `-+syhddmmmddhyo+:`
+//                            .+hmmdddddddddddddddmmds/`      ``...`
+//                         `/hmddddddddddddddddddddddddmy++osyhyyyhhs.
+//                       `ommddddddddddddddddddddddddddddmmdys+++syhhh:
+//           .`         /mmddddddddddddddddddddddddddddddddmmhyyyyyyyyh/
+//       `:sdNy`      .ymddddddddddddddddddddddddddddddddddddmdhhhyyyyyh-
+//   `.+hmmmddmo     -mmddddddddddddddddddddddddddddddddddddddmmhhhhhhhh+
+//  odmmdddddddms` `+mmddddddddddddddddddddddddddddddddddddddddmmddhhhhh+
+//  ymdmmmmmmmmdmmdmmdddddddddddddmmddddddddddddddddddddddddddddmd:ydhhd:
+//  :Nmmmmmmmmmmmmmmddy+::+ydddms/:::/+osydmdddddddddddddddddddddN-`:+o:
+//   ymmmmmmmmmmmmmmdo.`.``/hmm/+hdd/``````-+ydmdddddddddddddddddmy
+//   .mmmmmmmmmmmmmmh:`-o+`:hm/`-o:.```````os/./ymddddddddddddddddN`
+//    /Nmmmmmmmmmmmmh:..::-od/``dMs````````/hNm:`-ymddddddddddddddN-
+//     sNmmmmmmmmmmmd+-:/-.`..`.hh:`...``:hh..:```:NdmmmmmmmdmddddN/
+//  `::/dmmmmmmmmmmmmdo:```./d/````-..:`-mdd.````.dmdmmmmmmmmmmmdmmy
+//./::-..+dmmmmmmmmmmh/````-dNms-```..``.+/`````-dmds/:-:ohmmmmmmmmN.
+//-/.``--`/dmmmdysydmy.````omNd+.-::-...-:os:..`-hs-``.``./hmmmmmmmmd.       .os`
+///:---.`.`-/sy:```omy-````hddo` `s.``/NNNNo...`````-+o/``/dmmmmmmmmmms:..:+ymmN:
+//:/.``.``````-``./dNh/````syyyhshd-``:mNmy.````````.```./hmmmmmmmmmmmmmmmmmmmmmd
+// .::-```...````+dNNNs-```//::/+ooosyhdds.``````-----:+ydmmmmmmmmmmmmmmmmmmmmmmN:
+//   `:/````..``-shhdmms-``./::/:::::::+/``````.+dmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmd
+//     ./:-```.-oyyhyhhhy+.`.:/::::///:.````..:ymNNmmo:/ymmmmmmmmmmmmmmmmmmmmmmmmN
+//       `:y:./yyyyyyyyhh///:..--:--.````..-/ymNNNNNy.``-hNNNNNmmmmmmmmmmmmmmNmh+-
+//       `ymdyhyyyyyyhhy/---o+///:::::://oyhmNNNNNNNo```:osyho/---:ymmNNNNmho:`
+//       `+hhhhhyyyyhhs-----y--o/------:+hhhhhhhddds.````````..-..-+dNds+-`
+//         `.:+oossyyyy:---:ssoy:------+hyyyyhhyyys-``....```..--..//`
+//                    syysyysssho:-----ohyyyyhyhhyy/`````..``````-o.
+//                   `hssssssoyhhyo+++syyhhhhyyhyyh+:::-..-:::::::.
+//                   :hysssyo/yhhssyysssssyhyhhhyhdmmy....`
+//                   shyyyyyyhhhhyyyyyyyyyyhh/-+syhdo`
+//                  `hhhhhhhhhhhhhhhhhhhhhhhhy`
+//                   -:yhyyyysyhhyyyyyyyyyyyyh-
+//                     -hysssssyydsyyssssssssyh.
+//                      /hsysyyyyd-.+yyyssyyssyh-
+//          -/+oo++/-`   +hhyhhhso`  .ohyyyyyyhho:`   `-:/++++/:.
+//       -+ooooooooooso+/ssss.yy:      `//+ds/oysss+ossoooooooo+os/.
+//    `:o+:/oooooooooooooooossyh:          oyyssooooooooooooooo+/:os+`
+//   -ssoooooooooooooooooosssssy+          .hyssssssooooooooooooooooss-
+//   /syysssssssssssssssyyyyyyyh-           shyyyysyyysssssssssssssssyy
+//     `-/+ossyyyysso+/:-./++//.             .---` `.-:/+oossssoo++/:-`*@ 
+ -->

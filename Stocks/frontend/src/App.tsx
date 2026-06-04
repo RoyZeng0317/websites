@@ -3,6 +3,7 @@ import AuthControls from './components/AuthControls'
 import AiConsultFloating from './components/AiConsultFloating'
 import HomePage from './pages/HomePage'
 import StockPage from './pages/StockPage'
+import JFVSPage from './pages/JFVSPage'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
       <main className="mx-auto max-w-7xl px-4 py-6">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/stock/2497-2516.TW" element={<JFVSPage />} />
           <Route path="/stock/:symbol" element={<StockPage />} />
         </Routes>
       </main>

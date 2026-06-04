@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="dashboard.css">
+  <title>LinguaPath - My Progress</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Lingua<span>Path</span></a>
+  <div style="display:flex;gap:1rem;align-items:center">
+    <div id="user-info" style="display:none;align-items:center;gap:0.8rem">
+      <img id="user-avatar" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--accent)" src="" alt=""/>
+      <span id="user-name" style="font-size:0.9rem"></span>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <a href="index.html" class="btn btn-primary" id="signin-link" style="display:none">Sign In</a>
+    <a href="#" class="btn btn-ghost theme-toggle-icon" onclick="themeToggle()" style="font-size:1.1rem;padding:0.4rem 0.7rem">☀️</a>
+  </div>
+</nav>
+
+<div class="page" id="page-content"><p style="text-align:center;color:var(--muted);padding:3rem">Loading...</p></div>
+
+<script src="script.js">
+    const types = [ "food", "computer", "electronicity", "taffic"]
+    const words = [
+        {img: "image/apple.png", words: "apple"},
+        {img: "image/banana.png", words: "banana"},
+        {img: "image/orange.png", words: "orange"},
+        {img: "image/watermelon.png", words: "watermelon"},
+        {img: "image/dragonfriut.png", words: "dragonfriut"},
+        {img: "image/kiwi.png", words: "kiwi"},
+        {img: "image/pineapple.png", words: "pineapple"},
+        {img: "image/heel", words: "heel"}
+    ]
+</script>

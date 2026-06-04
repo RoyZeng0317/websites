@@ -162,6 +162,66 @@
       margin: 0;
     }
 
+    /* Self-assessment exercise UI */
+    .exercise-answers {
+      transition: filter 0.35s ease;
+    }
+    .exercise-answers.blurred {
+      filter: blur(5px);
+      user-select: none;
+      pointer-events: none;
+    }
+    .exercise-try-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+      margin: 0.5rem 0 0.4rem;
+    }
+    .exercise-reveal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .btn-reveal-answer {
+      background: transparent;
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      border-radius: 6px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-reveal-answer:hover { background: rgba(126,184,232,0.1); }
+    .btn-reveal-answer:disabled { opacity: 0.45; cursor: default; }
+    .self-assess {
+      display: none;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.55rem;
+      flex-wrap: wrap;
+    }
+    .self-assess.visible { display: flex; }
+    .self-assess-label { font-size: 0.78rem; color: var(--muted); }
+    .sa-btn {
+      border: 1px solid var(--border);
+      background: transparent;
+      border-radius: 20px;
+      padding: 0.22rem 0.75rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.18s;
+      color: var(--muted);
+    }
+    .sa-btn:hover { border-color: var(--muted); color: var(--text); }
+    .sa-btn.not-yet:hover, .sa-btn.not-yet.selected { border-color: #e87e7e; color: #e87e7e; background: rgba(232,126,126,0.08); }
+    .sa-btn.almost:hover, .sa-btn.almost.selected { border-color: var(--accent); color: var(--accent); background: rgba(232,201,126,0.08); }
+    .sa-btn.got-it:hover, .sa-btn.got-it.selected { border-color: var(--success); color: var(--success); background: rgba(126,200,160,0.08); }
+
     .lesson-actions {
       display: flex; align-items: center; justify-content: space-between;
       margin-top: 3rem; padding-top: 2rem;
@@ -549,6 +609,58 @@
 
     document.getElementById('main-content').scrollTo?.(0,0);
     window.scrollTo(0,0);
+    transformExercises();
+  }
+
+  function transformExercises() {
+    const exercises = document.querySelectorAll('#lesson-body .speaking-exercise');
+    exercises.forEach((ex, idx) => {
+      const box = ex.querySelector('.example-box');
+      if (!box) return;
+
+      const hint = document.createElement('p');
+      hint.className = 'exercise-try-hint';
+      hint.textContent = 'Try it yourself first, then reveal the reference answers.';
+      box.before(hint);
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'exercise-answers blurred';
+      box.replaceWith(wrapper);
+      wrapper.appendChild(box);
+
+      const bar = document.createElement('div');
+      bar.className = 'exercise-reveal-bar';
+
+      const revealBtn = document.createElement('button');
+      revealBtn.className = 'btn-reveal-answer';
+      revealBtn.textContent = '👁 See Reference Answers';
+      bar.appendChild(revealBtn);
+      wrapper.after(bar);
+
+      const saDiv = document.createElement('div');
+      saDiv.className = 'self-assess';
+      saDiv.innerHTML = `
+        <span class="self-assess-label">How did you do?</span>
+        <button class="sa-btn not-yet">✗ Not yet</button>
+        <button class="sa-btn almost">~ Almost</button>
+        <button class="sa-btn got-it">✓ Got it!</button>
+      `;
+      bar.after(saDiv);
+
+      revealBtn.addEventListener('click', () => {
+        wrapper.classList.remove('blurred');
+        revealBtn.textContent = 'Answers visible';
+        revealBtn.disabled = true;
+        saDiv.classList.add('visible');
+      });
+
+      saDiv.querySelectorAll('.sa-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          saDiv.querySelectorAll('.sa-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    });
   }
 
   function updateURL() {

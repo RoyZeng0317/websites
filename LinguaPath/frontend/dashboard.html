@@ -43,7 +43,7 @@
     { id: "skill-reading", title: "Reading", level: "All Levels", icon: "R", total: 5 },
     { id: "skill-writing", title: "Writing", level: "All Levels", icon: "W", total: 5 },
   ];
-
+  
   const LESSON_NAMES = {
     "beginner-foundations": ["The English Alphabet", "Basic Greetings", "Numbers 1-100", "Colors & Shapes", "Days & Months", "Common Nouns", "Simple Sentences", "Asking for Help"],
     "everyday-conversations": ["Introducing Yourself", "At a Restaurant", "Shopping", "Asking for Directions", "Talking About Weather", "Making Plans", "Talking on the Phone"],
@@ -240,11 +240,11 @@
       renderFullDashboard(page, user, progress, warning);
     }
 
-    // Timeout fallback: if Firestore doesn't respond in 4s, show empty
+    // Timeout fallback: if Firestore doesn't respond in 10s, show empty
     const timer = setTimeout(() => {
       console.warn('Firestore timeout — showing empty data');
-      finish({}, 'Firestore is taking too long. Data will appear once the connection is ready.');
-    }, 4000);
+      finish({}, 'Could not reach Firestore. Check your connection and refresh the page.');
+    }, 10000);
 
     getDoc(doc(db, 'progress', user.uid))
       .then(snap => {
