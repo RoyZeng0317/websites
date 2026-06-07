@@ -55,12 +55,12 @@ export default function JFVSPage() {
       timeScale: { borderColor: '#1e293b', timeVisible: true },
     })
     const series = chart.addSeries(CandlestickSeries, {
-      upColor: '#22c55e',
-      downColor: '#ef4444',
-      borderUpColor: '#22c55e',
-      borderDownColor: '#ef4444',
-      wickUpColor: '#22c55e',
-      wickDownColor: '#ef4444',
+      upColor: '#ef4444',
+      downColor: '#22c55e',
+      borderUpColor: '#ef4444',
+      borderDownColor: '#22c55e',
+      wickUpColor: '#ef4444',
+      wickDownColor: '#22c55e',
     })
     series.setData(CHART_DATA)
     chart.timeScale().fitContent()
