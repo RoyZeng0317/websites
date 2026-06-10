@@ -1,0 +1,13 @@
+{
+  "css.completion.completePropertyWithSemicolon": true,
+  "emmet.includeLanguages": { "html": "html" },
+  "emmet.triggerExpansionOnTab": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "html.suggest.html5": true,
+  "css.suggest.properties": true
+}

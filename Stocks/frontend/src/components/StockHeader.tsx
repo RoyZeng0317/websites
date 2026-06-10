@@ -1,6 +1,6 @@
 import type { StockInfo, RealtimePrice } from '../types/stock'
-import { useEffect, useRef, useState } from 'react'
-import { createPriceWebSocket } from '../api/stockApi'
+import { useState } from 'react'
+import { usePriceWebSocket } from '../hooks/usePriceWebSocket'
 import { Globe, Users, TrendingUp, DollarSign } from 'lucide-react'
 
 interface Props {
@@ -9,16 +9,8 @@ interface Props {
 
 export default function StockHeader({ info }: Props) {
   const [rt, setRt] = useState<RealtimePrice | null>(null)
-  const wsRef = useRef<WebSocket | null>(null)
 
-  useEffect(() => {
-    wsRef.current = createPriceWebSocket(info.symbol, (data) => {
-      setRt(data)
-    })
-    return () => {
-      wsRef.current?.close()
-    }
-  }, [info.symbol])
+  usePriceWebSocket(info.symbol, (data) => setRt(data))
 
   const price = rt?.price ?? info.currentPrice
   const change = rt?.change ?? info.change
@@ -70,7 +62,7 @@ export default function StockHeader({ info }: Props) {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <InfoCard icon={<TrendingUp size={16} />} label="市值" value={formatMarketCap(info.marketCap)} />
+        <InfoCard icon={<TrendingUp size={16} />} label="市值" value={formatMarketCap(info.marketCap, info.currency)} />
         <InfoCard icon={<Users size={16} />} label="成交量" value={formatVolume(info.volume)} />
         <InfoCard icon={<Globe size={16} />} label="產業" value={info.sector || 'N/A'} />
         <InfoCard icon={<DollarSign size={16} />} label="配息配股" value={info.dividendFrequency || 'N/A'} />
@@ -100,11 +92,13 @@ function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string
   )
 }
 
-function formatMarketCap(cap: number): string {
-  if (cap >= 1e12) return `$${(cap / 1e12).toFixed(2)}T`
-  if (cap >= 1e9) return `$${(cap / 1e9).toFixed(2)}B`
-  if (cap >= 1e6) return `$${(cap / 1e6).toFixed(2)}M`
-  return `$${(cap / 1e3).toFixed(1)}K`
+function formatMarketCap(cap: number, currency = 'USD'): string {
+  if (!cap || cap <= 0) return 'N/A'
+  const sym = currency === 'TWD' ? 'NT$' : currency === 'HKD' ? 'HK$' : '$'
+  if (cap >= 1e12) return `${sym}${(cap / 1e12).toFixed(2)}T`
+  if (cap >= 1e9) return `${sym}${(cap / 1e9).toFixed(2)}B`
+  if (cap >= 1e6) return `${sym}${(cap / 1e6).toFixed(2)}M`
+  return `${sym}${(cap / 1e3).toFixed(1)}K`
 }
 
 function formatVolume(v: number): string {

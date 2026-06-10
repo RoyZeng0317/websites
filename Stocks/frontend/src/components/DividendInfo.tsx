@@ -5,10 +5,12 @@ import { CalendarDays, ExternalLink } from 'lucide-react'
 
 interface Props {
   symbol: string
+  currency?: string
   meetingUrl?: string
 }
 
-export default function DividendInfo({ symbol, meetingUrl }: Props) {
+export default function DividendInfo({ symbol, currency = 'USD', meetingUrl }: Props) {
+  const currSym = currency === 'TWD' ? 'NT$' : currency === 'HKD' ? 'HK$' : '$'
   const [data, setData] = useState<StockDividends | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -75,7 +77,7 @@ export default function DividendInfo({ symbol, meetingUrl }: Props) {
               <tr key={i} className="border-b border-slate-800 hover:bg-slate-700/30 transition-colors">
                 <td className="py-2 px-3 text-slate-300">{d.date}</td>
                 <td className="py-2 px-3 text-right text-slate-200 font-medium">
-                  ${d.amount.toFixed(4)}
+                  {currSym}{d.amount.toFixed(4)}
                 </td>
               </tr>
             ))}

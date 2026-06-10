@@ -1,12 +1,44 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { onAuthStateChanged, type User } from 'firebase/auth'
-import { formatCurrency, getPrice } from '../api/stockApi'
+import { formatCurrency, getBatchPrices } from '../api/stockApi'
 import { auth } from '../firebase'
 import { getShareCount, loadHoldings, type HoldingDoc } from '../utils/holdings'
+import { Download } from 'lucide-react'
 
 interface HoldingRow extends HoldingDoc {
   livePrice: number
+}
+
+function exportToCSV(items: HoldingRow[]) {
+  const header = ['股票代號', '公司名稱', '買入價格', '股數', '現價', '成本', '市值', '損益', '損益率', '幣別']
+  const rows = items.map((item) => {
+    const shares = getShareCount(item)
+    const cost = item.buyPrice * shares
+    const value = item.livePrice * shares
+    const profit = value - cost
+    const ratio = cost > 0 ? profit / cost : 0
+    return [
+      item.symbol,
+      `"${item.companyName}"`,
+      item.buyPrice.toFixed(4),
+      shares.toString(),
+      item.livePrice.toFixed(4),
+      cost.toFixed(2),
+      value.toFixed(2),
+      profit.toFixed(2),
+      `${(ratio * 100).toFixed(2)}%`,
+      item.currency || 'USD',
+    ]
+  })
+  const csv = [header, ...rows].map((r) => r.join(',')).join('\n')
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `portfolio_${new Date().toISOString().slice(0, 10)}.csv`
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 export default function PortfolioOverview() {
@@ -43,15 +75,12 @@ export default function PortfolioOverview() {
           return
         }
 
-        const rows = await Promise.all(
-          holdings.map(async (holding) => {
-            const price = await getPrice(holding.symbol)
-            return {
-              ...holding,
-              livePrice: price.price || holding.buyPrice,
-            }
-          }),
-        )
+        const symbols = [...new Set(holdings.map((h) => h.symbol))]
+        const priceMap = await getBatchPrices(symbols)
+        const rows = holdings.map((holding) => ({
+          ...holding,
+          livePrice: priceMap[holding.symbol]?.price || holding.buyPrice,
+        }))
 
         if (!cancelled) {
           setItems(rows)
@@ -140,6 +169,15 @@ export default function PortfolioOverview() {
             <div className="text-xs text-slate-400">持有總股數</div>
             <div className="mt-1 text-xl font-bold text-slate-100">{totalShares.toLocaleString('en-US')}</div>
           </div>
+          <button
+            onClick={() => exportToCSV(items)}
+            type="button"
+            title="匯出 CSV"
+            className="inline-flex items-center gap-1.5 rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-3 text-xs text-slate-400 transition hover:border-emerald-500/40 hover:text-emerald-400"
+          >
+            <Download size={14} />
+            匯出
+          </button>
         </div>
       </div>
 

@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { onAuthStateChanged, type User } from 'firebase/auth'
 import { Timestamp } from 'firebase/firestore'
 import { TrendingDown, TrendingUp, Wallet } from 'lucide-react'
-import { createPriceWebSocket, formatCurrency } from '../api/stockApi'
+import { formatCurrency } from '../api/stockApi'
 import { auth } from '../firebase'
-import type { RealtimePrice } from '../types/stock'
+import { usePriceWebSocket } from '../hooks/usePriceWebSocket'
 import {
   deleteHolding,
   getShareCount,
@@ -47,7 +47,6 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
   const [livePrice, setLivePrice] = useState(currentPrice)
   const [saving, setSaving] = useState(false)
   const [loadingHoldings, setLoadingHoldings] = useState(false)
-  const wsRef = useRef<WebSocket | null>(null)
   const unitLabel = getUnitLabel(symbol)
 
   useEffect(() => {
@@ -60,16 +59,7 @@ export default function HoldingTracker({ companyName, currency, currentPrice, sy
     setLivePrice(currentPrice)
   }, [currentPrice])
 
-  useEffect(() => {
-    wsRef.current?.close()
-    wsRef.current = createPriceWebSocket(symbol, (data: RealtimePrice) => {
-      setLivePrice(data.price)
-    })
-
-    return () => {
-      wsRef.current?.close()
-    }
-  }, [symbol])
+  usePriceWebSocket(symbol, (data) => setLivePrice(data.price))
 
   useEffect(() => {
     let cancelled = false

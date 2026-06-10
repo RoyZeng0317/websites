@@ -1,0 +1,18 @@
+steps:
+  # Build Flutter web
+  - name: 'ghcr.io/cirruslabs/flutter:stable'
+    dir: 'app'
+    entrypoint: flutter
+    args: ['build', 'web', '--release']
+
+  # Deploy to Firebase Hosting
+  - name: 'gcr.io/$PROJECT_ID/firebase'
+    args:
+      - 'deploy'
+      - '--only'
+      - 'hosting'
+      - '--project'
+      - '$PROJECT_ID'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

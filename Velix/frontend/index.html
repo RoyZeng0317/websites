@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Velix — 你的社交空間" />
+    <title>Velix</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- iOS PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Velix" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <style>
+      
+      @keyframes dot-pulse {
+        0%, 80%, 100% { transform: scale(.7); opacity: .4; }
+        40% { transform: scale(1); opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+
+    
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Hide splash once React renders any content into #root
+      (function () {
+        var loading = document.getElementById('app-loading')
+        var root = document.getElementById('root')
+        var ob = new MutationObserver(function () {
+          if (root.children.length > 0) {
+            loading.classList.add('hide')
+            setTimeout(function () { loading.remove() }, 300)
+            ob.disconnect()
+          }
+        })
+        ob.observe(root, { childList: true })
+      })()
+    </script>
+  </body>
+</html>

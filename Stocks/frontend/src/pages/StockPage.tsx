@@ -18,6 +18,7 @@ import ETFAnalysis from '../components/ETFAnalysis'
 import CompanyInfo from '../components/CompanyInfo'
 import ETFHoldings from '../components/ETFHoldings'
 import AiConsult from '../components/AiConsult'
+import WatchlistButton from '../components/WatchlistButton'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle } from 'lucide-react'
 
@@ -83,6 +84,10 @@ export default function StockPage() {
 
       <StockHeader info={info} />
 
+      <div className="flex items-center gap-2">
+        <WatchlistButton symbol={symbol!} name={info.nameCn || info.name} />
+      </div>
+
       <ErrorBoundary>
         <HoldingTracker
           companyName={info.nameCn || info.name}
@@ -128,7 +133,7 @@ export default function StockPage() {
         <ETFAnalysis symbol={symbol!} />
       </ErrorBoundary>
 
-      <DividendInfo symbol={symbol!} meetingUrl={info.meetingUrl} />
+      <DividendInfo symbol={symbol!} currency={info.currency} meetingUrl={info.meetingUrl} />
 
       <ErrorBoundary>
         <AiConsult symbol={symbol!} />

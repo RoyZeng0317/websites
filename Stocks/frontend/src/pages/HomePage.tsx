@@ -1,8 +1,10 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import PortfolioOverview from '../components/PortfolioOverview'
 import ErrorBoundary from '../components/ErrorBoundary'
+import { getWatchlist, removeFromWatchlist, type WatchlistItem } from '../utils/watchlist'
+import { Star, X } from 'lucide-react'
 
 interface StockItem {
   symbol: string
@@ -196,6 +198,18 @@ export default function HomePage() {
   const navigate = useNavigate()
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [openMarket, setOpenMarket] = useState<string | null>(null)
+  const [watchlist, setWatchlist] = useState<WatchlistItem[]>(() => getWatchlist())
+
+  useEffect(() => {
+    const refresh = () => setWatchlist(getWatchlist())
+    window.addEventListener('focus', refresh)
+    return () => window.removeEventListener('focus', refresh)
+  }, [])
+
+  function handleRemoveWatchlist(symbol: string) {
+    removeFromWatchlist(symbol)
+    setWatchlist(getWatchlist())
+  }
 
   const selectedStocks = useMemo(() => {
     if (activeCategory) {
@@ -217,6 +231,37 @@ export default function HomePage() {
       </div>
 
       <SearchBar />
+
+      {watchlist.length > 0 && (
+        <div>
+          <div className="flex items-center gap-2 text-sm font-medium text-slate-400 mb-3">
+            <Star size={14} className="text-yellow-400" fill="currentColor" />
+            自選股
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {watchlist.map((item) => (
+              <div key={item.symbol} className="group flex items-center gap-1 rounded-xl border border-slate-700/50 bg-slate-800/30 pl-3 pr-1.5 py-1.5 transition-all hover:border-yellow-400/30">
+                <button
+                  className="text-sm text-slate-200 hover:text-yellow-400 transition-colors"
+                  onClick={() => navigate(`/stock/${item.symbol}`)}
+                  type="button"
+                >
+                  {item.name}
+                  <span className="ml-1.5 text-[10px] text-slate-500">{item.symbol}</span>
+                </button>
+                <button
+                  onClick={() => handleRemoveWatchlist(item.symbol)}
+                  type="button"
+                  className="ml-1 rounded p-0.5 text-slate-600 opacity-0 transition group-hover:opacity-100 hover:text-rose-400"
+                  title="移除"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <ErrorBoundary>
         <PortfolioOverview />

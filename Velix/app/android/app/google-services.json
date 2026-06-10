@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "961714047293",
+    "project_id": "velix-socialize",
+    "storage_bucket": "velix-socialize.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961714047293:android:409ffed620e2da9b305d54",
+        "android_client_info": {
+          "package_name": "com.example.velix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961714047293-67scd8ifg18ruifgk270umv0o88m30r9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.velix",
+            "certificate_hash": "1b6686d99e18a84cd6daeca2f2d97bd9d63eacfe"
+          }
+        },
+        {
+          "client_id": "961714047293-ca223anh36gtqt0ogqudsq9jdhnuumep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.velix",
+            "certificate_hash": "f13c9c89307569edbb099aa1fc4101b03dd6edbe"
+          }
+        },
+        {
+          "client_id": "961714047293-bp5uv8vq5g40dnmsnrnv7buo37k59sod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdwKs-y8aPM26f0j6ORXbX5SjKf3AIF28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961714047293-bp5uv8vq5g40dnmsnrnv7buo37k59sod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "961714047293-fpvpia1lfbv11jd3c24omdt9m8te53it.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.velix"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961714047293:android:f6843e37362fd10c305d54",
+        "android_client_info": {
+          "package_name": "com.package.velix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961714047293-01nsqsu6v08nm76ni9rm5ajm5167k7va.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.package.velix",
+            "certificate_hash": "f13c9c89307569edbb099aa1fc4101b03dd6edbe"
+          }
+        },
+        {
+          "client_id": "961714047293-pg8np3tjvj3id059uppinob7p8eaqork.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.package.velix",
+            "certificate_hash": "1b6686d99e18a84cd6daeca2f2d97bd9d63eacfe"
+          }
+        },
+        {
+          "client_id": "961714047293-bp5uv8vq5g40dnmsnrnv7buo37k59sod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdwKs-y8aPM26f0j6ORXbX5SjKf3AIF28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961714047293-bp5uv8vq5g40dnmsnrnv7buo37k59sod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "961714047293-fpvpia1lfbv11jd3c24omdt9m8te53it.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.velix"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2120,8 +2120,7 @@ def rate_limit():
         _LAST_REQUEST_TIME = time.time()
 
 
-@app.get("/api/search")
-async def search_stocks(query: str = Query(..., min_length=1)):
+def _search_stocks_sync(query: str) -> list:
     seen = set()
     results = []
     q = query.lower()
@@ -2172,6 +2171,12 @@ async def search_stocks(query: str = Query(..., min_length=1)):
     return results[:15]
 
 
+@app.get("/api/search")
+async def search_stocks(query: str = Query(..., min_length=1)):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, _search_stocks_sync, query)
+
+
 def _detect_exchange(symbol: str) -> str:
     if symbol.endswith(".TW"):
         return "TWSE"
@@ -2183,7 +2188,8 @@ def _detect_exchange(symbol: str) -> str:
 @app.get("/api/stock/{symbol}")
 async def get_stock_info(symbol: str):
     try:
-        info = _get_stock_info(symbol)
+        loop = asyncio.get_event_loop()
+        info = await loop.run_in_executor(None, _get_stock_info, symbol)
     except Exception as e:
         return {"error": f"exception: {e}", "symbol": symbol}
     if not info or not info.get("symbol"):
@@ -3558,12 +3564,36 @@ async def ai_consult(body: dict):
 @app.get("/api/price/{symbol}")
 async def get_price(symbol: str):
     try:
-        rt = _fetch_realtime_price(symbol)
+        loop = asyncio.get_event_loop()
+        rt = await loop.run_in_executor(None, _fetch_realtime_price, symbol)
         if rt.get("price", 0) > 0:
             return {"symbol": symbol, "price": rt["price"], "change": rt["change"], "changePercent": rt["changePercent"]}
         return {"symbol": symbol, "price": 0, "change": 0, "changePercent": 0}
     except Exception:
         return {"symbol": symbol, "price": 0, "change": 0, "changePercent": 0}
+
+
+@app.get("/api/prices")
+async def get_batch_prices(symbols: str = Query(...)):
+    """Batch price fetch — symbols is comma-separated, max 20."""
+    sym_list = [s.strip() for s in symbols.split(",") if s.strip()][:20]
+
+    def fetch_one(sym: str) -> dict:
+        try:
+            rt = _fetch_realtime_price(sym)
+            return {
+                "symbol": sym,
+                "price": rt.get("price", 0),
+                "change": rt.get("change", 0),
+                "changePercent": rt.get("changePercent", 0),
+            }
+        except Exception:
+            return {"symbol": sym, "price": 0, "change": 0, "changePercent": 0}
+
+    loop = asyncio.get_event_loop()
+    tasks = [loop.run_in_executor(None, fetch_one, sym) for sym in sym_list]
+    results = await asyncio.gather(*tasks)
+    return list(results)
 
 
 @app.websocket("/ws/price/{symbol}")

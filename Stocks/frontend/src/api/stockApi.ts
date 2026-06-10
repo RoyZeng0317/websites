@@ -102,6 +102,20 @@ export async function getPrice(symbol: string): Promise<{ price: number; change:
   }
 }
 
+export async function getBatchPrices(
+  symbols: string[]
+): Promise<Record<string, { price: number; change: number; changePercent: number }>> {
+  if (symbols.length === 0) return {}
+  try {
+    const res = await fetch(`${BASE}/prices?symbols=${symbols.map(encodeURIComponent).join(',')}`)
+    if (!res.ok) throw new Error('batch prices failed')
+    const list: { symbol: string; price: number; change: number; changePercent: number }[] = await res.json()
+    return Object.fromEntries(list.map((item) => [item.symbol, item]))
+  } catch {
+    return {}
+  }
+}
+
 export function createPriceWebSocket(
   symbol: string,
   onMessage: (data: RealtimePrice) => void,

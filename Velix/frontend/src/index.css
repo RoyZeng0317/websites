@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Prevent iOS font size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Fill the safe area (iPhone notch / Dynamic Island) */
+    background-color: #000000;
+  }
+
+  body {
+    @apply bg-dark-bg text-dark-text;
+    min-height: 100dvh;
+    /* Prevent overscroll bounce showing white background on iOS */
+    overscroll-behavior-y: none;
+    /* Remove tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #root {
+    @apply bg-dark-bg text-dark-text;
+    min-height: 100dvh;
+  }
+
+  * {
+    @apply border-dark-border;
+  }
+
+  /* Prevent iOS auto-zoom on input focus (font-size must be >= 16px) */
+  input, textarea, select {
+    font-size: max(16px, 1rem);
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border rounded-full;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-velix-600 hover:bg-velix-700 text-white font-semibold px-4 py-2 rounded-xl transition-colors;
+  }
+  .btn-outline {
+    @apply border border-dark-border hover:bg-dark-surface text-dark-text font-semibold px-4 py-2 rounded-xl transition-colors;
+  }
+  .input-field {
+    @apply w-full bg-dark-surface border border-dark-border rounded-xl px-4 py-3 text-dark-text placeholder-dark-muted focus:outline-none focus:border-velix-500 transition-colors;
+  }
+  .card {
+    @apply bg-dark-bg border-b border-dark-border;
+  }
+  .avatar {
+    @apply rounded-full object-cover bg-dark-surface flex items-center justify-center text-white font-bold;
+  }
+}
+
+@media (max-width: 480px) {
+  span{
+    font-size: 15px;
+  }
+  .container{
+    padding: 10px;
+  }
+  
+}

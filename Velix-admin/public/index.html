@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="icon-C7-mE4xw.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velix Admin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #f1f5f9; --muted: #94a3b8; --accent: #7c3aed;
+      --green: #22c55e; --red: #ef4444; --yellow: #f59e0b; --orange: #f97316;
+    }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; min-height: 100vh; }
+
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+    header h1 { font-size: 18px; font-weight: 700; color: #a78bfa; }
+    header span { font-size: 12px; color: var(--muted); }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 24px 0; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .stat-card .num { font-size: 28px; font-weight: 700; }
+    .stat-card .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .c-yellow { color: var(--yellow); } .c-green { color: var(--green); }
+    .c-red { color: var(--red); } .c-orange { color: var(--orange); }
+
+    .nav { display: flex; border-bottom: 1px solid var(--border); padding: 0 24px; margin-top: 16px; }
+    .nav-btn { padding: 11px 20px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; border-bottom: 2px solid transparent; color: var(--muted); background: none; transition: color .15s; }
+    .nav-btn.active { border-bottom-color: var(--accent); color: #a78bfa; }
+
+    /* Verification tabs */
+    .vtabs { display: flex; gap: 4px; padding: 14px 24px 0; }
+    .vtab { padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); background: none; transition: all .15s; }
+    .vtab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* Search */
+    .search-bar { padding: 14px 24px 0; }
+    .search-bar input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 9px 14px; color: var(--text); font-size: 14px; }
+    .search-bar input:focus { outline: none; border-color: var(--accent); }
+
+    .list { padding: 14px 24px; display: flex; flex-direction: column; gap: 10px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .card.suspended { border-color: rgba(239,68,68,.4); }
+
+    .card-head { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: var(--muted); }
+    .user-info { flex: 1; min-width: 0; }
+    .user-info .name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap-6px; gap: 6px; flex-wrap: wrap; }
+    .user-info .meta { font-size: 12px; color: var(--muted); margin-top: 3px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .uid { font-size: 10px; color: #4a5568; user-select: all; margin-top: 2px; }
+
+    .badge { display: inline-flex; align-items: center; font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 500; white-space: nowrap; }
+    .b-google   { background: #1a3a5c; color: #60a5fa; }
+    .b-email    { background: #1a2e1a; color: #86efac; }
+    .b-pending  { background: #3b2e0a; color: #fbbf24; }
+    .b-approved { background: #0d2e1a; color: #4ade80; }
+    .b-rejected { background: #2e0d0d; color: #f87171; }
+    .b-suspended { background: #3b0d0d; color: #fca5a5; }
+    .b-verified  { background: #0d1e3b; color: #93c5fd; }
+
+    /* Points bar */
+    .points-bar { padding: 6px 16px 10px; }
+    .points-row { display: flex; align-items: center; gap: 10px; }
+    .points-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+    .points-track { flex: 1; height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .points-fill { height: 100%; border-radius: 999px; transition: width .3s; }
+    .points-num { font-size: 12px; font-weight: 700; white-space: nowrap; }
+
+    .card-img { padding: 0 16px 14px; }
+    .card-img img { width: 100%; max-height: 260px; object-fit: contain; border-radius: 8px; border: 1px solid var(--border); cursor: zoom-in; background: #000; }
+    .no-img { height: 64px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; background: var(--bg); border-radius: 8px; border: 1px dashed var(--border); }
+
+    .card-actions { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .time { font-size: 11px; color: var(--muted); margin-left: auto; }
+
+    .btn { padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
+    .btn:hover { opacity: .85; } .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-approve { background: var(--green); color: #000; }
+    .btn-reject  { background: var(--red); color: #fff; }
+    .btn-warn    { background: var(--orange); color: #000; }
+    .btn-reset   { background: var(--border); color: var(--muted); }
+    .btn-unsuspend { background: #1d4ed8; color: #fff; }
+
+    .action-box { padding: 10px 16px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+    .action-box.warn-box { background: rgba(249,115,22,.05); }
+    .action-box.reject-box { background: rgba(239,68,68,.05); }
+    .action-box label { font-size: 12px; color: var(--muted); }
+    .action-box select,
+    .action-box input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: var(--text); font-size: 13px; }
+    .action-box select:focus,
+    .action-box input:focus { outline: none; border-color: var(--accent); }
+    .action-box .row { display: flex; gap: 8px; }
+
+    .empty { text-align: center; padding: 60px 0; color: var(--muted); font-size: 14px; }
+    .loading { text-align: center; padding: 60px 0; color: var(--muted); }
+
+    .broadcast-wrap { padding: 20px 24px; max-width: 640px; }
+    .broadcast-wrap h2 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .broadcast-wrap p.desc { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    .broadcast-form { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .broadcast-form .fg { margin-bottom: 14px; }
+    .broadcast-form label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    .broadcast-form textarea,
+    .broadcast-form input[type="url"] { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-size: 14px; font-family: inherit; resize: vertical; }
+    .broadcast-form textarea:focus,
+    .broadcast-form input[type="url"]:focus { outline: none; border-color: var(--accent); }
+    .broadcast-form .preview-img { margin-top: 8px; max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid var(--border); display: none; }
+    .bc-footer { display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+    #bc-status { font-size: 13px; color: var(--muted); }
+
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal.open { display: flex; }
+    .modal img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
+    .modal-close { position: fixed; top: 18px; right: 22px; font-size: 28px; color: #fff; cursor: pointer; background: none; border: none; }
+
+    .section-hidden { display: none; }
+    @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Velix Admin</h1>
+  <span id="clock"></span>
+</header>
+
+<div class="stats">
+  <div class="stat-card"><div class="num c-yellow" id="s-pending">—</div><div class="lbl">待審驗證</div></div>
+  <div class="stat-card"><div class="num c-green"  id="s-approved">—</div><div class="lbl">已核准</div></div>
+  <div class="stat-card"><div class="num c-orange" id="s-suspended">—</div><div class="lbl">已停權</div></div>
+  <div class="stat-card"><div class="num"          id="s-users">—</div><div class="lbl">總用戶</div></div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="switchPage('verify')">身份驗證</button>
+  <button class="nav-btn" onclick="switchPage('users')">用戶管理</button>
+  <button class="nav-btn" onclick="switchPage('broadcast')">訊息發布</button>
+</div>
+
+<!-- 身份驗證頁 -->
+<div id="page-verify">
+  <div class="vtabs">
+    <button class="vtab active" onclick="switchVTab('pending')">待審核</button>
+    <button class="vtab" onclick="switchVTab('approved')">已核准</button>
+    <button class="vtab" onclick="switchVTab('rejected')">已拒絕</button>
+    <button class="vtab" onclick="switchVTab('all')">全部</button>
+  </div>
+  <div class="list" id="verify-list"><div class="loading">載入中...</div></div>
+</div>
+
+<!-- 訊息發布頁 -->
+<div id="page-broadcast" class="section-hidden">
+  <div class="broadcast-wrap">
+    <h2>📢 訊息發布</h2>
+    <p class="desc">發布後以「Velix 官方」名義建立貼文，並發送公告通知給所有用戶。</p>
+    <div class="broadcast-form">
+      <div class="fg">
+        <label>貼文內容 *</label>
+        <textarea id="bc-content" rows="6" placeholder="輸入廣播訊息內容...&#10;支援 #hashtag 標籤"></textarea>
+      </div>
+      <div class="fg">
+        <label>圖片（可選）</label>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label class="btn btn-reset" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+            📷 選擇圖片
+            <input type="file" id="bc-image-file" accept="image/*" style="display:none" onchange="onFileSelect(this,'bc-image-name','bc-img-prev')" />
+          </label>
+          <span id="bc-image-name" style="font-size:12px;color:var(--muted)">未選擇檔案</span>
+        </div>
+        <img id="bc-img-prev" class="preview-img" alt="圖片預覽" style="margin-top:8px" />
+      </div>
+      <div class="fg">
+        <label>影片（可選）</label>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label class="btn btn-reset" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+            🎬 選擇影片
+            <input type="file" id="bc-video-file" accept="video/*" style="display:none" onchange="onFileSelect(this,'bc-video-name',null)" />
+          </label>
+          <span id="bc-video-name" style="font-size:12px;color:var(--muted)">未選擇檔案</span>
+        </div>
+      </div>
+      <div class="fg">
+        <label>附加連結（可選）</label>
+        <input type="url" id="bc-link" placeholder="https://..." />
+      </div>
+      <div class="bc-footer">
+        <button id="bc-btn" class="btn btn-approve" style="padding:10px 28px;font-size:15px" onclick="publishBroadcast()">📢 發布廣播</button>
+        <span id="bc-status"></span>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <h3 style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">近期廣播記錄</h3>
+      <div id="bc-history"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 用戶管理頁 -->
+<div id="page-users" class="section-hidden">
+  <div class="search-bar">
+    <input type="search" id="user-search" placeholder="搜尋名稱、用戶名、Email..." oninput="filterUsers()" />
+  </div>
+  <div class="list" id="users-list"><div class="loading">載入中...</div></div>
+</div>
+
+<div class="modal" id="modal" onclick="closeModal()">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <img id="modal-img" src="" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+let currentPage = 'verify'
+let currentVTab = 'pending'
+let allUsers = []
+
+// ── 統計 ──────────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const d = await fetch('/api/stats').then(r => r.json())
+    document.getElementById('s-pending').textContent = d.pending
+    document.getElementById('s-approved').textContent = d.approved
+    document.getElementById('s-suspended').textContent = d.suspended ?? '—'
+    document.getElementById('s-users').textContent = d.totalUsers
+  } catch {}
+}
+
+// ── 頁面切換 ──────────────────────────────────────────────
+function switchPage(page) {
+  currentPage = page
+  document.querySelectorAll('.nav-btn').forEach((b, i) => b.classList.toggle('active', ['verify','users','broadcast'][i] === page))
+  document.getElementById('page-verify').classList.toggle('section-hidden', page !== 'verify')
+  document.getElementById('page-users').classList.toggle('section-hidden', page !== 'users')
+  document.getElementById('page-broadcast').classList.toggle('section-hidden', page !== 'broadcast')
+  if (page === 'users' && allUsers.length === 0) loadUsers()
+  if (page === 'broadcast') loadBroadcasts()
+}
+
+// ── 身份驗證 ──────────────────────────────────────────────
+async function loadVerifications(status) {
+  const list = document.getElementById('verify-list')
+  list.innerHTML = '<div class="loading">載入中...</div>'
+  try {
+    const data = await fetch(`/api/verifications?status=${status}`).then(r => r.json())
+    if (!Array.isArray(data)) { list.innerHTML = `<div class="empty">錯誤：${JSON.stringify(data)}</div>`; return }
+    if (!data.length) { list.innerHTML = '<div class="empty">沒有符合的申請</div>'; return }
+    list.innerHTML = data.map(renderVerifyCard).join('')
+  } catch (e) { list.innerHTML = `<div class="empty">載入失敗：${e.message}</div>` }
+}
+
+function switchVTab(status) {
+  currentVTab = status
+  document.querySelectorAll('.vtab').forEach((t, i) => t.classList.toggle('active', ['pending','approved','rejected','all'][i] === status))
+  loadVerifications(status)
+}
+
+function renderVerifyCard(v) {
+  const u = v.user || {}
+  const providerBadge = v.provider === 'google.com' ? `<span class="badge b-google">Google</span>` : `<span class="badge b-email">Email</span>`
+  const statusMap = { pending:'待審核', approved:'已核准', rejected:'已拒絕' }
+  const statusBadge = `<span class="badge b-${v.status}">${statusMap[v.status]||v.status}</span>`
+  const submitTime = v.submittedAt ? new Date(v.submittedAt).toLocaleString('zh-TW') : '—'
+  const reviewTime = v.reviewedAt ? new Date(v.reviewedAt).toLocaleString('zh-TW') : null
+  const avatarHtml = u.photoUrl ? `<img class="avatar" src="${u.photoUrl}" />` : `<div class="avatar">${((u.displayName||'?')[0]||'?').toUpperCase()}</div>`
+  const idImgHtml = v.idImageUrl
+    ? `<div><div style="font-size:11px;color:var(--muted);margin-bottom:4px">📄 身份證明文件</div><img src="${v.idImageUrl}" onclick="event.stopPropagation();openModal('${v.idImageUrl}')" title="點擊放大" /></div>`
+    : `<div class="no-img">尚未上傳身份文件</div>`
+  const selfieHtml = v.selfieUrl
+    ? `<div style="margin-top:8px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">🤳 人臉照片</div><img src="${v.selfieUrl}" onclick="event.stopPropagation();openModal('${v.selfieUrl}')" title="點擊放大" style="max-height:200px;object-fit:cover" /></div>`
+    : ''
+  const rejectReasonHtml = v.rejectReason ? `<div style="font-size:11px;color:#f87171;margin-top:2px">拒絕原因：${v.rejectReason}</div>` : ''
+  const actionsHtml = v.status === 'pending'
+    ? `<button class="btn btn-approve" onclick="approveVerify('${v.uid}')">核准</button><button class="btn btn-reject" onclick="toggleBox('rbox-${v.uid}')">拒絕</button><span class="time">提交：${submitTime}</span>`
+    : v.status === 'rejected'
+    ? `<button class="btn btn-reset" onclick="resetVerify('${v.uid}')">重置申請</button><button class="btn btn-reject" onclick="deleteVerification('${v.uid}')">刪除</button><span class="time">${reviewTime?'審核：'+reviewTime:'提交：'+submitTime}</span>`
+    : `<button class="btn btn-reset" onclick="resetVerify('${v.uid}')">重置申請</button><span class="time">${reviewTime?'審核：'+reviewTime:'提交：'+submitTime}</span>`
+  return `
+    <div class="card" id="card-${v.uid}">
+      <div class="card-head">${avatarHtml}<div class="user-info"><div class="name">${u.displayName||'（未知）'}</div><div class="meta"><span>@${u.username||'—'}</span><span>${v.email||'—'}</span>${providerBadge}${statusBadge}</div>${rejectReasonHtml}<div class="uid">UID: ${v.uid}</div></div></div>
+      <div class="card-img">${idImgHtml}${selfieHtml}</div>
+      <div class="card-actions">${actionsHtml}</div>
+      <div id="rbox-${v.uid}" style="display:none"><div class="action-box reject-box"><label>拒絕原因（可選）</label><input id="reason-${v.uid}" placeholder="文件不清晰、浮水印未加、非本人..." /><div class="row"><button class="btn btn-reject" style="flex:1" onclick="rejectVerify('${v.uid}')">確認拒絕</button><button class="btn btn-reset" onclick="toggleBox('rbox-${v.uid}')">取消</button></div></div></div>
+    </div>`
+}
+
+async function approveVerify(uid) {
+  if (!confirm('確認核准此用戶？')) return
+  const res = await fetch(`/api/verifications/${uid}/approve`, { method: 'POST' })
+  if (res.ok) { loadVerifications(currentVTab); loadStats() } else alert('失敗：'+(await res.json()).error)
+}
+async function rejectVerify(uid) {
+  const reason = document.getElementById(`reason-${uid}`).value.trim()
+  const res = await fetch(`/api/verifications/${uid}/reject`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({reason}) })
+  if (res.ok) { loadVerifications(currentVTab); loadStats() } else alert('失敗：'+(await res.json()).error)
+}
+async function resetVerify(uid) {
+  if (!confirm('重置後使用者需重新提交，確認？')) return
+  const res = await fetch(`/api/verifications/${uid}`, { method: 'DELETE' })
+  if (res.ok) { loadVerifications(currentVTab); loadStats() }
+}
+async function deleteVerification(uid) {
+  if (!confirm('確定要永久刪除此驗證紀錄？\n刪除後資料將不保留於伺服器，使用者需重新提交驗證。')) return
+  const res = await fetch(`/api/verifications/${uid}`, { method: 'DELETE' })
+  if (res.ok) { loadVerifications(currentVTab); loadStats() }
+  else alert('刪除失敗：' + (await res.json()).error)
+}
+
+// ── 用戶管理 ──────────────────────────────────────────────
+async function loadUsers() {
+  const list = document.getElementById('users-list')
+  list.innerHTML = '<div class="loading">載入中...</div>'
+  try {
+    allUsers = await fetch('/api/users').then(r => r.json())
+    renderUsers(allUsers)
+  } catch (e) { list.innerHTML = `<div class="empty">載入失敗：${e.message}</div>` }
+}
+
+function filterUsers() {
+  const q = document.getElementById('user-search').value.toLowerCase()
+  const filtered = allUsers.filter(u =>
+    (u.displayName||'').toLowerCase().includes(q) ||
+    (u.username||'').toLowerCase().includes(q) ||
+    (u.email||'').toLowerCase().includes(q)
+  )
+  renderUsers(filtered)
+}
+
+function renderUsers(users) {
+  const list = document.getElementById('users-list')
+  if (!users.length) { list.innerHTML = '<div class="empty">找不到用戶</div>'; return }
+  list.innerHTML = users.map(renderUserCard).join('')
+}
+
+const VIOLATIONS = [
+  { label:'輕微違規（+1點）', points:1 },
+  { label:'一般違規（+2點）', points:2 },
+  { label:'嚴重違規（+3點）', points:3 },
+  { label:'極嚴重違規（+5點）', points:5 },
+]
+
+function verifBadgeForUser(u) {
+  const vr = u.verificationRequest
+  if (u.verificationStatus === 'verified') return `<span class="badge b-approved">已驗證</span>`
+  if (!vr) return ''
+  if (vr.status === 'pending') return `<span class="badge b-pending">待審核</span>`
+  if (vr.status === 'rejected') return `<span class="badge b-rejected">驗證拒絕</span>`
+  return ''
+}
+
+function renderUserCard(u) {
+  const pts = u.violationPoints || 0
+  const pct = Math.min(pts / 10 * 100, 100)
+  const barColor = pts >= 10 ? '#ef4444' : pts >= 7 ? '#f97316' : pts >= 4 ? '#f59e0b' : '#22c55e'
+  const providerBadge = u.provider === 'google.com' ? `<span class="badge b-google">Google</span>` : `<span class="badge b-email">Email</span>`
+  const suspendedBadge = u.isSuspended ? `<span class="badge b-suspended">已停權</span>` : ''
+  const avatarHtml = u.photoUrl ? `<img class="avatar" src="${u.photoUrl}" />` : `<div class="avatar">${((u.displayName||'?')[0]||'?').toUpperCase()}</div>`
+  const joinDate = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-TW') : '—'
+  const violOpts = VIOLATIONS.map(v => `<option value="${v.points}">${v.label}</option>`).join('')
+  const unsuspendBtn = u.isSuspended
+    ? `<button class="btn btn-unsuspend" onclick="unsuspend('${u.uid}', false)">解除停權</button><button class="btn btn-reset" onclick="unsuspend('${u.uid}', true)">解除並清點</button>`
+    : ''
+  const vr = u.verificationRequest
+  const verifSection = vr ? `
+    <div class="card-img" style="padding-top:0">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">身份驗證申請 · ${vr.submittedAt ? new Date(vr.submittedAt).toLocaleString('zh-TW') : '—'}</div>
+      ${vr.idImageUrl
+        ? `<img src="${vr.idImageUrl}" onclick="event.stopPropagation();openModal('${vr.idImageUrl}')" title="點擊放大" style="width:100%;max-height:180px;object-fit:contain;border-radius:8px;border:1px solid var(--border);cursor:zoom-in;background:#000" />`
+        : `<div class="no-img">尚未上傳文件</div>`}
+      ${vr.status === 'pending' ? `
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn btn-approve" style="flex:1" onclick="approveFromUser('${u.uid}')">核准驗證</button>
+        <button class="btn btn-reject"  style="flex:1" onclick="toggleBox('urbox-${u.uid}')">拒絕驗證</button>
+      </div>
+      <div id="urbox-${u.uid}" style="display:none;margin-top:6px">
+        <input id="ureason-${u.uid}" placeholder="拒絕原因..." style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;margin-bottom:6px" />
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-reject" style="flex:1" onclick="rejectFromUser('${u.uid}')">確認拒絕</button>
+          <button class="btn btn-reset" onclick="toggleBox('urbox-${u.uid}')">取消</button>
+        </div>
+      </div>` : ''}
+    </div>` : ''
+
+  return `
+    <div class="card ${u.isSuspended ? 'suspended' : ''}" id="ucard-${u.uid}">
+      <div class="card-head">${avatarHtml}
+        <div class="user-info">
+          <div class="name">${u.displayName||'（未知）'}${suspendedBadge}${verifBadgeForUser(u)}</div>
+          <div class="meta"><span>@${u.username||'—'}</span><span>${u.email||'—'}</span>${providerBadge}</div>
+          <div class="meta" style="margin-top:2px"><span>貼文 ${u.postsCount||0}</span><span>追蹤者 ${u.followersCount||0}</span><span>加入 ${joinDate}</span></div>
+          <div class="uid">UID: ${u.uid}</div>
+        </div>
+      </div>
+      ${verifSection}
+      <div class="points-bar">
+        <div class="points-row">
+          <span class="points-label">違規點數</span>
+          <div class="points-track"><div class="points-fill" style="width:${pct}%;background:${barColor}"></div></div>
+          <span class="points-num" style="color:${barColor}">${pts} / 10</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-warn" onclick="toggleBox('wbox-${u.uid}')">新增違規</button>
+        <button class="btn btn-warn" onclick="toggleBox('dbox-${u.uid}')">刪除帳戶</button>
+        ${unsuspendBtn}
+        <span class="time">${u.isSuspended && u.suspendedAt ? '停權：'+new Date(u.suspendedAt).toLocaleString('zh-TW') : ''}</span>
+      </div>
+      <div id="wbox-${u.uid}" style="display:none">
+        <div class="action-box warn-box">
+          <label>違規類型</label>
+          <select id="wtype-${u.uid}">${violOpts}</select>
+          <label>違規原因（可選）</label>
+          <input id="wreason-${u.uid}" placeholder="例：發布仇恨言論、散布虛假資訊..." />
+          <div class="row">
+            <button class="btn btn-warn" style="flex:1" onclick="addViolation('${u.uid}')">確認新增</button>
+            <button class="btn btn-reset" onclick="toggleBox('wbox-${u.uid}')">取消</button>
+          </div>
+        </div>
+      </div>
+      <div id="dbox-${u.uid}" style="display:none">
+        <div class="action-box" style="background:rgba(239,68,68,.05)">
+          <div style="font-size:13px;color:#f87171;margin-bottom:4px">確定要刪除此帳戶？此操作無法復原！</div>
+          <div class="row">
+            <button class="btn btn-reject" style="flex:1" onclick="deleteUser('${u.uid}')">確認刪除</button>
+            <button class="btn btn-reset" onclick="toggleBox('dbox-${u.uid}')">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>`
+}
+
+async function addViolation(uid) {
+  const points = parseInt(document.getElementById(`wtype-${uid}`).value)
+  const reason = document.getElementById(`wreason-${uid}`).value.trim()
+  const res = await fetch(`/api/users/${uid}/violation`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ points, reason }),
+  })
+  const data = await res.json()
+  if (res.ok) {
+    if (data.isSuspended) alert(`⛔ 用戶違規點數達 ${data.newTotal} 點，已即刻停權`)
+    else alert(`⚠️ 已新增 ${points} 點，目前累計 ${data.newTotal} 點`)
+    loadUsers(); loadStats()
+  } else { alert('失敗：' + data.error) }
+}
+
+async function approveFromUser(uid) {
+  if (!confirm('確認核准此用戶的身份驗證？')) return
+  const res = await fetch(`/api/verifications/${uid}/approve`, { method: 'POST' })
+  if (res.ok) { loadUsers(); loadStats() } else alert('失敗：'+(await res.json()).error)
+}
+async function rejectFromUser(uid) {
+  const reason = document.getElementById(`ureason-${uid}`)?.value.trim() || ''
+  const res = await fetch(`/api/verifications/${uid}/reject`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({reason}) })
+  if (res.ok) { loadUsers(); loadStats() } else alert('失敗：'+(await res.json()).error)
+}
+
+async function unsuspend(uid, resetPoints) {
+  const msg = resetPoints ? '解除停權並清除所有違規點數？' : '解除停權（保留違規點數）？'
+  if (!confirm(msg)) return
+  const res = await fetch(`/api/users/${uid}/unsuspend`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ resetPoints }),
+  })
+  if (res.ok) { loadUsers(); loadStats() } else alert('失敗：'+(await res.json()).error)
+}
+
+async function deleteUser(uid) {
+  if (!confirm(`⚠️ 確定要永久刪除帳戶（${uid}）？此操作無法復原！`)) return
+  const res = await fetch(`/api/users/${uid}`, { method: 'DELETE' })
+  if (res.ok) { loadUsers(); loadStats() } else alert('失敗：'+(await res.json()).error)
+}
+
+// ── 廣播訊息 ──────────────────────────────────────────────
+const CLOUDINARY_CLOUD = 'dgopeoebw'
+const CLOUDINARY_PRESET = 'velix-posts'
+
+function onFileSelect(input, nameId, previewId) {
+  const file = input.files[0]
+  document.getElementById(nameId).textContent = file ? file.name : '未選擇檔案'
+  if (previewId) {
+    const prev = document.getElementById(previewId)
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = e => { prev.src = e.target.result; prev.style.display = 'block' }
+      reader.readAsDataURL(file)
+    } else {
+      prev.style.display = 'none'; prev.src = ''
+    }
+  }
+}
+
+async function uploadToCloudinary(file) {
+  const resourceType = file.type.startsWith('video/') ? 'video' : 'image'
+  const fd = new FormData()
+  fd.append('file', file)
+  fd.append('upload_preset', CLOUDINARY_PRESET)
+  fd.append('folder', 'broadcasts')
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/${resourceType}/upload`, { method: 'POST', body: fd })
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || '上傳失敗') }
+  return (await res.json()).secure_url
+}
+
+async function publishBroadcast() {
+  const content = document.getElementById('bc-content').value.trim()
+  if (!content) { alert('請輸入廣播內容'); return }
+  const imageFile = document.getElementById('bc-image-file').files[0]
+  const videoFile = document.getElementById('bc-video-file').files[0]
+  const linkUrl   = document.getElementById('bc-link').value.trim()
+
+  const btn = document.getElementById('bc-btn')
+  const statusEl = document.getElementById('bc-status')
+  btn.disabled = true
+
+  try {
+    let imageUrl = '', videoUrl = ''
+
+    if (imageFile) {
+      statusEl.textContent = '⬆️ 上傳圖片中...'
+      statusEl.style.color = 'var(--yellow)'
+      imageUrl = await uploadToCloudinary(imageFile)
+    }
+    if (videoFile) {
+      statusEl.textContent = '⬆️ 上傳影片中（可能需要較長時間）...'
+      statusEl.style.color = 'var(--yellow)'
+      videoUrl = await uploadToCloudinary(videoFile)
+    }
+
+    statusEl.textContent = '📢 發布中...'
+    const res = await fetch('/api/broadcast', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content, imageUrl, videoUrl, linkUrl }),
+    })
+    const data = await res.json()
+    if (res.ok) {
+      statusEl.textContent = `✅ 發布成功！已通知 ${data.notified} 位用戶`
+      statusEl.style.color = 'var(--green)'
+      document.getElementById('bc-content').value = ''
+      document.getElementById('bc-image-file').value = ''
+      document.getElementById('bc-video-file').value = ''
+      document.getElementById('bc-link').value = ''
+      document.getElementById('bc-image-name').textContent = '未選擇檔案'
+      document.getElementById('bc-video-name').textContent = '未選擇檔案'
+      document.getElementById('bc-img-prev').style.display = 'none'
+      loadBroadcasts()
+    } else {
+      statusEl.textContent = `❌ 失敗：${data.error}`
+      statusEl.style.color = 'var(--red)'
+    }
+  } catch (e) {
+    statusEl.textContent = `❌ 錯誤：${e.message}`
+    statusEl.style.color = 'var(--red)'
+  } finally {
+    btn.disabled = false
+  }
+}
+
+async function loadBroadcasts() {
+  const el = document.getElementById('bc-history')
+  el.innerHTML = '<div style="font-size:13px;color:var(--muted)">載入中...</div>'
+  try {
+    const data = await fetch('/api/broadcasts').then(r => r.json())
+    if (!Array.isArray(data) || !data.length) {
+      el.innerHTML = '<div style="font-size:13px;color:var(--muted)">尚無廣播記錄</div>'
+      return
+    }
+    el.innerHTML = data.map(renderBroadcastCard).join('')
+  } catch (e) {
+    el.innerHTML = `<div style="font-size:13px;color:var(--red)">載入失敗：${e.message}</div>`
+  }
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+function renderBroadcastCard(b) {
+  const time = b.createdAt ? new Date(b.createdAt).toLocaleString('zh-TW') : '—'
+  const imgHtml = b.imageUrl
+    ? `<img src="${b.imageUrl}" onclick="event.stopPropagation();openModal('${b.imageUrl}')" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;margin-top:8px;cursor:zoom-in" />`
+    : ''
+  const videoHtml = b.videoUrl
+    ? `<video src="${b.videoUrl}" controls style="width:100%;border-radius:8px;margin-top:8px;max-height:220px"></video>`
+    : ''
+  const linkHtml = b.linkUrl
+    ? `<a href="${b.linkUrl}" target="_blank" rel="noopener" style="font-size:12px;color:#60a5fa;margin-top:4px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🔗 ${escHtml(b.linkUrl)}</a>`
+    : ''
+  return `
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-head" style="align-items:flex-start">
+        <div class="avatar" style="background:var(--accent);color:#fff;font-size:15px;font-weight:700;flex-shrink:0">V</div>
+        <div class="user-info" style="flex:1;min-width:0">
+          <div class="name">Velix 官方 <span style="font-size:11px;font-weight:400;color:var(--muted)">廣播</span></div>
+          <div style="margin-top:6px;font-size:13px;color:var(--text);white-space:pre-wrap;word-break:break-word">${escHtml(b.content)}</div>
+          ${imgHtml}${videoHtml}${linkHtml}
+          <div style="font-size:11px;color:var(--muted);margin-top:8px">${time}</div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-reject" onclick="deleteBroadcast('${b.id}')">🗑 刪除廣播</button>
+        <span class="time" style="font-size:10px;color:#4a5568;user-select:all">${b.id}</span>
+      </div>
+    </div>`
+}
+
+async function deleteBroadcast(postId) {
+  if (!confirm('確定要永久刪除這則廣播？所有用戶的相關通知也會一併刪除，此操作無法復原。')) return
+  const res = await fetch(`/api/broadcasts/${postId}`, { method: 'DELETE' })
+  const data = await res.json()
+  if (res.ok) {
+    alert(`✅ 已刪除廣播，並清除 ${data.deletedNotifications} 則用戶通知`)
+    loadBroadcasts()
+  } else {
+    alert('刪除失敗：' + data.error)
+  }
+}
+
+// ── 共用 ──────────────────────────────────────────────────
+function toggleBox(id) { const el=document.getElementById(id); el.style.display = el.style.display==='none'?'block':'none' }
+function openModal(src) { document.getElementById('modal-img').src=src; document.getElementById('modal').classList.add('open') }
+function closeModal() { document.getElementById('modal').classList.remove('open') }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal() })
+setInterval(() => { document.getElementById('clock').textContent = new Date().toLocaleString('zh-TW') }, 1000)
+document.getElementById('clock').textContent = new Date().toLocaleString('zh-TW')
+
+loadStats()
+loadVerifications('pending')
+</script>
+</body>
+</html>

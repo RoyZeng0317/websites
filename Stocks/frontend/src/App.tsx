@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import AuthControls from './components/AuthControls'
 import AiConsultFloating from './components/AiConsultFloating'
+import NotificationBell from './components/NotificationBell'
 import HomePage from './pages/HomePage'
 import StockPage from './pages/StockPage'
 import JFVSPage from './pages/JFVSPage'
@@ -24,6 +25,7 @@ export default function App() {
               我的持股
             </a>
           </div>
+          <NotificationBell />
           <AuthControls />
         </div>
       </header>

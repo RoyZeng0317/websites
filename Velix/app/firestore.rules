@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── 用戶資料 ──────────────────────────────────────
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update: if request.auth != null &&
+                    (request.auth.uid == uid || onlyUpdatingFollowersCount());
+
+      match /following/{targetUid} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+      match /followers/{followerUid} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == followerUid;
+      }
+      match /notifications/{notifId} {
+        allow read, delete: if request.auth != null && request.auth.uid == uid;
+        allow create: if request.auth != null
+                      && request.resource.data.fromUserId == request.auth.uid;
+        allow update: if request.auth != null && request.auth.uid == uid;
+      }
+      match /followRequests/{requestorUid} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        allow create: if request.auth != null && request.auth.uid == requestorUid;
+        allow delete: if request.auth != null &&
+                      (request.auth.uid == uid || request.auth.uid == requestorUid);
+      }
+      match /reposts/{postId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+      match /bookmarks/{postId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+      match /drafts/{draftId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+      match /interactions/{interactionId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+
+    // ── 貼文 ─────────────────────────────────────────
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+                    && request.resource.data.authorId == request.auth.uid;
+      allow update: if request.auth != null
+                    && (resource.data.authorId == request.auth.uid
+                        || onlyUpdatingCounts());
+      allow delete: if request.auth != null
+                    && resource.data.authorId == request.auth.uid;
+
+      match /likes/{likeId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == likeId;
+      }
+      match /comments/{commentId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null
+                      && request.resource.data.authorId == request.auth.uid;
+        allow delete: if request.auth != null
+                      && resource.data.authorId == request.auth.uid;
+      }
+      match /reposts/{repostId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == repostId;
+      }
+    }
+
+    // ── 私訊 ─────────────────────────────────────────
+    match /messages/{chatId} {
+      // resource 可能為 null（聊天室尚不存在時讀取）
+      allow read: if request.auth != null &&
+                  (resource == null ||
+                   request.auth.uid in resource.data.participants);
+      allow create: if request.auth != null
+                    && request.auth.uid in request.resource.data.participants;
+      allow update, delete: if request.auth != null
+                            && request.auth.uid in resource.data.participants;
+
+      match /chat/{msgId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null
+                      && request.resource.data.senderId == request.auth.uid;
+        allow update: if request.auth != null;
+        allow delete: if request.auth != null;
+      }
+    }
+
+    // ── 身份驗證文件 ─────────────────────────────────────
+    match /verifications/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update: if request.auth != null && request.auth.uid == uid
+                    && resource.data.status == 'rejected';
+    }
+
+    function onlyUpdatingCounts() {
+      let allowed = ['likesCount', 'commentsCount', 'viewsCount', 'repostsCount'];
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowed);
+    }
+
+    function onlyUpdatingFollowersCount() {
+      let allowed = ['followersCount'];
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowed);
+    }
+  }
+}
