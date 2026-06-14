@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="P-Chats — 隱私聊天室" />
+    <title>P-Chats — 隱私聊天室</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#f97316" />
+
+    <!-- iOS PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="P-Chats" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+
+    <!-- Android PWA -->
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <style>
+      @keyframes dot-pulse {
+        0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+        40% { transform: scale(1); opacity: 1; }
+      }
+      #app-loading { display: flex; align-items: center; justify-content: center; height: 100dvh; }
+      #app-loading.hide { opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+    <script>
+      (function () {
+        var loading = document.getElementById('app-loading')
+        var root = document.getElementById('root')
+        if (!loading || !root) return
+        var ob = new MutationObserver(function () {
+          if (root.children.length > 0) {
+            loading.classList.add('hide')
+            setTimeout(function () { loading.remove() }, 300)
+            ob.disconnect()
+          }
+        })
+        ob.observe(root, { childList: true })
+      })()
+    </script>
+  </body>
+</html>

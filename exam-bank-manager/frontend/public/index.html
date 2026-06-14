@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>題庫管理系統</title>
+  <script>
+    var lang = (navigator.language || navigator.userLanguage || 'zh-TW').toLowerCase()
+    var target = lang.startsWith('zh') ? '/zh-tw' : '/en-us'
+    var path = location.pathname
+    if (path.startsWith('/zh-tw') || path.startsWith('/en-us')) {
+    } else {
+      location.replace(target + path.replace(/\/+$/, '') + location.search + location.hash)
+    }
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=/zh-tw">
+  </noscript>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="app">
+    <div class="auth-container">
+      <div class="auth-box" style="text-align:center">
+        <p class="auth-error">重新導向中…</p>
+        <p><a href="/zh-tw">正體中文</a> · <a href="/en-us">English</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

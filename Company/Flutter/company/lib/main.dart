@@ -96,7 +96,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
     }
     token ??= data;
 
-    if (token == null || token.isEmpty) {
+    if (token.isEmpty) {
       _showResult('無效的 QR Code', false);
       return;
     }
@@ -214,10 +214,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               padding: const EdgeInsets.all(8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: MobileScanner(
-                  controller: _scanner,
-                  onDetect: _onDetect,
-                ),
+                child: MobileScanner(controller: _scanner, onDetect: _onDetect),
               ),
             ),
           ),
@@ -242,10 +239,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '伺服器: $_serverHost',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: Colors.grey),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                     ),
                   ),
               ],
