@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <title>展星股份有限公司總網</title>
+    </head>
+    <body>
+        <h1>展星股份有限公司</h1>
+        <div id="controls">
+            <button id="btn-open" onclick="openQR()">打開簽到</button>
+            <button id="btn-close" onclick="closeQR()">關閉簽到</button>
+        </div>
+        <div id="bottom-links">
+            <a href="/sign_in/history" class="nav-link">查看簽到記錄</a>
+        </div>
+        <footer>&copy; Author: Roy Zeng</footer>
+        <script>
+            let qrWindow = null;
+
+            function openQR() {
+                if (qrWindow && !qrWindow.closed) {
+                    qrWindow.focus();
+                    return;
+                }
+                qrWindow = window.open('/sign_in/home', '_blank');
+            }
+
+            function closeQR() {
+                if (qrWindow && !qrWindow.closed) {
+                    qrWindow.close();
+                }
+                qrWindow = null;
+            }
+        </script>
+    </body>
+</html>

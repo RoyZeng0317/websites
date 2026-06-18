@@ -1,0 +1,2153 @@
+[
+  {
+    "id": 1,
+    "word": "apple",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "food",
+    "example": "I eat an apple every morning.",
+    "image_url": null
+  },
+  {
+    "id": 34,
+    "word": "coffee",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "drinks",
+    "example": "I will go to the convenient store buy a cup of coffee every morning.",
+    "image_url": null
+  },
+  {
+    "id": 25,
+    "word": "divided by",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "math",
+    "example": "six divided by two equals three.",
+    "image_url": null
+  },
+  {
+    "id": 23,
+    "word": "equal",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "math",
+    "example": "two times two equal four.",
+    "image_url": null
+  },
+  {
+    "id": 7,
+    "word": "equipment",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 35,
+    "word": "index finger",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "body",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 40,
+    "word": "instant noodles",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "food",
+    "example": "The instant noodles it's so convenience and quickly to eat it.",
+    "image_url": null
+  },
+  {
+    "id": 39,
+    "word": "little finger",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "body",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 37,
+    "word": "middle finger",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "body",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 24,
+    "word": "minus",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "math",
+    "example": "one minus two equal minus one.",
+    "image_url": null
+  },
+  {
+    "id": 33,
+    "word": "Monday",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "date",
+    "example": "People need to go to school or work at Monday, it's blue Monday.",
+    "image_url": null
+  },
+  {
+    "id": 22,
+    "word": "plus",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "math",
+    "example": "one plus one equal two.",
+    "image_url": null
+  },
+  {
+    "id": 38,
+    "word": "ring finger",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "body",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 36,
+    "word": "thumbs",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "body",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 5,
+    "word": "wheel",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "car",
+    "example": "We can use the wheel to control the car turn left or right.",
+    "image_url": null
+  },
+  {
+    "id": 8,
+    "word": "account",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I opened a new bank account.",
+    "image_url": null
+  },
+  {
+    "id": 171,
+    "word": "actually",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 30,
+    "word": "addiction",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Smoking is bad for your health and very hard addiction to break.",
+    "image_url": null
+  },
+  {
+    "id": 132,
+    "word": "all in all",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 210,
+    "word": "annoying",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "feeling",
+    "example": "The noise is so let me annoying.",
+    "image_url": null
+  },
+  {
+    "id": 184,
+    "word": "apologize",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Sorry, this is my bad, I apologize.",
+    "image_url": null
+  },
+  {
+    "id": 189,
+    "word": "application",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 9,
+    "word": "apply",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I want to apply for the job.",
+    "image_url": null
+  },
+  {
+    "id": 238,
+    "word": "appointment",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 181,
+    "word": "as soon as",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 26,
+    "word": "astonished",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "feeling",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 11,
+    "word": "attend",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "She attended the conference.",
+    "image_url": null
+  },
+  {
+    "id": 219,
+    "word": "attend",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 12,
+    "word": "available",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The product is available online.",
+    "image_url": null
+  },
+  {
+    "id": 156,
+    "word": "badminton",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "sports",
+    "example": "I play badminton every day.",
+    "image_url": null
+  },
+  {
+    "id": 228,
+    "word": "bassist",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 149,
+    "word": "be familiar with/to",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 2,
+    "word": "beautiful",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "general",
+    "example": "The sunset was beautiful.",
+    "image_url": null
+  },
+  {
+    "id": 90,
+    "word": "browser",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "internet",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 235,
+    "word": "can't get enough of sth.",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 15,
+    "word": "can't stand sb./sth.",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I can't stand rude people. They really annoy me.",
+    "image_url": null
+  },
+  {
+    "id": 42,
+    "word": "circuit",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "Electronics",
+    "example": "The circuit is every electronics products basic board.",
+    "image_url": null
+  },
+  {
+    "id": 43,
+    "word": "circuit dialog",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "electronics",
+    "example": "The circuit dialog it's the electronics products of important design picture.",
+    "image_url": null
+  },
+  {
+    "id": 124,
+    "word": "classmate",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "school",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 167,
+    "word": "comfortable",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "feeling",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 136,
+    "word": "Conclusion",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 6,
+    "word": "condition",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 129,
+    "word": "confident",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "feeling",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 170,
+    "word": "confuse",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 28,
+    "word": "connect",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The internet connects the world and allows us to learn more about each other.",
+    "image_url": null
+  },
+  {
+    "id": 182,
+    "word": "conversation",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 220,
+    "word": "cool",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 162,
+    "word": "cooperate",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "If TSMC and NVIDA cooperate together, it's will a big surprise.",
+    "image_url": null
+  },
+  {
+    "id": 233,
+    "word": "count on",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 204,
+    "word": "cuisine",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The beef noodles is Taiwan famous cuisine.",
+    "image_url": null
+  },
+  {
+    "id": 195,
+    "word": "culture",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The chinese is China ancient culture.",
+    "image_url": null
+  },
+  {
+    "id": 217,
+    "word": "cutlery",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 154,
+    "word": "deal with",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 130,
+    "word": "definitely",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 160,
+    "word": "definitely",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 203,
+    "word": "delicious",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "tastes",
+    "example": "The mango chop ice is so delicious, I pretty want to buy one eat at the home.",
+    "image_url": null
+  },
+  {
+    "id": 140,
+    "word": "destination",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 197,
+    "word": "develop",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "electronics",
+    "example": "I'm develop a app for everybody can use it and so  convenience.",
+    "image_url": null
+  },
+  {
+    "id": 196,
+    "word": "development",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 211,
+    "word": "dig in",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I'm dig in to develop the platform for everybody to use.",
+    "image_url": null
+  },
+  {
+    "id": 173,
+    "word": "disagree",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I disagree you opinion.",
+    "image_url": null
+  },
+  {
+    "id": 190,
+    "word": "dragon fruit",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "fruit",
+    "example": "My friend bob favorite fruit is dragon fruit",
+    "image_url": null
+  },
+  {
+    "id": 185,
+    "word": "dramatic",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 232,
+    "word": "electronic",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 88,
+    "word": "elegant",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 29,
+    "word": "entertainment",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Instagram and TikTok have become popular forms of  entertainment.",
+    "image_url": null
+  },
+  {
+    "id": 106,
+    "word": "explain",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 145,
+    "word": "explore",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 231,
+    "word": "festival",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "festival",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 178,
+    "word": "figure out",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 226,
+    "word": "form",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 141,
+    "word": "formal",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 16,
+    "word": "freeze",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "If the screen freezes, you should turn your phone off and on again.",
+    "image_url": null
+  },
+  {
+    "id": 127,
+    "word": "friendship",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "friend",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 221,
+    "word": "heard",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 237,
+    "word": "honestly",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Honestly, I forget to bring the key.",
+    "image_url": null
+  },
+  {
+    "id": 214,
+    "word": "impolite",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "You eat the meal are speaking is so impolite.",
+    "image_url": null
+  },
+  {
+    "id": 169,
+    "word": "impressive",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 122,
+    "word": "improve",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 133,
+    "word": "in other word",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 152,
+    "word": "in total",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 46,
+    "word": "incredible",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 236,
+    "word": "influence",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 142,
+    "word": "informal",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 230,
+    "word": "inspiration",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 135,
+    "word": "Instead of",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 216,
+    "word": "insult",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 138,
+    "word": "intelligence",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 186,
+    "word": "interesting",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "This is a interesting things.",
+    "image_url": null
+  },
+  {
+    "id": 198,
+    "word": "introduce",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "actions",
+    "example": "Let me introduce the TSMC this semiconductor company, it's Taiwan famous company.",
+    "image_url": null
+  },
+  {
+    "id": 157,
+    "word": "invest",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 199,
+    "word": "inviting",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "actions",
+    "example": "Thanks your inviting us to joining your birthday party.",
+    "image_url": null
+  },
+  {
+    "id": 208,
+    "word": "jellyfish",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "animals",
+    "example": "The jellyfish is living in the ocean, but we can't touch it, because we will be go to death.",
+    "image_url": null
+  },
+  {
+    "id": 227,
+    "word": "keyboard",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 18,
+    "word": "last",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "This fruit doesn't last very long, so you should eat it soon.",
+    "image_url": null
+  },
+  {
+    "id": 139,
+    "word": "location",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 148,
+    "word": "look forward to",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 206,
+    "word": "main course",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The rice, noodles, dumpling is main course.",
+    "image_url": null
+  },
+  {
+    "id": 174,
+    "word": "manager",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 137,
+    "word": "miss out sth.",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 176,
+    "word": "mistake",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 222,
+    "word": "mix",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "actions",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 225,
+    "word": "musician",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 223,
+    "word": "need",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 134,
+    "word": "not only but also",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 150,
+    "word": "observation",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 131,
+    "word": "obviously",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 123,
+    "word": "opportunity",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 21,
+    "word": "package",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "We offer package deals that include flights, hotels, and activities.",
+    "image_url": null
+  },
+  {
+    "id": 153,
+    "word": "pay attention to",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 159,
+    "word": "performance",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 193,
+    "word": "photographer",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "artist",
+    "example": "I really want to be a photographer.",
+    "image_url": null
+  },
+  {
+    "id": 146,
+    "word": "pick sb/sth. on",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 147,
+    "word": "platform",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "daily life",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 175,
+    "word": "possibility",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 202,
+    "word": "potluck",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Patrick prepared an apple pie, a pepperoni pizza, and a pasta dish to share at the potluck.",
+    "image_url": null
+  },
+  {
+    "id": 200,
+    "word": "prepare",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "actions",
+    "example": "I prepare the suitcase to go to the world.",
+    "image_url": null
+  },
+  {
+    "id": 32,
+    "word": "priority",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I turned my smartphone off because passing the test was my priority.",
+    "image_url": null
+  },
+  {
+    "id": 180,
+    "word": "probably",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 187,
+    "word": "publish",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 239,
+    "word": "punished",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 31,
+    "word": "reach",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Dad was angry, so he put my phone where I couldn't reach it.",
+    "image_url": null
+  },
+  {
+    "id": 143,
+    "word": "recently",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 207,
+    "word": "recipe",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "book",
+    "example": "Linghe Zhang like a  go where is a recipe, any food he can do it.",
+    "image_url": null
+  },
+  {
+    "id": 155,
+    "word": "refrigerator",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "appliance",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 19,
+    "word": "regret",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "I regret not  studying more in school because I'm finding it hard to get a good job.",
+    "image_url": null
+  },
+  {
+    "id": 128,
+    "word": "relationship",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "friend",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 17,
+    "word": "reliable",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Japanese cars are seen as reliable because they rarely break down.",
+    "image_url": null
+  },
+  {
+    "id": 41,
+    "word": "resistor",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "Electronics Circuit",
+    "example": "The resistor it's can reduce the current to pass.",
+    "image_url": null
+  },
+  {
+    "id": 125,
+    "word": "roommate",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "friend",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 192,
+    "word": "semiconductor",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "electronics",
+    "example": "TSMC is Taiwan huge semiconductor company.",
+    "image_url": null
+  },
+  {
+    "id": 151,
+    "word": "serious",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 161,
+    "word": "seriously",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 20,
+    "word": "sign up for sth.",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Sign up for yoga classes before January 1 and receive a free yoga mat!",
+    "image_url": null
+  },
+  {
+    "id": 27,
+    "word": "slave",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "Kate was a slave to her new start-up company, working 24/7 to make it a success.",
+    "image_url": null
+  },
+  {
+    "id": 126,
+    "word": "soulmate",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "friend",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 229,
+    "word": "spare",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 209,
+    "word": "spicy",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "tasty",
+    "example": "Chengdu, China is famous to eat the spicy hot pot or everything need to add the spicy.",
+    "image_url": null
+  },
+  {
+    "id": 179,
+    "word": "statement",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 158,
+    "word": "stocks",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 87,
+    "word": "subtitles",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "video",
+    "example": "Learning English skills, I recommend turn off the subtitles to watch video or movie.",
+    "image_url": null
+  },
+  {
+    "id": 44,
+    "word": "such as",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 218,
+    "word": "surprisingly",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 183,
+    "word": "swimming pool",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "environment",
+    "example": "Sometimes I'll go to swimming pool to go to swimming.",
+    "image_url": null
+  },
+  {
+    "id": 212,
+    "word": "table manners",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 205,
+    "word": "tasty",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 201,
+    "word": "taught",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 213,
+    "word": "therefore",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 172,
+    "word": "to be honest",
+    "part_of_speech": "phrase",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 144,
+    "word": "topic",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 166,
+    "word": "trick",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 168,
+    "word": "uncomfortable",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "feeling",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 164,
+    "word": "understand",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 14,
+    "word": "upgrade",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The company needed computers with more power, so they got an upgrade.",
+    "image_url": null
+  },
+  {
+    "id": 89,
+    "word": "vacuum",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "appliance",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 234,
+    "word": "version",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 194,
+    "word": "weird",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "feeling",
+    "example": "I feel you're so weird.",
+    "image_url": null
+  },
+  {
+    "id": 91,
+    "word": "wipes",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "daily products",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 45,
+    "word": "approach",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 10,
+    "word": "arrange",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "We arranged a meeting.",
+    "image_url": null
+  },
+  {
+    "id": 13,
+    "word": "balance",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "My easy card of balance are not enough.",
+    "image_url": null
+  },
+  {
+    "id": 177,
+    "word": "congratulations",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "Congratulations, you win the race!",
+    "image_url": null
+  },
+  {
+    "id": 163,
+    "word": "exhausted",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "feeling",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 188,
+    "word": "from my opinion",
+    "part_of_speech": "phrase",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 165,
+    "word": "misunderstand",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 3,
+    "word": "accomplish",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "She accomplished her goal after years of hard work.",
+    "image_url": null
+  },
+  {
+    "id": 92,
+    "word": "acknowledge",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 47,
+    "word": "acquire",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 48,
+    "word": "adequate",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 93,
+    "word": "anticipate",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 49,
+    "word": "apparent",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 50,
+    "word": "assess",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 94,
+    "word": "attribute",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 95,
+    "word": "boost",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 96,
+    "word": "capture",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 51,
+    "word": "circumstance",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 52,
+    "word": "complex",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 53,
+    "word": "consequently",
+    "part_of_speech": "adverb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 54,
+    "word": "considerable",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 55,
+    "word": "contribute",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 97,
+    "word": "conventional",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 98,
+    "word": "decline",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 56,
+    "word": "emphasize",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 99,
+    "word": "encounter",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 100,
+    "word": "enhance",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 57,
+    "word": "establish",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 58,
+    "word": "evaluate",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 59,
+    "word": "eventually",
+    "part_of_speech": "adverb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 215,
+    "word": "host",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 60,
+    "word": "implement",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 105,
+    "word": "interpret",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 61,
+    "word": "maintain",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 62,
+    "word": "modify",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 63,
+    "word": "obtain",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 64,
+    "word": "perceive",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 65,
+    "word": "regulate",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 109,
+    "word": "reinforce",
+    "part_of_speech": "verb",
+    "cefr_level": "B2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 66,
+    "word": "significant",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 191,
+    "word": "star fruit",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "fruit",
+    "example": "I pretty hate fruits is star fruit.",
+    "image_url": null
+  },
+  {
+    "id": 224,
+    "word": "that",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 111,
+    "word": "abundant",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 67,
+    "word": "advocate",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 68,
+    "word": "allocate",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 69,
+    "word": "coherent",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 113,
+    "word": "coherent",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 70,
+    "word": "compelling",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 71,
+    "word": "controversy",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 72,
+    "word": "derive",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 73,
+    "word": "diminish",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 4,
+    "word": "eloquent",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "general",
+    "example": "The politician gave an eloquent speech.",
+    "image_url": null
+  },
+  {
+    "id": 74,
+    "word": "facilitate",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 101,
+    "word": "fluctuate",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "TOEIC",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 102,
+    "word": "foster",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 103,
+    "word": "impose",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 75,
+    "word": "incentive",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 117,
+    "word": "indispensable",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 76,
+    "word": "inevitable",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 104,
+    "word": "inherent",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 107,
+    "word": "manipulate",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 108,
+    "word": "outweight",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 112,
+    "word": "reluctant",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 110,
+    "word": "sustain",
+    "part_of_speech": "verb",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 121,
+    "word": "vigorous",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 77,
+    "word": "ambiguous",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 78,
+    "word": "arbitrary",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 114,
+    "word": "discrepancy",
+    "part_of_speech": "noun",
+    "cefr_level": "C2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 115,
+    "word": "dubious",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 79,
+    "word": "eloquent",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 116,
+    "word": "empirical",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 118,
+    "word": "intricate",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 80,
+    "word": "meticulous",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 119,
+    "word": "negligible",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 81,
+    "word": "obsolete",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 82,
+    "word": "paradox",
+    "part_of_speech": "noun",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 120,
+    "word": "perpetual",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "toeic",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 84,
+    "word": "profound",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 83,
+    "word": "scrutinize",
+    "part_of_speech": "verb",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 85,
+    "word": "subtle",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 86,
+    "word": "versatile",
+    "part_of_speech": "adjective",
+    "cefr_level": "C2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  }
+]

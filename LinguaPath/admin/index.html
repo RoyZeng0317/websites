@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaPath Admin</title>
+  <link rel="icon" href="">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14; --surface: #161920; --surface2: #1e2029;
+      --border: #252830; --accent: #e8c97e; --accent2: #7eb8e8;
+      --text: #e8e6e0; --muted: #7a7870; --danger: #e87e7e; --success: #7ec8a0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 600; color: var(--accent); letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--text); font-weight: 300; }
+    .nav-actions { display: flex; gap: 0.6rem; }
+    .btn { padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+           cursor: pointer; border: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+    .btn-primary { background: var(--accent); color: #0d0f14; }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+    .btn-danger:hover { background: rgba(232,126,126,0.1); }
+    .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+
+    /* ── Layout ── */
+    #page-vocab {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 0;
+    }
+
+    /* ── Left Panel: Form ── */
+    .panel-left {
+      background: var(--surface); border-right: 1px solid var(--border);
+      overflow-y: auto; padding: 1.5rem;
+    }
+    .panel-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+                   letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1.2rem; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; }
+    input[type="text"], select, textarea {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.55rem 0.8rem;
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.15s;
+    }
+    input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--accent); }
+    select option { background: var(--surface); }
+    textarea { resize: vertical; min-height: 70px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .form-actions { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+    .form-actions .btn { flex: 1; padding: 0.6rem; }
+
+    .tag-cefr {
+      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em;
+    }
+    .cefr-A1 { background: rgba(126,200,160,0.15); color: #7ec8a0; border: 1px solid rgba(126,200,160,0.3); }
+    .cefr-A2 { background: rgba(126,200,160,0.1);  color: #9ed4b4; border: 1px solid rgba(126,200,160,0.2); }
+    .cefr-B1 { background: rgba(126,184,232,0.15); color: var(--accent2); border: 1px solid rgba(126,184,232,0.3); }
+    .cefr-B2 { background: rgba(126,184,232,0.1);  color: #9ecce8; border: 1px solid rgba(126,184,232,0.2); }
+    .cefr-C1 { background: rgba(232,201,126,0.15); color: var(--accent); border: 1px solid rgba(232,201,126,0.3); }
+    .cefr-C2 { background: rgba(232,126,126,0.15); color: var(--danger); border: 1px solid rgba(232,126,126,0.3); }
+
+    /* ── Right Panel: Table ── */
+    .panel-right { display: flex; flex-direction: column; overflow: hidden; }
+
+    .table-toolbar {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+      background: var(--surface2); flex-shrink: 0;
+    }
+    .toolbar-search {
+      flex: 1; position: relative;
+    }
+    .toolbar-search input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.5rem 0.8rem 0.5rem 2rem;
+      color: var(--text); font-family: 'DM Sans'; font-size: 0.85rem; outline: none;
+    }
+    .toolbar-search input:focus { border-color: var(--accent); }
+    .toolbar-search::before { content: '⌕'; position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; }
+    .filter-select { background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+                     padding: 0.5rem 0.7rem; color: var(--text); font-family: 'DM Sans'; font-size: 0.83rem; outline: none; }
+    .filter-select:focus { border-color: var(--accent); }
+    .stats-badge { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+
+    .table-wrap { flex: 1; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      position: sticky; top: 0; background: var(--surface2); z-index: 1;
+      padding: 0.7rem 1rem; text-align: left;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:hover { background: rgba(255,255,255,0.025); }
+    tbody tr.editing { background: rgba(232,201,126,0.06); }
+    td { padding: 0.65rem 1rem; font-size: 0.85rem; vertical-align: middle; }
+    td.word-col { font-weight: 500; color: var(--text); }
+    td.trans-col { color: var(--muted); }
+    td.ex-col { color: var(--muted); font-style: italic; font-size: 0.8rem; max-width: 220px;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    td.pos-col { font-size: 0.78rem; color: var(--accent2); }
+    td.action-col { text-align: right; white-space: nowrap; }
+    td.action-col .btn + .btn { margin-left: 0.4rem; }
+
+    /* ── Stats bar ── */
+    .stats-row {
+      display: flex; gap: 1.2rem; padding: 0.8rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface); flex-shrink: 0;
+    }
+    .stat-chip { font-size: 0.78rem; }
+    .stat-chip span { color: var(--accent); font-weight: 600; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.7rem 1.4rem;
+      font-size: 0.85rem; color: var(--text);
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999;
+    }
+    #toast.show { opacity: 1; }
+    #toast.ok   { border-color: var(--success); color: var(--success); }
+    #toast.err  { border-color: var(--danger);  color: var(--danger); }
+
+    /* ── Empty state ── */
+    .empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-size: 0.9rem; }
+    .empty-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+
+    /* ── Connection error banner ── */
+    #conn-error {
+      display: none; background: rgba(232,126,126,0.1);
+      border-bottom: 1px solid rgba(232,126,126,0.3);
+      padding: 0.6rem 1.5rem; font-size: 0.83rem; color: var(--danger);
+    }
+
+    /* ── Tab Navigation ── */
+    .tab-bar {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+      background: var(--surface); padding: 0 2rem;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.4rem; font-size: 0.85rem; font-weight: 500;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif; margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── Page sections ── */
+    .page { display: none; }
+    .page.active { display: flex; flex-direction: column; }
+    #page-vocab { flex-direction: row; height: calc(100vh - 108px); }
+    #page-users { height: calc(100vh - 108px); }
+
+    /* ── Users page ── */
+    .users-toolbar {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+      background: var(--surface2); flex-shrink: 0;
+    }
+    .users-table-wrap { flex: 1; overflow-y: auto; }
+
+    /* Avatar */
+    .user-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      object-fit: cover; vertical-align: middle;
+      background: var(--border);
+    }
+    .user-avatar-placeholder {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--border); display: inline-flex;
+      align-items: center; justify-content: center;
+      font-size: 0.75rem; color: var(--muted); font-weight: 600;
+      vertical-align: middle; flex-shrink: 0;
+    }
+
+    /* Status badges */
+    .badge {
+      display: inline-block; padding: 0.18rem 0.55rem;
+      border-radius: 4px; font-size: 0.72rem; font-weight: 600;
+    }
+    .badge-ok      { background: rgba(126,200,160,0.15); color: var(--success); border: 1px solid rgba(126,200,160,0.3); }
+    .badge-warn    { background: rgba(232,201,126,0.15); color: var(--accent);  border: 1px solid rgba(232,201,126,0.3); }
+    .badge-danger  { background: rgba(232,126,126,0.15); color: var(--danger);  border: 1px solid rgba(232,126,126,0.3); }
+
+    .provider-tag {
+      font-size: 0.75rem; color: var(--accent2); background: rgba(126,184,232,0.1);
+      border: 1px solid rgba(126,184,232,0.2); border-radius: 4px;
+      padding: 0.15rem 0.45rem;
+    }
+
+    .user-info-cell { display: flex; align-items: center; gap: 0.7rem; }
+
+    /* Load more */
+    .load-more-bar {
+      padding: 0.8rem 1.5rem; text-align: center;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Lingua<span>Path</span> &nbsp;/&nbsp; Admin</div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost" id="nav-export" onclick="exportJSON()">⬇ Export JSON</button>
+    <button class="btn btn-primary" id="nav-publish" onclick="publishVocab()">🚀 Publish to Site</button>
+    <button class="btn btn-ghost" onclick="refreshCurrent()">↻ Refresh</button>
+  </div>
+</nav>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('vocab')">📚 Vocabulary</button>
+  <button class="tab-btn" onclick="switchTab('users')">👥 Users</button>
+</div>
+
+<div id="conn-error">⚠ Cannot connect to API server. Make sure <code>node server.js</code> is running on port 3002.</div>
+
+<!-- ══════════════════════════════════════════════════════ VOCABULARY PAGE -->
+<div id="page-vocab" class="page active">
+
+  <!-- ── Left: Add / Edit form ── -->
+  <div class="panel-left">
+    <div class="panel-title" id="form-mode-label">Add New Word</div>
+
+    <input type="hidden" id="edit-id"/>
+
+    <div class="form-group">
+      <label>English Word *</label>
+      <input type="text" id="f-word" placeholder="e.g. accomplish" autocomplete="off"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Part of Speech</label>
+        <select id="f-pos">
+          <option value="noun">Noun</option>
+          <option value="verb">Verb</option>
+          <option value="adjective">Adjective</option>
+          <option value="adverb">Adverb</option>
+          <option value="preposition">Preposition</option>
+          <option value="conjunction">Conjunction</option>
+          <option value="phrase">Phrase</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>CEFR Level</label>
+        <select id="f-cefr">
+          <option value="A1">A1 — Beginner</option>
+          <option value="A2">A2 — Elementary</option>
+          <option value="B1">B1 — Intermediate</option>
+          <option value="B2" selected>B2 — Upper-Intermediate</option>
+          <option value="C1">C1 — Advanced</option>
+          <option value="C2">C2 — Proficiency</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Category / Topic Tag</label>
+      <input type="text" id="f-cat" placeholder="e.g. food, travel, business, academic…"/>
+    </div>
+    <div class="form-group">
+      <label>Example Sentence</label>
+      <textarea id="f-ex" placeholder="e.g. She accomplished her goal after years of hard work."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Image URL <span style="font-weight:400;opacity:0.6">(Cloudinary / Unsplash / any URL)</span></label>
+      <input type="text" id="f-img" placeholder="https://…" oninput="previewImage()"/>
+      <div id="img-preview" style="margin-top:0.6rem;display:none">
+        <img id="img-preview-el" src="" alt="" style="max-width:100%;max-height:140px;border-radius:8px;border:1px solid var(--border);object-fit:cover" onerror="this.parentElement.style.display='none'"/>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Add Word</button>
+      <button class="btn btn-ghost" id="cancel-btn" onclick="resetForm()" style="display:none">Cancel</button>
+    </div>
+
+    <!-- Stats -->
+    <div style="margin-top:2rem; padding-top:1.2rem; border-top:1px solid var(--border);">
+      <div class="panel-title">Statistics</div>
+      <div id="stats-content" style="font-size:0.83rem; color:var(--muted); line-height:1.9">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ── Right: Vocabulary Table ── -->
+  <div class="panel-right">
+    <div class="table-toolbar">
+      <div class="toolbar-search">
+        <input type="text" id="search-input" placeholder="Search word or translation…" oninput="debounceSearch()"/>
+      </div>
+      <select class="filter-select" id="filter-cefr" onchange="loadVocab()">
+        <option value="">All Levels</option>
+        <option value="A1">A1</option>
+        <option value="A2">A2</option>
+        <option value="B1">B1</option>
+        <option value="B2">B2</option>
+        <option value="C1">C1</option>
+        <option value="C2">C2</option>
+      </select>
+      <select class="filter-select" id="filter-pos" onchange="loadVocab()">
+        <option value="">All POS</option>
+        <option value="noun">Noun</option>
+        <option value="verb">Verb</option>
+        <option value="adjective">Adjective</option>
+        <option value="adverb">Adverb</option>
+        <option value="phrase">Phrase</option>
+      </select>
+      <span class="stats-badge" id="count-badge">— words</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:44px"></th>
+            <th style="width:150px">Word</th>
+            <th style="width:80px">POS</th>
+            <th style="width:60px">CEFR</th>
+            <th style="width:80px">Category</th>
+            <th>Example</th>
+            <th style="width:120px; text-align:right">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="vocab-tbody">
+          <tr><td colspan="7" class="empty"><span class="empty-icon">⏳</span>Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><!-- end #page-vocab -->
+
+<!-- ══════════════════════════════════════════════════════ USERS PAGE -->
+<div id="page-users" class="page">
+  <div class="users-toolbar">
+    <div class="toolbar-search">
+      <input type="text" id="user-search" placeholder="Search email or name…" oninput="debounceUserSearch()"/>
+    </div>
+    <span class="stats-badge" id="user-count-badge">— users</span>
+  </div>
+
+  <div class="users-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:280px">User</th>
+          <th style="width:130px">Provider</th>
+          <th style="width:90px">Verified</th>
+          <th style="width:90px">Status</th>
+          <th style="width:160px">Created</th>
+          <th style="width:160px">Last Sign-in</th>
+          <th style="width:100px;text-align:right">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="users-tbody">
+        <tr><td colspan="7" class="empty"><span class="empty-icon">⏳</span>Loading…</td></tr>
+      </tbody>
+    </table>
+    <div class="load-more-bar" id="load-more-bar" style="display:none">
+      <button class="btn btn-ghost" onclick="loadMoreUsers()">Load more users</button>
+    </div>
+  </div>
+</div><!-- end #page-users -->
+
+<div id="toast"></div>
+
+<script>
+  const API = 'http://localhost:3002/api';
+  let searchTimer = null;
+
+  // ── Toast ──────────────────────────────────────────────────────────────────
+  function toast(msg, type = 'ok') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = 'show ' + type;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.className = ''; }, 2500);
+  }
+
+  // ── Load vocabulary ────────────────────────────────────────────────────────
+  async function loadVocab() {
+    const q     = document.getElementById('search-input').value.trim();
+    const cefr  = document.getElementById('filter-cefr').value;
+    const pos   = document.getElementById('filter-pos').value;
+
+    const params = new URLSearchParams();
+    if (q)    params.set('q',    q);
+    if (cefr) params.set('cefr', cefr);
+    if (pos)  params.set('pos',  pos);
+
+    try {
+      const resp = await fetch(`${API}/vocab?${params}`);
+      if (!resp.ok) throw new Error('Server error');
+      document.getElementById('conn-error').style.display = 'none';
+      const rows = await resp.json();
+      renderTable(rows);
+      document.getElementById('count-badge').textContent = rows.length + ' word' + (rows.length !== 1 ? 's' : '');
+      loadStats();
+    } catch (err) {
+      if (currentTab === 'vocab') document.getElementById('conn-error').style.display = 'block';
+      document.getElementById('vocab-tbody').innerHTML =
+        `<tr><td colspan="7" class="empty"><span class="empty-icon">⚠️</span>Cannot reach API. Run: <code>node server.js</code></td></tr>`;
+    }
+  }
+
+  function renderTable(rows) {
+    const tbody = document.getElementById('vocab-tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty"><span class="empty-icon">📭</span>No words found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(r => `
+      <tr id="row-${r.id}">
+        <td style="padding:0.4rem 0.5rem 0.4rem 1rem">
+          ${r.image_url
+            ? `<img src="${esc(r.image_url)}" style="width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border)" onerror="this.style.display='none'">`
+            : `<div style="width:36px;height:36px;border-radius:6px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--muted)">🖼</div>`}
+        </td>
+        <td class="word-col">${esc(r.word)}</td>
+        <td class="pos-col">${esc(r.part_of_speech)}</td>
+        <td><span class="tag-cefr cefr-${r.cefr_level}">${r.cefr_level}</span></td>
+        <td style="font-size:0.78rem;color:var(--muted)">${esc(r.category||'—')}</td>
+        <td class="ex-col" title="${esc(r.example||'')}">${esc(r.example||'—')}</td>
+        <td class="action-col">
+          <button class="btn btn-ghost btn-sm" onclick="editRow(${r.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteRow(${r.id}, '${esc(r.word)}')">Del</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function esc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Stats ──────────────────────────────────────────────────────────────────
+  async function loadStats() {
+    try {
+      const resp = await fetch(`${API}/stats`);
+      const s = await resp.json();
+      const levelMap = Object.fromEntries((s.byLevel||[]).map(r => [r.cefr_level, r.cnt]));
+      document.getElementById('stats-content').innerHTML = `
+        <strong>Total:</strong> ${s.total} words<br>
+        A1: ${levelMap.A1||0} &nbsp; A2: ${levelMap.A2||0} &nbsp; B1: ${levelMap.B1||0}<br>
+        B2: ${levelMap.B2||0} &nbsp; C1: ${levelMap.C1||0} &nbsp; C2: ${levelMap.C2||0}
+      `;
+    } catch { /* ignore */ }
+  }
+
+  // ── Submit form (Add / Update) ─────────────────────────────────────────────
+  async function submitForm() {
+    const id    = document.getElementById('edit-id').value;
+    const word  = document.getElementById('f-word').value.trim();
+    if (!word) { toast('Word is required', 'err'); return; }
+
+    const body = {
+      word,
+      part_of_speech: document.getElementById('f-pos').value,
+      cefr_level:     document.getElementById('f-cefr').value,
+      category:       document.getElementById('f-cat').value.trim(),
+      example:        document.getElementById('f-ex').value.trim(),
+      image_url:      document.getElementById('f-img').value.trim()
+    };
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    try {
+      const resp = await fetch(`${API}/vocab${id ? '/' + id : ''}`, {
+        method:  id ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(body)
+      });
+      if (!resp.ok) { const e = await resp.json(); throw new Error(e.error); }
+      toast(id ? `"${word}" updated!` : `"${word}" added!`, 'ok');
+      resetForm();
+      loadVocab();
+    } catch (err) {
+      toast(err.message || 'Failed to save', 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // ── Edit ───────────────────────────────────────────────────────────────────
+  async function editRow(id) {
+    try {
+      const resp = await fetch(`${API}/vocab/${id}`);
+      const r = await resp.json();
+      document.getElementById('edit-id').value          = r.id;
+      document.getElementById('f-word').value           = r.word;
+      document.getElementById('f-pos').value            = r.part_of_speech;
+      document.getElementById('f-cefr').value           = r.cefr_level;
+      document.getElementById('f-cat').value            = r.category || '';
+      document.getElementById('f-ex').value             = r.example || '';
+      document.getElementById('f-img').value            = r.image_url || '';
+      previewImage();
+      document.getElementById('submit-btn').textContent = 'Update Word';
+      document.getElementById('cancel-btn').style.display = 'inline-block';
+      document.getElementById('form-mode-label').textContent = 'Edit Word';
+      document.getElementById('f-word').focus();
+      // highlight row
+      document.querySelectorAll('tr.editing').forEach(el => el.classList.remove('editing'));
+      const row = document.getElementById('row-' + id);
+      if (row) row.classList.add('editing');
+    } catch { toast('Failed to load word', 'err'); }
+  }
+
+  // ── Delete ─────────────────────────────────────────────────────────────────
+  async function deleteRow(id, word) {
+    if (!confirm(`Delete "${word}"?`)) return;
+    try {
+      await fetch(`${API}/vocab/${id}`, { method: 'DELETE' });
+      toast(`"${word}" deleted`, 'ok');
+      // reset form if deleting the item being edited
+      if (document.getElementById('edit-id').value == id) resetForm();
+      loadVocab();
+    } catch { toast('Delete failed', 'err'); }
+  }
+
+  // ── Reset form ─────────────────────────────────────────────────────────────
+  function resetForm() {
+    document.getElementById('edit-id').value            = '';
+    document.getElementById('f-word').value             = '';
+    document.getElementById('f-pos').value              = 'noun';
+    document.getElementById('f-cefr').value             = 'B2';
+    document.getElementById('f-cat').value              = '';
+    document.getElementById('f-ex').value               = '';
+    document.getElementById('f-img').value              = '';
+    document.getElementById('img-preview').style.display = 'none';
+    document.getElementById('submit-btn').textContent   = 'Add Word';
+    document.getElementById('cancel-btn').style.display = 'none';
+    document.getElementById('form-mode-label').textContent = 'Add New Word';
+    document.querySelectorAll('tr.editing').forEach(el => el.classList.remove('editing'));
+  }
+
+  // ── Image preview ──────────────────────────────────────────────────────────
+  function previewImage() {
+    const url  = document.getElementById('f-img').value.trim();
+    const wrap = document.getElementById('img-preview');
+    const img  = document.getElementById('img-preview-el');
+    if (url) { img.src = url; wrap.style.display = 'block'; }
+    else { wrap.style.display = 'none'; }
+  }
+
+  // ── Export JSON ────────────────────────────────────────────────────────────
+  function exportJSON() {
+    window.open(`${API}/export`, '_blank');
+  }
+
+  // ── Publish to Site ────────────────────────────────────────────────────────
+  async function publishVocab() {
+    const btn = document.getElementById('nav-publish');
+    btn.disabled = true; btn.textContent = '⏳ Deploying…';
+    try {
+      const resp = await fetch(`${API}/publish`, { method: 'POST' });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error);
+      toast(`✓ ${data.count} words published & deployed to Firebase`, 'ok');
+    } catch (err) {
+      toast('Publish failed: ' + (err.message || 'unknown'), 'err');
+    } finally {
+      btn.disabled = false; btn.textContent = '🚀 Publish to Site';
+    }
+  }
+
+  // ── Debounce search ────────────────────────────────────────────────────────
+  function debounceSearch() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(loadVocab, 320);
+  }
+
+  // ── Tab switching ──────────────────────────────────────────────────────────
+  let currentTab = 'vocab';
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('conn-error').style.display = 'none'; // reset per-tab
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'vocab') || (i === 1 && tab === 'users'));
+    });
+    document.getElementById('page-vocab').classList.toggle('active', tab === 'vocab');
+    document.getElementById('page-users').classList.toggle('active', tab === 'users');
+    if (tab === 'users') loadUsers();
+  }
+
+  function refreshCurrent() {
+    if (currentTab === 'vocab') loadVocab();
+    else { userNextPage = null; loadUsers(); }
+  }
+
+  // ── Users ──────────────────────────────────────────────────────────────────
+  let userNextPage = null;
+  let userSearchTimer = null;
+
+  function debounceUserSearch() {
+    clearTimeout(userSearchTimer);
+    userSearchTimer = setTimeout(() => { userNextPage = null; loadUsers(); }, 350);
+  }
+
+  async function loadUsers(append = false) {
+    const q = document.getElementById('user-search').value.trim();
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (!q && userNextPage) params.set('pageToken', userNextPage);
+
+    try {
+      const resp = await fetch(`${API}/users?${params}`);
+      const data = await resp.json();
+      document.getElementById('conn-error').style.display = 'none';
+
+      if (data.error === 'firebase_not_configured') {
+        document.getElementById('users-tbody').innerHTML = `
+          <tr><td colspan="7" class="empty">
+            <span class="empty-icon">🔑</span>
+            Firebase Admin not configured.<br>
+            <small>Place <code>serviceAccount.json</code> in <code>admin/</code> or set <code>GOOGLE_APPLICATION_CREDENTIALS</code> and restart.</small>
+          </td></tr>`;
+        document.getElementById('load-more-bar').style.display = 'none';
+        return;
+      }
+
+      if (data.error) throw new Error(data.error);
+
+      const users = data.users || [];
+      userNextPage = data.nextPage || null;
+
+      if (append) {
+        document.getElementById('users-tbody').insertAdjacentHTML('beforeend', renderUserRows(users));
+      } else {
+        document.getElementById('users-tbody').innerHTML = users.length
+          ? renderUserRows(users)
+          : '<tr><td colspan="7" class="empty"><span class="empty-icon">📭</span>No users found.</td></tr>';
+      }
+
+      const badge = document.getElementById('user-count-badge');
+      const total = append
+        ? parseInt(badge.dataset.count || 0) + users.length
+        : users.length;
+      badge.dataset.count = total;
+      badge.textContent = total + ' user' + (total !== 1 ? 's' : '') + (userNextPage ? '+' : '');
+      document.getElementById('load-more-bar').style.display = (!q && userNextPage) ? 'block' : 'none';
+    } catch (err) {
+      if (currentTab === 'users') document.getElementById('conn-error').style.display = 'block';
+      document.getElementById('users-tbody').innerHTML =
+        `<tr><td colspan="7" class="empty"><span class="empty-icon">⚠️</span>Cannot reach API.</td></tr>`;
+    }
+  }
+
+  function loadMoreUsers() { loadUsers(true); }
+
+  function renderUserRows(users) {
+    return users.map(u => {
+      const initials = (u.displayName || u.email || '?').charAt(0).toUpperCase();
+      const avatar = u.photoURL
+        ? `<img class="user-avatar" src="${esc(u.photoURL)}" alt="" onerror="this.style.display='none'">`
+        : `<div class="user-avatar-placeholder">${initials}</div>`;
+      const verified = u.emailVerified
+        ? '<span class="badge badge-ok">✓ Verified</span>'
+        : '<span class="badge badge-warn">Unverified</span>';
+      const status = u.disabled
+        ? '<span class="badge badge-danger">Disabled</span>'
+        : '<span class="badge badge-ok">Active</span>';
+      const providers = u.provider.split(', ').map(p => {
+        const label = p === 'google.com' ? 'Google' : p === 'password' ? 'Email' : p;
+        return `<span class="provider-tag">${label}</span>`;
+      }).join(' ');
+      const created  = u.createdAt  ? new Date(u.createdAt).toLocaleDateString()  : '—';
+      const lastSign = u.lastSignIn ? new Date(u.lastSignIn).toLocaleDateString() : '—';
+      const toggleLabel = u.disabled ? 'Enable' : 'Disable';
+      return `
+        <tr>
+          <td><div class="user-info-cell">${avatar}<div>
+            <div style="font-weight:500">${esc(u.displayName || '—')}</div>
+            <div style="font-size:0.78rem;color:var(--muted)">${esc(u.email)}</div>
+          </div></div></td>
+          <td>${providers}</td>
+          <td>${verified}</td>
+          <td>${status}</td>
+          <td style="font-size:0.8rem;color:var(--muted)">${created}</td>
+          <td style="font-size:0.8rem;color:var(--muted)">${lastSign}</td>
+          <td class="action-col">
+            <button class="btn btn-ghost btn-sm" onclick="toggleDisable('${u.uid}', ${u.disabled})">${toggleLabel}</button>
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  async function toggleDisable(uid, currentlyDisabled) {
+    const action = currentlyDisabled ? 'enable' : 'disable';
+    if (!confirm(`${action.charAt(0).toUpperCase() + action.slice(1)} this user?`)) return;
+    try {
+      const resp = await fetch(`${API}/users/${uid}/disable`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ disabled: !currentlyDisabled })
+      });
+      if (!resp.ok) throw new Error((await resp.json()).error);
+      toast(`User ${action}d`, 'ok');
+      loadUsers();
+    } catch (err) { toast(err.message || 'Failed', 'err'); }
+  }
+
+  // ── Init ───────────────────────────────────────────────────────────────────
+  document.getElementById('f-word').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitForm();
+  });
+
+  loadVocab();
+</script>
+</body>
+</html>

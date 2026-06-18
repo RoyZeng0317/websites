@@ -1,0 +1,285 @@
+.pay-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.pay-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.pay-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.pay-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.pay-auth-prompt {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.pay-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.pay-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pay-btn-google {
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  margin-top: 1rem;
+}
+
+.pay-btn-subscribe {
+  background: #4a90e2;
+  color: #fff;
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 1rem;
+}
+
+.pay-btn-current {
+  background: #28a745;
+  color: #fff;
+  width: 100%;
+}
+
+.pay-btn-cancel {
+  background: transparent;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  margin-top: 1rem;
+}
+
+.pay-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.pay-plan-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pay-plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.pay-plan-active {
+  border: 2px solid #28a745;
+}
+
+.pay-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.pay-plan-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.pay-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4a90e2;
+  margin: 0.5rem 0;
+}
+
+.pay-period {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #666;
+}
+
+.pay-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  flex: 1;
+}
+
+.pay-features li {
+  padding: 0.4rem 0;
+  color: #444;
+}
+
+.pay-features li::before {
+  content: '✓';
+  color: #28a745;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.pay-error {
+  background: #fff5f5;
+  color: #dc3545;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.pay-current-plan {
+  margin-bottom: 2rem;
+}
+
+.pay-current-card {
+  background: #f0fff4;
+  border: 1px solid #b7e4c7;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.pay-cancelled {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.pay-loading {
+  text-align: center;
+  color: #888;
+  padding: 2rem;
+}
+
+.pay-payment-section {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pay-btn-back {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+}
+
+.pay-btn-back:hover {
+  text-decoration: underline;
+}
+
+.pay-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 1rem 0 2rem;
+}
+
+.pay-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.pay-method-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-align: left;
+}
+
+.pay-method-btn:hover {
+  border-color: #4a90e2;
+}
+
+.pay-method-active {
+  border-color: #4a90e2;
+  background: #f0f7ff;
+}
+
+.pay-method-icon {
+  font-size: 1.5rem;
+  width: 2rem;
+  text-align: center;
+}
+
+.pay-btn-full {
+  width: 100%;
+}
+
+.pay-paypal-wrapper {
+  margin-top: 1rem;
+  min-height: 45px;
+}
+
+.paypal-button-container {
+  min-height: 45px;
+}
+
+.pay-btn-paypal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffc439;
+  color: #111;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.pay-btn-paypal:hover {
+  background: #f2ba3a;
+}
+
+.paypal-logo {
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.pay-paypal-note {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #888;
+}

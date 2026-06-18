@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="public/icons.svg">
+  <title>LinguaPath — Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    .pay-page { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+    .pay-header { text-align: center; margin-bottom: 3.5rem; }
+    .pay-header .tag {
+      display: inline-block; font-size: 0.78rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+    }
+    .pay-header h1 {
+      font-family: 'Playfair Display', serif; font-size: 2.6rem; margin-bottom: 0.75rem;
+    }
+    .pay-header p { color: var(--muted); font-size: 1.05rem; }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .plan-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.8rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .plan-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .plan-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(232,201,126,0.12);
+    }
+
+    .plan-badge {
+      position: absolute; top: -13px; right: 20px;
+      background: var(--accent); color: #0d0f14;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.25rem 0.85rem;
+      border-radius: 20px;
+    }
+
+    .plan-name {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .plan-price {
+      font-size: 2.4rem; font-weight: 700; color: var(--accent);
+      margin: 0.5rem 0 0.2rem; line-height: 1;
+    }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .plan-period { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+    .plan-features {
+      list-style: none; flex: 1; margin-bottom: 1.8rem;
+    }
+    .plan-features li {
+      padding: 0.45rem 0; font-size: 0.9rem;
+      color: rgba(232,230,224,0.85);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .plan-features li::before {
+      content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0;
+    }
+
+    .plan-btn {
+      display: block; width: 100%; padding: 0.8rem;
+      background: var(--accent); color: #0d0f14;
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
+      border: none; border-radius: 8px; cursor: pointer;
+      text-align: center; text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .plan-btn:hover { opacity: 0.88; }
+    .plan-btn.ghost {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .plan-btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Payment modal */
+    .pay-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 500;
+      align-items: center; justify-content: center;
+    }
+    .pay-modal-overlay.open { display: flex; }
+    .pay-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem; width: 100%; max-width: 420px;
+      animation: fadeUp 0.3s ease;
+    }
+    .pay-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .pay-modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+    .pay-modal-close {
+      background: none; border: none; color: var(--muted);
+      font-size: 1.3rem; cursor: pointer; padding: 0;
+    }
+    .pay-modal-close:hover { color: var(--text); }
+    .pay-modal-plan {
+      background: rgba(232,201,126,0.07); border: 1px solid rgba(232,201,126,0.2);
+      border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .pay-modal-plan-name { font-weight: 500; }
+    .pay-modal-plan-price { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+
+    .pay-method-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; }
+
+    .pay-paypal-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      width: 100%; padding: 0.85rem;
+      background: #ffc439; color: #111;
+      font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700;
+      border: none; border-radius: 10px; cursor: pointer;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .pay-paypal-btn:hover { background: #f2ba3a; }
+    .pay-paypal-logo { font-style: italic; font-size: 1.1rem; letter-spacing: 0.3px; }
+
+    .pay-note { margin-top: 0.75rem; font-size: 0.8rem; color: var(--muted); text-align: center; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+    .faq-section { margin-top: 4rem; }
+    .faq-section h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 1.5rem; text-align: center; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 1rem 0; }
+    .faq-item summary {
+      font-size: 0.95rem; font-weight: 500; cursor: pointer;
+      color: var(--text); list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-item summary::after { content: '+'; color: var(--accent); font-size: 1.2rem; }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p { margin-top: 0.75rem; font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><a href="index.html" class="link"><img src="public/icons.svg" alt="" width="20px" height="20px">Lingua<span>Path</span></a></div>
+  <div class="nav-right">
+    <a href="vocabulary.html" class="btn btn-ghost">Vocabulary Card</a>
+    <a href="path.html" class="btn btn-ghost">Learning Path</a>
+    <a href="pay.html" class="btn btn-primary">Pricing</a>
+    <div id="user-info" style="display:none">
+      <img id="user-avatar" src="" alt="avatar"/>
+      <span id="user-name"></span>
+      <a href="dashboard.html" class="btn btn-ghost">My Progress</a>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <div id="auth-buttons">
+      <button class="btn btn-ghost" id="signin-btn">Sign In</button>
+      <button class="btn btn-ghost" id="signup-btn">Get Started</button>
+    </div>
+    <a href="#" class="link theme-toggle-icon" onclick="themeToggle()">☀️</a>
+  </div>
+</nav>
+
+<div class="pay-page">
+
+  <div class="pay-header">
+    <div class="tag">✦ Simple Pricing</div>
+    <h1>Upgrade Your Learning</h1>
+    <p>Choose the plan that fits your goals. Cancel anytime.</p>
+  </div>
+
+  <div class="plans-grid">
+
+    <!-- Monthly -->
+    <div class="plan-card">
+      <div class="plan-name">Monthly</div>
+      <div class="plan-price">NT$299<span>/mo</span></div>
+      <div class="plan-period">Billed monthly</div>
+      <ul class="plan-features">
+        <li>Full vocabulary access</li>
+        <li>Daily word of the day</li>
+        <li>Progress tracking</li>
+        <li>Basic speaking exercises</li>
+      </ul>
+      <button class="plan-btn ghost" onclick="openPayModal('Monthly', 'NT$299', 'month')">Get Started</button>
+    </div>
+
+    <!-- Quarterly -->
+    <div class="plan-card">
+      <div class="plan-name">Quarterly</div>
+      <div class="plan-price">NT$599<span>/3mo</span></div>
+      <div class="plan-period">Billed every 3 months — save 33%</div>
+      <ul class="plan-features">
+        <li>Everything in Monthly</li>
+        <li>Advanced grammar lessons</li>
+        <li>Speech recognition</li>
+        <li>Priority support</li>
+      </ul>
+      <button class="plan-btn ghost" onclick="openPayModal('Quarterly', 'NT$599', '3 months')">Get Started</button>
+    </div>
+
+    <!-- Yearly -->
+    <div class="plan-card featured">
+      <div class="plan-badge">Best Value</div>
+      <div class="plan-name">Yearly</div>
+      <div class="plan-price">NT$1,999<span>/yr</span></div>
+      <div class="plan-period">Billed annually — save 44%</div>
+      <ul class="plan-features">
+        <li>Everything in Quarterly</li>
+        <li>AI-powered tutoring</li>
+        <li>Unlimited practice tests</li>
+        <li>Certificate of completion</li>
+      </ul>
+      <button class="plan-btn" onclick="openPayModal('Yearly', 'NT$1,999', 'year')">Get Started</button>
+    </div>
+
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <details class="faq-item">
+      <summary>Can I cancel anytime?</summary>
+      <p>Yes. You can cancel your subscription at any time. You'll retain access until the end of your current billing period.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Which payment methods are accepted?</summary>
+      <p>We accept PayPal, which supports credit cards, debit cards, and PayPal balance in most countries.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Is there a free trial?</summary>
+      <p>LinguaPath's core content — including all lessons and courses — is free forever. Premium plans unlock advanced features.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What happens after I pay?</summary>
+      <p>Once your PayPal payment is confirmed, your account is upgraded immediately. Progress tracking and premium features are activated on your next sign-in.</p>
+    </details>
+  </div>
+
+</div>
+
+<!-- Payment Modal -->
+<div class="pay-modal-overlay" id="pay-modal-overlay">
+  <div class="pay-modal">
+    <div class="pay-modal-header">
+      <h3>Complete Payment</h3>
+      <button class="pay-modal-close" onclick="closePayModal()">✕</button>
+    </div>
+    <div class="pay-modal-plan">
+      <span class="pay-modal-plan-name" id="modal-plan-name">—</span>
+      <span class="pay-modal-plan-price" id="modal-plan-price">—</span>
+    </div>
+    <div class="pay-method-label">Pay securely with</div>
+    <a id="paypal-link" href="https://www.paypal.com/ncp/payment/637B7RSLSZ78A"
+       target="_blank" rel="noopener noreferrer" class="pay-paypal-btn">
+      <span class="pay-paypal-logo">PayPal</span>
+      <span>— Pay Now</span>
+    </a>
+    <p class="pay-note">Opens PayPal in a new tab. Return here once payment is complete.</p>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h2 id="modal-title">Welcome back</h2>
+    <p id="modal-subtitle">Sign in to track your progress</p>
+    <div class="tab-switch">
+      <button class="tab-btn active" id="tab-signin">Sign In</button>
+      <button class="tab-btn" id="tab-signup">Sign Up</button>
+    </div>
+    <button class="btn-google" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div class="divider">or</div>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="email-input" placeholder="you@example.com"/>
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password-input" placeholder="••••••••"/>
+    </div>
+    <div class="error-msg" id="auth-error"></div>
+    <button class="btn btn-primary btn-full" id="auth-submit">Sign In</button>
+  </div>
+</div>
+
+<div class="contact-us">
+  <span>Contact us</span>
+  <label class="email">Email: boyud9.5@yahoo.com</label>
+  <div class="account">
+    <label>Account</label>
+    <ul><li><a href="" class="link">My Account</a></li></ul>
+  </div>
+  <div class="about-us">
+    <label>About Us</label>
+    <ul>
+      <li><a href="" class="link">Our Business</a></li>
+      <li><a href="" class="link">Careers</a></li>
+    </ul>
+  </div>
+  <div class="other">
+    <label>Other link</label>
+    <ul>
+      <li><a href="" class="link">GEPT</a></li>
+      <li><a href="" class="link">BESTEP</a></li>
+      <li><a href="" class="link">ITELS</a></li>
+      <li><a href="" class="link">TOEFL</a></li>
+    </ul>
+  </div>
+  <div class="society">
+    <a href="" class="link"><i class="fa-brands fa-facebook"></i></a>
+    <a href="" class="link"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="" class="link"><i class="fa-brands fa-instagram"></i></a>
+    <a href="" class="link"><i class="fa-brands fa-youtube"></i></a>
+    <a href="mailto:boyud9.5@yahoo.com" class="link"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+</div>
+<footer>Copyright&copy; 2026<a class="link" href="https://royzeng0317.github.io/HTML/en-us/index.html">Roy Zeng</a>. All Rights Reserved. Version: 2.1.8</footer>
+
+<script src="script.js"></script>
+<script type="module" src="account.js"></script>
+<script>
+  function openPayModal(name, price, period) {
+    document.getElementById('modal-plan-name').textContent = name + ' — ' + period;
+    document.getElementById('modal-plan-price').textContent = price;
+    document.getElementById('pay-modal-overlay').classList.add('open');
+  }
+  function closePayModal() {
+    document.getElementById('pay-modal-overlay').classList.remove('open');
+  }
+  document.getElementById('pay-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closePayModal();
+  });
+</script>
+</body>
+</html>

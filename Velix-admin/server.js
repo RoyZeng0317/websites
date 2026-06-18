@@ -3,13 +3,17 @@ const express = require('express')
 const admin = require('firebase-admin')
 const path = require('path')
 
+const keyPath = process.env.GOOGLE_APPLICATION_CREDENTIALS
+if (!keyPath) {
+  console.error('❌ 未設定 GOOGLE_APPLICATION_CREDENTIALS 環境變數')
+  console.error('   請在 .env 檔案中加入：GOOGLE_APPLICATION_CREDENTIALS=金鑰路徑')
+  process.exit(1)
+}
 let serviceAccount
 try {
-  serviceAccount = require('./serviceAccount.json')
+  serviceAccount = JSON.parse(require('fs').readFileSync(keyPath, 'utf8'))
 } catch {
-  console.error('❌ 找不到 serviceAccount.json')
-  console.error('   請至 Firebase Console → 專案設定 → 服務帳戶 → 產生新的私密金鑰')
-  console.error('   下載後改名為 serviceAccount.json 放入此資料夾')
+  console.error(`❌ 讀取 Service Account Key 失敗：${keyPath}`)
   process.exit(1)
 }
 
