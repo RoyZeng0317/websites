@@ -7,6 +7,8 @@ import type {
   RealtimePrice,
   AiConsultResponse,
   EtfAnalysisData,
+  AttentionStockItem,
+  DispositionStockItem,
 } from '../types/stock'
 
 const BASE = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -110,9 +112,17 @@ export async function getBatchPrices(
     const res = await fetch(`${BASE}/prices?symbols=${symbols.map(encodeURIComponent).join(',')}`)
     if (!res.ok) throw new Error('batch prices failed')
     const list: { symbol: string; price: number; change: number; changePercent: number }[] = await res.json()
-    return Object.fromEntries(list.map((item) => [item.symbol, item]))
+    const map = Object.fromEntries(list.map((item) => [item.symbol, item]))
+    // If batch returned all-zeros (endpoint exists but data bad), fallback
+    const allZero = list.every((item) => item.price === 0)
+    if (allZero) throw new Error('all zero')
+    return map
   } catch {
-    return {}
+    // Fallback: individual fetches (works even if /api/prices doesn't exist yet)
+    const entries = await Promise.all(
+      symbols.map(async (sym) => [sym, await getPrice(sym)] as const)
+    )
+    return Object.fromEntries(entries)
   }
 }
 
@@ -268,6 +278,28 @@ export async function consultAi(symbol: string, question: string): Promise<AiCon
   })
   if (!res.ok) throw new Error('AI consultation failed')
   return res.json()
+}
+
+export async function getAttentionStocks(): Promise<AttentionStockItem[]> {
+  try {
+    const res = await fetch(`${BASE}/attention-stocks`)
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.stocks ?? []
+  } catch {
+    return []
+  }
+}
+
+export async function getDispositionStocks(): Promise<DispositionStockItem[]> {
+  try {
+    const res = await fetch(`${BASE}/disposition-stocks`)
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.stocks ?? []
+  } catch {
+    return []
+  }
 }
 
 export function formatCurrency(value: number | null | undefined, currency = 'USD'): string {

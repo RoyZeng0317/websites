@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import PortfolioOverview from '../components/PortfolioOverview'
+import AttentionStocks from '../components/AttentionStocks'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { getWatchlist, removeFromWatchlist, type WatchlistItem } from '../utils/watchlist'
 import { Star, X } from 'lucide-react'
@@ -231,6 +232,10 @@ export default function HomePage() {
       </div>
 
       <SearchBar />
+
+      <ErrorBoundary>
+        <AttentionStocks />
+      </ErrorBoundary>
 
       {watchlist.length > 0 && (
         <div>

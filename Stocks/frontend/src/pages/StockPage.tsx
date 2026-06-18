@@ -20,7 +20,7 @@ import ETFHoldings from '../components/ETFHoldings'
 import AiConsult from '../components/AiConsult'
 import WatchlistButton from '../components/WatchlistButton'
 import ErrorBoundary from '../components/ErrorBoundary'
-import { ArrowLeft, AlertCircle } from 'lucide-react'
+import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon } from 'lucide-react'
 
 export default function StockPage() {
   const { symbol } = useParams<{ symbol: string }>()
@@ -84,9 +84,34 @@ export default function StockPage() {
 
       <StockHeader info={info} />
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         <WatchlistButton symbol={symbol!} name={info.nameCn || info.name} />
       </div>
+
+      {info.isDispositionStock && (
+        <div className="flex items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-4">
+          <AlertOctagon size={18} className="text-rose-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <div className="text-sm font-semibold text-rose-300">此股票目前為處置股</div>
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+              交易所已對本股採取「分盤撮合」措施（每 5 分鐘撮合一次），成交速度較慢、流動性降低。
+              投資人在買賣前請充分評估風險，避免因流動性不足造成損失。
+            </p>
+          </div>
+        </div>
+      )}
+
+      {info.isAttentionStock && !info.isDispositionStock && (
+        <div className="flex items-start gap-3 rounded-xl border border-yellow-500/25 bg-yellow-500/8 px-4 py-4">
+          <AlertTriangle size={18} className="text-yellow-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <div className="text-sm font-semibold text-yellow-300">此股票目前為注意股</div>
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+              交易所因股價或成交量異常，將本股列入注意觀察。投資人應謹慎評估，避免追高殺低。
+            </p>
+          </div>
+        </div>
+      )}
 
       <ErrorBoundary>
         <HoldingTracker

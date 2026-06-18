@@ -1,7 +1,7 @@
 import type { StockInfo, RealtimePrice } from '../types/stock'
 import { useState } from 'react'
 import { usePriceWebSocket } from '../hooks/usePriceWebSocket'
-import { Globe, Users, TrendingUp, DollarSign } from 'lucide-react'
+import { Globe, Users, TrendingUp, DollarSign, AlertTriangle, AlertOctagon } from 'lucide-react'
 
 interface Props {
   info: StockInfo
@@ -39,6 +39,21 @@ export default function StockHeader({ info }: Props) {
               <div className="text-xs text-slate-400 mt-0.5">{info.nameEn}</div>
             )}
           </div>
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
+            {info.isDispositionStock && (
+              <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-rose-500/15 px-2.5 py-0.5 text-xs font-semibold text-rose-400">
+                <AlertOctagon size={11} />
+                處置股
+              </span>
+            )}
+            {info.isAttentionStock && (
+              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-500/40 bg-yellow-500/15 px-2.5 py-0.5 text-xs font-semibold text-yellow-400">
+                <AlertTriangle size={11} />
+                注意股
+              </span>
+            )}
+          </div>
+
           <div className="flex items-baseline gap-3 mt-2">
             <span className="text-4xl font-bold text-slate-100">
               {price.toFixed(2)}

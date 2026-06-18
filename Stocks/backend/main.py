@@ -600,6 +600,121 @@ FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "")
 _TWSE_BWIBBU_CACHE = {"data": None, "time": 0}
 _TWSE_BWIBBU_TTL = 3600  # 1 hour cache
 
+# 注意股 / 處置股 cache
+_TWSE_ATTENTION_CACHE: dict = {"codes": set(), "detail": [], "time": 0}
+_TWSE_DISPOSITION_CACHE: dict = {"codes": set(), "detail": [], "time": 0}
+_TWSE_WARNING_TTL = 1800  # 30 minutes
+
+
+def _roc_to_ad(date_str: str) -> str:
+    """Convert ROC date string (113/12/20 or 1131220) to YYYY/MM/DD."""
+    s = str(date_str).strip()
+    try:
+        if "/" in s:
+            parts = s.split("/")
+            if len(parts) == 3 and len(parts[0]) <= 3:
+                return f"{int(parts[0]) + 1911}/{parts[1]}/{parts[2]}"
+            return s
+        if len(s) == 7:  # 1131220
+            return f"{int(s[:3]) + 1911}/{s[3:5]}/{s[5:7]}"
+    except Exception:
+        pass
+    return s
+
+
+def _fetch_twse_attention() -> dict:
+    """
+    Fetch 注意股 from TWSE announcement/notice.
+    Response fields: [編號, 證券代號, 證券名稱, 累計次數, 注意交易資訊, 日期, 收盤價, 本益比]
+    """
+    now = time.time()
+    if _TWSE_ATTENTION_CACHE["codes"] and now - _TWSE_ATTENTION_CACHE["time"] < _TWSE_WARNING_TTL:
+        return _TWSE_ATTENTION_CACHE
+
+    codes: set = set()
+    detail: list = []
+
+    try:
+        r = requests.get(
+            "https://www.twse.com.tw/announcement/notice?response=json",
+            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
+            timeout=10,
+        )
+        if r.status_code == 200:
+            payload = r.json()
+            if payload.get("stat") == "OK":
+                for row in payload.get("data", []):
+                    if not isinstance(row, list) or len(row) < 3:
+                        continue
+                    code = str(row[1]).strip()
+                    name = str(row[2]).strip()
+                    criteria = str(row[4]).strip() if len(row) > 4 else ""
+                    date = _roc_to_ad(str(row[5]).strip()) if len(row) > 5 else ""
+                    if code:
+                        codes.add(code)
+                        detail.append({
+                            "symbol": f"{code}.TW",
+                            "name": name,
+                            "date": date,
+                            "criteria": criteria,
+                        })
+    except Exception:
+        pass
+
+    _TWSE_ATTENTION_CACHE["codes"] = codes
+    _TWSE_ATTENTION_CACHE["detail"] = detail
+    _TWSE_ATTENTION_CACHE["time"] = now
+    return _TWSE_ATTENTION_CACHE
+
+
+def _fetch_twse_disposition() -> dict:
+    """
+    Fetch 處置股 from TWSE announcement/punish.
+    Response fields: [編號, 公布日期, 證券代號, 證券名稱, 累計, 處置條件, 處置起迄時間, 處置措施, 處置內容, 備註]
+    """
+    now = time.time()
+    if _TWSE_DISPOSITION_CACHE["codes"] and now - _TWSE_DISPOSITION_CACHE["time"] < _TWSE_WARNING_TTL:
+        return _TWSE_DISPOSITION_CACHE
+
+    codes: set = set()
+    detail: list = []
+
+    try:
+        r = requests.get(
+            "https://www.twse.com.tw/announcement/punish?response=json",
+            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
+            timeout=10,
+        )
+        if r.status_code == 200:
+            payload = r.json()
+            if payload.get("stat") == "OK":
+                for row in payload.get("data", []):
+                    if not isinstance(row, list) or len(row) < 4:
+                        continue
+                    code = str(row[2]).strip()
+                    name = str(row[3]).strip()
+                    period = str(row[6]).strip() if len(row) > 6 else ""
+                    parts = period.split("～")
+                    start = _roc_to_ad(parts[0].strip()) if parts else ""
+                    end = _roc_to_ad(parts[1].strip()) if len(parts) > 1 else ""
+                    method = str(row[7]).strip() if len(row) > 7 else ""
+                    if code:
+                        codes.add(code)
+                        detail.append({
+                            "symbol": f"{code}.TW",
+                            "name": name,
+                            "startDate": start,
+                            "endDate": end,
+                            "method": method,
+                        })
+    except Exception:
+        pass
+
+    _TWSE_DISPOSITION_CACHE["codes"] = codes
+    _TWSE_DISPOSITION_CACHE["detail"] = detail
+    _TWSE_DISPOSITION_CACHE["time"] = now
+    return _TWSE_DISPOSITION_CACHE
+
 
 def _load_bwibbu_fallback():
     """Load BWIBBU data from local fallback file."""
@@ -2001,6 +2116,22 @@ def _add_company_info_and_premium(result: dict, symbol: str, current_price: floa
         result["_fairValueMethod"] = fair_method
         result["_premium"] = ((current_price - fair_value) / fair_value) * 100
 
+    # 注意股 / 處置股 flags (TW stocks only)
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        stock_no = symbol.replace(".TW", "").replace(".TWO", "")
+        try:
+            attn = _fetch_twse_attention()
+            result["_isAttentionStock"] = stock_no in attn["codes"]
+            disp = _fetch_twse_disposition()
+            result["_isDispositionStock"] = stock_no in disp["codes"]
+        except Exception:
+            result["_isAttentionStock"] = False
+            result["_isDispositionStock"] = False
+    else:
+        result["_isAttentionStock"] = False
+        result["_isDispositionStock"] = False
+
+
 def _get_stock_info(symbol: str) -> dict:
     cache_key = f"info_{symbol}"
     now_val = time.time()
@@ -2313,9 +2444,34 @@ async def get_stock_info(symbol: str):
         "fundFamily": safe_str(info.get("fundFamily")),
         "category": safe_str(info.get("category")),
         "isETF": info.get("isETF", False),
+        # 注意股 / 處置股
+        "isAttentionStock": bool(info.get("_isAttentionStock", False)),
+        "isDispositionStock": bool(info.get("_isDispositionStock", False)),
     }
 
     return result
+
+
+@app.get("/api/attention-stocks")
+async def get_attention_stocks():
+    """Return current TWSE 注意股 list."""
+    try:
+        loop = asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, _fetch_twse_attention)
+        return {"stocks": data["detail"], "count": len(data["detail"])}
+    except Exception as e:
+        return {"stocks": [], "count": 0, "error": str(e)}
+
+
+@app.get("/api/disposition-stocks")
+async def get_disposition_stocks():
+    """Return current TWSE 處置股 list."""
+    try:
+        loop = asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, _fetch_twse_disposition)
+        return {"stocks": data["detail"], "count": len(data["detail"])}
+    except Exception as e:
+        return {"stocks": [], "count": 0, "error": str(e)}
 
 
 @app.get("/api/debug/{symbol}")
