@@ -97,6 +97,9 @@ export interface StockInfo {
   fax?: string | null
   companyEmail?: string | null
   isETF?: boolean
+  // 注意股 / 處置股
+  isAttentionStock?: boolean
+  isDispositionStock?: boolean
   // ETF-specific fields
   ytdReturn?: number | null
   totalAssets?: number | null
@@ -290,6 +293,21 @@ export interface EtfScore {
   percentage: number
   details: EtfScoreDetail[]
   rating: string
+}
+
+export interface AttentionStockItem {
+  symbol: string
+  name: string
+  date: string
+  criteria: string
+}
+
+export interface DispositionStockItem {
+  symbol: string
+  name: string
+  startDate: string
+  endDate: string
+  method: string
 }
 
 export interface EtfAnalysisData {
