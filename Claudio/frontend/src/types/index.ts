@@ -1,8 +1,10 @@
 export interface Song {
   name: string
   filename: string
-  url: string
+  url: string       // empty string for YT Music songs (resolved on demand)
   artist?: string
+  albumArt?: string // YouTube thumbnail URL
+  videoId?: string  // YouTube video ID
 }
 
 export interface ChatMessage {

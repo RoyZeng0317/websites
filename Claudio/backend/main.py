@@ -3,27 +3,48 @@ from __future__ import annotations
 import json
 import os
 import re
+import tempfile
+import time
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 import anthropic
 from dotenv import load_dotenv
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 load_dotenv(Path(__file__).parent / "data" / ".env")
 
-# Render: support Google credentials as JSON string env var
-_creds_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
-if _creds_json and not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
-    import tempfile
-    _tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
-    _tmp.write(_creds_json)
-    _tmp.flush()
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _tmp.name
+# ── Google TTS credentials (Render: JSON string → temp file) ──────────────
+_gcp_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
+if _gcp_json and not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+    _gcp_tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+    _gcp_tmp.write(_gcp_json)
+    _gcp_tmp.flush()
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _gcp_tmp.name
 
+# ── YouTube Music auth (Render: JSON string → temp file) ──────────────────
+_ytm_headers_json = os.getenv("YTMUSIC_HEADERS_JSON")
+_ytmusic: Any = None
+
+if _ytm_headers_json:
+    try:
+        from ytmusicapi import YTMusic  # type: ignore
+        _ytm_tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+        _ytm_tmp.write(_ytm_headers_json)
+        _ytm_tmp.flush()
+        _ytmusic = YTMusic(_ytm_tmp.name)
+        print("[YTMusic] Authenticated OK")
+    except Exception as e:
+        print(f"[YTMusic] Auth failed: {e}")
+
+# ── Stream URL cache: videoId → (url, expiry) ─────────────────────────────
+_stream_cache: dict[str, tuple[str, float]] = {}
+
+# ── App ───────────────────────────────────────────────────────────────────
 app = FastAPI(title="Claudio AI Radio")
 
 _raw_origins = os.getenv("ALLOWED_ORIGINS", "")
@@ -57,6 +78,7 @@ DJ_SYSTEM = """你是 Claudio，一位充滿個人魅力的 AI 電台 DJ。風�
 - 充滿能量，像在真實直播一樣"""
 
 
+# ── WebSocket manager ─────────────────────────────────────────────────────
 class ConnectionManager:
     def __init__(self) -> None:
         self._connections: list[WebSocket] = []
@@ -82,6 +104,7 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
+# ── Helpers ───────────────────────────────────────────────────────────────
 async def _tts(text: str) -> str | None:
     try:
         from google.cloud import texttospeech  # type: ignore
@@ -120,6 +143,25 @@ def _dj_say(prompt: str) -> str:
     return resp.content[0].text  # type: ignore[index]
 
 
+def _parse_yt_track(t: dict) -> dict | None:
+    video_id = t.get("videoId")
+    if not video_id:
+        return None
+    thumbnails = t.get("thumbnails") or []
+    art = thumbnails[-1]["url"] if thumbnails else None
+    artists = t.get("artists") or []
+    artist = ", ".join(a.get("name", "") for a in artists)
+    return {
+        "name": t.get("title", "Unknown"),
+        "filename": video_id,
+        "url": "",          # resolved on demand via /api/ytmusic/stream
+        "artist": artist,
+        "albumArt": art,
+        "videoId": video_id,
+    }
+
+
+# ── Models ────────────────────────────────────────────────────────────────
 class IntroRequest(BaseModel):
     song: str
     artist: str = ""
@@ -129,11 +171,18 @@ class ChatRequest(BaseModel):
     message: str
 
 
+# ── Routes ────────────────────────────────────────────────────────────────
 @app.get("/api/health")
 def health():
-    return {"status": "on-air", "dj": "Claudio", "time": datetime.now().isoformat()}
+    return {
+        "status": "on-air",
+        "dj": "Claudio",
+        "ytmusic": _ytmusic is not None,
+        "time": datetime.now().isoformat(),
+    }
 
 
+# Local music fallback
 @app.get("/api/music")
 def list_music():
     files = []
@@ -143,12 +192,62 @@ def list_music():
     return {"files": files}
 
 
+# YouTube Music playlist
+@app.get("/api/ytmusic/songs")
+def get_ytmusic_songs(source: str = "history", limit: int = 50):
+    if not _ytmusic:
+        raise HTTPException(503, "YouTube Music not configured — set YTMUSIC_HEADERS_JSON")
+
+    try:
+        if source == "liked":
+            data = _ytmusic.get_liked_songs(limit=limit)
+            raw_tracks = data.get("tracks", [])
+        elif source == "history":
+            raw_tracks = _ytmusic.get_history()[:limit]
+        else:
+            raise HTTPException(400, "source must be 'liked' or 'history'")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, f"YTMusic error: {e}")
+
+    tracks = [t for t in (_parse_yt_track(r) for r in raw_tracks) if t]
+    return {"files": tracks, "source": source}
+
+
+# Get audio stream URL for a YouTube video (cached 5 h)
+@app.get("/api/ytmusic/stream/{video_id}")
+def get_stream_url(video_id: str):
+    cached_url, expiry = _stream_cache.get(video_id, ("", 0.0))
+    if cached_url and time.time() < expiry:
+        return {"url": cached_url}
+
+    try:
+        import yt_dlp  # type: ignore
+
+        ydl_opts = {
+            "format": "bestaudio[ext=m4a]/bestaudio[acodec=opus]/bestaudio/best",
+            "quiet": True,
+            "no_warnings": True,
+            "extractor_args": {"youtube": {"skip": ["dash", "hls"]}},
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(
+                f"https://www.youtube.com/watch?v={video_id}",
+                download=False,
+            )
+        url = info["url"]
+        # YouTube URLs typically expire in 6 h; cache for 5 h
+        _stream_cache[video_id] = (url, time.time() + 5 * 3600)
+        return {"url": url}
+    except Exception as e:
+        raise HTTPException(500, f"yt-dlp error: {e}")
+
+
 @app.post("/api/dj/intro")
 async def dj_intro(req: IntroRequest):
     artist_part = f"由 {req.artist} 演唱" if req.artist else ""
-    script = _dj_say(
-        f"為接下來播放的歌曲《{req.song}》{artist_part}寫一段 DJ 介紹詞，約 30-50 字。"
-    )
+    script = _dj_say(f"為接下來播放的歌曲《{req.song}》{artist_part}寫一段 DJ 介紹詞，約 30-50 字。")
     audio_url = await _tts(script)
     return {"script": script, "audio_url": audio_url}
 
@@ -202,7 +301,6 @@ async def ws_endpoint(ws: WebSocket):
         while True:
             data = await ws.receive_json()
             t = data.get("type")
-
             if t == "song_ended":
                 next_song = data.get("next_song", {})
                 if next_song:

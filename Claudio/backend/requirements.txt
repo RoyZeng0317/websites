@@ -6,3 +6,5 @@ python-dotenv>=1.0.1
 python-multipart>=0.0.9
 aiofiles>=23.2.1
 pydantic>=2.7.0
+ytmusicapi>=1.7.0
+yt-dlp>=2024.5.1

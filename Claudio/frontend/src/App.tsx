@@ -11,67 +11,102 @@ import { useWebSocket } from './hooks/useWebSocket'
 import type { ChatMessage, ProgramSegment, Song, WSMessage } from './types'
 
 export default function App() {
-  const [playlist, setPlaylist]     = useState<Song[]>([])
-  const [currentIndex, setIndex]    = useState(0)
-  const [playing, setPlaying]       = useState(false)
-  const [djSpeaking, setDjSpeaking] = useState(false)
-  const [djScript, setDjScript]     = useState('')
-  const [djAudioUrl, setDjAudioUrl] = useState<string | null>(null)
-  const [messages, setMessages]     = useState<ChatMessage[]>([])
-  const [program, setProgram]       = useState<ProgramSegment[]>([])
-  const [time, setTime]             = useState(new Date())
+  const [playlist, setPlaylist]         = useState<Song[]>([])
+  const [currentIndex, setIndex]        = useState(0)
+  const [playing, setPlaying]           = useState(false)
+  const [djSpeaking, setDjSpeaking]     = useState(false)
+  const [djScript, setDjScript]         = useState('')
+  const [djAudioUrl, setDjAudioUrl]     = useState<string | null>(null)
+  const [messages, setMessages]         = useState<ChatMessage[]>([])
+  const [program, setProgram]           = useState<ProgramSegment[]>([])
+  const [time, setTime]                 = useState(new Date())
+  const [resolving, setResolving]       = useState(false)
+  const [resolvedSong, setResolvedSong] = useState<Song | null>(null)
 
   const audioRef   = useRef<HTMLAudioElement>(null!)
   const djAudioRef = useRef<HTMLAudioElement>(null!)
 
-  const currentSong = playlist[currentIndex] ?? null
-
-  // Clock tick
+  // Clock
   useEffect(() => {
     const id = setInterval(() => setTime(new Date()), 30_000)
     return () => clearInterval(id)
   }, [])
 
-  // Bootstrap
+  // Bootstrap: try YT Music → fall back to local files
   useEffect(() => {
-    axios.get('/api/music').then((r) => {
-      setPlaylist(r.data.files as Song[])
-    })
-    axios.post('/api/program/generate').then((r) => {
-      setProgram((r.data.program as ProgramSegment[]) ?? [])
-    })
+    axios.get('/api/ytmusic/songs?source=history&limit=60')
+      .then((r) => setPlaylist(r.data.files as Song[]))
+      .catch(() =>
+        axios.get('/api/music').then((r) => setPlaylist(r.data.files as Song[]))
+      )
+
+    axios.post('/api/program/generate')
+      .then((r) => setProgram((r.data.program as ProgramSegment[]) ?? []))
+      .catch(() => {})
   }, [])
 
+  // Resolve stream URL whenever currentIndex changes (YouTube Music songs have empty url)
+  useEffect(() => {
+    const song = playlist[currentIndex]
+    if (!song) return
+
+    if (song.videoId && !song.url) {
+      setResolving(true)
+      axios.get(`/api/ytmusic/stream/${song.videoId}`)
+        .then((r) => {
+          const updated: Song = { ...song, url: r.data.url }
+          setResolvedSong(updated)
+          // Cache the resolved URL in playlist so we don't re-fetch
+          setPlaylist((prev) => {
+            const next = [...prev]
+            next[currentIndex] = updated
+            return next
+          })
+        })
+        .catch(() => setResolvedSong(song))
+        .finally(() => setResolving(false))
+    } else {
+      setResolvedSong(song)
+    }
+  }, [currentIndex, playlist.length]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Pre-fetch next song's stream URL while current song is playing
+  useEffect(() => {
+    if (!playlist.length) return
+    const nextIdx = (currentIndex + 1) % playlist.length
+    const next = playlist[nextIdx]
+    if (next?.videoId && !next.url) {
+      axios.get(`/api/ytmusic/stream/${next.videoId}`)
+        .then((r) => {
+          setPlaylist((prev) => {
+            if (prev[nextIdx]?.url) return prev  // already resolved
+            const copy = [...prev]
+            copy[nextIdx] = { ...copy[nextIdx], url: r.data.url }
+            return copy
+          })
+        })
+        .catch(() => {})
+    }
+  }, [currentIndex, playlist.length]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // WebSocket
   const handleWSMessage = useCallback((msg: WSMessage) => {
     switch (msg.type) {
       case 'welcome':
         setMessages((prev) => [
           ...prev,
-          {
-            id: `ws-${Date.now()}`,
-            role: 'dj',
-            text: msg.message ?? '',
-            timestamp: msg.timestamp,
-          },
+          { id: `ws-${Date.now()}`, role: 'dj', text: msg.message ?? '', timestamp: msg.timestamp },
         ])
         break
-
       case 'dj_intro':
         setDjScript(msg.script ?? '')
         setDjAudioUrl(msg.audio_url ?? null)
         setDjSpeaking(true)
         break
-
       case 'chat_reply':
         setMessages((prev) => [
           ...prev,
-          {
-            id: `dj-${Date.now()}`,
-            role: 'dj',
-            text: msg.text ?? '',
-            audio_url: msg.audio_url,
-            timestamp: msg.timestamp,
-          },
+          { id: `dj-${Date.now()}`, role: 'dj', text: msg.text ?? '', audio_url: msg.audio_url, timestamp: msg.timestamp },
         ])
         if (msg.audio_url) {
           setDjAudioUrl(msg.audio_url)
@@ -84,33 +119,26 @@ export default function App() {
   const wsUrl = import.meta.env.VITE_WS_URL
     ? `${import.meta.env.VITE_WS_URL}/ws`
     : `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/ws`
+
   const { connected, send } = useWebSocket(wsUrl, handleWSMessage)
 
   const handlePlay = useCallback(() => {
     setPlaying(true)
-    send({ type: 'now_playing', song: currentSong })
-  }, [currentSong, send])
+    send({ type: 'now_playing', song: resolvedSong })
+  }, [resolvedSong, send])
 
   const handleSongEnded = useCallback(() => {
     const nextIndex = playlist.length ? (currentIndex + 1) % playlist.length : 0
     const nextSong = playlist[nextIndex]
     setIndex(nextIndex)
-    if (nextSong) {
-      send({ type: 'song_ended', next_song: nextSong })
-    }
+    if (nextSong) send({ type: 'song_ended', next_song: nextSong })
   }, [currentIndex, playlist, send])
 
-  const handleDJEnded = useCallback(() => {
-    setDjSpeaking(false)
-  }, [])
+  const handleDJEnded = useCallback(() => setDjSpeaking(false), [])
 
   const handlePrev = useCallback(() => {
     setIndex((i) => (i - 1 + playlist.length) % playlist.length)
   }, [playlist.length])
-
-  const handleNext = useCallback(() => {
-    handleSongEnded()
-  }, [handleSongEnded])
 
   const sendMessage = useCallback(async (text: string) => {
     setMessages((prev) => [
@@ -124,7 +152,6 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* Header */}
       <header className="app-header">
         <div className="logo">
           <span className="logo-mark">&#127897;</span>
@@ -137,9 +164,8 @@ export default function App() {
             <span className="on-air-dot" />
             ON AIR
           </div>
-          {djSpeaking && (
-            <span className="dj-speaking-label">DJ 正在說話</span>
-          )}
+          {resolving && <span className="dj-speaking-label">載入音樂中…</span>}
+          {djSpeaking && !resolving && <span className="dj-speaking-label">DJ 正在說話</span>}
         </div>
 
         <div className="header-right">
@@ -151,18 +177,17 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main */}
       <main className="app-main">
         <div className="left-panel">
-          <NowPlaying song={currentSong} playing={playing && !djSpeaking} />
+          <NowPlaying song={resolvedSong} playing={playing && !djSpeaking && !resolving} />
           <RadioPlayer
             audioRef={audioRef}
-            song={currentSong}
-            playing={playing && !djSpeaking}
+            song={resolvedSong}
+            playing={playing && !djSpeaking && !resolving}
             onPlay={handlePlay}
             onPause={() => setPlaying(false)}
             onPrev={handlePrev}
-            onNext={handleNext}
+            onNext={handleSongEnded}
             onEnded={handleSongEnded}
           />
         </div>
@@ -182,7 +207,6 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="app-footer">
         <ProgramSchedule program={program} />
       </footer>

@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function NowPlaying({ song, playing }: Props) {
-  const albumGradient = useMemo(() => {
+  const fallbackGradient = useMemo(() => {
     if (!song) return 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)'
     const h1 = (song.name.charCodeAt(0) * 137 + 60) % 360
     const h2 = (h1 + 80) % 360
@@ -17,9 +17,21 @@ export function NowPlaying({ song, playing }: Props) {
 
   return (
     <div className="card now-playing">
-      <div className="album-art" style={{ background: albumGradient }}>
-        {playing ? (
-          <div className="eq-bars">
+      <div
+        className="album-art"
+        style={song?.albumArt ? undefined : { background: fallbackGradient }}
+      >
+        {song?.albumArt && (
+          <img
+            src={song.albumArt}
+            alt={song.name}
+            className="album-img"
+            crossOrigin="anonymous"
+          />
+        )}
+
+        {playing && (
+          <div className="eq-overlay">
             {Array.from({ length: 7 }).map((_, i) => (
               <div
                 key={i}
@@ -28,7 +40,9 @@ export function NowPlaying({ song, playing }: Props) {
               />
             ))}
           </div>
-        ) : (
+        )}
+
+        {!song?.albumArt && !playing && (
           <span className="music-icon">&#9835;</span>
         )}
       </div>
@@ -38,7 +52,7 @@ export function NowPlaying({ song, playing }: Props) {
           {song ? song.name : 'Claudio AI Radio'}
         </h2>
         <p className="song-artist">
-          {song?.artist ?? (song ? '' : '將 MP3 加入 backend/music/ 開始播放')}
+          {song?.artist ?? (song ? '' : '正在載入播放清單…')}
         </p>
       </div>
     </div>
