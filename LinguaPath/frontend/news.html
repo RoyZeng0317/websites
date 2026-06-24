@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaPath — News Reader</title>
+  <link rel="icon" type="image/svg+xml" href="public/icons.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .news-header { max-width: 900px; margin: 2rem auto 0; padding: 0 2rem; }
+    .news-header h1 { font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:0.3rem; }
+    .news-header p  { color:var(--muted); font-size:0.9rem; }
+
+    .cefr-bar {
+      max-width:900px; margin:1.2rem auto 0; padding:0 2rem;
+      display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;
+    }
+    .cefr-btn {
+      padding:0.4rem 1rem; border-radius:8px; border:2px solid var(--border);
+      background:transparent; color:var(--muted); cursor:pointer;
+      font-family:'DM Sans'; font-size:0.85rem; font-weight:500;
+      transition: all 0.15s;
+    }
+    .cefr-btn:hover { color:var(--text); border-color:var(--accent); }
+    .cefr-btn.active { background:var(--surface); color:var(--accent); border-color:var(--accent); font-weight:700; }
+
+    .article-picker {
+      max-width:900px; margin:0.8rem auto 0; padding:0 2rem;
+    }
+    .picker-group { margin-bottom:0.8rem; }
+    .picker-group-label {
+      font-size:0.72rem; font-weight:700; letter-spacing:0.08em;
+      color:var(--muted); text-transform:uppercase; margin-bottom:0.35rem;
+      padding-bottom:0.25rem; border-bottom:1px solid var(--border);
+    }
+    .picker-group-row { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .article-btn {
+      padding:0.5rem 0.8rem; border-radius:8px; border:1px solid transparent;
+      background:var(--surface); color:var(--muted); cursor:pointer;
+      font-family:'DM Sans'; font-size:0.78rem; text-align:left; max-width:200px;
+      transition: all 0.15s;
+    }
+    .article-btn:hover { border-color:var(--accent); }
+    .article-btn.active { border-color:var(--accent); color:var(--accent); background:rgba(126,184,232,0.08); }
+    .article-btn .diff-tag { font-size:0.65rem; margin-top:2px; opacity:0.7; }
+
+    .article-card {
+      max-width:900px; margin:1.2rem auto 3rem; padding:0 2rem;
+    }
+    .article-card-inner {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:16px; padding:1.8rem 2rem;
+    }
+    .article-head {
+      display:flex; justify-content:space-between; align-items:flex-start;
+      flex-wrap:wrap; gap:0.5rem; margin-bottom:1.2rem;
+    }
+    .article-head h2 { font-size:1.3rem; font-weight:700; margin:0; }
+    .word-counts { display:flex; gap:1rem; font-size:0.8rem; color:var(--muted); }
+    .word-counts .known { color:#7ec8a0; font-weight:600; }
+    .word-counts .new   { color:#f38ba8; font-weight:600; }
+
+    .article-body {
+      line-height:2; font-size:1.02rem;
+    }
+    .article-body .word-unknown {
+      border-bottom:2px dotted #f38ba8; cursor:pointer;
+      background:rgba(243,139,168,0.06); padding:0 2px; border-radius:3px;
+    }
+    .article-body .word-A1,.article-body .word-A2 { border-bottom:2px dashed #7ec8a0; cursor:pointer; }
+    .article-body .word-B1,.article-body .word-B2 { border-bottom:2px dashed #7eb8e8; cursor:pointer; }
+    .article-body .word-C1,.article-body .word-C2 { border-bottom:2px dashed #e8c97e; cursor:pointer; }
+    .exam-mark {
+      font-size:0.48rem; vertical-align:super; margin-left:1px;
+      font-weight:900; pointer-events:none; letter-spacing:-0.5px;
+    }
+    .exam-TOEIC { color:#f38ba8; }
+    .exam-TOEFL { color:#7eb8e8; }
+    .exam-IELTS { color:#7ec8a0; }
+    .exam-GRE   { color:#e8c97e; }
+    .tt-exam-tags { margin-top:4px; display:flex; gap:3px; flex-wrap:wrap; }
+    .tt-exam-tag { font-size:0.6rem; padding:1px 6px; border-radius:3px; font-weight:700; }
+    .tt-exam-tag.TOEIC { background:rgba(243,139,168,0.15); color:#f38ba8; }
+    .tt-exam-tag.TOEFL { background:rgba(126,184,232,0.15); color:#7eb8e8; }
+    .tt-exam-tag.IELTS { background:rgba(126,200,160,0.15); color:#7ec8a0; }
+    .tt-exam-tag.GRE   { background:rgba(232,201,126,0.15); color:#e8c97e; }
+
+    .legend-box {
+      margin-top:1.2rem; padding:0.8rem 1rem;
+      background:rgba(255,255,255,0.03); border-radius:8px;
+      font-size:0.78rem; color:var(--muted); line-height:1.6;
+    }
+    .legend-box strong { color:var(--accent); }
+
+    /* Tooltip */
+    .word-tooltip {
+      position:fixed; z-index:9999; pointer-events:none;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:10px; padding:10px 14px; max-width:300px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.4);
+      font-family:'DM Sans',sans-serif; font-size:0.82rem; line-height:1.5;
+      display:none;
+    }
+    .word-tooltip .tt-word { font-weight:700; font-size:0.95rem; color:var(--accent); }
+    .word-tooltip .tt-pos  { font-weight:400; font-size:0.72rem; color:var(--muted); margin-left:6px; }
+    .word-tooltip .tt-level {
+      display:inline-block; margin-left:6px; padding:1px 6px; border-radius:4px;
+      font-size:0.65rem; font-weight:700;
+    }
+    .word-tooltip .tt-level.A1,.word-tooltip .tt-level.A2 { background:rgba(126,200,160,0.15); color:#7ec8a0; }
+    .word-tooltip .tt-level.B1,.word-tooltip .tt-level.B2 { background:rgba(126,184,232,0.15); color:#7eb8e8; }
+    .word-tooltip .tt-level.C1,.word-tooltip .tt-level.C2 { background:rgba(232,201,126,0.15); color:#e8c97e; }
+    .word-tooltip .tt-cat  { color:var(--muted); font-size:0.72rem; margin-top:2px; }
+    .word-tooltip .tt-example {
+      font-style:italic; font-size:0.76rem; color:var(--muted);
+      border-top:1px solid var(--border); margin-top:4px; padding-top:4px;
+    }
+
+    .state-msg { max-width:900px; margin:4rem auto; padding:0 2rem; text-align:center; color:var(--muted); }
+    .state-msg .icon { font-size:2.5rem; display:block; margin-bottom:0.6rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><a href="index.html" class="link">
+    <img src="public/icons.svg" alt="" width="20" height="20">Lingua<span>Path</span>
+  </a></div>
+  <div class="nav-right">
+    <a href="vocabulary.html" class="btn btn-ghost">Vocabulary</a>
+    <a href="listening.html"  class="btn btn-ghost">Listening Lab</a>
+    <a href="news.html"       class="btn btn-ghost" style="color:var(--accent)">News Reader</a>
+    <a href="path.html"       class="btn btn-ghost">Learning Path</a>
+    <div id="user-info" style="display:none">
+      <img id="user-avatar" src="" alt="avatar"/>
+      <span id="user-name"></span>
+      <a href="dashboard.html" class="btn btn-ghost">My Progress</a>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <div id="auth-buttons">
+      <button class="btn btn-ghost" id="signin-btn">Sign In</button>
+      <button class="btn btn-primary" id="signup-btn">Get Started</button>
+    </div>
+    <a href="#" class="link theme-toggle-icon" onclick="themeToggle()">☀️</a>
+  </div>
+</nav>
+
+<div class="news-header">
+  <h1>News Reader</h1>
+  <p>Read articles matched to your level — hover unknown words to see annotations.</p>
+</div>
+
+<div class="cefr-bar" id="cefr-bar"></div>
+<div class="article-picker" id="article-picker"></div>
+
+<div class="article-card" id="article-card" style="display:none">
+  <div class="article-card-inner">
+    <div class="article-head" id="article-head"></div>
+    <div class="article-body" id="article-body"></div>
+    <div class="legend-box" id="legend-box"></div>
+  </div>
+</div>
+
+<div id="state-msg" class="state-msg"><span class="icon">⏳</span>Loading…</div>
+
+<div class="word-tooltip" id="word-tooltip"></div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h2 id="modal-title">Welcome back</h2>
+    <p id="modal-subtitle">Sign in to track your progress</p>
+    <div class="tab-switch">
+      <button class="tab-btn active" id="tab-signin">Sign In</button>
+      <button class="tab-btn" id="tab-signup">Sign Up</button>
+    </div>
+    <button class="btn-google" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div class="divider">or</div>
+    <div class="input-group"><label>Email</label><input type="email" id="email-input" placeholder="you@example.com"/></div>
+    <div class="input-group"><label>Password</label><input type="password" id="password-input" placeholder="••••••••"/></div>
+    <div class="error-msg" id="auth-error"></div>
+    <button class="btn btn-primary btn-full" id="auth-submit">Sign In</button>
+  </div>
+</div>
+
+<script type="module" src="account.js"></script>
+<script src="script.js"></script>
+<script>
+  const CEFR_ORDER = { A1:1, A2:2, B1:3, B2:4, C1:5, C2:6 };
+  const CEFR_LEVELS = ['A1','A2','B1','B2','C1','C2'];
+
+  let ARTICLES = [
+    { id:1, title:"A Nice Day at the Park", difficulty:"A1", source:"LinguaPath News", summary:"A simple story about a boy and his dog at the park.",
+      content:"Today is a sunny day. A boy and his dog go to the park. The boy plays with a red ball. The dog runs fast. They are very happy. The boy sits on a green bench. He drinks water. The dog sleeps next to him. It is a quiet afternoon. The birds sing in the trees." },
+    { id:2, title:"My Morning Routine", difficulty:"A1", source:"LinguaPath News", summary:"Daily routine description with basic vocabulary.",
+      content:"Every morning I wake up at six thirty. First I brush my teeth and wash my face. Then I eat breakfast. I usually have bread and eggs. I drink a glass of milk. After breakfast I put on my clothes. I take my bag and go to school. The school is near my house. I walk there with my friend. We talk about our homework on the way." },
+    { id:3, title:"A Shopping Trip", difficulty:"A2", source:"LinguaPath News", summary:"A shopping trip story using everyday vocabulary.",
+      content:"Last Saturday I went to the supermarket with my mother. We needed to buy food for the week. We bought some apples, bananas, bread, and milk. My mother also bought chicken and fish. I wanted to buy chocolate but my mother said no. The supermarket was very busy. Many people were shopping. We waited for ten minutes to pay. Then we took our bags and went home." },
+    { id:4, title:"Learning a New Language", difficulty:"A2", source:"LinguaPath News", summary:"A personal story about language learning experience.",
+      content:"Learning a new language can be difficult but also very fun. I started learning English two years ago. At first I could only say simple words like hello and goodbye. Now I can have short conversations. I practice every day. I read English books and watch movies with subtitles. My favorite way to learn is by talking to friends online. Sometimes I make mistakes but that is okay. Mistakes help me improve." },
+    { id:5, title:"The Benefits of Regular Exercise", difficulty:"B1", source:"Health & Wellness Weekly", summary:"An article discussing the importance of regular exercise.",
+      content:"Regular exercise is essential for maintaining good health. Experts recommend at least thirty minutes of physical activity every day. Exercise strengthens your heart, improves your mood, and helps you sleep better. There are many types of exercise to choose from. You can run, swim, cycle, or practice yoga. The key is to find an activity that you enjoy. When you enjoy something, you are more likely to do it consistently. Even a brisk walk in the park can make a significant difference to your wellbeing." },
+    { id:6, title:"Technology in Modern Education", difficulty:"B1", source:"Education Today", summary:"How technology is changing education and its pros and cons.",
+      content:"Technology has transformed the way students learn in the modern classroom. Interactive whiteboards, tablets, and educational software have replaced traditional chalkboards and textbooks. Teachers can now create engaging multimedia lessons that cater to different learning styles. Online platforms allow students to access educational resources from anywhere in the world. However, some experts argue that excessive screen time may have negative effects on children's concentration. Finding a balance between digital and traditional learning methods remains an important challenge for educators." },
+    { id:7, title:"Climate Change and Its Global Impact", difficulty:"B2", source:"Global Environmental Report", summary:"An overview of climate change challenges and solutions.",
+      content:"Climate change continues to pose significant challenges to ecosystems worldwide. Rising global temperatures have led to melting polar ice caps and rising sea levels. Extreme weather events, such as hurricanes, droughts, and wildfires, have become more frequent and severe. Scientists warn that immediate action is necessary to prevent irreversible damage. Governments around the world are implementing policies to reduce carbon emissions and promote sustainable energy sources. Individuals can also contribute by reducing waste, conserving energy, and supporting environmentally friendly initiatives. The future of our planet depends on the choices we make today." },
+    { id:8, title:"The Rise of Remote Work Culture", difficulty:"B2", source:"Business Insider", summary:"Analysis of the remote work revolution and its lasting effects.",
+      content:"The pandemic fundamentally altered the landscape of professional employment, accelerating the shift toward remote work. Companies that were previously hesitant to embrace telecommuting were compelled to adapt almost overnight. Many organizations discovered that productivity actually increased when employees worked from home. However, remote work also presents unique challenges. Employees often struggle to maintain boundaries between their professional and personal lives. The lack of face-to-face interaction can lead to feelings of isolation and hinder spontaneous collaboration. Despite these drawbacks, flexible working arrangements have become a permanent feature of the modern workplace. Forward-thinking companies are now investing in digital infrastructure to support hybrid models that combine the best of both worlds." },
+    { id:9, title:"The Evolution of Artificial Intelligence", difficulty:"C1", source:"Technology Review", summary:"A comprehensive look at AI's progress and ethical implications.",
+      content:"Artificial intelligence has undergone a remarkable transformation over the past decade. What once seemed like science fiction is now an integral part of our daily lives. Machine learning algorithms power everything from search engines to recommendation systems. Recent breakthroughs in natural language processing have enabled AI to generate human-like text, translate languages with unprecedented accuracy, and even assist in medical diagnosis. Despite these impressive achievements, significant ethical concerns remain. Issues surrounding data privacy, algorithmic bias, and the potential displacement of jobs require careful consideration. Researchers emphasize the importance of developing AI systems that are transparent, accountable, and aligned with human values." },
+    { id:10, title:"The Renaissance of Urban Architecture", difficulty:"C1", source:"Architecture Digest", summary:"How modern architecture embraces sustainability and human-centric design.",
+      content:"Contemporary urban architecture is witnessing a paradigm shift toward sustainability and human-centric design. Architects and urban planners are increasingly prioritizing green spaces, pedestrian-friendly infrastructure, and energy-efficient buildings. The concept of biophilic design, which seeks to connect occupants more closely with nature, has gained considerable traction. Cities like Singapore and Copenhagen have emerged as exemplars of this movement, integrating vertical gardens, renewable energy systems, and innovative waste management solutions into their urban fabric. However, the challenge of retrofitting existing cities with sustainable infrastructure remains formidable. Policymakers must navigate complex economic, social, and political landscapes to implement meaningful change. The cities of tomorrow will be defined by our ability to harmonize technological innovation with environmental stewardship." },
+    { id:13, title:"Jensen Huang: The Visionary Behind NVIDIA", difficulty:"B2", source:"Technology Business Review", summary:"How Jensen Huang transformed NVIDIA from a gaming chip company into the backbone of the AI era.",
+      content:"Jensen Huang is one of the most influential figures in the technology industry today. As the co-founder and chief executive of NVIDIA, he has transformed a company once known primarily for gaming graphics cards into the essential infrastructure of modern artificial intelligence. Born in Taiwan and raised partly in the United States, Huang studied electrical engineering and went on to found NVIDIA in 1993 alongside two colleagues. In the early years, NVIDIA focused on producing graphics processing units, or GPUs, designed to render images for video games. However, Huang recognized early that the parallel processing architecture of GPUs could have far broader applications beyond entertainment. His long-term commitment to the CUDA software platform, launched in 2006, allowed researchers and engineers to use NVIDIA hardware for scientific computing, making it the foundation for deep learning breakthroughs that followed years later." },
+    { id:11, title:"Quantum Computing: The Next Frontier", difficulty:"C2", source:"Scientific Frontiers", summary:"An in-depth exploration of quantum computing's principles and potential.",
+      content:"Quantum computing represents a fundamental departure from classical computational paradigms, leveraging the principles of superposition and entanglement to perform calculations that would be infeasible for conventional computers. Unlike classical bits, which exist in a state of either zero or one, quantum bits or qubits can exist in multiple states simultaneously, enabling exponential computational parallelism. While practical quantum computers remain in their infancy, recent breakthroughs in error correction and qubit coherence have accelerated progress toward quantum supremacy. The implications span numerous fields, from cryptography and drug discovery to climate modeling and financial optimization. Nevertheless, substantial technical hurdles persist, including maintaining qubit stability at scale and developing quantum algorithms that outperform classical alternatives. The coming decade will be pivotal in determining whether quantum computing fulfills its transformative potential." },
+    { id:12, title:"Epigenetics: Beyond the Genome", difficulty:"C2", source:"Nature Genetics Review", summary:"How epigenetics is reshaping our understanding of gene expression and disease.",
+      content:"The field of epigenetics has revolutionized our understanding of heredity and gene expression, revealing that our DNA sequence is not destiny. Epigenetic modifications, including DNA methylation and histone acetylation, regulate gene activity without altering the underlying genetic code. These modifications can be influenced by environmental factors such as diet, stress, and exposure to toxins. Intriguingly, some epigenetic changes may even be inherited across generations, challenging long-held assumptions about Lamarckian inheritance. Research has implicated epigenetic dysregulation in numerous pathologies, including cancer, neurodegenerative disorders, and metabolic diseases. The therapeutic potential of epigenetic drugs, which can reverse aberrant modifications, represents a promising avenue for precision medicine. However, the complexity of the epigenome demands sophisticated analytical approaches and raises profound questions about the interplay between nature and nurture." }
+  ];
+
+  const ARTICLE_DETAILS = {
+    1: "After a short rest, the boy opens his small bag. He has a sandwich, an apple, and a blue cup. He gives the dog some water in a bowl. A girl comes to the bench and smiles. She asks if she can throw the ball too. The boy says yes, and they play together. Soon the dog runs between them with the ball in its mouth. The children laugh because the dog does not want to stop. When the sun goes down, the boy puts the ball back in his bag. He waves goodbye to the girl and walks home slowly. The dog is tired, but it looks happy.",
+    2: "When I arrive at school, I put my books on my desk. My first class is English, so I take out my notebook and pencil. The teacher writes new words on the board. We listen, repeat, and make short sentences. At break time, I eat a banana and talk with my classmates. We talk about games, family, and our plans after school. In the afternoon, I go home and do my homework before dinner. I check my school bag at night because I do not want to forget anything. This routine is simple, but it helps me feel ready every day.",
+    3: "At the supermarket, we looked carefully at the prices on the shelves. My mother compared two kinds of rice because one bag was cheaper but smaller. I helped her read the shopping list and put the items into the cart. In the vegetable area, we chose tomatoes, carrots, and a large cabbage. Near the checkout counter, I saw a magazine about cooking and asked if we could try a new recipe. My mother said we could make soup on Sunday. After we paid, the bags were heavy, so we carried them together. At home, we put cold food in the refrigerator and dry food in the cupboard.",
+    4: "One thing that helped me was keeping a small notebook. Every time I learned a useful word, I wrote it down with one example sentence. I also tried to use new words when I spoke, even if my sentences were not perfect. My teacher told me that language learning is like exercise: a little practice every day is better than studying for many hours only once a month. Now I can understand simple videos without reading every subtitle. I still feel nervous when I speak to native speakers, but I know that confidence grows slowly. My next goal is to read one short English article every week.",
+    5: "For people who are just beginning, exercise does not need to be difficult or expensive. Taking the stairs, stretching after work, or walking to a nearby store can all count as movement. Doctors often remind patients that the most effective plan is the one they can repeat. A person who walks for twenty minutes five times a week may gain more benefits than someone who joins a gym but stops after a few days. Communities can also make healthy habits easier by building safe sidewalks, public parks, and bike lanes. When exercise becomes part of daily life, it feels less like a task and more like a normal routine.",
+    6: "Many schools now use digital tools to give students faster feedback. For example, a learning app can show which questions students missed and suggest extra practice immediately. This helps teachers see patterns that may be hard to notice during a busy lesson. Still, technology works best when it supports good teaching instead of replacing it. Students also need quiet time to think, write by hand, discuss ideas, and solve problems without screens. Some schools have started creating clear rules for device use, such as screen-free reading periods or group projects that require face-to-face conversation. The goal is not to reject technology, but to use it with purpose.",
+    7: "The effects of climate change are not experienced equally. Coastal communities may face flooding, while farming regions may struggle with heat, water shortages, and unpredictable harvests. In some countries, families are already moving because their homes or jobs are no longer secure. This is why climate policy is also a social and economic issue. Clean energy projects can create jobs, but workers in older industries need training and support during the transition. Cities can prepare by improving drainage systems, planting more trees, and designing buildings that stay cooler in extreme heat. Long-term progress will require cooperation among governments, businesses, scientists, and local communities.",
+    8: "The next stage of remote work is likely to be more intentional than the emergency shift that happened during the pandemic. Some companies now ask employees to come to the office on specific days for meetings, mentoring, and team planning. Other days are reserved for focused work at home. This hybrid model can reduce commuting time while preserving some of the social benefits of an office. Managers also need new skills. They must judge performance by results rather than by how long someone sits at a desk. Clear communication, written documentation, and fair access to promotion opportunities are becoming essential parts of remote work culture.",
+    9: "One important debate concerns how AI systems are trained. Large models often learn from enormous collections of text, images, and other data, and not all of that material is easy to trace. Artists, writers, and publishers have raised questions about consent, ownership, and compensation. At the same time, doctors, teachers, engineers, and small businesses are finding practical ways to use AI as an assistant. The challenge for society is to encourage useful innovation while setting limits that protect people from harm. This may include stronger privacy rules, clearer labeling of AI-generated content, and regular testing for bias. AI will not affect every job in the same way, but most workers will need to understand how to use it responsibly.",
+    10: "Sustainable architecture also depends on the small decisions that shape daily comfort. A building can reduce energy use by placing windows carefully, improving natural ventilation, and choosing materials that last longer. Public spaces matter as much as private buildings. Shaded streets, benches, public transit access, and safe crossings can make a neighborhood more livable for older adults, children, and people with disabilities. In many cities, the biggest challenge is not designing impressive new towers, but improving older districts without forcing residents to leave. Successful urban renewal requires listening to local communities before construction begins. Architecture is therefore both a technical field and a civic responsibility.",
+    11: "Researchers are also exploring how quantum computers might work together with classical computers rather than replace them completely. In many future systems, a classical machine could manage ordinary tasks while a quantum processor handles a narrow but difficult calculation. This approach may be especially useful in chemistry, where simulating molecules requires tracking complex interactions among particles. However, the field still needs better hardware, more reliable error correction, and a larger workforce trained in quantum information science. Governments and private companies are investing heavily because the strategic value could be enormous. Even so, experts caution that useful breakthroughs may arrive gradually, not as a single dramatic moment.",
+    13: "When the release of ChatGPT in late 2022 brought artificial intelligence into mainstream conversation, demand for NVIDIA GPUs surged dramatically. Data centres around the world rushed to acquire the chips needed to train and run large language models, and NVIDIA's revenue grew at a pace that few companies in history have matched. Huang became known for his trademark black leather jacket, which he wears at product announcements and keynote presentations, giving him a distinctive style unusual among corporate leaders. He speaks about artificial intelligence with a sense of urgency, often describing it as a fundamental shift comparable to the invention of the computer itself. His company's products now power systems used in healthcare, autonomous vehicles, scientific research, and national security. Critics note that NVIDIA's dominant position in AI hardware gives it considerable market power, raising questions about competition and supply chain concentration. Despite these concerns, Huang continues to push the boundaries of what is possible, outlining a vision in which every country develops its own artificial intelligence infrastructure built on NVIDIA technology.",
+    12: "Epigenetic research is also changing how scientists think about prevention. If environmental conditions can influence gene activity, then public health decisions may have biological effects that last for years. Nutrition, pollution exposure, chronic stress, and access to medical care can all shape patterns of risk in a population. This does not mean individuals are fully responsible for every health outcome. Instead, it shows that biology and society are deeply connected. Scientists are now developing tools to measure epigenetic age, track disease risk, and evaluate whether treatments can restore healthier gene regulation. The promise is significant, but researchers must be careful not to overstate early findings before they are validated in large studies."
+  };
+
+  let vocabMap = {};
+  let userLevel = 'A1';
+  let selectedArticleId = null;
+  let tooltipTimer = null;
+
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function getLevelColor(level) {
+    return level === 'C1' || level === 'C2' ? '#e8c97e' :
+           level === 'B1' || level === 'B2' ? '#7eb8e8' : '#7ec8a0';
+  }
+
+  function diffClass(level) {
+    return 'diff-' + level;
+  }
+
+  function getTokens(text) {
+    const words = text.split(/(\s+|(?=[.,!?;:'"()])|(?<=[.,!?;:'"()]))/).filter(Boolean);
+    const tokens = [];
+    let i = 0;
+
+    while (i < words.length) {
+      const word = words[i];
+      const trimmed = word.replace(/^[.,!?;:'"()]+|[.,!?;:'"()]+$/g, '');
+      const isPunct = /^[.,!?;:'"()\s]+$/.test(word);
+
+      if (isPunct || !trimmed) {
+        tokens.push({ text: word, isWord: false, unknown: false, vocab: null });
+        i++;
+        continue;
+      }
+
+      const lower = trimmed.toLowerCase();
+      let matched = null;
+
+      for (let j = 4; j >= 2; j--) {
+        if (i + j <= words.length) {
+          const phraseWords = words.slice(i, i + j)
+            .map(w => w.replace(/^[.,!?;:'"()]+|[.,!?;:'"()]+$/g, '').toLowerCase())
+            .filter(w => w.length > 0);
+          const phrase = phraseWords.join(' ');
+          if (phrase.length > 0 && vocabMap[phrase]) {
+            matched = { phrase, vocab: vocabMap[phrase] };
+            break;
+          }
+        }
+      }
+
+      if (!matched && vocabMap[lower]) {
+        matched = { phrase: lower, vocab: vocabMap[lower] };
+      }
+
+      if (matched) {
+        const userOrder = CEFR_ORDER[userLevel];
+        const wordOrder = CEFR_ORDER[matched.vocab.cefr_level] || 99;
+        const unknown = wordOrder > userOrder;
+
+        if (matched.phrase.includes(' ')) {
+          const phraseParts = matched.phrase.split(' ');
+          const phraseText = words.slice(i, i + phraseParts.length).join('');
+          tokens.push({ text: phraseText, isWord: true, vocab: matched.vocab, unknown });
+          i += phraseParts.length;
+        } else {
+          tokens.push({ text: words[i], isWord: true, vocab: matched.vocab, unknown });
+          i++;
+        }
+      } else {
+        tokens.push({ text: words[i], isWord: true, vocab: null, unknown: false });
+        i++;
+      }
+    }
+    return tokens;
+  }
+
+  function buildTooltipHtml(vocab) {
+    let html = '<span class="tt-word">' + esc(vocab.word) + '</span>';
+    html += '<span class="tt-pos">' + esc(vocab.part_of_speech) + '</span>';
+    html += '<span class="tt-level ' + vocab.cefr_level + '">' + vocab.cefr_level + '</span>';
+    if (vocab.category) {
+      html += '<div class="tt-cat">' + esc(vocab.category) + '</div>';
+    }
+    const examTags = (vocab.exam_tags || '').split(',').map(t => t.trim()).filter(Boolean);
+    if (examTags.length) {
+      html += '<div class="tt-exam-tags">' +
+        examTags.map(t => '<span class="tt-exam-tag ' + esc(t) + '">' + esc(t) + '</span>').join('') +
+        '</div>';
+    }
+    if (vocab.example) {
+      html += '<div class="tt-example">"' + esc(vocab.example) + '"</div>';
+    }
+    return html;
+  }
+
+  function examMarkHtml(vocab) {
+    const tags = (vocab.exam_tags || '').split(',').map(t => t.trim()).filter(Boolean);
+    if (!tags.length) return '';
+    return tags.map(t => '<sup class="exam-mark exam-' + esc(t) + '" aria-hidden="true">•</sup>').join('');
+  }
+
+  function renderArticle() {
+    const article = ARTICLES.find(a => a.id === selectedArticleId);
+    if (!article) return;
+
+    const tokens = getTokens(article.content);
+    const knownCount = tokens.filter(t => t.isWord && t.vocab && !t.unknown).length;
+    const unknownCount = tokens.filter(t => t.isWord && t.unknown).length;
+    const diff = article.difficulty;
+
+    document.getElementById('article-card').style.display = '';
+
+    document.getElementById('article-head').innerHTML =
+      '<div><h2>' + esc(article.title) + '</h2>' +
+      '<span class="tag-diff ' + diffClass(diff) + '" style="margin-top:6px;display:inline-block">' + diff + ' · ' + esc(article.source) + '</span></div>' +
+      '<div class="word-counts">' +
+      '<span>Known: <span class="known">' + knownCount + '</span></span>' +
+      '<span>New: <span class="new">' + unknownCount + '</span></span></div>';
+
+    let bodyHtml = '';
+    for (const token of tokens) {
+      if (!token.isWord) {
+        bodyHtml += esc(token.text);
+      } else if (token.vocab && token.unknown) {
+        bodyHtml += '<span class="word-unknown" data-vocab=\'' + JSON.stringify(token.vocab).replace(/'/g,'&#39;') + '\' onmouseenter="showTooltip(this,event)" onmouseleave="hideTooltip()">' + esc(token.text) + examMarkHtml(token.vocab) + '</span>';
+      } else if (token.vocab) {
+        const lvlClass = 'word-' + token.vocab.cefr_level;
+        bodyHtml += '<span class="' + lvlClass + '" data-vocab=\'' + JSON.stringify(token.vocab).replace(/'/g,'&#39;') + '\' onmouseenter="showTooltip(this,event)" onmouseleave="hideTooltip()">' + esc(token.text) + examMarkHtml(token.vocab) + '</span>';
+      } else {
+        bodyHtml += esc(token.text);
+      }
+    }
+    document.getElementById('article-body').innerHTML = bodyHtml;
+    document.getElementById('legend-box').innerHTML =
+      '<strong>Legend:</strong> ' +
+      '<span style="border-bottom:2px dashed #7ec8a0;color:#7ec8a0">A1/A2</span> · ' +
+      '<span style="border-bottom:2px dashed #7eb8e8;color:#7eb8e8">B1/B2</span> · ' +
+      '<span style="border-bottom:2px dashed #e8c97e;color:#e8c97e">C1/C2</span> = known vocab by level &nbsp;|&nbsp; ' +
+      '<span style="border-bottom:2px dotted #f38ba8;color:#f38ba8">Red dotted</span> = above your level &nbsp;|&nbsp; ' +
+      '<sup style="color:#f38ba8;font-weight:900">•</sup><sup style="color:#7eb8e8;font-weight:900">•</sup> = exam tags (hover for details)';
+  }
+
+  function showTooltip(el, e) {
+    clearTimeout(tooltipTimer);
+    try {
+      const vocab = JSON.parse(el.getAttribute('data-vocab'));
+      const tip = document.getElementById('word-tooltip');
+      tip.innerHTML = buildTooltipHtml(vocab);
+      tip.style.display = 'block';
+      const rect = el.getBoundingClientRect();
+      let left = rect.left;
+      let top = rect.bottom + 8;
+      if (left + 300 > window.innerWidth) left = window.innerWidth - 310;
+      if (left < 4) left = 4;
+      tip.style.left = left + 'px';
+      tip.style.top = top + 'px';
+    } catch(e) {}
+  }
+
+  function hideTooltip() {
+    tooltipTimer = setTimeout(function() {
+      document.getElementById('word-tooltip').style.display = 'none';
+    }, 100);
+  }
+
+  function applyFilter() {
+    const filtered = ARTICLES.filter(a => a.difficulty === userLevel);
+
+    const picker = document.getElementById('article-picker');
+    if (filtered.length) {
+      if (!selectedArticleId || !filtered.find(a => a.id === selectedArticleId)) {
+        selectedArticleId = filtered[0].id;
+      }
+      const grouped = {};
+      for (const lvl of CEFR_LEVELS) {
+        const group = filtered.filter(a => a.difficulty === lvl);
+        if (group.length) grouped[lvl] = group;
+      }
+      picker.innerHTML = Object.entries(grouped).map(([lvl, articles]) =>
+        '<div class="picker-group">' +
+        '<div class="picker-group-label" style="color:' + getLevelColor(lvl) + '">' + lvl + '</div>' +
+        '<div class="picker-group-row">' +
+        articles.map(a =>
+          '<button class="article-btn' + (a.id === selectedArticleId ? ' active' : '') + '" ' +
+          'onclick="selectArticle(' + a.id + ')">' +
+          '<div>' + esc(a.title) + '</div></button>'
+        ).join('') +
+        '</div></div>'
+      ).join('');
+      picker.style.display = '';
+      document.getElementById('state-msg').style.display = 'none';
+      renderArticle();
+    } else {
+      selectedArticleId = null;
+      picker.style.display = 'none';
+      document.getElementById('article-card').style.display = 'none';
+      document.getElementById('state-msg').innerHTML = '<span class="icon">📰</span>No articles for this level.<br><small>Try a different CEFR level.</small>';
+      document.getElementById('state-msg').style.display = 'block';
+    }
+  }
+
+  function selectArticle(id) {
+    selectedArticleId = id;
+    applyFilter();
+  }
+
+  function setLevel(level) {
+    userLevel = level;
+    document.querySelectorAll('.cefr-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.level === level);
+    });
+    applyFilter();
+  }
+
+  function initCefrBar() {
+    const bar = document.getElementById('cefr-bar');
+    bar.innerHTML = CEFR_LEVELS.map(l =>
+      '<button class="cefr-btn' + (l === userLevel ? ' active' : '') + '" data-level="' + l + '" onclick="setLevel(\'' + l + '\')">' + l + '</button>'
+    ).join('');
+  }
+
+  async function loadVocab() {
+    try {
+      const resp = await fetch('vocab.json?t=' + Date.now());
+      if (!resp.ok) throw new Error();
+      const data = await resp.json();
+      for (const entry of data) {
+        const key = (entry.word || '').toLowerCase().trim();
+        if (key && !vocabMap[key]) vocabMap[key] = entry;
+      }
+    } catch (e) {}
+  }
+
+  async function init() {
+    initCefrBar();
+    await loadVocab();
+    try {
+      const resp = await fetch('news.json?t=' + Date.now());
+      if (resp.ok) {
+        const data = await resp.json();
+        if (Array.isArray(data) && data.length > 0) {
+          ARTICLES = data.map(a => ({
+            id: a.id,
+            title: a.title || '',
+            difficulty: a.difficulty || 'B1',
+            source: a.source || 'LinguaPath News',
+            summary: a.summary || '',
+            content: a.content || ''
+          }));
+        } else {
+          ARTICLES.forEach(a => { a.content = a.content + ' ' + (ARTICLE_DETAILS[a.id] || ''); });
+        }
+      } else {
+        ARTICLES.forEach(a => { a.content = a.content + ' ' + (ARTICLE_DETAILS[a.id] || ''); });
+      }
+    } catch(e) {
+      ARTICLES.forEach(a => { a.content = a.content + ' ' + (ARTICLE_DETAILS[a.id] || ''); });
+    }
+    applyFilter();
+  }
+
+  init();
+</script>
+</body>
+</html>

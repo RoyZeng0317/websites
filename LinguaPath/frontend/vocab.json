@@ -9,12 +9,48 @@
     "image_url": null
   },
   {
+    "id": 254,
+    "word": "ask",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "communication",
+    "example": "Can I ask you a question?",
+    "image_url": null
+  },
+  {
+    "id": 271,
+    "word": "big",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "description",
+    "example": "That is a big house.",
+    "image_url": null
+  },
+  {
+    "id": 255,
+    "word": "buy",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "shopping",
+    "example": "I want to buy a new phone.",
+    "image_url": null
+  },
+  {
     "id": 34,
     "word": "coffee",
     "part_of_speech": "noun",
     "cefr_level": "A1",
     "category": "drinks",
     "example": "I will go to the convenient store buy a cup of coffee every morning.",
+    "image_url": null
+  },
+  {
+    "id": 256,
+    "word": "come",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "movement",
+    "example": "Please come here.",
     "image_url": null
   },
   {
@@ -45,6 +81,42 @@
     "image_url": null
   },
   {
+    "id": 257,
+    "word": "find",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "I cannot find my keys.",
+    "image_url": null
+  },
+  {
+    "id": 258,
+    "word": "give",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "communication",
+    "example": "Can you give me a hand?",
+    "image_url": null
+  },
+  {
+    "id": 272,
+    "word": "good",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "description",
+    "example": "She is a good student.",
+    "image_url": null
+  },
+  {
+    "id": 273,
+    "word": "happy",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "emotion",
+    "example": "The children are happy.",
+    "image_url": null
+  },
+  {
     "id": 35,
     "word": "index finger",
     "part_of_speech": "noun",
@@ -63,12 +135,48 @@
     "image_url": null
   },
   {
+    "id": 259,
+    "word": "know",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "Do you know the answer?",
+    "image_url": null
+  },
+  {
+    "id": 260,
+    "word": "like",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "emotion",
+    "example": "I like music.",
+    "image_url": null
+  },
+  {
     "id": 39,
     "word": "little finger",
     "part_of_speech": "noun",
     "cefr_level": "A1",
     "category": "body",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 261,
+    "word": "look",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "senses",
+    "example": "Look at the sky.",
+    "image_url": null
+  },
+  {
+    "id": 262,
+    "word": "make",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "She can make great food.",
     "image_url": null
   },
   {
@@ -99,12 +207,48 @@
     "image_url": null
   },
   {
+    "id": 263,
+    "word": "need",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "I need some help.",
+    "image_url": null
+  },
+  {
+    "id": 274,
+    "word": "new",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "description",
+    "example": "I got a new bag.",
+    "image_url": null
+  },
+  {
+    "id": 275,
+    "word": "old",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "description",
+    "example": "This building is very old.",
+    "image_url": null
+  },
+  {
     "id": 22,
     "word": "plus",
     "part_of_speech": "noun",
     "cefr_level": "A1",
     "category": "math",
     "example": "one plus one equal two.",
+    "image_url": null
+  },
+  {
+    "id": 245,
+    "word": "quiet",
+    "part_of_speech": "noun",
+    "cefr_level": "A1",
+    "category": "",
+    "example": "",
     "image_url": null
   },
   {
@@ -117,6 +261,42 @@
     "image_url": null
   },
   {
+    "id": 264,
+    "word": "see",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "senses",
+    "example": "I can see the ocean.",
+    "image_url": null
+  },
+  {
+    "id": 276,
+    "word": "small",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "description",
+    "example": "She lives in a small room.",
+    "image_url": null
+  },
+  {
+    "id": 265,
+    "word": "take",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "Take your time.",
+    "image_url": null
+  },
+  {
+    "id": 266,
+    "word": "think",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "I think he is right.",
+    "image_url": null
+  },
+  {
     "id": 36,
     "word": "thumbs",
     "part_of_speech": "noun",
@@ -126,12 +306,66 @@
     "image_url": null
   },
   {
+    "id": 278,
+    "word": "today",
+    "part_of_speech": "adverb",
+    "cefr_level": "A1",
+    "category": "time",
+    "example": "The meeting is today.",
+    "image_url": null
+  },
+  {
+    "id": 267,
+    "word": "use",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "general",
+    "example": "How do you use this tool?",
+    "image_url": null
+  },
+  {
+    "id": 268,
+    "word": "want",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "emotion",
+    "example": "She wants to be a doctor.",
+    "image_url": null
+  },
+  {
     "id": 5,
     "word": "wheel",
     "part_of_speech": "noun",
     "cefr_level": "A1",
     "category": "car",
     "example": "We can use the wheel to control the car turn left or right.",
+    "image_url": null
+  },
+  {
+    "id": 269,
+    "word": "work",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "profession",
+    "example": "I work at a hospital.",
+    "image_url": null
+  },
+  {
+    "id": 270,
+    "word": "write",
+    "part_of_speech": "verb",
+    "cefr_level": "A1",
+    "category": "communication",
+    "example": "Please write your name here.",
+    "image_url": null
+  },
+  {
+    "id": 277,
+    "word": "young",
+    "part_of_speech": "adjective",
+    "cefr_level": "A1",
+    "category": "description",
+    "example": "He is a young doctor.",
     "image_url": null
   },
   {
@@ -171,6 +405,24 @@
     "image_url": null
   },
   {
+    "id": 284,
+    "word": "already",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "time",
+    "example": "I have already finished.",
+    "image_url": null
+  },
+  {
+    "id": 279,
+    "word": "always",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "frequency",
+    "example": "She always arrives on time.",
+    "image_url": null
+  },
+  {
     "id": 210,
     "word": "annoying",
     "part_of_speech": "adjective",
@@ -186,6 +438,15 @@
     "cefr_level": "A2",
     "category": "",
     "example": "Sorry, this is my bad, I apologize.",
+    "image_url": null
+  },
+  {
+    "id": 253,
+    "word": "applaud",
+    "part_of_speech": "verb",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
     "image_url": null
   },
   {
@@ -585,6 +846,15 @@
     "image_url": null
   },
   {
+    "id": 252,
+    "word": "embarrassing",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
     "id": 29,
     "word": "entertainment",
     "part_of_speech": "noun",
@@ -891,6 +1161,15 @@
     "image_url": null
   },
   {
+    "id": 240,
+    "word": "midnight",
+    "part_of_speech": "noun",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "The engineer is always work at midnight.",
+    "image_url": null
+  },
+  {
     "id": 137,
     "word": "miss out sth.",
     "part_of_speech": "phrase",
@@ -936,6 +1215,15 @@
     "image_url": null
   },
   {
+    "id": 281,
+    "word": "never",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "frequency",
+    "example": "He never forgets a name.",
+    "image_url": null
+  },
+  {
     "id": 134,
     "word": "not only but also",
     "part_of_speech": "phrase",
@@ -960,6 +1248,15 @@
     "cefr_level": "A2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 283,
+    "word": "often",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "frequency",
+    "example": "She often reads before bed.",
     "image_url": null
   },
   {
@@ -1197,6 +1494,15 @@
     "image_url": null
   },
   {
+    "id": 244,
+    "word": "shy",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
     "id": 20,
     "word": "sign up for sth.",
     "part_of_speech": "phrase",
@@ -1212,6 +1518,15 @@
     "cefr_level": "A2",
     "category": "",
     "example": "Kate was a slave to her new start-up company, working 24/7 to make it a success.",
+    "image_url": null
+  },
+  {
+    "id": 280,
+    "word": "sometimes",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "frequency",
+    "example": "I sometimes cook at home.",
     "image_url": null
   },
   {
@@ -1341,6 +1656,15 @@
     "image_url": null
   },
   {
+    "id": 285,
+    "word": "together",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "manner",
+    "example": "Let us work together.",
+    "image_url": null
+  },
+  {
     "id": 144,
     "word": "topic",
     "part_of_speech": "noun",
@@ -1386,6 +1710,24 @@
     "image_url": null
   },
   {
+    "id": 241,
+    "word": "upscale",
+    "part_of_speech": "adjective",
+    "cefr_level": "A2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 282,
+    "word": "usually",
+    "part_of_speech": "adverb",
+    "cefr_level": "A2",
+    "category": "frequency",
+    "example": "We usually eat dinner together.",
+    "image_url": null
+  },
+  {
     "id": 89,
     "word": "vacuum",
     "part_of_speech": "noun",
@@ -1422,12 +1764,75 @@
     "image_url": null
   },
   {
+    "id": 337,
+    "word": "able",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "She is able to handle pressure.",
+    "image_url": null
+  },
+  {
+    "id": 385,
+    "word": "agenda",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "What is on the agenda for today?",
+    "image_url": null
+  },
+  {
+    "id": 286,
+    "word": "agree",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "I agree with your idea.",
+    "image_url": null
+  },
+  {
+    "id": 287,
+    "word": "allow",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "permission",
+    "example": "The rule does not allow that.",
+    "image_url": null
+  },
+  {
+    "id": 288,
+    "word": "apply",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "You should apply for the job.",
+    "image_url": null
+  },
+  {
+    "id": 386,
+    "word": "approach",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "We need a new approach.",
+    "image_url": null
+  },
+  {
     "id": 45,
     "word": "approach",
     "part_of_speech": "noun",
     "cefr_level": "B1",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 387,
+    "word": "argument",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "His argument was very convincing.",
     "image_url": null
   },
   {
@@ -1440,12 +1845,174 @@
     "image_url": null
   },
   {
+    "id": 388,
+    "word": "attitude",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "character",
+    "example": "Her attitude towards work is positive.",
+    "image_url": null
+  },
+  {
+    "id": 338,
+    "word": "available",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Is the room available tomorrow?",
+    "image_url": null
+  },
+  {
+    "id": 289,
+    "word": "avoid",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Try to avoid mistakes.",
+    "image_url": null
+  },
+  {
     "id": 13,
     "word": "balance",
     "part_of_speech": "noun",
     "cefr_level": "B1",
     "category": "",
     "example": "My easy card of balance are not enough.",
+    "image_url": null
+  },
+  {
+    "id": 290,
+    "word": "believe",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "I believe in your ability.",
+    "image_url": null
+  },
+  {
+    "id": 389,
+    "word": "benefit",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "Exercise has many benefits.",
+    "image_url": null
+  },
+  {
+    "id": 390,
+    "word": "budget",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "finance",
+    "example": "We need to cut the budget.",
+    "image_url": null
+  },
+  {
+    "id": 339,
+    "word": "busy",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "He is too busy to answer calls.",
+    "image_url": null
+  },
+  {
+    "id": 340,
+    "word": "careful",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Be careful with the equipment.",
+    "image_url": null
+  },
+  {
+    "id": 391,
+    "word": "category",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "classification",
+    "example": "Sort items into categories.",
+    "image_url": null
+  },
+  {
+    "id": 291,
+    "word": "cause",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "What caused the problem?",
+    "image_url": null
+  },
+  {
+    "id": 392,
+    "word": "challenge",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "Every challenge is an opportunity.",
+    "image_url": null
+  },
+  {
+    "id": 292,
+    "word": "change",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Things change over time.",
+    "image_url": null
+  },
+  {
+    "id": 293,
+    "word": "choose",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "decision",
+    "example": "Choose the best answer.",
+    "image_url": null
+  },
+  {
+    "id": 341,
+    "word": "clear",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "The instructions are very clear.",
+    "image_url": null
+  },
+  {
+    "id": 393,
+    "word": "colleague",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "profession",
+    "example": "She introduced me to her colleagues.",
+    "image_url": null
+  },
+  {
+    "id": 394,
+    "word": "concern",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "emotion",
+    "example": "She raised a valid concern.",
+    "image_url": null
+  },
+  {
+    "id": 395,
+    "word": "conclusion",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "The conclusion was well-argued.",
+    "image_url": null
+  },
+  {
+    "id": 396,
+    "word": "conference",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "She attended an international conference.",
     "image_url": null
   },
   {
@@ -1458,12 +2025,309 @@
     "image_url": null
   },
   {
+    "id": 294,
+    "word": "consider",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "thinking",
+    "example": "Please consider my suggestion.",
+    "image_url": null
+  },
+  {
+    "id": 295,
+    "word": "continue",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Please continue your work.",
+    "image_url": null
+  },
+  {
+    "id": 397,
+    "word": "contract",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Sign the contract by Friday.",
+    "image_url": null
+  },
+  {
+    "id": 296,
+    "word": "create",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "She wants to create new things.",
+    "image_url": null
+  },
+  {
+    "id": 342,
+    "word": "current",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "time",
+    "example": "What is the current status?",
+    "image_url": null
+  },
+  {
+    "id": 398,
+    "word": "data",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "The data supports our hypothesis.",
+    "image_url": null
+  },
+  {
+    "id": 399,
+    "word": "deadline",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "The deadline is next Monday.",
+    "image_url": null
+  },
+  {
+    "id": 297,
+    "word": "decide",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "decision",
+    "example": "He needs to decide soon.",
+    "image_url": null
+  },
+  {
+    "id": 400,
+    "word": "decision",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "This is an important decision.",
+    "image_url": null
+  },
+  {
+    "id": 401,
+    "word": "definition",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "Give a clear definition.",
+    "image_url": null
+  },
+  {
+    "id": 402,
+    "word": "demand",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Demand for the product is high.",
+    "image_url": null
+  },
+  {
+    "id": 403,
+    "word": "department",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Which department do you work in?",
+    "image_url": null
+  },
+  {
+    "id": 298,
+    "word": "describe",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "Can you describe the problem?",
+    "image_url": null
+  },
+  {
+    "id": 404,
+    "word": "detail",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Please include more detail.",
+    "image_url": null
+  },
+  {
+    "id": 405,
+    "word": "development",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "The development of AI is fast.",
+    "image_url": null
+  },
+  {
+    "id": 343,
+    "word": "different",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "This approach is different.",
+    "image_url": null
+  },
+  {
+    "id": 344,
+    "word": "difficult",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "The exam was very difficult.",
+    "image_url": null
+  },
+  {
+    "id": 345,
+    "word": "direct",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Please take the direct route.",
+    "image_url": null
+  },
+  {
+    "id": 299,
+    "word": "discuss",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "Let us discuss the plan.",
+    "image_url": null
+  },
+  {
+    "id": 406,
+    "word": "discussion",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "The discussion lasted two hours.",
+    "image_url": null
+  },
+  {
+    "id": 407,
+    "word": "document",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Please check the document.",
+    "image_url": null
+  },
+  {
+    "id": 408,
+    "word": "education",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "Education is a human right.",
+    "image_url": null
+  },
+  {
+    "id": 409,
+    "word": "effect",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "What is the effect of this change?",
+    "image_url": null
+  },
+  {
+    "id": 346,
+    "word": "effective",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "This is a very effective method.",
+    "image_url": null
+  },
+  {
+    "id": 410,
+    "word": "effort",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Thank you for your effort.",
+    "image_url": null
+  },
+  {
+    "id": 411,
+    "word": "environment",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "nature",
+    "example": "Protect the environment.",
+    "image_url": null
+  },
+  {
     "id": 163,
     "word": "exhausted",
     "part_of_speech": "adjective",
     "cefr_level": "B1",
     "category": "feeling",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 412,
+    "word": "experience",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "She has five years of experience.",
+    "image_url": null
+  },
+  {
+    "id": 413,
+    "word": "expert",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "profession",
+    "example": "Consult an expert before deciding.",
+    "image_url": null
+  },
+  {
+    "id": 300,
+    "word": "explain",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "Please explain the rules.",
+    "image_url": null
+  },
+  {
+    "id": 414,
+    "word": "feedback",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "Your feedback is valuable.",
+    "image_url": null
+  },
+  {
+    "id": 415,
+    "word": "focus",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "The focus of the meeting is safety.",
+    "image_url": null
+  },
+  {
+    "id": 301,
+    "word": "follow",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Follow the instructions.",
+    "image_url": null
+  },
+  {
+    "id": 347,
+    "word": "free",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Admission is free today.",
     "image_url": null
   },
   {
@@ -1476,12 +2340,714 @@
     "image_url": null
   },
   {
+    "id": 416,
+    "word": "goal",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "Set a clear goal and work toward it.",
+    "image_url": null
+  },
+  {
+    "id": 417,
+    "word": "growth",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "change",
+    "example": "The company saw steady growth.",
+    "image_url": null
+  },
+  {
+    "id": 418,
+    "word": "guideline",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "instruction",
+    "example": "Follow the company guidelines.",
+    "image_url": null
+  },
+  {
+    "id": 302,
+    "word": "happen",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "What happened yesterday?",
+    "image_url": null
+  },
+  {
+    "id": 303,
+    "word": "hope",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "emotion",
+    "example": "I hope you feel better.",
+    "image_url": null
+  },
+  {
+    "id": 348,
+    "word": "important",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "This is an important meeting.",
+    "image_url": null
+  },
+  {
+    "id": 304,
+    "word": "improve",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Reading helps improve your vocabulary.",
+    "image_url": null
+  },
+  {
+    "id": 305,
+    "word": "include",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "The price includes tax.",
+    "image_url": null
+  },
+  {
+    "id": 306,
+    "word": "increase",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "change",
+    "example": "Sales have increased this month.",
+    "image_url": null
+  },
+  {
+    "id": 307,
+    "word": "inform",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "Please inform us of any changes.",
+    "image_url": null
+  },
+  {
+    "id": 419,
+    "word": "instruction",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "Follow the instructions carefully.",
+    "image_url": null
+  },
+  {
+    "id": 308,
+    "word": "involve",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "This project involves many teams.",
+    "image_url": null
+  },
+  {
+    "id": 420,
+    "word": "issue",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "We have a technical issue.",
+    "image_url": null
+  },
+  {
+    "id": 309,
+    "word": "join",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "social",
+    "example": "Would you like to join us?",
+    "image_url": null
+  },
+  {
+    "id": 310,
+    "word": "keep",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Keep the receipt for records.",
+    "image_url": null
+  },
+  {
+    "id": 311,
+    "word": "learn",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "education",
+    "example": "She loves to learn new things.",
+    "image_url": null
+  },
+  {
+    "id": 349,
+    "word": "local",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "place",
+    "example": "Support your local community.",
+    "image_url": null
+  },
+  {
+    "id": 312,
+    "word": "manage",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "He manages a team of ten.",
+    "image_url": null
+  },
+  {
+    "id": 421,
+    "word": "management",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "She studied management in college.",
+    "image_url": null
+  },
+  {
+    "id": 313,
+    "word": "mention",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "She mentioned a new project.",
+    "image_url": null
+  },
+  {
+    "id": 422,
+    "word": "method",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "Which method works best?",
+    "image_url": null
+  },
+  {
     "id": 165,
     "word": "misunderstand",
     "part_of_speech": "adjective",
     "cefr_level": "B1",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 314,
+    "word": "move",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "We are planning to move offices.",
+    "image_url": null
+  },
+  {
+    "id": 350,
+    "word": "necessary",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "It is necessary to sign here.",
+    "image_url": null
+  },
+  {
+    "id": 315,
+    "word": "notice",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "perception",
+    "example": "Did you notice anything different?",
+    "image_url": null
+  },
+  {
+    "id": 316,
+    "word": "offer",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "They offered a better price.",
+    "image_url": null
+  },
+  {
+    "id": 423,
+    "word": "opportunity",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "This is a great opportunity.",
+    "image_url": null
+  },
+  {
+    "id": 317,
+    "word": "organize",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "She organized the whole event.",
+    "image_url": null
+  },
+  {
+    "id": 246,
+    "word": "outgoing",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 424,
+    "word": "overview",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Give an overview of the project.",
+    "image_url": null
+  },
+  {
+    "id": 425,
+    "word": "performance",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Monitor performance regularly.",
+    "image_url": null
+  },
+  {
+    "id": 249,
+    "word": "personality",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 318,
+    "word": "plan",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "planning",
+    "example": "We need to plan carefully.",
+    "image_url": null
+  },
+  {
+    "id": 351,
+    "word": "possible",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Is it possible to reschedule?",
+    "image_url": null
+  },
+  {
+    "id": 319,
+    "word": "prepare",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "Prepare your documents in advance.",
+    "image_url": null
+  },
+  {
+    "id": 426,
+    "word": "procedure",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "instruction",
+    "example": "Follow the standard procedure.",
+    "image_url": null
+  },
+  {
+    "id": 427,
+    "word": "process",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "The process takes three days.",
+    "image_url": null
+  },
+  {
+    "id": 320,
+    "word": "produce",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "The factory produces 500 units daily.",
+    "image_url": null
+  },
+  {
+    "id": 428,
+    "word": "profit",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "finance",
+    "example": "The company made a large profit.",
+    "image_url": null
+  },
+  {
+    "id": 429,
+    "word": "project",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "work",
+    "example": "The project ends in December.",
+    "image_url": null
+  },
+  {
+    "id": 430,
+    "word": "purpose",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "What is the purpose of this form?",
+    "image_url": null
+  },
+  {
+    "id": 321,
+    "word": "reach",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "We reached an agreement.",
+    "image_url": null
+  },
+  {
+    "id": 322,
+    "word": "receive",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "I received your email today.",
+    "image_url": null
+  },
+  {
+    "id": 352,
+    "word": "recent",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "time",
+    "example": "Have you seen the recent report?",
+    "image_url": null
+  },
+  {
+    "id": 323,
+    "word": "reduce",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "change",
+    "example": "We must reduce costs.",
+    "image_url": null
+  },
+  {
+    "id": 324,
+    "word": "remember",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "mental",
+    "example": "Remember to submit the form.",
+    "image_url": null
+  },
+  {
+    "id": 325,
+    "word": "report",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Please report any issues immediately.",
+    "image_url": null
+  },
+  {
+    "id": 326,
+    "word": "request",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "I would like to request a refund.",
+    "image_url": null
+  },
+  {
+    "id": 431,
+    "word": "requirement",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "What are the requirements?",
+    "image_url": null
+  },
+  {
+    "id": 432,
+    "word": "research",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "She is doing research on climate.",
+    "image_url": null
+  },
+  {
+    "id": 248,
+    "word": "reserved",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 433,
+    "word": "resource",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "Manage your resources wisely.",
+    "image_url": null
+  },
+  {
+    "id": 434,
+    "word": "responsibility",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "work",
+    "example": "It is your responsibility.",
+    "image_url": null
+  },
+  {
+    "id": 353,
+    "word": "responsible",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "character",
+    "example": "Each team member is responsible.",
+    "image_url": null
+  },
+  {
+    "id": 435,
+    "word": "result",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "The test results were positive.",
+    "image_url": null
+  },
+  {
+    "id": 327,
+    "word": "return",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "He returned the book to the library.",
+    "image_url": null
+  },
+  {
+    "id": 328,
+    "word": "review",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "business",
+    "example": "Please review the document.",
+    "image_url": null
+  },
+  {
+    "id": 436,
+    "word": "risk",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "There is always some risk involved.",
+    "image_url": null
+  },
+  {
+    "id": 437,
+    "word": "schedule",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "time",
+    "example": "What is on the schedule today?",
+    "image_url": null
+  },
+  {
+    "id": 329,
+    "word": "send",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "I will send the file tomorrow.",
+    "image_url": null
+  },
+  {
+    "id": 354,
+    "word": "several",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "quantity",
+    "example": "There are several options.",
+    "image_url": null
+  },
+  {
+    "id": 330,
+    "word": "share",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "social",
+    "example": "She shared her ideas with the team.",
+    "image_url": null
+  },
+  {
+    "id": 355,
+    "word": "similar",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "comparison",
+    "example": "The two products are similar.",
+    "image_url": null
+  },
+  {
+    "id": 438,
+    "word": "skill",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "education",
+    "example": "Communication is an important skill.",
+    "image_url": null
+  },
+  {
+    "id": 247,
+    "word": "sociable",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 439,
+    "word": "solution",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "problem-solving",
+    "example": "We need a practical solution.",
+    "image_url": null
+  },
+  {
+    "id": 331,
+    "word": "solve",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "thinking",
+    "example": "We need to solve this problem.",
+    "image_url": null
+  },
+  {
+    "id": 440,
+    "word": "source",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "academic",
+    "example": "Cite your sources.",
+    "image_url": null
+  },
+  {
+    "id": 356,
+    "word": "specific",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "description",
+    "example": "Please give a specific example.",
+    "image_url": null
+  },
+  {
+    "id": 332,
+    "word": "start",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "The meeting starts at nine.",
+    "image_url": null
+  },
+  {
+    "id": 357,
+    "word": "successful",
+    "part_of_speech": "adjective",
+    "cefr_level": "B1",
+    "category": "achievement",
+    "example": "The campaign was successful.",
+    "image_url": null
+  },
+  {
+    "id": 333,
+    "word": "suggest",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "communication",
+    "example": "May I suggest a different approach?",
+    "image_url": null
+  },
+  {
+    "id": 334,
+    "word": "support",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "action",
+    "example": "We support your decision.",
+    "image_url": null
+  },
+  {
+    "id": 441,
+    "word": "task",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "work",
+    "example": "Complete all tasks by end of day.",
+    "image_url": null
+  },
+  {
+    "id": 442,
+    "word": "technology",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "science",
+    "example": "Technology changes quickly.",
+    "image_url": null
+  },
+  {
+    "id": 443,
+    "word": "timeline",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "planning",
+    "example": "Give me a project timeline.",
+    "image_url": null
+  },
+  {
+    "id": 335,
+    "word": "understand",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "mental",
+    "example": "Do you understand the instructions?",
+    "image_url": null
+  },
+  {
+    "id": 444,
+    "word": "value",
+    "part_of_speech": "noun",
+    "cefr_level": "B1",
+    "category": "general",
+    "example": "What are your core values?",
+    "image_url": null
+  },
+  {
+    "id": 336,
+    "word": "visit",
+    "part_of_speech": "verb",
+    "cefr_level": "B1",
+    "category": "travel",
+    "example": "We plan to visit the new branch.",
     "image_url": null
   },
   {
@@ -1521,6 +3087,15 @@
     "image_url": null
   },
   {
+    "id": 445,
+    "word": "analysis",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "A thorough analysis is required.",
+    "image_url": null
+  },
+  {
     "id": 93,
     "word": "anticipate",
     "part_of_speech": "verb",
@@ -1539,6 +3114,15 @@
     "image_url": null
   },
   {
+    "id": 446,
+    "word": "aspect",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Consider every aspect of the plan.",
+    "image_url": null
+  },
+  {
     "id": 50,
     "word": "assess",
     "part_of_speech": "verb",
@@ -1548,12 +3132,39 @@
     "image_url": null
   },
   {
+    "id": 447,
+    "word": "assumption",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "thinking",
+    "example": "Do not make assumptions.",
+    "image_url": null
+  },
+  {
     "id": 94,
     "word": "attribute",
     "part_of_speech": "noun",
     "cefr_level": "B2",
     "category": "TOEIC",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 448,
+    "word": "authority",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "society",
+    "example": "Who has the authority to approve?",
+    "image_url": null
+  },
+  {
+    "id": 483,
+    "word": "barrier",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Language can be a barrier.",
     "image_url": null
   },
   {
@@ -1575,6 +3186,24 @@
     "image_url": null
   },
   {
+    "id": 358,
+    "word": "certain",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "I am certain of the result.",
+    "image_url": null
+  },
+  {
+    "id": 250,
+    "word": "characteristic",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
     "id": 51,
     "word": "circumstance",
     "part_of_speech": "noun",
@@ -1584,12 +3213,66 @@
     "image_url": null
   },
   {
+    "id": 449,
+    "word": "commitment",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "character",
+    "example": "His commitment to quality is clear.",
+    "image_url": null
+  },
+  {
+    "id": 450,
+    "word": "competition",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "The competition is fierce.",
+    "image_url": null
+  },
+  {
+    "id": 359,
+    "word": "complex",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "The system is quite complex.",
+    "image_url": null
+  },
+  {
     "id": 52,
     "word": "complex",
     "part_of_speech": "adjective",
     "cefr_level": "B2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 451,
+    "word": "concept",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "Explain the concept clearly.",
+    "image_url": null
+  },
+  {
+    "id": 452,
+    "word": "conflict",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "society",
+    "example": "We must resolve the conflict.",
+    "image_url": null
+  },
+  {
+    "id": 453,
+    "word": "consequence",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Think about the consequences.",
     "image_url": null
   },
   {
@@ -1611,12 +3294,30 @@
     "image_url": null
   },
   {
+    "id": 360,
+    "word": "consistent",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "Her performance has been consistent.",
+    "image_url": null
+  },
+  {
     "id": 55,
     "word": "contribute",
     "part_of_speech": "verb",
     "cefr_level": "B2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 454,
+    "word": "contribution",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Her contribution was recognized.",
     "image_url": null
   },
   {
@@ -1629,12 +3330,66 @@
     "image_url": null
   },
   {
+    "id": 361,
+    "word": "critical",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "Time management is critical.",
+    "image_url": null
+  },
+  {
+    "id": 455,
+    "word": "debate",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "There is ongoing debate on this topic.",
+    "image_url": null
+  },
+  {
     "id": 98,
     "word": "decline",
     "part_of_speech": "verb",
     "cefr_level": "B2",
     "category": "TOEIC",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 456,
+    "word": "diversity",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "society",
+    "example": "Diversity strengthens teams.",
+    "image_url": null
+  },
+  {
+    "id": 457,
+    "word": "economy",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "society",
+    "example": "The economy is recovering.",
+    "image_url": null
+  },
+  {
+    "id": 458,
+    "word": "efficiency",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "We need to improve efficiency.",
+    "image_url": null
+  },
+  {
+    "id": 362,
+    "word": "efficient",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "We need a more efficient process.",
     "image_url": null
   },
   {
@@ -1692,12 +3447,84 @@
     "image_url": null
   },
   {
+    "id": 459,
+    "word": "evidence",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "Show me the evidence.",
+    "image_url": null
+  },
+  {
+    "id": 242,
+    "word": "extrovert",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 460,
+    "word": "factor",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "Cost is a key factor.",
+    "image_url": null
+  },
+  {
+    "id": 461,
+    "word": "finance",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "She works in finance.",
+    "image_url": null
+  },
+  {
+    "id": 363,
+    "word": "flexible",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "The schedule is flexible.",
+    "image_url": null
+  },
+  {
+    "id": 364,
+    "word": "formal",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "Please wear formal attire.",
+    "image_url": null
+  },
+  {
+    "id": 365,
+    "word": "global",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "world",
+    "example": "We operate on a global scale.",
+    "image_url": null
+  },
+  {
     "id": 215,
     "word": "host",
     "part_of_speech": "noun",
     "cefr_level": "B2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 462,
+    "word": "impact",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Technology has a huge impact on life.",
     "image_url": null
   },
   {
@@ -1710,6 +3537,42 @@
     "image_url": null
   },
   {
+    "id": 463,
+    "word": "implementation",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "Implementation begins next month.",
+    "image_url": null
+  },
+  {
+    "id": 366,
+    "word": "initial",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "time",
+    "example": "The initial results are promising.",
+    "image_url": null
+  },
+  {
+    "id": 464,
+    "word": "initiative",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "She launched a new initiative.",
+    "image_url": null
+  },
+  {
+    "id": 465,
+    "word": "innovation",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "Innovation drives the economy.",
+    "image_url": null
+  },
+  {
     "id": 105,
     "word": "interpret",
     "part_of_speech": "verb",
@@ -1719,12 +3582,57 @@
     "image_url": null
   },
   {
+    "id": 243,
+    "word": "introvert",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 466,
+    "word": "investment",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "finance",
+    "example": "This is a wise investment.",
+    "image_url": null
+  },
+  {
+    "id": 467,
+    "word": "leadership",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "management",
+    "example": "Good leadership is essential.",
+    "image_url": null
+  },
+  {
+    "id": 468,
+    "word": "limitation",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Every approach has its limitations.",
+    "image_url": null
+  },
+  {
     "id": 61,
     "word": "maintain",
     "part_of_speech": "verb",
     "cefr_level": "B2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 469,
+    "word": "majority",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "quantity",
+    "example": "The majority agreed.",
     "image_url": null
   },
   {
@@ -1746,12 +3654,120 @@
     "image_url": null
   },
   {
+    "id": 367,
+    "word": "obvious",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "The mistake was obvious.",
+    "image_url": null
+  },
+  {
+    "id": 470,
+    "word": "outcome",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "The outcome was better than expected.",
+    "image_url": null
+  },
+  {
+    "id": 368,
+    "word": "overall",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "The overall performance was good.",
+    "image_url": null
+  },
+  {
+    "id": 471,
+    "word": "pattern",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "The data shows a clear pattern.",
+    "image_url": null
+  },
+  {
     "id": 64,
     "word": "perceive",
     "part_of_speech": "verb",
     "cefr_level": "B2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 472,
+    "word": "perspective",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "thinking",
+    "example": "Consider other perspectives.",
+    "image_url": null
+  },
+  {
+    "id": 473,
+    "word": "policy",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "society",
+    "example": "The company policy must be followed.",
+    "image_url": null
+  },
+  {
+    "id": 369,
+    "word": "potential",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "She has great potential.",
+    "image_url": null
+  },
+  {
+    "id": 370,
+    "word": "precise",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "Please be precise in your report.",
+    "image_url": null
+  },
+  {
+    "id": 491,
+    "word": "principle",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Act on strong principles.",
+    "image_url": null
+  },
+  {
+    "id": 474,
+    "word": "priority",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "What is your top priority?",
+    "image_url": null
+  },
+  {
+    "id": 475,
+    "word": "proposal",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "Submit your proposal by Friday.",
+    "image_url": null
+  },
+  {
+    "id": 476,
+    "word": "qualification",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "education",
+    "example": "List your qualifications.",
     "image_url": null
   },
   {
@@ -1773,12 +3789,48 @@
     "image_url": null
   },
   {
+    "id": 371,
+    "word": "relevant",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "Only relevant information please.",
+    "image_url": null
+  },
+  {
+    "id": 477,
+    "word": "revenue",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "finance",
+    "example": "Revenue grew by twenty percent.",
+    "image_url": null
+  },
+  {
+    "id": 372,
+    "word": "significant",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "There has been significant progress.",
+    "image_url": null
+  },
+  {
     "id": 66,
     "word": "significant",
     "part_of_speech": "adjective",
     "cefr_level": "B2",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 478,
+    "word": "standard",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "description",
+    "example": "We maintain high standards.",
     "image_url": null
   },
   {
@@ -1791,6 +3843,42 @@
     "image_url": null
   },
   {
+    "id": 479,
+    "word": "statistics",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "The statistics are surprising.",
+    "image_url": null
+  },
+  {
+    "id": 373,
+    "word": "strategic",
+    "part_of_speech": "adjective",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "We need a strategic plan.",
+    "image_url": null
+  },
+  {
+    "id": 480,
+    "word": "strategy",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "business",
+    "example": "We need a new marketing strategy.",
+    "image_url": null
+  },
+  {
+    "id": 481,
+    "word": "structure",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "academic",
+    "example": "The structure of the report is clear.",
+    "image_url": null
+  },
+  {
     "id": 224,
     "word": "that",
     "part_of_speech": "noun",
@@ -1800,12 +3888,39 @@
     "image_url": null
   },
   {
+    "id": 482,
+    "word": "trend",
+    "part_of_speech": "noun",
+    "cefr_level": "B2",
+    "category": "general",
+    "example": "Follow the latest business trends.",
+    "image_url": null
+  },
+  {
     "id": 111,
     "word": "abundant",
     "part_of_speech": "adjective",
     "cefr_level": "C1",
     "category": "toeic",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 484,
+    "word": "accountability",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "business",
+    "example": "Accountability is key in leadership.",
+    "image_url": null
+  },
+  {
+    "id": 374,
+    "word": "accurate",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "The data must be accurate.",
     "image_url": null
   },
   {
@@ -1854,12 +3969,39 @@
     "image_url": null
   },
   {
+    "id": 375,
+    "word": "comprehensive",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "The report was comprehensive.",
+    "image_url": null
+  },
+  {
+    "id": 376,
+    "word": "controversial",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "society",
+    "example": "That is a controversial topic.",
+    "image_url": null
+  },
+  {
     "id": 71,
     "word": "controversy",
     "part_of_speech": "noun",
     "cefr_level": "C1",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 377,
+    "word": "decisive",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "character",
+    "example": "A good leader must be decisive.",
     "image_url": null
   },
   {
@@ -1890,6 +4032,15 @@
     "image_url": null
   },
   {
+    "id": 485,
+    "word": "emphasis",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "academic",
+    "example": "The emphasis was on quality.",
+    "image_url": null
+  },
+  {
     "id": 74,
     "word": "facilitate",
     "part_of_speech": "verb",
@@ -1914,6 +4065,42 @@
     "cefr_level": "C1",
     "category": "toeic",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 378,
+    "word": "fundamental",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "This is a fundamental concept.",
+    "image_url": null
+  },
+  {
+    "id": 486,
+    "word": "hypothesis",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "academic",
+    "example": "Test your hypothesis carefully.",
+    "image_url": null
+  },
+  {
+    "id": 487,
+    "word": "ideology",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "society",
+    "example": "The ideology shaped the movement.",
+    "image_url": null
+  },
+  {
+    "id": 488,
+    "word": "implication",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "academic",
+    "example": "Consider the implications.",
     "image_url": null
   },
   {
@@ -1953,12 +4140,48 @@
     "image_url": null
   },
   {
+    "id": 379,
+    "word": "inevitable",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "Change is inevitable.",
+    "image_url": null
+  },
+  {
     "id": 104,
     "word": "inherent",
     "part_of_speech": "adjective",
     "cefr_level": "C1",
     "category": "",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 380,
+    "word": "innovative",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "business",
+    "example": "The company has an innovative approach.",
+    "image_url": null
+  },
+  {
+    "id": 492,
+    "word": "insight",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "thinking",
+    "example": "Her insight was very helpful.",
+    "image_url": null
+  },
+  {
+    "id": 489,
+    "word": "integrity",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "character",
+    "example": "Integrity is non-negotiable.",
     "image_url": null
   },
   {
@@ -1980,6 +4203,15 @@
     "image_url": null
   },
   {
+    "id": 490,
+    "word": "phenomenon",
+    "part_of_speech": "noun",
+    "cefr_level": "C1",
+    "category": "academic",
+    "example": "This is a rare phenomenon.",
+    "image_url": null
+  },
+  {
     "id": 112,
     "word": "reluctant",
     "part_of_speech": "adjective",
@@ -1989,12 +4221,57 @@
     "image_url": null
   },
   {
+    "id": 381,
+    "word": "sophisticated",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "The system is highly sophisticated.",
+    "image_url": null
+  },
+  {
     "id": 110,
     "word": "sustain",
     "part_of_speech": "verb",
     "cefr_level": "C1",
     "category": "toeic",
     "example": "",
+    "image_url": null
+  },
+  {
+    "id": 382,
+    "word": "sustainable",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "environment",
+    "example": "We need sustainable solutions.",
+    "image_url": null
+  },
+  {
+    "id": 251,
+    "word": "trait",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "",
+    "example": "",
+    "image_url": null
+  },
+  {
+    "id": 383,
+    "word": "transparent",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "The process must be transparent.",
+    "image_url": null
+  },
+  {
+    "id": 384,
+    "word": "versatile",
+    "part_of_speech": "adjective",
+    "cefr_level": "C1",
+    "category": "description",
+    "example": "She is a versatile professional.",
     "image_url": null
   },
   {

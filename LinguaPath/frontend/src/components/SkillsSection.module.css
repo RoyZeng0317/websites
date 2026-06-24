@@ -1,0 +1,59 @@
+.sectionTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  padding: 0 2.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 2.5rem;
+  animation: fadeUp 0.7s 0.25s ease both;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.25s;
+  border-top: 3px solid var(--card-color, var(--accent));
+}
+.card:hover {
+  border-color: var(--card-color, var(--accent));
+  transform: translateY(-3px);
+}
+
+.char {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--card-color, var(--accent));
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -136,13 +136,15 @@ class FirebaseDB:
         data['id'] = doc.id
         return data
 
-    def insert_share(self, file_id, password_hash, expires_at):
+    def insert_share(self, file_id, password_hash, expires_at, max_downloads=1):
         db = self._get_db()
         doc_ref = db.collection('shares').document()
         doc_ref.set({
             'file_id': file_id,
             'password_hash': password_hash,
             'is_used': False,
+            'max_downloads': max_downloads,
+            'download_count': 0,
             'created_at': firestore.SERVER_TIMESTAMP,
             'expires_at': expires_at,
         })
@@ -165,9 +167,105 @@ class FirebaseDB:
 
     def mark_share_used(self, share_id):
         db = self._get_db()
+        db.collection('shares').document(share_id).update({'is_used': True})
+
+    def increment_download_count(self, share_id):
+        db = self._get_db()
         db.collection('shares').document(share_id).update({
-            'is_used': True,
+            'download_count': firestore.Increment(1),
         })
+
+    def get_file_count(self):
+        db = self._get_db()
+        return len(list(db.collection('files').limit(101).stream()))
+
+    def cleanup_expired(self):
+        db = self._get_db()
+        now = datetime.now(timezone.utc)
+        expired = list(
+            db.collection('shares')
+            .where(filter=FieldFilter('is_used', '==', False))
+            .where(filter=FieldFilter('expires_at', '<=', now))
+            .stream()
+        )
+        count = 0
+        for share_doc in expired:
+            share_data = share_doc.to_dict()
+            file_id = share_data.get('file_id')
+            share_doc.reference.delete()
+            if file_id:
+                file_ref = db.collection('files').document(file_id)
+                file_snap = file_ref.get()
+                if file_snap.exists:
+                    stored_name = file_snap.to_dict().get('stored_name')
+                    file_ref.delete()
+                    if stored_name:
+                        self.delete_file(stored_name)
+            count += 1
+        if count:
+            logger.info(f'[Cleanup] 已刪除 {count} 個過期分享及其檔案')
+        return count
+
+    def increment_pageview(self):
+        db = self._get_db()
+        db.collection('stats').document('global').set(
+            {'pageviews': firestore.Increment(1)},
+            merge=True,
+        )
+
+    def get_admin_stats(self):
+        db = self._get_db()
+        now = datetime.now(timezone.utc)
+
+        files = list(db.collection('files').stream())
+        file_count = len(files)
+        total_size = sum(f.to_dict().get('file_size', 0) for f in files)
+
+        active_shares = list(
+            db.collection('shares')
+            .where(filter=FieldFilter('is_used', '==', False))
+            .where(filter=FieldFilter('expires_at', '>', now))
+            .stream()
+        )
+
+        members = list(db.collection('members').stream())
+
+        return {
+            'file_count': file_count,
+            'total_size': total_size,
+            'active_share_count': len(active_shares),
+            'member_count': len(members),
+        }
+
+    def get_recent_files(self, limit=50):
+        from google.cloud.firestore import Query as FSQuery
+        db = self._get_db()
+        docs = (
+            db.collection('files')
+            .order_by('created_at', direction=FSQuery.DESCENDING)
+            .limit(limit)
+            .stream()
+        )
+        results = []
+        for doc in docs:
+            data = doc.to_dict()
+            data['id'] = doc.id
+            if data.get('created_at'):
+                data['created_at'] = data['created_at'].isoformat()
+            results.append(data)
+        return results
+
+    def get_members(self):
+        db = self._get_db()
+        docs = list(db.collection('members').stream())
+        results = []
+        for doc in docs:
+            data = doc.to_dict()
+            data['uid'] = doc.id
+            if data.get('since'):
+                data['since'] = data['since'].isoformat()
+            results.append(data)
+        return results
 
     def get_file_stream(self, stored_name):
         self._ensure_initialized()
@@ -203,6 +301,24 @@ class FirebaseDB:
         except Exception as e:
             logger.warning(f'Health check failed: {str(e)}')
             return False
+
+    def delete_share(self, share_id):
+        db = self._get_db()
+        share_ref = db.collection('shares').document(share_id)
+        share_snap = share_ref.get()
+        if not share_snap.exists:
+            return False
+        file_id = share_snap.to_dict().get('file_id')
+        share_ref.delete()
+        if file_id:
+            file_ref = db.collection('files').document(file_id)
+            file_snap = file_ref.get()
+            if file_snap.exists:
+                stored_name = file_snap.to_dict().get('stored_name')
+                file_ref.delete()
+                if stored_name:
+                    self.delete_file(stored_name)
+        return True
 
     def delete_file(self, stored_name):
         self._ensure_initialized()

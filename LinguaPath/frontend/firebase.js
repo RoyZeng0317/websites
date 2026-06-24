@@ -1,18 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyADqjDtdvxuM2Hqh4ple3M1uCD9OSmMUk4",
-  authDomain: "linugapath.firebaseapp.com",
-  projectId: "linugapath",
-  storageBucket: "linugapath.firebasestorage.app",
-  messagingSenderId: "821191704090",
-  appId: "1:821191704090:web:030812138a98d844eb1ba3",
-  measurementId: "G-1Z2DRPKCRD",
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-export const loginWithGoogle = () => signInWithPopup(auth, provider);
+// Firebase configuration has been moved to firebase-config.js
+// which uses CDN-hosted Firebase SDK (ESM) compatible with static hosting.
+// This file is kept as a placeholder only — do not add npm imports here.
+//
+// The actual config used by the app:
+//   import { auth, db, ... } from "./firebase-config.js";

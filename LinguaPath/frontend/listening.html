@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaPath — Listening Lab</title>
+  <link rel="icon" type="image/svg+xml" href="public/icons.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Header ── */
+    .listen-header { max-width: 1100px; margin: 2rem auto 0; padding: 0 2rem; }
+    .listen-header h1 { font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:0.3rem; }
+    .listen-header p  { color:var(--muted); font-size:0.9rem; }
+
+    /* ── Ability bar ── */
+    .ability-box {
+      max-width:1100px; margin:1.2rem auto 0; padding:0 2rem;
+    }
+    .ability-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:12px; padding:1rem 1.4rem;
+      display:flex; align-items:center; gap:1.2rem;
+    }
+    .ability-label { font-size:0.82rem; color:var(--muted); white-space:nowrap; }
+    .ability-bar-wrap { flex:1; background:rgba(255,255,255,0.06); border-radius:999px; height:8px; overflow:hidden; }
+    .ability-bar-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,#7eb8e8,#e8c97e); transition:width 0.6s; }
+    .ability-pct { font-size:1rem; font-weight:600; color:var(--accent); white-space:nowrap; min-width:3rem; text-align:right; }
+
+    /* ── Filter ── */
+    .filter-bar {
+      max-width:1100px; margin:1.2rem auto 0; padding:0 2rem;
+      display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;
+    }
+    .filter-bar select {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:8px; padding:0.5rem 0.8rem;
+      color:var(--text); font-family:'DM Sans'; font-size:0.85rem; outline:none; cursor:pointer;
+    }
+    .count-label { font-size:0.82rem; color:var(--muted); margin-left:auto; }
+
+    /* ── Lesson grid ── */
+    .lesson-grid {
+      max-width:1100px; margin:1.4rem auto 3rem; padding:0 2rem;
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.2rem;
+    }
+
+    /* ── Lesson card ── */
+    .lesson-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:14px; overflow:hidden; display:flex; flex-direction:column;
+      transition:box-shadow 0.2s;
+    }
+    .lesson-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+
+    .lesson-thumb {
+      position:relative; padding-bottom:56.25%; background:#000; flex-shrink:0;
+    }
+    .lesson-thumb iframe {
+      position:absolute; top:0; left:0; width:100%; height:100%; border:none;
+    }
+
+    .lesson-body { padding:1rem 1.2rem; flex:1; display:flex; flex-direction:column; }
+    .lesson-top  { display:flex; align-items:flex-start; gap:0.6rem; margin-bottom:0.7rem; }
+    .lesson-title { font-size:0.95rem; font-weight:600; line-height:1.4; flex:1; }
+    .tag-diff {
+      display:inline-block; padding:0.18rem 0.55rem; border-radius:4px;
+      font-size:0.68rem; font-weight:700; letter-spacing:0.05em; flex-shrink:0;
+    }
+    .diff-A1,.diff-A2 { background:rgba(126,200,160,0.15); color:#7ec8a0; border:1px solid rgba(126,200,160,0.3); }
+    .diff-B1,.diff-B2 { background:rgba(126,184,232,0.15); color:#7eb8e8; border:1px solid rgba(126,184,232,0.3); }
+    .diff-C1,.diff-C2 { background:rgba(232,201,126,0.15); color:#e8c97e; border:1px solid rgba(232,201,126,0.3); }
+
+    /* ── Key points ── */
+    .points-title {
+      font-size:0.75rem; color:var(--muted); text-transform:uppercase;
+      letter-spacing:0.06em; margin-bottom:0.5rem;
+    }
+    .point-item {
+      display:flex; align-items:flex-start; gap:0.55rem;
+      padding:0.4rem 0; border-bottom:1px solid var(--border); cursor:pointer;
+      transition:background 0.1s; border-radius:4px;
+    }
+    .point-item:last-child { border-bottom:none; }
+    .point-check {
+      width:18px; height:18px; border:2px solid var(--border);
+      border-radius:4px; flex-shrink:0; display:flex; align-items:center;
+      justify-content:center; margin-top:1px; transition:all 0.15s;
+    }
+    .point-item.checked .point-check { background:#7ec8a0; border-color:#7ec8a0; }
+    .point-item.checked .point-check::after { content:'✓'; font-size:0.7rem; color:#0d0f14; font-weight:700; }
+    .point-item.checked .point-text { color:var(--muted); text-decoration:line-through; }
+    .point-text { font-size:0.82rem; line-height:1.5; color:var(--text); }
+
+    /* ── Score row ── */
+    .score-row {
+      margin-top:0.8rem; padding-top:0.7rem; border-top:1px solid var(--border);
+      display:flex; align-items:center; gap:0.6rem;
+    }
+    .score-bar-wrap { flex:1; background:rgba(255,255,255,0.06); border-radius:999px; height:6px; overflow:hidden; }
+    .score-bar-fill { height:100%; border-radius:999px; background:#7ec8a0; transition:width 0.4s; }
+    .score-pct { font-size:0.85rem; font-weight:600; color:#7ec8a0; min-width:2.5rem; text-align:right; }
+    .btn-reset { font-size:0.72rem; color:var(--muted); background:none; border:none; cursor:pointer; padding:0; }
+    .btn-reset:hover { color:var(--text); }
+
+    /* ── Empty ── */
+    .state-msg { max-width:1100px; margin:4rem auto; padding:0 2rem; text-align:center; color:var(--muted); }
+    .state-msg .icon { font-size:2.5rem; display:block; margin-bottom:0.6rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><a href="index.html" class="link">
+    <img src="public/icons.svg" alt="" width="20" height="20">Lingua<span>Path</span>
+  </a></div>
+  <div class="nav-right">
+    <a href="vocabulary.html" class="btn btn-ghost">Vocabulary</a>
+    <a href="listening.html"  class="btn btn-ghost" style="color:var(--accent)">Listening Lab</a>
+    <a href="news.html"       class="btn btn-ghost">News Reader</a>
+    <a href="path.html"       class="btn btn-ghost">Learning Path</a>
+    <div id="user-info" style="display:none">
+      <img id="user-avatar" src="" alt="avatar"/>
+      <span id="user-name"></span>
+      <a href="dashboard.html" class="btn btn-ghost">My Progress</a>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <div id="auth-buttons">
+      <button class="btn btn-ghost" id="signin-btn">Sign In</button>
+      <button class="btn btn-primary" id="signup-btn">Get Started</button>
+    </div>
+    <a href="#" class="link theme-toggle-icon" onclick="themeToggle()">☀️</a>
+  </div>
+</nav>
+
+<div class="listen-header">
+  <h1>Listening Lab</h1>
+  <p>Watch the video, then check every key point you understood. Track your listening ability.</p>
+</div>
+
+<!-- Ability bar -->
+<div class="ability-box">
+  <div class="ability-card">
+    <span class="ability-label">🎧 Listening Ability</span>
+    <div class="ability-bar-wrap">
+      <div class="ability-bar-fill" id="ability-fill" style="width:0%"></div>
+    </div>
+    <span class="ability-pct" id="ability-pct">—</span>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <select id="filter-diff" onchange="applyFilter()">
+    <option value="">All Levels</option>
+    <option value="A1">A1</option><option value="A2">A2</option>
+    <option value="B1">B1</option><option value="B2">B2</option>
+    <option value="C1">C1</option><option value="C2">C2</option>
+  </select>
+  <span class="count-label" id="count-label"></span>
+</div>
+
+<div id="lesson-grid" class="lesson-grid"></div>
+<div id="state-msg" class="state-msg"><span class="icon">⏳</span>Loading…</div>
+
+<!-- Login modal (same as other pages) -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h2 id="modal-title">Welcome back</h2>
+    <p id="modal-subtitle">Sign in to track your progress</p>
+    <div class="tab-switch">
+      <button class="tab-btn active" id="tab-signin">Sign In</button>
+      <button class="tab-btn" id="tab-signup">Sign Up</button>
+    </div>
+    <button class="btn-google" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div class="divider">or</div>
+    <div class="input-group"><label>Email</label><input type="email" id="email-input" placeholder="you@example.com"/></div>
+    <div class="input-group"><label>Password</label><input type="password" id="password-input" placeholder="••••••••"/></div>
+    <div class="error-msg" id="auth-error"></div>
+    <button class="btn btn-primary btn-full" id="auth-submit">Sign In</button>
+  </div>
+</div>
+
+<script type="module" src="account.js"></script>
+<script src="script.js"></script>
+<script>
+  let allLessons = [];
+
+  // ── YouTube URL → embed URL ───────────────────────────────────────────────
+  function toEmbed(url) {
+    const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+    return m ? `https://www.youtube.com/embed/${m[1]}?rel=0` : url;
+  }
+
+  // ── LocalStorage helpers ──────────────────────────────────────────────────
+  function getChecked(id)      { return JSON.parse(localStorage.getItem('lp-listen-' + id) || '[]'); }
+  function saveChecked(id, arr){ localStorage.setItem('lp-listen-' + id, JSON.stringify(arr)); }
+
+  // ── Overall ability score ─────────────────────────────────────────────────
+  function updateAbility() {
+    let total = 0, done = 0;
+    allLessons.forEach(l => {
+      const pts = Array.isArray(l.key_points) ? l.key_points : [];
+      if (!pts.length) return;
+      total += pts.length;
+      done  += getChecked(l.id).filter(Boolean).length;
+    });
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    document.getElementById('ability-fill').style.width = pct + '%';
+    document.getElementById('ability-pct').textContent  = total ? pct + '%' : '—';
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+  function renderLesson(l) {
+    const pts     = Array.isArray(l.key_points) ? l.key_points : [];
+    const checked = getChecked(l.id);
+    const doneCnt = checked.filter(Boolean).length;
+    const pct     = pts.length ? Math.round((doneCnt / pts.length) * 100) : 0;
+
+    const pointsHtml = pts.length
+      ? pts.map((p, i) => `
+          <div class="point-item${checked[i] ? ' checked' : ''}" onclick="togglePoint(${l.id},${i},this)">
+            <div class="point-check"></div>
+            <span class="point-text">${esc(p)}</span>
+          </div>`).join('')
+      : '<p style="font-size:0.8rem;color:var(--muted);margin:0">No key points added yet.</p>';
+
+    return `
+      <div class="lesson-card">
+        <div class="lesson-thumb">
+          <iframe src="${toEmbed(l.youtube_url)}" allowfullscreen loading="lazy" title="${esc(l.title)}"></iframe>
+        </div>
+        <div class="lesson-body">
+          <div class="lesson-top">
+            <span class="lesson-title">${esc(l.title)}</span>
+            <span class="tag-diff diff-${l.difficulty}">${l.difficulty}</span>
+          </div>
+          ${pts.length ? `<div class="points-title">Key Points — check what you understood</div>` : ''}
+          <div id="points-${l.id}">${pointsHtml}</div>
+          ${pts.length ? `
+          <div class="score-row">
+            <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-${l.id}" style="width:${pct}%"></div></div>
+            <span class="score-pct" id="pct-${l.id}">${pct}%</span>
+            <button class="btn-reset" onclick="resetLesson(${l.id})">↺</button>
+          </div>` : ''}
+        </div>
+      </div>`;
+  }
+
+  function applyFilter() {
+    const diff = document.getElementById('filter-diff').value;
+    const filtered = allLessons.filter(l => !diff || l.difficulty === diff);
+    const grid = document.getElementById('lesson-grid');
+    const msg  = document.getElementById('state-msg');
+    if (!filtered.length) {
+      grid.innerHTML = '';
+      msg.innerHTML = '<span class="icon">🔍</span>No lessons match this filter.';
+      msg.style.display = 'block';
+    } else {
+      msg.style.display = 'none';
+      grid.innerHTML = filtered.map(renderLesson).join('');
+    }
+    document.getElementById('count-label').textContent = filtered.length + ' lesson' + (filtered.length !== 1 ? 's' : '');
+  }
+
+  // ── Toggle a key point ────────────────────────────────────────────────────
+  function togglePoint(lessonId, idx, el) {
+    const checked = getChecked(lessonId);
+    const lesson  = allLessons.find(l => l.id === lessonId);
+    const pts     = Array.isArray(lesson?.key_points) ? lesson.key_points : [];
+    checked[idx]  = !checked[idx];
+    saveChecked(lessonId, checked);
+    el.classList.toggle('checked', !!checked[idx]);
+
+    const doneCnt = checked.filter(Boolean).length;
+    const pct     = pts.length ? Math.round((doneCnt / pts.length) * 100) : 0;
+    const bar = document.getElementById('bar-' + lessonId);
+    const pctEl = document.getElementById('pct-' + lessonId);
+    if (bar)   bar.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct + '%';
+    updateAbility();
+  }
+
+  function resetLesson(lessonId) {
+    localStorage.removeItem('lp-listen-' + lessonId);
+    const lesson = allLessons.find(l => l.id === lessonId);
+    const pts    = Array.isArray(lesson?.key_points) ? lesson.key_points : [];
+    document.getElementById('points-' + lessonId).querySelectorAll('.point-item').forEach(el => el.classList.remove('checked'));
+    const bar = document.getElementById('bar-' + lessonId);
+    const pctEl = document.getElementById('pct-' + lessonId);
+    if (bar)   bar.style.width = '0%';
+    if (pctEl) pctEl.textContent = '0%';
+    updateAbility();
+  }
+
+  // ── Load ──────────────────────────────────────────────────────────────────
+  async function load() {
+    try {
+      const resp = await fetch('listening.json?t=' + Date.now());
+      if (!resp.ok) throw new Error();
+      allLessons = await resp.json();
+      allLessons.forEach(l => {
+        if (typeof l.key_points === 'string') l.key_points = JSON.parse(l.key_points || '[]');
+      });
+      document.getElementById('state-msg').style.display = 'none';
+      applyFilter();
+      updateAbility();
+    } catch {
+      document.getElementById('state-msg').innerHTML =
+        '<span class="icon">📭</span>No lessons yet.<br><small>Add lessons in Admin and click <strong>Publish to Site</strong>.</small>';
+      document.getElementById('state-msg').style.display = 'block';
+    }
+  }
+
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  load();
+</script>
+</body>
+</html>

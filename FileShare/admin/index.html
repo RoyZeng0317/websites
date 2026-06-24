@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileShare Admin</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:       #0f0f0f;
+            --surface:  #1a1a2e;
+            --surface2: #16213e;
+            --border:   #2a2a4a;
+            --accent:   #00A2E8;
+            --success:  #2ecc71;
+            --warning:  #f39c12;
+            --error:    #e74c3c;
+            --font:     #eaeaea;
+            --muted:    #888;
+            --radius:   10px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--font);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), #7ecdf7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        #status-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            display: inline-block;
+        }
+
+        #status-dot.ok   { background: var(--success); }
+        #status-dot.err  { background: var(--error); }
+
+        .btn-refresh {
+            padding: 7px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface2);
+            color: var(--font);
+            font-size: 13px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .btn-refresh:hover { border-color: var(--accent); }
+
+        .btn-delete-file {
+            padding: 4px 12px;
+            border: 1px solid rgba(231, 76, 60, 0.35);
+            border-radius: 5px;
+            background: transparent;
+            color: var(--error);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-delete-file:hover {
+            background: rgba(231, 76, 60, 0.12);
+            border-color: var(--error);
+        }
+
+        .btn-delete-file:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ── Main ── */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* ── Stats Cards ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 560px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* ── Tabs ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 4px;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            padding: 9px 20px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover { color: var(--font); }
+        .tab-btn.active { background: #0f3460; color: var(--font); }
+
+        /* ── Table ── */
+        .table-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .table-count {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead th {
+            padding: 12px 16px;
+            text-align: left;
+            color: var(--muted);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: var(--surface2); }
+
+        tbody td {
+            padding: 12px 16px;
+            color: var(--font);
+            vertical-align: middle;
+        }
+
+        .file-name {
+            font-weight: 500;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-doc   { background: rgba(0,162,232,0.15); color: var(--accent); }
+        .badge-img   { background: rgba(46,204,113,0.15); color: var(--success); }
+        .badge-video { background: rgba(243,156,18,0.15); color: var(--warning); }
+        .badge-other { background: rgba(136,136,136,0.15); color: var(--muted); }
+
+        .empty-row td {
+            text-align: center;
+            color: var(--muted);
+            padding: 40px;
+        }
+
+        /* ── Loading ── */
+        .loading-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            color: var(--muted);
+            font-size: 14px;
+            gap: 12px;
+        }
+
+        .spinner {
+            width: 20px; height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .panel { display: none; }
+        .panel.active { display: block; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>⚙️ FileShare 管理後台</h1>
+    <div class="header-right">
+        <span id="status-dot"></span>
+        <span id="status-text">連接中...</span>
+        <button class="btn-refresh" id="btn-refresh">↻ 重新整理</button>
+    </div>
+</header>
+
+<main>
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="stat-files">-</div>
+            <div class="stat-label">總檔案數</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="stat-size">-</div>
+            <div class="stat-label">總儲存量</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="stat-shares">-</div>
+            <div class="stat-label">有效分享數</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="stat-members">-</div>
+            <div class="stat-label">會員總數</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="stat-pageviews">-</div>
+            <div class="stat-label">頁面瀏覽量</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" data-panel="files">📁 最近上傳</button>
+        <button class="tab-btn" data-panel="members">👑 會員列表</button>
+    </div>
+
+    <!-- Files Panel -->
+    <div class="table-wrap panel active" id="panel-files">
+        <div class="table-header">
+            <span class="table-title">最近上傳檔案</span>
+            <span class="table-count" id="files-count"></span>
+        </div>
+        <div id="files-loading" class="loading-overlay">
+            <div class="spinner"></div><span>載入中...</span>
+        </div>
+        <table id="files-table" style="display:none">
+            <thead>
+                <tr>
+                    <th>檔案名稱</th>
+                    <th>大小</th>
+                    <th>類型</th>
+                    <th>上傳時間</th>
+                    <th>下載次數</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="files-tbody"></tbody>
+        </table>
+    </div>
+
+    <!-- Members Panel -->
+    <div class="table-wrap panel" id="panel-members">
+        <div class="table-header">
+            <span class="table-title">會員列表</span>
+            <span class="table-count" id="members-count"></span>
+        </div>
+        <div id="members-loading" class="loading-overlay">
+            <div class="spinner"></div><span>載入中...</span>
+        </div>
+        <table id="members-table" style="display:none">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>Email</th>
+                    <th>開通時間</th>
+                </tr>
+            </thead>
+            <tbody id="members-tbody"></tbody>
+        </table>
+    </div>
+</main>
+
+<script src="admin.js"></script>
+</body>
+</html>

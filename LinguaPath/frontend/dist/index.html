@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" type="image/svg+xml" href="/dist/assets/icons-8g2CUrFh.svg">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <title>LinguaPath — Learn English</title>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+      <script type="module" crossorigin src="/dist/assets/index-BQhsO3NQ.js"></script>
+      <link rel="stylesheet" crossorigin href="/dist/assets/index-CVYbaR94.css">
+    </head>
+<body>
+<nav>
+  <div class="logo"><a href="index.html" class="link"><img src="/dist/assets/icons-8g2CUrFh.svg" alt="" width="20px" height="20px">Lingua<span>Path</span></a></div>
+  <div class="nav-right">
+    <a href="vocabulary.html" class="btn btn-ghost">Vocabulary Card</a>
+    <a href="listening.html"  class="btn btn-ghost">Listening Lab</a>
+    <a href="news.html"       class="btn btn-ghost">News Reader</a>
+    <a href="path.html"       class="btn btn-ghost">Learning Path</a>
+    <div id="user-info" style="display:none">
+      <img id="user-avatar" src="" alt="avatar"/>
+      <span id="user-name"></span>
+      <a href="dashboard.html" class="btn btn-ghost">My Progress</a>
+      <button class="btn btn-ghost" id="logout-btn">Sign Out</button>
+    </div>
+    <div id="auth-buttons">
+      <button class="btn btn-ghost" id="signin-btn">Sign In</button>
+      <button class="btn btn-primary" id="signup-btn">Get Started</button>
+    </div>
+    <a href="#" class="link theme-toggle-icon" onclick="themeToggle()">☀️</a>
+  </div>
+</nav>
+  <div class="chat-bot">
+  <img src="" alt="">
+</div>
+<section class="hero">
+  <div class="hero-tag">✦ English Language Platform</div>
+  <h1>Master English with<br><em>structured paths</em></h1>
+  <p>From beginner foundations to advanced fluency — track your progress and learn at your own pace.</p>
+  <button class="btn btn-primary" style="padding:0.75rem 2rem;font-size:1rem" id="cta-btn">Start Learning Now</button>
+  <button class="btn btn-primary" style="padding: 0.75rem 2rem;font-size: 1rem;" id="check-btn">Check Your Level</button>
+</section>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">8</div><div class="stat-label">Courses</div></div>
+  <div class="stat"><div class="stat-num">52</div><div class="stat-label">Lessons</div></div>
+  <div class="stat"><div class="stat-num">Pay</div><div class="stat-label">Some functions</div></div>
+</div>
+
+<div style="padding:0 2.5rem;max-width:1200px;margin:0 auto">
+  <div class="section-title">Learning Skills</div>
+</div>
+<div class="skills-section">
+  <div class="skill-card" style="--sc:#a78bfa">
+    <div class="skill-card-char">L</div>
+    <div class="skill-card-label">Listening</div>
+    <div class="skill-card-desc">Comprehend spoken English across accents and speeds.</div>
+  </div>
+  <div class="skill-card" style="--sc:#f59e0b">
+    <div class="skill-card-char">S</div>
+    <div class="skill-card-label">Speaking</div>
+    <div class="skill-card-desc">Build fluency and confidence in real conversations.</div>
+  </div>
+  <div class="skill-card" style="--sc:#34d399">
+    <div class="skill-card-char">R</div>
+    <div class="skill-card-label">Reading</div>
+    <div class="skill-card-desc">Understand articles, stories, and academic texts.</div>
+  </div>
+  <div class="skill-card" style="--sc:#f472b6">
+    <div class="skill-card-char">W</div>
+    <div class="skill-card-label">Writing</div>
+    <div class="skill-card-desc">Express ideas clearly in written English.</div>
+  </div>
+</div>
+
+<div style="padding:0 2.5rem;max-width:1200px;margin:0 auto">
+  <div class="section-title">All Courses</div>
+</div>
+
+<div class="courses-grid" id="courses-grid">
+  <!-- Populated by JS -->
+</div>
+
+<div class="padding:0 2.5rem;max-width:1200px;margin:0 auto">
+</div>
+
+
+<script src="level.js"></script>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h2 id="modal-title">Welcome back</h2>
+    <p id="modal-subtitle">Sign in to track your progress</p>
+    <div class="tab-switch">
+      <button class="tab-btn active" id="tab-signin">Sign In</button>
+      <button class="tab-btn" id="tab-signup">Sign Up</button>
+    </div>
+    <button class="btn-google" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div class="divider">or</div>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="email-input" placeholder="you@example.com"/>
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password-input" placeholder="••••••••"/>
+    </div>
+    <div class="error-msg" id="auth-error"></div>
+    <button class="btn btn-primary btn-full" id="auth-submit">Sign In</button>
+  </div>
+</div>
+<script src="test.js"></script>
+
+<!-- CEFR TEST MODAL -->
+<div class="test-overlay" id="test-overlay">
+  <div class="test-modal">
+    <div class="test-header">
+      <h2>English Level Test</h2>
+      <button class="test-close" id="test-close">✕</button>
+    </div>
+    <div class="test-body" id="test-body"></div>
+    <div class="test-footer" id="test-footer"></div>
+  </div>
+</div>
+  </body>
+  <div class="contact-us">
+            <span>Contact us</span>
+            <label for="" class="email">Email: boyud9.5@yahoo.com</label>
+            <div class="account">
+              <label for="">Account</label>
+              <ul>
+                <li><a href="" class="link">My Account</a></li>
+              </ul>
+            </div>
+            <div class="about-us">
+              <label for="">About Us</label>
+              <ul>
+                <li><a href="" class="link">Our Business</a></li>
+                <li><a href="" class="link">Careers</a></li>
+              </ul>
+            </div>
+            <div class="other">
+              <label for="">Other link</label>
+              <ul>
+                <li><a href="" class="link">GEPT</a></li>
+                <li><a href="" class="link">BESTEP</a></li>
+                <li><a href="" class="link">ITELS</a></li>
+                <li><a href="" class="link">TOEFL</a></li>
+              </ul>
+            </div>
+            <div class="society">
+                <a href="" class="link"><i class="fa-brands fa-facebook"></i></a>
+                <a href="" class="link"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="" class="link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="" class="link"><i class="fa-brands fa-youtube"></i></a>
+                <a href="mailto:boyud9.5@yahoo.com" class="link"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    <footer>Copyright&copy; 2026<a class="link" href="https://stellarix-electronics.web.app/">Stellarix Electronics Technology Company</a>. All Rights Reserved. Version: 3.6.2</footer>
+    <script src="script.js"></script>
+</html>

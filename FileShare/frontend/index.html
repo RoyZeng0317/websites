@@ -7,7 +7,35 @@
     <title>FileShare - 檔案共享平台</title>
 </head>
 <body>
+
+    <!-- 會員升級 Modal（僅在點選 15/30 分鐘時出現） -->
+    <div id="member-modal" class="member-modal-overlay" hidden>
+        <div class="member-modal-card">
+            <button id="btn-close-modal" class="btn-close-modal" aria-label="關閉">✕</button>
+            <div class="paywall-lock">👑</div>
+            <h2>會員專屬時段</h2>
+            <p class="paywall-desc">15 分鐘與 30 分鐘選項為付費會員專屬。</p>
+            <div class="paywall-steps">
+                <div class="paywall-step"><span>1</span><p>點擊下方購買會員</p></div>
+                <div class="paywall-step"><span>2</span><p>以 Google 帳號登入並等待開通（24 小時內）</p></div>
+            </div>
+            <a href="https://www.paypal.com/ncp/payment/EY57YCQ5YP3W8"
+               target="_blank" rel="noopener noreferrer"
+               class="btn-paypal">💳 購買會員</a>
+            <button id="btn-google-signin" class="btn-google-signin">
+                <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+                使用 Google 帳號登入
+            </button>
+            <p class="paywall-status" id="paywall-status"></p>
+        </div>
+    </div>
+
     <div class="container">
+        <div class="user-bar" id="user-bar" hidden>
+            <span class="user-email" id="user-email"></span>
+            <button id="btn-signout" class="btn-signout">登出</button>
+        </div>
+
         <header>
             <h1>FileShare</h1>
             <p>安全的一次性檔案共享</p>
@@ -30,10 +58,16 @@
                             <line x1="12" y1="3" x2="12" y2="15"/>
                         </svg>
                     </div>
-                    <p>拖曳檔案到此處，或 <span class="browse-text">點擊瀏覽</span></p>
+                    <p>拖曳檔案或資料夾到此處，或 <span class="browse-text">點擊瀏覽</span></p>
                     <p class="file-limit">最大 500MB</p>
                 </div>
                 <input type="file" id="file-input" hidden>
+                <input type="file" id="folder-input" webkitdirectory hidden>
+            </div>
+
+            <div class="upload-toggles">
+                <button class="upload-toggle active" data-mode="file">選擇檔案</button>
+                <button class="upload-toggle" data-mode="folder">選擇資料夾</button>
             </div>
 
             <div class="file-info" id="file-info" hidden>
@@ -63,13 +97,38 @@
                         <input type="radio" name="expires_in" value="600">
                         <span>10 分鐘</span>
                     </label>
+                    <label class="timer-option timer-member">
+                        <input type="radio" name="expires_in" value="900">
+                        <span>15 分鐘</span>
+                        <span class="member-badge">👑</span>
+                    </label>
+                    <label class="timer-option timer-member">
+                        <input type="radio" name="expires_in" value="1800">
+                        <span>30 分鐘</span>
+                        <span class="member-badge">👑</span>
+                    </label>
                     <label class="timer-option timer-custom">
                         <input type="radio" name="expires_in" value="custom">
                         <span>自訂</span>
-                        <input type="number" id="custom-minutes" class="timer-input" min="1" value="1" disabled>
-                        <span class="timer-unit">分鐘</span>
+                        <input type="number" id="custom-minutes" class="timer-input" min="1" max="30" value="1" disabled>
+                        <span class="timer-unit">分鐘（上限 30）</span>
                     </label>
                 </div>
+            </div>
+
+            <div class="dl-mode-section" id="dl-mode-section">
+                <label class="timer-label">下載次數</label>
+                <div class="dl-mode-options">
+                    <label class="dl-mode-option active" id="mode-onetime">
+                        <input type="radio" name="download_mode" value="1" checked>
+                        <span>一次性</span>
+                    </label>
+                    <label class="dl-mode-option" id="mode-unlimited">
+                        <input type="radio" name="download_mode" value="0">
+                        <span>無限次數</span>
+                    </label>
+                </div>
+                <p class="dl-mode-hint" id="dl-mode-hint">下載一次後連結自動失效</p>
             </div>
 
             <button class="btn btn-primary" id="btn-upload" disabled>上傳檔案</button>
@@ -98,6 +157,7 @@
                     </div>
                 </div>
                 <p class="password-hint">將連結或密碼分享給接收者，僅能使用一次</p>
+                <button class="btn btn-danger" id="btn-delete-share">🗑 刪除連結</button>
             </div>
 
             <div class="result error" id="upload-error" hidden>
@@ -152,7 +212,7 @@
     </div>
 
     <footer>
-        &copy; <a href="https://royzeng0317.github.io/HTML/Self-Website/us-en/index.html" class="link">Roy Zeng</a>
+        &copy; <a href="https://stellarix-electronics.web.app/" class="link">星元電子科技有限公司</a> 著作所有
     </footer>
 
     <script type="module" src="script.js"></script>

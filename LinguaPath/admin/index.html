@@ -165,10 +165,12 @@
     .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
     /* ── Page sections ── */
-    .page { display: none; }
-    .page.active { display: flex; flex-direction: column; }
-    #page-vocab { flex-direction: row; height: calc(100vh - 108px); }
-    #page-users { height: calc(100vh - 108px); }
+    .page { display: none !important; }
+    .page.active { display: flex !important; flex-direction: column; }
+    #page-vocab.active  { flex-direction: row; height: calc(100vh - 108px); }
+    #page-users.active  { height: calc(100vh - 108px); }
+    #page-listen.active { display: grid !important; grid-template-columns: 380px 1fr; gap: 0; height: calc(100vh - 108px); }
+    #page-news.active   { display: grid !important; grid-template-columns: 400px 1fr; gap: 0; height: calc(100vh - 108px); }
 
     /* ── Users page ── */
     .users-toolbar {
@@ -228,8 +230,10 @@
 </nav>
 
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('vocab')">📚 Vocabulary</button>
-  <button class="tab-btn" onclick="switchTab('users')">👥 Users</button>
+  <button class="tab-btn active" data-tab="vocab" onclick="switchTab('vocab')">📚 Vocabulary</button>
+  <button class="tab-btn" data-tab="users" onclick="switchTab('users')">👥 Users</button>
+  <button class="tab-btn" data-tab="listen" onclick="switchTab('listen')">🎧 Listening</button>
+  <button class="tab-btn" data-tab="news" onclick="switchTab('news')">📰 News</button>
 </div>
 
 <div id="conn-error">⚠ Cannot connect to API server. Make sure <code>node server.js</code> is running on port 3002.</div>
@@ -280,6 +284,23 @@
     <div class="form-group">
       <label>Example Sentence</label>
       <textarea id="f-ex" placeholder="e.g. She accomplished her goal after years of hard work."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Exam Tags</label>
+      <div style="display:flex;gap:1rem;margin-top:0.3rem">
+        <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text);cursor:pointer">
+          <input type="checkbox" id="f-toeic" style="width:15px;height:15px;cursor:pointer"/> TOEIC
+        </label>
+        <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text);cursor:pointer">
+          <input type="checkbox" id="f-toefl" style="width:15px;height:15px;cursor:pointer"/> TOEFL
+        </label>
+        <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text);cursor:pointer">
+          <input type="checkbox" id="f-ielts" style="width:15px;height:15px;cursor:pointer"/> IELTS
+        </label>
+        <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text);cursor:pointer">
+          <input type="checkbox" id="f-gre" style="width:15px;height:15px;cursor:pointer"/> GRE
+        </label>
+      </div>
     </div>
     <div class="form-group">
       <label>Image URL <span style="font-weight:400;opacity:0.6">(Cloudinary / Unsplash / any URL)</span></label>
@@ -380,10 +401,131 @@
   </div>
 </div><!-- end #page-users -->
 
+<!-- ══════════════════════════════════════════════════════ LISTENING PAGE -->
+<div id="page-listen" class="page">
+
+    <!-- Left: form -->
+    <div class="panel-left" style="overflow-y:auto">
+      <div class="panel-title" id="listen-form-label">Add Lesson</div>
+      <input type="hidden" id="l-id"/>
+
+      <div class="form-group">
+        <label>Lesson Title *</label>
+        <input type="text" id="l-title" placeholder="e.g. BBC News: Climate Change"/>
+      </div>
+      <div class="form-group">
+        <label>YouTube URL *</label>
+        <input type="text" id="l-url" placeholder="https://youtube.com/watch?v=…"/>
+      </div>
+      <div class="form-group">
+        <label>Difficulty</label>
+        <select id="l-diff">
+          <option value="A1">A1</option><option value="A2">A2</option>
+          <option value="B1" selected>B1</option><option value="B2">B2</option>
+          <option value="C1">C1</option><option value="C2">C2</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Key Points <span style="opacity:0.55;font-weight:400">(one per line)</span></label>
+        <textarea id="l-points" rows="8" placeholder="The speaker talks about global warming.&#10;Three main causes are discussed.&#10;Scientists predict a 2°C rise by 2050."></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="submitLesson()">Save</button>
+        <button class="btn btn-ghost" id="l-cancel-btn" onclick="resetLessonForm()" style="display:none">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Right: table -->
+    <div class="panel-right">
+      <div class="table-toolbar">
+        <span style="font-size:0.85rem;color:var(--muted)">All Lessons</span>
+        <span class="stats-badge" id="listen-count-badge" style="margin-left:auto">— lessons</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Title</th>
+            <th style="width:60px">Level</th>
+            <th style="width:80px">Points</th>
+            <th style="width:80px"></th>
+          </tr></thead>
+          <tbody id="listen-tbody">
+            <tr><td colspan="4" class="empty"><span class="empty-icon">⏳</span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div><!-- end #page-listen -->
+
+<!-- ══════════════════════════════════════════════════════ NEWS PAGE -->
+<div id="page-news" class="page">
+
+    <!-- Left: form -->
+    <div class="panel-left" style="overflow-y:auto">
+      <div class="panel-title" id="news-form-label">Add Article</div>
+      <input type="hidden" id="n-id"/>
+
+      <div class="form-group">
+        <label>Title *</label>
+        <input type="text" id="n-title" placeholder="e.g. The Rise of Renewable Energy"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Source</label>
+          <input type="text" id="n-source" placeholder="e.g. BBC News"/>
+        </div>
+        <div class="form-group">
+          <label>Difficulty</label>
+          <select id="n-diff">
+            <option value="A1">A1</option><option value="A2">A2</option>
+            <option value="B1" selected>B1</option><option value="B2">B2</option>
+            <option value="C1">C1</option><option value="C2">C2</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Summary <span style="opacity:0.55;font-weight:400">(short description)</span></label>
+        <input type="text" id="n-summary" placeholder="Brief summary shown in article picker"/>
+      </div>
+      <div class="form-group">
+        <label>Article Content *</label>
+        <textarea id="n-content" rows="18" placeholder="Paste or type the full article text here…" style="min-height:320px;line-height:1.7"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="submitNews()">Save Article</button>
+        <button class="btn btn-ghost" id="n-cancel-btn" onclick="resetNewsForm()" style="display:none">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Right: article list -->
+    <div class="panel-right">
+      <div class="table-toolbar">
+        <span style="font-size:0.85rem;color:var(--muted)">All Articles</span>
+        <span class="stats-badge" id="news-count-badge" style="margin-left:auto">— articles</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Title</th>
+            <th style="width:70px">Level</th>
+            <th style="width:140px">Source</th>
+            <th style="width:160px">Created</th>
+            <th style="width:90px"></th>
+          </tr></thead>
+          <tbody id="news-tbody">
+            <tr><td colspan="5" class="empty"><span class="empty-icon">⏳</span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div><!-- end #page-news -->
+
 <div id="toast"></div>
 
 <script>
-  const API = 'http://localhost:3002/api';
+  const API = '/api';
   let searchTimer = null;
 
   // ── Toast ──────────────────────────────────────────────────────────────────
@@ -477,7 +619,8 @@
       cefr_level:     document.getElementById('f-cefr').value,
       category:       document.getElementById('f-cat').value.trim(),
       example:        document.getElementById('f-ex').value.trim(),
-      image_url:      document.getElementById('f-img').value.trim()
+      image_url:      document.getElementById('f-img').value.trim(),
+      exam_tags:      ['TOEIC','TOEFL','IELTS','GRE'].filter(t => document.getElementById('f-'+t.toLowerCase()).checked).join(',')
     };
 
     const btn = document.getElementById('submit-btn');
@@ -511,6 +654,8 @@
       document.getElementById('f-cat').value            = r.category || '';
       document.getElementById('f-ex').value             = r.example || '';
       document.getElementById('f-img').value            = r.image_url || '';
+      const tags = (r.exam_tags || '').split(',');
+      ['toeic','toefl','ielts','gre'].forEach(t => document.getElementById('f-'+t).checked = tags.includes(t.toUpperCase()));
       previewImage();
       document.getElementById('submit-btn').textContent = 'Update Word';
       document.getElementById('cancel-btn').style.display = 'inline-block';
@@ -544,6 +689,7 @@
     document.getElementById('f-cat').value              = '';
     document.getElementById('f-ex').value               = '';
     document.getElementById('f-img').value              = '';
+    ['toeic','toefl','ielts','gre'].forEach(t => document.getElementById('f-'+t).checked = false);
     document.getElementById('img-preview').style.display = 'none';
     document.getElementById('submit-btn').textContent   = 'Add Word';
     document.getElementById('cancel-btn').style.display = 'none';
@@ -589,19 +735,24 @@
 
   // ── Tab switching ──────────────────────────────────────────────────────────
   let currentTab = 'vocab';
+  const TAB_IDS = { vocab: 'page-vocab', users: 'page-users', listen: 'page-listen', news: 'page-news' };
   function switchTab(tab) {
     currentTab = tab;
-    document.getElementById('conn-error').style.display = 'none'; // reset per-tab
-    document.querySelectorAll('.tab-btn').forEach((b, i) => {
-      b.classList.toggle('active', (i === 0 && tab === 'vocab') || (i === 1 && tab === 'users'));
+    document.getElementById('conn-error').style.display = 'none';
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
     });
-    document.getElementById('page-vocab').classList.toggle('active', tab === 'vocab');
-    document.getElementById('page-users').classList.toggle('active', tab === 'users');
-    if (tab === 'users') loadUsers();
+    Object.entries(TAB_IDS).forEach(([t, id]) => {
+      document.getElementById(id).classList.toggle('active', t === tab);
+    });
+    if (tab === 'users')  loadUsers();
+    if (tab === 'listen') loadListening();
+    if (tab === 'news')   loadNews();
   }
 
   function refreshCurrent() {
-    if (currentTab === 'vocab') loadVocab();
+    if (currentTab === 'vocab')  loadVocab();
+    else if (currentTab === 'news') loadNews();
     else { userNextPage = null; loadUsers(); }
   }
 
@@ -715,6 +866,167 @@
       toast(`User ${action}d`, 'ok');
       loadUsers();
     } catch (err) { toast(err.message || 'Failed', 'err'); }
+  }
+
+  // ── Listening Tab ─────────────────────────────────────────────────────────
+  async function loadListening() {
+    try {
+      const rows = await (await fetch(`${API}/listening`)).json();
+      const tbody = document.getElementById('listen-tbody');
+      document.getElementById('listen-count-badge').textContent = rows.length + ' lesson' + (rows.length !== 1 ? 's' : '');
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="empty"><span class="empty-icon">🎧</span>No lessons yet. Add one!</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(l => {
+        const pts = Array.isArray(l.key_points) ? l.key_points : (JSON.parse(l.key_points || '[]'));
+        return `<tr>
+          <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escH(l.title)}</td>
+          <td><span class="tag-cefr cefr-${l.difficulty}">${l.difficulty}</span></td>
+          <td style="color:var(--muted)">${pts.length} pts</td>
+          <td>
+            <button class="btn btn-sm btn-ghost" onclick="editLesson(${l.id})">Edit</button>
+            <button class="btn btn-sm" style="background:rgba(232,126,126,0.15);color:#e87e7e;border:1px solid rgba(232,126,126,0.3)" onclick="deleteLesson(${l.id})">✕</button>
+          </td>
+        </tr>`;
+      }).join('');
+    } catch(e) { console.error(e); }
+  }
+
+  async function submitLesson() {
+    const id    = document.getElementById('l-id').value;
+    const title = document.getElementById('l-title').value.trim();
+    const url   = document.getElementById('l-url').value.trim();
+    const diff  = document.getElementById('l-diff').value;
+    const raw   = document.getElementById('l-points').value;
+    if (!title || !url) { toast('Title and YouTube URL are required', 'err'); return; }
+    const pts = raw.split('\n').map(s => s.trim()).filter(Boolean);
+    const body = { title, youtube_url: url, difficulty: diff, key_points: pts };
+    try {
+      const resp = await fetch(`${API}/listening${id ? '/' + id : ''}`, {
+        method: id ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!resp.ok) throw new Error((await resp.json()).error);
+      toast(id ? 'Lesson updated' : 'Lesson added', 'ok');
+      resetLessonForm();
+      loadListening();
+    } catch(e) { toast(e.message, 'err'); }
+  }
+
+  async function editLesson(id) {
+    const resp = await fetch(`${API}/listening`);
+    const rows = await resp.json();
+    const l = rows.find(r => r.id === id);
+    if (!l) return;
+    const pts = Array.isArray(l.key_points) ? l.key_points : JSON.parse(l.key_points || '[]');
+    document.getElementById('l-id').value    = l.id;
+    document.getElementById('l-title').value = l.title;
+    document.getElementById('l-url').value   = l.youtube_url;
+    document.getElementById('l-diff').value  = l.difficulty;
+    document.getElementById('l-points').value = pts.join('\n');
+    document.getElementById('listen-form-label').textContent = 'Edit Lesson';
+    document.getElementById('l-cancel-btn').style.display = 'inline-block';
+  }
+
+  async function deleteLesson(id) {
+    if (!confirm('Delete this lesson?')) return;
+    await fetch(`${API}/listening/${id}`, { method: 'DELETE' });
+    loadListening();
+  }
+
+  function resetLessonForm() {
+    ['l-id','l-title','l-url','l-points'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('l-diff').value = 'B1';
+    document.getElementById('listen-form-label').textContent = 'Add Lesson';
+    document.getElementById('l-cancel-btn').style.display = 'none';
+  }
+
+  function escH(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  // ── News Articles ──────────────────────────────────────────────────────────
+  async function loadNews() {
+    try {
+      const rows = await (await fetch(`${API}/news`)).json();
+      const tbody = document.getElementById('news-tbody');
+      document.getElementById('news-count-badge').textContent = rows.length + ' article' + (rows.length !== 1 ? 's' : '');
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty"><span class="empty-icon">📰</span>No articles yet. Add one!</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(a => `
+        <tr id="nrow-${a.id}">
+          <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500">${escH(a.title)}</td>
+          <td><span class="tag-cefr cefr-${a.difficulty}">${a.difficulty}</span></td>
+          <td style="font-size:0.78rem;color:var(--muted)">${escH(a.source||'—')}</td>
+          <td style="font-size:0.78rem;color:var(--muted)">${new Date(a.created_at).toLocaleDateString()}</td>
+          <td style="text-align:right;white-space:nowrap">
+            <button class="btn btn-ghost btn-sm" onclick="editNews(${a.id})">Edit</button>
+            <button class="btn btn-sm" style="background:rgba(232,126,126,0.15);color:#e87e7e;border:1px solid rgba(232,126,126,0.3)" onclick="deleteNews(${a.id})">✕</button>
+          </td>
+        </tr>`).join('');
+    } catch(e) { console.error(e); }
+  }
+
+  async function submitNews() {
+    const id      = document.getElementById('n-id').value;
+    const title   = document.getElementById('n-title').value.trim();
+    const content = document.getElementById('n-content').value.trim();
+    if (!title || !content) { toast('Title and content are required', 'err'); return; }
+    const body = {
+      title,
+      source:     document.getElementById('n-source').value.trim(),
+      difficulty: document.getElementById('n-diff').value,
+      summary:    document.getElementById('n-summary').value.trim(),
+      content
+    };
+    try {
+      const resp = await fetch(`${API}/news${id ? '/' + id : ''}`, {
+        method: id ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!resp.ok) { const t = await resp.text(); let msg; try { msg = JSON.parse(t).error; } catch { msg = `Server error ${resp.status}`; } throw new Error(msg); }
+      toast(id ? 'Article updated' : 'Article added', 'ok');
+      resetNewsForm();
+      loadNews();
+    } catch(e) { toast(e.message, 'err'); }
+  }
+
+  async function editNews(id) {
+    try {
+      const rows = await (await fetch(`${API}/news`)).json();
+      const a = rows.find(r => r.id === id);
+      if (!a) return;
+      document.getElementById('n-id').value      = a.id;
+      document.getElementById('n-title').value   = a.title;
+      document.getElementById('n-source').value  = a.source || '';
+      document.getElementById('n-diff').value    = a.difficulty;
+      document.getElementById('n-summary').value = a.summary || '';
+      document.getElementById('n-content').value = a.content;
+      document.getElementById('news-form-label').textContent = 'Edit Article';
+      document.getElementById('n-cancel-btn').style.display = 'inline-block';
+      document.querySelectorAll('#news-tbody tr').forEach(r => r.classList.remove('editing'));
+      const row = document.getElementById('nrow-' + id);
+      if (row) row.classList.add('editing');
+    } catch(e) { toast('Failed to load article', 'err'); }
+  }
+
+  async function deleteNews(id) {
+    if (!confirm('Delete this article?')) return;
+    await fetch(`${API}/news/${id}`, { method: 'DELETE' });
+    toast('Article deleted', 'ok');
+    if (document.getElementById('n-id').value == id) resetNewsForm();
+    loadNews();
+  }
+
+  function resetNewsForm() {
+    ['n-id','n-title','n-source','n-summary','n-content'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('n-diff').value = 'B1';
+    document.getElementById('news-form-label').textContent = 'Add Article';
+    document.getElementById('n-cancel-btn').style.display = 'none';
+    document.querySelectorAll('#news-tbody tr').forEach(r => r.classList.remove('editing'));
   }
 
   // ── Init ───────────────────────────────────────────────────────────────────

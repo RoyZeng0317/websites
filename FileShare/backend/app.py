@@ -1,10 +1,14 @@
 import os
+import shutil
 import secrets
 import string
 import uuid
+import zipfile
+import tempfile
 import logging
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -39,10 +43,22 @@ CORS(app, resources={
             'https://file-share-platfrom.web.app',
             'https://file-share-platfrom.firebaseapp.com',
         ],
+        'expose_headers': ['Content-Disposition'],
     },
 })
 
 db = FirebaseDB()
+
+# ── 過期檔案排程清除（每 60 秒執行一次）────────────────
+def _cleanup_job():
+    try:
+        db.cleanup_expired()
+    except Exception as e:
+        logger.error(f'[Scheduler] cleanup failed: {e}')
+
+_scheduler = BackgroundScheduler(daemon=True)
+_scheduler.add_job(_cleanup_job, 'interval', seconds=60, id='cleanup_expired')
+_scheduler.start()
 
 
 def generate_password(length=PASSWORD_LENGTH):
@@ -56,8 +72,14 @@ def allowed_file(filename):
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+FILE_UPLOAD_LIMIT = 100
+
+
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
+    if db.get_file_count() >= FILE_UPLOAD_LIMIT:
+        return jsonify({'error': f'已達系統上傳上限（{FILE_UPLOAD_LIMIT} 個檔案），請稍後再試'}), 403
+
     if 'file' not in request.files:
         return jsonify({'error': '沒有上傳檔案'}), 400
 
@@ -75,6 +97,7 @@ def upload_file():
     mime_type = file.content_type or 'application/octet-stream'
 
     expires_in = request.form.get('expires_in', type=int, default=60)
+    max_downloads = request.form.get('max_downloads', type=int, default=1)
 
     try:
         file_data = BytesIO(file.read())
@@ -88,13 +111,14 @@ def upload_file():
         expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
         password = generate_password()
         password_hash = generate_password_hash(password)
-        db.insert_share(file_id, password_hash, expires_at)
+        share_id = db.insert_share(file_id, password_hash, expires_at, max_downloads)
 
         logger.info(f'File uploaded: {original_name} ({file_size} bytes), expires in {expires_in}s')
 
         return jsonify({
             'message': '上傳成功',
             'password': password,
+            'share_id': share_id,
             'filename': original_name,
             'file_size': file_size,
             'expires_in': expires_in,
@@ -154,9 +178,12 @@ def download_file():
         return jsonify({'error': '檔案不存在'}), 404
 
     try:
-        db.mark_share_used(matched_share['id'])
+        if matched_share.get('max_downloads', 1) == 0:
+            db.increment_download_count(matched_share['id'])
+        else:
+            db.mark_share_used(matched_share['id'])
     except Exception as e:
-        logger.error(f'Failed to mark share used: {str(e)}')
+        logger.error(f'Failed to update share state: {str(e)}')
 
     logger.info(f'File downloaded: {file_record["original_name"]}')
 
@@ -171,6 +198,97 @@ def download_file():
             os.unlink(file_path)
         except Exception:
             pass
+
+
+@app.route('/api/upload-folder', methods=['POST'])
+def upload_folder():
+    if db.get_file_count() >= FILE_UPLOAD_LIMIT:
+        return jsonify({'error': f'已達系統上傳上限（{FILE_UPLOAD_LIMIT} 個檔案），請稍後再試'}), 403
+
+    if 'files' not in request.files:
+        return jsonify({'error': '沒有上傳檔案'}), 400
+
+    files = request.files.getlist('files')
+    if not files:
+        return jsonify({'error': '未選擇檔案'}), 400
+
+    expires_in = request.form.get('expires_in', type=int, default=60)
+    max_downloads = request.form.get('max_downloads', type=int, default=1)
+    folder_name = files[0].filename.split('/')[0]
+
+    try:
+        tmp_dir = tempfile.mkdtemp()
+        for f in files:
+            rel_path = f.filename
+            if not rel_path:
+                continue
+            dest = os.path.join(tmp_dir, rel_path)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            f.save(dest)
+
+        zip_buffer = BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+            for root, dirs, filenames in os.walk(tmp_dir):
+                for fn in filenames:
+                    full_path = os.path.join(root, fn)
+                    arcname = os.path.relpath(full_path, tmp_dir).replace('\\', '/')
+                    zf.write(full_path, arcname)
+
+        zip_buffer.seek(0)
+        zip_size = len(zip_buffer.getvalue())
+        zip_buffer.seek(0)
+
+        stored_name = f"{uuid.uuid4().hex}.zip"
+        file_id = db.insert_file(
+            f'{folder_name}.zip', stored_name, zip_size,
+            'application/zip', zip_buffer
+        )
+
+        expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
+        password = generate_password()
+        password_hash = generate_password_hash(password)
+        share_id = db.insert_share(file_id, password_hash, expires_at, max_downloads)
+
+        shutil.rmtree(tmp_dir)
+
+        logger.info(f'Folder uploaded: {folder_name} ({zip_size} bytes, {len(files)} files), expires in {expires_in}s')
+
+        return jsonify({
+            'message': '上傳成功',
+            'password': password,
+            'share_id': share_id,
+            'filename': f'{folder_name}.zip',
+            'file_size': zip_size,
+            'expires_in': expires_in,
+        }), 200
+
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 503
+    except Exception as e:
+        logger.error(f'Folder upload failed: {str(e)}')
+        return jsonify({'error': f'上傳失敗: {str(e)}'}), 500
+
+
+@app.route('/api/pageview', methods=['POST'])
+def pageview():
+    try:
+        db.increment_pageview()
+    except Exception:
+        pass
+    return jsonify({'ok': True}), 200
+
+
+@app.route('/api/share/<share_id>', methods=['DELETE'])
+def delete_share(share_id):
+    try:
+        success = db.delete_share(share_id)
+        if success:
+            logger.info(f'Share deleted: {share_id}')
+            return jsonify({'message': '已刪除'}), 200
+        return jsonify({'error': '找不到此連結'}), 404
+    except Exception as e:
+        logger.error(f'Delete share failed: {str(e)}')
+        return jsonify({'error': '刪除失敗'}), 500
 
 
 @app.route('/api/health', methods=['GET'])

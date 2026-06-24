@@ -1,0 +1,90 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.card:hover::before { transform: scaleX(1); }
+
+.level {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 0.7rem;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lessons {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.badge {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.badgeNew      { background: rgba(126, 184, 232, 0.15); color: var(--accent2); }
+.badgePopular  { background: rgba(232, 201, 126, 0.15); color: var(--accent); }
+
+.progressBar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+.progressLabel {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}

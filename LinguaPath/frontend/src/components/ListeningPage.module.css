@@ -1,0 +1,91 @@
+.header { max-width: 1100px; margin: 2rem auto 0; padding: 0 2rem; }
+.header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.3rem; }
+.header p { color: var(--muted); font-size: 0.9rem; }
+
+.abilityBox { max-width: 1100px; margin: 1.2rem auto 0; padding: 0 2rem; }
+.abilityCard {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1rem 1.4rem;
+  display: flex; align-items: center; gap: 1.2rem;
+}
+.abilityLabel { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+.abilityBarWrap { flex: 1; background: rgba(255,255,255,0.06); border-radius: 999px; height: 8px; overflow: hidden; }
+.abilityBarFill { height: 100%; border-radius: 999px; background: linear-gradient(90deg,#7eb8e8,#e8c97e); transition: width 0.6s; }
+.abilityPct { font-size: 1rem; font-weight: 600; color: var(--accent); white-space: nowrap; min-width: 3rem; text-align: right; }
+
+.filterBar {
+  max-width: 1100px; margin: 1.2rem auto 0; padding: 0 2rem;
+  display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;
+}
+.filterBar select {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.5rem 0.8rem;
+  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  outline: none; cursor: pointer;
+}
+.countLabel { font-size: 0.82rem; color: var(--muted); margin-left: auto; }
+
+.lessonGrid {
+  max-width: 1100px; margin: 1.4rem auto 3rem; padding: 0 2rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem;
+}
+
+.lessonCard {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;
+  transition: box-shadow 0.2s;
+}
+.lessonCard:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
+.lessonThumb { position: relative; padding-bottom: 56.25%; background: #000; flex-shrink: 0; }
+.lessonThumb iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+.audioPlayer {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 1rem;
+}
+.audioPlayer audio {
+  width: 100%;
+  height: 36px;
+  accent-color: var(--accent);
+}
+
+.lessonBody { padding: 1rem 1.2rem; flex: 1; display: flex; flex-direction: column; }
+.lessonTop { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.7rem; }
+.lessonTitle { font-size: 0.95rem; font-weight: 600; line-height: 1.4; flex: 1; }
+
+.tagDiff {
+  display: inline-block; padding: 0.18rem 0.55rem; border-radius: 4px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; flex-shrink: 0;
+}
+.diffA { background: rgba(126,200,160,0.15); color: #7ec8a0; border: 1px solid rgba(126,200,160,0.3); }
+.diffB { background: rgba(126,184,232,0.15); color: #7eb8e8; border: 1px solid rgba(126,184,232,0.3); }
+.diffC { background: rgba(232,201,126,0.15); color: #e8c97e; border: 1px solid rgba(232,201,126,0.3); }
+
+.pointsTitle { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+.pointItem {
+  display: flex; align-items: flex-start; gap: 0.55rem;
+  padding: 0.4rem 0; border-bottom: 1px solid var(--border); cursor: pointer;
+  transition: background 0.1s; border-radius: 4px;
+}
+.pointItem:last-of-type { border-bottom: none; }
+.pointCheck {
+  width: 18px; height: 18px; border: 2px solid var(--border);
+  border-radius: 4px; flex-shrink: 0; display: flex; align-items: center;
+  justify-content: center; margin-top: 1px; transition: all 0.15s;
+}
+.pointItem.checked .pointCheck { background: #7ec8a0; border-color: #7ec8a0; }
+.pointItem.checked .pointCheck::after { content: '✓'; font-size: 0.7rem; color: #0d0f14; font-weight: 700; }
+.pointItem.checked .pointText { color: var(--muted); text-decoration: line-through; }
+.pointText { font-size: 0.82rem; line-height: 1.5; color: var(--text); }
+
+.scoreRow { margin-top: 0.8rem; padding-top: 0.7rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 0.6rem; }
+.scoreBarWrap { flex: 1; background: rgba(255,255,255,0.06); border-radius: 999px; height: 6px; overflow: hidden; }
+.scoreBarFill { height: 100%; border-radius: 999px; background: #7ec8a0; transition: width 0.4s; }
+.scorePct { font-size: 0.85rem; font-weight: 600; color: #7ec8a0; min-width: 2.5rem; text-align: right; }
+.btnReset { font-size: 0.72rem; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0; }
+.btnReset:hover { color: var(--text); }
+
+.stateMsg { max-width: 1100px; margin: 4rem auto; padding: 0 2rem; text-align: center; color: var(--muted); }
+.icon { font-size: 2.5rem; display: block; margin-bottom: 0.6rem; }

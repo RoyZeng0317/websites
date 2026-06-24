@@ -146,3 +146,39 @@ form {
   margin-top: 2rem;
   box-shadow: var(--shadow);
 }
+
+/* News Reader Styles */
+
+
+
+.news-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  background: #1e1e2e;
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid #313244;
+}
+
+.news-tab {
+  flex: 1;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #a6adc8;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.9rem;
+}
+
+.news-tab.active {
+  background: #313244;
+  color: #89b4fa;
+}
+
+.news-tab:hover:not(.active) {
+  color: #cdd6f4;
+}

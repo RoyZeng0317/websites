@@ -133,6 +133,36 @@ header p {
     margin-top: 12px;
 }
 
+.upload-toggles {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.upload-toggle {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--font-muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-toggle:hover {
+    border-color: var(--accent);
+    color: var(--font);
+}
+
+.upload-toggle.active {
+    border-color: var(--accent);
+    background: var(--surface-2);
+    color: var(--accent);
+}
+
 .file-info {
     display: flex;
     align-items: center;
@@ -505,4 +535,273 @@ footer {
 
 .link:hover {
     color: var(--accent);
+}
+
+/* ── Download Mode ───────────────────────────────────── */
+.dl-mode-section {
+    margin-top: 16px;
+}
+
+.dl-mode-options {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.dl-mode-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--font-muted);
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.dl-mode-option:hover {
+    border-color: var(--accent);
+    color: var(--font);
+}
+
+.dl-mode-option.active {
+    border-color: var(--accent);
+    background: var(--surface-2);
+    color: var(--accent);
+}
+
+.dl-mode-option input[type="radio"] {
+    display: none;
+}
+
+.dl-mode-hint {
+    font-size: 11px;
+    color: var(--font-muted);
+    margin-top: 6px;
+}
+
+/* ── User Bar ────────────────────────────────────────── */
+.user-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 8px 0 0;
+    margin-bottom: 8px;
+}
+
+.user-email {
+    font-size: 12px;
+    color: var(--font-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+.btn-signout {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--font-muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-signout:hover {
+    border-color: var(--error);
+    color: var(--error);
+}
+
+/* ── Delete Button ───────────────────────────────────── */
+.btn-danger {
+    background: transparent;
+    border: 1px solid rgba(231, 76, 60, 0.4);
+    color: var(--error);
+    margin-top: 12px;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: rgba(231, 76, 60, 0.1);
+    border-color: var(--error);
+}
+
+/* ── Member Modal ────────────────────────────────────── */
+.member-badge {
+    font-size: 11px;
+    margin-left: 2px;
+    opacity: 0.8;
+}
+
+.timer-member {
+    border-color: rgba(0, 162, 232, 0.3);
+}
+
+.member-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+.member-modal-overlay[hidden] {
+    display: none;
+}
+
+.member-modal-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px 32px 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-close-modal {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: var(--font-muted);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.btn-close-modal:hover {
+    color: var(--font);
+}
+
+/* Alias for backward compat */
+.paywall-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+.paywall-lock {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.paywall-card h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--font);
+    margin-bottom: 8px;
+}
+
+.paywall-desc {
+    font-size: 14px;
+    color: var(--font-muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.paywall-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+    text-align: left;
+}
+
+.paywall-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.paywall-step span {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paywall-step p {
+    font-size: 13px;
+    color: var(--font-muted);
+}
+
+.btn-paypal {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: #0070ba;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: background 0.2s;
+}
+
+.btn-paypal:hover {
+    background: #005ea6;
+}
+
+.btn-google-signin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    color: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+}
+
+.btn-google-signin:hover {
+    border-color: var(--accent);
+}
+
+.btn-google-signin:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.paywall-status {
+    font-size: 12px;
+    color: var(--font-muted);
+    min-height: 18px;
+    line-height: 1.5;
 }

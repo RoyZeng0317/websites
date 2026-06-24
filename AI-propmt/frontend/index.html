@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Prompt 分析器</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --border: #2a2d3e;
+      --accent: #6c63ff;
+      --accent-dim: #3d3a7c;
+      --text: #e2e4f0;
+      --text-dim: #8b8fa8;
+      --green: #4caf8a;
+      --yellow: #f5c842;
+      --red: #f56c6c;
+      --orange: #f5934e;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6c63ff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    header p { color: var(--text-dim); font-size: 0.95rem; }
+
+    /* ── Main card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      width: 100%;
+      max-width: 780px;
+    }
+    .card + .card { margin-top: 20px; }
+
+    /* ── Textarea ── */
+    label { font-size: 0.85rem; color: var(--text-dim); display: block; margin-bottom: 8px; }
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 14px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    textarea:focus { border-color: var(--accent); }
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .char-count { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* ── Button ── */
+    button.analyze-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button.analyze-btn:hover { background: #5a52e0; }
+    button.analyze-btn:active { transform: scale(0.97); }
+    button.analyze-btn:disabled { background: var(--accent-dim); cursor: not-allowed; }
+
+    /* ── Score ring ── */
+    #results { display: none; }
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .ring-wrap { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+    .ring-wrap svg { transform: rotate(-90deg); }
+    .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+    .ring-fg {
+      fill: none;
+      stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.8s cubic-bezier(.4,0,.2,1), stroke 0.5s;
+    }
+    .ring-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ring-score { font-size: 1.6rem; font-weight: 700; }
+    .ring-grade { font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+    .score-meta h2 { font-size: 1.15rem; margin-bottom: 6px; }
+    .score-meta p { color: var(--text-dim); font-size: 0.9rem; }
+    .stats { display: flex; gap: 16px; margin-top: 10px; }
+    .stat {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+    .stat span { color: var(--text); font-weight: 600; }
+
+    /* ── Issue / suggestion lists ── */
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .item-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .item-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .item-list li .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .issues-list { border-left: 3px solid var(--red); }
+    .suggestions-list { border-left: 3px solid var(--green); }
+
+    /* ── Empty state ── */
+    .empty { color: var(--text-dim); font-size: 0.9rem; font-style: italic; }
+
+    /* ── Loading spinner ── */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #333; color: #fff; padding: 10px 20px;
+      border-radius: 8px; font-size: 0.88rem;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    #toast.show { opacity: 1; }
+
+    @media (max-width: 500px) {
+      .score-row { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔍 AI Prompt 分析器</h1>
+  <p>貼上您的 Prompt，立即獲得改善建議</p>
+</header>
+
+<!-- Input card -->
+<div class="card">
+  <label for="prompt-input">輸入您的 Prompt</label>
+  <textarea
+    id="prompt-input"
+    placeholder="在這裡輸入或貼上您的 Prompt…&#10;&#10;例如：「你是一位資深 Python 工程師，請分析以下程式碼的效能問題，並以條列式列出至少三個改善建議。」"
+  ></textarea>
+  <div class="meta-row">
+    <span class="char-count" id="char-count">0 字元 / 0 個字詞</span>
+    <button class="analyze-btn" id="analyze-btn" onclick="doAnalyze()">分析 Prompt</button>
+  </div>
+</div>
+
+<!-- Results card -->
+<div class="card" id="results">
+
+  <!-- Score ring + summary -->
+  <div class="score-row">
+    <div class="ring-wrap">
+      <svg viewBox="0 0 110 110" width="110" height="110">
+        <circle class="ring-bg" cx="55" cy="55" r="46"/>
+        <circle class="ring-fg" id="ring-fg" cx="55" cy="55" r="46"
+          stroke-dasharray="289" stroke-dashoffset="289"/>
+      </svg>
+      <div class="ring-label">
+        <span class="ring-score" id="ring-score">-</span>
+        <span class="ring-grade" id="ring-grade">-</span>
+      </div>
+    </div>
+    <div class="score-meta">
+      <h2 id="overall-text">分析中…</h2>
+      <p id="overall-sub">請稍候</p>
+      <div class="stats">
+        <div class="stat">字元 <span id="stat-chars">-</span></div>
+        <div class="stat">字詞 <span id="stat-words">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issues -->
+  <div id="issues-section">
+    <div class="section-title">⚠ 發現的問題</div>
+    <ul class="item-list" id="issues-list"></ul>
+  </div>
+
+  <!-- Suggestions -->
+  <div style="margin-top:20px" id="suggestions-section">
+    <div class="section-title">💡 改善建議</div>
+    <ul class="item-list" id="suggestions-list"></ul>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ── Character counter ────────────────────────────────────────────────
+  const textarea = document.getElementById('prompt-input');
+  const charCountEl = document.getElementById('char-count');
+
+  textarea.addEventListener('input', () => {
+    const chars = textarea.value.length;
+    const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+    charCountEl.textContent = `${chars} 字元 / ${words} 個字詞`;
+  });
+
+  // ── Toast ────────────────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── Score ring color & animation ────────────────────────────────────
+  function setRing(score) {
+    const circumference = 2 * Math.PI * 46; // ≈ 289
+    const offset = circumference * (1 - score / 100);
+    const fg = document.getElementById('ring-fg');
+    fg.style.strokeDashoffset = offset;
+    const color =
+      score >= 85 ? '#4caf8a' :
+      score >= 70 ? '#6c63ff' :
+      score >= 55 ? '#f5c842' :
+      score >= 40 ? '#f5934e' : '#f56c6c';
+    fg.style.stroke = color;
+  }
+
+  // ── Render results ───────────────────────────────────────────────────
+  function renderResults(data) {
+    document.getElementById('results').style.display = 'block';
+
+    document.getElementById('ring-score').textContent = data.score;
+    document.getElementById('ring-grade').textContent = '等級 ' + data.grade;
+    document.getElementById('overall-text').textContent = data.overall;
+    document.getElementById('overall-sub').textContent =
+      `得分 ${data.score} / 100`;
+    document.getElementById('stat-chars').textContent = data.char_count;
+    document.getElementById('stat-words').textContent = data.word_count;
+
+    setRing(data.score);
+
+    // Issues
+    const issuesList = document.getElementById('issues-list');
+    issuesList.innerHTML = '';
+    if (data.issues.length === 0) {
+      issuesList.innerHTML = '<li class="empty">✅ 未發現明顯問題</li>';
+    } else {
+      data.issues.forEach(issue => {
+        const li = document.createElement('li');
+        li.className = 'issues-list';
+        li.innerHTML = `<span class="icon">⚠️</span><span>${issue}</span>`;
+        issuesList.appendChild(li);
+      });
+    }
+
+    // Suggestions
+    const suggestList = document.getElementById('suggestions-list');
+    suggestList.innerHTML = '';
+    if (data.suggestions.length === 0) {
+      suggestList.innerHTML = '<li class="empty">🎉 您的 Prompt 已相當完整！</li>';
+    } else {
+      data.suggestions.forEach((sug, i) => {
+        const li = document.createElement('li');
+        li.className = 'suggestions-list';
+        li.innerHTML = `<span class="icon">💡</span><span>${sug}</span>`;
+        suggestList.appendChild(li);
+      });
+    }
+
+    // Smooth scroll
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Main analyze call ────────────────────────────────────────────────
+  async function doAnalyze() {
+    const prompt = textarea.value.trim();
+    if (!prompt) { showToast('請先輸入 Prompt'); return; }
+
+    const btn = document.getElementById('analyze-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>分析中…';
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      renderResults(data);
+    } catch (err) {
+      // Fallback: client-side simplified analysis
+      console.warn('後端不可用，使用本地分析：', err.message);
+      renderResults(analyzeLocal(prompt));
+      showToast('提示：後端未部署，使用本地分析模式');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '重新分析';
+    }
+  }
+
+  // ── Local JS fallback (mirrors Python logic) ─────────────────────────
+  function analyzeLocal(text) {
+    const lower = text.toLowerCase();
+    const words = text.trim().split(/\s+/);
+    const charCount = text.length;
+    const wordCount = text.trim() ? words.length : 0;
+    let score = 100;
+    const issues = [], suggestions = [];
+
+    const VAGUE = ['something','stuff','things','whatever','etc','maybe','perhaps',
+                   'possibly','kind of','sort of','a bit','a little'];
+    const ACTIONS = ['write','create','explain','analyze','analyse','list','summarize',
+                     'generate','describe','compare','fix','improve','suggest','find',
+                     'design','build','review','draft','rewrite','provide','make'];
+    const AMBIG = ['it','this','that','they','these','those'];
+    const FORMAT = ['list','table','json','markdown','bullet','numbered','format','steps'];
+    const ROLES  = ['you are','act as','as a ','as an ','expert in'];
+    const CONSTRAINTS = ['max','minimum','maximum','concise','brief','formal','informal',
+                         'beginner','expert','words','sentences'];
+
+    if (charCount < 10) { issues.push('提示詞過短。'); score -= 35; }
+    else if (charCount < 30) { issues.push('提示詞太簡短。'); score -= 20; }
+    else if (charCount > 3000) { issues.push('提示詞過長。'); suggestions.push('拆分為多個步驟。'); score -= 10; }
+
+    const vf = VAGUE.filter(w => lower.includes(w));
+    if (vf.length) { issues.push('含模糊詞：' + vf.slice(0,3).join(', ')); score -= Math.min(20, 7*vf.length); }
+    if (!suggestions.length || true) suggestions.push('用具體名詞取代模糊詞。');
+
+    if (AMBIG.includes((words[0]||'').toLowerCase())) { issues.push('以模糊代名詞開頭。'); score -= 15; }
+
+    const first5 = words.slice(0,5).map(w => w.toLowerCase().replace(/[.,!?]/g,''));
+    if (!ACTIONS.some(a => first5.includes(a)) && charCount > 30)
+      suggestions.push('在開頭使用明確動詞，例如「寫」「解釋」「分析」。');
+
+    if (!FORMAT.some(f => lower.includes(f)) && charCount > 60)
+      suggestions.push('指定輸出格式，例如條列式、表格、JSON。');
+
+    if (!ROLES.some(r => lower.includes(r)) && charCount > 120)
+      suggestions.push('設定角色有助提升回答品質，例如「你是一位資深…」');
+
+    if (!CONSTRAINTS.some(c => lower.includes(c)) && charCount > 60)
+      suggestions.push('加入限制條件，例如字數、語氣或目標受眾。');
+
+    score = Math.max(0, score);
+    const grades = score>=85?['A','優秀的提示詞']:score>=70?['B','良好']:score>=55?['C','一般']:score>=40?['D','較弱']:['F','需要全面改寫'];
+
+    return { score, grade: grades[0], overall: grades[1], issues, suggestions, char_count: charCount, word_count: wordCount };
+  }
+
+  // Allow Enter key shortcut (Ctrl/Cmd + Enter)
+  textarea.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') doAnalyze();
+  });
+</script>
+</body>
+</html>

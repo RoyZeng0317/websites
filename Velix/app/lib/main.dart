@@ -25,14 +25,14 @@ import 'theme/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final prefs = await SharedPreferences.getInstance();
-  runApp(ProviderScope(
-    overrides: [prefsProvider.overrideWithValue(prefs)],
-    child: const VelixApp(),
-  ));
+  runApp(
+    ProviderScope(
+      overrides: [prefsProvider.overrideWithValue(prefs)],
+      child: const VelixApp(),
+    ),
+  );
 }
 
 class VelixApp extends ConsumerWidget {
@@ -45,12 +45,15 @@ class VelixApp extends ConsumerWidget {
       redirect: (context, state) {
         final authState = ref.read(authStateProvider);
         final isLoggedIn = authState.valueOrNull != null;
-        final isAuthRoute = state.matchedLocation == '/login' ||
+        final isAuthRoute =
+            state.matchedLocation == '/login' ||
             state.matchedLocation == '/register';
         if (!isLoggedIn && !isAuthRoute) return '/login';
         if (isLoggedIn &&
             (state.matchedLocation == '/login' ||
-                state.matchedLocation == '/register')) return '/';
+                state.matchedLocation == '/register')) {
+          return '/';
+        }
         return null;
       },
       routes: [
@@ -58,13 +61,15 @@ class VelixApp extends ConsumerWidget {
         GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
         GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
         GoRoute(
-            path: '/create-post',
-            builder: (_, _) => const CreatePostScreen()),
+          path: '/create-post',
+          builder: (_, _) => const CreatePostScreen(),
+        ),
         GoRoute(path: '/search', builder: (_, _) => const SearchScreen()),
         GoRoute(path: '/admin', builder: (_, _) => const AdminScreen()),
         GoRoute(
-            path: '/notifications',
-            builder: (_, _) => const NotificationsScreen()),
+          path: '/notifications',
+          builder: (_, _) => const NotificationsScreen(),
+        ),
       ],
     );
 
@@ -80,10 +85,10 @@ class VelixApp extends ConsumerWidget {
 class _TabScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-        PointerDeviceKind.trackpad,
-      };
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.trackpad,
+  };
 }
 
 class MainShell extends ConsumerStatefulWidget {

@@ -1,0 +1,29 @@
+.statsBar {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+
+.stat { text-align: center; }
+
+.statNum {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--accent);
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

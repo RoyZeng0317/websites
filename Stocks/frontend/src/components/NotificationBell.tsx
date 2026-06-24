@@ -32,6 +32,20 @@ const NOTIFICATIONS: Notification[] = [
     message: '即時報價功能已全面升級，支援美股、台股、港股即時股價更新。',
     time: '系統通知',
   },
+  {
+    id: '3',
+    type: 'info',
+    icon: '\u2139',
+    message: '親愛的用戶您好，06/27(六)將進行系統伺服器維護，各項功能將暫停使用，維護時間為:  10:00-14:00，網路應用與手機應用皆屬暫停使用，造成您的不便敬請見諒',
+    time: '系統通知',
+  },
+  {
+    id: '4',
+    type: 'info',
+    icon: '\u2714',
+    message: '新版功能上線啦!台股即時盤面有即時漲跌資訊，點選後可進入查看詳細股票資訊，讓你一眼就能看見!有任何問題，歡迎點擊下方信件icon進行發問',
+    time: '系統通知',
+  }
 ]
 
 export default function NotificationBell() {

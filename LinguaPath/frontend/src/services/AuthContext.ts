@@ -1,8 +1,15 @@
 import { createContext } from 'react';
-import type { User } from 'firebase/auth';
+
+export interface FirebaseUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  getIdToken: () => Promise<string>;
+}
 
 export interface AuthContextValue {
-  user: User | null;
+  user: FirebaseUser | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;

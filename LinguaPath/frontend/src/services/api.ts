@@ -1,4 +1,4 @@
-import type { Word } from '../App';
+import type { Word } from '../types';
 
 const API_URL = 'http://localhost:5000/api';
 

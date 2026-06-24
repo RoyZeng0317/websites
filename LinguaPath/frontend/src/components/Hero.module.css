@@ -1,0 +1,51 @@
+.hero {
+  padding: 5rem 2.5rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  animation: fadeUp 0.7s ease both;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(232, 201, 126, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(232, 201, 126, 0.25);
+  padding: 0.3rem 1rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+}
+.title em { color: var(--accent); font-style: italic; }
+
+.subtitle {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 520px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

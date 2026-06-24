@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
-import PortfolioOverview from '../components/PortfolioOverview'
 import AttentionStocks from '../components/AttentionStocks'
 import ErrorBoundary from '../components/ErrorBoundary'
+import InstatView from '../components/InstatView'
 import { getWatchlist, removeFromWatchlist, type WatchlistItem } from '../utils/watchlist'
 import { Star, X } from 'lucide-react'
 
@@ -268,10 +268,6 @@ export default function HomePage() {
         </div>
       )}
 
-      <ErrorBoundary>
-        <PortfolioOverview />
-      </ErrorBoundary>
-
       {/* 分類橫式菜單 */}
       <div>
         <div className="text-sm font-medium text-slate-400 mb-3">分類瀏覽</div>
@@ -306,6 +302,11 @@ export default function HomePage() {
           </div>
         )}
       </div>
+
+      {/* 台股即時盤面 */}
+      <ErrorBoundary>
+        <InstatView />
+      </ErrorBoundary>
 
       {/* 市場列表 */}
       <div>

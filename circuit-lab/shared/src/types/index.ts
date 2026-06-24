@@ -65,7 +65,8 @@ export type ComponentType =
   | 'photoresistor'
   | 'thermistor'
   | 'vcc'
-  | 'gnd';
+  | 'gnd'
+  | 'ic';
 
 export interface Port {
   id: string;

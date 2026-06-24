@@ -1,0 +1,59 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.logo span { color: var(--text); }
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.themeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.2rem;
+}

@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "api"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "../backend",
+      "codebase": "default",
+      "runtime": "python311",
+      "ignore": [
+        "*.pyc",
+        "__pycache__",
+        ".git"
+      ]
+    }
+  ]
+}

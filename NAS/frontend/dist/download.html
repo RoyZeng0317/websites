@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>媒體下載 · Vaultix</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f0f; color: #f3f4f6;
+      min-height: 100dvh; padding: 0 0 80px;
+    }
+    a { color: #60a5fa; text-decoration: none; }
+    .header {
+      background: #111; border-bottom: 1px solid #1f2937;
+      padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .header a { color: #9ca3af; font-size: 14px; }
+    .header h1 { font-size: 17px; font-weight: 600; flex: 1; }
+    .section { margin: 20px 16px; }
+    .section-title {
+      font-size: 13px; font-weight: 600; color: #9ca3af;
+      text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px;
+    }
+    .card {
+      background: #1a1a1a; border: 1px solid #2d2d2d;
+      border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .input {
+      width: 100%; padding: 13px 14px;
+      background: #111; border: 1.5px solid #374151;
+      border-radius: 12px; color: #f3f4f6; font-size: 15px; outline: none;
+      transition: border-color .2s;
+    }
+    .input:focus { border-color: #3b82f6; }
+    .input::placeholder { color: #6b7280; }
+    textarea.input { resize: vertical; min-height: 80px; font-family: inherit; }
+    select.input { cursor: pointer; }
+    .btn {
+      padding: 13px 20px; border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      transition: opacity .15s, transform .1s; width: 100%;
+    }
+    .btn:active   { transform: scale(.97); }
+    .btn:disabled { opacity: .45; pointer-events: none; }
+    .btn-blue  { background: #3b82f6; color: #fff; }
+    .btn-purple{ background: #7c3aed; color: #fff; }
+    .btn-green { background: #10b981; color: #fff; }
+    .btn-red   { background: #ef4444; color: #fff; }
+    .btn-ghost { background: #1f2937; color: #f3f4f6; }
+    .btn-sm    { padding: 8px 14px; font-size: 13px; width: auto; border-radius: 8px; }
+    .row { display: flex; gap: 10px; align-items: center; }
+    .row .input { flex: 1; }
+    .msg { font-size: 13px; padding: 10px 12px; border-radius: 10px; text-align: center; }
+    .msg-red   { background: #450a0a; color: #fca5a5; }
+    .msg-green { background: #052e16; color: #86efac; }
+    .hidden { display: none !important; }
+    #jobs-list { display: flex; flex-direction: column; gap: 10px; }
+    .job-card {
+      background: #1a1a1a; border: 1px solid #2d2d2d; border-radius: 12px;
+      padding: 14px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .job-header { display: flex; align-items: flex-start; gap: 10px; }
+    .job-url {
+      flex: 1; font-size: 13px; color: #9ca3af;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .badge {
+      font-size: 11px; font-weight: 600; padding: 3px 9px;
+      border-radius: 99px; white-space: nowrap;
+    }
+    .badge-running { background: #1e3a5f; color: #60a5fa; }
+    .badge-done    { background: #052e16; color: #86efac; }
+    .badge-error   { background: #450a0a; color: #fca5a5; }
+    .badge-pending { background: #2d2d2d; color: #9ca3af; }
+    .job-log {
+      font-size: 12px; color: #6b7280; background: #111;
+      border-radius: 8px; padding: 8px 10px; max-height: 100px;
+      overflow-y: auto; white-space: pre-wrap; word-break: break-all; font-family: monospace;
+    }
+    .job-actions { display: flex; gap: 8px; }
+    .empty-jobs { text-align: center; padding: 30px; color: #4b5563; font-size: 14px; }
+    .cookie-status { display: flex; align-items: center; gap: 8px; font-size: 14px; padding: 10px 0; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #10b981; }
+    .dot-red   { background: #ef4444; }
+  </style>
+</head>
+<body>
+<div class="header">
+  <a href="/">← 返回</a>
+  <h1>媒體下載</h1>
+</div>
+
+<div class="section">
+  <div class="section-title">貼上連結下載</div>
+  <div class="card">
+    <textarea id="url-input" class="input" placeholder="貼上 Twitter/X、Instagram、YouTube、TikTok 等連結…"></textarea>
+    <div class="row">
+      <select id="dest-select" class="input">
+        <option value="下載">📥 下載</option>
+        <option value="圖片">🖼 圖片</option>
+        <option value="影片">🎬 影片</option>
+        <option value="音樂">🎵 音樂</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <button class="btn btn-blue"   id="btn-video" onclick="startDownload('mp4')">🎬 影片</button>
+      <button class="btn btn-purple" id="btn-image" onclick="startDownload('image')">🖼 圖片</button>
+      <button class="btn btn-ghost"  id="btn-audio" onclick="startDownload('mp3')">🎵 音訊</button>
+    </div>
+    <div id="start-msg" class="msg hidden"></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title" style="display:flex;justify-content:space-between;align-items:center">
+    <span>下載紀錄</span>
+    <button class="btn btn-ghost btn-sm" onclick="loadJobs()">重新整理</button>
+  </div>
+  <div id="jobs-list"><div class="empty-jobs">載入中…</div></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Twitter / X Cookie</div>
+  <div class="card">
+    <div class="cookie-status">
+      <div id="cookie-dot" class="dot dot-red"></div>
+      <span id="cookie-status-text">未設定 Cookie</span>
+    </div>
+    <input id="auth-token-input" class="input" type="password" placeholder="auth_token">
+    <input id="ct0-input"        class="input" type="password" placeholder="ct0">
+    <div class="row">
+      <button class="btn btn-green btn-sm" onclick="saveTwitterCookie()">儲存</button>
+      <button class="btn btn-red   btn-sm" onclick="deleteCookie()">移除</button>
+    </div>
+    <div id="cookie-msg" class="msg hidden"></div>
+    <details style="margin-top:4px">
+      <summary style="cursor:pointer;font-size:13px;color:#6b7280">如何取得 Cookie？</summary>
+      <ol style="font-size:12px;color:#6b7280;padding:10px 0 0 16px;line-height:1.8">
+        <li>在電腦瀏覽器登入 X.com</li>
+        <li>按 F12 → Application → Cookies → x.com</li>
+        <li>複製 <code>auth_token</code> 與 <code>ct0</code> 的值</li>
+      </ol>
+    </details>
+  </div>
+</div>
+
+<script>
+const API = 'https://raspberrypi.tail8767da.ts.net'
+const TOKEN_KEY = 'token'
+function getToken() { return localStorage.getItem(TOKEN_KEY) }
+
+async function apiFetch(path, opts = {}) {
+  const token = getToken()
+  const res = await fetch(`${API}${path}`, {
+    ...opts,
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}), ...opts.headers },
+  })
+  if (!res.ok) {
+    let b; try { b = await res.json() } catch { b = {} }
+    throw new Error(b.error || `HTTP ${res.status}`)
+  }
+  return res.json()
+}
+
+async function startDownload(format = 'mp4') {
+  const url  = document.getElementById('url-input').value.trim()
+  const dest = document.getElementById('dest-select').value
+  const msg  = document.getElementById('start-msg')
+  const btns = ['btn-video','btn-image','btn-audio'].map(id => document.getElementById(id))
+  if (!url) { showMsg(msg, '請貼上下載連結', 'red'); return }
+  btns.forEach(b => b.disabled = true)
+  msg.classList.add('hidden')
+  try {
+    await apiFetch('/api/ytdl/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, destPath: dest, format }),
+    })
+    showMsg(msg, '✓ 已加入下載佇列', 'green')
+    document.getElementById('url-input').value = ''
+    setTimeout(loadJobs, 800)
+  } catch (e) {
+    showMsg(msg, '錯誤：' + e.message, 'red')
+  } finally {
+    btns.forEach(b => b.disabled = false)
+  }
+}
+
+let pollTimer = null
+async function loadJobs() {
+  try {
+    const jobs = await apiFetch('/api/ytdl/jobs')
+    renderJobs(jobs)
+    const hasActive = jobs.some(j => j.status === 'running' || j.status === 'pending')
+    clearInterval(pollTimer)
+    if (hasActive) pollTimer = setInterval(loadJobs, 3000)
+  } catch (e) {
+    document.getElementById('jobs-list').innerHTML = `<div class="empty-jobs">載入失敗：${escHtml(e.message)}</div>`
+  }
+}
+
+function renderJobs(jobs) {
+  const list = document.getElementById('jobs-list')
+  if (!jobs.length) { list.innerHTML = '<div class="empty-jobs">尚無下載紀錄</div>'; return }
+  list.innerHTML = jobs.map(j => {
+    const badge = { running:'badge-running', done:'badge-done', error:'badge-error', pending:'badge-pending' }[j.status] ?? 'badge-pending'
+    const label = { running:'下載中', done:'完成', error:'失敗', pending:'排隊中' }[j.status] ?? j.status
+    const fmtIcon = { mp4:'🎬', mp3:'🎵', image:'🖼' }[j.format] ?? '📥'
+    const logText = j.error || (j.output ?? '').trim().slice(-300)
+    const log = logText ? `<div class="job-log">${escHtml(logText)}</div>` : ''
+    return `<div class="job-card">
+      <div class="job-header">
+        <div class="job-url" title="${escHtml(j.url)}">${escHtml(j.url)}</div>
+        <span class="badge ${badge}">${label}</span>
+      </div>
+      <div style="font-size:12px;color:#4b5563">${fmtIcon} → ${escHtml(j.destPath ?? j.destDir ?? '')}</div>
+      ${log}
+      <div class="job-actions">
+        <button class="btn btn-red btn-sm" onclick="deleteJob('${j.id}')">刪除</button>
+      </div>
+    </div>`
+  }).join('')
+}
+
+async function deleteJob(id) {
+  try { await apiFetch(`/api/ytdl/jobs/${id}`, { method: 'DELETE' }); loadJobs() }
+  catch (e) { alert('刪除失敗：' + e.message) }
+}
+
+async function loadCookieStatus() {
+  try {
+    const { exists } = await apiFetch('/api/ytdl/cookies')
+    document.getElementById('cookie-dot').className = `dot ${exists ? 'dot-green' : 'dot-red'}`
+    document.getElementById('cookie-status-text').textContent = exists ? 'Cookie 已設定' : '未設定 Cookie'
+  } catch {}
+}
+
+async function saveTwitterCookie() {
+  const auth_token = document.getElementById('auth-token-input').value.trim()
+  const ct0        = document.getElementById('ct0-input').value.trim()
+  const msg        = document.getElementById('cookie-msg')
+  if (!auth_token || !ct0) { showMsg(msg, '請同時填入 auth_token 與 ct0', 'red'); return }
+  try {
+    await apiFetch('/api/ytdl/cookies/twitter', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ auth_token, ct0 }),
+    })
+    document.getElementById('auth-token-input').value = ''
+    document.getElementById('ct0-input').value = ''
+    showMsg(msg, '✓ Cookie 已儲存', 'green')
+    loadCookieStatus()
+  } catch (e) { showMsg(msg, '儲存失敗：' + e.message, 'red') }
+}
+
+async function deleteCookie() {
+  const msg = document.getElementById('cookie-msg')
+  try {
+    await apiFetch('/api/ytdl/cookies', { method: 'DELETE' })
+    showMsg(msg, '✓ Cookie 已移除', 'green')
+    loadCookieStatus()
+  } catch (e) { showMsg(msg, '移除失敗：' + e.message, 'red') }
+}
+
+function showMsg(el, text, type) { el.textContent = text; el.className = `msg msg-${type}` }
+function escHtml(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+if (!getToken()) { window.location.href = '/' }
+else { loadJobs(); loadCookieStatus() }
+</script>
+</body>
+</html>

@@ -30,7 +30,6 @@ const PORT = process.env.PORT || 3002;
 // ── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname), { etag: false, lastModified: false, setHeaders: res => res.set('Cache-Control', 'no-store') }));
 
 // ── DB Pool ──────────────────────────────────────────────────────────────────
 const pool = mysql.createPool({
@@ -73,14 +72,14 @@ app.get('/api/vocab/:id', async (req, res) => {
 
 // POST /api/vocab
 app.post('/api/vocab', async (req, res) => {
-  const { word, part_of_speech, cefr_level, category, example, image_url } = req.body;
+  const { word, part_of_speech, cefr_level, category, example, image_url, exam_tags } = req.body;
   if (!word?.trim()) {
     return res.status(400).json({ error: 'word is required' });
   }
   try {
     const [result] = await pool.query(
-      'INSERT INTO vocabulary (word, part_of_speech, cefr_level, category, example, image_url) VALUES (?,?,?,?,?,?)',
-      [word.trim(), part_of_speech || 'noun', cefr_level || 'A1', (category || '').trim(), (example || '').trim(), (image_url || '').trim() || null]
+      'INSERT INTO vocabulary (word, part_of_speech, cefr_level, category, example, image_url, exam_tags) VALUES (?,?,?,?,?,?,?)',
+      [word.trim(), part_of_speech || 'noun', cefr_level || 'A1', (category || '').trim(), (example || '').trim(), (image_url || '').trim() || null, (exam_tags || '').trim()]
     );
     const [rows] = await pool.query('SELECT * FROM vocabulary WHERE id = ?', [result.insertId]);
     res.status(201).json(rows[0]);
@@ -89,11 +88,11 @@ app.post('/api/vocab', async (req, res) => {
 
 // PUT /api/vocab/:id
 app.put('/api/vocab/:id', async (req, res) => {
-  const { word, part_of_speech, cefr_level, category, example, image_url } = req.body;
+  const { word, part_of_speech, cefr_level, category, example, image_url, exam_tags } = req.body;
   try {
     await pool.query(
-      'UPDATE vocabulary SET word=?, part_of_speech=?, cefr_level=?, category=?, example=?, image_url=? WHERE id=?',
-      [word, part_of_speech, cefr_level, (category||'').trim(), (example||'').trim(), (image_url||'').trim()||null, req.params.id]
+      'UPDATE vocabulary SET word=?, part_of_speech=?, cefr_level=?, category=?, example=?, image_url=?, exam_tags=? WHERE id=?',
+      [word, part_of_speech, cefr_level, (category||'').trim(), (example||'').trim(), (image_url||'').trim()||null, (exam_tags||'').trim(), req.params.id]
     );
     const [rows] = await pool.query('SELECT * FROM vocabulary WHERE id = ?', [req.params.id]);
     res.json(rows[0]);
@@ -126,6 +125,17 @@ app.post('/api/publish', async (req, res) => {
     );
     const dest = path.join(__dirname, '..', 'frontend', 'vocab.json');
     fs.writeFileSync(dest, JSON.stringify(rows, null, 2), 'utf8');
+
+    // also publish listening lessons
+    const [lRows] = await pool.query('SELECT * FROM listening_lessons ORDER BY created_at DESC');
+    lRows.forEach(l => { try { l.key_points = JSON.parse(l.key_points || '[]'); } catch { l.key_points = []; } });
+    const lDest = path.join(__dirname, '..', 'frontend', 'listening.json');
+    fs.writeFileSync(lDest, JSON.stringify(lRows, null, 2), 'utf8');
+
+    // also publish news articles
+    const [nRows] = await pool.query('SELECT * FROM news_articles ORDER BY created_at DESC');
+    const nDest = path.join(__dirname, '..', 'frontend', 'news.json');
+    fs.writeFileSync(nDest, JSON.stringify(nRows, null, 2), 'utf8');
 
     const projectRoot = path.join(__dirname, '..');
     exec('firebase deploy --only hosting', { cwd: projectRoot, timeout: 120000 }, (err, stdout, stderr) => {
@@ -210,6 +220,113 @@ app.patch('/api/users/:uid/disable', async (req, res) => {
     await fbAuth.updateUser(req.params.uid, { disabled: !!disabled });
     res.json({ ok: true, disabled: !!disabled });
   } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// ── News Articles ─────────────────────────────────────────────────────────────
+
+pool.query(`
+  CREATE TABLE IF NOT EXISTS news_articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    source VARCHAR(255) DEFAULT '',
+    difficulty ENUM('A1','A2','B1','B2','C1','C2') DEFAULT 'B1',
+    summary TEXT,
+    content LONGTEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`).catch(e => console.warn('news_articles table init:', e.message));
+
+app.get('/api/news', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM news_articles ORDER BY created_at DESC');
+    res.json(rows);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/news', async (req, res) => {
+  const { title, source, difficulty, summary, content } = req.body;
+  if (!title?.trim() || !content?.trim()) return res.status(400).json({ error: 'title and content required' });
+  try {
+    const [r] = await pool.query(
+      'INSERT INTO news_articles (title, source, difficulty, summary, content) VALUES (?,?,?,?,?)',
+      [title.trim(), (source||'').trim(), difficulty||'B1', (summary||'').trim(), content.trim()]
+    );
+    const [rows] = await pool.query('SELECT * FROM news_articles WHERE id=?', [r.insertId]);
+    res.status(201).json(rows[0]);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.put('/api/news/:id', async (req, res) => {
+  const { title, source, difficulty, summary, content } = req.body;
+  try {
+    await pool.query(
+      'UPDATE news_articles SET title=?, source=?, difficulty=?, summary=?, content=? WHERE id=?',
+      [title, (source||'').trim(), difficulty, (summary||'').trim(), content, req.params.id]
+    );
+    const [rows] = await pool.query('SELECT * FROM news_articles WHERE id=?', [req.params.id]);
+    res.json(rows[0]);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.delete('/api/news/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM news_articles WHERE id=?', [req.params.id]);
+    res.json({ ok: true });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// ── Listening Lessons ────────────────────────────────────────────────────────
+
+app.get('/api/listening', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM listening_lessons ORDER BY created_at DESC');
+    res.json(rows);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/listening', async (req, res) => {
+  const { title, youtube_url, difficulty, key_points } = req.body;
+  if (!title?.trim() || !youtube_url?.trim()) return res.status(400).json({ error: 'title and youtube_url required' });
+  try {
+    const [r] = await pool.query(
+      'INSERT INTO listening_lessons (title, youtube_url, difficulty, key_points) VALUES (?,?,?,?)',
+      [title.trim(), youtube_url.trim(), difficulty || 'B1', JSON.stringify(key_points || [])]
+    );
+    const [rows] = await pool.query('SELECT * FROM listening_lessons WHERE id=?', [r.insertId]);
+    res.status(201).json(rows[0]);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.put('/api/listening/:id', async (req, res) => {
+  const { title, youtube_url, difficulty, key_points } = req.body;
+  try {
+    await pool.query(
+      'UPDATE listening_lessons SET title=?, youtube_url=?, difficulty=?, key_points=? WHERE id=?',
+      [title, youtube_url, difficulty, JSON.stringify(key_points || []), req.params.id]
+    );
+    const [rows] = await pool.query('SELECT * FROM listening_lessons WHERE id=?', [req.params.id]);
+    res.json(rows[0]);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.delete('/api/listening/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM listening_lessons WHERE id=?', [req.params.id]);
+    res.json({ ok: true });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// ── Static (admin UI) — must be after all API routes ──────────────────────────
+app.use(express.static(path.join(__dirname), { etag: false, lastModified: false, setHeaders: res => res.set('Cache-Control', 'no-store') }));
+
+// ── Error handler ─────────────────────────────────────────────────────────────
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: err.message || 'Internal server error' });
+});
+
+// ── 404 fallback ──────────────────────────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).json({ error: `${req.method} ${req.path} not found` });
 });
 
 // ── Start ─────────────────────────────────────────────────────────────────────
