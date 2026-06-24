@@ -249,11 +249,12 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
   const [showFolderPicker, setShowFolderPicker] = useState(false)
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  // ── Twitter Cookie ──────────────────────────────────
+  // ── Cookie management ────────────────────────────────
   const [cookieExists, setCookieExists] = useState(false)
   const [authToken, setAuthToken] = useState('')
   const [ct0, setCt0]             = useState('')
   const [cookieBusy, setCookieBusy] = useState(false)
+  const cookieFileRef = useRef<HTMLInputElement>(null)
 
   async function loadJobs(silent = false) {
     if (!silent) setLoadingJobs(true)
@@ -286,6 +287,21 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
       loadCookieStatus()
     } catch (err) { toast.error((err as Error).message) }
     finally { setCookieBusy(false) }
+  }
+
+  async function uploadCookiesFile(file: File) {
+    setCookieBusy(true)
+    try {
+      const form = new FormData()
+      form.append('cookies', file)
+      await apiJson('/api/ytdl/cookies/upload', { method: 'POST', body: form })
+      toast.success('cookies.txt 已上傳')
+      loadCookieStatus()
+    } catch (err) { toast.error((err as Error).message) }
+    finally {
+      setCookieBusy(false)
+      if (cookieFileRef.current) cookieFileRef.current.value = ''
+    }
   }
 
   async function deleteCookie() {
@@ -497,38 +513,58 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
               </button>
             </div>
 
-            {/* ── Twitter Cookie ── */}
-            <div className="space-y-2 pt-1 border-t border-gray-700/60">
+            {/* ── Cookie 管理 ── */}
+            <div className="space-y-3 pt-1 border-t border-gray-700/60">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400 font-medium">Twitter / X Cookie</span>
+                <span className="text-xs text-gray-400 font-medium">Cookie 管理</span>
                 <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${cookieExists ? 'bg-green-400' : 'bg-red-400'}`} />
-                  <span className="text-xs text-gray-500">{cookieExists ? '已設定' : '未設定'}</span>
+                  <span className={`w-2 h-2 rounded-full ${cookieExists ? 'bg-green-400' : 'bg-gray-600'}`} />
+                  <span className="text-xs text-gray-500">{cookieExists ? 'cookies.txt 已設定' : '未設定'}</span>
+                  {cookieExists && (
+                    <button onClick={deleteCookie} disabled={cookieBusy}
+                      className="text-xs text-red-500 hover:text-red-400 disabled:opacity-50 transition-colors">
+                      移除
+                    </button>
+                  )}
                 </div>
               </div>
-              <input type="password" value={authToken} onChange={e => setAuthToken(e.target.value)}
-                placeholder="auth_token"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 font-mono" />
-              <input type="password" value={ct0} onChange={e => setCt0(e.target.value)}
-                placeholder="ct0"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 font-mono" />
-              <div className="flex gap-2">
-                <button onClick={saveTwitterCookie} disabled={cookieBusy}
-                  className="flex-1 py-2 rounded-lg bg-green-700 hover:bg-green-600 disabled:opacity-50 text-white text-sm font-medium transition-colors">
-                  {cookieBusy ? '儲存中...' : '儲存'}
-                </button>
-                <button onClick={deleteCookie} disabled={cookieBusy}
-                  className="px-4 py-2 rounded-lg bg-red-800 hover:bg-red-700 disabled:opacity-50 text-white text-sm font-medium transition-colors">
-                  移除
-                </button>
+
+              {/* Douyin / 通用 cookies.txt 上傳 */}
+              <div className="bg-gray-800/60 border border-gray-700/50 rounded-lg p-3 space-y-2">
+                <p className="text-xs text-gray-300 font-medium">抖音 / 通用 cookies.txt 上傳</p>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  適用抖音、YouTube 等需要 Cookie 的平台。使用瀏覽器擴充功能「Get cookies.txt LOCALLY」匯出後上傳。
+                </p>
+                <label className={`flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-dashed cursor-pointer transition-colors text-sm font-medium
+                  ${cookieBusy ? 'opacity-50 pointer-events-none' : 'border-orange-700 text-orange-400 hover:bg-orange-900/20'}`}>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  {cookieBusy ? '上傳中...' : '選擇 cookies.txt 上傳'}
+                  <input ref={cookieFileRef} type="file" accept=".txt,text/plain" className="hidden"
+                    onChange={e => { const f = e.target.files?.[0]; if (f) uploadCookiesFile(f) }} />
+                </label>
               </div>
-              <details className="text-xs text-gray-600">
-                <summary className="cursor-pointer hover:text-gray-400">如何取得 Cookie？</summary>
-                <ol className="pt-2 pl-4 space-y-1 leading-relaxed">
-                  <li>在電腦瀏覽器登入 X.com</li>
-                  <li>按 F12 → Application → Cookies → x.com</li>
-                  <li>複製 <code className="text-gray-400">auth_token</code> 與 <code className="text-gray-400">ct0</code> 的值</li>
-                </ol>
+
+              {/* Twitter / X Cookie 手動輸入 */}
+              <details className="bg-gray-800/60 border border-gray-700/50 rounded-lg p-3">
+                <summary className="cursor-pointer text-xs text-gray-400 font-medium hover:text-gray-300 transition-colors">
+                  Twitter / X Cookie（手動輸入）
+                </summary>
+                <div className="mt-3 space-y-2">
+                  <input type="password" value={authToken} onChange={e => setAuthToken(e.target.value)}
+                    placeholder="auth_token"
+                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 font-mono" />
+                  <input type="password" value={ct0} onChange={e => setCt0(e.target.value)}
+                    placeholder="ct0"
+                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 font-mono" />
+                  <button onClick={saveTwitterCookie} disabled={cookieBusy}
+                    className="w-full py-2 rounded-lg bg-purple-800 hover:bg-purple-700 disabled:opacity-50 text-white text-sm font-medium transition-colors">
+                    {cookieBusy ? '儲存中...' : '儲存 Twitter Cookie'}
+                  </button>
+                  <p className="text-xs text-gray-600">F12 → Application → Cookies → x.com，複製 auth_token 與 ct0</p>
+                </div>
               </details>
             </div>
 

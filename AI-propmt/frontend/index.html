@@ -345,7 +345,8 @@
     btn.innerHTML = '<span class="spinner"></span>分析中…';
 
     try {
-      const res = await fetch('/api/analyze', {
+      const BACKEND_URL = 'https://ai-prompt-analyzer.onrender.com';
+      const res = await fetch(`${BACKEND_URL}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt })

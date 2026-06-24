@@ -77,7 +77,7 @@ export default function AiConsult({ symbol, mode = 'card', onTokensChange }: Pro
         <div className="flex-1">
           <p className="text-sm font-semibold text-amber-300">今日免費額度已達上限</p>
           <p className="mt-1 text-xs text-amber-400/80">
-            Gemini API 免費方案每日有使用量限制。升級付費方案後可繼續使用 AI 諮詢功能。
+            Gemini 免費方案每日有使用量限制。升級付費方案後可繼續使用 AI 諮詢功能。
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <a

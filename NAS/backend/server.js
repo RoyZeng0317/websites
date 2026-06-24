@@ -2788,9 +2788,95 @@ app.delete('/api/schedule/logs', authenticate, requireAdmin, async (_req, res) =
 // ── yt-dlp 媒體下載 ───────────────────────────────────────
 
 const ytdlJobs = new Map()
-const YTDL_PATH_EXT = '/usr/local/bin:/home/pi/.local/bin:/usr/bin:/bin'
+const YTDL_PATH_EXT   = '/usr/local/bin:/home/pi/.local/bin:/usr/bin:/bin'
+const YTDL_COOKIES_DIR  = path.join(__dirname, 'data', 'cookies')
+const YTDL_COOKIES_FILE = path.join(YTDL_COOKIES_DIR, 'ytdl_cookies.txt')
+
+async function startDouyinDownload(job) {
+  job.status = 'running'
+  const ua = 'com.ss.android.ugc.aweme/160101 (Linux; U; Android 9; zh_CN; Pixel 4; Build/PQ3A.190801.002)'
+  try {
+    // Resolve short URL → get aweme_id (supports /video/, /note/, and short links)
+    let awemeId = job.url.match(/\/video\/(\d+)/)?.[1] || job.url.match(/\/note\/(\d+)/)?.[1]
+    if (!awemeId) {
+      const { stdout: redir } = await execAsync(
+        `curl -sL -o /dev/null -w "%{url_effective}" "${job.url}"`,
+        { timeout: 15000 }
+      )
+      awemeId = redir.match(/\/video\/(\d+)/)?.[1] || redir.match(/\/note\/(\d+)/)?.[1]
+    }
+    if (!awemeId) throw new Error('無法解析 aweme_id（影片或圖文 ID）')
+    job.output += `aweme_id: ${awemeId}\n`
+
+    const { stdout: apiOut } = await execAsync(
+      `curl -s "https://api.amemv.com/aweme/v1/feed/?aweme_id=${awemeId}&aid=1128" -H "User-Agent: ${ua}"`,
+      { timeout: 15000 }
+    )
+    const aweme = JSON.parse(apiOut)?.aweme_list?.[0]
+    if (!aweme) throw new Error('API 未回傳內容，可能需要更新 aid 參數')
+
+    job.title = (aweme?.desc || String(awemeId)).slice(0, 100)
+    const safeName = job.title.replace(/[/\\:*?"<>|]/g, '_').slice(0, 60)
+
+    // ── 圖文 (image post) ──
+    const images = aweme?.image_post_info?.images
+    if (images?.length) {
+      job.output += `圖文貼文，共 ${images.length} 張圖片\n`
+      for (let i = 0; i < images.length; i++) {
+        const imgUrl = images[i]?.display_image?.url_list?.[0]
+          || images[i]?.owner_watermark_image?.url_list?.[0]
+        if (!imgUrl) { job.output += `第 ${i + 1} 張無法取得連結，跳過\n`; continue }
+        const filename = `${safeName}_${awemeId}_${String(i + 1).padStart(2, '0')}.jpg`
+        job.filename = filename
+        job.output += `下載第 ${i + 1}/${images.length} 張\n`
+        await new Promise((resolve, reject) => {
+          const proc = spawn('wget', ['-q', '--show-progress',
+            `--user-agent=${ua}`, '-O', path.join(job.destDir, filename), imgUrl])
+          proc.stderr.on('data', d => { job.output = (job.output + d.toString()).slice(-4000) })
+          proc.on('close', code => {
+            if (code === 0) resolve()
+            else reject(new Error(`wget 退出碼 ${code}`))
+          })
+          proc.on('error', reject)
+        })
+        job.progress = Math.round(((i + 1) / images.length) * 100)
+      }
+      job.status = 'done'; job.progress = 100
+      return
+    }
+
+    // ── 影片 ──
+    const videoUrl = aweme?.video?.play_addr?.url_list?.[0]
+    if (!videoUrl) throw new Error('API 未回傳影片連結，也未偵測到圖文格式')
+
+    job.output += `取得影片連結成功\n`
+    const filename = `${safeName}_${awemeId}.mp4`
+    job.filename = filename
+
+    return new Promise((resolve, reject) => {
+      const proc = spawn('wget', ['-q', '--show-progress',
+        `--user-agent=${ua}`, '-O', path.join(job.destDir, filename), videoUrl])
+      job.proc = proc
+      proc.stderr.on('data', d => {
+        const text = d.toString()
+        const m = text.match(/([\d.]+)%/)
+        if (m) job.progress = Math.min(99, Math.round(parseFloat(m[1])))
+        job.output = (job.output + text).slice(-4000)
+      })
+      proc.on('close', code => {
+        job.proc = null
+        if (code === 0) { job.status = 'done'; job.progress = 100; resolve() }
+        else { job.status = 'error'; job.error = '下載失敗'; reject(new Error(job.error)) }
+      })
+      proc.on('error', err => { job.proc = null; job.status = 'error'; job.error = err.message; reject(err) })
+    })
+  } catch (err) {
+    job.status = 'error'; job.error = err.message; throw err
+  }
+}
 
 async function startYtdlJob(job) {
+  if (job.url.includes('douyin.com')) return startDouyinDownload(job)
   job.status = 'running'
   const outTpl = path.join(job.destDir, '%(title)s.%(ext)s')
   const args = ['--newline', '--no-playlist', '--socket-timeout', '30', '-o', outTpl]
@@ -2798,12 +2884,22 @@ async function startYtdlJob(job) {
   if (job.format === 'mp3') {
     args.push('-x', '--audio-format', 'mp3')
     args.push('--audio-quality', job.quality === 'best' ? '0' : `${job.quality}K`)
+  } else if (job.format === 'image') {
+    // Let yt-dlp pick the best available (images, GIFs, or video thumbnail fallback)
+    args.push('--write-thumbnail', '--convert-thumbnails', 'jpg', '--skip-download')
+    // For image-hosting / social media carousel posts yt-dlp treats as images directly
+    args.push('-f', 'best')
   } else {
     const fq = job.quality === 'best'
       ? 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best'
       : `bestvideo[height<=${job.quality}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${job.quality}]+bestaudio/best[height<=${job.quality}][ext=mp4]/best[height<=${job.quality}]/best`
     args.push('-f', fq, '--merge-output-format', 'mp4')
   }
+
+  // Pass cookies file if present — required by Douyin, Twitter/X, and other gated sites
+  const hasCookies = await fs.access(YTDL_COOKIES_FILE).then(() => true).catch(() => false)
+  if (hasCookies) args.push('--cookies', YTDL_COOKIES_FILE)
+
   args.push('--', job.url)
 
   return new Promise((resolve, reject) => {
@@ -2865,7 +2961,7 @@ app.post('/api/ytdl/start', authenticate, async (req, res) => {
   const urlMatch = String(url).match(/https?:\/\/[^\s　]+/)
   if (urlMatch) url = urlMatch[0].replace(/[,，。.!！?？\s]+$/, '')
   if (!url.startsWith('http')) return res.status(400).json({ error: '無法識別有效 URL，請直接貼上連結' })
-  if (!['mp3', 'mp4'].includes(format)) return res.status(400).json({ error: '格式無效' })
+  if (!['mp3', 'mp4', 'image'].includes(format)) return res.status(400).json({ error: '格式無效' })
   let destDir
   try {
     destDir = safePath(req.user.username, destPath)
@@ -2913,6 +3009,56 @@ app.delete('/api/ytdl/jobs/:id', authenticate, (req, res) => {
     j.status = 'error'; j.error = '已手動取消'
   }
   ytdlJobs.delete(req.params.id)
+  res.json({ ok: true })
+})
+
+// ── yt-dlp Cookie 管理 ───────────────────────────────────
+
+app.get('/api/ytdl/cookies', authenticate, async (_req, res) => {
+  const exists = await fs.access(YTDL_COOKIES_FILE).then(() => true).catch(() => false)
+  res.json({ exists })
+})
+
+// Generate Netscape cookies.txt from Twitter/X auth_token + ct0
+app.post('/api/ytdl/cookies/twitter', authenticate, requireAdmin, express.json(), async (req, res) => {
+  const { auth_token, ct0 } = req.body ?? {}
+  if (!auth_token || !ct0) return res.status(400).json({ error: '缺少 auth_token 或 ct0' })
+  try {
+    await fs.mkdir(YTDL_COOKIES_DIR, { recursive: true })
+    const netscape = [
+      '# Netscape HTTP Cookie File',
+      `.twitter.com\tTRUE\t/\tTRUE\t0\tauth_token\t${auth_token}`,
+      `.twitter.com\tTRUE\t/\tTRUE\t0\tct0\t${ct0}`,
+      `.x.com\tTRUE\t/\tTRUE\t0\tauth_token\t${auth_token}`,
+      `.x.com\tTRUE\t/\tTRUE\t0\tct0\t${ct0}`,
+    ].join('\n')
+    await fs.writeFile(YTDL_COOKIES_FILE, netscape, 'utf8')
+    res.json({ ok: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// Upload a full cookies.txt (Netscape format from browser extension, works for Douyin etc.)
+app.post('/api/ytdl/cookies/upload', authenticate, requireAdmin, upload.single('cookies'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: '未提供檔案' })
+  try {
+    await fs.mkdir(YTDL_COOKIES_DIR, { recursive: true })
+    await fs.rename(req.file.path, YTDL_COOKIES_FILE).catch(async e => {
+      if (e.code === 'EXDEV') {
+        await fs.copyFile(req.file.path, YTDL_COOKIES_FILE)
+        await fs.unlink(req.file.path)
+      } else throw e
+    })
+    res.json({ ok: true })
+  } catch (err) {
+    await fs.unlink(req.file.path).catch(() => {})
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.delete('/api/ytdl/cookies', authenticate, requireAdmin, async (_req, res) => {
+  await fs.rm(YTDL_COOKIES_FILE, { force: true }).catch(() => {})
   res.json({ ok: true })
 })
 

@@ -474,17 +474,29 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
       if (cancelled) return
 
       if (doc.category === 'doc') {
-        const mod = await import('mammoth')
-        const mammoth = mod.default ?? mod
-        const result = await mammoth.convertToHtml({ arrayBuffer: buf })
-        if (!cancelled) setHtml(result.value || '<p>(Document is empty)</p>')
+        if (buf.byteLength === 0) {
+          if (!cancelled) setHtml('<p>(Document is empty)</p>')
+        } else {
+          const mod = await import('mammoth')
+          const mammoth = mod.default ?? mod
+          const result = await mammoth.convertToHtml({ arrayBuffer: buf })
+          if (!cancelled) setHtml(result.value || '<p>(Document is empty)</p>')
+        }
       } else if (doc.category === 'sheet') {
         const xlsxMod = await import('xlsx')
         const XLSX = xlsxMod.default ?? xlsxMod
-        const wb = XLSX.read(new Uint8Array(buf), { type: 'array' })
-        if (cancelled) return
-        setWorkbook(wb)
-        setSheetNames(wb.SheetNames)
+        if (buf.byteLength === 0) {
+          const wb = XLSX.utils.book_new()
+          XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([[]]), 'Sheet1')
+          if (cancelled) return
+          setWorkbook(wb)
+          setSheetNames(wb.SheetNames)
+        } else {
+          const wb = XLSX.read(new Uint8Array(buf), { type: 'array' })
+          if (cancelled) return
+          setWorkbook(wb)
+          setSheetNames(wb.SheetNames)
+        }
       }
     }
 
