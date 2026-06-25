@@ -19,6 +19,7 @@ import PDFview from './viewers/PDFview'
 import SearchBar from './SearchBar'
 import TerminalOverlay from './terminal'
 import AppLauncher from './AppLauncher'
+import VaultixMenu from './VaultixMenu'
 import NetworkWidget from './widgets/NetworkWidget'
 import DiskWidget from './widgets/DiskWidget'
 import StorageManager from './StorageManager'
@@ -189,6 +190,7 @@ export default function Home() {
   const [viewerType, setViewerType] = useState<ViewerType>(null)
   const [showTerminal, setShowTerminal] = useState(false)
   const [showApps, setShowApps] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   const [showNet, setShowNet] = useState(false)
   const [showDisk, setShowDisk] = useState(false)
   const [showStorage, setShowStorage] = useState(false)
@@ -232,9 +234,11 @@ export default function Home() {
   interface CtxMenu { x: number; y: number; item: FileItem }
   const [ctxMenu, setCtxMenu] = useState<CtxMenu | null>(null)
 
-  // Avatar upload
+  // Background
   const [bgUrl, setBgUrl] = useState<string | null>(() => localStorage.getItem('nas_background'))
+  const [homeBgCss, setHomeBgCss] = useState<string | null>(() => localStorage.getItem('nas_home_bg'))
   const bgInputRef = useRef<HTMLInputElement>(null)
+  const menuBtnRef = useRef<HTMLButtonElement>(null)
 
   // Trash
   const [showTrash, setShowTrash] = useState(false)
@@ -763,26 +767,105 @@ export default function Home() {
     reader.readAsDataURL(file)
   }
 
+  function handleLaunchBuiltin(id: string) {
+    if (id === 'terminal') { setShowTerminal(true); return }
+    if (id === 'photo') { setShowPhoto(true); return }
+    if (id === 'music') { setShowMusic(true); return }
+    if (id === 'locker')    { setShowLocker(true);   return }
+    if (id === 'reels')     { setShowReels(true);    return }
+    if (id === 'telegram')  { setShowTelegram(true); return }
+    if (id === 'docker')    { setShowDocker(true);   return }
+    if (id === 'raid')      { setShowRaid(true);     return }
+    if (id === 'camera')    { setShowCamera(true);    return }
+    if (id === 'extrafile') { setShowExtraFile(true); return }
+    if (id === 'ups')       { setShowUps(true);       return }
+    if (id === 'office') { setOfficeWorkspace({}); return }
+    if (id === 'claude')    { setShowOpenClaw(true); return }
+    if (id === 'todo')      { setShowTodo(true); return }
+    if (id === 'editvideo')    { setEditVideoPath('__browse__'); return }
+    if (id === 'fileconvert') { setShowFileConverter(true); return }
+    const hints: Record<string, string> = {
+      video: '請在檔案列表中點擊影片檔案（MP4、MKV 等）開啟播放器',
+      audio: '請在檔案列表中點擊音樂檔案（MP3、FLAC 等）開啟播放器',
+      image: '請在檔案列表中點擊圖片檔案（JPG、PNG 等）開啟查看器',
+      editor: '請在檔案列表中點擊文字或程式碼檔案開啟編輯器',
+      pdf: '請在檔案列表中點擊 PDF 檔案開啟閱讀器',
+    }
+    toast(hints[id] ?? '請在檔案列表選擇對應檔案', { duration: 4000 })
+  }
+
   function handleRemoveBg() {
     localStorage.removeItem('nas_background')
+    localStorage.removeItem('nas_home_bg')
     setBgUrl(null)
+    setHomeBgCss(null)
     toast.success('Background removed')
+  }
+
+  function handleSetGradient(css: string | null) {
+    if (css) {
+      localStorage.setItem('nas_home_bg', css)
+      setHomeBgCss(css)
+    } else {
+      localStorage.removeItem('nas_home_bg')
+      setHomeBgCss(null)
+    }
+    localStorage.removeItem('nas_background')
+    setBgUrl(null)
+    toast.success('Background updated')
   }
 
   return (
     <div
       className="h-dvh flex flex-col text-white relative"
       style={(() => {
-        const homeBg = localStorage.getItem('nas_home_bg')
-        if (homeBg) return { background: homeBg }
+        if (homeBgCss) return { background: homeBgCss }
         if (bgUrl) return { backgroundImage: `url(${bgUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }
         return { backgroundColor: '#111827' }
       })()}
     >
       <div className="absolute inset-0 bg-gray-900/40 pointer-events-none" />
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-gray-700/60 bg-gray-900/60 backdrop-blur-md relative z-30">
-        <h1 className="text-xl font-bold text-orange-400">{t.appName}</h1>
+      <header className="flex items-center justify-between px-4 py-3 border-b border-gray-700/60 bg-gray-900/60 backdrop-blur-md relative z-30">
+        {/* Left: Vaultix menu button + title */}
+        <div className="flex items-center gap-2 relative shrink-0">
+          <button
+            ref={menuBtnRef}
+            onClick={() => setShowMenu(v => !v)}
+            title="Vaultix Menu"
+            className={`vaultix-menu-btn ${showMenu ? 'active' : ''}`}
+          >
+            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <rect x="2"    y="2"    width="4" height="4" rx="1.2"/>
+              <rect x="8"    y="2"    width="4" height="4" rx="1.2"/>
+              <rect x="14"   y="2"    width="4" height="4" rx="1.2"/>
+              <rect x="2"    y="8"    width="4" height="4" rx="1.2"/>
+              <rect x="8"    y="8"    width="4" height="4" rx="1.2"/>
+              <rect x="14"   y="8"    width="4" height="4" rx="1.2"/>
+              <rect x="2"    y="14"   width="4" height="4" rx="1.2"/>
+              <rect x="8"    y="14"   width="4" height="4" rx="1.2"/>
+              <rect x="14"   y="14"   width="4" height="4" rx="1.2"/>
+            </svg>
+          </button>
+          <h1 className="text-base font-bold text-orange-400 tracking-tight">{t.appName}</h1>
+
+          {showMenu && (
+            <VaultixMenu
+              onClose={() => setShowMenu(false)}
+              onLaunchBuiltin={id => {
+                setShowMenu(false)
+                // reuse existing launch logic via showApps handler
+                handleLaunchBuiltin(id)
+              }}
+              onOpenAppStore={() => { setShowMenu(false); setShowApps(true) }}
+              hasBg={!!(bgUrl || homeBgCss)}
+              currentBg={homeBgCss}
+              onUploadBg={() => bgInputRef.current?.click()}
+              onRemoveBg={handleRemoveBg}
+              onSetGradient={handleSetGradient}
+            />
+          )}
+        </div>
         <div className="flex-1 mx-4 max-w-md">
           <SearchBar onNavigate={path => setPathSegments(path ? path.split('/').filter(Boolean) : [])} />
         </div>
@@ -896,39 +979,8 @@ export default function Home() {
             </svg>
           </button>
 
-          {/* App launcher */}
-          <button
-            onClick={() => setShowApps(true)}
-            title="應用程式"
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
-          >
-            <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-            </svg>
-          </button>
-
-          {/* Background toggle */}
-          <button
-            onClick={() => bgInputRef.current?.click()}
-            title="設定背景圖片"
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
-          >
-            <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-            </svg>
-          </button>
+          {/* Hidden file input for background upload */}
           <input ref={bgInputRef} type="file" accept="image/*" className="hidden" onChange={handleBgFile} />
-          {bgUrl && (
-            <button
-              onClick={handleRemoveBg}
-              title="移除背景"
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-400 hover:bg-gray-700 transition-colors"
-            >
-              <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          )}
 
           {/* Avatar + display name → opens profile panel */}
           {user && (() => {
@@ -1490,33 +1542,7 @@ export default function Home() {
       {showApps && (
         <AppLauncher
           onClose={() => setShowApps(false)}
-          onLaunchBuiltin={id => {
-            setShowApps(false)
-            if (id === 'terminal') { setShowTerminal(true); return }
-            if (id === 'photo') { setShowPhoto(true); return }
-            if (id === 'music') { setShowMusic(true); return }
-            if (id === 'locker')    { setShowLocker(true);   return }
-            if (id === 'reels')     { setShowReels(true);    return }
-            if (id === 'telegram')  { setShowTelegram(true); return }
-            if (id === 'docker')    { setShowDocker(true);   return }
-            if (id === 'raid')      { setShowRaid(true);     return }
-            if (id === 'camera')    { setShowCamera(true);    return }
-            if (id === 'extrafile') { setShowExtraFile(true); return }
-            if (id === 'ups')       { setShowUps(true);       return }
-            if (id === 'office') { setOfficeWorkspace({}); return }
-            if (id === 'claude')    { setShowOpenClaw(true); return }
-            if (id === 'todo')      { setShowTodo(true); return }
-            if (id === 'editvideo')    { setEditVideoPath('__browse__'); return }
-            if (id === 'fileconvert') { setShowFileConverter(true); return }
-            const hints: Record<string, string> = {
-              video: '請在檔案列表中點擊影片檔案（MP4、MKV 等）開啟播放器',
-              audio: '請在檔案列表中點擊音樂檔案（MP3、FLAC 等）開啟播放器',
-              image: '請在檔案列表中點擊圖片檔案（JPG、PNG 等）開啟查看器',
-              editor: '請在檔案列表中點擊文字或程式碼檔案開啟編輯器',
-              pdf: '請在檔案列表中點擊 PDF 檔案開啟閱讀器',
-            }
-            toast(hints[id] ?? '請在檔案列表選擇對應檔案', { duration: 4000 })
-          }}
+          onLaunchBuiltin={id => { setShowApps(false); handleLaunchBuiltin(id) }}
         />
       )}
       {showPhoto && <PhotoApp onClose={() => setShowPhoto(false)} />}

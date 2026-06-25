@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface Props {
   src: string
@@ -7,13 +7,42 @@ interface Props {
 }
 
 export default function PDFview({ src, name, onClose }: Props) {
+  const [pdfUrl, setPdfUrl]   = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [err, setErr]         = useState('')
+  const blobRef = useRef<string | null>(null)
+
   useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose()
-    }
+    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
+
+  // Fetch PDF as blob so iframe gets application/pdf without Content-Disposition: attachment
+  useEffect(() => {
+    setLoading(true)
+    setErr('')
+    let cancelled = false
+
+    fetch(src)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.blob()
+      })
+      .then(blob => {
+        if (cancelled) return
+        const url = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }))
+        blobRef.current = url
+        setPdfUrl(url)
+      })
+      .catch(e => { if (!cancelled) setErr((e as Error).message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+
+    return () => {
+      cancelled = true
+      if (blobRef.current) { URL.revokeObjectURL(blobRef.current); blobRef.current = null }
+    }
+  }, [src])
 
   return (
     <div className="fixed inset-0 z-50 bg-black/95 flex flex-col">
@@ -45,12 +74,28 @@ export default function PDFview({ src, name, onClose }: Props) {
 
       {/* PDF Viewer Area */}
       <div className="flex-1 bg-gray-900 overflow-hidden relative">
-        <iframe
-          src={`${src}#toolbar=0`}
-          className="w-full h-full border-none"
-          title={name}
-        />
-        {/* Transparent overlay to catch clicks if needed, though iframe usually handles its own */}
+        {loading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <div className="w-8 h-8 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-gray-500">Loading PDF…</p>
+          </div>
+        )}
+        {err && !loading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-8">
+            <p className="text-red-400 font-medium">Cannot load PDF</p>
+            <p className="text-xs text-gray-500 font-mono break-all max-w-lg">{err}</p>
+            <a href={src} download={name} className="mt-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm transition-colors">
+              Download instead
+            </a>
+          </div>
+        )}
+        {pdfUrl && (
+          <iframe
+            src={`${pdfUrl}#toolbar=1&navpanes=0`}
+            className="w-full h-full border-none"
+            title={name}
+          />
+        )}
       </div>
 
       <p className="text-center text-xs text-gray-600 py-2 shrink-0 bg-black/40">

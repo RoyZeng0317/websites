@@ -4,6 +4,8 @@ import toast from 'react-hot-toast'
 import { apiJson, downloadUrl, getToken } from '../lib/api'
 import { getCategory, isOfficeCategory, type OfficeCategory } from '../lib/fileTypes'
 
+type WorkspaceCategory = OfficeCategory | 'pdf'
+
 interface FileItem {
   name: string
   type: 'file' | 'folder'
@@ -14,7 +16,7 @@ interface FileItem {
 export interface OfficeDocument {
   name: string
   path: string
-  category: OfficeCategory
+  category: WorkspaceCategory
   size?: number
   modified?: string
 }
@@ -51,7 +53,7 @@ interface Props {
   onShare?: (doc: OfficeDocument) => void
 }
 
-const OFFICE_DETAILS: Record<OfficeCategory, {
+const OFFICE_DETAILS: Record<WorkspaceCategory, {
   label: string
   appName: string
   scheme: string
@@ -59,6 +61,14 @@ const OFFICE_DETAILS: Record<OfficeCategory, {
   bg: string
   border: string
 }> = {
+  pdf: {
+    label: 'PDF',
+    appName: 'PDF Document',
+    scheme: '',
+    accent: 'text-red-300',
+    bg: 'bg-red-500/10',
+    border: 'border-red-400/30',
+  },
   doc: {
     label: 'Word',
     appName: 'Microsoft Word',
@@ -175,7 +185,12 @@ async function copyText(text: string, label: string) {
   } catch { toast.error('Copy failed') }
 }
 
-function OfficeIcon({ category, className = 'w-5 h-5' }: { category: OfficeCategory; className?: string }) {
+function OfficeIcon({ category, className = 'w-5 h-5' }: { category: WorkspaceCategory; className?: string }) {
+  if (category === 'pdf') return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+    </svg>
+  )
   if (category === 'sheet') return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 5.25A2.25 2.25 0 016 3h12a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0118 21H6a2.25 2.25 0 01-2.25-2.25V5.25zM3.75 9h16.5M9 3v18m5.25-12v12" />
@@ -444,6 +459,86 @@ function SheetEditor({ sheetData, sheetName, editMode, onSave, saving }: {
   )
 }
 
+// ── PDF Preview (fetches blob to bypass Content-Disposition: attachment) ──────
+
+function PdfPreview({ doc, onDownload }: { doc: OfficeDocument; onDownload: () => void }) {
+  const [pdfUrl, setPdfUrl]   = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [err, setErr]         = useState<string>('')
+  const blobUrlRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    setLoading(true)
+    setErr('')
+    let cancelled = false
+
+    async function load() {
+      const res = await fetch(downloadUrl(doc.path))
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const blob = await res.blob()
+      if (cancelled) return
+      // Force MIME type so the browser renders inline, not as download
+      const blobUrl = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }))
+      blobUrlRef.current = blobUrl
+      setPdfUrl(blobUrl)
+    }
+
+    load()
+      .catch(e => { if (!cancelled) setErr((e as Error).message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+
+    return () => {
+      cancelled = true
+      if (blobUrlRef.current) { URL.revokeObjectURL(blobUrlRef.current); blobUrlRef.current = null }
+    }
+  }, [doc.path])
+
+  if (loading) {
+    return (
+      <div className="h-full min-h-[400px] flex flex-col items-center justify-center gap-3 bg-gray-950 rounded-xl border border-gray-800">
+        <div className="w-7 h-7 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-gray-500">Loading PDF…</p>
+      </div>
+    )
+  }
+
+  if (err) {
+    return (
+      <div className="h-full min-h-[400px] flex flex-col items-center justify-center gap-3 bg-gray-950 rounded-xl border border-red-900/40 p-8 text-center">
+        <p className="text-red-400 font-medium">Cannot load PDF</p>
+        <p className="text-xs text-gray-500 font-mono break-all max-w-md">{err}</p>
+        <button onClick={onDownload} className="mt-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm transition-colors">
+          Download and open
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="h-full min-h-[400px] flex flex-col bg-gray-950 rounded-xl border border-red-900/20 overflow-hidden">
+      <div className="shrink-0 flex items-center gap-2 px-4 py-2 bg-gray-900 border-b border-gray-800">
+        <svg className="w-4 h-4 shrink-0 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+        </svg>
+        <span className="text-xs text-gray-400 truncate">{doc.name}</span>
+        <button
+          onClick={onDownload}
+          className="ml-auto shrink-0 text-xs px-3 py-1.5 rounded-lg bg-red-800 hover:bg-red-700 text-white transition-colors"
+        >
+          Download
+        </button>
+      </div>
+      {pdfUrl && (
+        <iframe
+          src={`${pdfUrl}#toolbar=1&navpanes=0`}
+          className="flex-1 w-full border-0 bg-white"
+          title={doc.name}
+        />
+      )}
+    </div>
+  )
+}
+
 // ── Document surface ──────────────────────────────────────────────────────────
 
 function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload: () => void }) {
@@ -461,10 +556,12 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
   const [showOpenMenu, setShowOpenMenu] = useState(false)
 
   useEffect(() => {
-    setHtml(''); setSheetNames([]); setSheetData([])
+    setErr(''); setHtml(''); setSheetNames([]); setSheetData([])
     setWorkbook(null); setActiveSheet(0); setEditMode(false)
-    setLoading(true); setErr('')
+    setLoading(true)
     let cancelled = false
+
+    if (doc.category === 'pdf') { setLoading(false); return }
 
     async function load() {
       const url = downloadUrl(doc.path)
@@ -570,6 +667,11 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
       setEditMode(false)
     } catch (e) { toast.error((e as Error).message) }
     setSaving(false)
+  }
+
+  // ── PDF (Blob URL to bypass Content-Disposition: attachment) ──
+  if (doc.category === 'pdf') {
+    return <PdfPreview doc={doc} onDownload={onDownload} />
   }
 
   if (doc.category === 'slide') {
@@ -747,11 +849,11 @@ export default function OfficeCollabWorkspace({
     return items.flatMap(item => {
       if (item.type !== 'file') return []
       const category = getCategory(item.name, false)
-      if (!isOfficeCategory(category)) return []
+      if (!isOfficeCategory(category) && category !== 'pdf') return []
       return [{
         name: item.name,
         path: currentPath ? `${currentPath}/${item.name}` : item.name,
-        category,
+        category: category as WorkspaceCategory,
         size: item.size,
         modified: item.modified,
       }]
@@ -966,8 +1068,8 @@ export default function OfficeCollabWorkspace({
                       className="h-9 px-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">
                       Download
                     </button>
-                    {/* Open in desktop app (with dropdown) */}
-                    <div className="relative">
+                    {/* Open in desktop app (with dropdown) — not for PDF */}
+                    {activeDoc.category !== 'pdf' && <div className="relative">
                       <button
                         onClick={() => setShowOpenMenu(v => !v)}
                         className="h-9 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs transition-colors flex items-center gap-1">
@@ -998,11 +1100,13 @@ export default function OfficeCollabWorkspace({
                           </div>
                         </>
                       )}
-                    </div>
-                    <button onClick={() => copyText(webDavUrl(activeDoc.path), 'WebDAV link')}
-                      className="h-9 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs transition-colors">
-                      WebDAV
-                    </button>
+                    </div>}
+                    {activeDoc.category !== 'pdf' && (
+                      <button onClick={() => copyText(webDavUrl(activeDoc.path), 'WebDAV link')}
+                        className="h-9 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs transition-colors">
+                        WebDAV
+                      </button>
+                    )}
                     <button onClick={() => createEditShare(activeDoc)} disabled={shareBusy}
                       className="h-9 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs transition-colors">
                       {shareBusy ? 'Creating' : 'Collab Link'}

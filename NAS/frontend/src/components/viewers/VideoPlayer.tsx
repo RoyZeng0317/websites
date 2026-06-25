@@ -66,11 +66,22 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
   const [aiSubProgress, setAiSubProgress] = useState(0)
   const aiPollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
+  // Intro detection
+  const [introEnd, setIntroEnd]         = useState<number | null>(null)
+  const [introStatus, setIntroStatus]   = useState<'idle' | 'loading' | 'found' | 'notfound'>('idle')
+  const [showIntroBtn, setShowIntroBtn] = useState(false)
+  const [introAccel, setIntroAccel]     = useState(false)
+  const introEndRef   = useRef<number | null>(null)
+  const introAccelRef = useRef(false)
+
   const progressKey = filePath ? `nas_vp_${filePath}` : null
+  const introKey    = filePath ? `nas_intro_${filePath}` : null
 
   // ── keep refs in sync ───────────────────────────────────────────────────────
-  speedRef.current = speed
-  subOnRef.current = subtitleOn
+  speedRef.current     = speed
+  subOnRef.current     = subtitleOn
+  introEndRef.current  = introEnd
+  introAccelRef.current = introAccel
 
   // ── helpers ─────────────────────────────────────────────────────────────────
   function showHint(text: string) {
@@ -98,6 +109,137 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
     setSubtitleName(label)
     setSubtitleStatus('found')
     setSubtitleOn(true)
+  }
+
+  // ── intro detection ─────────────────────────────────────────────────────────
+
+  function seekToTime(vid: HTMLVideoElement, t: number): Promise<void> {
+    return new Promise(resolve => {
+      vid.addEventListener('seeked', () => resolve(), { once: true })
+      vid.currentTime = t
+      setTimeout(resolve, 2500)
+    })
+  }
+
+  async function analyzeIntro() {
+    const dur = videoRef.current?.duration
+    if (!dur || dur < 30) { setIntroStatus('notfound'); return }
+
+    // Load from cache
+    if (introKey) {
+      try {
+        const c = JSON.parse(localStorage.getItem(introKey) ?? 'null')
+        if (c && 'end' in c) {
+          if (c.end === null) { setIntroStatus('notfound'); return }
+          setIntroEnd(c.end); setIntroStatus('found'); return
+        }
+      } catch { /* ignore */ }
+    }
+
+    setIntroStatus('loading')
+
+    const canvas = document.createElement('canvas')
+    canvas.width = 96; canvas.height = 54
+    const ctx = canvas.getContext('2d')
+    if (!ctx) { setIntroStatus('notfound'); return }
+
+    // Hidden analysis video — avoids disturbing the main player
+    const vid = document.createElement('video')
+    vid.src = src
+    vid.muted = true
+    vid.crossOrigin = 'anonymous'
+    vid.preload = 'metadata'
+    vid.style.cssText = 'position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;top:-9999px'
+    document.body.appendChild(vid)
+
+    try {
+      await new Promise<void>((res, rej) => {
+        vid.addEventListener('loadedmetadata', () => res(), { once: true })
+        vid.addEventListener('error', () => rej(new Error('load error')), { once: true })
+        setTimeout(() => rej(new Error('timeout')), 15000)
+      })
+
+      const maxScan = Math.min(dur, 300)   // max 5 min
+      const step    = 5                    // sample every 5 s
+      const N       = Math.floor(maxScan / step)
+      const diffs: number[] = []
+      let prev: Uint8ClampedArray | null = null
+
+      for (let i = 0; i <= N; i++) {
+        await seekToTime(vid, i * step)
+        ctx.drawImage(vid, 0, 0, 96, 54)
+        const { data } = ctx.getImageData(0, 0, 96, 54)
+        if (prev) {
+          let d = 0
+          for (let j = 0; j < data.length; j += 4) {
+            d += Math.abs(data[j] - prev[j])
+              + Math.abs(data[j + 1] - prev[j + 1])
+              + Math.abs(data[j + 2] - prev[j + 2])
+          }
+          diffs.push(d / (96 * 54 * 3))
+        } else {
+          diffs.push(0)
+        }
+        prev = new Uint8ClampedArray(data)
+      }
+
+      // Smooth diffs with sliding window
+      const W  = 3
+      const sm = diffs.map((_, i) => {
+        const sl = diffs.slice(Math.max(0, i - W), i + W + 1)
+        return sl.reduce((a, b) => a + b, 0) / sl.length
+      })
+
+      const mean = sm.reduce((a, b) => a + b, 0) / sm.length
+      const std  = Math.sqrt(sm.reduce((a, b) => a + (b - mean) ** 2, 0) / sm.length)
+      const thr  = mean + 0.4 * std
+
+      // Find the last "active" (high-change) index within first 85% of scan
+      const cap = Math.floor(sm.length * 0.85)
+      let lastHigh = -1
+      for (let i = 0; i < cap; i++) if (sm[i] >= thr) lastHigh = i
+
+      if (lastHigh < 2) throw new Error('no peak')
+
+      const end = Math.min((lastHigh + 2) * step, maxScan)
+      if (end < 15 || end > 260) throw new Error('range invalid')
+
+      setIntroEnd(end)
+      setIntroStatus('found')
+      if (introKey) localStorage.setItem(introKey, JSON.stringify({ end }))
+
+    } catch {
+      setIntroStatus('notfound')
+      if (introKey) localStorage.setItem(introKey, JSON.stringify({ end: null }))
+    } finally {
+      document.body.removeChild(vid)
+    }
+  }
+
+  function skipIntro() {
+    const v   = videoRef.current
+    const end = introEndRef.current
+    if (!v || end === null) return
+    v.currentTime = end
+    if (introAccelRef.current) { v.playbackRate = speedRef.current; setIntroAccel(false) }
+    setShowIntroBtn(false)
+    showHint('⏭ 跳過片頭')
+  }
+
+  function startIntroAccel() {
+    const v = videoRef.current
+    if (!v) return
+    v.playbackRate = 3
+    setIntroAccel(true)
+    showHint('⏩ 片頭 3×')
+  }
+
+  function resetIntro() {
+    setIntroEnd(null)
+    setIntroStatus('idle')
+    setShowIntroBtn(false)
+    setIntroAccel(false)
+    if (introKey) localStorage.removeItem(introKey)
   }
 
   // ── auto-detect subtitle ────────────────────────────────────────────────────
@@ -152,16 +294,40 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
   }
 
   const handleLoadedMetadata = useCallback(() => {
-    if (!progressKey) return
-    try {
-      const saved = JSON.parse(localStorage.getItem(progressKey) ?? 'null')
-      if (saved?.t && saved.t > RESUME_THRESHOLD_S) setResumeAt(saved.t)
-    } catch { /* ignore */ }
-  }, [progressKey])
+    if (progressKey) {
+      try {
+        const saved = JSON.parse(localStorage.getItem(progressKey) ?? 'null')
+        if (saved?.t && saved.t > RESUME_THRESHOLD_S) setResumeAt(saved.t)
+      } catch { /* ignore */ }
+    }
+    // Load cached intro end
+    if (introKey) {
+      try {
+        const c = JSON.parse(localStorage.getItem(introKey) ?? 'null')
+        if (c && c.end !== null && c.end !== undefined) {
+          setIntroEnd(c.end); setIntroStatus('found')
+        }
+      } catch { /* ignore */ }
+    }
+  }, [progressKey, introKey])
 
   const handleTimeUpdate = useCallback(() => {
     const v = videoRef.current
-    if (!v || !progressKey) return
+    if (!v) return
+
+    // Intro: show/hide skip button, auto-stop accel
+    const end = introEndRef.current
+    if (end !== null) {
+      setShowIntroBtn(v.currentTime > 0 && v.currentTime < end)
+      if (introAccelRef.current && v.currentTime >= end) {
+        v.playbackRate = speedRef.current
+        setIntroAccel(false)
+        setShowIntroBtn(false)
+        showHint('✓ 片頭結束')
+      }
+    }
+
+    if (!progressKey) return
     if (Math.abs(v.currentTime - lastSavedRef.current) >= SAVE_INTERVAL_S) {
       lastSavedRef.current = v.currentTime
       localStorage.setItem(progressKey, JSON.stringify({ t: v.currentTime }))
@@ -427,6 +593,60 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
             )}
           </div>
 
+          {/* ── Intro detect button ── */}
+          {filePath && (
+            <div className="relative flex items-center">
+              <button
+                onClick={e => {
+                  e.stopPropagation()
+                  if (introStatus === 'found') return
+                  analyzeIntro()
+                }}
+                disabled={introStatus === 'loading'}
+                title={introStatus === 'found' ? `片頭結束於 ${formatTime(introEnd!)}（點右側 × 重置）` : '偵測片頭位置'}
+                className={`flex items-center gap-1 h-7 px-2.5 rounded-l text-xs font-medium transition-colors ${
+                  introStatus === 'found'
+                    ? 'bg-yellow-500/15 text-yellow-300 border border-yellow-500/25'
+                    : introStatus === 'loading'
+                    ? 'bg-gray-800 text-gray-500 cursor-wait'
+                    : introStatus === 'notfound'
+                    ? 'bg-gray-800 text-gray-600'
+                    : 'bg-gray-800 hover:bg-gray-700 text-gray-400'
+                } ${introStatus === 'found' ? '' : 'rounded'}`}
+              >
+                {introStatus === 'loading' ? (
+                  <>
+                    <span className="inline-block w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+                    <span className="hidden sm:inline">偵測中…</span>
+                  </>
+                ) : introStatus === 'found' ? (
+                  <>
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
+                    </svg>
+                    <span className="font-mono">{formatTime(introEnd!)}</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
+                    </svg>
+                    <span className="hidden sm:inline">
+                      {introStatus === 'notfound' ? '未偵測到' : '偵測片頭'}
+                    </span>
+                  </>
+                )}
+              </button>
+              {introStatus === 'found' && (
+                <button
+                  onClick={e => { e.stopPropagation(); resetIntro() }}
+                  title="重置片頭偵測"
+                  className="h-7 px-1.5 rounded-r bg-yellow-500/15 border border-l-0 border-yellow-500/25 text-yellow-600 hover:text-yellow-300 text-xs transition-colors"
+                >×</button>
+              )}
+            </div>
+          )}
+
           {/* ── Speed button ── */}
           <div className="relative">
             <button
@@ -519,6 +739,43 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
             <div className="bg-black/70 text-white text-lg font-semibold px-5 py-2.5 rounded-xl backdrop-blur-sm animate-[fadeOut_0.9s_ease-in-out_forwards]">
               {hint.text}
             </div>
+          </div>
+        )}
+
+        {/* ── Skip Intro floating buttons ── */}
+        {showIntroBtn && introEnd !== null && (
+          <div className="absolute bottom-14 right-6 flex flex-col gap-2 z-10">
+            <button
+              onClick={skipIntro}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm border border-white/15 hover:border-yellow-400/50 text-white text-sm font-medium transition-all shadow-2xl"
+            >
+              <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
+              </svg>
+              跳過片頭
+            </button>
+            <button
+              onClick={introAccel ? skipIntro : startIntroAccel}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl backdrop-blur-sm border text-sm font-medium transition-all shadow-2xl ${
+                introAccel
+                  ? 'bg-orange-500/30 border-orange-400/60 text-orange-200 hover:bg-orange-500/40'
+                  : 'bg-black/40 hover:bg-black/60 border-white/10 hover:border-white/25 text-gray-300'
+              }`}
+            >
+              {introAccel ? (
+                <>
+                  <span className="text-orange-300 font-mono text-xs">3×</span>
+                  加速中 — 點擊跳過
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+                  </svg>
+                  3× 加速片頭
+                </>
+              )}
+            </button>
           </div>
         )}
 
