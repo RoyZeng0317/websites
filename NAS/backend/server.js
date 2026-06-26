@@ -2792,6 +2792,68 @@ const YTDL_PATH_EXT   = '/usr/local/bin:/home/pi/.local/bin:/usr/bin:/bin'
 const YTDL_COOKIES_DIR  = path.join(__dirname, 'data', 'cookies')
 const YTDL_COOKIES_FILE = path.join(YTDL_COOKIES_DIR, 'ytdl_cookies.txt')
 
+async function startDouyinYtdl(job) {
+  const outTpl = path.join(job.destDir, '%(title)s.%(ext)s')
+  const args = [
+    '--newline', '--no-playlist', '--socket-timeout', '30', '-o', outTpl,
+    '-f', 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+    '--merge-output-format', 'mp4',
+    '--add-header', 'Referer:https://www.douyin.com',
+    '--add-header', 'Accept-Language:zh-CN,zh;q=0.9',
+  ]
+
+  const hasCookies = await fs.access(YTDL_COOKIES_FILE).then(() => true).catch(() => false)
+  if (hasCookies) {
+    args.push('--cookies', YTDL_COOKIES_FILE)
+  } else {
+    job.status = 'error'
+    job.error = '抖音目前需要 Cookies 才能下載，請至設定頁面上傳 cookies.txt（可用瀏覽器擴充功能 Get cookies.txt LOCALLY 匯出）'
+    throw new Error(job.error)
+  }
+
+  args.push('--', job.url)
+
+  return new Promise((resolve, reject) => {
+    const proc = spawn('yt-dlp', args, {
+      env: { ...process.env, PATH: `${process.env.PATH ?? ''}:${YTDL_PATH_EXT}` },
+    })
+    job.proc = proc
+    let stderr = ''
+
+    function handleLine(text) {
+      const pm = text.match(/\s+([\d.]+)%/)
+      if (pm) job.progress = Math.min(99, Math.round(parseFloat(pm[1])))
+      const dm = text.match(/(?:Destination|Merging formats into):\s+"?(.+?)"?\s*$/)
+      if (dm) job.filename = path.basename(dm[1].trim())
+      job.output = (job.output + text).slice(-4000)
+    }
+
+    proc.stdout.on('data', d => handleLine(d.toString()))
+    proc.stderr.on('data', d => {
+      const text = d.toString()
+      stderr += text
+      handleLine(text)
+    })
+    proc.on('close', code => {
+      job.proc = null
+      if (code === 0) { job.status = 'done'; job.progress = 100; resolve() }
+      else {
+        job.status = 'error'
+        const combined = stderr + job.output
+        if (combined.includes('cookies') || combined.includes('Fresh cookies') || combined.includes('logged in')) {
+          job.error = '抖音 Cookies 已失效或格式錯誤，請重新從已登入的瀏覽器匯出 cookies.txt'
+        } else if (combined.includes('JSON') || combined.includes('ExtractorError') || combined.includes('parse')) {
+          job.error = 'yt-dlp 版本過舊，請在 Pi 執行：pip install -U yt-dlp，再重試'
+        } else {
+          job.error = stderr.slice(-500) || 'yt-dlp 下載失敗'
+        }
+        reject(new Error(job.error))
+      }
+    })
+    proc.on('error', err => { job.proc = null; job.status = 'error'; job.error = err.message; reject(err) })
+  })
+}
+
 async function startDouyinDownload(job) {
   job.status = 'running'
   const ua = 'com.ss.android.ugc.aweme/160101 (Linux; U; Android 9; zh_CN; Pixel 4; Build/PQ3A.190801.002)'
@@ -2808,12 +2870,20 @@ async function startDouyinDownload(job) {
     if (!awemeId) throw new Error('無法解析 aweme_id（影片或圖文 ID）')
     job.output += `aweme_id: ${awemeId}\n`
 
-    const { stdout: apiOut } = await execAsync(
-      `curl -s "https://api.amemv.com/aweme/v1/feed/?aweme_id=${awemeId}&aid=1128" -H "User-Agent: ${ua}"`,
-      { timeout: 15000 }
-    )
-    const aweme = JSON.parse(apiOut)?.aweme_list?.[0]
-    if (!aweme) throw new Error('API 未回傳內容，可能需要更新 aid 參數')
+    let aweme = null
+    try {
+      const { stdout: apiOut } = await execAsync(
+        `curl -s "https://api.amemv.com/aweme/v1/feed/?aweme_id=${awemeId}&aid=1128" -H "User-Agent: ${ua}"`,
+        { timeout: 15000 }
+      )
+      aweme = JSON.parse(apiOut)?.aweme_list?.[0]
+    } catch {
+      job.output += 'API 解析失敗，改用 yt-dlp 下載\n'
+    }
+    if (!aweme) {
+      job.output += 'API 未回傳有效內容，改用 yt-dlp 下載\n'
+      return startDouyinYtdl(job)
+    }
 
     job.title = (aweme?.desc || String(awemeId)).slice(0, 100)
     const safeName = job.title.replace(/[/\\:*?"<>|]/g, '_').slice(0, 60)

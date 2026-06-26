@@ -153,10 +153,6 @@ const ARTICLE_DETAILS: Record<number, string> = {
   12: "Epigenetic research is also changing how scientists think about prevention. If environmental conditions can influence gene activity, then public health decisions may have biological effects that last for years. Nutrition, pollution exposure, chronic stress, and access to medical care can all shape patterns of risk in a population. This does not mean individuals are fully responsible for every health outcome. Instead, it shows that biology and society are deeply connected. Scientists are now developing tools to measure epigenetic age, track disease risk, and evaluate whether treatments can restore healthier gene regulation. The promise is significant, but researchers must be careful not to overstate early findings before they are validated in large studies."
 };
 
-NEWS_ARTICLES.forEach(article => {
-  article.content = `${article.content} ${ARTICLE_DETAILS[article.id]}`;
-});
-
 function getTokens(text: string, vocabMap: Map<string, VocabWord>, userLevel: CefrLevel): Token[] {
   const words = text.split(/(\s+|(?=[.,!?;:'"()])|(?<=[.,!?;:'"()]))/).filter(Boolean);
   const tokens: Token[] = [];
@@ -283,32 +279,52 @@ function getLevelColor(level: CefrLevel): string {
 export default function News() {
   const [vocabMap, setVocabMap] = useState<Map<string, VocabWord>>(new Map());
   const [userLevel, setUserLevel] = useState<CefrLevel>('A1');
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
   const [tokens, setTokens] = useState<Token[]>([]);
   const [tooltip, setTooltip] = useState<{ vocab: VocabWord; x: number; y: number } | null>(null);
   const articleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch('/vocab.json')
+    fetch('/vocab.json?t=' + Date.now())
       .then(r => r.json())
       .then((data: VocabWord[]) => {
         const map = new Map<string, VocabWord>();
         for (const entry of data) {
           const key = entry.word.toLowerCase().trim();
-          if (!map.has(key)) {
-            map.set(key, entry);
-          }
+          if (!map.has(key)) map.set(key, entry);
         }
         setVocabMap(map);
       })
       .catch(() => {});
   }, []);
 
-  const filteredArticles = NEWS_ARTICLES.filter(a => {
-    const articleOrder = CEFR_ORDER[a.difficulty];
-    const userOrder = CEFR_ORDER[userLevel];
-    return articleOrder <= userOrder + 1 && articleOrder >= userOrder - 1;
-  });
+  useEffect(() => {
+    const base = NEWS_ARTICLES.map(a => ({
+      ...a,
+      content: `${a.content} ${ARTICLE_DETAILS[a.id] ?? ''}`.trim(),
+    }));
+    fetch('/news.json?t=' + Date.now())
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('not ok')))
+      .then((data: unknown) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const daily = (data as Record<string, unknown>[]).map(a => ({
+            id:         Number(a.id),
+            title:      String(a.title   ?? ''),
+            content:    String(a.content ?? ''),
+            difficulty: (a.difficulty as CefrLevel) ?? 'B1',
+            source:     String(a.source  ?? ''),
+            summary:    String(a.summary ?? ''),
+          }));
+          setArticles([...base, ...daily]);
+        } else {
+          setArticles(base);
+        }
+      })
+      .catch(() => setArticles(base));
+  }, []);
+
+  const filteredArticles = articles.filter(a => a.difficulty === userLevel);
 
   useEffect(() => {
     if (filteredArticles.length > 0) {
@@ -319,7 +335,7 @@ export default function News() {
     } else {
       setSelectedArticle(null);
     }
-  }, [userLevel]);
+  }, [userLevel, articles]);
 
   useEffect(() => {
     if (selectedArticle && vocabMap.size > 0) {

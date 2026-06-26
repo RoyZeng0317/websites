@@ -554,6 +554,14 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
   const [err, setErr] = useState<string>('')
   const docRef = useRef<HTMLDivElement>(null)
   const [showOpenMenu, setShowOpenMenu] = useState(false)
+  const [fmtBold, setFmtBold] = useState(false)
+  const [fmtItalic, setFmtItalic] = useState(false)
+  const [fmtUnderline, setFmtUnderline] = useState(false)
+  const [fmtAlign, setFmtAlign] = useState<'left' | 'center' | 'right'>('left')
+  const [docFont, setDocFont] = useState('Arial')
+  const [docSize, setDocSize] = useState('3')
+  const savedRangeRef = useRef<Range | null>(null)
+  const [saveError, setSaveError] = useState<string>('')
 
   useEffect(() => {
     setErr(''); setHtml(''); setSheetNames([]); setSheetData([])
@@ -617,6 +625,7 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
   async function saveDoc() {
     if (!docRef.current) return
     setSaving(true)
+    setSaveError('')
     try {
       const content = docRef.current.innerHTML
       const blob = new Blob([content], { type: 'text/html;charset=utf-8' })
@@ -631,8 +640,43 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       toast.success('Saved as HTML format')
       setEditMode(false)
-    } catch (e) { toast.error((e as Error).message) }
+    } catch (e) {
+      const msg = (e as Error).message
+      toast.error(msg)
+      setSaveError(msg)
+    }
     setSaving(false)
+  }
+
+  function updateFmt() {
+    try {
+      setFmtBold(document.queryCommandState('bold'))
+      setFmtItalic(document.queryCommandState('italic'))
+      setFmtUnderline(document.queryCommandState('underline'))
+      if (document.queryCommandState('justifyCenter')) setFmtAlign('center')
+      else if (document.queryCommandState('justifyRight')) setFmtAlign('right')
+      else setFmtAlign('left')
+    } catch { /* ignore */ }
+  }
+
+  function saveRange() {
+    const sel = window.getSelection()
+    savedRangeRef.current = (sel && sel.rangeCount > 0) ? sel.getRangeAt(0).cloneRange() : null
+  }
+
+  function restoreRange() {
+    if (!savedRangeRef.current) return
+    const sel = window.getSelection()
+    if (!sel) return
+    sel.removeAllRanges()
+    sel.addRange(savedRangeRef.current)
+  }
+
+  function applyFmt(cmd: string, value?: string) {
+    restoreRange()
+    document.execCommand(cmd, false, value)
+    updateFmt()
+    docRef.current?.focus()
   }
 
   async function saveSheet(grid: string[][]) {
@@ -717,9 +761,10 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
   if (doc.category === 'doc') {
     return (
       <div className="h-full min-h-[400px] bg-gray-100 rounded-xl overflow-hidden flex flex-col">
+        {/* Top bar */}
         <div className="shrink-0 flex items-center gap-2 px-4 py-2 bg-white border-b border-gray-200">
           <button
-            onClick={() => setEditMode(v => !v)}
+            onClick={() => { setEditMode(v => !v); setSaveError('') }}
             className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
               editMode ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
             }`}
@@ -732,11 +777,128 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
           )}
           {editMode && <span className="text-xs text-amber-600">Note: Will be saved as .html format</span>}
         </div>
+
+        {/* Formatting toolbar */}
+        {editMode && (
+          <div className="shrink-0 flex flex-wrap items-center gap-1 px-3 py-2 bg-white border-b border-gray-200 select-none">
+            {/* Font family */}
+            <select
+              value={docFont}
+              onFocus={saveRange}
+              onChange={e => { setDocFont(e.target.value); restoreRange(); document.execCommand('fontName', false, e.target.value); docRef.current?.focus() }}
+              className="h-7 text-xs border border-gray-300 rounded px-1 bg-white text-gray-700 cursor-pointer max-w-[130px]"
+              title="字形 Font"
+            >
+              <option value="Arial">Arial</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Verdana">Verdana</option>
+              <option value="微軟正黑體">微軟正黑體</option>
+              <option value="新細明體">新細明體</option>
+            </select>
+
+            {/* Font size */}
+            <select
+              value={docSize}
+              onFocus={saveRange}
+              onChange={e => {
+                setDocSize(e.target.value)
+                restoreRange()
+                document.execCommand('styleWithCSS', false, 'true')
+                document.execCommand('fontSize', false, e.target.value)
+                docRef.current?.focus()
+              }}
+              className="h-7 text-xs border border-gray-300 rounded px-1 bg-white text-gray-700 cursor-pointer w-16"
+              title="大小 Size"
+            >
+              <option value="1">8pt</option>
+              <option value="2">10pt</option>
+              <option value="3">12pt</option>
+              <option value="4">14pt</option>
+              <option value="5">18pt</option>
+              <option value="6">24pt</option>
+              <option value="7">36pt</option>
+            </select>
+
+            <div className="w-px h-5 bg-gray-200 mx-0.5" />
+
+            {/* Bold */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('bold') }}
+              className={`w-7 h-7 rounded font-bold text-sm transition-colors ${fmtBold ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-700'}`}
+              title="粗體 Bold (Ctrl+B)"
+            >B</button>
+
+            {/* Italic */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('italic') }}
+              className={`w-7 h-7 rounded italic text-sm transition-colors ${fmtItalic ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-700'}`}
+              title="斜體 Italic (Ctrl+I)"
+            >I</button>
+
+            {/* Underline */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('underline') }}
+              className={`w-7 h-7 rounded underline text-sm transition-colors ${fmtUnderline ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-700'}`}
+              title="底線 Underline (Ctrl+U)"
+            >U</button>
+
+            <div className="w-px h-5 bg-gray-200 mx-0.5" />
+
+            {/* Align Left */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('justifyLeft') }}
+              className={`w-7 h-7 rounded flex items-center justify-center transition-colors ${fmtAlign === 'left' ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-600'}`}
+              title="靠左對齊 Align Left"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 5h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3z"/>
+              </svg>
+            </button>
+
+            {/* Align Center */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('justifyCenter') }}
+              className={`w-7 h-7 rounded flex items-center justify-center transition-colors ${fmtAlign === 'center' ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-600'}`}
+              title="置中對齊 Center"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 5h18v2H3zm3 4h12v2H6zm-3 4h18v2H3zm3 4h12v2H6z"/>
+              </svg>
+            </button>
+
+            {/* Align Right */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('justifyRight') }}
+              className={`w-7 h-7 rounded flex items-center justify-center transition-colors ${fmtAlign === 'right' ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-600'}`}
+              title="靠右對齊 Align Right"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 5h18v2H3zm6 4h12v2H9zm-6 4h18v2H3zm6 4h12v2H9z"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Inline error display */}
+        {saveError && (
+          <div className="shrink-0 flex items-center gap-2 px-4 py-2 bg-red-50 border-b border-red-200 text-xs text-red-600">
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+            <span className="flex-1 break-all">{saveError}</span>
+            <button onClick={() => setSaveError('')} className="hover:text-red-800 shrink-0">✕</button>
+          </div>
+        )}
+
         <div className="flex-1 overflow-auto flex justify-center py-8 px-4">
           <div
             ref={docRef}
             contentEditable={editMode}
             suppressContentEditableWarning
+            onKeyUp={updateFmt}
+            onMouseUp={updateFmt}
             className={`w-full max-w-3xl bg-white rounded shadow-lg p-12 text-gray-900 text-sm leading-relaxed outline-none
               ${editMode ? 'ring-2 ring-blue-400' : ''}
               [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:mt-6

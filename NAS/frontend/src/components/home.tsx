@@ -23,6 +23,7 @@ import VaultixMenu from './VaultixMenu'
 import NetworkWidget from './widgets/NetworkWidget'
 import DiskWidget from './widgets/DiskWidget'
 import StorageManager from './StorageManager'
+import StorageUsage from './StorageUsage'
 import TrashPanel from './TrashPanel'
 import Sidebar from './Sidebar'
 import UserManager from './UserManager'
@@ -194,6 +195,7 @@ export default function Home() {
   const [showNet, setShowNet] = useState(false)
   const [showDisk, setShowDisk] = useState(false)
   const [showStorage, setShowStorage] = useState(false)
+  const [showStorageUsage, setShowStorageUsage] = useState(false)
   const [showUserManager, setShowUserManager] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
   const [showAutomatic, setShowAutomatic] = useState(false)
@@ -651,7 +653,24 @@ export default function Home() {
       setRenamingItem(null)
       await loadItems()
     } catch (e: unknown) {
-      toast.error((e as Error).message)
+      const msg = (e as Error).message ?? ''
+      // EBUSY = the folder is a disk mount point; use the disk rename endpoint instead
+      if (renamingItem.type === 'folder' && (msg.includes('EBUSY') || msg.includes('busy') || msg.includes('locked'))) {
+        try {
+          await apiJson('/api/system/disks/rename-folder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ oldName: renamingItem.name, newName }),
+          })
+          toast.success(`已將 "${renamingItem.name}" 重新命名為 "${newName}"`)
+          setRenamingItem(null)
+          await loadItems()
+        } catch (e2: unknown) {
+          toast.error((e2 as Error).message)
+        }
+      } else {
+        toast.error(msg)
+      }
     }
   }
 
@@ -914,6 +933,22 @@ export default function Home() {
               <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zm-1 5a1 1 0 110 2 1 1 0 010-2z" />
+              </svg>
+            </button>
+          )}
+
+          {/* Storage usage pie charts (admin only) */}
+          {user?.role === 'admin' && (
+            <button
+              onClick={() => setShowStorageUsage(true)}
+              title="儲存空間用量"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+            >
+              <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                  d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                  d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
               </svg>
             </button>
           )}
@@ -1566,6 +1601,7 @@ export default function Home() {
       {showNet && <NetworkWidget onClose={() => setShowNet(false)} />}
       {showDisk && <DiskWidget onClose={() => setShowDisk(false)} />}
       {showStorage && <StorageManager onClose={() => setShowStorage(false)} />}
+      {showStorageUsage && <StorageUsage onClose={() => setShowStorageUsage(false)} />}
       {showUserManager && <UserManager onClose={() => setShowUserManager(false)} />}
       {showProfile && <UserProfilePanel onClose={() => setShowProfile(false)} />}
       {showAutomatic && (

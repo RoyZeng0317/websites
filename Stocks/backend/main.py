@@ -20,7 +20,7 @@ import asyncio
 import requests
 import yfinance as yf
 from dotenv import load_dotenv
-from fastapi import FastAPI, Query, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
 
 load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
@@ -3750,6 +3750,35 @@ async def get_batch_prices(symbols: str = Query(...)):
     tasks = [loop.run_in_executor(None, fetch_one, sym) for sym in sym_list]
     results = await asyncio.gather(*tasks)
     return list(results)
+
+
+@app.get("/api/news")
+async def get_news(date: Optional[str] = None):
+    """Return global market news JSON for a given date (YYYY-MM-DD). Falls back to the most recent available file."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    news_dir = os.path.join(base_dir, "data", "news")
+
+    if date:
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+            dates_to_try = [date]
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
+    else:
+        tz_cst = timezone(timedelta(hours=8))
+        today = datetime.now(tz_cst).date()
+        dates_to_try = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(7)]
+
+    for d in dates_to_try:
+        filepath = os.path.join(news_dir, f"{d}.json")
+        if os.path.isfile(filepath):
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as exc:
+                raise HTTPException(status_code=500, detail=f"Failed to parse news file: {exc}")
+
+    raise HTTPException(status_code=404, detail="No news data available for the requested date range.")
 
 
 @app.websocket("/ws/price/{symbol}")

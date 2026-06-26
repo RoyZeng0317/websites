@@ -3,6 +3,7 @@ import { Link, Route, Routes, useParams } from 'react-router-dom'
 import AuthControls from './components/AuthControls'
 import AiConsultFloating from './components/AiConsultFloating'
 import NotificationBell from './components/NotificationBell'
+import News from './components/News'
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
 import JFVSPage from './pages/JFVSPage'
@@ -26,7 +27,7 @@ import WatchlistButton from './components/WatchlistButton'
 import ErrorBoundary from './components/ErrorBoundary'
 import { getStockInfo, calculateMissingFundamentals } from './api/stockApi'
 import type { StockInfo } from './types/stock'
-import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon } from 'lucide-react'
+import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon, Newspaper, X } from 'lucide-react'
 
 // ── K 線圖前端快取 ──────────────────────────────────────────────────────────
 // 攔截所有 /chart?period= 請求：命中 sessionStorage 就直接回傳，否則 fetch 後寫入。
@@ -336,6 +337,8 @@ function StockTabs() {
 }
 
 export default function App() {
+  const [newsOpen, setNewsOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-slate-950">
       <header className="sticky top-0 z-50 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm">
@@ -353,6 +356,13 @@ export default function App() {
             >
               我的持股
             </Link>
+            <button
+              onClick={() => setNewsOpen(true)}
+              className="flex items-center gap-1.5 rounded-full border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-500/40 hover:bg-slate-800 hover:text-emerald-300"
+            >
+              <Newspaper size={14} />
+              市場快訊
+            </button>
           </div>
           <NotificationBell />
           <AuthControls />
@@ -368,6 +378,23 @@ export default function App() {
       </main>
 
       <AiConsultFloating />
+
+      {newsOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setNewsOpen(false)} />
+          <div className="relative z-10 w-full max-w-lg">
+            <button
+              onClick={() => setNewsOpen(false)}
+              className="absolute -top-3 -right-3 z-20 rounded-full border border-slate-700 bg-slate-800 p-1.5 text-slate-400 transition-colors hover:text-white"
+            >
+              <X size={13} />
+            </button>
+            <div className="max-h-[88vh] overflow-y-auto rounded-2xl" style={{ scrollbarWidth: 'none' }}>
+              <News />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

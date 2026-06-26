@@ -33,6 +33,8 @@ export default function StorageManager({ onClose }: Props) {
   const [busy, setBusy] = useState<string | null>(null)
   const [mountNames, setMountNames] = useState<Record<string, string>>({})
   const [msg, setMsg] = useState('')
+  const [renamingPart, setRenamingPart] = useState<string | null>(null)
+  const [renameInput, setRenameInput] = useState('')
 
   async function load() {
     setLoading(true)
@@ -78,6 +80,27 @@ export default function StorageManager({ onClose }: Props) {
         body: JSON.stringify({ device: `/dev/${partName}`, folderName, bindSource: existingMountpoint ?? null }),
       })
       setMsg(`✓ Mounted /dev/${partName} in NAS. Refresh the file list to see it.`)
+      await load()
+    } catch (e: unknown) {
+      setMsg(`✗ ${(e as Error).message}`)
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  async function renameFolder(partName: string, oldName: string, newName: string) {
+    if (!newName.trim()) return
+    setBusy(partName)
+    setMsg('')
+    try {
+      await apiJson('/api/system/disks/rename-folder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ oldName: oldName.trim(), newName: newName.trim() }),
+      })
+      setMsg(`✓ 已將 "${oldName}" 重新命名為 "${newName.trim()}"（如有掛載已自動重新掛載）`)
+      setRenamingPart(null)
+      setMountNames(prev => ({ ...prev, [partName]: newName.trim() }))
       await load()
     } catch (e: unknown) {
       setMsg(`✗ ${(e as Error).message}`)
@@ -170,11 +193,52 @@ export default function StorageManager({ onClose }: Props) {
                     <div key={part.name} className="px-4 py-3 border-t border-gray-700/50 space-y-2">
                       {/* Partition info */}
                       <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0">
-                          <p className="text-white text-sm">
-                            /dev/{part.name}
-                            {part.label && <span className="ml-2 text-gray-400 text-xs">({part.label})</span>}
-                          </p>
+                        <div className="min-w-0 flex-1">
+                          {renamingPart === part.name ? (
+                            /* Inline rename form */
+                            <div className="flex items-center gap-2">
+                              <input
+                                autoFocus
+                                type="text"
+                                value={renameInput}
+                                onChange={e => setRenameInput(e.target.value)}
+                                onKeyDown={e => {
+                                  if (e.key === 'Enter') renameFolder(part.name, defaultName, renameInput)
+                                  if (e.key === 'Escape') setRenamingPart(null)
+                                }}
+                                placeholder={`新名稱（目前：${defaultName}）`}
+                                className="flex-1 bg-gray-700 border border-blue-500 rounded px-2 py-1 text-white text-xs focus:outline-none"
+                              />
+                              <button
+                                onClick={() => renameFolder(part.name, defaultName, renameInput)}
+                                disabled={busy === part.name}
+                                className="text-xs px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50"
+                              >
+                                {busy === part.name ? '…' : '確認'}
+                              </button>
+                              <button
+                                onClick={() => setRenamingPart(null)}
+                                className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-gray-300"
+                              >
+                                取消
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <p className="text-white text-sm">/dev/{part.name}</p>
+                              {part.label && <span className="text-gray-400 text-xs">({part.label})</span>}
+                              <button
+                                onClick={() => { setRenamingPart(part.name); setRenameInput(part.label ?? '') }}
+                                title="重新命名磁碟標籤"
+                                className="text-gray-600 hover:text-blue-400 transition-colors"
+                              >
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+                                </svg>
+                              </button>
+                            </div>
+                          )}
                           <p className="text-gray-500 text-xs mt-0.5">
                             {part.size} · {part.fstype ?? 'Unknown format'}
                           </p>
@@ -185,10 +249,10 @@ export default function StorageManager({ onClose }: Props) {
                           )}
                         </div>
                         {/* Status badge */}
-                        {sysMount
+                        {renamingPart !== part.name && (sysMount
                           ? <span className="shrink-0 text-xs bg-yellow-900/40 text-yellow-400 px-2 py-0.5 rounded">Mounted</span>
                           : <span className="shrink-0 text-xs bg-gray-700 text-gray-400 px-2 py-0.5 rounded">Not mounted</span>
-                        }
+                        )}
                       </div>
 
                       {/* Action row: folder name input + button */}

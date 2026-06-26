@@ -475,28 +475,30 @@
   async function init() {
     initCefrBar();
     await loadVocab();
+
+    // Always apply ARTICLE_DETAILS to the hardcoded articles first
+    ARTICLES.forEach(a => { a.content = (a.content + ' ' + (ARTICLE_DETAILS[a.id] || '')).trim(); });
+
     try {
       const resp = await fetch('news.json?t=' + Date.now());
       if (resp.ok) {
         const data = await resp.json();
         if (Array.isArray(data) && data.length > 0) {
-          ARTICLES = data.map(a => ({
-            id: a.id,
-            title: a.title || '',
-            difficulty: a.difficulty || 'B1',
-            source: a.source || 'LinguaPath News',
-            summary: a.summary || '',
-            content: a.content || ''
-          }));
-        } else {
-          ARTICLES.forEach(a => { a.content = a.content + ' ' + (ARTICLE_DETAILS[a.id] || ''); });
+          // Append daily news from backend — hardcoded articles are kept
+          data.forEach(a => {
+            ARTICLES.push({
+              id:         a.id,
+              title:      a.title      || '',
+              difficulty: a.difficulty || 'B1',
+              source:     a.source     || '',
+              summary:    a.summary    || '',
+              content:    a.content    || ''
+            });
+          });
         }
-      } else {
-        ARTICLES.forEach(a => { a.content = a.content + ' ' + (ARTICLE_DETAILS[a.id] || ''); });
       }
-    } catch(e) {
-      ARTICLES.forEach(a => { a.content = a.content + ' ' + (ARTICLE_DETAILS[a.id] || ''); });
-    }
+    } catch(e) {}
+
     applyFilter();
   }
 

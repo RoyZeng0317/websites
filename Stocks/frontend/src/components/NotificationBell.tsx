@@ -41,10 +41,17 @@ const NOTIFICATIONS: Notification[] = [
   },
   {
     id: '4',
-    type: 'info',
+    type: 'success',
     icon: '\u2714',
     message: '新版功能上線啦!台股即時盤面有即時漲跌資訊，點選後可進入查看詳細股票資訊，讓你一眼就能看見!有任何問題，歡迎點擊下方信件icon進行發問',
     time: '系統通知',
+  },
+  {
+    id: '5',
+    type: 'success',
+    icon: '\u2714',
+    message: '新版功能上線啦!台股、美股與港股的新聞將每日更新，點選市場快訊按鈕查看今日市場走勢!',
+    time: '系統通知'
   }
 ]
 

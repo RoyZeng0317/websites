@@ -132,10 +132,48 @@ app.post('/api/publish', async (req, res) => {
     const lDest = path.join(__dirname, '..', 'frontend', 'listening.json');
     fs.writeFileSync(lDest, JSON.stringify(lRows, null, 2), 'utf8');
 
-    // also publish news articles
+    // also publish news articles — merge MySQL rows + backend/data/News/*.json daily files
     const [nRows] = await pool.query('SELECT * FROM news_articles ORDER BY created_at DESC');
+    const newsArticles = nRows.map(r => ({
+      id:         r.id,
+      title:      r.title,
+      difficulty: r.difficulty,
+      source:     r.source || '',
+      summary:    r.summary || '',
+      content:    r.content || ''
+    }));
+
+    const DAILY_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+    const newsDataDir  = path.join(__dirname, '..', 'backend', 'data', 'News');
+    if (fs.existsSync(newsDataDir)) {
+      const dailyFiles = fs.readdirSync(newsDataDir)
+        .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+        .sort();
+      for (const file of dailyFiles) {
+        try {
+          const raw  = fs.readFileSync(path.join(newsDataDir, file), 'utf8');
+          const data = JSON.parse(raw);
+          const dateKey = (data.date || file.replace('.json', '')).replace(/-/g, '');
+          DAILY_LEVELS.forEach((level, idx) => {
+            const art = data.articles && data.articles[level];
+            if (!art || !art.title || !art.content) return;
+            newsArticles.push({
+              id:         parseInt(dateKey) * 10 + idx,
+              title:      art.title,
+              difficulty: level,
+              source:     art.source || '',
+              summary:    '',
+              content:    art.content
+            });
+          });
+        } catch (e) {
+          console.warn(`[publish] skip ${file}:`, e.message);
+        }
+      }
+    }
+
     const nDest = path.join(__dirname, '..', 'frontend', 'news.json');
-    fs.writeFileSync(nDest, JSON.stringify(nRows, null, 2), 'utf8');
+    fs.writeFileSync(nDest, JSON.stringify(newsArticles, null, 2), 'utf8');
 
     const projectRoot = path.join(__dirname, '..');
     exec('firebase deploy --only hosting', { cwd: projectRoot, timeout: 120000 }, (err, stdout, stderr) => {
