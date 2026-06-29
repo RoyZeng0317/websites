@@ -18,6 +18,7 @@ import ETFAnalysis from '../components/ETFAnalysis'
 import CompanyInfo from '../components/CompanyInfo'
 import ETFHoldings from '../components/ETFHoldings'
 import AiConsult from '../components/AiConsult'
+import AverageLine from '../components/AverageLine'
 import WatchlistButton from '../components/WatchlistButton'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon } from 'lucide-react'
@@ -125,6 +126,8 @@ export default function StockPage() {
       <RealtimeChart symbol={symbol!} currentPrice={info.currentPrice} previousClose={info.previousClose} />
 
       <KlineChart symbol={symbol!} />
+
+      <AverageLine symbol={symbol!} currentPrice={info.currentPrice} />
 
       <PriceChart symbol={symbol!} />
 

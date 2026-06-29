@@ -10,9 +10,27 @@ html, body, #root {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: #fff;
+  background: #030712;
+  color-scheme: dark;
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 2px; }
+
+input::placeholder { color: #6b7280; }
+textarea::placeholder { color: #6b7280; }
+
+/* iOS safe area for bottom nav */
+.safe-pb { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+@media (max-width: 480px) {
+  /* Prevent horizontal scroll */
+  body { overflow-x: hidden; }
+
+  /* Chat input bar stays above keyboard */
+  .chat-input-bar { position: sticky; bottom: 0; }
+
+  /* Tighter card padding on narrow screens */
+  .mobile-px { padding-left: 0.75rem; padding-right: 0.75rem; }
+}

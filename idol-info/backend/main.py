@@ -162,6 +162,14 @@ async def delete_idol(idol_id: int, session: AsyncSession = Depends(get_session)
 
 # ===================== Group Members =====================
 
+@app.get("/api/idols/{idol_id}/groups", response_model=List[IdolGroupResponse])
+async def get_idol_groups(idol_id: int, session: AsyncSession = Depends(get_session)):
+    result = await session.execute(
+        select(IdolGroup).join(GroupMember).where(GroupMember.idol_id == idol_id)
+    )
+    return result.scalars().all()
+
+
 @app.get("/api/groups/{group_id}/members", response_model=List[GroupMemberResponse])
 async def list_group_members(group_id: int, session: AsyncSession = Depends(get_session)):
     group = await session.get(IdolGroup, group_id)

@@ -37,7 +37,9 @@ export interface Idol {
   birthplace?: string
   blood_type?: string
   height_cm?: number
+  zodiac_sign?: string
   image_url?: string
+  biography?: string
   social_media?: Record<string, string>
 }
 
@@ -85,10 +87,18 @@ export const getGroup = (id: number) => request<IdolGroup>(`/groups/${id}`)
 // Idols
 export const getIdols = () => request<Idol[]>('/idols')
 export const getIdol = (id: number) => request<Idol>(`/idols/${id}`)
+export const createIdol = (data: Partial<Idol>) =>
+  request<Idol>('/idols', { method: 'POST', body: JSON.stringify(data) })
+export const updateIdol = (id: number, data: Partial<Idol>) =>
+  request<Idol>(`/idols/${id}`, { method: 'PATCH', body: JSON.stringify(data) })
 
 // Group Members
 export const getGroupMembers = (groupId: number) =>
   request<GroupMember[]>(`/groups/${groupId}/members`)
+
+// Idol Groups
+export const getIdolGroups = (idolId: number) =>
+  request<IdolGroup[]>(`/idols/${idolId}/groups`)
 
 // Albums
 export const getAlbums = (groupId?: number) =>

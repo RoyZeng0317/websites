@@ -33,22 +33,22 @@ export default function LoginPage({ onRegister }: Props) {
   }
 
   return (
-    <div className="min-h-full flex items-center justify-center bg-gray-50 px-4 py-8">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <div className="min-h-full flex items-center justify-center bg-gray-950 px-4 py-8">
+      <div className="w-full max-w-sm bg-gray-900 rounded-2xl border border-gray-800 p-8">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-50 rounded-full mb-3">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-500/10 rounded-full mb-3">
             <Flame className="w-10 h-10 text-orange-500" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">P Chats</h1>
-          <p className="text-xs text-gray-400 mt-1">端到端加密 · 訊息不存伺服器 · 閱後即焚</p>
+          <h1 className="text-2xl font-bold text-white">P Chats</h1>
+          <p className="text-xs text-gray-500 mt-1">端到端加密 · 訊息不存伺服器 · 閱後即焚</p>
         </div>
 
         {/* Google */}
         <button
           onClick={withGoogle}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-3 border border-orange-300 rounded-xl py-3 text-sm font-medium text-gray-700 hover:bg-orange-50 transition-colors disabled:opacity-50 mb-5"
+          className="w-full flex items-center justify-center gap-3 border border-gray-700 rounded-xl py-3 text-sm font-medium text-gray-200 hover:bg-gray-800 transition-colors disabled:opacity-50 mb-5"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -61,31 +61,31 @@ export default function LoginPage({ onRegister }: Props) {
 
         <div className="relative mb-5">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200" />
+            <div className="w-full border-t border-gray-800" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="px-3 bg-white text-gray-400">或使用帳號密碼</span>
+            <span className="px-3 bg-gray-900 text-gray-500">或使用帳號密碼</span>
           </div>
         </div>
 
         <form onSubmit={withEmail} className="space-y-3">
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="email" placeholder="電子郵件" value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type={showPw ? 'text' : 'password'} placeholder="密碼" value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+              className="w-full pl-10 pr-10 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
             <button type="button" onClick={() => setShowPw(!showPw)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
               {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>

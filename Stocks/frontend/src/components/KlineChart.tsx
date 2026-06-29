@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { createChart, CandlestickSeries, ColorType, LineStyle } from 'lightweight-charts'
+import { createChart, CandlestickSeries, LineSeries, ColorType, LineStyle } from 'lightweight-charts'
 import { getChart } from '../api/stockApi'
 import type { ChartDataPoint } from '../types/stock'
 
@@ -26,20 +26,47 @@ const FIB_LEVELS = [
   { level: 1, label: '100% (0%)', color: '#94a3b8' },
 ]
 
+const MA_CONFIGS = [
+  { period: 5, label: 'MA5', color: '#e2e8f0' },
+  { period: 10, label: 'MA10', color: '#fbbf24' },
+  { period: 20, label: 'MA20', color: '#f472b6' },
+  { period: 60, label: 'MA60', color: '#34d399' },
+  { period: 120, label: 'MA120', color: '#60a5fa' },
+  { period: 240, label: 'MA240', color: '#a78bfa' },
+]
+
 function parseDate(dateStr: string): string {
   return dateStr.split(' ')[0]
+}
+
+function calculateSMA(data: ChartDataPoint[], period: number) {
+  const result: { time: string; value: number }[] = []
+  for (let i = period - 1; i < data.length; i++) {
+    let sum = 0
+    for (let j = i - period + 1; j <= i; j++) {
+      sum += data[j].close
+    }
+    result.push({
+      time: parseDate(data[i].date),
+      value: +((sum / period).toFixed(2)),
+    })
+  }
+  return result
 }
 
 export default function KlineChart({ symbol }: Props) {
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<any>(null)
   const seriesRef = useRef<any>(null)
+  const maSeriesRef = useRef<Map<number, any>>(new Map())
   const fibLinesRef = useRef<any[]>([])
   const [period, setPeriod] = useState('1y')
   const [interval, setInterval_] = useState('1d')
   const [data, setData] = useState<ChartDataPoint[]>([])
   const [loading, setLoading] = useState(true)
   const [showFib, setShowFib] = useState(false)
+  const [showMA, setShowMA] = useState(false)
+  const [selectedMAs, setSelectedMAs] = useState<number[]>([5, 20, 60])
 
   const clearFibLines = useCallback(() => {
     fibLinesRef.current.forEach((line) => {
@@ -176,8 +203,39 @@ export default function KlineChart({ symbol }: Props) {
     return () => {
       window.removeEventListener('resize', handleResize)
       chart.remove()
+      maSeriesRef.current.clear()
     }
   }, [data, symbol, showFib])
+
+  useEffect(() => {
+    const chart = chartRef.current
+    if (!chart || data.length === 0) return
+
+    for (const [, series] of maSeriesRef.current) {
+      try { chart.removeSeries(series) } catch {}
+    }
+    maSeriesRef.current.clear()
+
+    if (!showMA) return
+
+    for (const config of MA_CONFIGS) {
+      if (!selectedMAs.includes(config.period)) continue
+      const maData = calculateSMA(data, config.period)
+      if (maData.length < 2) continue
+      const series = chart.addSeries(LineSeries, {
+        color: config.color,
+        lineWidth: 2,
+        priceLineVisible: false,
+        lastValueVisible: true,
+        crosshairMarkerVisible: true,
+        crosshairMarkerRadius: 4,
+        crosshairMarkerBorderColor: config.color,
+        crosshairMarkerBackgroundColor: config.color,
+      })
+      series.setData(maData as any)
+      maSeriesRef.current.set(config.period, series)
+    }
+  }, [showMA, selectedMAs, data])
 
   const toggleFib = () => {
     if (showFib) {
@@ -186,6 +244,14 @@ export default function KlineChart({ symbol }: Props) {
     } else {
       setShowFib(true)
     }
+  }
+
+  const toggleShowMA = () => setShowMA((prev) => !prev)
+
+  const toggleMAPeriod = (period: number) => {
+    setSelectedMAs((prev) =>
+      prev.includes(period) ? prev.filter((p) => p !== period) : [...prev, period]
+    )
   }
 
   if (loading) {
@@ -214,6 +280,16 @@ export default function KlineChart({ symbol }: Props) {
         <h2 className="text-lg font-semibold text-slate-200">K線圖</h2>
         <div className="flex gap-1 items-center">
           <button
+            onClick={toggleShowMA}
+            className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+              showMA
+                ? 'bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+            }`}
+          >
+            均線
+          </button>
+          <button
             onClick={toggleFib}
             className={`px-3 py-1 text-xs rounded-lg transition-colors ${
               showFib
@@ -238,6 +314,30 @@ export default function KlineChart({ symbol }: Props) {
           ))}
         </div>
       </div>
+      {showMA && (
+        <div className="flex gap-1.5 items-center mb-3 flex-wrap">
+          {MA_CONFIGS.map((config) => {
+            const isActive = selectedMAs.includes(config.period)
+            return (
+              <button
+                key={config.period}
+                onClick={() => toggleMAPeriod(config.period)}
+                className={`px-2.5 py-0.5 text-xs rounded-md transition-all ${
+                  isActive
+                    ? 'text-white font-medium'
+                    : 'text-slate-500 hover:text-slate-300'
+                }`}
+                style={{
+                  backgroundColor: isActive ? `${config.color}20` : 'transparent',
+                  boxShadow: isActive ? `inset 0 0 0 1px ${config.color}66` : 'none',
+                }}
+              >
+                {config.label}
+              </button>
+            )
+          })}
+        </div>
+      )}
       <div ref={chartContainerRef} />
     </div>
   )

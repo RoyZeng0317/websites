@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { downloadUrl, apiJson } from '../../lib/api'
 import MetaPanel from './MetaPanel'
+import VisualStudio from '../VisualStudio'
 
 interface Props {
   src: string
@@ -350,10 +351,30 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
         v.currentTime = Math.min(v.duration || 0, v.currentTime + 5)
         showHint('▶▶ +5 秒')
         break
+      case 'l': case 'L':
+        e.preventDefault()
+        v.currentTime = Math.min(v.duration || 0, v.currentTime + 10)
+        showHint('▶▶ +10 秒')
+        break
+      case '.':
+        e.preventDefault()
+        v.currentTime = Math.min(v.duration || 0, v.currentTime + 1/30)
+        // showHint('⏩ +1 偵')
+        break
       case 'ArrowLeft':
         e.preventDefault()
         v.currentTime = Math.max(0, v.currentTime - 5)
         showHint('◀◀ -5 秒')
+        break
+      case 'j': case 'J':
+        e.preventDefault()
+        v.currentTime = Math.max(0, v.currentTime - 10)
+        showHint('◀◀ -10 秒')
+        break
+      case ',':
+        e.preventDefault()
+        v.currentTime = Math.max(0, v.currentTime - 1/30)
+        // showHint('⏪ -1 偵')
         break
       case 'ArrowUp':
         e.preventDefault()
@@ -369,9 +390,19 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
         v.muted = !v.muted
         showHint(v.muted ? '🔇 靜音' : '🔊 取消靜音')
         break
+      case 'f': case 'F':
+        if (!document.fullscreenElement) {
+          v.requestFullscreen()
+          showHint(' 全螢幕')
+        } else {
+          document.exitFullscreen()
+          showHint(' 退出全螢幕')
+        }
+        break
       case ' ':
         e.preventDefault()
-        if (v.paused) { v.play(); showHint('▶ 播放') }
+        if (e.repeat) break
+        if (v.paused) { v.play().catch(() => {}); showHint('▶ 播放') }
         else { v.pause(); showHint('⏸ 暫停') }
         break
       case ']': {
@@ -397,6 +428,17 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
         break
     }
   }, [onClose, subtitleUrl]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // prevent browser native video controls from stealing space key
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === ' ') e.preventDefault()
+    }
+    el.addEventListener('keydown', handler, { capture: true })
+    return () => el.removeEventListener('keydown', handler, { capture: true })
+  }, [])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKey)

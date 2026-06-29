@@ -34,11 +34,11 @@ export default function GroupPage() {
   }, [id])
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-400">載入中...</div>
+    return <div className="text-center py-12 text-slate-500">載入中...</div>
   }
 
   if (!group) {
-    return <div className="text-center py-12 text-gray-400">找不到該團體</div>
+    return <div className="text-center py-12 text-slate-500">找不到該團體</div>
   }
 
   const active = members.filter((m) => m.status === 'active')
@@ -50,7 +50,7 @@ export default function GroupPage() {
 
   return (
     <div>
-      <Link to="/" className="text-sm text-pink-500 hover:underline mb-4 inline-block">
+      <Link to="/" className="text-sm text-pink-400 hover:underline mb-4 inline-block">
         &larr; 回上一頁
       </Link>
 
@@ -58,29 +58,29 @@ export default function GroupPage() {
         {group.image_url ? (
           <img src={group.image_url} alt={group.name} className="w-32 h-32 rounded-2xl object-cover" />
         ) : (
-          <div className="w-32 h-32 rounded-2xl bg-pink-100 flex items-center justify-center text-4xl text-pink-400">
+          <div className="w-32 h-32 rounded-2xl bg-pink-500/10 flex items-center justify-center text-4xl text-pink-400">
             {group.name.charAt(0)}
           </div>
         )}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{group.name}</h1>
-          {group.name_zh && <p className="text-gray-500 mt-1">{group.name_zh}</p>}
-          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-sm text-gray-500">
+          <h1 className="text-3xl font-bold text-slate-100">{group.name}</h1>
+          {group.name_zh && <p className="text-slate-400 mt-1">{group.name_zh}</p>}
+          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-sm text-slate-400">
             {group.agency && <span>經紀公司: {group.agency}</span>}
             {group.label && <span>唱片公司: {group.label}</span>}
             {group.debut_date && <span>出道日: {group.debut_date}</span>}
             {group.country && <span>地區: {group.country === 'JP' ? '日本' : group.country === 'KR' ? '韓國' : group.country}</span>}
           </div>
           {group.biography && (
-            <p className="mt-3 text-sm text-gray-600">{group.biography}</p>
+            <p className="mt-3 text-sm text-slate-300">{group.biography}</p>
           )}
         </div>
       </div>
 
       <section className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
+        <h2 className="text-xl font-bold text-slate-100 mb-4">
           現任成員
-          <span className="text-sm font-normal text-gray-400 ml-2">({active.length}人)</span>
+          <span className="text-sm font-normal text-slate-500 ml-2">({active.length}人)</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {active.map((m) =>
@@ -95,11 +95,11 @@ export default function GroupPage() {
 
       {graduated.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+          <h2 className="text-xl font-bold text-slate-100 mb-4">
             畢業成員
-            <span className="text-sm font-normal text-gray-400 ml-2">({graduated.length}人)</span>
+            <span className="text-sm font-normal text-slate-500 ml-2">({graduated.length}人)</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 opacity-60">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 opacity-50">
             {graduated.map((m) =>
               m.idol ? (
                 <Link key={m.id} to={`/idols/${m.idol_id}`} className="block">
@@ -113,13 +113,13 @@ export default function GroupPage() {
 
       {albums.length > 0 && (
         <section>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">作品列表</h2>
+          <h2 className="text-xl font-bold text-slate-100 mb-4">作品列表</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {albums.map((a) => (
-              <div key={a.id} className="p-4 rounded-lg border bg-white">
-                <h3 className="font-bold text-gray-900">{a.title}</h3>
-                {a.title_zh && <p className="text-sm text-gray-400">{a.title_zh}</p>}
-                <div className="flex gap-2 mt-2 text-xs text-gray-400">
+              <div key={a.id} className="p-4 rounded-lg border border-slate-700/50 bg-slate-800">
+                <h3 className="font-bold text-slate-100">{a.title}</h3>
+                {a.title_zh && <p className="text-sm text-slate-400">{a.title_zh}</p>}
+                <div className="flex gap-2 mt-2 text-xs text-slate-500">
                   {a.type && <span>{typeLabel[a.type] || a.type}</span>}
                   {a.release_date && <span>{a.release_date}</span>}
                   {a.total_tracks && <span>{a.total_tracks}曲</span>}

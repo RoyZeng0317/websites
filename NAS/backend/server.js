@@ -59,6 +59,18 @@ await fs.mkdir(FILES_DIR,   { recursive: true })
 await fs.mkdir(TMP_DIR,     { recursive: true })
 await fs.mkdir(AVATARS_DIR, { recursive: true })
 
+// Wait for MariaDB to be ready after pm2/apt updates (retry up to 10× with 3 s delay)
+async function waitForDB(retries = 10, delay = 3000) {
+  for (let i = 0; i < retries; i++) {
+    try { await pool.query('SELECT 1'); return } catch (e) {
+      if (i === retries - 1) throw e
+      console.log(`[startup] DB not ready (${e.code ?? e.message}), retry ${i + 1}/${retries} in ${delay}ms`)
+      await new Promise(r => setTimeout(r, delay))
+    }
+  }
+}
+await waitForDB()
+
 // 使用者擴充欄位（自動遷移）
 await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS display_name    VARCHAR(100)`)
 await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_ext     VARCHAR(10)`)
@@ -2945,8 +2957,72 @@ async function startDouyinDownload(job) {
   }
 }
 
+async function startNetflixDownload(job) {
+  job.status = 'running'
+  const hasCookies = await fs.access(YTDL_COOKIES_FILE).then(() => true).catch(() => false)
+  if (!hasCookies) {
+    job.status = 'error'
+    job.error = 'Netflix 需要 cookies。請在瀏覽器登入 Netflix → 用 Get cookies.txt LOCALLY 擴充功能匯出 cookies.txt → 上傳。注意：Netflix 有 DRM 保護，yt-dlp 最高僅能下載 540p。'
+    throw new Error(job.error)
+  }
+  const outTpl = path.join(job.destDir, '%(title)s.%(ext)s')
+  const nfq = job.quality === 'best' ? '540' : String(Math.min(parseInt(job.quality) || 540, 540))
+  const args = [
+    '--newline', '--no-playlist', '--socket-timeout', '30', '-o', outTpl,
+    '--cookies', YTDL_COOKIES_FILE,
+    '--add-header', 'User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+    '--add-header', 'Accept-Language:en-US,en;q=0.9',
+    '-f', `bestvideo[height<=${nfq}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${nfq}]+bestaudio/best[height<=${nfq}][ext=mp4]/best[height<=${nfq}]`,
+    '--merge-output-format', 'mp4',
+    '--', job.url,
+  ]
+
+  return new Promise((resolve, reject) => {
+    const proc = spawn('yt-dlp', args, {
+      env: { ...process.env, PATH: `${process.env.PATH ?? ''}:${YTDL_PATH_EXT}` },
+    })
+    job.proc = proc
+
+    const onData = data => {
+      const text = data.toString()
+      const pm = text.match(/\[download\]\s+([\d.]+)%/)
+      if (pm) job.progress = Math.min(99, Math.round(parseFloat(pm[1])))
+      const dm = text.match(/(?:Destination|Merging formats into):\s+"?(.+?)"?\s*$/)
+      if (dm) job.filename = path.basename(dm[1].trim())
+      job.output = (job.output + text).slice(-4000)
+    }
+    proc.stdout.on('data', onData)
+    proc.stderr.on('data', onData)
+    proc.on('close', (code, signal) => {
+      job.proc = null
+      if (code === 0) {
+        job.status = 'done'; job.progress = 100
+        if (!job.title && job.filename) job.title = job.filename.replace(/\.[^.]+$/, '')
+        resolve()
+      } else {
+        job.status = 'error'
+        const output = job.output.trim().slice(-800)
+        if (output.includes('Unsupported URL') || output.includes('generic') || output.includes('Falling back')) {
+          job.error = 'Netflix 不支援此連結。可能原因：1) Pi 上的 yt-dlp 版本過舊，請執行 pip install -U yt-dlp 2) cookies 已失效，請重新匯出上傳'
+        } else if (output.includes('HTTP Error') || output.includes('403') || output.includes('401')) {
+          job.error = 'Netflix 拒絕存取，cookies 可能已失效，請重新匯出上傳'
+        } else {
+          job.error = output || (signal ? `收到信號 ${signal}` : `退出碼 ${code}`)
+        }
+        reject(new Error(job.error))
+      }
+    })
+    proc.on('error', err => {
+      job.proc = null; job.status = 'error'
+      job.error = err.code === 'ENOENT' ? 'yt-dlp 未安裝，請在 Pi 執行：pip install yt-dlp' : err.message
+      reject(err)
+    })
+  })
+}
+
 async function startYtdlJob(job) {
   if (job.url.includes('douyin.com')) return startDouyinDownload(job)
+  if (job.url.includes('netflix.com')) return startNetflixDownload(job)
   job.status = 'running'
   const outTpl = path.join(job.destDir, '%(title)s.%(ext)s')
   const args = ['--newline', '--no-playlist', '--socket-timeout', '30', '-o', outTpl]
@@ -3000,7 +3076,14 @@ async function startYtdlJob(job) {
       } else {
         job.status = 'error'
         const detail = job.output.trim().slice(-800)
-        job.error = detail || (signal ? `收到信號 ${signal}` : `退出碼 ${code}`)
+        const _isNetflix = job.url.includes('netflix.com')
+        if (_isNetflix && (detail.includes('Unsupported URL') || detail.includes('generic') || detail.includes('Falling back'))) {
+          job.error = 'Netflix 不支援此連結。原因：1) Pi 上的 yt-dlp 版本過舊，請執行 pip install -U yt-dlp 2) cookies 已失效或格式錯誤，請重新匯出上傳'
+        } else if (_isNetflix && (detail.includes('HTTP Error') || detail.includes('403') || detail.includes('401'))) {
+          job.error = 'Netflix 拒絕存取，cookies 可能已失效，請重新匯出上傳'
+        } else {
+          job.error = detail || (signal ? `收到信號 ${signal}` : `退出碼 ${code}`)
+        }
         reject(new Error(job.error))
       }
     })

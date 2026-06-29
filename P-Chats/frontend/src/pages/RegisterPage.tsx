@@ -33,56 +33,48 @@ export default function RegisterPage({ onBack }: Props) {
     } finally { setLoading(false) }
   }
 
+  const inputCls = "w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+
   return (
-    <div className="min-h-full flex items-center justify-center bg-gray-50 px-4 py-8">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-        <button onClick={onBack} className="flex items-center gap-1 text-gray-500 hover:text-gray-700 mb-6 text-sm">
+    <div className="min-h-full flex items-center justify-center bg-gray-950 px-4 py-8">
+      <div className="w-full max-w-sm bg-gray-900 rounded-2xl border border-gray-800 p-8">
+        <button onClick={onBack} className="flex items-center gap-1 text-gray-500 hover:text-gray-300 mb-6 text-sm transition-colors">
           <ArrowLeft className="w-4 h-4" /> 返回登入
         </button>
 
         <div className="text-center mb-7">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-50 rounded-full mb-3">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/10 rounded-full mb-3">
             <User className="w-8 h-8 text-orange-500" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900">建立帳號</h1>
+          <h1 className="text-xl font-bold text-white">建立帳號</h1>
         </div>
 
         <form onSubmit={register} className="space-y-3">
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text" placeholder="顯示名稱" value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-            />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input type="text" placeholder="顯示名稱" value={name}
+              onChange={e => setName(e.target.value)} className={inputCls} />
           </div>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="email" placeholder="電子郵件" value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-            />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input type="email" placeholder="電子郵件" value={email}
+              onChange={e => setEmail(e.target.value)} className={inputCls} />
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type={showPw ? 'text' : 'password'} placeholder="密碼（至少 6 字元）" value={password}
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input type={showPw ? 'text' : 'password'} placeholder="密碼（至少 6 字元）" value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+              className="w-full pl-10 pr-10 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
             <button type="button" onClick={() => setShowPw(!showPw)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
               {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type={showPw ? 'text' : 'password'} placeholder="確認密碼" value={confirm}
-              onChange={e => setConfirm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-            />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input type={showPw ? 'text' : 'password'} placeholder="確認密碼" value={confirm}
+              onChange={e => setConfirm(e.target.value)} className={inputCls} />
           </div>
           <button type="submit" disabled={loading}
             className="w-full bg-orange-500 text-white py-3 rounded-xl font-medium text-sm hover:bg-orange-600 active:bg-orange-700 transition-colors disabled:opacity-50 flex items-center justify-center mt-1">

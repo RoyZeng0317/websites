@@ -328,8 +328,14 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
 
   const qualities = format === 'mp3' ? MP3_QUALITIES : MP4_QUALITIES
 
+  const isNetflix = url.trim().includes('netflix.com')
+
   async function handleSubmit() {
     if (!url.trim()) return toast.error('請輸入 URL')
+    if (isNetflix) {
+      const { exists } = await apiJson<{ exists: boolean }>('/api/ytdl/cookies')
+      if (!exists) return toast.error('Netflix 需要 cookies 才能下載。請先登入 Netflix → 用 Get cookies.txt LOCALLY 匯出 → 上傳')
+    }
     setSubmitting(true)
     try {
       await apiJson('/api/ytdl/start', {
@@ -493,6 +499,18 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                   </button>
                 )}
               </div>
+
+              {/* Netflix hint */}
+              {isNetflix && (
+                <div className="bg-red-950/30 border border-red-800/40 rounded-lg px-3 py-2">
+                  <p className="text-xs text-red-300 font-medium">Netflix 注意事項</p>
+                  <ul className="mt-1 text-xs text-red-300/70 space-y-0.5 list-disc list-inside">
+                    <li>需上傳 cookies.txt（瀏覽器登入 Netflix 後用 Get cookies.txt LOCALLY 匯出）</li>
+                    <li>DRM 限制，最高僅能下載 540p</li>
+                    <li>Pi 上的 yt-dlp 需為最新版（pip install -U yt-dlp）</li>
+                  </ul>
+                </div>
+              )}
 
               {/* Submit */}
               <button
