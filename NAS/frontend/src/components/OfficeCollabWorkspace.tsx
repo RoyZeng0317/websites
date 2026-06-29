@@ -539,6 +539,113 @@ function PdfPreview({ doc, onDownload }: { doc: OfficeDocument; onDownload: () =
   )
 }
 
+// ── ONLYOFFICE Editor ─────────────────────────────────────────────────────────
+
+function OnlyOfficeEditor({ doc }: { doc: OfficeDocument }) {
+  const [editorCfg, setEditorCfg] = useState<Record<string, unknown> | null>(null)
+  const [editorTok, setEditorTok] = useState('')
+  const [loading, setLoading]     = useState(true)
+  const [err, setErr]             = useState('')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const containerId = useRef(`oo_${Math.random().toString(36).slice(2, 9)}`).current
+  const editorRef   = useRef<{ destroyEditor?: () => void } | null>(null)
+  const officeUrl   = ((import.meta.env.VITE_OFFICE_URL as string) ?? '').replace(/\/$/, '')
+
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true); setErr(''); setEditorCfg(null)
+    apiJson<{ config: Record<string, unknown>; token: string }>(
+      `/api/office/config?path=${encodeURIComponent(doc.path)}`
+    )
+      .then(d => { if (!cancelled) { setEditorCfg(d.config); setEditorTok(d.token) } })
+      .catch((e: Error) => { if (!cancelled) setErr(e.message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [doc.path])
+
+  useEffect(() => {
+    if (!editorCfg || !officeUrl) return
+    function boot() {
+      if (editorRef.current?.destroyEditor) {
+        try { editorRef.current.destroyEditor() } catch { /* ignore */ }
+        editorRef.current = null
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const DocsAPI = (window as any).DocsAPI
+      if (!DocsAPI) { setErr('ONLYOFFICE API 未載入'); return }
+      editorRef.current = new DocsAPI.DocEditor(containerId, {
+        ...editorCfg,
+        token: editorTok,
+        height: '100%',
+        width: '100%',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        events: { onError: (e: any) => setErr(e?.data?.errorDescription ?? 'Editor error') },
+      })
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((window as any).DocsAPI) {
+      boot()
+    } else {
+      let s = document.getElementById('oo-api-js') as HTMLScriptElement | null
+      if (!s) {
+        s = document.createElement('script')
+        s.id = 'oo-api-js'
+        s.src = `${officeUrl}/web-apps/apps/api/documents/api.js`
+        document.head.appendChild(s)
+      }
+      s.addEventListener('load', boot, { once: true })
+      s.addEventListener('error', () => setErr('無法載入 ONLYOFFICE，請確認 Docker 容器是否運行中'), { once: true })
+    }
+    return () => {
+      if (editorRef.current?.destroyEditor) {
+        try { editorRef.current.destroyEditor() } catch { /* ignore */ }
+        editorRef.current = null
+      }
+    }
+  }, [editorCfg, editorTok, containerId, officeUrl])
+
+  if (!officeUrl) return (
+    <div className="h-full flex items-center justify-center p-8 bg-gray-950 text-center">
+      <div className="space-y-2">
+        <p className="text-amber-400 font-medium">ONLYOFFICE 未設定</p>
+        <p className="text-xs text-gray-500">在 frontend/.env 中加入 VITE_OFFICE_URL 後重新 build</p>
+      </div>
+    </div>
+  )
+  if (loading) return (
+    <div className="h-full flex items-center justify-center bg-gray-950">
+      <div className="w-8 h-8 border-2 border-orange-400 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+  if (err) return (
+    <div className="h-full flex flex-col items-center justify-center gap-3 bg-gray-950 p-8 text-center">
+      <p className="text-red-400 text-sm font-medium">{err}</p>
+    </div>
+  )
+  return <div id={containerId} className="h-full w-full" style={{ minHeight: 0 }} />
+}
+
+// ── Layout config ─────────────────────────────────────────────────────────────
+
+const PAGE_CFG = {
+  A4:     { label: 'A4',     maxWidth: '794px'  },
+  Letter: { label: 'Letter', maxWidth: '816px'  },
+  A3:     { label: 'A3',     maxWidth: '1123px' },
+} as const
+
+const MARGIN_CFG = {
+  normal: { label: '一般 (2.54 cm)', padding: '96px'  },
+  narrow: { label: '窄  (1.27 cm)', padding: '48px'  },
+  wide:   { label: '寬  (3.81 cm)', padding: '144px' },
+} as const
+
+const SPECIAL_CHARS = [
+  '©','®','™','€','£','¥','¢','°','±','×','÷','≠','≤','≥','∞','√',
+  '∑','π','µ','α','β','γ','δ','→','←','↑','↓','↔','⇒','⇐',
+  '●','○','■','□','▲','△','★','☆','♠','♥','♣','♦',
+  '“','”','‘','’','«','»','…','—','–','¶','§','†','‡',
+]
+
 // ── Document surface ──────────────────────────────────────────────────────────
 
 function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload: () => void }) {
@@ -562,6 +669,27 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
   const [docSize, setDocSize] = useState('3')
   const savedRangeRef = useRef<Range | null>(null)
   const [saveError, setSaveError] = useState<string>('')
+  const [fmtStrike, setFmtStrike]   = useState(false)
+  const [textColor, setTextColor]   = useState('#dc2626')
+  const [bgColor, setBgColor]       = useState('#fef08a')
+  const [showTableMenu, setShowTableMenu] = useState(false)
+  const [tableHover, setTableHover]       = useState({ r: 0, c: 0 })
+  const textColorRef = useRef<HTMLInputElement>(null)
+  const bgColorRef   = useRef<HTMLInputElement>(null)
+  const [pageSize, setPageSize]       = useState<keyof typeof PAGE_CFG>('A4')
+  const [margins, setMargins]         = useState<keyof typeof MARGIN_CFG>('normal')
+  const [lineSpacing, setLineSpacing] = useState('1.5')
+  const [columns, setColumns]         = useState(1)
+  const [headerText, setHeaderText]   = useState('')
+  const [footerText, setFooterText]   = useState('')
+  const [showHeader, setShowHeader]   = useState(false)
+  const [showFooter, setShowFooter]   = useState(false)
+  const [showLayoutMenu, setShowLayoutMenu] = useState<'pageSize'|'margins'|'spacing'|'columns'|null>(null)
+  const [showInsertMenu, setShowInsertMenu] = useState<'image'|'link'|'symbol'|null>(null)
+  const [insertImageSrc, setInsertImageSrc] = useState('')
+  const [insertImageAlt, setInsertImageAlt] = useState('')
+  const [insertLinkUrl, setInsertLinkUrl]   = useState('')
+  const [insertLinkText, setInsertLinkText] = useState('')
 
   useEffect(() => {
     setErr(''); setHtml(''); setSheetNames([]); setSheetData([])
@@ -653,6 +781,7 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
       setFmtBold(document.queryCommandState('bold'))
       setFmtItalic(document.queryCommandState('italic'))
       setFmtUnderline(document.queryCommandState('underline'))
+      setFmtStrike(document.queryCommandState('strikeThrough'))
       if (document.queryCommandState('justifyCenter')) setFmtAlign('center')
       else if (document.queryCommandState('justifyRight')) setFmtAlign('right')
       else setFmtAlign('left')
@@ -676,6 +805,20 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
     restoreRange()
     document.execCommand(cmd, false, value)
     updateFmt()
+    docRef.current?.focus()
+  }
+
+  function insertTable(rows: number, cols: number) {
+    setShowTableMenu(false)
+    restoreRange()
+    const html = `<table style="border-collapse:collapse;width:100%;margin:8px 0">${
+      Array.from({ length: rows }, () =>
+        `<tr>${Array.from({ length: cols }, () =>
+          `<td style="border:1px solid #d1d5db;padding:6px 10px;min-width:50px">&nbsp;</td>`
+        ).join('')}</tr>`
+      ).join('')
+    }</table><p><br></p>`
+    document.execCommand('insertHTML', false, html)
     docRef.current?.focus()
   }
 
@@ -878,6 +1021,403 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
                 <path d="M3 5h18v2H3zm6 4h12v2H9zm-6 4h18v2H3zm6 4h12v2H9z"/>
               </svg>
             </button>
+
+            <div className="w-px h-5 bg-gray-200 mx-0.5 shrink-0" />
+
+            {/* Strikethrough */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('strikeThrough') }}
+              className={`w-7 h-7 rounded flex items-center justify-center text-sm font-bold transition-colors line-through ${fmtStrike ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'hover:bg-gray-100 text-gray-700'}`}
+              title="刪除線 Strikethrough"
+            >S</button>
+
+            {/* Text Color */}
+            <div className="relative">
+              <button
+                onMouseDown={e => { e.preventDefault(); saveRange(); textColorRef.current?.click() }}
+                className="w-7 h-7 rounded flex flex-col items-center justify-center hover:bg-gray-100 transition-colors"
+                title="文字顏色 Text Color"
+              >
+                <span className="text-sm font-bold text-gray-800 leading-none select-none">A</span>
+                <span className="w-5 h-1.5 rounded-sm" style={{ backgroundColor: textColor }} />
+              </button>
+              <input ref={textColorRef} type="color" className="sr-only" value={textColor}
+                onChange={e => { setTextColor(e.target.value); restoreRange(); applyFmt('foreColor', e.target.value) }} />
+            </div>
+
+            {/* Background Highlight Color */}
+            <div className="relative">
+              <button
+                onMouseDown={e => { e.preventDefault(); saveRange(); bgColorRef.current?.click() }}
+                className="w-7 h-7 rounded flex flex-col items-center justify-center hover:bg-gray-100 transition-colors"
+                title="網底 / 背景色 Highlight"
+              >
+                <svg className="w-3.5 h-3.5 text-gray-700" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 000 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21z"/>
+                </svg>
+                <span className="w-5 h-1.5 rounded-sm" style={{ backgroundColor: bgColor }} />
+              </button>
+              <input ref={bgColorRef} type="color" className="sr-only" value={bgColor}
+                onChange={e => { setBgColor(e.target.value); restoreRange(); applyFmt('hiliteColor', e.target.value) }} />
+            </div>
+
+            <div className="w-px h-5 bg-gray-200 mx-0.5 shrink-0" />
+
+            {/* Bullet List */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('insertUnorderedList') }}
+              className="w-7 h-7 rounded flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+              title="項目清單 Bullet List"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4zM2 6.5a1 1 0 110-2 1 1 0 010 2zm0 5a1 1 0 110-2 1 1 0 010 2zm0 5a1 1 0 110-2 1 1 0 010 2z"/>
+              </svg>
+            </button>
+
+            {/* Numbered List */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('insertOrderedList') }}
+              className="w-7 h-7 rounded flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+              title="編號清單 Numbered List"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2v1zm5-8v2h14V3H7zm0 14h14v-2H7v2zm0-6h14v-2H7v2z"/>
+              </svg>
+            </button>
+
+            {/* Outdent */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('outdent') }}
+              className="w-7 h-7 rounded flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+              title="減少縮排 Outdent"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M11 17h10v-2H11v2zm-8-5l4 4V8l-4 4zm0 9h18v-2H3v2zM3 3v2h18V3H3zm8 6h10V7H11v2zm0 4h10v-2H11v2z"/>
+              </svg>
+            </button>
+
+            {/* Indent */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('indent') }}
+              className="w-7 h-7 rounded flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+              title="增加縮排 Indent"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 21h18v-2H3v2zM3 8v8l4-4-4-4zm8 9h10v-2H11v2zM3 3v2h18V3H3zm8 6h10V7H11v2zm0 4h10v-2H11v2z"/>
+              </svg>
+            </button>
+
+            <div className="w-px h-5 bg-gray-200 mx-0.5 shrink-0" />
+
+            {/* Insert Table */}
+            <div className="relative">
+              <button
+                onMouseDown={e => { e.preventDefault(); saveRange(); setShowTableMenu(v => !v) }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs hover:bg-gray-100 text-gray-600 transition-colors"
+                title="插入表格 Insert Table"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M3 14h18M10 3v18M14 3v18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
+                </svg>
+                表格
+              </button>
+              {showTableMenu && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setShowTableMenu(false)} />
+                  <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl p-3">
+                    <p className="text-xs text-gray-500 mb-2 text-center min-w-[120px]">
+                      {tableHover.r > 0 ? `${tableHover.r} × ${tableHover.c} 表格` : '選擇表格大小'}
+                    </p>
+                    <div className="grid gap-1" style={{ gridTemplateColumns: 'repeat(8, 1fr)' }}>
+                      {Array.from({ length: 6 }, (_, r) =>
+                        Array.from({ length: 8 }, (_, c) => (
+                          <div
+                            key={`${r}-${c}`}
+                            onMouseEnter={() => setTableHover({ r: r + 1, c: c + 1 })}
+                            onMouseLeave={() => setTableHover({ r: 0, c: 0 })}
+                            onMouseDown={e => { e.preventDefault(); insertTable(r + 1, c + 1) }}
+                            className={`w-5 h-5 border rounded-sm cursor-pointer transition-colors ${
+                              r < tableHover.r && c < tableHover.c
+                                ? 'bg-blue-200 border-blue-400'
+                                : 'bg-gray-50 border-gray-300 hover:bg-blue-50'
+                            }`}
+                          />
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Clear Formatting */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('removeFormat') }}
+              className="w-7 h-7 rounded flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+              title="清除格式 Clear Formatting"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Layout toolbar */}
+        {editMode && (
+          <div className="shrink-0 flex flex-wrap items-center gap-1 px-3 py-1.5 border-b border-gray-100 bg-slate-50">
+            <span className="text-[10px] text-gray-400 font-medium mr-1 select-none">版面</span>
+
+            {/* Page Size */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); setShowLayoutMenu(v => v === 'pageSize' ? null : 'pageSize') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                {pageSize} ▾
+              </button>
+              {showLayoutMenu === 'pageSize' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowLayoutMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl py-1 min-w-[130px]">
+                  {(Object.keys(PAGE_CFG) as Array<keyof typeof PAGE_CFG>).map(k => (
+                    <button key={k} onMouseDown={e => { e.preventDefault(); setPageSize(k); setShowLayoutMenu(null) }}
+                      className={`w-full text-left px-4 py-1.5 text-xs hover:bg-gray-50 ${pageSize === k ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                      {PAGE_CFG[k].label}
+                    </button>
+                  ))}
+                </div>
+              </>)}
+            </div>
+
+            {/* Margins */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); setShowLayoutMenu(v => v === 'margins' ? null : 'margins') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                邊距 ▾
+              </button>
+              {showLayoutMenu === 'margins' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowLayoutMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl py-1 min-w-[160px]">
+                  {(Object.keys(MARGIN_CFG) as Array<keyof typeof MARGIN_CFG>).map(k => (
+                    <button key={k} onMouseDown={e => { e.preventDefault(); setMargins(k); setShowLayoutMenu(null) }}
+                      className={`w-full text-left px-4 py-1.5 text-xs hover:bg-gray-50 ${margins === k ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                      {MARGIN_CFG[k].label}
+                    </button>
+                  ))}
+                </div>
+              </>)}
+            </div>
+
+            {/* Line Spacing */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); setShowLayoutMenu(v => v === 'spacing' ? null : 'spacing') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                行距 {lineSpacing} ▾
+              </button>
+              {showLayoutMenu === 'spacing' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowLayoutMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl py-1 min-w-[80px]">
+                  {['1.0', '1.15', '1.5', '2.0'].map(sp => (
+                    <button key={sp} onMouseDown={e => { e.preventDefault(); setLineSpacing(sp); setShowLayoutMenu(null) }}
+                      className={`w-full text-left px-4 py-1.5 text-xs hover:bg-gray-50 ${lineSpacing === sp ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                      {sp}
+                    </button>
+                  ))}
+                </div>
+              </>)}
+            </div>
+
+            {/* Columns */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); setShowLayoutMenu(v => v === 'columns' ? null : 'columns') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                分欄 {columns > 1 ? columns : '—'} ▾
+              </button>
+              {showLayoutMenu === 'columns' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowLayoutMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl py-1 min-w-[120px]">
+                  {([1, 2, 3] as const).map(n => (
+                    <button key={n} onMouseDown={e => { e.preventDefault(); setColumns(n); setShowLayoutMenu(null) }}
+                      className={`w-full text-left px-4 py-1.5 text-xs hover:bg-gray-50 ${columns === n ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                      {n === 1 ? '1 欄（一般）' : `${n} 欄`}
+                    </button>
+                  ))}
+                </div>
+              </>)}
+            </div>
+
+            <div className="w-px h-5 bg-gray-200 mx-0.5 shrink-0" />
+
+            {/* Page Break */}
+            <button
+              onMouseDown={e => { e.preventDefault(); restoreRange(); document.execCommand('insertHTML', false, '<div style="page-break-after:always;border-top:2px dashed #e5e7eb;margin:24px 0;text-align:center;color:#9ca3af;font-size:11px;user-select:none" contenteditable="false">— 分頁 —</div><p><br></p>'); docRef.current?.focus() }}
+              className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors"
+              title="插入分頁符號">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16M4 12h16"/>
+              </svg>
+              分頁
+            </button>
+
+            {/* Header / Footer */}
+            <button onMouseDown={e => { e.preventDefault(); setShowHeader(v => !v) }}
+              className={`h-7 px-2 rounded text-xs border transition-colors ${showHeader ? 'bg-blue-50 border-blue-300 text-blue-700' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
+              頁首
+            </button>
+            <button onMouseDown={e => { e.preventDefault(); setShowFooter(v => !v) }}
+              className={`h-7 px-2 rounded text-xs border transition-colors ${showFooter ? 'bg-blue-50 border-blue-300 text-blue-700' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
+              頁尾
+            </button>
+          </div>
+        )}
+
+        {/* Insert toolbar */}
+        {editMode && (
+          <div className="shrink-0 flex flex-wrap items-center gap-1 px-3 py-1.5 border-b border-gray-100 bg-teal-50/30">
+            <span className="text-[10px] text-gray-400 font-medium mr-1 select-none">插入</span>
+
+            {/* Image */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); saveRange(); setShowInsertMenu(v => v === 'image' ? null : 'image') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                圖片
+              </button>
+              {showInsertMenu === 'image' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowInsertMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl p-3 w-72">
+                  <p className="text-xs font-medium text-gray-700 mb-2">插入圖片</p>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-[10px] text-gray-400 mb-1">NAS 路徑（如 /documents/photo.jpg）</p>
+                      <input type="text" value={insertImageSrc} onChange={e => setInsertImageSrc(e.target.value)}
+                        className="w-full px-2 py-1 text-xs border border-gray-200 rounded outline-none focus:ring-1 focus:ring-blue-400"
+                        placeholder="/documents/image.jpg" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-gray-400 mb-1">或外部網址（https://...）</p>
+                      <input type="text" value={insertImageSrc} onChange={e => setInsertImageSrc(e.target.value)}
+                        className="w-full px-2 py-1 text-xs border border-gray-200 rounded outline-none focus:ring-1 focus:ring-blue-400"
+                        placeholder="https://example.com/img.jpg" />
+                    </div>
+                    <input type="text" value={insertImageAlt} onChange={e => setInsertImageAlt(e.target.value)}
+                      className="w-full px-2 py-1 text-xs border border-gray-200 rounded outline-none focus:ring-1 focus:ring-blue-400"
+                      placeholder="圖片說明（alt）" />
+                    <button
+                      onMouseDown={e => {
+                        e.preventDefault()
+                        if (!insertImageSrc.trim()) return
+                        const src = /^https?:\/\//.test(insertImageSrc) ? insertImageSrc : downloadUrl(insertImageSrc)
+                        restoreRange()
+                        document.execCommand('insertHTML', false,
+                          `<img src="${src}" alt="${insertImageAlt}" style="max-width:100%;height:auto;display:block;margin:8px 0" /><p><br></p>`)
+                        docRef.current?.focus()
+                        setShowInsertMenu(null); setInsertImageSrc(''); setInsertImageAlt('')
+                      }}
+                      className="w-full py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors">
+                      插入圖片
+                    </button>
+                  </div>
+                </div>
+              </>)}
+            </div>
+
+            {/* Hyperlink */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); saveRange(); setShowInsertMenu(v => v === 'link' ? null : 'link') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+                超連結
+              </button>
+              {showInsertMenu === 'link' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowInsertMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl p-3 w-64">
+                  <p className="text-xs font-medium text-gray-700 mb-2">插入超連結</p>
+                  <div className="space-y-2">
+                    <input type="text" value={insertLinkText} onChange={e => setInsertLinkText(e.target.value)}
+                      className="w-full px-2 py-1 text-xs border border-gray-200 rounded outline-none focus:ring-1 focus:ring-blue-400"
+                      placeholder="顯示文字（留空則使用選取文字）" />
+                    <input type="text" value={insertLinkUrl} onChange={e => setInsertLinkUrl(e.target.value)}
+                      className="w-full px-2 py-1 text-xs border border-gray-200 rounded outline-none focus:ring-1 focus:ring-blue-400"
+                      placeholder="https://..." />
+                    <button
+                      onMouseDown={e => {
+                        e.preventDefault()
+                        if (!insertLinkUrl.trim()) return
+                        restoreRange()
+                        if (insertLinkText.trim()) {
+                          document.execCommand('insertHTML', false,
+                            `<a href="${insertLinkUrl}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:underline">${insertLinkText}</a>`)
+                        } else {
+                          document.execCommand('createLink', false, insertLinkUrl)
+                          const a = window.getSelection()?.anchorNode?.parentElement
+                          if (a?.tagName === 'A') { (a as HTMLAnchorElement).target = '_blank'; a.style.color = '#2563eb' }
+                        }
+                        docRef.current?.focus()
+                        setShowInsertMenu(null); setInsertLinkUrl(''); setInsertLinkText('')
+                      }}
+                      className="w-full py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors">
+                      插入
+                    </button>
+                  </div>
+                </div>
+              </>)}
+            </div>
+
+            {/* Horizontal Rule */}
+            <button
+              onMouseDown={e => {
+                e.preventDefault(); restoreRange()
+                document.execCommand('insertHTML', false,
+                  '<hr style="border:none;border-top:2px solid #e5e7eb;margin:16px 0"/><p><br></p>')
+                docRef.current?.focus()
+              }}
+              className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12h16"/>
+              </svg>
+              水平線
+            </button>
+
+            {/* Blockquote */}
+            <button
+              onMouseDown={e => { e.preventDefault(); applyFmt('formatBlock', 'blockquote') }}
+              className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+              </svg>
+              引用
+            </button>
+
+            {/* Special Characters */}
+            <div className="relative">
+              <button onMouseDown={e => { e.preventDefault(); saveRange(); setShowInsertMenu(v => v === 'symbol' ? null : 'symbol') }}
+                className="h-7 px-2 rounded flex items-center gap-1 text-xs bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
+                <span className="font-serif font-bold text-sm leading-none">Ω</span>
+                符號
+              </button>
+              {showInsertMenu === 'symbol' && (<>
+                <div className="fixed inset-0 z-30" onClick={() => setShowInsertMenu(null)} />
+                <div className="absolute left-0 top-8 z-40 bg-white border border-gray-200 rounded-lg shadow-xl p-2" style={{ minWidth: '220px' }}>
+                  <p className="text-[10px] text-gray-400 mb-1.5 px-1">特殊符號</p>
+                  <div className="grid gap-0.5" style={{ gridTemplateColumns: 'repeat(9, 1fr)' }}>
+                    {SPECIAL_CHARS.map(ch => (
+                      <button key={ch}
+                        onMouseDown={e => {
+                          e.preventDefault(); restoreRange()
+                          document.execCommand('insertText', false, ch)
+                          docRef.current?.focus(); setShowInsertMenu(null)
+                        }}
+                        className="w-7 h-7 text-sm hover:bg-blue-50 rounded text-gray-700 flex items-center justify-center transition-colors">
+                        {ch}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>)}
+            </div>
           </div>
         )}
 
@@ -893,24 +1433,56 @@ function DocumentSurface({ doc, onDownload }: { doc: OfficeDocument; onDownload:
         )}
 
         <div className="flex-1 overflow-auto flex justify-center py-8 px-4">
-          <div
-            ref={docRef}
-            contentEditable={editMode}
-            suppressContentEditableWarning
-            onKeyUp={updateFmt}
-            onMouseUp={updateFmt}
-            className={`w-full max-w-3xl bg-white rounded shadow-lg p-12 text-gray-900 text-sm leading-relaxed outline-none
-              ${editMode ? 'ring-2 ring-blue-400' : ''}
-              [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:mt-6
-              [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:mt-5
-              [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:pl-6 [&_ul]:list-disc
-              [&_ol]:mb-3 [&_ol]:pl-6 [&_ol]:list-decimal
-              [&_table]:w-full [&_table]:border-collapse [&_table]:mb-4
-              [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1
-              [&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:bg-gray-100
-              [&_strong]:font-semibold [&_em]:italic`}
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
+          <div className="w-full flex flex-col shadow-lg rounded overflow-hidden"
+               style={{ maxWidth: PAGE_CFG[pageSize].maxWidth }}>
+            {/* Header */}
+            {showHeader && (
+              <div
+                contentEditable={editMode}
+                suppressContentEditableWarning
+                onBlur={e => setHeaderText(e.currentTarget.innerHTML)}
+                className="w-full bg-gray-50 px-8 py-2 text-xs text-gray-500 border-b-2 border-dashed border-gray-300 outline-none min-h-[32px]"
+                dangerouslySetInnerHTML={{ __html: headerText || '<span style="color:#9ca3af">頁首文字…</span>' }}
+              />
+            )}
+            {/* Document body */}
+            <div
+              ref={docRef}
+              contentEditable={editMode}
+              suppressContentEditableWarning
+              onKeyUp={updateFmt}
+              onMouseUp={updateFmt}
+              className={`w-full bg-white text-gray-900 text-sm outline-none
+                ${editMode ? 'ring-2 ring-inset ring-blue-400' : ''}
+                [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:mt-6
+                [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:mt-5
+                [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:pl-6 [&_ul]:list-disc
+                [&_ol]:mb-3 [&_ol]:pl-6 [&_ol]:list-decimal
+                [&_table]:w-full [&_table]:border-collapse [&_table]:mb-4
+                [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1
+                [&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:bg-gray-100
+                [&_strong]:font-semibold [&_em]:italic
+                [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:text-gray-500 [&_blockquote]:italic [&_blockquote]:my-3
+                [&_a]:text-blue-600 [&_a]:underline [&_img]:max-w-full [&_img]:h-auto`}
+              style={{
+                padding: MARGIN_CFG[margins].padding,
+                lineHeight: lineSpacing,
+                columnCount: columns > 1 ? columns : undefined,
+                columnGap: columns > 1 ? '2rem' : undefined,
+              }}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+            {/* Footer */}
+            {showFooter && (
+              <div
+                contentEditable={editMode}
+                suppressContentEditableWarning
+                onBlur={e => setFooterText(e.currentTarget.innerHTML)}
+                className="w-full bg-gray-50 px-8 py-2 text-xs text-gray-500 border-t-2 border-dashed border-gray-300 outline-none min-h-[32px]"
+                dangerouslySetInnerHTML={{ __html: footerText || '<span style="color:#9ca3af">頁尾文字…</span>' }}
+              />
+            )}
+          </div>
         </div>
       </div>
     )
@@ -1006,6 +1578,7 @@ export default function OfficeCollabWorkspace({
   const [newNote, setNewNote] = useState('')
   const [shareBusy, setShareBusy] = useState(false)
   const [showOpenMenu, setShowOpenMenu] = useState(false)
+  const [useOnlyOffice, setUseOnlyOffice] = useState(() => !!(import.meta.env.VITE_OFFICE_URL as string))
 
   const availableDocs = useMemo(() => {
     return items.flatMap(item => {
@@ -1279,12 +1852,29 @@ export default function OfficeCollabWorkspace({
                         Share Settings
                       </button>
                     )}
+                    {activeDoc.category !== 'pdf' && (import.meta.env.VITE_OFFICE_URL as string) && (
+                      <button
+                        onClick={() => setUseOnlyOffice(v => !v)}
+                        title={useOnlyOffice ? '切換到簡易預覽' : '切換到 ONLYOFFICE 編輯器'}
+                        className={`h-9 px-3 rounded-lg text-xs transition-colors ${
+                          useOnlyOffice
+                            ? 'bg-orange-500/20 border border-orange-400/50 text-orange-300'
+                            : 'bg-gray-700 hover:bg-gray-600 text-gray-400'
+                        }`}>
+                        {useOnlyOffice ? 'ONLYOFFICE ✓' : 'ONLYOFFICE'}
+                      </button>
+                    )}
                   </div>
                 </div>
 
-                <div className="flex-1 min-h-0 p-4 overflow-auto">
-                  <DocumentSurface doc={activeDoc} onDownload={() => onDownload(activeDoc)} />
-                </div>
+                {useOnlyOffice && activeDoc.category !== 'pdf'
+                  ? <div className="flex-1 min-h-0 overflow-hidden">
+                      <OnlyOfficeEditor key={activeDoc.path} doc={activeDoc} />
+                    </div>
+                  : <div className="flex-1 min-h-0 p-4 overflow-auto">
+                      <DocumentSurface doc={activeDoc} onDownload={() => onDownload(activeDoc)} />
+                    </div>
+                }
 
                 <div className="shrink-0 px-5 py-3 border-t border-gray-800 bg-gray-900/80 flex flex-wrap items-center gap-3">
                   <a href={downloadUrl(activeDoc.path)} target="_blank" rel="noopener noreferrer"

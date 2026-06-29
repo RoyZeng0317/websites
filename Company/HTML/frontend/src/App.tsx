@@ -6,6 +6,7 @@ import ContactUs from './components/contact-us';
 import Products from './components/products';
 import MailOnline from './components/mail-online';
 import Order from './components/order';
+import StellarShop from './components/StellarShop';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<Introduce />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/shop" element={<StellarShop />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/inquiry" element={<MailOnline />} />
           <Route path="/order" element={<Order />} />

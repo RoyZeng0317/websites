@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { apiJson } from '../lib/api'
+import { apiJson, apiFetch } from '../lib/api'
 import { downloadUrl } from '../lib/api'
 
 interface FileItem {
@@ -14,6 +14,14 @@ interface LyricLine {
   text: string
 }
 
+interface SongMeta {
+  title: string | null
+  artist: string | null
+  album: string | null
+  year: number | null
+  genre: string | null
+}
+
 interface Props {
   onClose: () => void
 }
@@ -25,11 +33,34 @@ function isAudio(name: string): boolean {
   return AUDIO_EXTS.has(ext)
 }
 
+function isLrc(name: string): boolean {
+  return name.toLowerCase().endsWith('.lrc')
+}
+
 function fmtTime(sec: number): string {
   if (!isFinite(sec) || sec < 0) return '0:00'
   const m = Math.floor(sec / 60)
   const s = Math.floor(sec % 60)
   return `${m}:${s.toString().padStart(2, '0')}`
+}
+
+function fmtTimePrecise(sec: number): string {
+  if (!isFinite(sec) || sec < 0) return '00:00.000'
+  const m = Math.floor(sec / 60)
+  const s = sec % 60
+  const sInt = Math.floor(s)
+  const ms = Math.round((s - sInt) * 1000)
+  return `${String(m).padStart(2,'0')}:${String(sInt).padStart(2,'0')}.${String(ms).padStart(3,'0')}`
+}
+
+function parseTimestamp(str: string): number | null {
+  const m = str.trim().match(/^(\d{1,3}):(\d{2})\.(\d{1,3})$/)
+  if (!m) return null
+  const min = parseInt(m[1])
+  const sec = parseInt(m[2])
+  if (sec >= 60) return null
+  const ms = parseInt(m[3].padEnd(3, '0').slice(0, 3))
+  return min * 60 + sec + ms / 1000
 }
 
 function baseName(name: string): string {
@@ -76,6 +107,21 @@ export default function MusicApp({ onClose }: Props) {
   const [lyricsLoading, setLyricsLoading] = useState(false)
   const [muted, setMuted] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
+  const [pairMode, setPairMode] = useState(false)
+  const [pairInput, setPairInput] = useState('')
+  const [pairLines, setPairLines] = useState<string[]>([])
+  const [pairTimes, setPairTimes] = useState<Record<number, number>>({})
+  const [pairIdx, setPairIdx] = useState(0)
+  const [editingIdx, setEditingIdx] = useState<number | null>(null)
+  const [editingVal, setEditingVal] = useState('')
+  const pairListRef = useRef<HTMLDivElement>(null)
+  const [lrcEditor, setLrcEditor] = useState<{ path: string, lines: { time: number | null, text: string }[] } | null>(null)
+  const [lrcEditCell, setLrcEditCell] = useState<{ idx: number, field: 'time' | 'text' } | null>(null)
+  const [lrcEditVal, setLrcEditVal] = useState('')
+  const [lrcSaving, setLrcSaving] = useState(false)
+  const [songMeta, setSongMeta] = useState<SongMeta | null>(null)
+  const [coverUrl, setCoverUrl] = useState<string | null>(null)
+  const [metaLoading, setMetaLoading] = useState(false)
 
   const load = useCallback(async (dir: string) => {
     setLoading(true)
@@ -93,6 +139,8 @@ export default function MusicApp({ onClose }: Props) {
 
   useEffect(() => { load(path) }, [path, load])
 
+  useEffect(() => () => { setCoverUrl(prev => { if (prev) URL.revokeObjectURL(prev); return null }) }, [])
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const tag = (e.target as HTMLElement).tagName
@@ -100,6 +148,9 @@ export default function MusicApp({ onClose }: Props) {
 
       if (e.key === 'Escape') {
         if (showHelp) { setShowHelp(false); return }
+        if (pairRef.current.pairMode) {
+          setPairMode(false); setPairInput(''); setPairLines([]); setPairTimes({}); setPairIdx(0); return
+        }
         onClose(); return
       }
       if (e.shiftKey && e.key === '?') {
@@ -107,6 +158,14 @@ export default function MusicApp({ onClose }: Props) {
       }
       if (e.key === ' ') {
         e.preventDefault()
+        const { pairMode: pm, pairIdx: pi, pairLinesLen: pl } = pairRef.current
+        if (pm && pl > 0 && pi < pl) {
+          const a = audioRef.current; if (!a) return
+          setPairTimes(prev => ({ ...prev, [pi]: a.currentTime }))
+          setPairIdx(pi + 1)
+          if (a.paused) { a.play(); setPlaying(true) }
+          return
+        }
         const a = audioRef.current
         if (!a) return
         const { currentIndex: ci, tracks: tr } = liveRef.current
@@ -117,6 +176,16 @@ export default function MusicApp({ onClose }: Props) {
       if (e.key === 'm' || e.key === 'M') {
         const a = audioRef.current; if (!a) return
         const next = !a.muted; a.muted = next; setMuted(next); return
+      }
+      if (e.key === 'Backspace') {
+        const { pairMode: pm, pairIdx: pi } = pairRef.current
+        if (pm && pi > 0) {
+          e.preventDefault()
+          const newIdx = pi - 1
+          setPairIdx(newIdx)
+          setPairTimes(prev => { const n = { ...prev }; delete n[newIdx]; return n })
+          return
+        }
       }
       const a = audioRef.current; if (!a) return
       if (e.key === 'ArrowRight') {
@@ -140,10 +209,14 @@ export default function MusicApp({ onClose }: Props) {
 
   const tracks = items.filter(i => i.type === 'file' && isAudio(i.name))
   const folders = items.filter(i => i.type === 'folder')
+  const lrcs = items.filter(i => i.type === 'file' && isLrc(i.name))
 
   // Live ref — placed AFTER tracks/folders to avoid TDZ crash
   const liveRef = useRef({ currentIndex, tracks, playing })
   useEffect(() => { liveRef.current = { currentIndex, tracks, playing } }, [currentIndex, tracks, playing])
+
+  const pairRef = useRef({ pairMode: false, pairIdx: 0, pairLinesLen: 0 })
+  useEffect(() => { pairRef.current = { pairMode, pairIdx, pairLinesLen: pairLines.length } }, [pairMode, pairIdx, pairLines.length])
 
   function trackPath(index: number) {
     const name = tracks[index]?.name
@@ -175,11 +248,33 @@ export default function MusicApp({ onClose }: Props) {
     }
   }
 
+  async function loadMeta(index: number) {
+    setSongMeta(null)
+    setCoverUrl(prev => { if (prev) URL.revokeObjectURL(prev); return null })
+    setMetaLoading(true)
+    const tp = trackPath(index)
+    if (!tp) { setMetaLoading(false); return }
+    try {
+      const [meta, coverRes] = await Promise.all([
+        apiJson<SongMeta>(`/api/music/metadata?path=${encodeURIComponent(tp)}`).catch(() => null),
+        apiFetch(`/api/music/cover?path=${encodeURIComponent(tp)}`).catch(() => null),
+      ])
+      setSongMeta(meta)
+      if (coverRes?.ok) {
+        const blob = await coverRes.blob()
+        setCoverUrl(URL.createObjectURL(blob))
+      }
+    } finally {
+      setMetaLoading(false)
+    }
+  }
+
   function playTrack(index: number) {
     if (index < 0 || index >= tracks.length) return
     setCurrentIndex(index)
     setPlaying(true)
     loadLyrics(index)
+    loadMeta(index)
   }
 
   function togglePlay() {
@@ -235,11 +330,96 @@ export default function MusicApp({ onClose }: Props) {
     }
   }, [currentLyricIdx])
 
-  const SHORTCUTS = [
-    ['Space','Play / Pause'], ['→','Forward 5s'], ['←','Rewind 5s'],
-    ['↑','Volume +5%'], ['↓','Volume -5%'], ['M','Toggle Mute'],
-    ['Shift+?','Keyboard Shortcuts'], ['Esc','Close'],
-  ]
+  useEffect(() => {
+    if (pairMode && pairLines.length > 0 && pairListRef.current) {
+      const el = pairListRef.current.children[Math.min(pairIdx, pairLines.length - 1)] as HTMLElement | undefined
+      if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    }
+  }, [pairIdx, pairMode, pairLines.length])
+
+  function startPairing() {
+    const lines = pairInput.split('\n').map(l => l.trim()).filter(Boolean)
+    if (!lines.length) return
+    setPairLines(lines)
+    setPairTimes({})
+    setPairIdx(0)
+    const a = audioRef.current
+    if (a && a.paused) { a.play(); setPlaying(true) }
+  }
+
+  function exitPair() {
+    setPairMode(false)
+    setPairInput('')
+    setPairLines([])
+    setPairTimes({})
+    setPairIdx(0)
+  }
+
+  async function openLrcEditor(name: string) {
+    const filePath = path ? `${path}/${name}` : name
+    setLrcEditor({ path: filePath, lines: [] })
+    setLrcEditCell(null)
+    try {
+      const res = await fetch(downloadUrl(filePath))
+      if (!res.ok) return
+      const text = await res.text()
+      const parsed = parseLrc(text)
+      setLrcEditor({ path: filePath, lines: parsed.map(l => ({ time: l.time, text: l.text })) })
+    } catch { /* empty file */ }
+  }
+
+  async function saveLrc() {
+    if (!lrcEditor) return
+    setLrcSaving(true)
+    try {
+      const content = [...lrcEditor.lines]
+        .filter(l => l.text.trim())
+        .sort((a, b) => (a.time ?? Infinity) - (b.time ?? Infinity))
+        .map(l => {
+          if (l.time === null) return l.text
+          const min = Math.floor(l.time / 60)
+          const sec = l.time % 60
+          const sInt = Math.floor(sec)
+          const ms = Math.round((sec - sInt) * 1000)
+          return `[${String(min).padStart(2,'0')}:${String(sInt).padStart(2,'0')}.${String(ms).padStart(3,'0')}]${l.text}`
+        }).join('\n')
+      await apiFetch(`/api/files/content?path=${encodeURIComponent(lrcEditor.path)}`, {
+        method: 'PUT',
+        body: content,
+      })
+      setLrcEditor(null)
+      setLrcEditCell(null)
+      if (currentIndex !== null) loadLyrics(currentIndex)
+    } catch { /* ignore */ } finally {
+      setLrcSaving(false)
+    }
+  }
+
+  function downloadLrc() {
+    const lrcContent = pairLines.map((text, i) => {
+      const t = pairTimes[i]
+      if (t === undefined) return `[00:00.000]${text}`
+      const min = Math.floor(t / 60)
+      const sec = t % 60
+      const secInt = Math.floor(sec)
+      const ms = Math.round((sec - secInt) * 1000)
+      return `[${String(min).padStart(2,'0')}:${String(secInt).padStart(2,'0')}.${String(ms).padStart(3,'0')}]${text}`
+    }).join('\n')
+    const fname = currentTrackName ? baseName(currentTrackName) + '.lrc' : 'lyrics.lrc'
+    const blob = new Blob([lrcContent], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url; anchor.download = fname; anchor.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const SHORTCUTS = pairMode && pairLines.length > 0
+    ? [['Space','Stamp timestamp'], ['Backspace','Undo last stamp'], ['Esc','Exit pair mode']]
+    : [
+        ['Space','Play / Pause'], ['→','Forward 5s'], ['←','Rewind 5s'],
+        ['↑','Volume +5%'], ['↓','Volume -5%'], ['M','Toggle Mute'],
+        ['Shift+?','Keyboard Shortcuts'], ['Esc','Close'],
+      ]
 
   return (
     <div className="fixed inset-0 z-50 bg-black/90 flex flex-col">
@@ -261,6 +441,156 @@ export default function MusicApp({ onClose }: Props) {
               ))}
             </div>
             <p className="text-xs text-gray-600 mt-4 text-center">Press Shift+? again to close</p>
+          </div>
+        </div>
+      )}
+
+      {/* LRC editor overlay */}
+      {lrcEditor && (
+        <div className="fixed inset-0 z-[60] bg-gray-950 flex flex-col">
+          <div className="shrink-0 flex items-center justify-between px-5 py-3 bg-black/60 border-b border-gray-800">
+            <div className="flex items-center gap-3 min-w-0">
+              <svg className="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+              </svg>
+              <span className="text-sm font-medium text-white truncate">{lrcEditor.path.split('/').pop()}</span>
+              <span className="text-xs text-gray-500">{lrcEditor.lines.length} 行</span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => setLrcEditor(prev => prev ? { ...prev, lines: [...prev.lines].sort((a, b) => (a.time ?? Infinity) - (b.time ?? Infinity)) } : prev)}
+                className="text-xs text-gray-300 hover:text-white px-2 py-1.5 rounded bg-gray-800 hover:bg-gray-700 transition-colors">↕ 排序</button>
+              <button
+                onClick={() => setLrcEditor(prev => prev ? { ...prev, lines: [...prev.lines, { time: null, text: '' }] } : prev)}
+                className="text-xs text-gray-300 hover:text-white px-2 py-1.5 rounded bg-gray-800 hover:bg-gray-700 transition-colors">+ 新增行</button>
+              <button onClick={saveLrc} disabled={lrcSaving}
+                className="text-xs text-white px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 disabled:opacity-50 transition-colors">
+                {lrcSaving ? '儲存中...' : '儲存'}
+              </button>
+              <button onClick={() => { setLrcEditor(null); setLrcEditCell(null) }}
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 hover:bg-gray-700 text-white text-xl">×</button>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto">
+            {lrcEditor.lines.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-gray-500 gap-2 text-sm">
+                <svg className="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                </svg>
+                無歌詞行，點擊「+ 新增行」開始編輯
+              </div>
+            ) : (
+              <table className="w-full">
+                <thead className="sticky top-0 bg-gray-900/95 border-b border-gray-800">
+                  <tr>
+                    <th className="px-4 py-2 text-left text-xs text-gray-600 font-normal w-10">#</th>
+                    <th className="px-2 py-2 text-left text-xs text-gray-600 font-normal w-36">時間</th>
+                    <th className="px-2 py-2 text-left text-xs text-gray-600 font-normal">歌詞</th>
+                    <th className="w-8"/>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-800/40">
+                  {lrcEditor.lines.map((line, i) => (
+                    <tr key={i} className="hover:bg-gray-800/30 group">
+                      <td className="px-4 py-1 text-xs text-gray-600 text-right tabular-nums">{i + 1}</td>
+                      <td className="px-2 py-1">
+                        {lrcEditCell?.idx === i && lrcEditCell.field === 'time' ? (
+                          <input
+                            autoFocus
+                            type="text"
+                            value={lrcEditVal}
+                            onChange={e => setLrcEditVal(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') {
+                                const parsed = parseTimestamp(lrcEditVal)
+                                setLrcEditor(prev => {
+                                  if (!prev) return prev
+                                  const lines = [...prev.lines]
+                                  lines[i] = { ...lines[i], time: parsed }
+                                  return { ...prev, lines }
+                                })
+                                setLrcEditCell(null)
+                              } else if (e.key === 'Escape') {
+                                setLrcEditCell(null)
+                              }
+                            }}
+                            onBlur={() => {
+                              const parsed = parseTimestamp(lrcEditVal)
+                              setLrcEditor(prev => {
+                                if (!prev) return prev
+                                const lines = [...prev.lines]
+                                lines[i] = { ...lines[i], time: parsed }
+                                return { ...prev, lines }
+                              })
+                              setLrcEditCell(null)
+                            }}
+                            className="w-32 bg-gray-900 border border-blue-500 rounded px-2 py-0.5 text-xs font-mono text-blue-200 outline-none text-center"
+                            placeholder="00:00.000"
+                          />
+                        ) : (
+                          <button
+                            onClick={() => { setLrcEditCell({ idx: i, field: 'time' }); setLrcEditVal(line.time !== null ? fmtTimePrecise(line.time) : '') }}
+                            className={`w-32 text-xs font-mono px-2 py-0.5 rounded text-left hover:bg-gray-800 transition-colors ${line.time !== null ? 'text-green-400 hover:text-green-200' : 'text-gray-600 hover:text-gray-400'}`}
+                            title="點擊編輯時間（mm:ss.000）"
+                          >{line.time !== null ? fmtTimePrecise(line.time) : '--:--.---'}</button>
+                        )}
+                      </td>
+                      <td className="px-2 py-1">
+                        {lrcEditCell?.idx === i && lrcEditCell.field === 'text' ? (
+                          <input
+                            autoFocus
+                            type="text"
+                            value={lrcEditVal}
+                            onChange={e => setLrcEditVal(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') {
+                                setLrcEditor(prev => {
+                                  if (!prev) return prev
+                                  const lines = [...prev.lines]
+                                  lines[i] = { ...lines[i], text: lrcEditVal }
+                                  return { ...prev, lines }
+                                })
+                                setLrcEditCell(null)
+                              } else if (e.key === 'Escape') {
+                                setLrcEditCell(null)
+                              }
+                            }}
+                            onBlur={() => {
+                              setLrcEditor(prev => {
+                                if (!prev) return prev
+                                const lines = [...prev.lines]
+                                lines[i] = { ...lines[i], text: lrcEditVal }
+                                return { ...prev, lines }
+                              })
+                              setLrcEditCell(null)
+                            }}
+                            className="w-full bg-gray-900 border border-blue-500 rounded px-2 py-0.5 text-sm text-gray-200 outline-none"
+                          />
+                        ) : (
+                          <button
+                            onClick={() => { setLrcEditCell({ idx: i, field: 'text' }); setLrcEditVal(line.text) }}
+                            className="w-full text-sm text-left px-2 py-0.5 rounded hover:bg-gray-800/50 transition-colors"
+                          >
+                            {line.text
+                              ? <span className="text-gray-200">{line.text}</span>
+                              : <span className="text-gray-600 italic text-xs">點擊輸入歌詞...</span>
+                            }
+                          </button>
+                        )}
+                      </td>
+                      <td className="px-2 py-1">
+                        <button
+                          onClick={() => setLrcEditor(prev => prev ? { ...prev, lines: prev.lines.filter((_, j) => j !== i) } : prev)}
+                          className="opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 transition-all w-6 h-6 flex items-center justify-center rounded"
+                          title="刪除此行"
+                        >✕</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       )}
@@ -312,22 +642,49 @@ export default function MusicApp({ onClose }: Props) {
           <div className="shrink-0 px-5 py-4 bg-gray-900/80 border-b border-gray-800">
             <div className="flex items-center gap-4 mb-3">
               {/* Album art */}
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500/30 to-orange-500/30 flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
-                </svg>
+              <div className="w-14 h-14 rounded-xl shrink-0 overflow-hidden bg-gradient-to-br from-pink-500/30 to-orange-500/30 flex items-center justify-center">
+                {coverUrl ? (
+                  <img src={coverUrl} alt="cover" className="w-full h-full object-cover" />
+                ) : (
+                  <svg className="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                  </svg>
+                )}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 min-w-0">
-                  <p className="text-sm font-medium text-white truncate">{baseName(currentTrackName)}</p>
-                  {lyricsLoading && (
+                  <p className="text-sm font-medium text-white truncate">
+                    {songMeta?.title || baseName(currentTrackName)}
+                  </p>
+                  {metaLoading && (
+                    <span className="shrink-0 w-3 h-3 border border-blue-400 border-t-transparent rounded-full animate-spin"/>
+                  )}
+                  {!metaLoading && lyricsLoading && (
                     <span className="shrink-0 w-3 h-3 border border-pink-400 border-t-transparent rounded-full animate-spin"/>
                   )}
                   {!lyricsLoading && lyrics.length > 0 && (
                     <span className="shrink-0 text-xs bg-pink-500/20 text-pink-400 border border-pink-500/30 px-1.5 py-0.5 rounded font-mono">LRC</span>
                   )}
+                  {!pairMode && (
+                    <button
+                      onClick={() => setPairMode(true)}
+                      className="shrink-0 text-xs bg-blue-500/20 text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded hover:bg-blue-500/30 transition-colors"
+                      title="歌詞配對 — 播放音樂後按空白鍵標記每句歌詞的時間點"
+                    >配對</button>
+                  )}
+                  {pairMode && (
+                    <span className="shrink-0 text-xs bg-blue-500/30 text-blue-300 border border-blue-500/50 px-1.5 py-0.5 rounded font-mono animate-pulse">配對中</span>
+                  )}
                 </div>
-                <p className="text-xs text-gray-500">{currentTrackName.split('.').pop()?.toUpperCase()}</p>
+                {songMeta?.artist && (
+                  <p className="text-xs text-gray-300 truncate">{songMeta.artist}</p>
+                )}
+                <p className="text-xs text-gray-500 truncate">
+                  {songMeta?.album
+                    ? `${songMeta.album}${songMeta.year ? ` · ${songMeta.year}` : ''}`
+                    : currentTrackName.split('.').pop()?.toUpperCase()
+                  }
+                </p>
               </div>
               {/* Controls */}
               <div className="flex items-center gap-3">
@@ -419,8 +776,116 @@ export default function MusicApp({ onClose }: Props) {
           </div>
         )}
 
+        {/* Lyrics pair mode UI */}
+        {pairMode && currentTrackName && (
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="shrink-0 flex items-center justify-between px-5 py-2 bg-blue-900/20 border-b border-blue-800/30">
+              <div className="flex items-center gap-2 text-xs text-blue-300 min-w-0 flex-wrap">
+                {pairLines.length > 0 && pairIdx < pairLines.length ? (
+                  <>
+                    <span>按</span>
+                    <kbd className="px-1.5 py-0.5 rounded bg-gray-800 border border-gray-700 font-mono text-gray-200">Space</kbd>
+                    <span>標記時間點</span>
+                    <kbd className="px-1.5 py-0.5 rounded bg-gray-800 border border-gray-700 font-mono text-gray-200">Backspace</kbd>
+                    <span>復原上一行</span>
+                    <span className="text-gray-500 ml-2">{pairIdx} / {pairLines.length} 句</span>
+                  </>
+                ) : pairLines.length > 0 ? (
+                  <span className="text-green-400">✓ 所有歌詞已配對完成，請點擊「匯出 LRC」</span>
+                ) : (
+                  <span>貼上歌詞文字，播放音樂後按空白鍵標記每句的時間點</span>
+                )}
+              </div>
+              <div className="flex items-center gap-2 shrink-0 ml-3">
+                {pairLines.length > 0 && (
+                  <>
+                    <button onClick={() => { setPairLines([]); setPairTimes({}); setPairIdx(0) }}
+                      className="text-xs text-gray-400 hover:text-white px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 transition-colors">重新開始</button>
+                    <button onClick={downloadLrc}
+                      className="text-xs text-green-300 px-2 py-1 rounded bg-green-900/30 hover:bg-green-900/50 border border-green-700/30 transition-colors">匯出 LRC</button>
+                  </>
+                )}
+                <button onClick={exitPair}
+                  className="text-xs text-gray-400 hover:text-white px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 transition-colors">退出</button>
+              </div>
+            </div>
+
+            {pairLines.length === 0 ? (
+              <div className="flex-1 flex flex-col p-5 gap-3">
+                <textarea
+                  value={pairInput}
+                  onChange={e => setPairInput(e.target.value)}
+                  placeholder={"在此貼上歌詞（每行一句）...\n例如：\n滄海一聲笑\n滔滔兩岸潮\n豪情還勝了一江水"}
+                  className="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm text-gray-200 placeholder-gray-600 resize-none focus:outline-none focus:border-blue-500"
+                />
+                <button onClick={startPairing} disabled={!pairInput.trim()}
+                  className="shrink-0 py-2 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white transition-colors">
+                  開始配對
+                </button>
+              </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto py-4 px-5" ref={pairListRef}>
+                <div className="space-y-1">
+                  {pairLines.map((line, i) => {
+                    const t = pairTimes[i]
+                    const isDone = t !== undefined
+                    const isCurrent = i === pairIdx
+                    return (
+                      <div key={i} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+                        isCurrent ? 'bg-blue-900/40 border border-blue-700/50' : isDone ? 'opacity-55' : 'opacity-35'
+                      }`}>
+                        <span className="shrink-0 font-mono text-xs w-24 text-right">
+                          {isDone ? (
+                            editingIdx === i ? (
+                              <input
+                                autoFocus
+                                type="text"
+                                value={editingVal}
+                                onChange={e => setEditingVal(e.target.value)}
+                                onKeyDown={e => {
+                                  if (e.key === 'Enter') {
+                                    const parsed = parseTimestamp(editingVal)
+                                    if (parsed !== null) setPairTimes(prev => ({ ...prev, [i]: parsed }))
+                                    setEditingIdx(null)
+                                  } else if (e.key === 'Escape') {
+                                    setEditingIdx(null)
+                                  }
+                                }}
+                                onBlur={() => {
+                                  const parsed = parseTimestamp(editingVal)
+                                  if (parsed !== null) setPairTimes(prev => ({ ...prev, [i]: parsed }))
+                                  setEditingIdx(null)
+                                }}
+                                className="w-24 bg-gray-900 border border-blue-500 rounded px-1 py-0.5 text-blue-200 text-xs font-mono outline-none text-center"
+                                placeholder="00:00.000"
+                              />
+                            ) : (
+                              <button
+                                onClick={() => { setEditingIdx(i); setEditingVal(fmtTimePrecise(t)) }}
+                                className="text-green-400 hover:text-green-200 underline decoration-dotted underline-offset-2 transition-colors"
+                                title="點擊編輯時間（格式 mm:ss.ms）"
+                              >{fmtTimePrecise(t)}</button>
+                            )
+                          ) : isCurrent ? (
+                            <span className="text-blue-400 animate-pulse">▶ 等待</span>
+                          ) : (
+                            <span className="text-gray-600">--:--.---</span>
+                          )}
+                        </span>
+                        <span className={`text-sm ${isCurrent ? 'text-white font-medium' : isDone ? 'text-gray-400' : 'text-gray-500'}`}>
+                          {line}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Lyrics area — only when lyrics loaded */}
-        {currentTrackName && lyrics.length > 0 && (
+        {!pairMode && currentTrackName && lyrics.length > 0 && (
           <div className="flex-1 overflow-y-auto py-6 px-8">
             <div className="space-y-5 text-center" ref={lyricsListRef}>
               {lyrics.map((l, i) => {
@@ -447,7 +912,7 @@ export default function MusicApp({ onClose }: Props) {
         )}
 
         {/* Track list — shown when no track playing, or no lyrics */}
-        {(!currentTrackName || lyrics.length === 0) ? (
+        {!pairMode && (!currentTrackName || lyrics.length === 0) ? (
           <div className="flex-1 overflow-y-auto">
             {loading ? (
               <div className="flex items-center justify-center py-20">
@@ -509,7 +974,7 @@ export default function MusicApp({ onClose }: Props) {
                       </li>
                     ))}
                   </ul>
-                ) : folders.length === 0 ? (
+                ) : folders.length === 0 && lrcs.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-gray-500 gap-2">
                     <svg className="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
@@ -517,13 +982,35 @@ export default function MusicApp({ onClose }: Props) {
                     <p className="text-sm">No music files in this folder</p>
                   </div>
                 ) : null}
+
+                {lrcs.length > 0 && (
+                  <div className="mt-4 px-2">
+                    <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">LRC Lyrics</p>
+                    <ul className="space-y-0.5">
+                      {lrcs.map(f => (
+                        <li key={f.name}>
+                          <button
+                            onClick={() => openLrcEditor(f.name)}
+                            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 transition-colors text-left"
+                          >
+                            <svg className="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                            </svg>
+                            <span className="flex-1 text-sm truncate">{f.name}</span>
+                            <span className="text-xs text-blue-400 shrink-0">編輯</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
         ) : null}
 
         {/* Mini track list when lyrics shown */}
-        {currentTrackName && lyrics.length > 0 && (
+        {!pairMode && currentTrackName && lyrics.length > 0 && (
           <div className="shrink-0 border-t border-gray-800">
             <details className="group">
               <summary className="px-5 py-2 text-xs text-gray-500 hover:text-gray-300 cursor-pointer flex items-center gap-2 select-none">

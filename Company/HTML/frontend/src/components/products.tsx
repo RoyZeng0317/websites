@@ -14,7 +14,7 @@ const productsItems: ProductItem[] = [
     icon: BookOpen,
     labelL: '全英文學習平台',
     value: '沉浸式全英文學習環境，結合 AI 輔助課程與即時發音分析，適合各階段學習者快速提升英語能力。',
-    href: 'https://linugapath.web.app/',
+    href: 'https://liguapath-platform.web.app/',
   },
   {
     icon: Box,

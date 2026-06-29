@@ -6,6 +6,7 @@ const navLinks = [
   { to: '/', label: '首頁' },
   { to: '/about', label: '關於我們' },
   { to: '/products', label: '產品' },
+  { to: '/shop', label: '商店' },
   { to: '/order', label: '專案委託' },
   { to: '/contact', label: '聯絡我們' },
   { to: '/inquiry', label: '線上諮詢' },
