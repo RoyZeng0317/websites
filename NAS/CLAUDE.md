@@ -129,3 +129,14 @@ VITE_FIREBASE_* (Firebase config for hosting/auth)
 - **Backend is ESM** — no `require()`, no CommonJS patterns.
 - **Firebase deploy must be run from `frontend/`** — the `firebase.json` is there and `dist/` is the public dir.
 - **`vite.config.ts` sets `root: 'src'`** — so `npm run build` must be run from `frontend/`, not `frontend/src/`.
+
+
+## Good at
+1. Has code server at the NAS, you can use the vscode at NAS.
+## To do list
+[X] pm2 still can't auto update, it's still kill the server.js at pi 5 backend.
+[X] create a actions log.
+## Problem Detial
+1. pm2
+Detial: From my opinion, it's should be the server.js this file is key point problem, I'm try use the terminal key the ssh to connect the pi 5, key the "pm2 update" this command can restart the casaos-nas this backend server.
+When I click the update button, wait almost 15 second, the pm2 "casaos-nas" this backend server will be kill, the frontned said:"Failed to load."

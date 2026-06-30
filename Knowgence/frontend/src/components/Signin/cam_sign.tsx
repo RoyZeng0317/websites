@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
 import { doc, setDoc, onSnapshot, updateDoc, Timestamp } from 'firebase/firestore'
-import { db } from '../../src/firebase'
+import { db } from '../../firebase'
 
 const QR_QUOTA = 5
 

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import AuthControls from '../components/AuthControls'
-import Login, { getStoredUser } from '../components/Login'
-import type { AuthUser } from '../components/Login'
+import AuthControls from './components/AuthControls'
+import Login, { getStoredUser } from './components/Login'
+import type { AuthUser } from './components/Login'
 import HomePage from './pages/HomePage'
 import StudentPage from './pages/StudentPage'
 

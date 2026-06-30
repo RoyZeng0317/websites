@@ -3,7 +3,7 @@ import {
   collection, query, where, getDocs, updateDoc, doc, increment
 } from 'firebase/firestore'
 import { db } from '../firebase'
-import type { AuthUser } from '../../components/Login'
+import type { AuthUser } from '../components/Login'
 
 export default function StudentPage({ user }: { user: AuthUser }) {
   return (

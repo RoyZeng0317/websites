@@ -13,7 +13,6 @@ import FileDetailPanel from './FileDetailPanel'
 import QueuePanel from './QueuePanel'
 import ImageViewer from './viewers/ImageViewer'
 import VideoPlayer from './viewers/VideoPlayer'
-import AudioPlayer from './viewers/AudioPlayer'
 import TextEditor from './viewers/TextEditor'
 import PDFview from './viewers/PDFview'
 import SearchBar from './SearchBar'
@@ -225,6 +224,7 @@ export default function Home() {
   const [favorites, setFavorites] = useState<string[]>([])
   const [showPhoto, setShowPhoto] = useState(false)
   const [showMusic, setShowMusic] = useState(false)
+  const [musicInitFile, setMusicInitFile] = useState<{ dir: string; name: string } | undefined>()
   const [officeWorkspace, setOfficeWorkspace] = useState<{ initialDocument?: OfficeDocument } | null>(null)
   const [mountedDrives, setMountedDrives] = useState<FileItem[]>([])
 
@@ -313,7 +313,7 @@ export default function Home() {
     const cat = getCategory(item.name, false)
     if (cat === 'image') { setViewItem({ ...item }); setViewerType('image'); return }
     if (cat === 'video') { setViewItem({ ...item }); setViewerType('video'); return }
-    if (cat === 'audio') { setViewItem({ ...item }); setViewerType('audio'); return }
+    if (cat === 'audio') { setMusicInitFile({ dir: currentPath, name: item.name }); setShowMusic(true); return }
     if (cat === 'pdf') { setViewItem({ ...item }); setViewerType('pdf'); return }
     if (cat === 'text' || cat === 'code') { setViewItem({ ...item }); setViewerType('text'); return }
     if (isOfficeCategory(cat)) { openOfficeWorkspace(item); return }
@@ -1525,7 +1525,6 @@ export default function Home() {
           }}
         />
       )}
-
       {/* Viewers / Players */}
       {viewItem && viewerType === 'image' && (
         <ImageViewer
@@ -1543,13 +1542,7 @@ export default function Home() {
           onClose={closeViewer}
         />
       )}
-      {viewItem && viewerType === 'audio' && (
-        <AudioPlayer
-          src={downloadUrl(currentPath ? `${currentPath}/${viewItem.name}` : viewItem.name)}
-          name={viewItem.name}
-          onClose={closeViewer}
-        />
-      )}
+
       {viewItem && viewerType === 'text' && (
         <TextEditor
           filePath={currentPath ? `${currentPath}/${viewItem.name}` : viewItem.name}
@@ -1581,7 +1574,7 @@ export default function Home() {
         />
       )}
       {showPhoto && <PhotoApp onClose={() => setShowPhoto(false)} />}
-      {showMusic && <MusicApp onClose={() => setShowMusic(false)} />}
+      {showMusic && <MusicApp onClose={() => { setShowMusic(false); setMusicInitFile(undefined) }} initialFile={musicInitFile} />}
       {showLocker    && <Locker        onClose={() => setShowLocker(false)}    />}
       {showReels     && <Reels         onClose={() => setShowReels(false)}     />}
       {showTelegram  && <TelegramReels onClose={() => setShowTelegram(false)}  />}

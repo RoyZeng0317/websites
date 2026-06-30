@@ -2650,13 +2650,24 @@ async function runUpdateTask(task) {
 
   if (targets.has('apt')) {
     try {
-      parts.push('[系統套件] ' + await run('sudo -n apt-get update -qq && sudo -n apt-get upgrade -y 2>&1', 300_000))
+      parts.push('[系統套件] ' + await run('sudo -n apt-get update -qq && sudo -n apt-get upgrade -y 2>&1', 200_000))
     } catch (e) { parts.push('[系統套件] 失敗：' + String(e.message).slice(-200)) }
   }
 
   if (targets.has('pm2')) {
     try {
-      parts.push('[pm2] ' + await run('npm install -g pm2@latest 2>&1 && pm2 update 2>&1', 120_000))
+      // pm2 update 會重啟 daemon 並殺死本 process，無法在同一個 execAsync 裡完成後續步驟。
+      // 解法：把更新腳本寫到 /tmp，用 nohup 在背景獨立執行，脫離 pm2 管理範圍。
+      const updateScript = [
+        '#!/bin/bash',
+        'pm2 update',
+        'pm2 start /home/roy/casaos-nas/server.js --name casaos-nas --cwd /home/roy/casaos-nas',
+        'pm2 save',
+        'pm2 logs casaos-nas --lines 5 --nostream',
+      ].join('\n')
+      await fs.writeFile('/tmp/vaultix_pm2_update.sh', updateScript, { mode: 0o755 })
+      await execAsync('nohup bash /tmp/vaultix_pm2_update.sh > /tmp/vaultix_pm2_update.log 2>&1 &')
+      parts.push('[pm2] 更新腳本已在背景啟動，約 10 秒後生效（日誌：/tmp/vaultix_pm2_update.log）')
     } catch (e) { parts.push('[pm2] 失敗：' + String(e.message).slice(-200)) }
   }
 
@@ -3395,4 +3406,18 @@ app.post('/api/ocr', authenticate, async (req, res) => {
 
 await initScheduler()
 
-server.listen(PORT, () => console.log(`CasaOS NAS backend running on port ${PORT}`))
+server.listen(PORT, () => {
+  console.log(`CasaOS NAS backend running on port ${PORT}`)
+  // 通知 pm2 此 process 已準備好接請求（配合 pm2 reload --wait-ready 使用）
+  if (process.send) process.send('ready')
+})
+
+// Graceful shutdown：讓 pm2 reload 能等現有請求跑完再殺舊 process
+process.on('SIGTERM', () => {
+  server.close(() => {
+    pool.end().catch(() => {})
+    process.exit(0)
+  })
+  // 最多等 8 秒，避免卡死
+  setTimeout(() => process.exit(0), 8000)
+})

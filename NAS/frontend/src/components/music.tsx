@@ -2,6 +2,109 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { apiJson, apiFetch } from '../lib/api'
 import { downloadUrl } from '../lib/api'
 
+// ── Lightweight inline ID3v2 parser (no external deps) ──────────────────────
+
+const ID3_GENRES = [
+  'Blues','Classic Rock','Country','Dance','Disco','Funk','Grunge','Hip-Hop','Jazz',
+  'Metal','New Age','Oldies','Other','Pop','R&B','Rap','Reggae','Rock','Techno',
+  'Industrial','Alternative','Ska','Death Metal','Pranks','Soundtrack','Euro-Techno',
+  'Ambient','Trip-Hop','Vocal','Jazz+Funk','Fusion','Trance','Classical','Instrumental',
+  'Acid','House','Game','Sound Clip','Gospel','Noise','AlternRock','Bass','Soul','Punk',
+  'Space','Meditative','Instrumental Pop','Instrumental Rock','Ethnic','Gothic','Darkwave',
+  'Techno-Industrial','Electronic','Pop-Folk','Eurodance','Dream','Southern Rock',
+  'Comedy','Cult','Gangsta','Top 40','Christian Rap','Pop/Funk','Jungle','Native US',
+  'Cabaret','New Wave','Psychadelic','Rave','Showtunes','Trailer','Lo-Fi','Tribal',
+  'Acid Punk','Acid Jazz','Polka','Retro','Musical','Rock & Roll','Hard Rock',
+]
+
+function readSyncsafe(view: DataView, offset: number): number {
+  return ((view.getUint8(offset) & 0x7f) << 21)
+    | ((view.getUint8(offset + 1) & 0x7f) << 14)
+    | ((view.getUint8(offset + 2) & 0x7f) << 7)
+    |  (view.getUint8(offset + 3) & 0x7f)
+}
+
+function id3DecodeText(data: Uint8Array): string {
+  if (!data.length) return ''
+  const enc = data[0], raw = data.slice(1)
+  try {
+    if (enc === 0) return new TextDecoder('iso-8859-1').decode(raw).replace(/\0/g, '').trim()
+    if (enc === 1) return new TextDecoder('utf-16').decode(raw).replace(/\0/g, '').trim()
+    if (enc === 2) return new TextDecoder('utf-16be').decode(raw).replace(/\0/g, '').trim()
+    return new TextDecoder('utf-8').decode(raw).replace(/\0/g, '').trim()
+  } catch { return '' }
+}
+
+function id3NullEnd(buf: Uint8Array, from: number, wide: boolean): number {
+  for (let i = from; i < buf.length - (wide ? 1 : 0); i += wide ? 2 : 1)
+    if (buf[i] === 0 && (!wide || buf[i + 1] === 0)) return i
+  return buf.length
+}
+
+interface ParsedID3 {
+  title?: string; artist?: string; album?: string
+  year?: string; genre?: string
+  cover?: { data: Uint8Array; mime: string }
+}
+
+function parseID3v2(buf: Uint8Array): ParsedID3 {
+  const r: ParsedID3 = {}
+  if (buf[0] !== 0x49 || buf[1] !== 0x44 || buf[2] !== 0x33) return r
+  const ver = buf[3]
+  if (ver < 2 || ver > 4) return r
+  const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
+  let off = 10
+  if (buf[5] & 0x40) off += (ver === 4 ? readSyncsafe(view, off) : view.getUint32(off))
+  const end = Math.min(10 + readSyncsafe(view, 6), buf.length)
+
+  while (off + (ver === 2 ? 6 : 10) <= end) {
+    let id: string, sz: number
+    if (ver === 2) {
+      id = String.fromCharCode(buf[off], buf[off + 1], buf[off + 2])
+      sz = (buf[off + 3] << 16) | (buf[off + 4] << 8) | buf[off + 5]
+      off += 6
+    } else {
+      id = String.fromCharCode(buf[off], buf[off + 1], buf[off + 2], buf[off + 3])
+      sz = ver === 4 ? readSyncsafe(view, off + 4) : view.getUint32(off + 4)
+      off += 10
+    }
+    if (id[0] === '\0' || sz <= 0) break
+    const dEnd = Math.min(off + sz, end)
+    const d = buf.slice(off, dEnd)
+    off += sz
+
+    if (id === 'TIT2' || id === 'TT2') r.title  = id3DecodeText(d)
+    else if (id === 'TPE1' || id === 'TP1') r.artist = id3DecodeText(d)
+    else if (id === 'TALB' || id === 'TAL') r.album  = id3DecodeText(d)
+    else if (['TYER','TYE','TDRC','TDA'].includes(id))
+      r.year = id3DecodeText(d).slice(0, 4)
+    else if (id === 'TCON' || id === 'TCO') {
+      let g = id3DecodeText(d)
+      g = g.replace(/^\((\d+)\).*/, (_, n) => ID3_GENRES[+n] ?? g)
+      r.genre = g
+    }
+    else if ((id === 'APIC' || id === 'PIC') && !r.cover && dEnd > off - sz + 4) {
+      const enc = d[0]; const wide = enc === 1 || enc === 2
+      let mime: string, afterMime: number
+      if (id === 'APIC') {
+        const me = d.indexOf(0, 1)
+        mime = new TextDecoder().decode(d.slice(1, me < 0 ? d.length : me))
+        afterMime = (me < 0 ? d.length : me) + 2  // skip null + pictype
+      } else {
+        mime = `image/${String.fromCharCode(d[1], d[2], d[3]).toLowerCase().replace('jpg', 'jpeg')}`
+        afterMime = 5  // 1 enc + 3 format + 1 pictype
+      }
+      const descEnd = id3NullEnd(d, afterMime, wide)
+      const imgStart = descEnd + (wide ? 2 : 1)
+      if (imgStart < d.length)
+        r.cover = { data: d.slice(imgStart), mime: mime.includes('/') ? mime : `image/${mime}` }
+    }
+  }
+  return r
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+
 interface FileItem {
   name: string
   type: 'file' | 'folder'
@@ -24,6 +127,7 @@ interface SongMeta {
 
 interface Props {
   onClose: () => void
+  initialFile?: { dir: string; name: string }
 }
 
 const AUDIO_EXTS = new Set(['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'opus', 'wma'])
@@ -92,7 +196,7 @@ function parseLrc(text: string): LyricLine[] {
   return lines
 }
 
-export default function MusicApp({ onClose }: Props) {
+export default function MusicApp({ onClose, initialFile }: Props) {
   const [path, setPath] = useState('')
   const [items, setItems] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -122,6 +226,7 @@ export default function MusicApp({ onClose }: Props) {
   const [songMeta, setSongMeta] = useState<SongMeta | null>(null)
   const [coverUrl, setCoverUrl] = useState<string | null>(null)
   const [metaLoading, setMetaLoading] = useState(false)
+  const [pendingPlay, setPendingPlay] = useState<string | null>(null)
 
   const load = useCallback(async (dir: string) => {
     setLoading(true)
@@ -218,6 +323,22 @@ export default function MusicApp({ onClose }: Props) {
   const pairRef = useRef({ pairMode: false, pairIdx: 0, pairLinesLen: 0 })
   useEffect(() => { pairRef.current = { pairMode, pairIdx, pairLinesLen: pairLines.length } }, [pairMode, pairIdx, pairLines.length])
 
+  // Auto-play when opened by clicking an audio file
+  useEffect(() => {
+    if (initialFile) {
+      setPath(initialFile.dir)
+      setPendingPlay(initialFile.name)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (!pendingPlay || loading) return
+    const idx = tracks.findIndex(t => t.name === pendingPlay)
+    if (idx >= 0) { playTrack(idx); setPendingPlay(null) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tracks, pendingPlay, loading])
+
   function trackPath(index: number) {
     const name = tracks[index]?.name
     if (!name) return ''
@@ -255,18 +376,46 @@ export default function MusicApp({ onClose }: Props) {
     const tp = trackPath(index)
     if (!tp) { setMetaLoading(false); return }
     try {
-      const [meta, coverRes] = await Promise.all([
-        apiJson<SongMeta>(`/api/music/metadata?path=${encodeURIComponent(tp)}`).catch(() => null),
-        apiFetch(`/api/music/cover?path=${encodeURIComponent(tp)}`).catch(() => null),
-      ])
-      setSongMeta(meta)
-      if (coverRes?.ok) {
-        const blob = await coverRes.blob()
-        setCoverUrl(URL.createObjectURL(blob))
+      // Plain GET — no custom headers so no CORS preflight
+      const res = await fetch(downloadUrl(tp))
+      if (!res.ok || !res.body) return
+
+      // Stream-read only the first 1 MB then cancel the download
+      const reader = res.body.getReader()
+      const LIMIT = 1024 * 1024
+      const chunks: Uint8Array[] = []
+      let total = 0
+      while (total < LIMIT) {
+        const { done, value } = await reader.read()
+        if (done || !value) break
+        chunks.push(value)
+        total += value.length
       }
-    } finally {
-      setMetaLoading(false)
-    }
+      reader.cancel().catch(() => {})
+
+      const buf = new Uint8Array(Math.min(total, LIMIT))
+      let off = 0
+      for (const chunk of chunks) {
+        const take = Math.min(chunk.length, LIMIT - off)
+        buf.set(chunk.slice(0, take), off)
+        off += take
+        if (off >= LIMIT) break
+      }
+
+      const parsed = parseID3v2(buf)
+      setSongMeta({
+        title:  parsed.title  || null,
+        artist: parsed.artist || null,
+        album:  parsed.album  || null,
+        year:   parsed.year ? parseInt(parsed.year) || null : null,
+        genre:  parsed.genre  || null,
+      })
+      if (parsed.cover) {
+        const imgBlob = new Blob([parsed.cover.data], { type: parsed.cover.mime })
+        setCoverUrl(URL.createObjectURL(imgBlob))
+      }
+    } catch { /* no tags */ }
+    finally { setMetaLoading(false) }
   }
 
   function playTrack(index: number) {

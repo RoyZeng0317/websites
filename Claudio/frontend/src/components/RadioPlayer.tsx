@@ -88,6 +88,13 @@ export function RadioPlayer({
         preload="metadata"
       />
 
+      {song && (
+        <div className="player-song-info">
+          <p className="player-song-title">{song.name}</p>
+          {song.artist && <p className="player-song-artist">{song.artist}</p>}
+        </div>
+      )}
+
       <div
         className="progress-track"
         ref={progressRef}

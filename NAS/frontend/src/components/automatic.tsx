@@ -22,7 +22,7 @@ interface Task {
 
 const UPDATE_TARGETS = [
   { key: 'apt',      label: 'System Packages',  desc: 'apt-get upgrade (all packages)' },
-  { key: 'pm2',      label: 'PM2',              desc: 'npm install pm2@latest' },
+  { key: 'pm2',      label: 'PM2',              desc: 'pm2 update（in-place daemon 更新，不中斷服務）' },
   { key: 'nginx',    label: 'Nginx',            desc: 'Upgrade packages and reload config' },
   { key: 'fail2ban', label: 'Fail2ban',         desc: 'Upgrade packages and restart service' },
   { key: 'mariadb',  label: 'MariaDB',          desc: 'Upgrade mariadb-server package' },

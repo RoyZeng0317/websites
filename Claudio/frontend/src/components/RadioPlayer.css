@@ -5,6 +5,31 @@
   gap: 14px;
 }
 
+/* Song info */
+.player-song-info {
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+.player-song-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.player-song-artist {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Progress */
 .progress-track {
   position: relative;

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import CamSign from '../../components/Signin/cam_sign'
-import NumSign from '../../components/Signin/num_sign'
+import CamSign from '../components/Signin/cam_sign'
+import NumSign from '../components/Signin/num_sign'
 
 type Tab = 'qr' | 'num'
 

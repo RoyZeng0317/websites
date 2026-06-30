@@ -26,7 +26,7 @@ export function NowPlaying({ song, playing }: Props) {
             src={song.albumArt}
             alt={song.name}
             className="album-img"
-            crossOrigin="anonymous"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
           />
         )}
 
