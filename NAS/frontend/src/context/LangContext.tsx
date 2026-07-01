@@ -237,6 +237,12 @@ export interface Translations {
   quartusModelsimSub: string
   quartusDesignTool: string
   quartusInstallNote: string
+  // Quick Folders
+  quickFolders: string
+  quickFoldersDesc: string
+  quickFoldersDone: (n: number) => string
+  quickFoldersFail: string
+  quickFoldersExist: string
 }
 
 const zh: Translations = {
@@ -463,6 +469,11 @@ const zh: Translations = {
   quartusModelsimSub: 'intel.com — FPGA 功能模擬工具',
   quartusDesignTool: 'FPGA / CPLD 設計工具',
   quartusInstallNote: 'Quartus Prime 需在本機安裝，點擊連結前往官網下載',
+  quickFolders: '快速建立資料夾',
+  quickFoldersDesc: '點擊即可在目前目錄建立常用資料夾',
+  quickFoldersDone: (n: any) => `已建立 ${n} 個資料夾`,
+  quickFoldersFail: '部分資料夾建立失敗',
+  quickFoldersExist: '（已存在的跳過）',
 }
 
 const en: Translations = {
@@ -689,6 +700,11 @@ const en: Translations = {
   quartusModelsimSub: 'intel.com — FPGA functional simulation tool',
   quartusDesignTool: 'FPGA / CPLD design tool',
   quartusInstallNote: 'Quartus Prime must be installed locally — click a link to download from the official site',
+  quickFolders: 'Quick Create Folders',
+  quickFoldersDesc: 'Click to create common folders in the current directory',
+  quickFoldersDone: (n: any) => `Created ${n} folder(s)`,
+  quickFoldersFail: 'Some folders could not be created',
+  quickFoldersExist: '(existing ones skipped)',
 }
 
 const DICT: Record<Lang, Translations> = { zh, en }
