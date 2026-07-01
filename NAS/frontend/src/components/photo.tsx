@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiJson, downloadUrl } from '../lib/api'
 import MetaPanel from './viewers/MetaPanel'
+import FolderSidebar from './FolderSidebar'
 
 interface FileItem {
   name: string
@@ -75,7 +76,7 @@ export default function PhotoApp({ onClose }: Props) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
               d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
           </svg>
-          <h2 className="text-base font-bold text-white">Photos</h2>
+          <h2 className="text-base font-bold text-white">Photo</h2>
           <nav className="flex items-center gap-1.5 text-sm text-gray-400 ml-2 min-w-0">
             <button onClick={() => setPath('')} className="hover:text-white shrink-0">All Photos</button>
             {path.split('/').filter(Boolean).map((part, i, arr) => (
@@ -106,37 +107,25 @@ export default function PhotoApp({ onClose }: Props) {
         </div>
       </div>
 
-      {/* Content grid */}
-      <div className="flex-1 overflow-y-auto p-5">
+      {/* Body: left folder explorer + right photo grid */}
+      <div className="flex-1 flex min-h-0">
+        <FolderSidebar
+          folders={folders}
+          onOpenFolder={openFolder}
+          canGoUp={!!path}
+          onGoUp={goBack}
+          accent="text-green-400"
+          label="Folders"
+        />
+        <div className="flex-1 overflow-y-auto p-5">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="w-8 h-8 border-4 border-green-400 border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : (
           <>
-            {folders.length > 0 && (
-              <div className="mb-6">
-                <p className="text-xs text-gray-600 uppercase tracking-wider mb-3">Folders</p>
-                <div className="flex flex-wrap gap-2">
-                  {folders.map(f => (
-                    <button key={f.name} onClick={() => openFolder(f.name)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700">
-                      <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                          d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"/>
-                      </svg>
-                      <span className="text-sm text-gray-200">{f.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {photos.length > 0 ? (
               <div>
-                {folders.length > 0 && (
-                  <p className="text-xs text-gray-600 uppercase tracking-wider mb-3">Photos</p>
-                )}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                   {photos.map((p, i) => (
                     <button key={p.name} onClick={() => { setViewIdx(i); setShowInfo(false) }}
@@ -154,7 +143,7 @@ export default function PhotoApp({ onClose }: Props) {
                   ))}
                 </div>
               </div>
-            ) : folders.length === 0 ? (
+            ) : (
               <div className="flex flex-col items-center justify-center py-20 text-gray-500 gap-2">
                 <svg className="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
@@ -162,9 +151,10 @@ export default function PhotoApp({ onClose }: Props) {
                 </svg>
                 <p className="text-sm">No photos in this folder</p>
               </div>
-            ) : null}
+            )}
           </>
         )}
+        </div>
       </div>
 
       {/* ── Full-screen viewer ── */}

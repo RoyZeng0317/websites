@@ -23,11 +23,12 @@ interface RowProps {
   progress: number
   status: TaskStatus
   error?: string
+  retries?: number
   type: 'upload' | 'download'
   onCancel: () => void
 }
 
-function TaskRow({ name, progress, status, error, type, onCancel }: RowProps) {
+function TaskRow({ name, progress, status, error, retries, type, onCancel }: RowProps) {
   const active = status === 'running' || status === 'pending'
   return (
     <div className="flex items-center gap-2 py-2 px-3 border-b border-gray-800 last:border-0">
@@ -51,6 +52,9 @@ function TaskRow({ name, progress, status, error, type, onCancel }: RowProps) {
             </div>
             <span className="text-xs text-gray-600 shrink-0 w-8 text-right">{progress}%</span>
           </div>
+        )}
+        {status === 'pending' && retries !== undefined && retries > 0 && (
+          <p className="text-xs text-yellow-400 mt-0.5">Retrying ({retries}/3)…</p>
         )}
         {status === 'error' && (
           <p className="text-xs text-red-400 truncate mt-0.5">{error ?? 'Failed'}</p>
@@ -136,6 +140,7 @@ export default function QueuePanel({ uploads, downloads, onCancelUpload, onCance
               progress={t.progress}
               status={t.status}
               error={t.error}
+              retries={t.retries}
               type="upload"
               onCancel={() => onCancelUpload(t.id)}
             />

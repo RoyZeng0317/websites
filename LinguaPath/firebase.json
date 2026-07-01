@@ -13,11 +13,25 @@
       "eslint.config.js"
     ],
     "rewrites": [
-      {
-        "source": "/dist/**",
-        "destination": "/dist/index.html"
-      }
+      { "source": "/api/game*",       "function": "game" },
+      { "source": "/api/game/**",     "function": "game" },
+      { "source": "/vocabulary",      "destination": "/dist/index.html" },
+      { "source": "/vocabulary.html", "destination": "/dist/index.html" },
+      { "source": "/listening",       "destination": "/dist/index.html" },
+      { "source": "/listening.html",  "destination": "/dist/index.html" },
+      { "source": "/news",            "destination": "/dist/index.html" },
+      { "source": "/news.html",       "destination": "/dist/index.html" },
+      { "source": "/lesson",          "destination": "/dist/index.html" },
+      { "source": "/lesson.html",     "destination": "/dist/index.html" },
+      { "source": "/pay",             "destination": "/dist/index.html" },
+      { "source": "/pay.html",        "destination": "/dist/index.html" },
+      { "source": "/path",            "destination": "/dist/index.html" },
+      { "source": "/path.html",       "destination": "/dist/index.html" },
+      { "source": "/dist/**",         "destination": "/dist/index.html" }
     ]
+  },
+  "functions": {
+    "source": "functions"
   },
   "firestore": {
     "database": "default",

@@ -1,6 +1,29 @@
-const BACKEND = import.meta.env.VITE_BACKEND_URL
+const DEFAULT_BACKEND = import.meta.env.VITE_BACKEND_URL
+const BACKEND_KEY = 'nas_backend'   // QuickConnect override (VaultixID → resolved URL)
 
 const TOKEN_KEY = 'nas_jwt'
+
+// Active backend base URL: a QuickConnect-resolved override wins, else the build-time default.
+export function backendBase(): string {
+  return localStorage.getItem(BACKEND_KEY) || DEFAULT_BACKEND
+}
+
+export function setBackend(url: string) {
+  localStorage.setItem(BACKEND_KEY, url)
+}
+
+export function clearBackend() {
+  localStorage.removeItem(BACKEND_KEY)
+}
+
+// Resolve a VaultixID (QuickConnect ID) to its NAS backend URL + owning username.
+// Always queries the build-time default backend (acts as the directory/broker).
+export async function resolveVaultixId(id: string): Promise<{ backendUrl: string; username: string }> {
+  const res = await fetch(`${DEFAULT_BACKEND}/api/vaultix/resolve?id=${encodeURIComponent(id)}`)
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error((data as { error?: string }).error ?? `找不到此 Vaultix ID`)
+  return data as { backendUrl: string; username: string }
+}
 
 export function getToken(): string {
   return localStorage.getItem(TOKEN_KEY) ?? ''
@@ -15,7 +38,7 @@ export function clearToken() {
 }
 
 export async function apiFetch(url: string, options: RequestInit = {}): Promise<Response> {
-  const res = await fetch(`${BACKEND}${url}`, {
+  const res = await fetch(`${backendBase()}${url}`, {
     ...options,
     headers: {
       ...(options.headers ?? {}),
@@ -46,7 +69,7 @@ export function apiUpload(
   let xhr!: XMLHttpRequest
   const promise = new Promise<void>((resolve, reject) => {
     xhr = new XMLHttpRequest()
-    xhr.open('POST', `${BACKEND}${url}`)
+    xhr.open('POST', `${backendBase()}${url}`)
     xhr.setRequestHeader('Authorization', `Bearer ${getToken()}`)
     xhr.upload.onprogress = e => {
       if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100))
@@ -58,7 +81,7 @@ export function apiUpload(
         reject(new Error(data.error ?? 'Upload failed'))
       }
     }
-    xhr.onerror = () => reject(new Error('Network error'))
+    xhr.onerror = () => reject(new Error('Connection dropped — check Pi disk space or file size'))
     xhr.onabort = () => {
       const err = new Error('canceled')
       err.name = 'AbortError'
@@ -109,5 +132,5 @@ export function apiDownload(
 }
 
 export function downloadUrl(filePath: string): string {
-  return `${BACKEND}/api/files/download?path=${encodeURIComponent(filePath)}&token=${getToken()}`
+  return `${backendBase()}/api/files/download?path=${encodeURIComponent(filePath)}&token=${getToken()}`
 }

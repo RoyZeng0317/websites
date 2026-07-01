@@ -1,11 +1,13 @@
+import { useLang, type Translations } from '../context/LangContext'
+
 interface Props {
   onClose: () => void
 }
 
-const LINKS = [
+const buildLinks = (t: Translations) => [
   {
-    label: 'Quartus Prime 下載',
-    sub: 'intel.com — 下載 Lite / Standard / Pro 版本',
+    label: t.quartusDownload,
+    sub: t.quartusDownloadSub,
     url: 'https://www.intel.com/content/www/us/en/products/details/fpga/development-tools/quartus-prime/downloads.html',
     primary: true,
     icon: (
@@ -16,8 +18,8 @@ const LINKS = [
     ),
   },
   {
-    label: 'Intel FPGA 文件中心',
-    sub: 'intel.com — Quartus 使用手冊 & 技術文件',
+    label: t.quartusDocs,
+    sub: t.quartusDocsSub,
     url: 'https://www.intel.com/content/www/us/en/docs/programmable/683472/current/introduction-to-quartus-prime.html',
     primary: false,
     icon: (
@@ -28,8 +30,8 @@ const LINKS = [
     ),
   },
   {
-    label: 'Intel FPGA 社群論壇',
-    sub: 'community.intel.com — 技術支援 & 討論',
+    label: t.quartusForum,
+    sub: t.quartusForumSub,
     url: 'https://community.intel.com/t5/Intel-Quartus-Prime-Software/bd-p/quartus-prime-software',
     primary: false,
     icon: (
@@ -40,8 +42,8 @@ const LINKS = [
     ),
   },
   {
-    label: 'ModelSim 模擬器',
-    sub: 'intel.com — FPGA 功能模擬工具',
+    label: t.quartusModelsim,
+    sub: t.quartusModelsimSub,
     url: 'https://www.intel.com/content/www/us/en/software-kit/750368/modelsim-intel-fpgas-standard-edition-software-version-18-1.html',
     primary: false,
     icon: (
@@ -54,6 +56,8 @@ const LINKS = [
 ]
 
 export default function QuartusPanel({ onClose }: Props) {
+  const { t } = useLang()
+  const LINKS = buildLinks(t)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
       onClick={onClose}>
@@ -72,7 +76,7 @@ export default function QuartusPanel({ onClose }: Props) {
             </div>
             <div>
               <p className="text-white font-semibold">Intel Quartus Prime</p>
-              <p className="text-gray-500 text-xs">FPGA / CPLD 設計工具</p>
+              <p className="text-gray-500 text-xs">{t.quartusDesignTool}</p>
             </div>
           </div>
           <button onClick={onClose}
@@ -112,7 +116,7 @@ export default function QuartusPanel({ onClose }: Props) {
 
         <div className="px-5 pb-4">
           <p className="text-xs text-gray-600 text-center">
-            Quartus Prime 需在本機安裝，點擊連結前往官網下載
+            {t.quartusInstallNote}
           </p>
         </div>
       </div>

@@ -6,12 +6,11 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { apiJson, apiFetch, apiUpload, apiDownload, downloadUrl } from '../lib/api'
 import { loadPrefs, savePrefs } from '../lib/prefs'
-import { getCategory, isOfficeCategory, type FileCategory } from '../lib/fileTypes'
+import { getCategory, isOfficeCategory, folderDisplayName, type FileCategory } from '../lib/fileTypes'
 import type { UploadTask, DownloadTask } from '../lib/transferTypes'
 import ShareDialog from './ShareDialog'
 import FileDetailPanel from './FileDetailPanel'
 import QueuePanel from './QueuePanel'
-import ImageViewer from './viewers/ImageViewer'
 import VideoPlayer from './viewers/VideoPlayer'
 import TextEditor from './viewers/TextEditor'
 import PDFview from './viewers/PDFview'
@@ -21,6 +20,7 @@ import AppLauncher from './AppLauncher'
 import VaultixMenu from './VaultixMenu'
 import NetworkWidget from './widgets/NetworkWidget'
 import DiskWidget from './widgets/DiskWidget'
+import UfwWidget from './widgets/ufwWidget'
 import StorageManager from './StorageManager'
 import StorageUsage from './StorageUsage'
 import TrashPanel from './TrashPanel'
@@ -28,6 +28,7 @@ import Sidebar from './Sidebar'
 import UserManager from './UserManager'
 import PhotoApp from './photo'
 import MusicApp from './music'
+import VideoApp from './VideoApp'
 import UserProfilePanel from './UserProfilePanel'
 import OfficeCollabWorkspace, { type OfficeDocument } from './OfficeCollabWorkspace'
 import AutomaticPanel from './automatic'
@@ -53,6 +54,7 @@ import Circuit from './Circuit'
 import SnapshotPanel from './SnapshotPanel'
 import ExtraFilePanel from './extrafile'
 import UpsPanel from './ups'
+import VaultixID from './VaultixID'
 
 
 interface FileItem {
@@ -63,7 +65,7 @@ interface FileItem {
   isMount?: boolean
 }
 
-type ViewerType = 'image' | 'video' | 'audio' | 'text' | 'pdf' | null
+type ViewerType = 'video' | 'text' | 'pdf' | null
 
 type SortField = 'name' | 'size' | 'modified'
 type SortDir = 'asc' | 'desc'
@@ -165,7 +167,7 @@ async function collectEntries(
 
 export default function Home() {
   const { user } = useAuth()
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
   const [pathSegments, setPathSegments] = useState<string[]>(() => {
     // Restore path from URL query param (supports "open in new window")
@@ -180,6 +182,8 @@ export default function Home() {
   const [sortField, setSortField] = useState<SortField>('name')
   const [sortDir, setSortDir] = useState<SortDir>('asc')
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
+  // File-list clipboard for Ctrl+C / Ctrl+V (copy)
+  const [clipboard, setClipboard] = useState<{ dir: string; names: string[] } | null>(null)
   const selAnchorRef = useRef<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const folderInputRef = useRef<HTMLInputElement>(null)
@@ -189,8 +193,42 @@ export default function Home() {
   const [viewItem, setViewItem] = useState<FileItem | null>(null)
   const [viewerType, setViewerType] = useState<ViewerType>(null)
   const [showTerminal, setShowTerminal] = useState(false)
+  const [pendingOpenName, setPendingOpenName] = useState<string | null>(null)
+  // Terminal → app bridge. Handles "Put back" (new-tab) plus the `explorer <path>` and
+  // `*.app` commands, which post here so the main window navigates / opens the viewer.
+  useEffect(() => {
+    const ch = new BroadcastChannel('nas-terminal-bus')
+    ch.onmessage = e => {
+      const msg = e.data as { type?: string; app?: string; path?: string }
+      if (msg?.type === 'new-tab') { setShowTerminal(true); return }
+      if (msg?.type === 'open-app' && msg.app) { handleLaunchBuiltin(msg.app); return }
+      if (msg?.type === 'open-path') {
+        const raw = String(msg.path || '').replace(/\\/g, '/').replace(/^\/+|\/+$/g, '')
+        if (!raw) return
+        const last = raw.split('/').pop() || ''
+        const isFile = /\.[^./]+$/.test(last)   // has a file extension
+        if (isFile) {
+          const idx = raw.lastIndexOf('/')
+          setPathSegments(idx === -1 ? [] : raw.slice(0, idx).split('/'))
+          setPendingOpenName(last)
+        } else {
+          setPathSegments(raw.split('/'))
+        }
+      }
+    }
+    return () => ch.close()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  // Once the folder from an `explorer <file>` command has loaded, open the file.
+  useEffect(() => {
+    if (!pendingOpenName) return
+    const item = items.find(i => i.name === pendingOpenName && i.type === 'file')
+    if (item) { openFile(item); setPendingOpenName(null) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, pendingOpenName])
   const [showApps, setShowApps] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
+  const [showSidebar, setShowSidebar] = useState(false)  // mobile sidebar drawer (≤480px)
   const [showNet, setShowNet] = useState(false)
   const [showDisk, setShowDisk] = useState(false)
   const [showStorage, setShowStorage] = useState(false)
@@ -220,10 +258,12 @@ export default function Home() {
   const [showSnapshots, setShowSnapshots] = useState(false)
   const [showExtraFile, setShowExtraFile] = useState(false)
   const [showUps, setShowUps] = useState(false)
+  const [showVaultixID, setShowVaultixID] = useState(false)
   const [snapshotFilterPath, setSnapshotFilterPath] = useState<string | undefined>(undefined)
   const [favorites, setFavorites] = useState<string[]>([])
   const [showPhoto, setShowPhoto] = useState(false)
   const [showMusic, setShowMusic] = useState(false)
+  const [showVideo, setShowVideo] = useState(false)
   const [musicInitFile, setMusicInitFile] = useState<{ dir: string; name: string } | undefined>()
   const [officeWorkspace, setOfficeWorkspace] = useState<{ initialDocument?: OfficeDocument } | null>(null)
   const [mountedDrives, setMountedDrives] = useState<FileItem[]>([])
@@ -311,7 +351,6 @@ export default function Home() {
   function openFile(item: FileItem) {
     const filePath = currentPath ? `${currentPath}/${item.name}` : item.name
     const cat = getCategory(item.name, false)
-    if (cat === 'image') { setViewItem({ ...item }); setViewerType('image'); return }
     if (cat === 'video') { setViewItem({ ...item }); setViewerType('video'); return }
     if (cat === 'audio') { setMusicInitFile({ dir: currentPath, name: item.name }); setShowMusic(true); return }
     if (cat === 'pdf') { setViewItem({ ...item }); setViewerType('pdf'); return }
@@ -366,8 +405,16 @@ export default function Home() {
         setUploadQueue(q => q.map(t2 => t2.id === task.id ? { ...t2, status: 'done', progress: 100, abort: undefined } : t2))
       })
       .catch((err: Error) => {
-        const status = err.name === 'AbortError' ? 'canceled' : 'error' as const
-        setUploadQueue(q => q.map(t2 => t2.id === task.id ? { ...t2, status, error: err.message, abort: undefined } : t2))
+        const retries = task.retries ?? 0
+        if (err.name !== 'AbortError' && retries < 3) {
+          setUploadQueue(q => q.map(t2 => t2.id === task.id
+            ? { ...t2, status: 'pending', progress: 0, abort: undefined, retries: retries + 1 }
+            : t2
+          ))
+        } else {
+          const status = err.name === 'AbortError' ? 'canceled' : 'error' as const
+          setUploadQueue(q => q.map(t2 => t2.id === task.id ? { ...t2, status, error: err.message, abort: undefined } : t2))
+        }
       })
   }, [uploadQueue])
 
@@ -501,14 +548,35 @@ export default function Home() {
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       const tag = (e.target as HTMLElement)?.tagName
-      if (e.key === 'Delete' && tag !== 'INPUT' && tag !== 'TEXTAREA' && selectedItems.size > 0) {
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
+      if (e.key === 'Delete' && selectedItems.size > 0) {
         handleDeleteSelected()
+        return
+      }
+      // F2 — rename the single selected item
+      if (e.key === 'F2' && selectedItems.size === 1) {
+        const name = [...selectedItems][0]
+        const item = items.find(i => i.name === name)
+        if (item) openRename(item)
+        return
+      }
+      // Ctrl/Cmd+C — copy selection to clipboard
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C') && selectedItems.size > 0) {
+        setClipboard({ dir: currentPath, names: [...selectedItems] })
+        toast.success(`已複製 ${selectedItems.size} 個項目`)
+        return
+      }
+      // Ctrl/Cmd+V — paste clipboard into current folder
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V') && clipboard) {
+        e.preventDefault()
+        handlePasteClipboard()
+        return
       }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItems])
+  }, [selectedItems, clipboard, items, currentPath])
 
   function uploadByDirectory(entries: Array<{ file: File; relPath: string }>) {
     const tasks = entries.map(({ file, relPath }) => ({
@@ -756,6 +824,27 @@ export default function Home() {
     }
   }
 
+  // Paste the clipboard items (copy) into the current folder — used by Ctrl+V
+  async function handlePasteClipboard() {
+    if (!clipboard || clipboard.names.length === 0) return
+    let ok = 0, fail = 0
+    for (const name of clipboard.names) {
+      const from = clipboard.dir ? `${clipboard.dir}/${name}` : name
+      const to = currentPath ? `${currentPath}/${name}` : name
+      try {
+        await apiJson('/api/files/copy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from, to }),
+        })
+        ok++
+      } catch { fail++ }
+    }
+    if (ok) toast.success(`已貼上 ${ok} 個項目`)
+    if (fail) toast.error(`${fail} 個項目貼上失敗`)
+    await loadItems()
+  }
+
   async function handleNewFolder() {
     const name = prompt(t.folderNamePrompt)?.trim()
     if (!name) return
@@ -790,6 +879,7 @@ export default function Home() {
     if (id === 'terminal') { setShowTerminal(true); return }
     if (id === 'photo') { setShowPhoto(true); return }
     if (id === 'music') { setShowMusic(true); return }
+    if (id === 'video') { setShowVideo(true); return }
     if (id === 'locker')    { setShowLocker(true);   return }
     if (id === 'reels')     { setShowReels(true);    return }
     if (id === 'telegram')  { setShowTelegram(true); return }
@@ -803,10 +893,8 @@ export default function Home() {
     if (id === 'todo')      { setShowTodo(true); return }
     if (id === 'editvideo')    { setEditVideoPath('__browse__'); return }
     if (id === 'fileconvert') { setShowFileConverter(true); return }
+    if (id === 'vaultixid')  { setShowVaultixID(true); return }
     const hints: Record<string, string> = {
-      video: '請在檔案列表中點擊影片檔案（MP4、MKV 等）開啟播放器',
-      audio: '請在檔案列表中點擊音樂檔案（MP3、FLAC 等）開啟播放器',
-      image: '請在檔案列表中點擊圖片檔案（JPG、PNG 等）開啟查看器',
       editor: '請在檔案列表中點擊文字或程式碼檔案開啟編輯器',
       pdf: '請在檔案列表中點擊 PDF 檔案開啟閱讀器',
     }
@@ -845,7 +933,7 @@ export default function Home() {
     >
       <div className="absolute inset-0 bg-gray-900/40 pointer-events-none" />
       {/* Header */}
-      <header className="flex items-center justify-between px-4 py-3 border-b border-gray-700/60 bg-gray-900/60 backdrop-blur-md relative z-30">
+      <header className="flex items-center justify-between px-4 py-3 border-b border-gray-700/60 bg-gray-900/60 backdrop-blur-md relative z-30 max-[480px]:px-2 max-[480px]:py-2 max-[480px]:flex-wrap max-[480px]:gap-y-2">
         {/* Left: Vaultix menu button + title */}
         <div className="flex items-center gap-2 relative shrink-0">
           <button
@@ -866,7 +954,7 @@ export default function Home() {
               <rect x="14"   y="14"   width="4" height="4" rx="1.2"/>
             </svg>
           </button>
-          <h1 className="text-base font-bold text-orange-400 tracking-tight">{t.appName}</h1>
+          <h1 className="text-base font-bold text-orange-400 tracking-tight max-[480px]:hidden">{t.appName}</h1>
 
           {showMenu && (
             <VaultixMenu
@@ -885,10 +973,10 @@ export default function Home() {
             />
           )}
         </div>
-        <div className="flex-1 mx-4 max-w-md">
+        <div className="flex-1 mx-4 max-w-md max-[480px]:order-last max-[480px]:w-full max-[480px]:flex-none max-[480px]:max-w-none max-[480px]:mx-0">
           <SearchBar onNavigate={path => setPathSegments(path ? path.split('/').filter(Boolean) : [])} />
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 max-[480px]:gap-1.5 max-[480px]:flex-1 max-[480px]:min-w-0 max-[480px]:overflow-x-auto max-[480px]:[&>*]:shrink-0">
           {/* Network speed widget toggle */}
           <button
             onClick={() => setShowNet(v => !v)}
@@ -910,6 +998,9 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
             </svg>
           </button>
+
+          {/* UFW status */}
+          <UfwWidget />
 
           {/* Trash */}
           <button
@@ -970,7 +1061,7 @@ export default function Home() {
           {/* Downloader (all users) */}
           <button
             onClick={() => setShowDownloader(true)}
-            title="媒體下載器"
+            title={t.mediaDownloader}
             className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
           >
             <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1033,7 +1124,7 @@ export default function Home() {
                       {(user.displayName || user.username).charAt(0).toUpperCase()}
                     </div>
                 }
-                <span className="text-sm text-gray-300 max-w-[100px] truncate">
+                <span className="text-sm text-gray-300 max-w-[100px] truncate max-[480px]:hidden">
                   {user.displayName || user.username}
                 </span>
               </button>
@@ -1041,7 +1132,7 @@ export default function Home() {
           })()}
           <button
             onClick={() => navigate('/settings')}
-            className="text-sm text-gray-400 hover:text-white transition-colors"
+            className="text-sm text-gray-400 hover:text-white transition-colors max-[480px]:text-xs"
           >
             {t.settingsNav}
           </button>
@@ -1049,9 +1140,16 @@ export default function Home() {
       </header>
 
       <div className="flex flex-1 overflow-hidden relative z-10">
+        {/* Mobile drawer backdrop */}
+        {showSidebar && (
+          <div
+            className="hidden max-[480px]:block fixed inset-0 z-40 bg-black/50"
+            onClick={() => setShowSidebar(false)}
+          />
+        )}
         <Sidebar
           currentPath={currentPath}
-          onNavigate={segs => setPathSegments(segs)}
+          onNavigate={segs => { setPathSegments(segs); setShowSidebar(false) }}
           mountedDrives={mountedDrives}
           isAdmin={user?.role === 'admin'}
           onOpenStorage={() => setShowStorage(true)}
@@ -1064,12 +1162,24 @@ export default function Home() {
           onOpenAndroidStudio={() => setShowAndroidStudio(true)}
           favorites={favorites}
           onOpenSnapshots={() => { setSnapshotFilterPath(undefined); setShowSnapshots(true) }}
+          open={showSidebar}
+          onClose={() => setShowSidebar(false)}
         />
         <div className="flex flex-col flex-1 overflow-hidden bg-gray-900/50 backdrop-blur-sm">
 
       {/* Breadcrumb + Actions */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-gray-800">
-        <nav className="flex items-center gap-1 text-sm text-gray-400 flex-wrap min-w-0">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-gray-800 max-[480px]:px-3 max-[480px]:py-2 max-[480px]:flex-col max-[480px]:items-stretch max-[480px]:gap-2">
+        <nav className="flex items-center gap-1 text-sm text-gray-400 flex-wrap min-w-0 max-[480px]:text-xs">
+          {/* Mobile-only: open sidebar drawer */}
+          <button
+            onClick={() => setShowSidebar(true)}
+            title="選單"
+            className="hidden max-[480px]:flex items-center justify-center w-7 h-7 shrink-0 rounded-lg bg-gray-800 text-gray-300 hover:text-white mr-1"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+            </svg>
+          </button>
           <button
             onClick={() => setPathSegments([])}
             onDragOver={e => { if (draggingItem && currentPath) { e.preventDefault(); setFileDropTarget('__root__') } }}
@@ -1110,13 +1220,13 @@ export default function Home() {
                 className={`hover:text-orange-400 transition-colors truncate max-w-[120px] px-1 rounded ${fileDropTarget === breadcrumbKey ? 'bg-blue-900/40 text-blue-300 ring-1 ring-blue-500/60' : ''}`}
                 title={seg}
               >
-                {seg}
+                {folderDisplayName(seg, lang)}
               </button>
             </span>
             )
           })}
         </nav>
-        <div className="flex items-center gap-2 shrink-0 ml-4">
+        <div className="flex items-center gap-2 shrink-0 ml-4 max-[480px]:ml-0 max-[480px]:gap-1.5 max-[480px]:overflow-x-auto">
           <button
             onClick={loadItems}
             title="重新整理"
@@ -1128,20 +1238,20 @@ export default function Home() {
           </button>
           <button
             onClick={handleNewFolder}
-            className="px-3 py-1.5 text-sm rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+            className="px-3 py-1.5 text-sm rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors max-[480px]:px-2 max-[480px]:py-1 max-[480px]:text-xs"
           >
             {t.newFolder}
           </button>
           <button
             onClick={() => folderInputRef.current?.click()}
-            className="px-3 py-1.5 text-sm rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+            className="px-3 py-1.5 text-sm rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors max-[480px]:px-2 max-[480px]:py-1 max-[480px]:text-xs"
             title={t.uploadFolder}
           >
             {t.uploadFolder}
           </button>
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-3 py-1.5 text-sm rounded-lg bg-orange-500 hover:bg-orange-600 text-white transition-colors"
+            className="px-3 py-1.5 text-sm rounded-lg bg-orange-500 hover:bg-orange-600 text-white transition-colors max-[480px]:px-2 max-[480px]:py-1 max-[480px]:text-xs"
           >
             {t.uploadFiles}
           </button>
@@ -1216,7 +1326,7 @@ export default function Home() {
               <span className="w-[148px]" />
             </div>
 
-            <ul className="px-4 py-2">
+            <ul className="px-4 py-2 max-[480px]:px-2">
               {sortedItems.map(item => {
                 const cat = item.type === 'folder' ? 'folder' : getCategory(item.name, false)
                 const openable = ['image', 'video', 'audio', 'pdf', 'text', 'code'].includes(cat) || isOfficeCategory(cat)
@@ -1292,7 +1402,7 @@ export default function Home() {
                       startFileDrop({ item: draggingItem.item, fromPath: draggingItem.fromPath, toPath, toName: item.name })
                     }
                   }}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-colors cursor-pointer select-none ${
+                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-colors cursor-pointer select-none max-[480px]:gap-2 max-[480px]:px-2 max-[480px]:py-2 ${
                     isDropTarget
                       ? 'bg-blue-900/40 ring-2 ring-blue-500/60'
                       : isBeingDragged
@@ -1359,9 +1469,9 @@ export default function Home() {
                       else openFile(item)
                     }}
                   >
-                    <span className="truncate">{item.name}</span>
+                    <span className="truncate">{item.type === 'folder' ? folderDisplayName(item.name, lang) : item.name}</span>
                     {item.isMount && (
-                      <span className="shrink-0 text-xs bg-blue-900/50 text-blue-400 px-1.5 py-0.5 rounded font-normal">外接</span>
+                      <span className="shrink-0 text-xs bg-blue-900/50 text-blue-400 px-1.5 py-0.5 rounded font-normal">{t.externalTag}</span>
                     )}
                     {isOfficeCategory(cat) && (
                       <span className="shrink-0 text-xs bg-orange-500/15 text-orange-300 px-1.5 py-0.5 rounded font-normal">協作</span>
@@ -1419,29 +1529,29 @@ export default function Home() {
             </ul>
 
             {/* File count / selection status bar */}
-            <div className="px-6 py-2 text-xs border-t border-gray-800/60 flex items-center gap-2">
+            <div className="px-6 py-2 text-xs border-t border-gray-800/60 flex items-center gap-2 max-[480px]:px-3 max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-1">
               {(() => {
                 const fc = items.filter(i => i.type === 'folder').length
                 const ff = items.filter(i => i.type === 'file').length
                 const parts: string[] = []
-                if (fc > 0) parts.push(`${fc} 個資料夾`)
-                if (ff > 0) parts.push(`${ff} 個檔案`)
-                const countText = parts.length ? `共 ${items.length} 個項目（${parts.join('、')}）` : ''
+                if (fc > 0) parts.push(t.foldersCount(fc))
+                if (ff > 0) parts.push(t.filesCount(ff))
+                const countText = parts.length ? t.itemsSummary(items.length, parts.join(t.listSep)) : ''
                 const selCount = selectedItems.size
                 const selLabel = (() => {
                   if (selCount === 0) return null
                   if (selCount === 1) {
                     const name = [...selectedItems][0]
                     const sel = items.find(i => i.name === name)
-                    const size = sel?.type === 'file' && sel.size !== undefined ? `（${formatSize(sel.size)}）` : ''
-                    return `已選取 1 個項目：${name}${size}`
+                    const size = sel?.type === 'file' && sel.size !== undefined ? formatSize(sel.size) : ''
+                    return t.selectedOne(name, size)
                   }
                   const selFiles = [...selectedItems].filter(n => items.find(i => i.name === n)?.type === 'file').length
                   const selFolders = selCount - selFiles
                   const parts: string[] = []
-                  if (selFolders > 0) parts.push(`${selFolders} 個資料夾`)
-                  if (selFiles > 0) parts.push(`${selFiles} 個檔案`)
-                  return `已選取 ${selCount} 個項目（${parts.join('、')}）`
+                  if (selFolders > 0) parts.push(t.foldersCount(selFolders))
+                  if (selFiles > 0) parts.push(t.filesCount(selFiles))
+                  return t.selectedMany(selCount, parts.join(t.listSep))
                 })()
                 return (
                   <>
@@ -1457,18 +1567,18 @@ export default function Home() {
                             <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
                             </svg>
-                            拖曳到資料夾可批量移動
+                            {t.dragToBulkMove}
                           </span>
                         )}
                         <button
                           onClick={handleDeleteSelected}
                           className="ml-1 flex items-center gap-1 px-2 py-0.5 rounded text-xs text-red-400 hover:text-white hover:bg-red-900/50 transition-colors"
-                          title="刪除選取項目 (Delete)"
+                          title={`${t.deleteSelected} (Delete)`}
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                           </svg>
-                          刪除
+                          {t.deleteBtn}
                         </button>
                       </>
                     )}
@@ -1526,14 +1636,6 @@ export default function Home() {
         />
       )}
       {/* Viewers / Players */}
-      {viewItem && viewerType === 'image' && (
-        <ImageViewer
-          src={downloadUrl(currentPath ? `${currentPath}/${viewItem.name}` : viewItem.name)}
-          name={viewItem.name}
-          filePath={currentPath ? `${currentPath}/${viewItem.name}` : viewItem.name}
-          onClose={closeViewer}
-        />
-      )}
       {viewItem && viewerType === 'video' && (
         <VideoPlayer
           src={downloadUrl(currentPath ? `${currentPath}/${viewItem.name}` : viewItem.name)}
@@ -1542,7 +1644,6 @@ export default function Home() {
           onClose={closeViewer}
         />
       )}
-
       {viewItem && viewerType === 'text' && (
         <TextEditor
           filePath={currentPath ? `${currentPath}/${viewItem.name}` : viewItem.name}
@@ -1575,6 +1676,7 @@ export default function Home() {
       )}
       {showPhoto && <PhotoApp onClose={() => setShowPhoto(false)} />}
       {showMusic && <MusicApp onClose={() => { setShowMusic(false); setMusicInitFile(undefined) }} initialFile={musicInitFile} />}
+      {showVideo && <VideoApp onClose={() => setShowVideo(false)} />}
       {showLocker    && <Locker        onClose={() => setShowLocker(false)}    />}
       {showReels     && <Reels         onClose={() => setShowReels(false)}     />}
       {showTelegram  && <TelegramReels onClose={() => setShowTelegram(false)}  />}
@@ -1583,6 +1685,7 @@ export default function Home() {
       {showCamera    && <CameraApp    onClose={() => setShowCamera(false)}    />}
       {showExtraFile && <ExtraFilePanel onClose={() => setShowExtraFile(false)} />}
       {showUps       && <UpsPanel       onClose={() => setShowUps(false)}       />}
+      {showVaultixID && <VaultixID     onClose={() => setShowVaultixID(false)} />}
       {showSnapshots && (
         <SnapshotPanel
           onClose={() => setShowSnapshots(false)}

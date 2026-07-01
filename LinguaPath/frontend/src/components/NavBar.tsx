@@ -29,12 +29,14 @@ export default function NavBar({
         Lingua<span>Path</span>
       </a>
 
+      <div className={styles.navCenter}>
+        <a href="/vocabulary" className={styles.navLink}>Vocabulary Card</a>
+        <a href="/listening" className={styles.navLink}>Listening Lab</a>
+        <a href="/news" className={styles.navLink}>News Reader</a>
+        <a href="path" className={styles.navLink}>Learning Path</a>
+        <a href="game.html" className={styles.navLink} target="_blank">Mini Game</a>
+      </div>
       <div className={styles.navRight}>
-        <a href="vocabulary.html" className="btn btn-ghost">Vocabulary Card</a>
-        <a href="listening.html" className="btn btn-ghost">Listening Lab</a>
-        <a href="news.html" className="btn btn-ghost">News Reader</a>
-        <a href="path.html" className="btn btn-ghost">Learning Path</a>
-
         {user ? (
           <div className={styles.userInfo}>
             {user.photoURL && (

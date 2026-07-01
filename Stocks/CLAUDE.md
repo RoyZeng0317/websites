@@ -127,3 +127,9 @@ FastAPI ~3600 lines. Single file. All API logic is blocking synchronous (uses `r
 **注意股 timing**: TWSE publishes the attention stock list after market close (~15:00 TST). The `announcement/notice` endpoint returns empty during trading hours. `getAttentionStocks()` queries up to 5 recent trading days and caches the last non-empty result in localStorage.
 
 **ETF detection**: `isETF` is determined by `info.isETF === true || info.fundFamily != null || info.navPrice != null`. ETF-only tabs (折溢價) and ETF-only analytics are gated on this.
+
+## To do list
+[x] 讀取backend\data\銀行手續費.xlsx做出frontend\PortfolioOverview.tsx "我的持股"精準版，包含手續費的部分，會調漲買入為0.0x，x為手續費前x0元(也就是x0元手續費為x%買入價)
+
+## Error log
+[ ] frontend show: ```無法載入新聞資料 Unexpected token '<', "<!DOCTYPE "... is not valid JSON ``` this error log

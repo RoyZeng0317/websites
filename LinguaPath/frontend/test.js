@@ -246,7 +246,7 @@ function showResults() {
   document.getElementById('test-retake').onclick = resetTest;
   document.getElementById('go-path').onclick = () => {
     document.getElementById('test-overlay').classList.remove('open');
-    window.location.href = 'path.html';
+    window.location.href = 'path';
   };
 }
 

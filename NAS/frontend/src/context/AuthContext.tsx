@@ -1,9 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback, useRef, ReactNode } from 'react'
-import { setToken, clearToken, getToken } from '../lib/api'
+import { setToken, clearToken, getToken, backendBase } from '../lib/api'
 
 export const SESSION_TIMEOUT_KEY = 'nas_session_timeout'  // minutes, 0 = never
-
-const BACKEND = import.meta.env.VITE_BACKEND_URL
 
 export interface AuthUser {
   uid: number
@@ -54,7 +52,7 @@ export function useAuth(): AuthContextValue {
 
 async function fetchProfile(token: string): Promise<{ displayName: string | null; avatarExt: string | null }> {
   try {
-    const res = await fetch(`${BACKEND}/api/user/me`, {
+    const res = await fetch(`${backendBase()}/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     if (!res.ok) return { displayName: null, avatarExt: null }
@@ -117,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   async function signIn(username: string, password: string) {
-    const res = await fetch(`${BACKEND}/api/login`, {
+    const res = await fetch(`${backendBase()}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -138,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function completeTwoFactor(code: string) {
     if (!pendingTwoFactor) throw new Error('No pending verification request')
-    const res = await fetch(`${BACKEND}/api/2fa/verify`, {
+    const res = await fetch(`${backendBase()}/api/2fa/verify`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tempToken: pendingTwoFactor.tempToken, code }),

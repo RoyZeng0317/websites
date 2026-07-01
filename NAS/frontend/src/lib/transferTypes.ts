@@ -9,6 +9,7 @@ export interface UploadTask {
   status: TaskStatus
   error?: string
   abort?: () => void
+  retries?: number
 }
 
 export interface DownloadTask {

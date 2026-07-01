@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
 import { apiJson } from '../lib/api'
+import { useLang, type Translations } from '../context/LangContext'
 
 interface Props {
   onClose: () => void
@@ -26,14 +27,16 @@ interface FileItem {
   type: 'folder' | 'file'
 }
 
-const MP3_QUALITIES = [
-  { label: '最佳品質 (VBR)', value: 'best' },
-  { label: '320 Kbps',       value: '320'  },
-  { label: '192 Kbps',       value: '192'  },
-  { label: '128 Kbps',       value: '128'  },
+// Quality option lists — the only translatable label is the "best" entry, so these
+// take `t`. (Module-level constants can't read `t`, hence the function form.)
+const mp3Qualities = (t: Translations) => [
+  { label: t.dlBestQualityVbr, value: 'best' },
+  { label: '320 Kbps',         value: '320'  },
+  { label: '192 Kbps',         value: '192'  },
+  { label: '128 Kbps',         value: '128'  },
 ]
-const MP4_QUALITIES = [
-  { label: '最佳畫質', value: 'best' },
+const mp4Qualities = (t: Translations) => [
+  { label: t.dlBestVideoQuality, value: 'best' },
   { label: '1080p',   value: '1080' },
   { label: '720p',    value: '720'  },
   { label: '480p',    value: '480'  },
@@ -57,6 +60,7 @@ function FolderPicker({ current, onSelect, onClose }: {
   onSelect: (path: string) => void
   onClose: () => void
 }) {
+  const { t } = useLang()
   const [browsePath, setBrowsePath] = useState(current || '')
   const [items, setItems] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(false)
@@ -87,7 +91,7 @@ function FolderPicker({ current, onSelect, onClose }: {
 
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 shrink-0">
-          <span className="text-white font-medium text-sm">選擇儲存資料夾</span>
+          <span className="text-white font-medium text-sm">{t.chooseSaveFolder}</span>
           <button onClick={onClose}
             className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white rounded transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,7 +105,7 @@ function FolderPicker({ current, onSelect, onClose }: {
           <button
             onClick={() => setBrowsePath('')}
             className="text-orange-400 hover:text-orange-300 whitespace-nowrap transition-colors font-mono">
-            根目錄
+            {t.rootDir}
           </button>
           {segments.map((seg, i) => (
             <span key={i} className="flex items-center gap-1">
@@ -118,9 +122,9 @@ function FolderPicker({ current, onSelect, onClose }: {
         {/* Folder list */}
         <div className="flex-1 overflow-y-auto p-2">
           {loading ? (
-            <div className="text-center py-8 text-gray-600 text-sm">載入中...</div>
+            <div className="text-center py-8 text-gray-600 text-sm">{t.loadingText}</div>
           ) : items.length === 0 ? (
-            <div className="text-center py-8 text-gray-700 text-sm">無子資料夾</div>
+            <div className="text-center py-8 text-gray-700 text-sm">{t.noSubfolders}</div>
           ) : (
             <div className="space-y-0.5">
               {items.map(item => (
@@ -146,7 +150,7 @@ function FolderPicker({ current, onSelect, onClose }: {
           <button
             onClick={() => { onSelect(browsePath); onClose() }}
             className="w-full py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold transition-colors">
-            選擇此位置：<span className="font-mono font-normal">/{browsePath || '根目錄'}</span>
+            {t.chooseThisLocation}<span className="font-mono font-normal">/{browsePath || t.rootDir}</span>
           </button>
         </div>
       </div>
@@ -157,13 +161,14 @@ function FolderPicker({ current, onSelect, onClose }: {
 // ── Job row ───────────────────────────────────────────────
 
 function JobRow({ job, onCancel }: { job: Job; onCancel: (id: string) => void }) {
+  const { t } = useLang()
   const [showLog, setShowLog] = useState(false)
 
   const statusMeta = {
-    pending: { label: '等待中',  color: 'text-gray-400'  },
+    pending: { label: t.dlStatusPending, color: 'text-gray-400'  },
     running: { label: `${job.progress}%`, color: 'text-orange-400' },
-    done:    { label: '完成',    color: 'text-green-400' },
-    error:   { label: '失敗',    color: 'text-red-400'   },
+    done:    { label: t.dlStatusDone,    color: 'text-green-400' },
+    error:   { label: t.dlStatusError,   color: 'text-red-400'   },
   }[job.status]
 
   const title = job.title || job.filename || urlHost(job.url)
@@ -196,7 +201,7 @@ function JobRow({ job, onCancel }: { job: Job; onCancel: (id: string) => void })
             <button
               onClick={() => onCancel(job.id)}
               className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-red-400 transition-colors"
-              title="取消"
+              title={t.cancel}
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -223,7 +228,7 @@ function JobRow({ job, onCancel }: { job: Job; onCancel: (id: string) => void })
             onClick={() => setShowLog(v => !v)}
             className="text-red-400 hover:text-red-300 transition-colors"
           >
-            {showLog ? '▲ 收起' : '▼ 展開錯誤訊息'}
+            {showLog ? `▲ ${t.dlCollapse}` : `▼ ${t.dlExpandError}`}
           </button>
           {showLog && (
             <pre className="mt-1.5 bg-red-950/40 border border-red-800/40 rounded-lg p-2.5 text-red-300/80 font-mono text-xs overflow-x-auto whitespace-pre-wrap break-words max-h-36 overflow-y-auto">
@@ -239,6 +244,7 @@ function JobRow({ job, onCancel }: { job: Job; onCancel: (id: string) => void })
 // ── Main panel ────────────────────────────────────────────
 
 export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
+  const { t } = useLang()
   const [url, setUrl]           = useState('')
   const [format, setFormat]     = useState<'mp3' | 'mp4' | 'image'>('mp4')
   const [quality, setQuality]   = useState('best')
@@ -275,7 +281,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
   }
 
   async function saveTwitterCookie() {
-    if (!authToken.trim() || !ct0.trim()) { toast.error('請同時填入 auth_token 與 ct0'); return }
+    if (!authToken.trim() || !ct0.trim()) { toast.error(t.dlFillTokenCt0); return }
     setCookieBusy(true)
     try {
       await apiJson('/api/ytdl/cookies/twitter', {
@@ -283,7 +289,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
         body: JSON.stringify({ auth_token: authToken.trim(), ct0: ct0.trim() }),
       })
       setAuthToken(''); setCt0('')
-      toast.success('Cookie 已儲存')
+      toast.success(t.dlCookieSaved)
       loadCookieStatus()
     } catch (err) { toast.error((err as Error).message) }
     finally { setCookieBusy(false) }
@@ -295,7 +301,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
       const form = new FormData()
       form.append('cookies', file)
       await apiJson('/api/ytdl/cookies/upload', { method: 'POST', body: form })
-      toast.success('cookies.txt 已上傳')
+      toast.success(t.dlCookieUploaded)
       loadCookieStatus()
     } catch (err) { toast.error((err as Error).message) }
     finally {
@@ -308,7 +314,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
     setCookieBusy(true)
     try {
       await apiJson('/api/ytdl/cookies', { method: 'DELETE' })
-      toast.success('Cookie 已移除')
+      toast.success(t.dlCookieRemoved)
       loadCookieStatus()
     } catch (err) { toast.error((err as Error).message) }
     finally { setCookieBusy(false) }
@@ -326,15 +332,15 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
     return () => { if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null } }
   }, [jobs])
 
-  const qualities = format === 'mp3' ? MP3_QUALITIES : MP4_QUALITIES
+  const qualities = format === 'mp3' ? mp3Qualities(t) : mp4Qualities(t)
 
   const isNetflix = url.trim().includes('netflix.com')
 
   async function handleSubmit() {
-    if (!url.trim()) return toast.error('請輸入 URL')
+    if (!url.trim()) return toast.error(t.dlEnterUrl)
     if (isNetflix) {
       const { exists } = await apiJson<{ exists: boolean }>('/api/ytdl/cookies')
-      if (!exists) return toast.error('Netflix 需要 cookies 才能下載。請先登入 Netflix → 用 Get cookies.txt LOCALLY 匯出 → 上傳')
+      if (!exists) return toast.error(t.dlNetflixNeedCookies)
     }
     setSubmitting(true)
     try {
@@ -343,7 +349,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: url.trim(), format, quality, destPath }),
       })
-      toast.success('已加入下載佇列')
+      toast.success(t.dlAddedToQueue)
       setUrl('')
       await loadJobs(true)
     } catch (err) { toast.error((err as Error).message) }
@@ -384,13 +390,13 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
               </svg>
-              <h2 className="text-white font-semibold">媒體下載器</h2>
+              <h2 className="text-white font-semibold">{t.mediaDownloader}</h2>
               <span className="text-xs text-gray-500 bg-gray-800 border border-gray-700 px-1.5 py-0.5 rounded font-mono">
                 yt-dlp
               </span>
               {activeCount > 0 && (
                 <span className="text-xs bg-orange-900/50 text-orange-400 border border-orange-800 rounded px-1.5 py-0.5">
-                  {activeCount} 個進行中
+                  {activeCount} {t.dlInProgress}
                 </span>
               )}
             </div>
@@ -409,7 +415,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
             <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 space-y-4">
               {/* URL */}
               <div>
-                <label className="block text-xs text-gray-400 mb-1.5 font-medium">影片 / 音樂網址</label>
+                <label className="block text-xs text-gray-400 mb-1.5 font-medium">{t.dlUrlLabel}</label>
                 <input
                   type="search"
                   value={url}
@@ -430,7 +436,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                       setUrl(match[0].replace(/[,，。.!！?？]+$/, ''))
                     }
                   }}
-                  placeholder="貼上網址或抖音 / TikTok 分享文字，自動擷取連結"
+                  placeholder={t.dlUrlPlaceholder}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-orange-500"
                 />
               </div>
@@ -438,9 +444,9 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
               {/* Format + Quality */}
               <div className="flex gap-3 flex-wrap">
                 <div className="flex-1 min-w-[160px]">
-                  <label className="block text-xs text-gray-400 mb-1.5 font-medium">格式</label>
+                  <label className="block text-xs text-gray-400 mb-1.5 font-medium">{t.dlFormat}</label>
                   <div className="flex rounded-lg border border-gray-600 overflow-hidden text-sm font-medium h-9">
-                    {([['mp4','🎬 影片'],['mp3','🎵 音訊'],['image','🖼 圖片']] as const).map(([f, label]) => (
+                    {([['mp4',`🎬 ${t.dlFmtVideo}`],['mp3',`🎵 ${t.dlFmtAudio}`],['image',`🖼 ${t.dlFmtImage}`]] as const).map(([f, label]) => (
                       <button
                         key={f}
                         onClick={() => { setFormat(f); setQuality('best') }}
@@ -457,7 +463,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                 </div>
                 {format !== 'image' && (
                   <div className="flex-1 min-w-[150px]">
-                    <label className="block text-xs text-gray-400 mb-1.5 font-medium">品質</label>
+                    <label className="block text-xs text-gray-400 mb-1.5 font-medium">{t.dlQuality}</label>
                     <select
                       value={quality}
                       onChange={e => setQuality(e.target.value)}
@@ -473,7 +479,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
 
               {/* Destination — folder picker */}
               <div>
-                <label className="block text-xs text-gray-400 mb-1.5 font-medium">儲存資料夾</label>
+                <label className="block text-xs text-gray-400 mb-1.5 font-medium">{t.dlSaveFolder}</label>
                 <button
                   type="button"
                   onClick={() => setShowFolderPicker(true)}
@@ -483,7 +489,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                     <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
                   </svg>
                   <span className={`flex-1 font-mono truncate ${destPath ? 'text-white' : 'text-gray-600'}`}>
-                    {destPath || '根目錄（點擊選擇資料夾）'}
+                    {destPath || t.dlRootClickToPick}
                   </span>
                   <svg className="w-3.5 h-3.5 text-gray-600 group-hover:text-orange-400 transition-colors shrink-0"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -495,7 +501,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                     onClick={() => setDestPath('')}
                     className="mt-1 text-xs text-gray-600 hover:text-gray-400 transition-colors"
                   >
-                    清除（存至根目錄）
+                    {t.dlClearToRoot}
                   </button>
                 )}
               </div>
@@ -503,11 +509,11 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
               {/* Netflix hint */}
               {isNetflix && (
                 <div className="bg-red-950/30 border border-red-800/40 rounded-lg px-3 py-2">
-                  <p className="text-xs text-red-300 font-medium">Netflix 注意事項</p>
+                  <p className="text-xs text-red-300 font-medium">{t.dlNetflixNote}</p>
                   <ul className="mt-1 text-xs text-red-300/70 space-y-0.5 list-disc list-inside">
-                    <li>需上傳 cookies.txt（瀏覽器登入 Netflix 後用 Get cookies.txt LOCALLY 匯出）</li>
-                    <li>DRM 限制，最高僅能下載 540p</li>
-                    <li>Pi 上的 yt-dlp 需為最新版（pip install -U yt-dlp）</li>
+                    <li>{t.dlNetflixLi1}</li>
+                    <li>{t.dlNetflixLi2}</li>
+                    <li>{t.dlNetflixLi3}</li>
                   </ul>
                 </div>
               )}
@@ -519,13 +525,13 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                 className="w-full py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2"
               >
                 {submitting
-                  ? <><span className="animate-spin leading-none">◌</span> 加入中...</>
+                  ? <><span className="animate-spin leading-none">◌</span> {t.dlAdding}</>
                   : <>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                           d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                       </svg>
-                      開始下載
+                      {t.dlStartDownload}
                     </>
                 }
               </button>
@@ -534,14 +540,14 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
             {/* ── Cookie 管理 ── */}
             <div className="space-y-3 pt-1 border-t border-gray-700/60">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400 font-medium">Cookie 管理</span>
+                <span className="text-xs text-gray-400 font-medium">{t.dlCookieMgmt}</span>
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${cookieExists ? 'bg-green-400' : 'bg-gray-600'}`} />
-                  <span className="text-xs text-gray-500">{cookieExists ? 'cookies.txt 已設定' : '未設定'}</span>
+                  <span className="text-xs text-gray-500">{cookieExists ? t.dlCookieSet : t.dlCookieUnset}</span>
                   {cookieExists && (
                     <button onClick={deleteCookie} disabled={cookieBusy}
                       className="text-xs text-red-500 hover:text-red-400 disabled:opacity-50 transition-colors">
-                      移除
+                      {t.dlRemove}
                     </button>
                   )}
                 </div>
@@ -549,9 +555,9 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
 
               {/* Douyin / 通用 cookies.txt 上傳 */}
               <div className="bg-gray-800/60 border border-gray-700/50 rounded-lg p-3 space-y-2">
-                <p className="text-xs text-gray-300 font-medium">抖音 / 通用 cookies.txt 上傳</p>
+                <p className="text-xs text-gray-300 font-medium">{t.dlDouyinUpload}</p>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  適用抖音、YouTube 等需要 Cookie 的平台。使用瀏覽器擴充功能「Get cookies.txt LOCALLY」匯出後上傳。
+                  {t.dlDouyinDesc}
                 </p>
                 <label className={`flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-dashed cursor-pointer transition-colors text-sm font-medium
                   ${cookieBusy ? 'opacity-50 pointer-events-none' : 'border-orange-700 text-orange-400 hover:bg-orange-900/20'}`}>
@@ -559,7 +565,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                   </svg>
-                  {cookieBusy ? '上傳中...' : '選擇 cookies.txt 上傳'}
+                  {cookieBusy ? t.dlUploading : t.dlChooseCookieUpload}
                   <input ref={cookieFileRef} type="file" accept=".txt,text/plain" className="hidden"
                     onChange={e => { const f = e.target.files?.[0]; if (f) uploadCookiesFile(f) }} />
                 </label>
@@ -568,7 +574,7 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
               {/* Twitter / X Cookie 手動輸入 */}
               <details className="bg-gray-800/60 border border-gray-700/50 rounded-lg p-3">
                 <summary className="cursor-pointer text-xs text-gray-400 font-medium hover:text-gray-300 transition-colors">
-                  Twitter / X Cookie（手動輸入）
+                  {t.dlTwitterCookie}
                 </summary>
                 <div className="mt-3 space-y-2">
                   <input type="password" value={authToken} onChange={e => setAuthToken(e.target.value)}
@@ -579,9 +585,9 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
                     className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 font-mono" />
                   <button onClick={saveTwitterCookie} disabled={cookieBusy}
                     className="w-full py-2 rounded-lg bg-purple-800 hover:bg-purple-700 disabled:opacity-50 text-white text-sm font-medium transition-colors">
-                    {cookieBusy ? '儲存中...' : '儲存 Twitter Cookie'}
+                    {cookieBusy ? t.dlSaving : t.dlSaveTwitterCookie}
                   </button>
-                  <p className="text-xs text-gray-600">F12 → Application → Cookies → x.com，複製 auth_token 與 ct0</p>
+                  <p className="text-xs text-gray-600">{t.dlTwitterHint}</p>
                 </div>
               </details>
             </div>
@@ -589,29 +595,29 @@ export default function DownloaderPanel({ onClose, initialPath = '' }: Props) {
             {/* ── Job list ── */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-gray-300">下載記錄</span>
+                <span className="text-sm font-medium text-gray-300">{t.dlHistory}</span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => loadJobs(true)}
                     className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
                   >
-                    重新整理
+                    {t.dlRefresh}
                   </button>
                   {finishCount > 0 && (
                     <button
                       onClick={clearFinished}
                       className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
                     >
-                      清除已完成
+                      {t.dlClearDone}
                     </button>
                   )}
                 </div>
               </div>
 
               {loadingJobs ? (
-                <div className="text-center py-10 text-gray-600 text-sm">載入中...</div>
+                <div className="text-center py-10 text-gray-600 text-sm">{t.loadingText}</div>
               ) : jobs.length === 0 ? (
-                <div className="text-center py-10 text-gray-700 text-sm">尚無下載記錄</div>
+                <div className="text-center py-10 text-gray-700 text-sm">{t.dlNoHistory}</div>
               ) : (
                 <div className="space-y-2">
                   {jobs.map(job => (

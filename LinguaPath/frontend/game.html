@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Game</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="game-engine.js"></script>
+  <style>
+    .game-page { background:#0a0a0a; color:#e0e0e0; font-family:'Segoe UI',Tahoma,sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; overflow:hidden; margin:0; }
+    .game-page canvas { display:block; background:#0d0d1a; border:1px solid #333; cursor:none; }
+    #role-selection { text-align:center; }
+    #role-selection h1 { font-size:2.5em; margin-bottom:30px; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.3); }
+    #role-options { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; }
+    .role-card { background:#1a1a2e; border:2px solid #333; border-radius:12px; padding:30px; width:180px; cursor:pointer; transition:all 0.3s; }
+    .role-card:hover { border-color:#666; transform:translateY(-5px); box-shadow:0 8px 25px rgba(0,0,0,0.5); }
+    .role-card .shape { width:80px; height:80px; margin:0 auto 15px; }
+    .role-card .shape.square { background:#e74c3c; border-radius:4px; }
+    .role-card .shape.triangle { width:0; height:0; border-left:40px solid transparent; border-right:40px solid transparent; border-bottom:80px solid #3498db; background:transparent; }
+    .role-card .shape.circle { background:#2ecc71; border-radius:50%; }
+    .role-card .shape.rectangle { background:#9b59b6; border-radius:4px; height:60px; margin-top:10px; }
+    .role-card h3 { font-size:1.3em; margin-bottom:5px; color:#fff; }
+    .role-card p { font-size:0.85em; color:#aaa; }
+    #game-container { position:relative; }
+    #hud { display:flex; justify-content:space-between; align-items:center; padding:10px 15px; background:#111; border:1px solid #333; border-bottom:none; border-radius:8px 8px 0 0; }
+    #health-bar { display:flex; align-items:center; gap:10px; flex:1; max-width:300px; }
+    #health-bar #health-fill { height:20px; background:linear-gradient(90deg,#e74c3c,#2ecc71); border-radius:10px; transition:width 0.3s; width:100%; }
+    #health-bar #health-text { font-size:0.9em; min-width:30px; color:#fff; }
+    #score-display { font-size:1.1em; color:#f1c40f; }
+    #command-input-area { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); z-index:10; }
+    #command-input { width:300px; padding:8px 12px; background:#1a1a2e; border:2px solid #555; color:#fff; font-size:1em; border-radius:6px; outline:none; }
+    #command-input:focus { border-color:#f1c40f; }
+    #spell-modal { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:20; }
+    #spell-content { background:#1a1a2e; border:2px solid #e74c3c; border-radius:12px; padding:40px; text-align:center; max-width:400px; width:90%; }
+    #spell-content h2 { color:#e74c3c; margin-bottom:15px; }
+    #spell-word { font-size:2em; color:#f1c40f; margin-bottom:20px; letter-spacing:3px; }
+    #spell-input { width:100%; padding:10px; background:#0d0d1a; border:2px solid #555; color:#fff; font-size:1.2em; text-align:center; border-radius:6px; outline:none; margin-bottom:15px; }
+    #spell-input:focus { border-color:#f1c40f; }
+    #spell-submit { padding:10px 30px; background:#2ecc71; color:#fff; border:none; border-radius:6px; font-size:1em; cursor:pointer; }
+    #spell-submit:hover { background:#27ae60; }
+    #spell-result { margin-top:10px; font-size:1em; }
+    #game-over-modal { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; z-index:30; }
+    #game-over-content { background:#1a1a2e; border:2px solid #e74c3c; border-radius:12px; padding:50px; text-align:center; max-width:420px; width:90%; }
+    #game-over-content h1 { color:#e74c3c; font-size:3em; margin-bottom:15px; }
+    #game-over-content p { font-size:1.3em; margin-bottom:25px; color:#f1c40f; }
+    #restart-btn { padding:12px 40px; background:#3498db; color:#fff; border:none; border-radius:8px; font-size:1.1em; cursor:pointer; }
+    #restart-btn:hover { background:#2980b9; }
+    #save-status { font-size:0.85rem; margin-top:0.5rem; color:#7a7870; }
+    #back-link { display:block; margin-top:20px; color:#666; font-size:0.9em; text-decoration:none; }
+    #back-link:hover { color:#aaa; }
+  </style>
+</head>
+<body class="game-page">
+  <div id="role-selection">
+    <h1>Choose Your Role</h1>
+    <div id="role-options"></div>
+  </div>
+  <div id="game-container" style="display:none">
+    <div id="hud">
+      <div id="health-bar"><div id="health-fill"></div><span id="health-text">100</span></div>
+      <div id="score-display">Score: <span id="score">0</span></div>
+    </div>
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+    <div id="command-input-area" style="display:none">
+      <input type="text" id="command-input" placeholder="Type command..." autofocus>
+    </div>
+    <div id="spell-modal" style="display:none">
+      <div id="spell-content">
+        <h2>Spell the word to survive!</h2>
+        <p id="spell-word"></p>
+        <input type="text" id="spell-input" autofocus>
+        <button id="spell-submit">Submit</button>
+        <p id="spell-result"></p>
+      </div>
+    </div>
+    <div id="game-over-modal" style="display:none">
+      <div id="game-over-content">
+        <h1>Game Over</h1>
+        <p>Final Score: <span id="final-score">0</span></p>
+        <p id="save-status"></p>
+        <button id="restart-btn">Play Again</button>
+        <a id="back-link" href="index.html">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase (needed for save to Firestore) -->
+  <script type="module">
+    import { auth, db, onAuthStateChanged } from './firebase-config.js';
+    window.__fbAuth = auth;
+    window.__fbDb = db;
+    window.__onAuthStateChanged = onAuthStateChanged;
+  </script>
+  <script>
+    /* ─── Game mode: API (Firebase Function) vs client-side ─── */
+    const USE_API = location.hostname !== 'localhost' && location.hostname !== '127.0.0.1';
+    const API = location.origin + '/api/game';
+
+    let gs = null, keys = {}, mouseX = 400, mouseY = 300;
+    let spellActive = false, commandActive = false, pollId = null, gameId = null;
+    let words = [];
+
+    /* Load vocab */
+    fetch('vocab.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(data => { words = Array.isArray(data) ? data.map(e => e.word).filter(Boolean) : []; })
+      .catch(() => { words = ['apple','brave','crane','dance','eagle']; });
+
+    /* Drawing helpers */
+    function drawSquare(x,y,s,c) { ctx.fillStyle=c; ctx.fillRect(x-s/2,y-s/2,s,s); ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=2; ctx.strokeRect(x-s/2,y-s/2,s,s); }
+    function drawTriangle(x,y,s,c) { ctx.fillStyle=c; ctx.beginPath(); ctx.moveTo(x,y-s); ctx.lineTo(x-s,y+s); ctx.lineTo(x+s,y+s); ctx.closePath(); ctx.fill(); ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=2; ctx.stroke(); }
+    function drawCircle(x,y,s,c) { ctx.fillStyle=c; ctx.beginPath(); ctx.arc(x,y,s,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=2; ctx.stroke(); }
+    function drawRectangle(x,y,s,c) { ctx.fillStyle=c; ctx.fillRect(x-s.w/2,y-s.h/2,s.w,s.h); ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=2; ctx.strokeRect(x-s.w/2,y-s.h/2,s.w,s.h); }
+    function getDrawFn(r) { if(r==='square') return drawSquare; if(r==='triangle') return drawTriangle; if(r==='circle') return drawCircle; return drawRectangle; }
+
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function draw() {
+      ctx.clearRect(0,0,800,600);
+      ctx.fillStyle='#0d0d1a'; ctx.fillRect(0,0,800,600);
+      ctx.strokeStyle='#1a1a2e'; ctx.lineWidth=1;
+      for(let i=0;i<800;i+=40){ ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,600); ctx.stroke(); }
+      for(let i=0;i<600;i+=40){ ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(800,i); ctx.stroke(); }
+
+      if(!gs) return;
+      (gs.monsters||[]).forEach(m => {
+        ctx.fillStyle=m.color; ctx.beginPath();
+        if(m.type==='circle'){ ctx.arc(m.x,m.y,15,0,Math.PI*2); }
+        else if(m.type==='triangle'){ ctx.moveTo(m.x,m.y-15); ctx.lineTo(m.x-15,m.y+15); ctx.lineTo(m.x+15,m.y+15); ctx.closePath(); }
+        else { ctx.fillRect(m.x-12,m.y-12,24,24); }
+        ctx.fill();
+        const bw=30,bh=4,bx=m.x-bw/2,by=m.y-25;
+        ctx.fillStyle='#333'; ctx.fillRect(bx,by,bw,bh);
+        ctx.fillStyle=m.hp>1?'#2ecc71':'#e74c3c'; ctx.fillRect(bx,by,bw*(m.hp/m.maxHp),bh);
+      });
+      (gs.energies||[]).forEach(e => {
+        const p=Math.sin(Date.now()/200+e.x)*0.3+0.7;
+        ctx.save(); ctx.globalAlpha=p; ctx.shadowColor='#f1c40f'; ctx.shadowBlur=20;
+        ctx.fillStyle='#f1c40f'; ctx.beginPath(); ctx.arc(e.x,e.y,10,0,Math.PI*2); ctx.fill(); ctx.restore();
+        ctx.fillStyle='#fff'; ctx.font='8px monospace'; ctx.textAlign='center'; ctx.fillText('ENERGY',e.x,e.y+20);
+      });
+      const p=gs.player;
+      if(p){
+        if(p.invincible&&Math.floor(Date.now()/100)%2===0) ctx.globalAlpha=0.3;
+        getDrawFn(p.role)(p.x,p.y,p.size,p.color);
+        ctx.globalAlpha=1;
+        if(p.slashTimer>0){
+          const a=p.slashTimer/10; ctx.save(); ctx.globalAlpha=a;
+          ctx.strokeStyle='#f1c40f'; ctx.lineWidth=4; ctx.shadowColor='#f1c40f'; ctx.shadowBlur=12;
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x+p.lastDx*100,p.y+p.lastDy*100); ctx.stroke(); ctx.restore();
+        }
+        ctx.fillStyle='#fff'; ctx.font='12px monospace'; ctx.textAlign='center'; ctx.fillText('YOU',p.x,p.y+(p.size.w||p.size)+18);
+      }
+    }
+
+    function updateHUD() {
+      if(!gs||!gs.player) return;
+      const pct=Math.max(0,(gs.player.hp/gs.player.maxHp)*100);
+      document.getElementById('health-fill').style.width=pct+'%';
+      document.getElementById('health-text').textContent=Math.ceil(gs.player.hp);
+      document.getElementById('score').textContent=gs.score;
+    }
+
+    /* ─── API mode (Firebase Function) ─── */
+    async function apiFetch(endpoint, body) {
+      const res = await fetch(API + endpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    }
+
+    function apiTick() {
+      if(!gs||!gs.running||gs.spellActive) return;
+      apiFetch('/update', { gameId, keys }).then(data => {
+        gs = data;
+        updateHUD();
+        if(gs.spellActive&&!spellActive){ spellActive=true; showSpellModal(gs.currentWord); }
+        if(!gs.running) showGameOver();
+        draw();
+      }).catch(() => { /* silent fallback to client */
+        gs.update(keys); updateHUD();
+        if(gs.spellActive&&!spellActive){ spellActive=true; showSpellModal(gs.currentWord); }
+        if(!gs.running) showGameOver();
+        draw();
+      });
+    }
+
+    /* ─── Client-side mode ─── */
+    function clientTick() {
+      if(!gs||!gs.running||gs.spellActive) return;
+      gs.update(keys);
+      updateHUD();
+      if(gs.spellActive&&!spellActive){ spellActive=true; showSpellModal(gs.currentWord); }
+      if(!gs.running) showGameOver();
+      draw();
+    }
+
+    function showSpellModal(word) {
+      document.getElementById('spell-word').textContent=word;
+      document.getElementById('spell-result').textContent='';
+      document.getElementById('spell-input').value='';
+      document.getElementById('spell-modal').style.display='flex';
+      document.getElementById('spell-input').focus();
+    }
+
+    async function submitSpell() {
+      const input=document.getElementById('spell-input');
+      const given=input.value.trim();
+      if(!gs) return;
+      let correct;
+      if (USE_API) {
+        try {
+          const data = await apiFetch('/spell', { gameId, word: given });
+          correct = data.correct;
+          gs = data.state;
+        } catch { correct = gs.checkSpell(given); }
+      } else {
+        correct = gs.checkSpell(given);
+      }
+      const el=document.getElementById('spell-result');
+      if(correct){ el.textContent='Correct! +50 HP'; el.style.color='#2ecc71'; }
+      else { el.textContent='Wrong! No energy recovered.'; el.style.color='#e74c3c'; }
+      setTimeout(()=>{
+        document.getElementById('spell-modal').style.display='none';
+        spellActive=false; updateHUD();
+      },800);
+    }
+
+    async function saveScore() {
+      const el=document.getElementById('save-status');
+      if(!gs) return;
+      try {
+        const user = await new Promise(res => {
+          if (!window.__fbAuth) return res(null);
+          window.__onAuthStateChanged(window.__fbAuth, u => { res(u); });
+        });
+        if (USE_API) {
+          await apiFetch('/save', { gameId, userId: user ? user.uid : 'anonymous' });
+        } else if (window.__fbDb) {
+          const stats = gs.getFinalStats();
+          const { doc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+          const ref = doc(window.__fbDb, 'game_scores', gs.id);
+          await setDoc(ref, { ...stats, createdAt: serverTimestamp(), userId: user ? user.uid : 'anonymous' });
+        } else {
+          el.textContent='Save unavailable (offline)'; el.style.color='#7a7870'; return;
+        }
+        el.textContent='✓ Score saved!'; el.style.color='#2ecc71';
+      } catch(e) {
+        el.textContent='Save failed'; el.style.color='#e74c3c';
+      }
+    }
+
+    function showGameOver() {
+      document.getElementById('game-over-modal').style.display='flex';
+      document.getElementById('final-score').textContent=gs?gs.score:0;
+      if(pollId){ clearInterval(pollId); pollId=null; }
+      saveScore();
+    }
+
+    function initRoleSelection() {
+      const ids=['square','triangle','circle','rectangle'];
+      const names=['Square','Triangle','Circle','Rectangle'];
+      const descs=['Balanced fighter','Swift attacker','Tough defender','Powerful striker'];
+      const container=document.getElementById('role-options');
+      ids.forEach((id,i)=>{
+        const card=document.createElement('div'); card.className='role-card';
+        const shape=document.createElement('div'); shape.className='shape '+id;
+        const name=document.createElement('h3'); name.textContent=names[i];
+        const desc=document.createElement('p'); desc.textContent=descs[i];
+        card.appendChild(shape); card.appendChild(name); card.appendChild(desc);
+        card.addEventListener('click',()=>startGame(id));
+        container.appendChild(card);
+      });
+    }
+
+    async function startGame(roleId) {
+      document.getElementById('role-selection').style.display='none';
+      document.getElementById('game-container').style.display='block';
+      if (USE_API) {
+        try {
+          const data = await apiFetch('/start', { role: roleId });
+          gameId = data.gameId; gs = data.state;
+        } catch {
+          gs = new GameState(roleId, words);
+        }
+      } else {
+        gs = new GameState(roleId, words);
+      }
+      updateHUD(); draw();
+      const tick = USE_API ? apiTick : clientTick;
+      pollId=setInterval(tick, 1000/30);
+    }
+
+    function restartGame() {
+      document.getElementById('game-over-modal').style.display='none';
+      document.getElementById('game-container').style.display='none';
+      document.getElementById('role-selection').style.display='block';
+      if(pollId){ clearInterval(pollId); pollId=null; }
+      gs=null; gameId=null; spellActive=false; commandActive=false;
+    }
+
+    /* Events */
+    document.addEventListener('keydown',e=>{
+      if(spellActive) return;
+      keys[e.key.toLowerCase()]=true;
+      if(e.key==='Enter'&&!commandActive){ commandActive=true; document.getElementById('command-input-area').style.display='block'; document.getElementById('command-input').focus(); }
+      if(e.key==='Escape'&&commandActive){ commandActive=false; document.getElementById('command-input-area').style.display='none'; document.getElementById('command-input').value=''; }
+    });
+    document.addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=false; });
+    canvas.addEventListener('mousemove',e=>{ const r=canvas.getBoundingClientRect(); mouseX=e.clientX-r.left; mouseY=e.clientY-r.top; });
+    canvas.addEventListener('click',()=>{
+      if(!gs||!gs.running||commandActive||spellActive) return;
+      if (USE_API) { apiFetch('/action', { gameId, action: 'attack', mouseX, mouseY }).then(d => { gs=d; draw(); }).catch(() => gs.attack(mouseX,mouseY)); }
+      else { gs.attack(mouseX,mouseY); }
+    });
+    document.getElementById('command-input').addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        const cmd=document.getElementById('command-input').value.trim().toLowerCase();
+        if(cmd==='/super'){
+          if (USE_API) { apiFetch('/action', { gameId, action: 'super' }).then(d => { gs=d; }).catch(() => gs.activateSuper()); }
+          else { gs.activateSuper(); }
+        }
+        commandActive=false; document.getElementById('command-input-area').style.display='none'; document.getElementById('command-input').value='';
+      }
+    });
+    document.getElementById('spell-submit').addEventListener('click',submitSpell);
+    document.getElementById('spell-input').addEventListener('keydown',e=>{ if(e.key==='Enter') submitSpell(); });
+    document.getElementById('restart-btn').addEventListener('click',restartGame);
+
+    initRoleSelection();
+  </script>
+</body>
+</html>

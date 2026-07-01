@@ -22,7 +22,6 @@ interface Task {
 
 const UPDATE_TARGETS = [
   { key: 'apt',      label: 'System Packages',  desc: 'apt-get upgrade (all packages)' },
-  { key: 'pm2',      label: 'PM2',              desc: 'pm2 update（in-place daemon 更新，不中斷服務）' },
   { key: 'nginx',    label: 'Nginx',            desc: 'Upgrade packages and reload config' },
   { key: 'fail2ban', label: 'Fail2ban',         desc: 'Upgrade packages and restart service' },
   { key: 'mariadb',  label: 'MariaDB',          desc: 'Upgrade mariadb-server package' },
@@ -107,6 +106,10 @@ export default function AutomaticPanel({ onClose, onOpenLogs }: Props) {
   const [uTargets, setUTargets] = useState<Set<string>>(new Set(['apt']))
   const [uSaving, setUSaving] = useState(false)
 
+  // ── PM2 update task (independent, monthly default) ───
+  const [pm2Cron, setPm2Cron] = useState('0 2 1 * *')
+  const [pm2Saving, setPm2Saving] = useState(false)
+
   useEffect(() => { load() }, [])
 
   async function load() {
@@ -114,17 +117,20 @@ export default function AutomaticPanel({ onClose, onOpenLogs }: Props) {
     try {
       const data = await apiJson<Task[]>('/api/schedule/tasks')
       setTasks(data)
-      const ut = data.find(t => t.type === 'update')
+      const ut = data.find(t => t.type === 'update' && t.name !== 'PM2 Auto Update')
       if (ut) {
         setUCron(ut.cron_expr)
         setUTargets(parseUpdateTargets(ut))
       }
+      const pt = data.find(t => t.type === 'update' && t.name === 'PM2 Auto Update')
+      if (pt) setPm2Cron(pt.cron_expr)
     } catch { toast.error('Failed to load schedules') }
     finally { setLoading(false) }
   }
 
   const backupTasks = tasks.filter(t => t.type === 'backup')
-  const updateTask  = tasks.find(t => t.type === 'update') ?? null
+  const updateTask  = tasks.find(t => t.type === 'update' && t.name !== 'PM2 Auto Update') ?? null
+  const pm2Task     = tasks.find(t => t.type === 'update' && t.name === 'PM2 Auto Update') ?? null
 
   // ── Backup actions ───────────────────────────────────
   async function addTask() {
@@ -178,7 +184,7 @@ export default function AutomaticPanel({ onClose, onOpenLogs }: Props) {
     if (!uCron) return toast.error('Please set a schedule')
     setUSaving(true)
     try {
-      const targetsJson = JSON.stringify([...uTargets])
+      const targetsJson = JSON.stringify([...uTargets].filter(k => k !== 'pm2'))
       if (updateTask) {
         await apiJson(`/api/schedule/tasks/${updateTask.id}`, {
           method: 'PUT', headers: { 'Content-Type': 'application/json' },
@@ -194,6 +200,27 @@ export default function AutomaticPanel({ onClose, onOpenLogs }: Props) {
       await load()
     } catch (err) { toast.error((err as Error).message) }
     finally { setUSaving(false) }
+  }
+
+  async function savePm2(enabled?: boolean) {
+    if (!pm2Cron) return toast.error('Please set a schedule')
+    setPm2Saving(true)
+    try {
+      if (pm2Task) {
+        await apiJson(`/api/schedule/tasks/${pm2Task.id}`, {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cron_expr: pm2Cron, source_path: '["pm2"]', ...(enabled !== undefined && { enabled }) }),
+        })
+      } else {
+        await apiJson('/api/schedule/tasks', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: 'PM2 Auto Update', type: 'update', cron_expr: pm2Cron, source_path: '["pm2"]', enabled: enabled !== false }),
+        })
+      }
+      toast.success('PM2 schedule saved')
+      await load()
+    } catch (err) { toast.error((err as Error).message) }
+    finally { setPm2Saving(false) }
   }
 
   // ── Render ───────────────────────────────────────────
@@ -266,16 +293,27 @@ export default function AutomaticPanel({ onClose, onOpenLogs }: Props) {
               runningId={runningId}
             />
           ) : (
-            <UpdateTab
-              task={updateTask}
-              uCron={uCron} setUCron={setUCron}
-              uTargets={uTargets} setUTargets={setUTargets}
-              saving={uSaving}
-              runningId={runningId}
-              onSave={saveUpdate}
-              onRun={() => updateTask && runNow(updateTask.id)}
-              onToggle={en => saveUpdate(en)}
-            />
+            <div className="max-w-lg space-y-4">
+              <UpdateTab
+                task={updateTask}
+                uCron={uCron} setUCron={setUCron}
+                uTargets={uTargets} setUTargets={setUTargets}
+                saving={uSaving}
+                runningId={runningId}
+                onSave={saveUpdate}
+                onRun={() => updateTask && runNow(updateTask.id)}
+                onToggle={en => saveUpdate(en)}
+              />
+              <Pm2UpdateCard
+                task={pm2Task}
+                cron={pm2Cron} setCron={setPm2Cron}
+                saving={pm2Saving}
+                runningId={runningId}
+                onSave={savePm2}
+                onRun={() => pm2Task && runNow(pm2Task.id)}
+                onToggle={en => savePm2(en)}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -571,6 +609,65 @@ function UpdateTab({ task, uCron, setUCron, uTargets, setUTargets, saving, runni
             }
           </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+// ── PM2 Update Card (independent monthly schedule) ───────
+
+interface Pm2CardProps {
+  task: Task | null
+  cron: string; setCron: (v: string) => void
+  saving: boolean
+  runningId: string | null
+  onSave: (enabled?: boolean) => void
+  onRun: () => void
+  onToggle: (en: boolean) => void
+}
+
+function Pm2UpdateCard({ task, cron, setCron, saving, runningId, onSave, onRun, onToggle }: Pm2CardProps) {
+  const enabled = task?.enabled ?? false
+  return (
+    <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-white text-sm font-medium">PM2 Update <span className="text-xs text-gray-500">(獨立排程 / 建議每月)</span></p>
+          {task ? (
+            <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1.5">
+              Last run: {fmtTime(task.last_run)}
+              <StatusBadge status={task.last_status} />
+            </p>
+          ) : (
+            <p className="text-xs text-gray-600 mt-0.5">No schedule set</p>
+          )}
+        </div>
+        <div className="flex shrink-0 rounded-lg border border-gray-600 overflow-hidden text-xs font-medium">
+          <button onClick={() => onToggle(true)} disabled={saving}
+            className={`px-3 py-1.5 transition-colors ${enabled ? 'bg-orange-600 text-white' : 'bg-transparent text-gray-400 hover:text-white hover:bg-gray-700'}`}>Enable</button>
+          <button onClick={() => onToggle(false)} disabled={saving}
+            className={`px-3 py-1.5 border-l border-gray-600 transition-colors ${!enabled && task ? 'bg-gray-600 text-white' : 'bg-transparent text-gray-400 hover:text-white hover:bg-gray-700'}`}>Disable</button>
+        </div>
+      </div>
+      <div className="bg-yellow-900/20 border border-yellow-800/40 rounded-lg p-2.5 text-xs text-yellow-300">
+        pm2 update 會重啟 daemon 並短暫中斷服務，已與其他更新拆開獨立排程（預設每月），避免頻繁中斷。
+      </div>
+      <div>
+        <label className="block text-xs text-gray-500 mb-1.5">Run Schedule</label>
+        <CronPicker expr={cron} onChange={setCron} />
+      </div>
+      <div className="flex gap-2">
+        <button onClick={() => onSave()} disabled={saving}
+          className="flex-1 py-2 rounded-lg bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white text-sm font-medium transition-colors">
+          {saving ? 'Saving...' : 'Save PM2 Schedule'}
+        </button>
+        <button onClick={onRun} disabled={!task || runningId === task?.id}
+          title={!task ? 'Please save settings first' : 'Run once now'}
+          className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 disabled:opacity-40 text-white text-sm font-medium transition-colors flex items-center gap-2">
+          {runningId === task?.id
+            ? <><span className="animate-spin leading-none">◌</span><span>Running</span></>
+            : <span>Run Now</span>}
+        </button>
       </div>
     </div>
   )

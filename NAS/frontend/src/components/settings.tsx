@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang, type Lang } from '../context/LangContext'
 import { apiJson } from '../lib/api'
+import VaultixID from './VaultixID'
 
 export default function Settings() {
   const { user, signOut } = useAuth()
   const { t, lang, setLang } = useLang()
   const navigate = useNavigate()
   const [showPwd, setShowPwd] = useState(false)
+  const [showVaultixID, setShowVaultixID] = useState(false)
   const [pwdForm, setPwdForm] = useState({ current: '', next: '', confirm: '' })
   const [pwdState, setPwdState] = useState<{ loading: boolean; ok: boolean; err: string }>({ loading: false, ok: false, err: '' })
 
@@ -93,8 +95,12 @@ export default function Settings() {
 
   return (
     <div className="min-h-dvh flex flex-col bg-gray-900 text-white">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
-        <button onClick={() => navigate('/')} className="text-sm text-gray-400 hover:text-white transition-colors">
+      <header className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-gray-700 bg-gray-900">
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          className="px-3 py-1.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700/60 transition-colors"
+        >
           {t.backBtn}
         </button>
         <h1 className="text-xl font-bold text-orange-400">{t.settingsTitle}</h1>
@@ -111,6 +117,24 @@ export default function Settings() {
           <div>
             <p className="text-xs text-gray-400">{t.roleLabel}</p>
             <p className="text-white">{user?.role === 'admin' ? t.roleAdmin : t.roleUser}</p>
+          </div>
+          <div className="pt-1 border-t border-gray-700">
+            <button
+              type="button"
+              onClick={() => setShowVaultixID(true)}
+              className="w-full flex items-center justify-between py-1.5 text-sm text-gray-300 hover:text-orange-400 transition-colors group"
+            >
+              <span className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                </svg>
+                Vaultix ID
+              </span>
+              <svg className="w-4 h-4 text-gray-600 group-hover:text-orange-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -286,6 +310,8 @@ export default function Settings() {
           {t.signOut}
         </button>
       </main>
+
+      {showVaultixID && <VaultixID onClose={() => setShowVaultixID(false)} />}
     </div>
   )
 }

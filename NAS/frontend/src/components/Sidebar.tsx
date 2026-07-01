@@ -20,6 +20,9 @@ interface Props {
   onOpenAndroidStudio?: () => void
   favorites?: string[]
   onOpenSnapshots?: () => void
+  /** Mobile drawer open state (≤480px). Ignored on desktop where the sidebar is static. */
+  open?: boolean
+  onClose?: () => void
 }
 
 const QUICK_ACCESS = [
@@ -104,7 +107,7 @@ const QUICK_ACCESS = [
 
 const codeServerUrl = (import.meta.env.VITE_CODE_SERVER_URL ?? '').replace(/\/+$/, '')
 
-export default function Sidebar({ currentPath, onNavigate, mountedDrives, onOpenStorage, isAdmin, onOpenVisualStudio, onOpenArduino, onOpenAnaconda, onOpenCircuit, onOpenQuartus, onOpenKiCad, onOpenAndroidStudio, favorites = [], onOpenSnapshots }: Props) {
+export default function Sidebar({ currentPath, onNavigate, mountedDrives, onOpenStorage, isAdmin, onOpenVisualStudio, onOpenArduino, onOpenAnaconda, onOpenCircuit, onOpenQuartus, onOpenKiCad, onOpenAndroidStudio, favorites = [], onOpenSnapshots, open = false, onClose }: Props) {
   const { t } = useLang()
   const topLevel = currentPath.split('/')[0] ?? ''
 
@@ -113,7 +116,13 @@ export default function Sidebar({ currentPath, onNavigate, mountedDrives, onOpen
   }
 
   return (
-    <aside className="w-44 shrink-0 bg-gray-900 border-r border-gray-800 flex flex-col overflow-y-auto">
+    <aside className={`w-44 shrink-0 bg-gray-900 border-r border-gray-800 flex flex-col overflow-y-auto max-[480px]:fixed max-[480px]:inset-y-0 max-[480px]:left-0 max-[480px]:z-50 max-[480px]:shadow-2xl max-[480px]:transition-transform max-[480px]:duration-200 ${open ? 'max-[480px]:translate-x-0' : 'max-[480px]:-translate-x-full'}`}>
+      {/* Mobile-only close button */}
+      <button
+        onClick={onClose}
+        className="hidden max-[480px]:flex items-center justify-center w-8 h-8 self-end m-2 rounded-lg bg-gray-800 text-gray-400 hover:text-white"
+        title="關閉"
+      >×</button>
       {/* Quick access */}
       <div className="px-2 pt-4 pb-2">
         <p className="text-[10px] text-gray-600 uppercase tracking-widest mb-1 px-2 font-medium">

@@ -13,7 +13,6 @@ CREATE TABLE week1 (
 [
     {
         "word": "accept",
-        "meaning": "接受；接納",
         "pos": "verb",
         "synonym": "none",
         "antonym": "reject",
@@ -24,7 +23,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "appear",
-        "meaning": "出現",
+        
         "pos": "verb",
         "synonym": "none",
         "antonym": ["vanish","disappear"],
@@ -34,7 +33,6 @@ CREATE TABLE week1 (
     },
     {
         "word": "attention",
-        "meaning": "注意；留意",
         "pos": "noun",
         "synonym": "none",
         "antonym": "none",
@@ -45,7 +43,6 @@ CREATE TABLE week1 (
     },
     {
         "word": "brilliant",
-        "meaning": "傑出的；光輝的；精彩的",
         "pos": "adjective",
         "synonym": "outstanding",
         "antonym": "none",
@@ -56,7 +53,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "common",
-        "meaning": "普通的；常見的",
+        普通的；常見的",
         "pos": "adjective",
         "synonym": "ordinary",
         "antonym": "none",
@@ -67,7 +64,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "creative",
-        "meaning": "有創意的；有創造力的",
+        有創意的；有創造力的",
         "pos": "adjective",
         "synonym": "none",
         "antonym": "none",
@@ -78,7 +75,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "describe",
-        "meaning": "描述；形容",
+        描述；形容",
         "pos": "verb",
         "synonym": "none",
         "antonym": "none",
@@ -89,7 +86,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "emotion",
-        "meaning": "情緒；感情",
+        情緒；感情",
         "pos": "noun",
         "synonym": "feeling",
         "antonym": "none",
@@ -100,7 +97,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "encourage",
-        "meaning": "鼓勵",
+        鼓勵",
         "pos": "verb",
         "synonym": "inspire",
         "antonym": "discourage",
@@ -111,7 +108,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "energy",
-        "meaning": "精力；能源",
+        精力；能源",
         "pos": "noun",
         "synonym": "none",
         "antonym": "none",
@@ -124,7 +121,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "generous",
-        "meaning": "大方的；慷慨的",
+        大方的；慷慨的",
         "pos": "adjective",
         "synonym": "none",
         "antonym": "none",
@@ -135,7 +132,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "imagine",
-        "meaning": "想像",
+        想像",
         "pos": "verb",
         "synonym": "none",
         "antonym": "none",
@@ -146,7 +143,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "immediately",
-        "meaning": "立刻",
+        立刻",
         "pos": "adverb",
         "synonym": ["right away", "at once", "right now"],
         "antonym": "none",
@@ -157,7 +154,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "instead",
-        "meaning": "作為替代；反而",
+        作為替代；反而",
         "pos": "adverb",
         "synonym": "none",
         "antonym": "none",
@@ -168,7 +165,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "introduce",
-        "meaning": "介紹；引見",
+        介紹；引見",
         "pos": "verb",
         "synonym": "none",
         "antonym": "none",
@@ -179,7 +176,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "model",
-        "meaning": "模範；模型；(產品、機器的)型號",
+        模範；模型；(產品、機器的)型號",
         "pos": "noun",
         "synonym": "none",
         "antonym": "none",
@@ -190,7 +187,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "occasion",
-        "meaning": "重要活動；場合；時機",
+        重要活動；場合；時機",
         "pos": "noun",
         "synonym": "none",
         "antonym": "none",
@@ -212,7 +209,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "product",
-        "meaning": "產品",
+        產品",
         "pos": "noun",
         "synonym": "none",
         "antonym": "none",
@@ -223,7 +220,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "realize",
-        "meaning": "意識到；實現",
+        意識到；實現",
         "pos": "verb",
         "synonym": "achive",
         "antonym": "none",
@@ -234,7 +231,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "recognize",
-        "meaning": "辨認；表彰",
+        辨認；表彰",
         "pos": "verb",
         "synonym": "identify",
         "antonym": "none",
@@ -245,7 +242,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "recovery",
-        "meaning": "復原；痊癒",
+        復原；痊癒",
         "pos": "noun",
         "synonym": "none",
         "antonym": "none",
@@ -256,7 +253,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "refuse",
-        "meaning": "拒絕",
+        拒絕",
         "pos": "verb",
         "synonym": ["reject", "turn down"],
         "antonym": "accept",
@@ -267,7 +264,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "relationship",
-        "meaning": "關係；戀情",
+        關係；戀情",
         "pos": "noun",
         "synonym": "link",
         "antonym": "none",
@@ -278,7 +275,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "respect",
-        "meaning": "敬重；尊敬；重視",
+        敬重；尊敬；重視",
         "pos": ["noun", "verb"],
         "synonym": "none",
         "antonym": "none",
@@ -289,7 +286,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "surprisingly",
-        "meaning": "出乎意外地；驚人地",
+        出乎意外地；驚人地",
         "pos": "adverb",
         "synonym": "unexpectedly",
         "antonym": "none",
@@ -300,7 +297,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "traditional",
-        "meaning": "傳統的",
+        傳統的",
         "pos": "adjective",
         "synonym": "conventional",
         "antonym": ["modern", "recent", "contemporary"],
@@ -311,7 +308,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "unique",
-        "meaning": "獨一無二的",
+        獨一無二的",
         "pos": "adjective",
         "synonym": "none",
         "antonym": ["common", "ordinary"],
@@ -322,7 +319,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "valuable",
-        "meaning": "珍貴的；有價值的",
+        珍貴的；有價值的",
         "pos": "adjective",
         "synonym": "precious",
         "antonym": "none",
@@ -333,7 +330,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "various",
-        "meaning": "不同的；各式各樣的",
+        不同的；各式各樣的",
         "pos": "adjective",
         "synonym": "none",
         "antonym": "none",
@@ -344,7 +341,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "at the same time",
-        "meaning": "同時；同一時間",
+        同時；同一時間",
         "pos": "none",
         "synonym": "at once",
         "antonym": "none",
@@ -355,7 +352,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "come up with",
-        "meaning": "想到；想出",
+        想到；想出",
         "pos": "none",
         "synonym": ["think of", "figure out"],
         "antonym": "none",
@@ -366,7 +363,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "in addition (to)",
-        "meaning": "除了...之外",
+        除了...之外",
         "pos": "none",
         "synonym": "none",
         "antonym": "none",
@@ -377,7 +374,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "in fact",
-        "meaning": "事實上",
+        事實上",
         "pos": "none",
         "synonym": "actually",
         "antonym": "none",
@@ -388,7 +385,7 @@ CREATE TABLE week1 (
     },
     {
         "word": "look forward to",
-        "meaning": "期待",
+        期待",
         "pos": "none",
         "synonym": "none",
         "antonym": "none",

@@ -153,6 +153,90 @@ export interface Translations {
   createdAt: string
   enterPwdFirst: string
   rename: String
+  // File list footer (home.tsx)
+  foldersCount: (n: number) => string
+  filesCount: (n: number) => string
+  itemsSummary: (total: number, parts: string) => string
+  selectedOne: (name: string, size: string) => string
+  selectedMany: (count: number, parts: string) => string
+  listSep: string
+  // QuickConnect (login page)
+  qcPlaceholder: string
+  qcConnect: string
+  qcConnecting: string
+  qcConnected: (name: string) => string
+  qcReset: string
+  qcOr: string
+  installApp: string
+  externalTag: string
+  mediaDownloader: string
+  deleteSelected: string
+  dragToBulkMove: string
+  download: string
+  dlBestQualityVbr: string
+  dlBestVideoQuality: string
+  chooseSaveFolder: string
+  loadingText: string
+  noSubfolders: string
+  chooseThisLocation: string
+  // Downloader (media downloader window)
+  dlStatusPending: string
+  dlStatusDone: string
+  dlStatusError: string
+  cancel: string
+  dlCollapse: string
+  dlExpandError: string
+  dlFillTokenCt0: string
+  dlCookieSaved: string
+  dlCookieUploaded: string
+  dlCookieRemoved: string
+  dlUrlLabel: string
+  dlUrlPlaceholder: string
+  dlFormat: string
+  dlFmtVideo: string
+  dlFmtAudio: string
+  dlFmtImage: string
+  dlQuality: string
+  dlSaveFolder: string
+  dlRootClickToPick: string
+  dlClearToRoot: string
+  dlNetflixNote: string
+  dlNetflixLi1: string
+  dlNetflixLi2: string
+  dlNetflixLi3: string
+  dlAdding: string
+  dlStartDownload: string
+  dlCookieMgmt: string
+  dlCookieSet: string
+  dlCookieUnset: string
+  dlRemove: string
+  dlDouyinUpload: string
+  dlDouyinDesc: string
+  dlUploading: string
+  dlChooseCookieUpload: string
+  dlTwitterCookie: string
+  dlSaving: string
+  dlSaveTwitterCookie: string
+  dlTwitterHint: string
+  dlHistory: string
+  dlRefresh: string
+  dlClearDone: string
+  dlNoHistory: string
+  dlInProgress: string
+  dlEnterUrl: string
+  dlNetflixNeedCookies: string
+  dlAddedToQueue: string
+  // Quartus panel
+  quartusDownload: string
+  quartusDownloadSub: string
+  quartusDocs: string
+  quartusDocsSub: string
+  quartusForum: string
+  quartusForumSub: string
+  quartusModelsim: string
+  quartusModelsimSub: string
+  quartusDesignTool: string
+  quartusInstallNote: string
 }
 
 const zh: Translations = {
@@ -299,6 +383,86 @@ const zh: Translations = {
   createdAt: '建立於',
   enterPwdFirst: '請輸入密碼',
   rename: "重命名",
+  foldersCount: n => `${n} 個資料夾`,
+  filesCount: n => `${n} 個檔案`,
+  itemsSummary: (total, parts) => `共 ${total} 個項目（${parts}）`,
+  selectedOne: (name, size) => `已選取 1 個項目：${name}${size ? `（${size}）` : ''}`,
+  selectedMany: (count, parts) => `已選取 ${count} 個項目（${parts}）`,
+  listSep: '、',
+  qcPlaceholder: '輸入 Vaultix ID 連線',
+  qcConnect: '連線',
+  qcConnecting: '連線中…',
+  qcConnected: name => `已連線至 ${name}`,
+  qcReset: '改用其他 ID',
+  qcOr: '或使用帳號密碼登入',
+  installApp: '安裝 App',
+  externalTag: '外接',
+  mediaDownloader: '媒體下載器',
+  deleteSelected: '刪除選取項目',
+  dragToBulkMove: '拖曳到資料夾可批量移動',
+  download: '下載',
+  dlBestQualityVbr: '最佳品質 (VBR)',
+  dlBestVideoQuality: '最佳畫質',
+  chooseSaveFolder: '選擇儲存資料夾',
+  loadingText: '載入中...',
+  noSubfolders: '無子資料夾',
+  chooseThisLocation: '選擇此位置：',
+  dlStatusPending: '等待中',
+  dlStatusDone: '完成',
+  dlStatusError: '失敗',
+  cancel: '取消',
+  dlCollapse: '收起',
+  dlExpandError: '展開錯誤訊息',
+  dlFillTokenCt0: '請同時填入 auth_token 與 ct0',
+  dlCookieSaved: 'Cookie 已儲存',
+  dlCookieUploaded: 'cookies.txt 已上傳',
+  dlCookieRemoved: 'Cookie 已移除',
+  dlUrlLabel: '影片 / 音樂網址',
+  dlUrlPlaceholder: '貼上網址或抖音 / TikTok 分享文字，自動擷取連結',
+  dlFormat: '格式',
+  dlFmtVideo: '影片',
+  dlFmtAudio: '音訊',
+  dlFmtImage: '圖片',
+  dlQuality: '品質',
+  dlSaveFolder: '儲存資料夾',
+  dlRootClickToPick: '根目錄（點擊選擇資料夾）',
+  dlClearToRoot: '清除（存至根目錄）',
+  dlNetflixNote: 'Netflix 注意事項',
+  dlNetflixLi1: '需上傳 cookies.txt（瀏覽器登入 Netflix 後用 Get cookies.txt LOCALLY 匯出）',
+  dlNetflixLi2: 'DRM 限制，最高僅能下載 540p',
+  dlNetflixLi3: 'Pi 上的 yt-dlp 需為最新版（pip install -U yt-dlp）',
+  dlAdding: '加入中...',
+  dlStartDownload: '開始下載',
+  dlCookieMgmt: 'Cookie 管理',
+  dlCookieSet: 'cookies.txt 已設定',
+  dlCookieUnset: '未設定',
+  dlRemove: '移除',
+  dlDouyinUpload: '抖音 / 通用 cookies.txt 上傳',
+  dlDouyinDesc: '適用抖音、YouTube 等需要 Cookie 的平台。使用瀏覽器擴充功能「Get cookies.txt LOCALLY」匯出後上傳。',
+  dlUploading: '上傳中...',
+  dlChooseCookieUpload: '選擇 cookies.txt 上傳',
+  dlTwitterCookie: 'Twitter / X Cookie（手動輸入）',
+  dlSaving: '儲存中...',
+  dlSaveTwitterCookie: '儲存 Twitter Cookie',
+  dlTwitterHint: 'F12 → Application → Cookies → x.com，複製 auth_token 與 ct0',
+  dlHistory: '下載記錄',
+  dlRefresh: '重新整理',
+  dlClearDone: '清除已完成',
+  dlNoHistory: '尚無下載記錄',
+  dlInProgress: '個進行中',
+  dlEnterUrl: '請輸入 URL',
+  dlNetflixNeedCookies: 'Netflix 需要 cookies 才能下載。請先登入 Netflix → 用 Get cookies.txt LOCALLY 匯出 → 上傳',
+  dlAddedToQueue: '已加入下載佇列',
+  quartusDownload: 'Quartus Prime 下載',
+  quartusDownloadSub: 'intel.com — 下載 Lite / Standard / Pro 版本',
+  quartusDocs: 'Intel FPGA 文件中心',
+  quartusDocsSub: 'intel.com — Quartus 使用手冊 & 技術文件',
+  quartusForum: 'Intel FPGA 社群論壇',
+  quartusForumSub: 'community.intel.com — 技術支援 & 討論',
+  quartusModelsim: 'ModelSim 模擬器',
+  quartusModelsimSub: 'intel.com — FPGA 功能模擬工具',
+  quartusDesignTool: 'FPGA / CPLD 設計工具',
+  quartusInstallNote: 'Quartus Prime 需在本機安裝，點擊連結前往官網下載',
 }
 
 const en: Translations = {
@@ -445,6 +609,86 @@ const en: Translations = {
   createdAt: 'Created',
   enterPwdFirst: 'Please enter a password',
   rename: "Rename",
+  foldersCount: n => `${n} ${n === 1 ? 'folder' : 'folders'}`,
+  filesCount: n => `${n} ${n === 1 ? 'file' : 'files'}`,
+  itemsSummary: (total, parts) => `${total} ${total === 1 ? 'item' : 'items'} (${parts})`,
+  selectedOne: (name, size) => `1 selected: ${name}${size ? ` (${size})` : ''}`,
+  selectedMany: (count, parts) => `${count} selected (${parts})`,
+  listSep: ', ',
+  qcPlaceholder: 'Enter Vaultix ID to connect',
+  qcConnect: 'Connect',
+  qcConnecting: 'Connecting…',
+  qcConnected: name => `Connected to ${name}`,
+  qcReset: 'Use another ID',
+  qcOr: 'or sign in with account',
+  installApp: 'Install App',
+  externalTag: 'External',
+  mediaDownloader: 'Media Downloader',
+  deleteSelected: 'Delete selected',
+  dragToBulkMove: 'Drag onto a folder to move in bulk',
+  download: 'Download',
+  dlBestQualityVbr: 'Best quality (VBR)',
+  dlBestVideoQuality: 'Best quality',
+  chooseSaveFolder: 'Choose save folder',
+  loadingText: 'Loading...',
+  noSubfolders: 'No subfolders',
+  chooseThisLocation: 'Select this location: ',
+  dlStatusPending: 'Pending',
+  dlStatusDone: 'Done',
+  dlStatusError: 'Failed',
+  cancel: 'Cancel',
+  dlCollapse: 'Collapse',
+  dlExpandError: 'Show error log',
+  dlFillTokenCt0: 'Please fill in both auth_token and ct0',
+  dlCookieSaved: 'Cookie saved',
+  dlCookieUploaded: 'cookies.txt uploaded',
+  dlCookieRemoved: 'Cookie removed',
+  dlUrlLabel: 'Video / Audio URL',
+  dlUrlPlaceholder: 'Paste a URL or Douyin / TikTok share text — links are auto-extracted',
+  dlFormat: 'Format',
+  dlFmtVideo: 'Video',
+  dlFmtAudio: 'Audio',
+  dlFmtImage: 'Image',
+  dlQuality: 'Quality',
+  dlSaveFolder: 'Save folder',
+  dlRootClickToPick: 'Root (click to choose a folder)',
+  dlClearToRoot: 'Clear (save to root)',
+  dlNetflixNote: 'Netflix notes',
+  dlNetflixLi1: 'Upload cookies.txt (log in to Netflix in your browser, then export with “Get cookies.txt LOCALLY”)',
+  dlNetflixLi2: 'DRM-limited — 540p max',
+  dlNetflixLi3: 'yt-dlp on the Pi must be up to date (pip install -U yt-dlp)',
+  dlAdding: 'Adding...',
+  dlStartDownload: 'Start download',
+  dlCookieMgmt: 'Cookie management',
+  dlCookieSet: 'cookies.txt set',
+  dlCookieUnset: 'Not set',
+  dlRemove: 'Remove',
+  dlDouyinUpload: 'Douyin / generic cookies.txt upload',
+  dlDouyinDesc: 'For Douyin, YouTube and other sites that need cookies. Export with the “Get cookies.txt LOCALLY” browser extension, then upload.',
+  dlUploading: 'Uploading...',
+  dlChooseCookieUpload: 'Choose cookies.txt to upload',
+  dlTwitterCookie: 'Twitter / X Cookie (manual)',
+  dlSaving: 'Saving...',
+  dlSaveTwitterCookie: 'Save Twitter Cookie',
+  dlTwitterHint: 'F12 → Application → Cookies → x.com, copy auth_token and ct0',
+  dlHistory: 'Download history',
+  dlRefresh: 'Refresh',
+  dlClearDone: 'Clear completed',
+  dlNoHistory: 'No download history yet',
+  dlInProgress: 'in progress',
+  dlEnterUrl: 'Please enter a URL',
+  dlNetflixNeedCookies: 'Netflix needs cookies to download. Log in to Netflix → export with “Get cookies.txt LOCALLY” → upload.',
+  dlAddedToQueue: 'Added to download queue',
+  quartusDownload: 'Quartus Prime Download',
+  quartusDownloadSub: 'intel.com — download Lite / Standard / Pro editions',
+  quartusDocs: 'Intel FPGA Documentation',
+  quartusDocsSub: 'intel.com — Quartus manuals & technical docs',
+  quartusForum: 'Intel FPGA Community Forum',
+  quartusForumSub: 'community.intel.com — support & discussion',
+  quartusModelsim: 'ModelSim Simulator',
+  quartusModelsimSub: 'intel.com — FPGA functional simulation tool',
+  quartusDesignTool: 'FPGA / CPLD design tool',
+  quartusInstallNote: 'Quartus Prime must be installed locally — click a link to download from the official site',
 }
 
 const DICT: Record<Lang, Translations> = { zh, en }

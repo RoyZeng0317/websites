@@ -752,6 +752,8 @@ export default function VideoPlayer({ src, name, filePath, onClose }: Props) {
           ref={videoRef}
           src={src}
           controls
+          controlsList="nodownload noplaybackrate noremoteplayback"
+          disablePictureInPicture
           autoPlay
           className="max-w-full max-h-full rounded-lg shadow-2xl outline-none"
           style={{ maxHeight: 'calc(100vh - 120px)' }}

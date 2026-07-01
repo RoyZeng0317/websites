@@ -1,0 +1,32 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      ".git/**",
+      ".firebase/**",
+      "node_modules/**",
+      "src/**",
+      "vite.config.ts",
+      "tsconfig*.json",
+      "eslint.config.js",
+      "firebase.js",
+      "package.json",
+      "package-lock.json"
+    ],
+    "rewrites": [
+      { "source": "/vocabulary",      "destination": "/dist/index.html" },
+      { "source": "/vocabulary.html", "destination": "/dist/index.html" },
+      { "source": "/listening",       "destination": "/dist/index.html" },
+      { "source": "/listening.html",  "destination": "/dist/index.html" },
+      { "source": "/news",            "destination": "/dist/index.html" },
+      { "source": "/news.html",       "destination": "/dist/index.html" },
+      { "source": "/lesson",          "destination": "/dist/index.html" },
+      { "source": "/lesson.html",     "destination": "/dist/index.html" },
+      { "source": "/pay",             "destination": "/dist/index.html" },
+      { "source": "/pay.html",        "destination": "/dist/index.html" },
+      { "source": "/dist/**",         "destination": "/dist/index.html" }
+    ]
+  }
+}

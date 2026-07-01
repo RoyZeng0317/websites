@@ -167,3 +167,10 @@ Nav order across all pages: `Vocabulary → Listening Lab → News Reader → Le
 ## Listening Lab Score
 
 Comprehension progress stored in **localStorage** (`lp-listen-{id}`). Aggregate "Listening Ability %" is calculated client-side from checked key-points. Not synced to Firebase.
+
+## to do list
+[x] the footer style need to improving, but i don't have any ideal to revise it. — 2026-07-01: restyled shared footer CSS (top border, surface bg, padding, centered/wrap, accent links with spacing + hover).
+[x] the top menu: vocabulary card, listening card, news reader, leanring path this button. change it to the html: <a>listening card</a>. and put at the center. — 2026-07-01: links moved into centered .nav-center wrapper as plain .nav-link <a> tags on index/vocabulary/listening/news.html; CSS added to style.css.
+[x] the top menu improving part: i hope the font color can change to white, remove the underline, padding need to add it, like: 20px. — 2026-07-01: .nav-link now #fff, no underline (hover = subtle bg), padding 10px 20px.
+[x] the cotact us this footer also need to revise it. — 2026-07-01: restyled .contact-us into a multi-column footer section (surface bg, top border, Playfair accent title, muted→accent links, social icons hover; removed absolute .society positioning + border-bottom lines).
+[x] the ```npx firebase deploy --only hosting``` this cammand, i hope can use it at the \frontend\ this folder location. — 2026-07-01: added frontend/firebase.json (public ".") + frontend/.firebaserc (linguapath-platform). Deploy now works from frontend/. Root firebase.json still works too.

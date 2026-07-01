@@ -59,15 +59,7 @@ function ChangeIcon({ change, isTW }: { change: string; isTW: boolean }) {
     : <TrendingDown size={11} className={green ? 'text-emerald-400' : 'text-red-400'} />
 }
 
-function todayDates(): string[] {
-  // Use UTC+8 as reference date, try up to 7 days back
-  const now = new Date()
-  const cstMs = now.getTime() + 8 * 60 * 60 * 1000
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(cstMs - i * 86_400_000)
-    return d.toISOString().slice(0, 10)
-  })
-}
+const NEWS_API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
 
 export default function News() {
   const [data, setData] = useState<NewsData | null>(null)
@@ -79,17 +71,9 @@ export default function News() {
     setLoading(true)
     setError(null)
     try {
-      const dates = todayDates()
-      let found = false
-      for (const date of dates) {
-        const res = await fetch(`/data/news/${date}.json`)
-        if (res.ok) {
-          setData(await res.json() as NewsData)
-          found = true
-          break
-        }
-      }
-      if (!found) throw new Error('近 7 日無可用新聞資料')
+      const res = await fetch(`${NEWS_API_BASE}/news`)
+      if (!res.ok) throw new Error(res.status === 404 ? '近 7 日無可用新聞資料' : `載入失敗（${res.status}）`)
+      setData(await res.json() as NewsData)
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       setError(msg)

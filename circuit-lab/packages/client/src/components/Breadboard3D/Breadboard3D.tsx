@@ -5,6 +5,7 @@ import { useCircuitStore } from '../../stores/circuitStore.js';
 import { ComponentMesh } from './ComponentMesh.js';
 import { WireRenderer } from './WireRenderer.js';
 import { BreadboardMesh } from './BreadboardMesh.js';
+import { snapToHole, BOARD_TOP } from './breadboardLayout.js';
 
 export function Breadboard3D() {
   const { project, selectedTool, placingComponentType, setPlacingComponentType, addComponent } = useCircuitStore();
@@ -23,14 +24,15 @@ export function Breadboard3D() {
         mouse.current.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.current.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.current.setFromCamera(mouse.current, camera);
-        const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+        const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -BOARD_TOP);
         const point = new THREE.Vector3();
         const ray = raycaster.current.ray;
         const intersect = ray.intersectPlane(groundPlane, point);
         if (intersect) {
-          const x = Math.round(point.x * 2) / 2;
-          const z = Math.round(point.z * 2) / 2;
-          addComponent(type, { x, y: 0.5, z });
+          const snapped = snapToHole(point.x, point.z);
+          if (snapped) {
+            addComponent(type, { x: snapped.x, y: BOARD_TOP + 0.18, z: snapped.z });
+          }
         }
       }
     };
@@ -50,10 +52,11 @@ export function Breadboard3D() {
 
   const handleClick = useCallback((e: any) => {
     if (selectedTool === 'component' && placingComponentType && e.point) {
-      const x = Math.round(e.point.x * 2) / 2;
-      const z = Math.round(e.point.z * 2) / 2;
-      addComponent(placingComponentType, { x, y: 0.5, z });
-      setPlacingComponentType(null);
+      const snapped = snapToHole(e.point.x, e.point.z);
+      if (snapped) {
+        addComponent(placingComponentType, { x: snapped.x, y: BOARD_TOP + 0.18, z: snapped.z });
+        setPlacingComponentType(null);
+      }
     }
   }, [selectedTool, placingComponentType, addComponent, setPlacingComponentType]);
 
@@ -66,8 +69,9 @@ export function Breadboard3D() {
       {project.wires.map((wire) => (
         <WireRenderer key={wire.id} wire={wire} />
       ))}
-      <mesh onClick={handleClick} position={[0, 0, 0]} visible={false}>
-        <planeGeometry args={[20, 20]} />
+      {/* Horizontal invisible plane for click-to-place, aligned to board surface */}
+      <mesh onClick={handleClick} position={[0, BOARD_TOP, 0]} rotation={[-Math.PI / 2, 0, 0]} visible={false}>
+        <planeGeometry args={[30, 30]} />
         <meshBasicMaterial side={THREE.DoubleSide} />
       </mesh>
     </group>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { apiJson, apiFetch } from '../lib/api'
 import { downloadUrl } from '../lib/api'
+import FolderSidebar from './FolderSidebar'
 
 // ── Lightweight inline ID3v2 parser (no external deps) ──────────────────────
 
@@ -131,10 +132,19 @@ interface Props {
 }
 
 const AUDIO_EXTS = new Set(['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'opus', 'wma'])
+const IMG_EXTS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'])
+// Central album-art folder on the NAS: covers are matched to tracks by base filename
+const MUSIC_IMG_DIR = 'sda1/音樂/img'
+// Central lyrics folder on the NAS: .lrc files are matched to tracks by base filename
+const MUSIC_LYRIC_DIR = 'sda1/音樂/lyric'
 
 function isAudio(name: string): boolean {
   const ext = name.split('.').pop()?.toLowerCase() ?? ''
   return AUDIO_EXTS.has(ext)
+}
+
+function isImage(name: string): boolean {
+  return IMG_EXTS.has(name.split('.').pop()?.toLowerCase() ?? '')
 }
 
 function isLrc(name: string): boolean {
@@ -197,7 +207,8 @@ function parseLrc(text: string): LyricLine[] {
 }
 
 export default function MusicApp({ onClose, initialFile }: Props) {
-  const [path, setPath] = useState('')
+  // Start directly in the opened file's folder to avoid a '' → dir double-load race
+  const [path, setPath] = useState(initialFile?.dir ?? '')
   const [items, setItems] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState<number | null>(null)
@@ -227,6 +238,8 @@ export default function MusicApp({ onClose, initialFile }: Props) {
   const [coverUrl, setCoverUrl] = useState<string | null>(null)
   const [metaLoading, setMetaLoading] = useState(false)
   const [pendingPlay, setPendingPlay] = useState<string | null>(null)
+  // base-filename (lowercased, no ext) → cover image path inside MUSIC_IMG_DIR
+  const [imgCovers, setImgCovers] = useState<Record<string, string>>({})
 
   const load = useCallback(async (dir: string) => {
     setLoading(true)
@@ -243,6 +256,24 @@ export default function MusicApp({ onClose, initialFile }: Props) {
   }, [])
 
   useEffect(() => { load(path) }, [path, load])
+
+  // Load the central album-art folder once and index covers by base filename
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await apiJson<{ items: FileItem[] }>(
+          `/api/files?path=${encodeURIComponent(MUSIC_IMG_DIR)}`
+        )
+        const map: Record<string, string> = {}
+        for (const it of data.items) {
+          if (it.type === 'file' && isImage(it.name)) {
+            map[baseName(it.name).toLowerCase()] = `${MUSIC_IMG_DIR}/${it.name}`
+          }
+        }
+        setImgCovers(map)
+      } catch { /* img folder may not exist */ }
+    })()
+  }, [])
 
   useEffect(() => () => { setCoverUrl(prev => { if (prev) URL.revokeObjectURL(prev); return null }) }, [])
 
@@ -315,6 +346,10 @@ export default function MusicApp({ onClose, initialFile }: Props) {
   const tracks = items.filter(i => i.type === 'file' && isAudio(i.name))
   const folders = items.filter(i => i.type === 'folder')
   const lrcs = items.filter(i => i.type === 'file' && isLrc(i.name))
+  // Folder cover: a `photo.jpg` sitting in the current folder is used as the album art
+  const folderCover = items.some(i => i.type === 'file' && i.name.toLowerCase() === 'photo.jpg')
+    ? downloadUrl(path ? `${path}/photo.jpg` : 'photo.jpg')
+    : null
 
   // Live ref — placed AFTER tracks/folders to avoid TDZ crash
   const liveRef = useRef({ currentIndex, tracks, playing })
@@ -323,12 +358,9 @@ export default function MusicApp({ onClose, initialFile }: Props) {
   const pairRef = useRef({ pairMode: false, pairIdx: 0, pairLinesLen: 0 })
   useEffect(() => { pairRef.current = { pairMode, pairIdx, pairLinesLen: pairLines.length } }, [pairMode, pairIdx, pairLines.length])
 
-  // Auto-play when opened by clicking an audio file
+  // Auto-play when opened by clicking an audio file (path already initialised to the folder)
   useEffect(() => {
-    if (initialFile) {
-      setPath(initialFile.dir)
-      setPendingPlay(initialFile.name)
-    }
+    if (initialFile) setPendingPlay(initialFile.name)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -348,8 +380,8 @@ export default function MusicApp({ onClose, initialFile }: Props) {
   function trackLrcPath(index: number) {
     const name = tracks[index]?.name
     if (!name) return ''
-    const lrc = lrcName(name)
-    return path ? `${path}/${lrc}` : lrc
+    // Lyrics are synced from the central lyric folder, matched by base filename
+    return `${MUSIC_LYRIC_DIR}/${lrcName(name)}`
   }
 
   async function loadLyrics(index: number) {
@@ -457,6 +489,9 @@ export default function MusicApp({ onClose, initialFile }: Props) {
   }
 
   const currentTrackName = currentIndex !== null ? tracks[currentIndex]?.name : null
+  // Album art: central img folder (matched by base filename) → folder photo.jpg → embedded ID3 → default
+  const imgCover = currentTrackName ? imgCovers[baseName(currentTrackName).toLowerCase()] : undefined
+  const albumArt = (imgCover && downloadUrl(imgCover)) || folderCover || coverUrl
 
   function handleEnded() {
     if (currentIndex !== null && currentIndex < tracks.length - 1) {
@@ -750,7 +785,7 @@ export default function MusicApp({ onClose, initialFile }: Props) {
           <svg className="w-5 h-5 text-pink-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
           </svg>
-          <h2 className="text-base font-bold text-white">Music Player</h2>
+          <h2 className="text-base font-bold text-white">Music</h2>
           <nav className="flex items-center gap-1.5 text-sm text-gray-400 ml-2 min-w-0">
             <button
               onClick={() => setPath('')}
@@ -785,15 +820,26 @@ export default function MusicApp({ onClose, initialFile }: Props) {
       </div>
 
       {/* Body */}
-      <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex min-h-0">
+        {/* Left folder explorer */}
+        <FolderSidebar
+          folders={folders}
+          onOpenFolder={openFolder}
+          canGoUp={!!path}
+          onGoUp={goBack}
+          accent="text-pink-400"
+          label="Folders"
+        />
+        {/* Right app interface */}
+        <div className="flex-1 flex flex-col min-h-0">
         {/* Player bar */}
         {currentTrackName && (
           <div className="shrink-0 px-5 py-4 bg-gray-900/80 border-b border-gray-800">
             <div className="flex items-center gap-4 mb-3">
               {/* Album art */}
               <div className="w-14 h-14 rounded-xl shrink-0 overflow-hidden bg-gradient-to-br from-pink-500/30 to-orange-500/30 flex items-center justify-center">
-                {coverUrl ? (
-                  <img src={coverUrl} alt="cover" className="w-full h-full object-cover" />
+                {albumArt ? (
+                  <img src={albumArt} alt="cover" className="w-full h-full object-cover" />
                 ) : (
                   <svg className="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
@@ -1069,26 +1115,6 @@ export default function MusicApp({ onClose, initialFile }: Props) {
               </div>
             ) : (
               <div className="p-3">
-                {folders.length > 0 && (
-                  <div className="mb-4 px-2">
-                    <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Folders</p>
-                    <div className="flex flex-wrap gap-2">
-                      {folders.map(f => (
-                        <button
-                          key={f.name}
-                          onClick={() => openFolder(f.name)}
-                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 transition-colors"
-                        >
-                          <svg className="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                          </svg>
-                          <span className="text-sm text-gray-200">{f.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {tracks.length > 0 ? (
                   <ul className="divide-y divide-gray-800">
                     {tracks.map((t, i) => (
@@ -1185,6 +1211,7 @@ export default function MusicApp({ onClose, initialFile }: Props) {
             </details>
           </div>
         )}
+        </div>
       </div>
 
       {/* Hidden audio element */}

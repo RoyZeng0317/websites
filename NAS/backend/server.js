@@ -171,6 +171,18 @@ await pool.query(`
   )
   `)
 
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS todos (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    user_id    INT NOT NULL,
+    title      VARCHAR(500) NOT NULL,
+    done       TINYINT(1) NOT NULL DEFAULT 0,
+    priority   ENUM('low','normal','high') NOT NULL DEFAULT 'normal',
+    due_date   DATE DEFAULT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  )
+`)
 
 const upload = multer({ dest: TMP_DIR })
 
@@ -1349,6 +1361,36 @@ app.post('/api/system/disks/umount', authenticate, requireAdmin, express.json(),
   try {
     await execAsync(`sudo umount "${mountPath}"`, { timeout: 15000 })
     await fs.rmdir(mountPath).catch(() => {})
+    res.json({ ok: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.post('/api/system/disks/rename-folder', authenticate, requireAdmin, express.json(), async (req, res) => {
+  const { oldName, newName } = req.body ?? {}
+  if (!oldName || !newName || /[/\\:*?"<>|\0]/.test(oldName) || /[/\\:*?"<>|\0]/.test(newName))
+    return res.status(400).json({ error: '無效的名稱' })
+
+  const userRoot = path.resolve(FILES_DIR, req.user.username)
+  const oldPath  = path.join(userRoot, oldName)
+  const newPath  = path.join(userRoot, newName)
+  if (!oldPath.startsWith(userRoot + path.sep) || !newPath.startsWith(userRoot + path.sep))
+    return res.status(400).json({ error: '非法路徑' })
+
+  try {
+    // Detect if oldPath is currently mounted; if so, umount → rename → remount
+    const { stdout: mountsOut } = await execAsync('cat /proc/mounts').catch(() => ({ stdout: '' }))
+    const mountLine = mountsOut.split('\n').find(l => l.split(' ')[1] === oldPath)
+    const device    = mountLine ? mountLine.split(' ')[0] : null
+    const fstype    = mountLine ? mountLine.split(' ')[2] : null
+
+    if (device) await execAsync(`sudo umount "${oldPath}"`, { timeout: 15000 })
+    await fs.rename(oldPath, newPath)
+    if (device) {
+      await fs.mkdir(newPath, { recursive: true }).catch(() => {})
+      await execAsync(`sudo mount -t ${fstype} "${device}" "${newPath}"`, { timeout: 15000 })
+    }
     res.json({ ok: true })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -2656,18 +2698,27 @@ async function runUpdateTask(task) {
 
   if (targets.has('pm2')) {
     try {
-      // pm2 update 會重啟 daemon 並殺死本 process，無法在同一個 execAsync 裡完成後續步驟。
-      // 解法：把更新腳本寫到 /tmp，用 nohup 在背景獨立執行，脫離 pm2 管理範圍。
-      const updateScript = [
-        '#!/bin/bash',
-        'pm2 update',
-        'pm2 start /home/roy/casaos-nas/server.js --name casaos-nas --cwd /home/roy/casaos-nas',
-        'pm2 save',
-        'pm2 logs casaos-nas --lines 5 --nostream',
-      ].join('\n')
-      await fs.writeFile('/tmp/vaultix_pm2_update.sh', updateScript, { mode: 0o755 })
-      await execAsync('nohup bash /tmp/vaultix_pm2_update.sh > /tmp/vaultix_pm2_update.log 2>&1 &')
-      parts.push('[pm2] 更新腳本已在背景啟動，約 10 秒後生效（日誌：/tmp/vaultix_pm2_update.log）')
+      // 智慧跳過：pm2 update 會重啟 daemon 並短暫中斷服務，但只有在 pm2 本體有新版時才需要。
+      // 先同步比對版本，已是最新就完全不碰 daemon（0 中斷）；有新版才在背景執行更新腳本。
+      let cur = '', latest = ''
+      try { cur = (await execAsync('pm2 -v', { timeout: 15_000 })).stdout.trim() } catch {}
+      try { latest = (await execAsync('npm view pm2 version', { timeout: 30_000 })).stdout.trim() } catch {}
+      if (latest && cur !== latest) {
+        // daemon 重啟會殺死本 process，故用 nohup 背景獨立執行，讓 API 先回應。
+        const updateScript = [
+          '#!/bin/bash',
+          'npm install -g pm2@latest',
+          'pm2 update',
+          'pm2 start /home/roy/casaos-nas/server.js --name casaos-nas --cwd /home/roy/casaos-nas',
+          'pm2 save',
+          'pm2 logs casaos-nas --lines 5 --nostream',
+        ].join('\n')
+        await fs.writeFile('/tmp/vaultix_pm2_update.sh', updateScript, { mode: 0o755 })
+        await execAsync('nohup bash /tmp/vaultix_pm2_update.sh > /tmp/vaultix_pm2_update.log 2>&1 &')
+        parts.push(`[pm2] ${cur} → ${latest}，更新腳本已在背景啟動，約 10 秒後生效（會短暫中斷）`)
+      } else {
+        parts.push(`[pm2] 已是最新版 (${cur || 'unknown'})，略過 daemon 重啟（不中斷服務）`)
+      }
     } catch (e) { parts.push('[pm2] 失敗：' + String(e.message).slice(-200)) }
   }
 
@@ -3358,6 +3409,55 @@ app.post('/api/raid/create', authenticate, async (req, res) => {
   }
 })
 
+// ── Todo 清單 ─────────────────────────────────────────────
+
+app.get('/api/todos', authenticate, async (req, res) => {
+  const [rows] = await pool.query(
+    'SELECT id, title, done, priority, due_date, created_at FROM todos WHERE user_id = ? ORDER BY created_at DESC',
+    [req.user.uid]
+  )
+  res.json(rows.map(r => ({ ...r, done: !!r.done })))
+})
+
+app.post('/api/todos', authenticate, express.json(), async (req, res) => {
+  const { title, priority = 'normal', due_date = null } = req.body ?? {}
+  if (!title?.trim()) return res.status(400).json({ error: '請輸入任務標題' })
+  if (!['low', 'normal', 'high'].includes(priority)) return res.status(400).json({ error: '無效的優先順序' })
+  const [result] = await pool.query(
+    'INSERT INTO todos (user_id, title, priority, due_date) VALUES (?, ?, ?, ?)',
+    [req.user.uid, title.trim(), priority, due_date || null]
+  )
+  const [rows] = await pool.query(
+    'SELECT id, title, done, priority, due_date, created_at FROM todos WHERE id = ?', [result.insertId]
+  )
+  res.json({ ...rows[0], done: !!rows[0].done })
+})
+
+app.put('/api/todos/:id', authenticate, express.json(), async (req, res) => {
+  const id = Number(req.params.id)
+  const { title, done, priority, due_date } = req.body ?? {}
+  const sets = [], vals = []
+  if (title !== undefined) { sets.push('title = ?'); vals.push(String(title).trim()) }
+  if (done  !== undefined) { sets.push('done = ?');  vals.push(done ? 1 : 0) }
+  if (priority !== undefined) { sets.push('priority = ?'); vals.push(priority) }
+  if (due_date !== undefined) { sets.push('due_date = ?'); vals.push(due_date || null) }
+  if (!sets.length) return res.status(400).json({ error: '沒有可更新的欄位' })
+  vals.push(id, req.user.uid)
+  await pool.query(`UPDATE todos SET ${sets.join(', ')} WHERE id = ? AND user_id = ?`, vals)
+  const [rows] = await pool.query(
+    'SELECT id, title, done, priority, due_date, created_at FROM todos WHERE id = ?', [id]
+  )
+  if (!rows[0]) return res.status(404).json({ error: '找不到任務' })
+  res.json({ ...rows[0], done: !!rows[0].done })
+})
+
+app.delete('/api/todos/:id', authenticate, async (req, res) => {
+  const id = Number(req.params.id)
+  const [result] = await pool.query('DELETE FROM todos WHERE id = ? AND user_id = ?', [id, req.user.uid])
+  if (!result.affectedRows) return res.status(404).json({ error: '找不到任務' })
+  res.json({ ok: true })
+})
+
 // ── OCR ──────────────────────────────────────────────────────────────────────
 const ALLOWED_OCR_LANGS = new Set([
   'chi_tra', 'chi_sim', 'eng', 'jpn',
@@ -3414,10 +3514,19 @@ server.listen(PORT, () => {
 
 // Graceful shutdown：讓 pm2 reload 能等現有請求跑完再殺舊 process
 process.on('SIGTERM', () => {
+  // 停止所有 cron job
+  for (const job of cronJobs.values()) job.stop()
+  cronJobs.clear()
+  // 立即斷開所有 WebSocket 連線（避免 server.close() 等待 ws 客戶端）
+  for (const ws of wss.clients) ws.terminate()
+  for (const ws of collabWss.clients) ws.terminate()
+  wss.close()
+  collabWss.close()
+  // 關閉 HTTP server 後再結束 DB pool
   server.close(() => {
     pool.end().catch(() => {})
     process.exit(0)
   })
-  // 最多等 8 秒，避免卡死
-  setTimeout(() => process.exit(0), 8000)
+  // 最多等 5 秒，避免卡死
+  setTimeout(() => process.exit(0), 5000)
 })

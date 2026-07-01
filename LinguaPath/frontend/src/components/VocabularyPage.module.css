@@ -1,0 +1,112 @@
+.header { max-width:1200px; margin:2rem auto 0; padding:0 2rem; }
+.header h1 { font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:0.3rem; }
+.header p  { color:var(--muted); font-size:0.9rem; }
+
+.filterBar {
+  max-width:1200px; margin:1.2rem auto 0; padding:0 2rem;
+  display:flex; flex-wrap:wrap; gap:0.7rem; align-items:center;
+}
+.searchInput {
+  flex:1; min-width:180px; background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:0.55rem 0.9rem;
+  color:var(--text); font-family:'DM Sans'; font-size:0.88rem; outline:none;
+}
+.searchInput:focus { border-color:var(--accent); }
+.select {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:0.55rem 0.8rem; color:var(--text); font-family:'DM Sans'; font-size:0.85rem;
+  outline:none; cursor:pointer;
+}
+.select:focus { border-color:var(--accent); }
+.countLabel { font-size:0.82rem; color:var(--muted); margin-left:auto; }
+
+.cardGrid {
+  max-width:1200px; margin:1.5rem auto 3rem; padding:0 2rem;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem;
+}
+
+/* Flip card */
+.flipCard { height:185px; perspective:900px; cursor:pointer; }
+.flipCard.hasImage { height:240px; }
+.flipInner {
+  width:100%; height:100%; position:relative;
+  transform-style:preserve-3d; transition:transform 0.42s cubic-bezier(.4,0,.2,1);
+}
+.flipCard.flipped .flipInner { transform:rotateY(180deg); }
+.flipFront, .flipBack {
+  position:absolute; width:100%; height:100%;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius:12px; border:1px solid var(--border);
+  display:flex; flex-direction:column; justify-content:flex-start;
+  padding:1rem 1.2rem 0.75rem; box-shadow:0 2px 12px rgba(0,0,0,0.25);
+}
+.flipFront { background:var(--surface); }
+.flipBack  { background:var(--surface2,#1e2029); transform:rotateY(180deg); }
+.cardBody  { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+
+.cardImg { width:100%; height:85px; object-fit:cover; border-radius:7px; margin-bottom:0.55rem; border:1px solid var(--border); display:block; flex-shrink:0; }
+.cardWord { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--text); margin-bottom:0.5rem; line-height:1.2; }
+.cardMeta { display:flex; gap:0.45rem; align-items:center; flex-wrap:wrap; }
+
+.tagCefr  { display:inline-block; padding:0.18rem 0.55rem; border-radius:4px; font-size:0.7rem; font-weight:700; letter-spacing:0.05em; }
+.cefrA1 { background:rgba(126,200,160,0.15); color:#7ec8a0; border:1px solid rgba(126,200,160,0.3); }
+.cefrA2 { background:rgba(126,200,160,0.1);  color:#9ed4b4; border:1px solid rgba(126,200,160,0.2); }
+.cefrB1 { background:rgba(126,184,232,0.15); color:#7eb8e8; border:1px solid rgba(126,184,232,0.3); }
+.cefrB2 { background:rgba(126,184,232,0.1);  color:#9ecce8; border:1px solid rgba(126,184,232,0.2); }
+.cefrC1 { background:rgba(232,201,126,0.15); color:#e8c97e; border:1px solid rgba(232,201,126,0.3); }
+.cefrC2 { background:rgba(232,126,126,0.15); color:#e87e7e; border:1px solid rgba(232,126,126,0.3); }
+.tagPos { font-size:0.72rem; color:#7eb8e8; background:rgba(126,184,232,0.08); border:1px solid rgba(126,184,232,0.18); border-radius:4px; padding:0.15rem 0.45rem; }
+.tagCat  { font-size:0.7rem; color:var(--muted); border:1px solid var(--border); border-radius:4px; padding:0.15rem 0.45rem; }
+.tagExam { font-size:0.62rem; font-weight:700; letter-spacing:0.04em; border-radius:4px; padding:0.12rem 0.4rem; border:1px solid; }
+.examTOEIC { color:#f38ba8; border-color:rgba(243,139,168,0.4); background:rgba(243,139,168,0.1); }
+.examTOEFL { color:#89b4fa; border-color:rgba(137,180,250,0.4); background:rgba(137,180,250,0.1); }
+.examIELTS { color:#a6e3a1; border-color:rgba(166,227,161,0.4); background:rgba(166,227,161,0.1); }
+.examGRE   { color:#fab387; border-color:rgba(250,179,135,0.4); background:rgba(250,179,135,0.1); }
+
+.backPos  { font-size:0.78rem; color:#7eb8e8; margin-bottom:0.4rem; flex-shrink:0; }
+.backExample { font-size:0.8rem; color:var(--muted); font-style:italic; line-height:1.5; flex:1; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
+.backNoEx   { font-size:0.78rem; color:var(--muted); opacity:0.45; flex:1; }
+.backImg { width:100%; height:65px; object-fit:cover; border-radius:6px; margin-bottom:0.4rem; border:1px solid var(--border); flex-shrink:0; }
+
+.cardActions { display:flex; align-items:center; gap:0.4rem; padding-top:0.4rem; flex-shrink:0; }
+.cardActions button {
+  display:flex; align-items:center; gap:0.3rem;
+  background:transparent; border:1px solid var(--border); border-radius:6px;
+  padding:0.25rem 0.55rem; font-size:0.72rem; color:var(--muted); cursor:pointer;
+  font-family:'DM Sans',sans-serif; transition:all 0.15s;
+}
+.cardActions button:hover { color:var(--text); border-color:var(--muted); }
+
+.scWrap { display:flex; gap:0.3rem; margin-left:auto; }
+.scBtn {
+  background:transparent; border:1px solid var(--border); border-radius:5px;
+  padding:0.18rem 0.5rem; font-size:0.82rem; cursor:pointer; color:var(--muted);
+  font-family:'DM Sans',sans-serif; transition:all 0.15s; line-height:1;
+}
+.scBtn:hover { border-color:var(--muted); color:var(--text); }
+.scOk  { color:#7ec8a0; border-color:#7ec8a0; background:rgba(126,200,160,0.1); }
+.scBad { color:#e87e7e; border-color:#e87e7e; background:rgba(232,126,126,0.1); }
+
+.stateMsg { max-width:1200px; margin:4rem auto; padding:0 2rem; text-align:center; color:var(--muted); font-size:0.95rem; }
+.icon { font-size:2.5rem; display:block; margin-bottom:0.6rem; }
+
+/* ─── Card Slider ─── */
+.sliderWrap {
+  max-width:500px; margin:1.5rem auto 3rem; padding:0 1rem;
+  display:flex; align-items:center; gap:0.75rem;
+}
+.sliderBtn {
+  flex-shrink:0; width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  background:var(--surface); border:1px solid var(--border); border-radius:50%;
+  color:var(--text); font-size:1.3rem; cursor:pointer;
+  transition:all 0.15s; user-select:none;
+}
+.sliderBtn:hover { background:var(--border); border-color:var(--muted); }
+.sliderBtn:disabled { opacity:0.25; cursor:default; }
+.sliderCardArea { flex:1; min-width:0; }
+.sliderCardArea .flipCard { height:185px; }
+.sliderCardArea .flipCard.hasImage { height:240px; }
+.sliderPage {
+  text-align:center; font-size:0.82rem; color:var(--muted);
+  padding:0.5rem 0 0; letter-spacing:0.03em;
+}

@@ -1,113 +1,171 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
-import { RoundedBox, Text } from '@react-three/drei';
+import { Text } from '@react-three/drei';
+import {
+  COLS, PITCH, MAIN_ROWS, BOARD_H, BOARD_TOP,
+  BOARD_W, BOARD_D, LAYOUT, COL_XS,
+} from './breadboardLayout.js';
 
-const COLUMNS = 30;
-const ROWS = 10;
-const PITCH = 0.5;
-const HOLE_RADIUS = 0.07;
-const BOARD_WIDTH = COLUMNS * PITCH + 0.6;
-const BOARD_DEPTH = ROWS * PITCH + 1.0;
-const BOARD_HEIGHT = 0.35;
-const RAIL_WIDTH = 0.35;
-const CENTER_GAP = 2;
-const BOARD_TOP = BOARD_HEIGHT / 2;
+const HOLE_SIZE = 0.28;
+const HOLE_DARK = 0.16;
 
 export function BreadboardMesh() {
-  const holes = useMemo(() => {
-    const result: any[] = [];
-    for (let row = 0; row < ROWS; row++) {
-      const z = (row - ROWS / 2 + 0.5) * PITCH;
-      for (let col = 0; col < COLUMNS; col++) {
-        const x = ((col - COLUMNS / 2) + 0.5) * PITCH;
-        result.push({
-          x,
-          z: row < 5 ? z - CENTER_GAP * 0.5 * PITCH : z + CENTER_GAP * 0.5 * PITCH,
-          row,
-          col,
-        });
-      }
-    }
-    return result;
-  }, []);
+  const boardY = BOARD_TOP + 0.001;
+
+  const contactMat = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: '#d8d4ce', roughness: 0.4, metalness: 0.3 }),
+    []
+  );
+  const darkMat = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: '#111111', depthWrite: false }),
+    []
+  );
+  const redMat = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: '#cc2222', depthWrite: false }),
+    []
+  );
+  const blueMat = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: '#2255cc', depthWrite: false }),
+    []
+  );
+
+  const contactGeom = useMemo(() => new THREE.PlaneGeometry(HOLE_SIZE, HOLE_SIZE), []);
+  const darkGeom = useMemo(() => new THREE.PlaneGeometry(HOLE_DARK, HOLE_DARK), []);
+  const railContactGeom = useMemo(() => new THREE.PlaneGeometry(HOLE_SIZE, HOLE_SIZE * 1.15), []);
+  const accentDotGeom = useMemo(() => new THREE.PlaneGeometry(HOLE_DARK * 0.5, HOLE_DARK * 0.5), []);
+
+  const rot: [number, number, number] = [-Math.PI / 2, 0, 0];
+  const notchW = BOARD_W - 0.6;
+  const centerGapSize = Math.abs(LAYOUT.botMain[0] - LAYOUT.topMain[MAIN_ROWS - 1]) - PITCH;
+
+  function MainHole({ x, z }: { x: number; z: number }) {
+    return (
+      <group>
+        <mesh geometry={contactGeom} material={contactMat} position={[x, boardY, z]} rotation={rot} renderOrder={1} />
+        <mesh geometry={darkGeom} material={darkMat} position={[x, boardY + 0.0008, z]} rotation={rot} renderOrder={2} />
+      </group>
+    );
+  }
+
+  function RailHole({ x, z, color }: { x: number; z: number; color: 'red' | 'blue' }) {
+    const accentMat = color === 'red' ? redMat : blueMat;
+    return (
+      <group>
+        <mesh geometry={railContactGeom} material={contactMat} position={[x, boardY, z]} rotation={rot} renderOrder={1} />
+        <mesh geometry={darkGeom} material={darkMat} position={[x, boardY + 0.0008, z]} rotation={rot} renderOrder={2} />
+        <mesh geometry={accentDotGeom} material={accentMat} position={[x, boardY + 0.0015, z]} rotation={rot} renderOrder={3} />
+      </group>
+    );
+  }
 
   return (
     <group>
-      <RoundedBox args={[BOARD_WIDTH, BOARD_HEIGHT, BOARD_DEPTH]} radius={0.08} smoothness={4} receiveShadow castShadow>
-        <meshStandardMaterial color="#e6dbc5" roughness={0.85} metalness={0} />
-      </RoundedBox>
-
-      <mesh position={[0, BOARD_TOP - 0.01, 0]}>
-        <boxGeometry args={[BOARD_WIDTH - 1.5, 0.006, 0.04]} />
-        <meshStandardMaterial color="#b8ad98" roughness={0.8} />
+      {/* Board body */}
+      <mesh receiveShadow castShadow>
+        <boxGeometry args={[BOARD_W, BOARD_H, BOARD_D]} />
+        <meshStandardMaterial color="#f2f0ec" roughness={0.75} metalness={0} />
       </mesh>
 
-      <RoundedBox args={[RAIL_WIDTH, BOARD_HEIGHT - 0.06, BOARD_DEPTH - 0.4]} radius={0.03} smoothness={3} position={[-BOARD_WIDTH * 0.5 + RAIL_WIDTH * 0.5 + 0.15, -0.03, 0]}>
-        <meshStandardMaterial color="#e6dbc5" roughness={0.8} />
-      </RoundedBox>
-      <RoundedBox args={[RAIL_WIDTH, BOARD_HEIGHT - 0.06, BOARD_DEPTH - 0.4]} radius={0.03} smoothness={3} position={[BOARD_WIDTH * 0.5 - RAIL_WIDTH * 0.5 - 0.15, -0.03, 0]}>
-        <meshStandardMaterial color="#e6dbc5" roughness={0.8} />
-      </RoundedBox>
-
-      <mesh position={[-BOARD_WIDTH * 0.5 + RAIL_WIDTH * 0.5 + 0.15, BOARD_TOP - 0.01, 0]}>
-        <boxGeometry args={[RAIL_WIDTH - 0.08, 0.006, BOARD_DEPTH - 0.6]} />
-        <meshStandardMaterial color="#f0c0c0" roughness={0.6} />
-      </mesh>
-      <mesh position={[BOARD_WIDTH * 0.5 - RAIL_WIDTH * 0.5 - 0.15, BOARD_TOP - 0.01, 0]}>
-        <boxGeometry args={[RAIL_WIDTH - 0.08, 0.006, BOARD_DEPTH - 0.6]} />
-        <meshStandardMaterial color="#b0c8e8" roughness={0.6} />
+      {/* Center DIP ridge */}
+      <mesh position={[0, BOARD_TOP + 0.01, 0]}>
+        <boxGeometry args={[notchW, 0.02, centerGapSize]} />
+        <meshStandardMaterial color="#d8d5d0" roughness={0.8} />
       </mesh>
 
-      {['+', '–', '+', '–'].map((label, i) => (
-        <group key={`power-label-${i}`}>
-          <mesh position={[i < 2 ? -BOARD_WIDTH * 0.5 + 0.3 : BOARD_WIDTH * 0.5 - 0.3, BOARD_TOP + 0.001, i % 2 === 0 ? -BOARD_DEPTH * 0.5 + 0.4 : BOARD_DEPTH * 0.5 - 0.4]}>
-            <planeGeometry args={[0.1, 0.1]} />
-            <meshBasicMaterial color={i % 2 === 0 ? '#cc6060' : '#6088cc'} transparent opacity={0.8} />
-          </mesh>
-        </group>
+      {/* Rail color strips */}
+      {[
+        { z: LAYOUT.topRails[1], mat: redMat },
+        { z: LAYOUT.topRails[0], mat: blueMat },
+        { z: LAYOUT.botRails[0], mat: blueMat },
+        { z: LAYOUT.botRails[1], mat: redMat },
+      ].map(({ z, mat }, i) => (
+        <mesh key={`strip-${i}`} position={[0, boardY + 0.001, z]} rotation={rot}>
+          <planeGeometry args={[BOARD_W - 0.8, PITCH * 0.28]} />
+          <primitive object={mat} />
+        </mesh>
       ))}
 
-      {holes.map((hole, i) => {
-        const inLeftRail = hole.col < 5;
-        const inRightRail = hole.col >= COLUMNS - 5;
-        const connected = !(inLeftRail || inRightRail);
+      {/* Separator lines */}
+      {[
+        LAYOUT.topRails[1] - PITCH * 0.8,
+        LAYOUT.topMain[0] + PITCH * 0.75,
+        LAYOUT.botMain[MAIN_ROWS - 1] - PITCH * 0.75,
+        LAYOUT.botRails[0] + PITCH * 0.8,
+      ].map((z, i) => (
+        <mesh key={`sep-${i}`} position={[0, boardY, z]} rotation={rot}>
+          <planeGeometry args={[BOARD_W - 0.4, 0.018]} />
+          <meshBasicMaterial color="#aaaaaa" />
+        </mesh>
+      ))}
 
-        return (
-          <group key={`hole-${i}`}>
-            <mesh position={[hole.x, BOARD_TOP + 0.001, hole.z]} renderOrder={1}>
-              <circleGeometry args={[HOLE_RADIUS, 16]} />
-              <meshBasicMaterial color="#1a1a1a" depthWrite={false} />
-            </mesh>
-            {connected && (
-              <mesh position={[hole.x, BOARD_TOP + 0.0015, hole.z]} renderOrder={2}>
-                <circleGeometry args={[HOLE_RADIUS * 0.3, 8]} />
-                <meshBasicMaterial color="#c8c0b0" depthWrite={false} />
-              </mesh>
-            )}
-          </group>
-        );
-      })}
+      {/* Top rail holes: [0]=- blue, [1]=+ red */}
+      {LAYOUT.topRails.map((z, ri) =>
+        COL_XS.map((x, ci) => (
+          <RailHole key={`tr-${ri}-${ci}`} x={x} z={z} color={ri === 1 ? 'red' : 'blue'} />
+        ))
+      )}
 
-      {Array.from({ length: 5 }, (_, i) => {
-        const z = (i - 2) * PITCH - CENTER_GAP * 0.5 * PITCH - 0.1;
-        return (
-          <Text key={`row-top-${i}`} position={[-BOARD_WIDTH * 0.5 + 0.2, BOARD_TOP + 0.002, z]} fontSize={0.06} color="#888" anchorX="center" anchorY="middle" renderOrder={3}>
-            {String.fromCharCode(65 + i)}
-          </Text>
-        );
-      })}
-      {Array.from({ length: 5 }, (_, i) => {
-        const z = (i - 2) * PITCH + CENTER_GAP * 0.5 * PITCH + 0.1;
-        return (
-          <Text key={`row-bot-${i}`} position={[-BOARD_WIDTH * 0.5 + 0.2, BOARD_TOP + 0.002, z]} fontSize={0.06} color="#888" anchorX="center" anchorY="middle" renderOrder={3}>
-            {String.fromCharCode(70 + i)}
-          </Text>
-        );
-      })}
+      {/* Top main holes (a–e) */}
+      {LAYOUT.topMain.map((z, ri) =>
+        COL_XS.map((x, ci) => (
+          <MainHole key={`tm-${ri}-${ci}`} x={x} z={z} />
+        ))
+      )}
 
-      {Array.from({ length: 10 }, (_, i) => (
-        <Text key={`col-${i}`} position={[((i * 3 + 1) - COLUMNS / 2) * PITCH, BOARD_TOP + 0.002, -BOARD_DEPTH * 0.5 + 0.15]} fontSize={0.06} color="#888" anchorX="center" anchorY="middle" renderOrder={3}>
-          {(i * 3 + 1).toString()}
+      {/* Bottom main holes (f–j) */}
+      {LAYOUT.botMain.map((z, ri) =>
+        COL_XS.map((x, ci) => (
+          <MainHole key={`bm-${ri}-${ci}`} x={x} z={z} />
+        ))
+      )}
+
+      {/* Bottom rail holes: [0]=- blue, [1]=+ red */}
+      {LAYOUT.botRails.map((z, ri) =>
+        COL_XS.map((x, ci) => (
+          <RailHole key={`br-${ri}-${ci}`} x={x} z={z} color={ri === 0 ? 'blue' : 'red'} />
+        ))
+      )}
+
+      {/* Row letters a–e */}
+      {LAYOUT.topMain.map((z, i) => (
+        <Text key={`la-${i}`} position={[-BOARD_W / 2 + 0.22, boardY + 0.002, z]}
+          fontSize={0.09} color="#888888" anchorX="center" anchorY="middle"
+          rotation={rot} renderOrder={3}>
+          {String.fromCharCode(97 + (MAIN_ROWS - 1 - i))}
+        </Text>
+      ))}
+
+      {/* Row letters f–j */}
+      {LAYOUT.botMain.map((z, i) => (
+        <Text key={`lb-${i}`} position={[-BOARD_W / 2 + 0.22, boardY + 0.002, z]}
+          fontSize={0.09} color="#888888" anchorX="center" anchorY="middle"
+          rotation={rot} renderOrder={3}>
+          {String.fromCharCode(102 + i)}
+        </Text>
+      ))}
+
+      {/* Column numbers every 5 */}
+      {COL_XS.filter((_, i) => i % 5 === 0).map((x, i) => (
+        <Text key={`cn-${i}`}
+          position={[x, boardY + 0.002, LAYOUT.topMain[0] + PITCH * 1.3]}
+          fontSize={0.08} color="#888888" anchorX="center" anchorY="middle"
+          rotation={rot} renderOrder={3}>
+          {(i * 5 + 1).toString()}
+        </Text>
+      ))}
+
+      {/* +/− labels */}
+      {[
+        { z: LAYOUT.topRails[1], label: '+', color: '#cc2222' },
+        { z: LAYOUT.topRails[0], label: '−', color: '#2255cc' },
+        { z: LAYOUT.botRails[0], label: '−', color: '#2255cc' },
+        { z: LAYOUT.botRails[1], label: '+', color: '#cc2222' },
+      ].map(({ z, label, color }, i) => (
+        <Text key={`pl-${i}`}
+          position={[-BOARD_W / 2 + 0.22, boardY + 0.002, z]}
+          fontSize={0.11} color={color} anchorX="center" anchorY="middle"
+          rotation={rot} renderOrder={3}>
+          {label}
         </Text>
       ))}
     </group>

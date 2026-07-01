@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="role-selection">
+        <h1 id="role-title">Choose Your Role</h1>
+        <div id="profile-banner"></div>
+        <div id="role-options"></div>
+    </div>
+    <div id="game-container" style="display:none">
+        <div id="hud">
+            <div id="health-bar">
+                <div id="health-fill"></div>
+                <span id="health-text">100</span>
+            </div>
+            <div id="cefr-display">
+                <span id="cefr-level">A1</span>
+                <div id="cefr-xp-bar"><div id="cefr-xp-fill"></div></div>
+                <span id="cefr-xp-text">0/100</span>
+            </div>
+            <div><span id="sp-label">SP</span>: <span id="skill-points-display">0</span></div>
+            <div><span id="score-label">Score</span>: <span id="score">0</span></div>
+        </div>
+        <div id="skill-bar"></div>
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        <div id="command-input-area" style="display:none">
+            <input type="text" id="command-input" placeholder="Type command..." autofocus>
+        </div>
+        <div id="spell-modal" style="display:none">
+            <div id="spell-content">
+                <h2 id="spell-title">Spell the word to survive!</h2>
+                <p id="spell-word"></p>
+                <input type="text" id="spell-input" autofocus>
+                <button id="spell-submit">Submit</button>
+                <p id="spell-hint" style="color:#f1c40f;font-size:0.85em;margin-bottom:8px"></p>
+                <p id="spell-result"></p>
+            </div>
+        </div>
+        <div id="npc-modal" style="display:none">
+            <div id="npc-content">
+                <h2 id="npc-name">Sage</h2>
+                <p id="npc-dialogue">Hello there!</p>
+                <button id="npc-next-btn">Continue</button>
+            </div>
+        </div>
+        <div id="shop-modal" style="display:none">
+            <div id="shop-content">
+                <h2 id="shop-title">Skill Shop</h2>
+                <p><span id="shop-sp-label">Skill Points</span>: <span id="shop-sp">0</span></p>
+                <div id="shop-list"></div>
+                <button id="shop-close-btn">Close</button>
+            </div>
+        </div>
+        <div id="game-over-modal" style="display:none">
+            <div id="game-over-content">
+                <h1 id="game-over-title">Game Over</h1>
+                <p><span id="final-score-label">Final Score</span>: <span id="final-score">0</span></p>
+                <p id="save-status" style="font-size:0.85rem;margin-top:0.5rem"></p>
+                <button id="restart-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>

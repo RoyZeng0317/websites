@@ -1,5 +1,7 @@
 # Circuit Lab
 
+Every AI models needs to read this markdown file, understand this is a you must need to according this rules to build up the project, I'll give the to do list, error log result. Can uderstand pretty fast and easy at now.
+
 A 3D browser-based circuit simulator with SPICE analysis, Arduino/Raspberry Pi emulation, and real-time collaboration.
 
 ![Circuit Lab](https://img.shields.io/badge/status-alpha-yellow)
@@ -145,3 +147,19 @@ Build these circuits to test the simulator:
 ## License
 
 MIT
+
+## To do list
+1. [] the 3d circut need to change to python file.
+2. [] the components need to fix it, it's so simple and not have footprint.
+3. [x] pick up a components put on the bread board are not correct location at the here.
+4. [] add the schematic dialog can draw it.
+5. [] create the schematic paper.
+6. [] add the layout can make sure the schematic is correct or not, sync forom the schematic.
+7. [] layout can edit the everything, include: lines, components.
+8. [] layout hot key: x, y, z is can see the x axis, y axis, and z axis.
+9. [] schematic dialog hot key: w is wirte the line, m is move, del is delete the line, w, a, s, d is control the arrow, down, left and right. home is full dialog view, shift + home is full components dialog view.
+10. [] right menu has: move, past, copt, view.
+11. [] the schematic paper can chage like a4, b4, a3, b3 loadscape and edit the size(unit: cm, ex: 27.35, 37.55).
+12. [] layout, schematic, 3d circuit need the hint: shift+/(?)
+13. [] 3d circuit can run it, if is incorrect will be explore.
+14. [] 3d circuit will hava the connection ruls, the line will be include at circuit, to check the connection is correct or not.

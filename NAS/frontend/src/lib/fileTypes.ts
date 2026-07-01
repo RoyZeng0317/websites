@@ -27,8 +27,19 @@ const EXT_MAP: Record<string, FileCategory> = {
   c: 'code', cpp: 'code', h: 'code', cs: 'code',
   php: 'code', rb: 'code', swift: 'code', dart: 'code',
   sql: 'code', dockerfile: 'code',
-  txt: 'text', md: 'text', log: 'text',
+  txt: 'text', md: 'text', log: 'text', lrc: 'text',
   ini: 'text', conf: 'text', env: 'text', csv: 'text',
+}
+
+// Well-known media folders live on disk under Chinese names; show English labels
+// in the English UI. zh UI keeps the original disk name.
+const FOLDER_EN: Record<string, string> = {
+  '音樂': 'Music', '影片': 'Videos', '圖片': 'Pictures', '照片': 'Photos',
+  '文件': 'Documents', '文檔': 'Documents', '下載': 'Downloads', '桌面': 'Desktop',
+}
+
+export function folderDisplayName(name: string, lang: 'zh' | 'en'): string {
+  return lang === 'en' ? (FOLDER_EN[name] ?? name) : name
 }
 
 export function getCategory(name: string, isFolder: boolean): FileCategory {

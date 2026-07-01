@@ -21,29 +21,11 @@ export const BUILTIN_APPS: BuiltinApp[] = [
     ),
   },
   {
-    id: 'video', name: 'Video Player', desc: 'MP4 · MKV · AVI · MOV',
+    id: 'video', name: 'Video', desc: 'MP4 · MKV · AVI · MOV',
     color: 'text-blue-400', bg: 'bg-blue-400/10 border-blue-400/20',
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'audio', name: 'Music Player', desc: 'MP3 · FLAC · AAC · WAV',
-    color: 'text-pink-400', bg: 'bg-pink-400/10 border-pink-400/20',
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'image', name: 'Image Viewer', desc: 'JPG · PNG · GIF · WebP',
-    color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20',
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
       </svg>
     ),
   },
@@ -75,7 +57,7 @@ export const BUILTIN_APPS: BuiltinApp[] = [
     ),
   },
   {
-    id: 'photo', name: 'Photos', desc: 'JPG · PNG · GIF · WebP thumbnail browser',
+    id: 'photo', name: 'Photo', desc: 'JPG · PNG · GIF · WebP thumbnail browser',
     color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20',
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,6 +181,16 @@ export const BUILTIN_APPS: BuiltinApp[] = [
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
           d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+      </svg>
+    ),
+  },
+  {
+    id: 'vaultixid', name: 'Vaultix ID', desc: 'Personal ID · Custom handle · Copy & share',
+    color: 'text-orange-400', bg: 'bg-orange-400/10 border-orange-400/20',
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
       </svg>
     ),
   },

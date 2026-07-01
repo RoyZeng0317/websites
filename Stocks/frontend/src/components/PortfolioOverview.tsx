@@ -4,17 +4,29 @@ import { onAuthStateChanged, type User } from 'firebase/auth'
 import { formatCurrency, getBatchPrices } from '../api/stockApi'
 import { auth } from '../firebase'
 import { getShareCount, loadHoldings, type HoldingDoc } from '../utils/holdings'
+import { BANK_FEES, getFeeTier, feeMarkupRate } from '../data/bankFees'
+import { getDefaultBank, setDefaultBank } from '../utils/feeSettings'
 import { Download } from 'lucide-react'
 
 interface HoldingRow extends HoldingDoc {
   livePrice: number
 }
 
-function exportToCSV(items: HoldingRow[]) {
+// 銀行手續費表僅適用台股（TWD），ETF 以代號開頭 "00" 判斷，零股 = 股數非 1000 整張
+function effectiveBuyPrice(item: HoldingDoc, bank: string): number {
+  if (!bank || item.currency !== 'TWD') return item.buyPrice
+  const isETF = item.symbol.startsWith('00')
+  const isOddLot = item.quantity % 1000 !== 0
+  const tier = getFeeTier(bank, isETF, isOddLot)
+  if (tier == null) return item.buyPrice
+  return item.buyPrice * (1 + feeMarkupRate(tier))
+}
+
+function exportToCSV(items: HoldingRow[], bank: string) {
   const header = ['股票代號', '公司名稱', '買入價格', '股數', '現價', '成本', '市值', '損益', '損益率', '幣別']
   const rows = items.map((item) => {
     const shares = getShareCount(item)
-    const cost = item.buyPrice * shares
+    const cost = effectiveBuyPrice(item, bank) * shares
     const value = item.livePrice * shares
     const profit = value - cost
     const ratio = cost > 0 ? profit / cost : 0
@@ -46,6 +58,12 @@ export default function PortfolioOverview() {
   const [items, setItems] = useState<HoldingRow[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [bank, setBank] = useState(() => getDefaultBank())
+
+  function handleBankChange(next: string) {
+    setBank(next)
+    setDefaultBank(next)
+  }
 
   useEffect(() => {
     return onAuthStateChanged(auth, (nextUser) => {
@@ -131,7 +149,7 @@ export default function PortfolioOverview() {
   const totalsByCurrency = Object.values(
     items.reduce<Record<string, { cost: number; value: number; currency: string }>>((acc, item) => {
       const shares = getShareCount(item)
-      const cost = item.buyPrice * shares
+      const cost = effectiveBuyPrice(item, bank) * shares
       const value = item.livePrice * shares
       const key = item.currency || 'USD'
 
@@ -160,7 +178,7 @@ export default function PortfolioOverview() {
             目前登入帳號：{user.email || user.uid}
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-end gap-3">
           <div className="rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-3">
             <div className="text-xs text-slate-400">買入紀錄</div>
             <div className="mt-1 text-xl font-bold text-slate-100">{items.length} 筆</div>
@@ -169,8 +187,21 @@ export default function PortfolioOverview() {
             <div className="text-xs text-slate-400">持有總股數</div>
             <div className="mt-1 text-xl font-bold text-slate-100">{totalShares.toLocaleString('en-US')}</div>
           </div>
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/50 px-4 py-3">
+            <label className="block text-xs text-slate-400">交易銀行（台股手續費試算）</label>
+            <select
+              value={bank}
+              onChange={(e) => handleBankChange(e.target.value)}
+              className="mt-1 bg-transparent text-sm font-medium text-slate-100 focus:outline-none"
+            >
+              <option value="" className="bg-slate-900">不計算</option>
+              {BANK_FEES.map((b) => (
+                <option key={b.bank} value={b.bank} className="bg-slate-900">{b.bank}</option>
+              ))}
+            </select>
+          </div>
           <button
-            onClick={() => exportToCSV(items)}
+            onClick={() => exportToCSV(items, bank)}
             type="button"
             title="匯出 CSV"
             className="inline-flex items-center gap-1.5 rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-3 text-xs text-slate-400 transition hover:border-emerald-500/40 hover:text-emerald-400"
@@ -230,11 +261,13 @@ export default function PortfolioOverview() {
           <div className="space-y-2">
             {items.map((item) => {
               const shares = getShareCount(item)
-              const cost = item.buyPrice * shares
+              const adjBuyPrice = effectiveBuyPrice(item, bank)
+              const cost = adjBuyPrice * shares
               const value = item.livePrice * shares
               const profit = value - cost
               const ratio = cost > 0 ? profit / cost : 0
               const rowPositive = profit >= 0
+              const hasFee = adjBuyPrice !== item.buyPrice
 
               return (
                 <Link
@@ -245,7 +278,8 @@ export default function PortfolioOverview() {
                   <div>
                     <div className="text-sm font-semibold text-slate-100">{item.companyName}</div>
                     <div className="mt-1 text-xs text-slate-500">
-                      {item.symbol} ・ 買入價 {formatCurrency(item.buyPrice, item.currency)} ・ {item.quantity} 股
+                      {item.symbol} ・ 買入價 {formatCurrency(item.buyPrice, item.currency)}
+                      {hasFee && <> (含手續費 {formatCurrency(adjBuyPrice, item.currency)})</>} ・ {item.quantity} 股
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm md:min-w-[320px]">

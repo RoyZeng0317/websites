@@ -97,7 +97,7 @@ function Lightbox({ items, index, lockerPath, onClose, onGo }: {
       )}
       <div className="max-w-[92vw] max-h-[88vh] flex items-center" onClick={e => e.stopPropagation()}>
         {vid
-          ? <video src={url} controls autoPlay className="max-w-full max-h-[88vh] rounded-lg"/>
+          ? <video src={url} controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture autoPlay className="max-w-full max-h-[88vh] rounded-lg"/>
           : <img src={url} alt={item.name} className="max-w-full max-h-[88vh] object-contain rounded-lg select-none"/>
         }
       </div>
