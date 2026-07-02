@@ -24,7 +24,7 @@ app.get('/api/vaultix/resolve', async (req, res) => {
   if (!/^[a-zA-Z0-9_-]{4,30}$/.test(id))
     return res.status(400).json({ error: 'invalid id' })
   const [rows] = await pool.query(
-    `SELECT u.username FROM vaultix_ids v JOIN users u ON u.id = v.user_id WHERE v.vaultix_id = ?`,
+    `SELECT u.username FROM vaultix_ids v JOIN users u ON u.id = v.user_id WHERE v.vaultix_id_hash = SHA2(?, 256)`,
     [id]
   )
   if (!rows[0]) return res.status(404).json({ error: 'Vaultix ID not found' })

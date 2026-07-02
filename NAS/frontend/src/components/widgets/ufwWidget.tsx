@@ -17,9 +17,13 @@ export default function UfwWidget() {
       const data = await apiJson<UfwResponse>('/api/ufw/status')
       setStatus(data.active ? 'active' : 'inactive')
       setDetail(data.detail ?? (data.active ? 'UFW: Active' : 'UFW: Inactive'))
-    } catch {
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      // line 187: surface the real reason in the console instead of failing silently
+      console.error('[UfwWidget] /api/ufw/status failed:', msg)
       setStatus('error')
-      setDetail('UFW: Failed to reach backend')
+      // 404 = backend is up but the ufw endpoint isn't installed (≠ backend unreachable)
+      setDetail(/\b404\b/.test(msg) ? 'UFW: endpoint not installed' : `UFW: ${msg}`)
     }
   }
 

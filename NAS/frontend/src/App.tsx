@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import toast from 'react-hot-toast'
 import { useAuth } from './context/AuthContext'
@@ -19,6 +19,8 @@ import InstallButton from './components/InstallButton'
 function TwoFactorPage() {
   const { pendingTwoFactor, completeTwoFactor, cancelTwoFactor } = useAuth()
   const { t } = useLang()
+  const [sp] = useSearchParams()
+  const vaultixId = (sp.get('id') || '').trim()
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -45,6 +47,12 @@ function TwoFactorPage() {
   return (
     <div className="h-dvh flex items-center justify-center bg-gray-900 p-4">
       <div className="w-full max-w-sm space-y-6">
+        {vaultixId && (
+          <div className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/30 text-sm text-green-300 font-medium">
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+            {t.qcConnected(vaultixId)}
+          </div>
+        )}
         <div className="text-center space-y-2">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-orange-500/20 flex items-center justify-center">
             <svg className="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,41 +100,86 @@ function TwoFactorPage() {
 export const LOGIN_BG_KEY  = 'nas_login_bg'   // CSS background value
 export const HOME_BG_KEY   = 'nas_home_bg'    // CSS background value
 
-function LoginPage() {
-  const { signIn } = useAuth()
+// Stage 1 — dedicated Vaultix ID entry page (before login). Resolves the ID to a
+// backend, then navigates to /login?id=… so the ID rides in the URL.
+function ConnectPage() {
   const { t } = useLang()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const loginBg = localStorage.getItem(LOGIN_BG_KEY) || ''
-  // QuickConnect (VaultixID → resolved backend)
   const [qcId, setQcId] = useState('')
-  const [qcConnecting, setQcConnecting] = useState(false)
-  const [qcHost, setQcHost] = useState<string | null>(null)
+  const [connecting, setConnecting] = useState(false)
 
   async function handleConnect() {
     const id = qcId.trim()
     if (!id) return
-    setQcConnecting(true)
+    setConnecting(true)
     try {
-      const { backendUrl, username: owner } = await resolveVaultixId(id)
+      const { backendUrl } = await resolveVaultixId(id)
       setBackend(backendUrl)
-      setQcHost(id)
-      setUsername(owner)
       toast.success(t.qcConnected(id))
+      navigate(`/login?id=${encodeURIComponent(id)}`)
     } catch (err: unknown) {
       clearBackend()
       toast.error((err as { message?: string }).message ?? 'Vaultix ID not found')
     } finally {
-      setQcConnecting(false)
+      setConnecting(false)
     }
   }
 
-  function handleQcReset() {
+  return (
+    <div className="h-dvh flex items-center justify-center p-4"
+      style={loginBg ? { background: loginBg } : { background: '#111827' }}>
+      <div className="w-full max-w-sm space-y-6 bg-black/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
+        <div className="text-center space-y-1">
+          <h1 className="text-3xl font-bold text-orange-400">{t.appName}</h1>
+          <p className="text-gray-400 text-sm">{t.qcPlaceholder}</p>
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder={t.qcPlaceholder}
+            value={qcId}
+            onChange={e => setQcId(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleConnect() } }}
+            spellCheck={false}
+            autoFocus
+            className="flex-1 min-w-0 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 font-mono"
+          />
+          <button type="button" onClick={handleConnect} disabled={connecting || !qcId.trim()}
+            className="shrink-0 px-4 rounded-lg bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white text-sm font-medium transition-colors">
+            {connecting ? t.qcConnecting : t.qcConnect}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Stage 2 — login page. Requires ?id=… (arrived from /connect). Re-resolves the ID
+// so refresh / shared links still point at the right backend, and shows the ID in a
+// top banner (URL carries it too) until login succeeds.
+function LoginPage() {
+  const { signIn } = useAuth()
+  const { t } = useLang()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const vaultixId = (searchParams.get('id') || '').trim()
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const loginBg = localStorage.getItem(LOGIN_BG_KEY) || ''
+
+  useEffect(() => {
+    if (!vaultixId) { navigate('/connect', { replace: true }); return }
+    resolveVaultixId(vaultixId)
+      .then(({ backendUrl, username: owner }) => { setBackend(backendUrl); setUsername(owner) })
+      .catch(() => { clearBackend(); toast.error('Vaultix ID not found'); navigate('/connect', { replace: true }) })
+  }, [vaultixId])
+
+  function handleChangeId() {
     clearBackend()
-    setQcHost(null)
-    setQcId('')
-    setUsername('')
+    navigate('/connect')
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -141,52 +194,31 @@ function LoginPage() {
     }
   }
 
+  if (!vaultixId) return null
+
   return (
     <div className="h-dvh flex items-center justify-center p-4"
       style={loginBg ? { background: loginBg } : { background: '#111827' }}>
       <div className="w-full max-w-sm space-y-6 bg-black/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
+        {/* Top banner: connected Vaultix ID (also carried in the URL until login) */}
+        <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/30">
+          <span className="text-sm text-green-300 font-medium truncate flex items-center gap-1.5">
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            </svg>
+            {t.qcConnected(vaultixId)}
+          </span>
+          <button type="button" onClick={handleChangeId}
+            className="shrink-0 text-xs text-gray-400 hover:text-white transition-colors">
+            {t.qcReset}
+          </button>
+        </div>
+
         <div className="text-center space-y-1">
           <h1 className="text-3xl font-bold text-orange-400">{t.appName}</h1>
           <p className="text-gray-400 text-sm">{t.loginWith}</p>
         </div>
-        {/* QuickConnect (VaultixID) */}
-        <div className="space-y-2">
-          {qcHost ? (
-            <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/30">
-              <span className="text-sm text-green-300 font-medium truncate flex items-center gap-1.5">
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-                </svg>
-                {t.qcConnected(qcHost)}
-              </span>
-              <button type="button" onClick={handleQcReset}
-                className="shrink-0 text-xs text-gray-400 hover:text-white transition-colors">
-                {t.qcReset}
-              </button>
-            </div>
-          ) : (
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder={t.qcPlaceholder}
-                value={qcId}
-                onChange={e => setQcId(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleConnect() } }}
-                spellCheck={false}
-                className="flex-1 min-w-0 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 font-mono"
-              />
-              <button type="button" onClick={handleConnect} disabled={qcConnecting || !qcId.trim()}
-                className="shrink-0 px-4 rounded-lg bg-gray-700 hover:bg-gray-600 disabled:opacity-40 text-white text-sm font-medium transition-colors">
-                {qcConnecting ? t.qcConnecting : t.qcConnect}
-              </button>
-            </div>
-          )}
-          <div className="flex items-center gap-3 text-xs text-gray-600">
-            <span className="flex-1 h-px bg-gray-700/60" />
-            {t.qcOr}
-            <span className="flex-1 h-px bg-gray-700/60" />
-          </div>
-        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
@@ -205,6 +237,7 @@ function LoginPage() {
             className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-orange-400"
             autoComplete="current-password"
             required
+            autoFocus
           />
           <button
             type="submit"
@@ -235,15 +268,16 @@ function AppRoutes() {
 
   return (
     <Routes>
+      <Route path="/connect" element={authed ? <Navigate to="/" replace /> : <ConnectPage />} />
       <Route path="/login" element={authed ? <Navigate to="/" replace /> : <LoginPage />} />
-      <Route path="/" element={authed ? <Home /> : <Navigate to="/login" replace />} />
-      <Route path="/settings" element={authed ? <Settings /> : <Navigate to="/login" replace />} />
-      <Route path="/admin" element={authed ? <Admin /> : <Navigate to="/login" replace />} />
-      <Route path="/system" element={authed ? <System /> : <Navigate to="/login" replace />} />
-      <Route path="/docker" element={authed ? <Docker /> : <Navigate to="/login" replace />} />
-      <Route path="/timeline" element={authed ? <Timeline /> : <Navigate to="/login" replace />} />
-      <Route path="/fail2ban" element={authed ? <Fail2ban /> : <Navigate to="/login" replace />} />
-      <Route path="/terminal" element={authed ? <TerminalPage /> : <Navigate to="/login" replace />} />
+      <Route path="/" element={authed ? <Home /> : <Navigate to="/connect" replace />} />
+      <Route path="/settings" element={authed ? <Settings /> : <Navigate to="/connect" replace />} />
+      <Route path="/admin" element={authed ? <Admin /> : <Navigate to="/connect" replace />} />
+      <Route path="/system" element={authed ? <System /> : <Navigate to="/connect" replace />} />
+      <Route path="/docker" element={authed ? <Docker /> : <Navigate to="/connect" replace />} />
+      <Route path="/timeline" element={authed ? <Timeline /> : <Navigate to="/connect" replace />} />
+      <Route path="/fail2ban" element={authed ? <Fail2ban /> : <Navigate to="/connect" replace />} />
+      <Route path="/terminal" element={authed ? <TerminalPage /> : <Navigate to="/connect" replace />} />
       <Route path="/share/:token" element={<SharePage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -259,7 +259,7 @@ export default function Home() {
   const [showExtraFile, setShowExtraFile] = useState(false)
   const [showUps, setShowUps] = useState(false)
   const [showVaultixID, setShowVaultixID] = useState(false)
-  const [showQuickFolders, setShowQuickFolders] = useState(false)
+  // const [showQuickFolders, setShowQuickFolders] = useState(false)
   const [snapshotFilterPath, setSnapshotFilterPath] = useState<string | undefined>(undefined)
   const [favorites, setFavorites] = useState<string[]>([])
   const [showPhoto, setShowPhoto] = useState(false)
@@ -675,8 +675,10 @@ export default function Home() {
       await apiJson(`/api/files?path=${encodeURIComponent(filePath)}`, { method: 'DELETE' })
       toast.success(t.deleteDone)
       await loadItems()
-    } catch {
-      toast.error(t.deleteFailed)
+    } catch (err) {
+      // line 193: F12 is blocked, so show the real backend reason in the toast
+      const reason = err instanceof Error ? err.message : String(err)
+      toast.error(`${t.deleteFailed}: ${reason}`)
     }
   }
 
@@ -688,16 +690,17 @@ export default function Home() {
       : `Delete ${names.length} items and move to trash?`
     if (!confirm(msg)) return
     let failed = 0
+    let lastReason = ''
     for (const name of names) {
       const fp = currentPath ? `${currentPath}/${name}` : name
       try {
         await apiJson(`/api/files?path=${encodeURIComponent(fp)}`, { method: 'DELETE' })
-      } catch { failed++ }
+      } catch (err) { failed++; lastReason = err instanceof Error ? err.message : String(err) }
     }
     setSelectedItems(new Set())
     selAnchorRef.current = null
     await loadItems()
-    if (failed > 0) toast.error(`${failed} items failed to delete`)
+    if (failed > 0) toast.error(`${failed} items failed to delete: ${lastReason}`)
     else toast.success(`Deleted ${names.length} items`)
   }
 
@@ -861,7 +864,7 @@ export default function Home() {
       toast.error(t.folderCreateFailed)
     }
   }
-
+  /*
   async function handleCreateQuickFolders(names: string[]) {
     let ok = 0
     let skipped = 0
@@ -891,7 +894,7 @@ export default function Home() {
     if (ok > 0) await loadItems()
     setShowQuickFolders(false)
   }
-
+*/
   function handleBgFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
@@ -1273,6 +1276,7 @@ export default function Home() {
           >
             {t.newFolder}
           </button>
+{/*            
           <button
             onClick={() => setShowQuickFolders(true)}
             title={t.quickFoldersDesc}
@@ -1280,6 +1284,7 @@ export default function Home() {
           >
             ⚡ {t.quickFolders}
           </button>
+           */}
           <button
             onClick={() => folderInputRef.current?.click()}
             className="px-3 py-1.5 text-sm rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors max-[480px]:px-2 max-[480px]:py-1 max-[480px]:text-xs"
@@ -2047,74 +2052,8 @@ export default function Home() {
           </div>
         </div>
       )}
+      {/* Quick Folders Modal removed — feature disabled (state/button/handler all commented out) */}
 
-      {/* ── Quick Folders Modal ────────────────────────────────── */}
-      {showQuickFolders && (() => {
-        const PRESETS: { icon: string; zh: string; en: string; names: string[] }[] = [
-          { icon: '🖼️', zh: '照片 / Photos', en: 'Photos', names: ['照片', 'Photos'] },
-          { icon: '🎬', zh: '影片 / Videos', en: 'Videos', names: ['影片', 'Videos'] },
-          { icon: '🎵', zh: '音樂 / Music', en: 'Music', names: ['音樂', 'Music'] },
-          { icon: '📄', zh: '文件 / Documents', en: 'Documents', names: ['文件', 'Documents'] },
-          { icon: '⬇️', zh: '下載 / Downloads', en: 'Downloads', names: ['下載', 'Downloads'] },
-          { icon: '💻', zh: '桌面 / Desktop', en: 'Desktop', names: ['桌面', 'Desktop'] },
-          { icon: '🗄️', zh: '備份 / Backup', en: 'Backup', names: ['備份', 'Backup'] },
-          { icon: '📦', zh: '封存 / Archive', en: 'Archive', names: ['封存', 'Archive'] },
-          { icon: '📁', zh: '工作 / Work', en: 'Work', names: ['工作', 'Work'] },
-          { icon: '📷', zh: '截圖 / Screenshots', en: 'Screenshots', names: ['截圖', 'Screenshots'] },
-        ]
-        const allNames = PRESETS.flatMap(p => p.names)
-        return (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-            onClick={e => { if (e.target === e.currentTarget) setShowQuickFolders(false) }}
-          >
-            <div className="bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl w-[520px] max-w-[95vw] p-6">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-1">
-                <h2 className="text-white font-bold text-lg flex items-center gap-2">
-                  ⚡ {t.quickFolders}
-                </h2>
-                <button
-                  onClick={() => setShowQuickFolders(false)}
-                  className="text-gray-500 hover:text-white transition-colors text-xl leading-none"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="text-gray-500 text-sm mb-5">{t.quickFoldersDesc}</p>
-
-              {/* Preset grid */}
-              <div className="grid grid-cols-2 gap-2 mb-5">
-                {PRESETS.map(preset => (
-                  <button
-                    key={preset.en}
-                    onClick={() => handleCreateQuickFolders(preset.names)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-amber-500/50 text-left transition-all group"
-                  >
-                    <span className="text-2xl shrink-0">{preset.icon}</span>
-                    <div>
-                      <div className="text-white text-sm font-medium group-hover:text-amber-400 transition-colors">
-                        {lang === 'zh' ? preset.zh : preset.en}
-                      </div>
-                      <div className="text-gray-600 text-xs mt-0.5">
-                        {preset.names.join(' + ')}
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {/* Create All button */}
-              <button
-                onClick={() => handleCreateQuickFolders(allNames)}
-                className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm transition-colors"
-              >
-                ⚡ {lang === 'zh' ? '建立全部資料夾' : 'Create All Folders'}
-              </button>
-            </div>
-          </div>
-        )
-      })()}
     </div>
   )
 }

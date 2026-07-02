@@ -182,10 +182,21 @@ VITE_FIREBASE_* (Firebase config for hosting/auth)
 [] the excution log, log result needs to 
 [x] the quartus qrime needs to adapt for english interface. — 2026-07-01: i18n'd QuartusPanel.tsx. Added 10 keys (quartus*). Module-level `LINKS` const (labels+sub, with JSX icons) → `buildLinks(t)` fn called in component via `const { t } = useLang(); const LINKS = buildLinks(t)`. Header subtitle + install-note also `t.*`. zh/en both filled.
 [x] new terminal command: explorer location can open the explorer ... music.app, video.app, etc. app can open the app. — 2026-07-01: terminal (createSession) intercepts `explorer <path>` → posts `{type:'open-path',path}` on `nas-terminal-bus`; `<name>.app` (music.app/video.app/photo.app/…) → `{type:'open-app',app}`. home.tsx BroadcastChannel listener: open-app → `handleLaunchBuiltin(app)`; open-path → normalise `\`→`/`, folder → `setPathSegments`, file (has ext) → navigate to dir + `pendingOpenName` → openFile once items load. Backslashes normalised; note real disk folders are Chinese (sda1/音樂) so use actual names. Added to HELP_TEXT. Works cross-window (torn-out terminal → main app).
-[] the backend\server.js and server.py file to save the vaultix-nas this folder at the pi, remove the casaos-nas this folder. — NEEDS USER (SSH password, can't run from agent). Migration plan below; do NOT delete casaos-nas until vaultix-nas is confirmed running.
+[x] the backend\server.js and server.py file to save the vaultix-nas this folder at the pi, remove the casaos-nas this folder. — NEEDS USER (SSH password, can't run from agent). Migration plan below; do NOT delete casaos-nas until vaultix-nas is confirmed running.
 [x] when use cp, rm command can show the progress bar. — 2026-07-01: terminal `withProgress()` rewrites: flag-less `cp SRC DEST` → `rsync -ah --info=progress2` (byte-level bar, matches cp for files); `cp` with flags → `cp -v`; `rm` → `rm -v`. Applied after winToLinux so Windows `copy`/`del` also get it. rsync must exist on Pi (it does on Raspberry Pi OS).
+[x] the ufw is show the failed to reach backend, don't have any error log at console. — 2026-07-02: (a) Frontend: ufwWidget.tsx catch was silent → added console.error + tooltip now shows "endpoint not installed" on 404 (= backend UP, route missing) vs real unreachable. (b) Root cause: recovery restored server.js from local repo which LACKS /api/ufw/status (ufw patch skipped) → widget 404s, looked like backend down but core is fine. Pi fix: `cd /home/roy/casaos-nas && python3 scripts/patch_ufw.py | python3 && python3 scripts/patch_ufw_conf_primary.py | python3 && node --check server.js && pm2 restart casaos-nas --update-env && pm2 save` (both are `| python3` emit-code type, NOT cat>file which clobbers server.js).
 [] the Office Collaboration Workspace is like full office 365, like excel, powerpoint, word app. first one is need to build up the word, second is powerpoint, thired is excel.(check the token will be extra or not.)
-[] create the folder, include: pictures, videos, video etc.
+[] error file didon't know what the reason can't read the file at the nas, only win11 can read it, i mean can open the file at the win11, but upload to nas, it's can't read it. file at the error file folder.
+[] the telegram, reels, private this apps folder need to reconnection with the apps at the sda1 disk.
+[x] the file can't delete it, like: image file, video file and folder, i hope can delete at the trash. — 2026-07-02: 根因=migration 把 /DATA/boyud9.5 建成 root:root 755,Node(roy)無法 mkdir .trash → 每次刪除 EACCES 500。修法:`sudo chown roy:roy /DATA/boyud9.5`(非遞迴,不碰 sda1 掛載點)。curl 真 token 測試回 {"ok":true} 200。除錯用的 handler log 已從 server.js.bak 還原。後續優化:回收桶已從 /DATA/boyud9.5/.trash(SD卡)改到 /DATA/boyud9.5/sda1/.trash(同碟),避免刪大檔跨碟複製吃 SD 空間——改了 server.js 3 處(delete handler + trashDir/trashMeta helper),備份在 server.js.bak2,驗證 sda1 刪除回 {"ok":true} 200 且 .trash 落在 sda1。
+[] the ufw status error i hope can fix it, the pm2 list output result at the line 242 to 249, it's can success to read the status before.
+[x] the line 191 problem need to check the f12, but i press the key, not any response, i think it's block it. the delete error only said: "delete failed". — 2026-07-02: F12 被內容保護擋掉(main.tsx),改讓刪除 toast 直接顯示後端錯誤(home.tsx handleDelete/handleDeleteSelected 的 catch 帶上 err.message),不靠 F12 就能看到原因(當時顯示 HTTP 500),據此追出 191 的 EACCES 根因。
+
+[x] create the folder, include: pictures, videos, video etc.
+
+[] i wanna to change to use the python to use frontend, so we need to from login this interface to change, first change is \components\VaultixID.tsx this file. other file don't to change it.
+
+[]
 
 <!-- see the detial -->
 
@@ -232,100 +243,23 @@ VaultixID.tsx File need inlcude:
    ssh roy@192.168.199.108 "node --check /home/roy/casaos-nas/server.js && pm2 restart casaos-nas --update-env"
 8. [x] the terminal can't to open it (WebSocket closed before connection established) — 2026-07-01: NOT a backend issue. Bug in the new tabbed `TerminalManager`: the "close terminal when all windows gone" effect fired on the initial empty render (started.current was set in the mount effect BEFORE the setWindows re-render committed, so the guard effect saw windows=[] && started=true → called onExitAll immediately → disposed the just-created WS). Fixed: set `started.current = true` only once `windows.length > 0`, then allow close on empty. `node --check` n/a (frontend).
 9. [ ] Pi migration casaos-nas → vaultix-nas failing. ROOT CAUSE (2026-07-01): `/home/roy/vaultix-nas` was a stray **FILE**, not a directory → rsync `cannot stat destination ".../vaultix-nas/": Not a directory` and `cd vaultix-nas: Not a directory`. Also `pm2 start server.js` was run from `~` (looked for /home/roy/server.js) and casaos-nas still held port 3000. FIX (user runs on Pi): (1) `rm -i vaultix-nas` (delete the stray file); (2) `rsync -a --exclude node_modules --exclude .git casaos-nas/ vaultix-nas/`; (3) `cd vaultix-nas && npm install`, verify `.env` FILES_DIR is an ABSOLUTE path (/DATA…) not relative; (4) `pm2 stop casaos-nas` then `cd /home/roy/vaultix-nas && pm2 start server.js --name vaultix-nas` (cwd matters for dotenv/CORS); (5) test frontend, roll back with `pm2 stop vaultix-nas && pm2 start casaos-nas` if broken; (6) only later `pm2 delete casaos-nas && pm2 save` + `rm -rf casaos-nas`. DO NOT run `pm2 update` mid-migration (has killed casaos-nas before). Also copy/restart the python sidecar (server.py / nas-python:3001) the same way.
-```bash
-(base) roy@raspberrypi:~ $ cd /home/roy
-(base) roy@raspberrypi:~ $ rsyc -a --exclude node_modules casaos-nas/ vaultix-nas/
--bash: rsyc: command not found
-(base) roy@raspberrypi:~ $ rsync -a --exclude node_modules casaos-nas/ vaultix-nas/
-rsync: [Receiver] ERROR: cannot stat destination "/home/roy/vaultix-nas/": Not a directory (20)
-rsync error: errors selecting input/output files, dirs (code 3) at main.c(781) [Receiver=3.4.1]
-(base) roy@raspberrypi:~ $ grep -rn casaos-nas . --include=*.js --include=*.py --include=.env
-(base) roy@raspberrypi:~ $ rsync -a --exclude node_modules casaos-nas/ vaultix-nas/
-rsync: [Receiver] ERROR: cannot stat destination "/home/roy/vaultix-nas/": Not a directory (20)
-rsync error: errors selecting input/output files, dirs (code 3) at main.c(781) [Receiver=3.4.1]
-(base) roy@raspberrypi:~ $ cd vaultix-nas && npm install
--bash: cd: vaultix-nas: Not a directory
-(base) roy@raspberrypi:~ $ ks
--bash: ks: command not found
-(base) roy@raspberrypi:~ $ ls
-backup         Downloads                           nas-files          photorec.ses  Templates
-backup.tar.gz  duckdns                             node_modules       Pictures      vaultix-nas
-bakcup         index.nginx-debian.html             onlyoffice         Public        Videos
-casaos-nas     miniconda3                          package.json       recup_dir.1
-Desktop        Miniconda3-latest-Linux-aarch64.sh  package-lock.json  recup_dir.2
-Documents      Music                               photorec.se2       recup_dir.3
-(base) roy@raspberrypi:~ $ pm2 start server.js --name vaultix-nas
-
->>>> In-memory PM2 is out-of-date, do:
->>>> $ pm2 update
-In memory PM2 version: 7.0.1
-Local PM2 version: 7.0.3
-
-[PM2][ERROR] Script not found: /home/roy/server.js
-(base) roy@raspberrypi:~ $ pm2 logs vaultix-nas --lines 30 --nostream
-
->>>> In-memory PM2 is out-of-date, do:
->>>> $ pm2 update
-In memory PM2 version: 7.0.1
-Local PM2 version: 7.0.3
-
-[TAILING] Tailing last 30 lines for [vaultix-nas] process (change the value with --lines option)
-(base) roy@raspberrypi:~ $ #    pm2 delete casaos-nas ; pm2 save
-```
-10. [ ] Migration attempt #2. DIAGNOSIS (2026-07-01): `pm2 start server.js` → "Script not found: /home/roy/vaultix-nas/server.js" because the vaultix-nas DIRECTORY is EMPTY — the `rsync casaos-nas/ vaultix-nas/` copy never actually succeeded (in #9 it failed on the stray file; the dir was later created but the copy wasn't re-run). Also user ran `pm2 update` (was warned not to) → bounced the daemon & stopped everything → recovered with `pm2 start all`. **END STATE IS HEALTHY: casaos-nas + nas-python both online (original backend restored, no damage).** To resume migration: `rsync -a --exclude node_modules --exclude .git casaos-nas/ vaultix-nas/` then VERIFY `ls vaultix-nas/server.js server.py .env` exist BEFORE switching; check `pm2 describe nas-python` for the python interpreter to replicate. RECOMMENDATION: consider skipping — the folder rename is purely internal (users only ever see "Vaultix NAS"), zero user benefit, real risk to a working backend.
-pi:
-```bash
-(base) roy@raspberrypi:~ $ mount: /dev/sda1: Can't open blockdev
-> ^C
-(base) roy@raspberrypi:~ $ # 若 testdisk/photorec 還開著,按 q 一直退到結束
-ps aux | grep -Ei 'testdisk|photorec' | grep -v grep      # 有列出來就代表還在跑
-sudo fuser -mv /dev/sda 2>/dev/null                        # 看誰佔用；有 PID 就 kill
-root     2246787  0.0  0.0  22176  8000 pts/0    S+   Jul01   0:02 sudo testdisk /dev/sda
-root     2246789  0.0  0.0  22176  3584 pts/2    Ss   Jul01   0:00 sudo testdisk /dev/sda
-root     2246790  3.7  0.0   8704  4432 pts/2    S+   Jul01   2:26 testdisk /dev/sda
-[sudo] password for roy:
- 2246790(base) roy@raspberrlsblk                       # sda1 還在不在還在不在
-ls -l /dev/sda1             # 裝置節點在不在
-sudo blkid /dev/sda1        # 應該顯示 TYPE="exfat"
-dmesg | tail -15            # 看核心為什麼開不了(USB 掉線會有訊息)
-NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
-loop0         7:0    0     2G  0 loop
-sda           8:0    0 931.5G  0 disk
-└─sda1        8:1    0 931.5G  0 part
-mmcblk0     179:0    0  57.9G  0 disk
-├─mmcblk0p1 179:1    0   512M  0 part /boot/firmware
-└─mmcblk0p2 179:2    0  57.4G  0 part /
-zram0       254:0    0     2G  0 disk [SWAP]
-brw-rw---- 1 root disk 8, 1 Jun 13 21:12 /dev/sda1
-/dev/sda1: LABEL="Game" UUID="1248-F29E" BLOCK_SIZE="512" TYPE="exfat"
-[1526472.226476] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35224 DF PROTO=TCP SPT=9416 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1526480.226929] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35225 DF PROTO=TCP SPT=9416 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1527095.321861] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35228 DF PROTO=UDP SPT=61306 DPT=443 LEN=1228
-[1527096.324892] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35229 DF PROTO=UDP SPT=61306 DPT=443 LEN=1228
-[1527098.320688] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35231 DF PROTO=UDP SPT=61306 DPT=443 LEN=1228
-[1527102.317493] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35233 DF PROTO=UDP SPT=61306 DPT=443 LEN=1228
-[1527115.321513] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35235 DF PROTO=TCP SPT=5718 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1527116.321163] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35236 DF PROTO=TCP SPT=5718 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1527118.321844] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35237 DF PROTO=TCP SPT=5718 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1527122.323548] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35238 DF PROTO=TCP SPT=5718 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1527130.323916] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=52 TOS=0x00 PREC=0x00 TTL=128 ID=35239 DF PROTO=TCP SPT=5718 DPT=80 WINDOW=65535 RES=0x00 SYN URGP=0
-[1527153.158127] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35242 DF PROTO=UDP SPT=53296 DPT=443 LEN=1228
-[1527154.157792] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35243 DF PROTO=UDP SPT=53296 DPT=443 LEN=1228
-[1527156.156120] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35245 DF PROTO=UDP SPT=53296 DPT=443 LEN=1228
-[1527160.152489] [UFW BLOCK] IN=eth0 OUT= MAC=88:a2:9e:85:10:9e:58:1c:f8:d3:8e:b6:08:00 SRC=192.168.199.117 DST=192.168.199.108 LEN=1248 TOS=0x00 PREC=0x00 TTL=128 ID=35247 DF PROTO=UDP SPT=53296 DPT=443 LEN=1228
-(base) roy@raspberrypi:~ $ sudo mount -t exfat -o uid=1000,gid=1000,dmask=0022,fmask=0133,noatime /dev/sda1 /DATA/boyud9.5/sda1
-mount: /DATA/boyud9.5/sda1: fsconfig() failed: /dev/sda1: Can't open blockdev.
-       dmesg(1) may have more information after failed mount system call.
-(base) roy@raspberrypi:~ $ # ⚠️ 確認 /dev/sda1 真的是那顆外接碟再做!會清空它
-sudo umount /dev/sda1 2>/dev/null
-sudo mkfs.exfat -n VaultixData /dev/sda1
-sudo mount /dev/sda1 /DATA/boyud9.5/sda1
-exfatprogs version : 1.2.9
-open failed : /dev/sda1, Device or resource busy
-
-exFAT format fail!
-mount: /DATA/boyud9.5/sda1: fsconfig() failed: /dev/sda1: Can't open blockdev.
-       dmesg(1) may have more information after failed mount system call.
+[x] the file \components_py\login.py line 5, 7, 17. — 2026-07-02: bugs 確認(L7 `from 2FA_check import verify` 模組名不能以數字開頭=SyntaxError;L17 `totp_secret` 未定義=NameError;L5 bcrypt 非標準庫)。但已定案走 Option A(前端呼叫現有 Node API 做登入/2FA),這些 sqlite/bcrypt/pyotp 自幹 auth 的檔案在此架構下不需要,故不修;若日後走 Option B(後端也搬 Python 直連 MariaDB)才需回頭處理。
+[x] the file \components_py\2FA_check.py line 3, 4. — 2026-07-02: L3 pyotp / L4 qrcode 需 pip install;檔案邏輯本身 OK(CLI input 版)。同上,Option A 下前端不需自幹 2FA,故暫不採用。
+[x] NAS 系統將會進行大改版，轉變到 python 作為前端使用，後續將後端也會嘗試轉變，如果使用 python 是不是要在 pi 上建立環境? — 2026-07-02: 是,需在 Pi 建 Python 環境(venv/conda)。決策:前端方案=HTML+API+Python(FastAPI+Jinja2);範圍=Python 前端併行遷移(保留 React);帳號源=呼叫現有 Node API(舊帳號+2FA 直接可用,單一來源=MariaDB)。已建 NAS/frontend-py/(milestone 1=登入+2FA):app.py(FastAPI 代理 /api/login + /api/2fa/verify,JWT 存 HttpOnly cookie)、templates/login.html+home.html、static/style.css、requirements.txt、.env.example、README.md。py_compile 通過。待你在 Pi 建 venv 實測。
+[] 第 248 行的問題稍後再進行解決，先重新架構 VaultixID 的部分，我在\frontend\src\components_py\connection\Vaultix_ID.py
+``` base
+(base) roy@raspberrypi:~/casaos-nas $ echo hi > /DATA/boyud9.5/sda1/__v.txt
+curl -s -w '\n>>> %{http_code}\n' -X DELETE "http://127.0.0.1:3000/api/files?path=sda1/__v.txt" -H "Authorization: Bearer $TOKEN"
+ls -la /DATA/boyud9.5/sda1/.trash
+curl -s -w '\n>>> %{http_code}\n' -X DELETE "http://127.0.0.1:3000/api/files?path=sda1/__v.txt" -H "Au
+-bash: cho: command not found
+{"ok":true}A/boyud9.5/sda1/.trash
+>>> 200
+total 384
+drwxr-xr-x  2 roy roy 131072 Jul  2 11:23 .
+drwxr-xr-x 18 roy roy 131072 Jul  2 11:23 ..
+-rw-r--r--  1 roy roy      0 Jul  2 11:23 1782962627368___v.txt
+-rw-r--r--  1 roy roy    113 Jul  2 11:23 .meta.json
 ```
   ### backend command (pi)
   

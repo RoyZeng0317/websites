@@ -14,9 +14,28 @@ with open(path, 'r') as f:
     src = f.read()
 
 MARKER = '// ── Python sidecar proxy'
+FAIL2BAN_MARKER = 'app.post(\'/api/system/disks/rename-folder\''
 
 if MARKER in src:
-    print('[proxy] already patched, skipping')
+    if FAIL2BAN_MARKER not in src:
+        print('[proxy] patched but missing fail2ban routes, appending')
+        F2B_BLOCK = '''
+app.get('/api/system/fail2ban',     authenticate, requireAdmin, _pyProxy)
+app.get('/api/system/fail2ban/log', authenticate, requireAdmin, _pyProxy)
+app.post('/api/system/fail2ban/unban', authenticate, requireAdmin, _pyProxy)
+
+'''
+        anchor = src.find('app.post(\'/api/system/disks/rename-folder\'')
+        if anchor != -1:
+            eol = src.find('\n', anchor)
+            src = src[:eol+1] + F2B_BLOCK + src[eol+1:]
+            with open(path, 'w') as f:
+                f.write(src)
+            print('[proxy] appended fail2ban proxy routes')
+        else:
+            print('[proxy] ERROR: rename-folder anchor not found')
+    else:
+        print('[proxy] already patched, skipping')
     sys.exit(0)
 
 PROXY_BLOCK = '''
@@ -45,6 +64,9 @@ function _pyProxy(req, res) {
 app.all('/api/todos',     authenticate, _pyProxy)
 app.all('/api/todos/:id', authenticate, _pyProxy)
 app.post('/api/system/disks/rename-folder', authenticate, requireAdmin, _pyProxy)
+app.get('/api/system/fail2ban',     authenticate, requireAdmin, _pyProxy)
+app.get('/api/system/fail2ban/log', authenticate, requireAdmin, _pyProxy)
+app.post('/api/system/fail2ban/unban', authenticate, requireAdmin, _pyProxy)
 
 '''
 

@@ -196,6 +196,141 @@ def rename_folder(
     except OSError as e:
         raise HTTPException(500, str(e))
 
+# ── /api/system/fail2ban ───────────────────────────────────────────────────────
+FAIL2BAN_CLIENT = '/usr/bin/fail2ban-client'
+FAIL2BAN_LOG    = '/var/log/fail2ban.log'
+
+def _admin_of(
+    x_user_uid:      Optional[str],
+    x_user_username: Optional[str],
+    x_user_role:     Optional[str],
+):
+    if not x_user_uid:
+        raise HTTPException(401, '請先登入')
+    if x_user_role != 'admin':
+        raise HTTPException(403, '僅管理員可操作 fail2ban')
+
+def _run(*args: str, timeout: int = 15) -> str:
+    try:
+        r = subprocess.run(['sudo', '-n', *args], capture_output=True, text=True, timeout=timeout)
+        if r.returncode != 0:
+            raise HTTPException(500, r.stderr.strip() or r.stdout.strip())
+        return r.stdout
+    except FileNotFoundError:
+        raise HTTPException(500, 'fail2ban-client 未安裝')
+
+def _parse_jail_status(text: str) -> dict:
+    """Parse `fail2ban-client status <jail>` output into a dict."""
+    status = {'banned': 0, 'totalBanned': 0, 'failed': 0, 'totalFailed': 0, 'bannedIps': []}
+    for line in text.splitlines():
+        line = line.strip()
+        if line.startswith('|-') or line.startswith('`-'): continue
+        if ':' not in line: continue
+        key, _, val = line.partition(':')
+        key = key.strip().lower().replace(' ', '')
+        val = val.strip()
+        if key == 'currentlybanned':
+            status['banned'] = int(val)
+        elif key == 'totalbanned':
+            status['totalBanned'] = int(val)
+        elif key == 'currentlyfailed':
+            status['failed'] = int(val)
+        elif key == 'totalfailed':
+            status['totalFailed'] = int(val)
+        elif key == 'bannedip':
+            status['bannedIps'] = [ip.strip() for ip in val.split() if ip.strip()]
+    return status
+
+@app.get('/api/system/fail2ban')
+def get_fail2ban(
+    x_user_uid:      Optional[str] = Header(None),
+    x_user_username: Optional[str] = Header(None),
+    x_user_role:     Optional[str] = Header(None),
+):
+    _admin_of(x_user_uid, x_user_username, x_user_role)
+
+    try:
+        raw = _run(FAIL2BAN_CLIENT, 'status')
+    except HTTPException as e:
+        if '未安裝' in str(e.detail) or 'No such file' in str(e.detail):
+            return {'jails': [], 'unavailable': True, 'reason': 'not_installed'}
+        raise
+
+    jails = []
+    for line in raw.splitlines():
+        line = line.strip()
+        if 'Jail list' in line and ':' in line:
+            names = line.split(':', 1)[1].strip().split(',')
+            for name in names:
+                name = name.strip()
+                if not name:
+                    continue
+                try:
+                    detail = _run(FAIL2BAN_CLIENT, 'status', name)
+                    status = _parse_jail_status(detail)
+                except HTTPException:
+                    status = _parse_jail_status('')
+                jails.append({'name': name, **status})
+            break
+
+    return {'jails': jails, 'unavailable': False}
+
+
+class UnbanBody(BaseModel):
+    jail: str
+    ip: str
+
+
+@app.post('/api/system/fail2ban/unban')
+def unban(
+    body:            UnbanBody,
+    x_user_uid:      Optional[str] = Header(None),
+    x_user_username: Optional[str] = Header(None),
+    x_user_role:     Optional[str] = Header(None),
+):
+    _admin_of(x_user_uid, x_user_username, x_user_role)
+    if not body.jail.strip() or not body.ip.strip():
+        raise HTTPException(400, '請提供 jail 和 IP')
+    _run(FAIL2BAN_CLIENT, 'set', body.jail.strip(), 'unbanip', body.ip.strip())
+    return {'ok': True}
+
+
+@app.get('/api/system/fail2ban/log')
+def get_log(
+    lines:           int = 300,
+    x_user_uid:      Optional[str] = Header(None),
+    x_user_username: Optional[str] = Header(None),
+    x_user_role:     Optional[str] = Header(None),
+):
+    _admin_of(x_user_uid, x_user_username, x_user_role)
+    try:
+        r = subprocess.run(['sudo', '-n', 'tail', '-n', str(lines), FAIL2BAN_LOG],
+                           capture_output=True, text=True, timeout=10)
+        if r.returncode == 0:
+            return {'lines': r.stdout.splitlines()}
+    except FileNotFoundError:
+        pass
+
+    try:
+        r = subprocess.run(['tail', '-n', str(lines), FAIL2BAN_LOG],
+                           capture_output=True, text=True, timeout=10)
+        if r.returncode == 0:
+            return {'lines': r.stdout.splitlines()}
+    except FileNotFoundError:
+        pass
+
+    try:
+        r = subprocess.run(
+            ['sudo', '-n', 'journalctl', '-u', 'fail2ban', '-n', str(lines), '--no-pager', '--output=short'],
+            capture_output=True, text=True, timeout=10,
+        )
+        if r.returncode == 0:
+            return {'lines': r.stdout.splitlines()}
+    except FileNotFoundError:
+        pass
+
+    raise HTTPException(500, '無法讀取 fail2ban log')
+
 # ── Entry ─────────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=3001, log_level='info')
