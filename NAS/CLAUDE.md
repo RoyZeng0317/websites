@@ -185,6 +185,15 @@ VITE_FIREBASE_* (Firebase config for hosting/auth)
 [x] the backend\server.js and server.py file to save the vaultix-nas this folder at the pi, remove the casaos-nas this folder. — NEEDS USER (SSH password, can't run from agent). Migration plan below; do NOT delete casaos-nas until vaultix-nas is confirmed running.
 [x] when use cp, rm command can show the progress bar. — 2026-07-01: terminal `withProgress()` rewrites: flag-less `cp SRC DEST` → `rsync -ah --info=progress2` (byte-level bar, matches cp for files); `cp` with flags → `cp -v`; `rm` → `rm -v`. Applied after winToLinux so Windows `copy`/`del` also get it. rsync must exist on Pi (it does on Raspberry Pi OS).
 [x] the ufw is show the failed to reach backend, don't have any error log at console. — 2026-07-02: (a) Frontend: ufwWidget.tsx catch was silent → added console.error + tooltip now shows "endpoint not installed" on 404 (= backend UP, route missing) vs real unreachable. (b) Root cause: recovery restored server.js from local repo which LACKS /api/ufw/status (ufw patch skipped) → widget 404s, looked like backend down but core is fine. Pi fix: `cd /home/roy/casaos-nas && python3 scripts/patch_ufw.py | python3 && python3 scripts/patch_ufw_conf_primary.py | python3 && node --check server.js && pm2 restart casaos-nas --update-env && pm2 save` (both are `| python3` emit-code type, NOT cat>file which clobbers server.js).
+01. [x] \ps1 檔案有多餘的步驟，需要開啟記事本，但是我希望用戶可以直接從 github 當中安裝，不需要多餘的步驟(包含使用筆記本) — 2026-07-06: 新增 `frontend-py/install.ps1`，用 `irm ... | iex` 直接從 GitHub sparse-clone 安裝，全程無需開記事本。
+02. [x] ps1 可以使用以下安裝模式
+1. npm install
+2. curl (支援 windows CDM 與 MacOS 及 Linux)
+3. irm (windows powershell)
+使用這些安裝檔案進行安裝
+用這樣簡易的命令，讓用戶複製指令進行安裝
+— 2026-07-06: `frontend-py/install.ps1`(irm) 與 `frontend-py/install.sh`(curl，跨 macOS/Linux/樹莓派) 皆已提供一行安裝指令，見 `frontend-py/README.md`。
+03. [x] 如果說有需要伺服器進行使用，那麼就使用到 firebase 或者是 cloudinary 等伺服器，不使用本地(如: localhost、127.0.1.1 等形式進行運行) 有需要 secrect key 的部分，那就產生 key 讓我自行複製到 .env 檔案當中，不可以自行寫入 .env 檔案當中，交給我處理即可 — 2026-07-06: 確認 `frontend-py` 現有程式碼(`app.py`、`pwd_2FA_check.py`)沒有任何地方寫入 `.env`；`TFA_KEY` 由 `pwd_2FA_check.py` 自動產生 `2fa.db.key` 檔(非 `.env`)。安裝腳本只印出 `.env.example` 內容供參考複製，不建立、不寫入 `.env`，一律交給使用者自行處理。
 [] the Office Collaboration Workspace is like full office 365, like excel, powerpoint, word app. first one is need to build up the word, second is powerpoint, thired is excel.(check the token will be extra or not.)
 [] error file didon't know what the reason can't read the file at the nas, only win11 can read it, i mean can open the file at the win11, but upload to nas, it's can't read it. file at the error file folder.
 [] the telegram, reels, private this apps folder need to reconnection with the apps at the sda1 disk.
