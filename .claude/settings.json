@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($errors = $null; [System.Management.Automation.Language.Parser]::ParseFile\\(\"c:\\\\Users\\\\roy\\\\Documents\\\\GitHub\\\\websites\\\\NAS\\\\frontend-py\\\\install.ps1\", [ref]$null, [ref]$errors\\) | Out-Null; if \\($errors.Count -eq 0\\) { \"OK\" } else { $errors })"
+    ]
+  }
+}

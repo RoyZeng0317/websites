@@ -13,15 +13,26 @@ Auth is **proxied to the existing Node backend** (single source of truth), so ex
 accounts and 2FA keep working. The JWT is stored in an **HttpOnly cookie** (safer than
 localStorage). When the backend later moves to Python, only `NODE_API` targets change.
 
-## Setup (on the Raspberry Pi)
+## Install
 
-```bash
-cd /home/roy/casaos-nas   # or wherever this folder is deployed
-python3 -m venv ~/nas-py
-source ~/nas-py/bin/activate
-pip install -r requirements.txt
-cp .env.example .env       # then edit if needed (NODE_API defaults to localhost:3000)
+One-line install, no manual clone/venv/editor steps:
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/RoyZeng0317/websites/main/NAS/frontend-py/install.ps1 | iex
 ```
+
+**macOS / Linux / Raspberry Pi:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/RoyZeng0317/websites/main/NAS/frontend-py/install.sh | bash
+```
+
+Both scripts sparse-clone just this folder, create a venv, and install
+`requirements.txt`. All config has safe defaults (`NODE_API` defaults to
+`http://127.0.0.1:3000`), so it runs without any `.env` at all. The
+installer prints `.env.example` at the end for reference but never creates
+or writes `.env` itself — if you need to override a default (e.g.
+`RP_ID`/`TFA_ORIGIN` for the Pi), create that file yourself.
 
 ## Run
 
