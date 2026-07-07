@@ -2,6 +2,7 @@ import { Router } from 'express'
 import path from 'path'
 import fs from 'fs/promises'
 import { createReadStream, createWriteStream, existsSync } from 'fs'
+import { randomUUID } from 'crypto'
 
 const MIME = {
   '.html':'text/html','.htm':'text/html','.css':'text/css','.js':'application/javascript',
@@ -25,6 +26,29 @@ function mime(filename) {
 
 function xml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+// In-memory WebDAV locks, keyed by absolute file path. Office's WebDAV client
+// (mini-redirector) LOCKs a file before it will open it for editing — a 405/
+// missing LOCK support here is why Office reports the file as blocked even
+// though PROPFIND/GET/PUT all work fine.
+const locks = new Map() // filePath -> { token, expires }
+const LOCK_TIMEOUT_SEC = 3600
+
+function lockXml(token, timeoutSec, owner) {
+  return `<?xml version="1.0" encoding="utf-8"?>
+<D:prop xmlns:D="DAV:">
+  <D:lockdiscovery>
+    <D:activelock>
+      <D:locktype><D:write/></D:locktype>
+      <D:lockscope><D:exclusive/></D:lockscope>
+      <D:depth>0</D:depth>
+      ${owner ? `<D:owner>${xml(owner)}</D:owner>` : ''}
+      <D:timeout>Second-${timeoutSec}</D:timeout>
+      <D:locktoken><D:href>${token}</D:href></D:locktoken>
+    </D:activelock>
+  </D:lockdiscovery>
+</D:prop>`
 }
 
 function propfindXml(items) {
@@ -91,7 +115,7 @@ export function createWebDAVRouter(pool, bcrypt, FILES_DIR) {
 
       // OPTIONS
       if (method === 'OPTIONS') {
-        res.setHeader('Allow', 'OPTIONS,GET,HEAD,PUT,DELETE,MKCOL,PROPFIND,MOVE,COPY')
+        res.setHeader('Allow', 'OPTIONS,GET,HEAD,PUT,DELETE,MKCOL,PROPFIND,MOVE,COPY,LOCK,UNLOCK')
         return res.status(200).end()
       }
 
@@ -153,6 +177,26 @@ export function createWebDAVRouter(pool, bcrypt, FILES_DIR) {
       if (method === 'MKCOL') {
         try { await fs.mkdir(filePath); return res.status(201).end() }
         catch (e) { return res.status(e.code === 'EEXIST' ? 405 : 409).end() }
+      }
+
+      // LOCK — required by Microsoft Office's WebDAV client before it will
+      // open a file for editing. We don't enforce exclusivity (single-user
+      // NAS), we just hand back a valid token so Office proceeds.
+      if (method === 'LOCK') {
+        const existing = locks.get(filePath)
+        const token = existing && existing.expires > Date.now() ? existing.token : `urn:uuid:${randomUUID()}`
+        locks.set(filePath, { token, expires: Date.now() + LOCK_TIMEOUT_SEC * 1000 })
+        res.setHeader('Lock-Token', `<${token}>`)
+        res.setHeader('Content-Type', 'application/xml; charset=utf-8')
+        return res.status(200).send(lockXml(token, LOCK_TIMEOUT_SEC))
+      }
+
+      // UNLOCK
+      if (method === 'UNLOCK') {
+        const lockToken = (req.headers['lock-token'] || '').replace(/[<>]/g, '')
+        const existing = locks.get(filePath)
+        if (existing && existing.token === lockToken) locks.delete(filePath)
+        return res.status(204).end()
       }
 
       // MOVE / COPY

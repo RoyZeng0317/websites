@@ -198,8 +198,8 @@ app.use((req, res, next) => {
 
 app.use(cors({
   origin: ORIGINS,
-  methods: ['GET','POST','PUT','DELETE','PATCH','OPTIONS','HEAD','PROPFIND','MKCOL','MOVE','COPY'],
-  allowedHeaders: ['Authorization','Content-Type','Depth','Destination','Overwrite'],
+  methods: ['GET','POST','PUT','DELETE','PATCH','OPTIONS','HEAD','PROPFIND','MKCOL','MOVE','COPY','LOCK','UNLOCK'],
+  allowedHeaders: ['Authorization','Content-Type','Depth','Destination','Overwrite','Lock-Token','Timeout','If'],
 }))
 app.use(express.json())
 

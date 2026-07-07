@@ -15,6 +15,7 @@ import os
 import secrets
 import time
 from pathlib import Path
+from urllib.parse import quote
 
 import httpx
 from fastapi import FastAPI, Request, Response
@@ -31,6 +32,10 @@ load_dotenv(BASE / ".env")
 
 # ── config (env) ─────────────────────────────────────────
 NODE_API = os.getenv("NODE_API", "http://127.0.0.1:3000").rstrip("/")
+# Browser-facing URL for the Node backend (downloads, WebDAV) — NODE_API is
+# often a loopback address for server-to-server calls, which the user's
+# browser cannot reach directly.
+NODE_PUBLIC_URL = os.getenv("NODE_PUBLIC_URL", "https://raspberrypi.tail8767da.ts.net").rstrip("/")
 FRONTEND_PORT = int(os.getenv("FRONTEND_PORT", "8001"))
 COOKIE_SECURE = os.getenv("COOKIE_SECURE", "true").lower() == "true"
 JWT_DAYS = int(os.getenv("JWT_DAYS", "7"))
@@ -117,6 +122,30 @@ async def _node_post(path: str, body: dict) -> httpx.Response:
         return await client.post(f"{NODE_API}{path}", json=body)
 
 
+async def _node_get(path: str, token: str) -> httpx.Response:
+    async with httpx.AsyncClient(timeout=15) as client:
+        return await client.get(f"{NODE_API}{path}", headers={"Authorization": f"Bearer {token}"})
+
+
+# ── Office file browser ────────────────────────────────────
+# ext -> (display label, URI scheme used for "open in desktop app")
+OFFICE_EXT = {
+    ".docx": ("Word", "ms-word"),
+    ".xlsx": ("Excel", "ms-excel"),
+    ".pptx": ("PowerPoint", "ms-powerpoint"),
+}
+
+
+def _breadcrumb(path: str) -> list[dict]:
+    if not path:
+        return []
+    crumbs, acc = [], []
+    for part in path.split("/"):
+        acc.append(part)
+        crumbs.append({"name": part, "path": "/".join(acc)})
+    return crumbs
+
+
 # ── page routes ──────────────────────────────────────────
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
@@ -142,6 +171,50 @@ async def security_page(request: Request):
     if not user:
         return RedirectResponse("/", status_code=302)
     return templates.TemplateResponse("security.html", {"request": request, "username": user})
+
+
+@app.get("/office", response_class=HTMLResponse)
+async def office_page(request: Request, path: str = ""):
+    user = _current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    token = request.cookies.get(COOKIE_NAME)
+    ctx = {"request": request, "username": user, "path": path,
+           "breadcrumb": _breadcrumb(path), "folders": [], "files": [], "error": None}
+
+    try:
+        r = await _node_get(f"/api/files?path={quote(path)}", token)
+    except httpx.RequestError as e:
+        ctx["error"] = f"無法連線後端: {e}"
+        return templates.TemplateResponse("office.html", ctx)
+
+    if r.status_code != 200:
+        ctx["error"] = f"HTTP {r.status_code}"
+        return templates.TemplateResponse("office.html", ctx)
+
+    items = r.json().get("items", [])
+    ctx["folders"] = [i for i in items if i.get("type") == "folder"]
+
+    files = []
+    for i in items:
+        if i.get("type") != "file":
+            continue
+        ext = Path(i["name"]).suffix.lower()
+        if ext not in OFFICE_EXT:
+            continue
+        label, scheme = OFFICE_EXT[ext]
+        rel = f"{path}/{i['name']}" if path else i["name"]
+        webdav_url = f"{NODE_PUBLIC_URL}/webdav/{'/'.join(quote(p) for p in rel.split('/'))}"
+        files.append({
+            "name": i["name"],
+            "label": label,
+            "size": i.get("size"),
+            "download_url": f"{NODE_PUBLIC_URL}/api/files/download?path={quote(rel)}&token={token}",
+            "open_url": f"{scheme}:ofe|u|{webdav_url}",
+        })
+    ctx["files"] = files
+    return templates.TemplateResponse("office.html", ctx)
 
 
 @app.get("/logout")

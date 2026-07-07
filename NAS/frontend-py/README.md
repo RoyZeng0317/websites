@@ -56,14 +56,24 @@ Set `COOKIE_SECURE=true` when served over HTTPS.
 
 | File | Purpose |
 |------|---------|
-| `app.py` | FastAPI routes: pages (`/login`, `/home`) + auth proxy (`/api/login`, `/api/2fa/verify`) |
+| `app.py` | FastAPI routes: pages (`/login`, `/home`, `/office`) + auth proxy (`/api/login`, `/api/2fa/verify`) |
 | `templates/login.html` | Login + 2FA form (vanilla JS `fetch`) |
 | `templates/home.html` | Placeholder post-login page |
+| `templates/office.html` | Office file browser (Word/Excel/PowerPoint only) |
 | `static/style.css` | Dark theme |
+
+`/office` proxies `GET {NODE_API}/api/files` (server-side, with the user's JWT)
+to list folders/`.docx`/`.xlsx`/`.pptx` files, then renders download links and
+"open in desktop app" links (`ms-word:ofe|u|<webdav-url>` etc., pointed at
+`NODE_PUBLIC_URL`, which must be reachable from the *browser* — unlike
+`NODE_API` which only needs to be reachable from the Pi itself). This is
+scoped to Office files only — it is **not** the general file manager
+(Milestone 2 below).
 
 ## Roadmap (parallel migration)
 
 - [x] Milestone 1 — login + 2FA
-- [ ] Milestone 2 — file listing (`/api/files`)
+- [x] Office file browser (`/office`) — Word/Excel/PowerPoint list + download + open-in-desktop via WebDAV
+- [ ] Milestone 2 — general file listing (`/api/files`, full file manager)
 - [ ] Milestone 3 — upload / download / delete
 - [ ] Milestone 4 — apps (Reels / Telegram / Private …)

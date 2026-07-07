@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vaultix NAS — Office</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="card office-card">
+    <h1 class="logo">Vaultix<span>NAS</span></h1>
+    <p class="hint">Office Files · <strong>{{ username }}</strong></p>
+
+    <nav class="breadcrumb">
+      <a href="/office">根目錄</a>
+      {% for c in breadcrumb %}
+        <span>/</span><a href="/office?path={{ c.path | urlencode }}">{{ c.name }}</a>
+      {% endfor %}
+    </nav>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if folders %}
+      <ul class="file-list">
+        {% for f in folders %}
+          <li>
+            <a class="file-row" href="/office?path={{ (path ~ '/' ~ f.name if path else f.name) | urlencode }}">
+              📁 {{ f.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if files %}
+      <ul class="file-list">
+        {% for f in files %}
+          <li class="file-row">
+            <span>📄 {{ f.name }} <span class="hint">({{ f.label }})</span></span>
+            <span class="file-actions">
+              <a class="btn-small" href="{{ f.download_url }}">下載</a>
+              <a class="btn-small" href="{{ f.open_url }}">用 {{ f.label }} 開啟</a>
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% elif not folders and not error %}
+      <p class="hint">此資料夾沒有 Word / Excel / PowerPoint 檔案</p>
+    {% endif %}
+
+    <div class="hint" style="margin-top:16px">
+      「用 {{ 'Word/Excel/PowerPoint' }} 開啟」會透過 WebDAV 直接呼叫桌面版 Office，
+      第一次開啟時 Windows 會跳出帳密視窗，輸入你的 NAS 帳號密碼即可。
+    </div>
+
+    <a class="link" href="/home">← 返回首頁</a>
+  </div>
+</body>
+</html>

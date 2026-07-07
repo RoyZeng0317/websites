@@ -205,7 +205,12 @@ VITE_FIREBASE_* (Firebase config for hosting/auth)
 
 [] i wanna to change to use the python to use frontend, so we need to from login this interface to change, first change is \components\VaultixID.tsx this file. other file don't to change it.
 
-[]
+[x] 要求 office word 可以能夠使用為 microsoft word成功打開，之前是可以使用 word 打開，但是沒有順利打開，顯示被阻止 — 2026-07-07: 根因＝`backend/webdav.js` 從未實作 WebDAV `LOCK`/`UNLOCK`。Office 的 WebDAV client（mini-redirector）在直接編輯開啟文件前一定會先送 `LOCK`，該路由沒處理，落到 `res.status(405).end()`，Office 因此回報「已封鎖／無法開啟」——但 GET/PUT/PROPFIND（含「Download and open」）完全正常，因為不會用到 LOCK。修法：`webdav.js` 新增記憶體內鎖表 + `LOCK`/`UNLOCK` handler（回傳合法 `Lock-Token` 與符合 RFC 的 XML，不做多人互斥，單人 NAS 夠用），`OPTIONS` 的 `Allow` 也補上；`server.js` 的 CORS `methods`/`allowedHeaders` 補 `LOCK`/`UNLOCK`/`Lock-Token`/`Timeout`/`If`。**待部署到 Pi**（SSH 需密碼，agent 無法直接跑）：
+   ```powershell
+   python backend/scripts/patch_webdav_lock.py | ssh roy@192.168.199.108 python3
+   ssh roy@192.168.199.108 "node --check /home/roy/casaos-nas/server.js && node --check /home/roy/casaos-nas/webdav.js && pm2 restart casaos-nas --update-env"
+   ```
+   部署後用 Word 直接開啟 `ms-word:ofe|u|<webdav url>` 驗證是否不再顯示封鎖。
 
 <!-- see the detial -->
 
