@@ -3774,9 +3774,14 @@ async def get_news(date: Optional[str] = None):
         if os.path.isfile(filepath):
             try:
                 with open(filepath, "r", encoding="utf-8") as f:
-                    return json.load(f)
+                    payload = json.load(f)
             except Exception as exc:
                 raise HTTPException(status_code=500, detail=f"Failed to parse news file: {exc}")
+            # Skip legacy-schema files (old "markets" format predates the
+            # current "groups" schema the frontend consumes) and keep
+            # falling back to older dates.
+            if isinstance(payload, dict) and isinstance(payload.get("groups"), list):
+                return payload
 
     raise HTTPException(status_code=404, detail="No news data available for the requested date range.")
 
