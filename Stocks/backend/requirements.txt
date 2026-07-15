@@ -3,3 +3,14 @@ uvicorn[standard]==0.34.0
 yfinance>=1.0.0
 websockets==14.1
 python-dotenv==1.0.1
+
+# AI prediction (ml_predict.py) — CPU-only inference, deliberately NOT
+# torch/ultralytics (too heavy for Render's free tier). Training happens
+# offline on a Pi (see Stocks/ml/requirements.txt); this backend only
+# runs the exported artifacts.
+pandas>=2.0.0
+onnxruntime>=1.17.0
+lightgbm>=4.0.0
+mplfinance>=0.12.10b0
+matplotlib>=3.8.0
+Pillow>=10.0.0

@@ -3810,3 +3810,11 @@ async def websocket_price(websocket: WebSocket, symbol: str):
                     })
         except Exception:
             pass
+
+
+# AI 漲跌預判 — self-contained module (own OHLCV fetch, own rate limiter),
+# see backend/ml_predict.py. Kept as a separate include rather than merged
+# into the routes above so it can be developed/tested independently of the
+# rest of this 3800+ line file.
+from ml_predict import router as ml_router  # noqa: E402
+app.include_router(ml_router)

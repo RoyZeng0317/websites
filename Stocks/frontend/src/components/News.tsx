@@ -1,62 +1,48 @@
 import { useState, useEffect } from 'react'
-import { TrendingDown, TrendingUp, Minus, RefreshCw, Newspaper, AlertCircle } from 'lucide-react'
+import { Newspaper, RefreshCw, AlertCircle, ExternalLink } from 'lucide-react'
 
-interface MarketIndex {
-  name: string
-  change: string
-  change_percent: string
-  close?: string
-}
-
-interface KeyStock {
-  code: string
-  name: string
-  change: string
-  note: string
-}
-
-interface MarketData {
-  market_name: string
-  index: MarketIndex
+interface Article {
+  title: string
+  link: string
+  source: string
+  pubdate: string | null
   summary: string
-  key_stocks: KeyStock[]
-  sources: string[]
+  additional_sources: string[]
+}
+
+interface NewsGroup {
+  group: string
+  keywords: string[]
+  article_count: number
+  articles: Article[]
 }
 
 interface NewsData {
   date: string
   generated_at: string
-  markets: {
-    taiwan: MarketData
-    us: MarketData
-    hongkong: MarketData
-  }
+  group_count: number
+  total_articles: number
+  groups: NewsGroup[]
 }
 
-type MarketKey = 'taiwan' | 'us' | 'hongkong'
-
-const MARKET_TABS: { key: MarketKey; label: string }[] = [
-  { key: 'taiwan', label: '台股' },
-  { key: 'us', label: '美股' },
-  { key: 'hongkong', label: '港股' },
-]
-
-// 台股：漲紅跌綠；美股／港股：漲綠跌紅
-function changeColor(change: string, isTW: boolean): string {
-  const num = parseFloat(change.replace(/[^0-9.+-]/g, ''))
-  if (isNaN(num) || num === 0) return 'text-slate-400'
-  const rising = num > 0
-  return (rising !== isTW) ? 'text-emerald-400' : 'text-red-400'
+const SOURCE_LABELS: Record<string, string> = {
+  yahoo: 'Yahoo奇摩股市',
+  cnyes: '鉅亨網',
+  udn: '經濟日報',
+  ctee: '工商時報',
+  ptt: 'PTT Stock板',
+  youtube: '57東森財經新聞',
 }
 
-function ChangeIcon({ change, isTW }: { change: string; isTW: boolean }) {
-  const num = parseFloat(change.replace(/[^0-9.+-]/g, ''))
-  if (isNaN(num) || num === 0) return <Minus size={11} className="text-slate-400" />
-  const rising = num > 0
-  const green = rising !== isTW
-  return rising
-    ? <TrendingUp size={11} className={green ? 'text-emerald-400' : 'text-red-400'} />
-    : <TrendingDown size={11} className={green ? 'text-emerald-400' : 'text-red-400'} />
+const UNCLASSIFIED_GROUP = '大盤/未分類'
+// 分組名稱格式為「代號 簡稱」（例如「2881 富邦金」），大盤/未分類例外
+const TICKER_GROUP_RE = /^(\d{4,6}[A-Za-z-]*)\s+(.+)$/
+
+function formatTime(pubdate: string | null): string {
+  if (!pubdate) return ''
+  const d = new Date(pubdate)
+  if (isNaN(d.getTime())) return ''
+  return d.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })
 }
 
 const NEWS_API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -65,7 +51,6 @@ export default function News() {
   const [data, setData] = useState<NewsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [activeMarket, setActiveMarket] = useState<MarketKey>('taiwan')
 
   async function fetchNews() {
     setLoading(true)
@@ -73,7 +58,9 @@ export default function News() {
     try {
       const res = await fetch(`${NEWS_API_BASE}/news`)
       if (!res.ok) throw new Error(res.status === 404 ? '近 7 日無可用新聞資料' : `載入失敗（${res.status}）`)
-      setData(await res.json() as NewsData)
+      const json = await res.json() as NewsData
+      if (!Array.isArray(json.groups)) throw new Error('新聞資料格式錯誤')
+      setData(json)
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       setError(msg)
@@ -85,16 +72,13 @@ export default function News() {
 
   useEffect(() => { void fetchNews() }, [])
 
-  const market = data?.markets[activeMarket]
-  const isTW = activeMarket === 'taiwan'
-
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Newspaper size={15} className="text-slate-400" />
-          <span className="text-sm font-medium text-slate-300">全球市場快訊</span>
+          <span className="text-sm font-medium text-slate-300">新聞快訊</span>
           {data && <span className="text-xs text-slate-600">{data.date}</span>}
         </div>
         <button
@@ -107,33 +91,18 @@ export default function News() {
         </button>
       </div>
 
-      {/* Market Tabs */}
-      <div className="flex gap-1">
-        {MARKET_TABS.map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setActiveMarket(key)}
-            className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-              activeMarket === key
-                ? 'bg-slate-700 text-slate-100'
-                : 'text-slate-500 hover:text-slate-300'
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      {data && !loading && !error && (
+        <p className="text-xs text-slate-600">
+          共 {data.total_articles} 篇 · {data.group_count} 組
+        </p>
+      )}
 
       {/* Loading skeleton */}
       {loading && (
         <div className="space-y-3">
-          <div className="h-5 w-40 rounded-lg bg-slate-800/50 animate-pulse" />
-          <div className="h-28 rounded-xl bg-slate-800/50 animate-pulse" />
-          <div className="grid grid-cols-2 gap-2">
-            {[0, 1, 2, 3].map(i => (
-              <div key={i} className="h-16 rounded-xl bg-slate-800/50 animate-pulse" />
-            ))}
-          </div>
+          <div className="h-16 rounded-xl bg-slate-800/50 animate-pulse" />
+          <div className="h-16 rounded-xl bg-slate-800/50 animate-pulse" />
+          <div className="h-16 rounded-xl bg-slate-800/50 animate-pulse" />
         </div>
       )}
 
@@ -149,61 +118,73 @@ export default function News() {
       )}
 
       {/* Content */}
-      {!loading && !error && market && (
-        <div className="space-y-4">
-          {/* Index summary */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-slate-500">{market.index.name}</span>
-            {market.index.close && (
-              <span className="text-sm font-mono text-slate-200">{market.index.close}</span>
-            )}
-            <span className={`text-sm font-semibold ${changeColor(market.index.change_percent, isTW)}`}>
-              {market.index.change_percent}
-            </span>
-            <span className={`text-xs ${changeColor(market.index.change, isTW)}`}>
-              ({market.index.change})
-            </span>
-          </div>
-
-          {/* Summary text — 完整顯示，不截斷 */}
-          <p className="text-xs text-slate-400 leading-relaxed">
-            {market.summary}
-          </p>
-
-          {/* Key stocks */}
-          {market.key_stocks.length > 0 && (
-            <div className="grid grid-cols-2 gap-2">
-              {market.key_stocks.map(stock => (
-                <div
-                  key={stock.code}
-                  className="rounded-xl border border-slate-800 bg-slate-800/30 px-3 py-2.5 space-y-1"
-                >
-                  <div className="flex items-center justify-between gap-1">
-                    <div className="flex items-center gap-1 min-w-0">
-                      <span className="text-xs font-mono text-slate-500 shrink-0">{stock.code}</span>
-                      <span className="text-xs text-slate-300 truncate">{stock.name}</span>
-                    </div>
-                    <div className={`flex items-center gap-0.5 shrink-0 ${changeColor(stock.change, isTW)}`}>
-                      <ChangeIcon change={stock.change} isTW={isTW} />
-                      <span className="text-xs font-medium">{stock.change}</span>
-                    </div>
+      {!loading && !error && data && (
+        <div className="space-y-3">
+          {data.groups.map(group => {
+            const match = group.group !== UNCLASSIFIED_GROUP ? TICKER_GROUP_RE.exec(group.group) : null
+            return (
+              <div
+                key={group.group}
+                className="rounded-xl border border-slate-800 bg-slate-800/30 px-3 py-2.5 space-y-2"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    {match ? (
+                      <>
+                        <span className="text-xs font-mono text-slate-500 shrink-0">{match[1]}</span>
+                        <span className="text-sm text-slate-200 truncate">{match[2]}</span>
+                      </>
+                    ) : (
+                      <span className="text-sm text-slate-300">{group.group}</span>
+                    )}
                   </div>
-                  <p className="text-xs text-slate-500 leading-relaxed">{stock.note}</p>
+                  <span className="text-xs text-slate-600 shrink-0">{group.article_count} 篇</span>
                 </div>
-              ))}
-            </div>
-          )}
 
-          {/* Sources */}
-          {market.sources.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 pt-1 border-t border-slate-800/60">
-              {market.sources.map(src => (
-                <span key={src} className="text-xs text-slate-600 bg-slate-800/40 px-2 py-0.5 rounded-md">
-                  {src}
-                </span>
-              ))}
-            </div>
-          )}
+                {group.keywords.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {group.keywords.map(kw => (
+                      <span key={kw} className="text-xs text-slate-500 bg-slate-800/60 px-1.5 py-0.5 rounded">
+                        {kw}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div className="space-y-1.5">
+                  {group.articles.map(article => (
+                    <a
+                      key={article.link}
+                      href={article.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-lg px-2 py-1.5 hover:bg-slate-800/60 transition-colors"
+                    >
+                      <div className="flex items-start gap-1.5">
+                        <span className="text-xs text-slate-300 leading-snug flex-1">{article.title}</span>
+                        <ExternalLink size={11} className="text-slate-600 flex-shrink-0 mt-0.5" />
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-1 text-xs text-slate-600">
+                        <span>{SOURCE_LABELS[article.source] ?? article.source}</span>
+                        {formatTime(article.pubdate) && (
+                          <>
+                            <span>·</span>
+                            <span>{formatTime(article.pubdate)}</span>
+                          </>
+                        )}
+                        {article.additional_sources.length > 0 && (
+                          <>
+                            <span>·</span>
+                            <span>另有 {article.additional_sources.length} 則相關報導</span>
+                          </>
+                        )}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
