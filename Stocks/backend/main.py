@@ -3,6 +3,18 @@ import sys
 import json
 import tempfile
 import urllib.parse
+
+# backend/ modules (ml_predict.py and its own sibling imports like
+# chart_render/indicators/etc.) use bare `import x` rather than
+# `from backend.x import ...`. That only resolves on sys.path by accident
+# when main.py is run directly from inside backend/ (e.g. local dev's
+# `cd backend && uvicorn main:app`). Render's startCommand runs
+# `uvicorn backend.main:app` from the repo root instead, where backend/
+# itself is never added to sys.path, so those imports raise
+# ModuleNotFoundError at startup. Add it explicitly so both invocation
+# styles work.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 # Must set TZPATH before yfinance import to avoid os.stat(None) on Python 3.14
 _tz_cache = tempfile.mkdtemp(prefix="yf_tz_")
 os.environ["TZPATH"] = _tz_cache
