@@ -595,6 +595,18 @@ ETF_DIVIDEND_FALLBACK = {
 FUNDAMENTALS_CACHE = {}
 FUNDAMENTALS_TTL = 7200  # 2 hours for fundamentals
 
+def _cap_cache(cache_dict: dict, max_size: int = 500) -> None:
+    """Evict oldest entries once a per-symbol cache grows past max_size.
+
+    These caches are keyed per-symbol with no upper bound on distinct symbols
+    ever requested (any ticker a user searches), so without a cap they grow
+    for the lifetime of the process and eventually exceed Render's 512MB
+    instance memory limit. Dicts preserve insertion order, so popping the
+    first key approximates simple FIFO/LRU-ish eviction.
+    """
+    while len(cache_dict) > max_size:
+        cache_dict.pop(next(iter(cache_dict)))
+
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "")
 
 _TWSE_BWIBBU_CACHE = {"data": None, "time": 0}
@@ -911,6 +923,7 @@ def _fetch_twse_mops_ratios(stock_no: str) -> dict:
     if result:
         _TWSE_MOPS_CACHE["data"][cache_key] = result
         _TWSE_MOPS_CACHE["time"] = now_val
+        _cap_cache(_TWSE_MOPS_CACHE["data"])
 
     return result
 
@@ -1980,6 +1993,7 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
     has_data = any(v is not None for v in result.values())
     if has_data:
         FUNDAMENTALS_CACHE[cache_key] = {"data": result, "time": now_val}
+        _cap_cache(FUNDAMENTALS_CACHE)
     return result
 
 def _fetch_twse_quote(symbol: str) -> dict:
@@ -2163,6 +2177,7 @@ def _get_stock_info(symbol: str) -> dict:
             result.update({k: v for k, v in fund.items() if v is not None and v != ""})
             _add_company_info_and_premium(result, symbol, cur)
             CACHE[cache_key] = {"data": result, "time": now_val}
+            _cap_cache(CACHE)
             return result
 
     # Method 2: Yahoo Finance v8 chart API (reliable price data)
@@ -2180,6 +2195,7 @@ def _get_stock_info(symbol: str) -> dict:
         result.update({k: v for k, v in fund.items() if v is not None and v != ""})
         _add_company_info_and_premium(result, symbol, cur)
         CACHE[cache_key] = {"data": result, "time": now_val}
+        _cap_cache(CACHE)
         return result
 
     # Method 3: yfinance download for price fallback
@@ -2188,6 +2204,7 @@ def _get_stock_info(symbol: str) -> dict:
         if d is not None and not d.empty:
             result = {"symbol": symbol, "regularMarketPrice": float(d["Close"].iloc[-1])}
             CACHE[cache_key] = {"data": result, "time": now_val}
+            _cap_cache(CACHE)
             return result
     except Exception:
         pass
@@ -2198,6 +2215,7 @@ def _get_stock_info(symbol: str) -> dict:
         info = dict(ticker.info) if ticker.info else {}
         if info.get("symbol"):
             CACHE[cache_key] = {"data": info, "time": now_val}
+            _cap_cache(CACHE)
             return info
     except Exception:
         pass
@@ -2239,6 +2257,7 @@ def _cache_stock_name(symbol: str, name: str):
     if symbol and name and name != symbol and symbol not in STOCK_NAMES:
         market = "TW" if symbol.endswith(".TW") else "HK" if symbol.endswith(".HK") else "US"
         STOCK_NAMES[symbol] = {"name": name, "market": market}
+        _cap_cache(STOCK_NAMES, max_size=2000)
 
 
 def rate_limit():
@@ -3804,6 +3823,11 @@ async def websocket_price(websocket: WebSocket, symbol: str):
                     })
                     if len(_realtime_history[symbol]) > 7200:
                         _realtime_history[symbol] = _realtime_history[symbol][-3600:]
+                    # Each symbol's history can hold up to ~3600 entries (~1MB), and a
+                    # symbol's entry is never removed after its websocket disconnects.
+                    # Cap the number of distinct symbols tracked so total memory stays
+                    # bounded regardless of how many different tickers get viewed.
+                    _cap_cache(_realtime_history, max_size=50)
                 if rt["price"] != _last_price:
                     _last_price = rt["price"]
                     await websocket.send_json({
