@@ -4,6 +4,11 @@ import { AlertTriangle, AlertOctagon, ChevronDown, RefreshCw, CheckCircle } from
 import { getAttentionStocks, getDispositionStocks } from '../api/stockApi'
 import type { AttentionStockItem, DispositionStockItem } from '../types/stock'
 
+// 後端可能在冷啟動/異常時回傳不完整資料，symbol 未必存在，統一在這裡防呆
+function stripTW(symbol: string | null | undefined): string {
+  return symbol ? symbol.replace('.TW', '') : ''
+}
+
 export default function AttentionStocks() {
   const navigate = useNavigate()
   const [attention, setAttention] = useState<AttentionStockItem[]>([])
@@ -99,9 +104,9 @@ export default function AttentionStocks() {
                       >
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm font-medium text-slate-200 group-hover:text-yellow-300 transition-colors">
-                            {item.name || item.symbol.replace('.TW', '')}
+                            {item.name || stripTW(item.symbol)}
                           </span>
-                          <span className="text-[10px] text-slate-500">{item.symbol.replace('.TW', '')}</span>
+                          <span className="text-[10px] text-slate-500">{stripTW(item.symbol)}</span>
                         </div>
                         {item.date && (
                           <span className="mt-0.5 text-[10px] text-slate-500">{item.date}</span>
@@ -150,9 +155,9 @@ export default function AttentionStocks() {
                       >
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm font-medium text-slate-200 group-hover:text-rose-300 transition-colors">
-                            {item.name || item.symbol.replace('.TW', '')}
+                            {item.name || stripTW(item.symbol)}
                           </span>
-                          <span className="text-[10px] text-slate-500">{item.symbol.replace('.TW', '')}</span>
+                          <span className="text-[10px] text-slate-500">{stripTW(item.symbol)}</span>
                         </div>
                         {(item.startDate || item.endDate) && (
                           <span className="mt-0.5 text-[10px] text-slate-500">
