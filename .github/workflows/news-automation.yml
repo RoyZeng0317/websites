@@ -1,0 +1,42 @@
+name: Stocks News Automation
+
+on:
+  schedule:
+    # 07:00 UTC = 15:00 Asia/Taipei（台股收盤後，見 Stocks_Auto/config.py SUGGESTED_RUN_TIME）
+    - cron: '0 7 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Taipei
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pipeline deps
+        working-directory: Stocks/Stocks_Auto
+        run: pip install -r requirements.txt
+
+      - name: Run news pipeline
+        working-directory: Stocks/Stocks_Auto
+        run: python 03_Pipeline.py
+
+      - name: Commit and push news data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Stocks/backend/data/news/
+          if git diff --cached --quiet; then
+            echo "No news changes to commit."
+          else
+            git commit -m "chore: automated news update $(date +'%Y-%m-%d %H:%M %Z')"
+            git push
+          fi

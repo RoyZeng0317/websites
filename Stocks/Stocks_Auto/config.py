@@ -2,14 +2,14 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 輸出路徑（repo 內相對路徑，使用者之後會自行搬移到 Websites repo）
-# 2026-07-15 修正：backend/main.py 的 /api/news 端點實際讀取路徑是
-# backend/data/news/{date}.json（見 get_news()），先前少了 "news" 這一層，
-# 導致輸出檔案永遠不會被 /api/news 讀到。
-OUTPUT_DIR = os.path.join(BASE_DIR, "websites", "Stocks", "backend", "data", "news")
+# 輸出路徑：Stocks_Auto 現在就住在 websites/Stocks repo 內，直接寫到
+# backend/main.py 的 /api/news 端點實際讀取路徑 backend/data/news/{date}.json，
+# 不再需要寫到巢狀暫存路徑後手動搬移。
+OUTPUT_DIR = os.path.join(BASE_DIR, "..", "backend", "data", "news")
 FILE_NAME_FORMAT = "%Y-%m-%d.json"
 
-# 排程建議執行時間（v1 手動執行，不做 Task Scheduler 自動化，見 PLAN.md Q5）
+# 排程執行時間：由 .github/workflows/news-automation.yml 的 cron 驅動
+# （07:00 UTC = 15:00 台北時間），此值僅供參考/文件用途。
 SUGGESTED_RUN_TIME = "15:00"
 
 RULES_FILE = os.path.join(BASE_DIR, "rules.md")
