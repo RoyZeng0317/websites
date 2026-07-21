@@ -7,14 +7,14 @@ INSERT INTO idol_groups (name, name_zh, name_ja, debut_date, agency, label, coun
 ('BLACKPINK', 'BLACKPINK', NULL, '2016-08-08', 'YG Entertainment', 'YG Entertainment', 'KR', '韓國YG娛樂旗下的四人女子團體。');
 
 WITH gid AS (SELECT id, name FROM idol_groups)
-INSERT INTO idols (stage_name, stage_name_zh, stage_name_ja, real_name, nickname, birth_date, birthplace, blood_type, height_cm) VALUES
+INSERT INTO idols (stage_name, stage_name_zh, stage_name_ja, real_name, nickname, birth_date, birthplace, blood_type, height_cm, Instagram) VALUES
 
 ('張凌鶴', NULL, NULL, '牛牛', '1999-12-30', '江蘇省無錫市', '', 190),
-('周柯宇', NULL, NULL, '周柯宇', '柯宇', '2000-01-01', '江蘇省無錫市', '', 185),
+('周柯宇', Zhou Keyu, '周柯宇', '周柯宇', '柯宇', '2000-01-01', '江蘇省無錫市', '', 185, 'daniel._.zhou'),
 ('王翊恩', NULL, NULL, '王翊恩', '翊恩', '2000-02-02', '江蘇省無錫市', '', 180);
 ('吳宣儀', '吳宣儀', NULL, '吳宣儀', '宣儀', '1996-01-26', '廣東省汕頭市', 'A', 162),
 ('孟美岐', '孟美岐', NULL, '孟美岐', '美岐', '1996-10-15', '湖北省宜昌市', 'A', 168),
-('楊超越', '楊超越', NULL
+('楊超越', '楊超越', NULL)
 
 -- 乃木坂46
 ('Ikuho', '一ノ瀬美空', '一ノ瀬美空', '一ノ瀬美空', 'いくほ', '2003-05-13', '東京都', 'A', 158),

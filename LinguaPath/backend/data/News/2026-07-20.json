@@ -1,0 +1,112 @@
+{
+  "date": "2026-07-20",
+  "generated_at": "2026-07-20T07:00:44.287830+08:00",
+  "sources": [
+    "Al Jazeera",
+    "CBS News",
+    "The Guardian"
+  ],
+  "articles": {
+    "C1": {
+      "title": "Flash flood warnings strike north-east US amid wildfire smoke from Canada",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/us-news/2026/jul/18/flash-flood-weather-north-east-us",
+      "grade_level": 11.6,
+      "content": "Poor air quality from wildfires continues to plague New York City as several neighborhoods hit by thunderstorms Saturday is delivering a double dose o…\n\n(Read the full article: https://www.theguardian.com/us-news/2026/jul/18/flash-flood-weather-north-east-us)",
+      "vocabulary": [
+        {
+          "word": "flood",
+          "definition": "A (usually disastrous) overflow of water from a lake or other body of water due to excessive rainfall or other input of water."
+        },
+        {
+          "word": "expected",
+          "definition": "To predict or believe that something will happen"
+        },
+        {
+          "word": "flooding",
+          "definition": "To overflow, as by water from excessive rainfall."
+        },
+        {
+          "word": "rain",
+          "definition": "Condensed water falling from a cloud."
+        },
+        {
+          "word": "storms",
+          "definition": "Any disturbed state of the atmosphere, especially as affecting the earth's surface, and strongly implying destructive or unpleasant weather."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C2": {
+      "title": "‘Sacred unity’: Iran’s supreme leader calls for calm amid political divides",
+      "source": "Al Jazeera",
+      "link": "https://www.aljazeera.com/news/2026/7/19/sacred-unity-irans-supreme-leader-calls-for-calm-amid-political-divides?traffic_source=rss",
+      "grade_level": 17.8,
+      "content": "Decree comes after hardline backers of the Iranian government accused officials of treason for signing an MoU with US.\n\n(Read the full article: https://www.aljazeera.com/news/2026/7/19/sacred-unity-irans-supreme-leader-calls-for-calm-amid-political-divides?traffic_source=rss)",
+      "vocabulary": [
+        {
+          "word": "officials",
+          "definition": "An office holder invested with powers and authorities."
+        },
+        {
+          "word": "leader",
+          "definition": "Any person that leads or directs"
+        },
+        {
+          "word": "message",
+          "definition": "A communication, or what is communicated; any concept or information conveyed."
+        },
+        {
+          "word": "supreme",
+          "definition": "The highest point."
+        },
+        {
+          "word": "national",
+          "definition": "A subject of a nation."
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "Transcript: Bank of America CEO Brian Moynihan on \"Face the Nation with Margaret Brennan,\" July 19, 2026",
+      "source": "CBS News",
+      "link": "https://www.cbsnews.com/news/brian-moynihan-bank-of-america-ceo-face-the-nation-transcript-07-19-2026/",
+      "grade_level": 8.4,
+      "content": "The following is the full transcript of an interview with Bank of America CEO Brian Moynihan, a portion of which aired on \"Face the Nation with Margar…\n\n(Read the full article: https://www.cbsnews.com/news/brian-moynihan-bank-of-america-ceo-face-the-nation-transcript-07-19-2026/)",
+      "vocabulary": [
+        {
+          "word": "know",
+          "definition": "Knowledge; the state of knowing."
+        },
+        {
+          "word": "going",
+          "definition": "To move:"
+        },
+        {
+          "word": "think",
+          "definition": "An act of thinking; consideration (of something)."
+        },
+        {
+          "word": "things",
+          "definition": "That which is considered to exist as a separate entity, object, quality or concept."
+        },
+        {
+          "word": "good",
+          "definition": "(of people)"
+        }
+      ],
+      "additional_sources": [
+        {
+          "source": "CBS News",
+          "link": "https://www.cbsnews.com/news/tom-homan-border-czar-face-the-nation-transcript-07-19-2026/",
+          "title": "Transcript: Border czar Tom Homan on \"Face the Nation with Margaret Brennan,\" July 19, 2026"
+        },
+        {
+          "source": "CBS News",
+          "link": "https://www.cbsnews.com/news/mark-warner-virginia-democrat-face-the-nation-transcript-07-19-2026/",
+          "title": "Transcript: Sen. Mark Warner on \"Face the Nation with Margaret Brennan,\" July 19, 2026"
+        }
+      ]
+    }
+  }
+}

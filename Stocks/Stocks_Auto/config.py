@@ -1,3 +1,4 @@
+import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -18,12 +19,77 @@ RULES_FILE = os.path.join(BASE_DIR, "rules.md")
 MIN_BODY_LENGTH = 600  # rules.md 規則 01
 TODAY_ONLY = True  # rules.md 規則 02
 
-# 財經關鍵字（rules.md 規則 03：YouTube 來源內容需比對，非財經內容當日略過）
+# 財經關鍵字（rules.md 規則 03：所有來源內容需比對，非財經內容當日略過）
 FINANCIAL_KEYWORDS = [
     "股市", "台股", "大盤", "財經", "投資", "升息", "降息", "通膨", "匯率",
     "個股", "股價", "上市", "上櫃", "券商", "外資", "法人", "財報", "營收",
     "指數", "殖利率", "美股", "陸股", "期貨", "基金", "央行", "利率",
 ]
+
+# 2026-07-19 修正：部分關鍵字會被詞義完全無關的複合詞「包住」而誤判，例如
+# 「空氣品質指數」命中「指數」、「財團法人」命中「法人」、「文化基金會」命中
+# 「基金」——這些命中要排除。key 是關鍵字，value 是已知會誤配的複合詞清單，
+# 命中位置的前後文字只要含有任一已知複合詞，這次命中就不算數（見 rules.py
+# passes_financial_filter，比對方式沿用 grouping.py 既有的「排除子句」手法）。
+FINANCIAL_KEYWORD_FALSE_POSITIVE_PHRASES = {
+    "指數": ["空氣品質指數", "紫外線指數", "幸福指數", "痛苦指數", "犯罪指數", "體感指數"],
+    "法人": ["財團法人", "社團法人", "公益法人"],
+    "基金": ["基金會"],
+}
+
+# 2026-07-20 修正三：排除已知複合詞誤配後，仍有一類殘留假陽性——文章主題其實是
+# 地緣政治/總體經濟/生活理財等內容，只是「順帶」提到一次財經關鍵字（例如伊朗
+# 衝突報導提到一次「推升通膨」、日本iPhone漲價報導提到一次「匯率衝擊」、個人
+# 理財心得文章提到多次「投資」），並非以股票/資本市場為報導主體。這類文章不會
+# 被 grouping.py 分類到任何實際上市櫃公司（歸入 UNCLASSIFIED_GROUP），此時
+# 「單一關鍵字命中一次即放行」的門檻太低（見 rules.py passes_core_market_filter /
+# filter_unclassified_group）。
+#
+# CORE_MARKET_KEYWORDS 從 FINANCIAL_KEYWORDS 中排除「財經」「投資」「匯率」——
+# 這三個詞經 2026-07-19 實跑資料驗證是最大宗的假陽性來源：「財經」常只是記者
+# 所屬編輯部署名（例如「財經中心／OOO報導」的byline，跟報導主題無關）；
+# 「投資」語意過廣，個人理財心得、生技展會招商、企業一般營運策略都會用到，
+# 不足以代表報導主體是股票市場；「匯率」也常只是消費性產品定價分析裡的次要
+# 因素，不代表報導主體是金融市場。
+CORE_MARKET_EXCLUDE = ["財經", "投資", "匯率"]
+CORE_MARKET_KEYWORDS = [k for k in FINANCIAL_KEYWORDS if k not in CORE_MARKET_EXCLUDE]
+
+# UNCLASSIFIED_GROUP 文章需要 CORE_MARKET_KEYWORDS 有效命中（含重複）達此次數
+# 才放行；已比對到實際上市櫃公司的分組不受此限制（比對到真實公司代號/簡稱
+# 本身就是夠強的財經相關性訊號，見 grouping.py 內建的多重防呆機制）。
+UNCLASSIFIED_MIN_CORE_HITS = 2
+
+# 2026-07-20：以上四個規則參數（FINANCIAL_KEYWORDS / FINANCIAL_KEYWORD_FALSE_POSITIVE_PHRASES
+# / CORE_MARKET_EXCLUDE / UNCLASSIFIED_MIN_CORE_HITS）可透過後端新聞管理介面
+# （backend/admin_news.py）編輯，寫入本檔同層的 rules_config.json 並 commit 回
+# git（GitHub Actions 每次執行都會 checkout 最新版本）。找不到該檔或格式錯誤時，
+# 靜默沿用上面寫死的預設值，不中斷 pipeline。
+RULES_CONFIG_FILE = os.path.join(BASE_DIR, "rules_config.json")
+
+
+def _load_rule_overrides():
+    global FINANCIAL_KEYWORDS, FINANCIAL_KEYWORD_FALSE_POSITIVE_PHRASES
+    global CORE_MARKET_EXCLUDE, CORE_MARKET_KEYWORDS, UNCLASSIFIED_MIN_CORE_HITS
+
+    if not os.path.isfile(RULES_CONFIG_FILE):
+        return
+    try:
+        with open(RULES_CONFIG_FILE, "r", encoding="utf-8") as f:
+            overrides = json.load(f)
+        FINANCIAL_KEYWORDS = list(overrides.get("financial_keywords", FINANCIAL_KEYWORDS))
+        FINANCIAL_KEYWORD_FALSE_POSITIVE_PHRASES = dict(
+            overrides.get("false_positive_phrases", FINANCIAL_KEYWORD_FALSE_POSITIVE_PHRASES)
+        )
+        CORE_MARKET_EXCLUDE = list(overrides.get("core_market_exclude", CORE_MARKET_EXCLUDE))
+        CORE_MARKET_KEYWORDS = [k for k in FINANCIAL_KEYWORDS if k not in CORE_MARKET_EXCLUDE]
+        UNCLASSIFIED_MIN_CORE_HITS = int(
+            overrides.get("unclassified_min_core_hits", UNCLASSIFIED_MIN_CORE_HITS)
+        )
+    except Exception as exc:
+        print(f"[config] rules_config.json 讀取失敗，改用內建預設值: {exc}")
+
+
+_load_rule_overrides()
 
 # 去重模組（M4）設定：標題相似度門檻，difflib.SequenceMatcher，範圍 0-1
 DEDUP_THRESHOLD = 0.8

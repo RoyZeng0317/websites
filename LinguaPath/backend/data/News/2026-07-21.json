@@ -1,0 +1,101 @@
+{
+  "date": "2026-07-21",
+  "generated_at": "2026-07-21T07:00:44.247833+08:00",
+  "sources": [
+    "Al Jazeera",
+    "CBS News",
+    "NPR"
+  ],
+  "articles": {
+    "C2": {
+      "title": "FIFA investigating on-pitch brawl after Spain vs Argentina World Cup final",
+      "source": "Al Jazeera",
+      "link": "https://www.aljazeera.com/sports/2026/7/20/fifa-investigating-on-pitch-brawl-after-spain-vs-argentina-world-cup-final?traffic_source=rss",
+      "grade_level": 16.9,
+      "content": "Argentina's Paredes was seen shoving Spanish players, which led to an on-field melee, while Spain's Yamal prayed calmly.\n\n(Read the full article: https://www.aljazeera.com/sports/2026/7/20/fifa-investigating-on-pitch-brawl-after-spain-vs-argentina-world-cup-final?traffic_source=rss)",
+      "vocabulary": [
+        {
+          "word": "players",
+          "definition": "One that plays"
+        },
+        {
+          "word": "disciplinary",
+          "definition": "A disciplinary action."
+        },
+        {
+          "word": "probe",
+          "definition": "Any of various medical instruments used to explore wounds, organs, etc."
+        },
+        {
+          "word": "match",
+          "definition": "A competitive sporting event such as a boxing meet, a baseball game, or a cricket match."
+        },
+        {
+          "word": "champions",
+          "definition": "An ongoing winner in a game or contest."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C1": {
+      "title": "Andy Burnham takes the reins as U.K.'s 7th prime minister in a decade",
+      "source": "CBS News",
+      "link": "https://www.cbsnews.com/news/andy-burnham-new-uk-prime-minister-7th-in-decade-after-keir-starmer/",
+      "grade_level": 9.1,
+      "content": "Having been asked by King Charles III to form a new government, former Manchester Mayor Andy Burnham has become Britain's 7th prime minister in a deca…\n\n(Read the full article: https://www.cbsnews.com/news/andy-burnham-new-uk-prime-minister-7th-in-decade-after-keir-starmer/)",
+      "vocabulary": [
+        {
+          "word": "prime",
+          "definition": "The first hour of daylight; the first canonical hour."
+        },
+        {
+          "word": "party",
+          "definition": "A person or group of people constituting a particular side in a contract or legal action."
+        },
+        {
+          "word": "leader",
+          "definition": "Any person that leads or directs"
+        },
+        {
+          "word": "years",
+          "definition": "A solar year, the time it takes the Earth to complete one revolution of the Sun (between 365.24 and 365.26 days depending on the point of reference)."
+        },
+        {
+          "word": "minister",
+          "definition": "A person who is trained to preach, to perform religious ceremonies, and to afford pastoral care at a Protestant church."
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "U.S. and Iran launch new strikes after 3 U.S. service members are killed",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/07/20/nx-s1-5900601/us-iran-updates",
+      "grade_level": 7.2,
+      "content": "The U.S. attacks were the ninth consecutive day of bombing since peace talks between the two countries collapsed in dispute over a memorandum of under…\n\n(Read the full article: https://www.npr.org/2026/07/20/nx-s1-5900601/us-iran-updates)",
+      "vocabulary": [
+        {
+          "word": "killed",
+          "definition": "To put to death; to extinguish the life of."
+        },
+        {
+          "word": "military",
+          "definition": "Armed forces."
+        },
+        {
+          "word": "service",
+          "definition": "An act of being of assistance to someone."
+        },
+        {
+          "word": "targeted",
+          "definition": "To aim something, especially a weapon, at (a target)."
+        },
+        {
+          "word": "since",
+          "definition": "From a specified time in the past."
+        }
+      ],
+      "additional_sources": []
+    }
+  }
+}

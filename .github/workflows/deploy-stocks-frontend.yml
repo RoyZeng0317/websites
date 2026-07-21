@@ -1,0 +1,65 @@
+name: Deploy Stocks Frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Stocks/frontend/**'
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Optional custom release note for the notification email'
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend deps
+        working-directory: Stocks/frontend
+        run: npm ci
+
+      - name: Compute version + release note
+        id: meta
+        run: |
+          echo "version=$(date +'%Y.%m.%d')-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          note="${{ github.event.inputs.note }}"
+          if [ -z "$note" ]; then note="$(git log -1 --pretty=%s)"; fi
+          echo "note=$note" >> "$GITHUB_OUTPUT"
+
+      - name: Build frontend
+        working-directory: Stocks/frontend
+        env:
+          VITE_APP_VERSION: ${{ steps.meta.outputs.version }}
+        run: npm run build
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: stocks-global
+          channelId: live
+          entryPoint: Stocks
+
+      - name: Install notify script deps
+        working-directory: Stocks/scripts/release-notify
+        run: npm install
+
+      - name: Email users about the new version
+        working-directory: Stocks/scripts/release-notify
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM: ${{ vars.RESEND_FROM }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+          RELEASE_NOTE: ${{ steps.meta.outputs.note }}
+          SITE_URL: https://stocks-global.web.app
+        run: node notify.mjs

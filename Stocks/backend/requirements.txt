@@ -3,6 +3,7 @@ uvicorn[standard]==0.34.0
 yfinance>=1.0.0
 websockets==14.1
 python-dotenv==1.0.1
+google-auth>=2.30.0  # verifies Firebase ID tokens for /api/admin/news/* (see admin_news.py)
 
 # AI prediction (ml_predict.py) — CPU-only inference, deliberately NOT
 # torch/ultralytics (too heavy for Render's free tier). Training happens

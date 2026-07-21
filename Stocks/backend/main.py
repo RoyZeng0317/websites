@@ -37,6 +37,8 @@ from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnec
 load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
 
+from admin_news import router as admin_news_router
+
 # yfinance cache workaround
 try:
     yf.set_tz_cache_location(_tz_cache)
@@ -2255,6 +2257,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(admin_news_router)
 
 CACHE = {}
 CACHE_TTL = 120

@@ -1,0 +1,100 @@
+{
+  "date": "2026-07-19",
+  "generated_at": "2026-07-19T07:00:47.149822+08:00",
+  "sources": [
+    "NPR",
+    "The Guardian"
+  ],
+  "articles": {
+    "C1": {
+      "title": "Flash flood warnings strike north-east US amid wildfire smoke from Canada",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/us-news/2026/jul/18/flash-flood-weather-north-east-us",
+      "grade_level": 11.6,
+      "content": "Poor air quality from wildfires continues to plague New York City as several neighborhoods hit by thunderstorms Saturday is delivering a double dose o…\n\n(Read the full article: https://www.theguardian.com/us-news/2026/jul/18/flash-flood-weather-north-east-us)",
+      "vocabulary": [
+        {
+          "word": "flood",
+          "definition": "A (usually disastrous) overflow of water from a lake or other body of water due to excessive rainfall or other input of water."
+        },
+        {
+          "word": "expected",
+          "definition": "To predict or believe that something will happen"
+        },
+        {
+          "word": "flooding",
+          "definition": "To overflow, as by water from excessive rainfall."
+        },
+        {
+          "word": "rain",
+          "definition": "Condensed water falling from a cloud."
+        },
+        {
+          "word": "storms",
+          "definition": "Any disturbed state of the atmosphere, especially as affecting the earth's surface, and strongly implying destructive or unpleasant weather."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C2": {
+      "title": "ICE arrests human rights lawyer who fled Chinese crackdown",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/us-news/2026/jul/17/ice-arrests-human-rights-lawyer-wu-shaoping-fled-chinese-crackdown",
+      "grade_level": 12.3,
+      "content": "Arrest in Pennsylvania of Wu Shaoping, who is awaiting asylum decision, raises fears of deportation and persecution A Chinese human rights lawyer has…\n\n(Read the full article: https://www.theguardian.com/us-news/2026/jul/17/ice-arrests-human-rights-lawyer-wu-shaoping-fled-chinese-crackdown)",
+      "vocabulary": [
+        {
+          "word": "human",
+          "definition": "A human being, whether man, woman or child."
+        },
+        {
+          "word": "rights",
+          "definition": "That which complies with justice, law or reason."
+        },
+        {
+          "word": "lawyers",
+          "definition": "A professional person qualified (as by a law degree or bar exam) and authorized to practice law, i.e. represent parties in lawsuits or trials and give legal advice."
+        },
+        {
+          "word": "arrested",
+          "definition": "To stop the motion of (a person or animal)."
+        },
+        {
+          "word": "asylum",
+          "definition": "A place of safety."
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "U.S. strikes bridges in Iran; Tehran targets U.S. bases in the Gulf",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/07/17/g-s1-134158/us-iran-war-updates",
+      "grade_level": 7.4,
+      "content": "The U.S. and Iran expanded their targets in the latest round of strikes on Friday, as fighting over the control of the Strait of Hormuz reignites fear…\n\n(Read the full article: https://www.npr.org/2026/07/17/g-s1-134158/us-iran-war-updates)",
+      "vocabulary": [
+        {
+          "word": "military",
+          "definition": "Armed forces."
+        },
+        {
+          "word": "strait",
+          "definition": "A narrow channel of water connecting two larger bodies of water."
+        },
+        {
+          "word": "strikes",
+          "definition": "A status resulting from a batter swinging and missing a pitch, or not swinging at a pitch when the ball goes in the strike zone, or hitting a foul ball that is not caught."
+        },
+        {
+          "word": "attacks",
+          "definition": "An attempt to cause damage, injury to, or death of opponent or enemy."
+        },
+        {
+          "word": "infrastructure",
+          "definition": "(systems theory) An underlying base or foundation especially for an organization or system."
+        }
+      ],
+      "additional_sources": []
+    }
+  }
+}

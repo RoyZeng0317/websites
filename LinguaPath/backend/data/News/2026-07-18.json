@@ -1,0 +1,101 @@
+{
+  "date": "2026-07-18",
+  "generated_at": "2026-07-18T07:00:48.160654+08:00",
+  "sources": [
+    "CBS News",
+    "NPR",
+    "The Guardian"
+  ],
+  "articles": {
+    "C2": {
+      "title": "ICE arrests human rights lawyer who fled Chinese crackdown",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/us-news/2026/jul/17/ice-arrests-human-rights-lawyer-wu-shaoping-fled-chinese-crackdown",
+      "grade_level": 12.3,
+      "content": "Arrest in Pennsylvania of Wu Shaoping, who is awaiting asylum decision, raises fears of deportation and persecution A Chinese human rights lawyer has…\n\n(Read the full article: https://www.theguardian.com/us-news/2026/jul/17/ice-arrests-human-rights-lawyer-wu-shaoping-fled-chinese-crackdown)",
+      "vocabulary": [
+        {
+          "word": "human",
+          "definition": "A human being, whether man, woman or child."
+        },
+        {
+          "word": "rights",
+          "definition": "That which complies with justice, law or reason."
+        },
+        {
+          "word": "lawyers",
+          "definition": "A professional person qualified (as by a law degree or bar exam) and authorized to practice law, i.e. represent parties in lawsuits or trials and give legal advice."
+        },
+        {
+          "word": "arrested",
+          "definition": "To stop the motion of (a person or animal)."
+        },
+        {
+          "word": "asylum",
+          "definition": "A place of safety."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C1": {
+      "title": "Andy Burnham declared Labour Party leader, will become U.K. prime minister",
+      "source": "CBS News",
+      "link": "https://www.cbsnews.com/news/andy-burnham-uk-prime-minister-labour-party-leader/",
+      "grade_level": 11.2,
+      "content": "Andy Burnham was officially declared leader of Britain's governing Labour Party, clearing his final hurdle to taking office as prime minister next wee…\n\n(Read the full article: https://www.cbsnews.com/news/andy-burnham-uk-prime-minister-labour-party-leader/)",
+      "vocabulary": [
+        {
+          "word": "prime",
+          "definition": "The first hour of daylight; the first canonical hour."
+        },
+        {
+          "word": "minister",
+          "definition": "A person who is trained to preach, to perform religious ceremonies, and to afford pastoral care at a Protestant church."
+        },
+        {
+          "word": "politics",
+          "definition": "To engage in political activity; politick."
+        },
+        {
+          "word": "leader",
+          "definition": "Any person that leads or directs"
+        },
+        {
+          "word": "economic",
+          "definition": "Pertaining to an economy."
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "U.S. strikes bridges in Iran; Tehran targets U.S. bases in the Gulf",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/07/17/g-s1-134158/us-iran-war-updates",
+      "grade_level": 7.4,
+      "content": "The U.S. and Iran expanded their targets in the latest round of strikes on Friday, as fighting over the control of the Strait of Hormuz reignites fear…\n\n(Read the full article: https://www.npr.org/2026/07/17/g-s1-134158/us-iran-war-updates)",
+      "vocabulary": [
+        {
+          "word": "military",
+          "definition": "Armed forces."
+        },
+        {
+          "word": "strait",
+          "definition": "A narrow channel of water connecting two larger bodies of water."
+        },
+        {
+          "word": "strikes",
+          "definition": "A status resulting from a batter swinging and missing a pitch, or not swinging at a pitch when the ball goes in the strike zone, or hitting a foul ball that is not caught."
+        },
+        {
+          "word": "infrastructure",
+          "definition": "(systems theory) An underlying base or foundation especially for an organization or system."
+        },
+        {
+          "word": "attacks",
+          "definition": "An attempt to cause damage, injury to, or death of opponent or enemy."
+        }
+      ],
+      "additional_sources": []
+    }
+  }
+}

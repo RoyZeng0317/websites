@@ -1,17 +1,17 @@
 {
   "date": "2026-07-19",
-  "generated_at": "2026-07-19T17:06:18.404829",
-  "group_count": 9,
-  "total_articles": 40,
+  "generated_at": "2026-07-19T18:42:48.842686",
+  "group_count": 6,
+  "total_articles": 11,
   "groups": [
     {
       "group": "2330 台積電",
       "keywords": [
         "市場",
+        "7",
+        "6",
         "美元",
-        "台積",
-        "積電",
-        "4"
+        "ai"
       ],
       "article_count": 4,
       "articles": [
@@ -30,20 +30,6 @@
           ]
         },
         {
-          "title": "〈台股風向球〉史詩級大屠殺後台指期先行反彈 止跌回穩須守住4萬2拚收復季線",
-          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%A2%A8%E5%90%91%E7%90%83-%E5%8F%B2%E8%A9%A9%E7%B4%9A%E5%A4%A7%E5%B1%A0%E6%AE%BA%E5%BE%8C%E5%8F%B0%E6%8C%87%E6%9C%9F%E5%85%88%E8%A1%8C%E5%8F%8D%E5%BD%88-%E6%AD%A2%E8%B7%8C%E5%9B%9E%E7%A9%A9%E9%A0%88%E5%AE%88%E4%BD%8F4%E8%90%AC2%E6%8B%9A%E6%94%B6%E5%BE%A9%E5%AD%A3%E7%B7%9A-052140160.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T13:21:40+08:00",
-          "summary": "〈台股風向球〉史詩級大屠殺後台指期先行反彈 止跌回穩須守住 4 萬 2 拚收復季線",
-          "additional_sources": [
-            {
-              "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6539381",
-              "title": "〈台股風向球〉史詩級大屠殺後台指期先行反彈 止跌回穩須守住4萬2拚收復季線"
-            }
-          ]
-        },
-        {
           "title": "台積電法說一開完 高盛立刻點名「4大贏家」！AI利多全面引爆",
           "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%A9%8D%E9%9B%BB%E6%B3%95%E8%AA%AA-%E9%96%8B%E5%AE%8C-%E9%AB%98%E7%9B%9B%E7%AB%8B%E5%88%BB%E9%BB%9E%E5%90%8D-4%E5%A4%A7%E8%B4%8F%E5%AE%B6-ai%E5%88%A9%E5%A4%9A%E5%85%A8%E9%9D%A2%E5%BC%95%E7%88%86-063843897.html",
           "source": "yahoo",
@@ -52,39 +38,20 @@
           "additional_sources": []
         },
         {
-          "title": "不只是漲多修正？而是複製2008金融海嘯大崩盤？「專家驚吐台積電法會還有續集」真正底部唯一指標慘烈曝光",
-          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%BC%B2%E5%A4%9A%E4%BF%AE%E6%AD%A3-%E8%80%8C%E6%98%AF%E8%A4%87%E8%A3%BD2008%E9%87%91%E8%9E%8D%E6%B5%B7%E5%98%AF%E5%A4%A7%E5%B4%A9%E7%9B%A4-%E5%B0%88%E5%AE%B6%E9%A9%9A%E5%90%90%E5%8F%B0%E7%A9%8D%E9%9B%BB%E6%B3%95%E6%9C%83%E9%82%84%E6%9C%89%E7%BA%8C%E9%9B%86-%E7%9C%9F%E6%AD%A3%E5%BA%95%E9%83%A8%E5%94%AF-%E6%8C%87%E6%A8%99%E6%85%98%E7%83%88%E6%9B%9D%E5%85%89-034702964.html",
+          "title": "〈台股風向球〉史詩級大屠殺後台指期先行反彈 止跌回穩須守住4萬2拚收復季線",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%A2%A8%E5%90%91%E7%90%83-%E5%8F%B2%E8%A9%A9%E7%B4%9A%E5%A4%A7%E5%B1%A0%E6%AE%BA%E5%BE%8C%E5%8F%B0%E6%8C%87%E6%9C%9F%E5%85%88%E8%A1%8C%E5%8F%8D%E5%BD%88-%E6%AD%A2%E8%B7%8C%E5%9B%9E%E7%A9%A9%E9%A0%88%E5%AE%88%E4%BD%8F4%E8%90%AC2%E6%8B%9A%E6%94%B6%E5%BE%A9%E5%AD%A3%E7%B7%9A-052140160.html",
           "source": "yahoo",
-          "pubdate": "2026-07-19T11:47:02+08:00",
-          "summary": "台股在上周五（17日）爆發史詩級股災，加權指數單日狂瀉2,953.71點，創下台股史上最大收盤跌點紀錄，引發市場恐慌；資深證券分析師更發出了市場上最嚴厲的警告，認為多頭屠殺才剛開始，且盤勢的恐怖程度與",
+          "pubdate": "2026-07-19T13:21:40+08:00",
+          "summary": "〈台股風向球〉史詩級大屠殺後台指期先行反彈 止跌回穩須守住 4 萬 2 拚收復季線",
           "additional_sources": []
-        }
-      ]
-    },
-    {
-      "group": "8424 惠普",
-      "keywords": [
-        "長鑫",
-        "存儲",
-        "鑫存",
-        "供應",
-        "蘋果"
-      ],
-      "article_count": 1,
-      "articles": [
+        },
         {
-          "title": "長鑫存儲訂單排到2027！美銀點蘋果採用「三大限制」、戴爾惠普搶鎖產能",
-          "link": "https://tw.stock.yahoo.com/news/%E9%95%B7%E9%91%AB%E5%AD%98%E5%84%B2%E8%A8%82%E5%96%AE%E6%8E%92%E5%88%B02027-%E7%BE%8E%E9%8A%80%E9%BB%9E%E8%98%8B%E6%9E%9C%E6%8E%A1%E7%94%A8-%E4%B8%89%E5%A4%A7%E9%99%90%E5%88%B6-%E6%88%B4%E7%88%BE%E6%83%A0%E6%99%AE%E6%90%B6%E9%8E%96%E7%94%A2%E8%83%BD-081005463.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T16:10:05+08:00",
-          "summary": "全球 DRAM 供應持續吃緊，長鑫存儲成市場焦點。傳蘋果正評估導入長鑫 LPDDR5X 晶片，但美銀認為受地緣政治、技術規格及專利風險限制，短期難以大規模採用；另一方面，戴爾、惠普、聯想等 PC 大廠",
-          "additional_sources": [
-            {
-              "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6539442",
-              "title": "長鑫存儲訂單排到2027！美銀點蘋果採用「三大限制」、戴爾惠普搶鎖產能"
-            }
-          ]
+          "title": "AI股迎第二季財報大考！Alphabet、英特爾、特斯拉迎關鍵檢驗",
+          "link": "https://news.cnyes.com/news/id/6539445",
+          "source": "cnyes",
+          "pubdate": "2026-07-19T17:10:04+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-07-19 17:10\n美國第二季財報季下週將全面升溫，Alphabet(GOOGL-US) 、英特爾 (INTC-US) 、特斯拉 (TSLA-US) 及德州儀器 (TXN-US) 等重量級企業將接力公布財報。其中，Alphabet 的 AI 資本支出規劃，以及英特爾等晶…",
+          "additional_sources": []
         }
       ]
     },
@@ -179,252 +146,30 @@
       ]
     },
     {
-      "group": "1459 聯發",
-      "keywords": [
-        "工廠",
-        "塔工",
-        "燈塔",
-        "ai",
-        "製造"
-      ],
-      "article_count": 1,
-      "articles": [
-        {
-          "title": "工業富聯發布2026燈塔工廠白皮書 加速推進「AI Makes AI」策略",
-          "link": "https://tw.stock.yahoo.com/news/%E5%B7%A5%E6%A5%AD%E5%AF%8C%E8%81%AF%E7%99%BC%E5%B8%832026%E7%87%88%E5%A1%94%E5%B7%A5%E5%BB%A0%E7%99%BD%E7%9A%AE%E6%9B%B8-%E5%8A%A0%E9%80%9F%E6%8E%A8%E9%80%B2-ai-makes-ai-052444940.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T13:24:44+08:00",
-          "summary": "工業富聯發布 2026 燈塔工廠白皮書 加速推進「AI Makes AI」策略",
-          "additional_sources": [
-            {
-              "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6539462",
-              "title": "工業富聯發布2026燈塔工廠白皮書 加速推進「AI Makes AI」策略"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "group": "6691 洋基工程",
-      "keywords": [
-        "台積",
-        "工程",
-        "積電",
-        "億美",
-        "美元"
-      ],
-      "article_count": 1,
-      "articles": [
-        {
-          "title": "台積電未來三年資本支出逾2千億美元 廠務工程第一波受惠",
-          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%A9%8D%E9%9B%BB%E6%9C%AA%E4%BE%86%E4%B8%89%E5%B9%B4%E8%B3%87%E6%9C%AC%E6%94%AF%E5%87%BA%E9%80%BE2%E5%8D%83%E5%84%84%E7%BE%8E%E5%85%83-%E5%BB%A0%E5%8B%99%E5%B7%A5%E7%A8%8B%E7%AC%AC-%E6%B3%A2%E5%8F%97%E6%83%A0-041002382.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T12:10:02+08:00",
-          "summary": "台積電 (2330-TW)(TSM-US) 大幅上調今年資本支出規劃達 600 億至 640 億美元。業界認為，台積電未來三年將在台、美大擴產，資本支出規模可能挑戰 2,100 億至 2,200 億美",
-          "additional_sources": []
-        }
-      ]
-    },
-    {
       "group": "大盤/未分類",
       "keywords": [
+        "美元",
+        "中國",
         "美國",
-        "表示",
         "台灣",
-        "我們",
-        "投資"
+        "億元"
       ],
-      "article_count": 29,
+      "article_count": 3,
       "articles": [
         {
-          "title": "產險公會拍板不便險滯留海外理賠從寬認定 富邦產響應：4月後保單皆適用",
-          "link": "https://tw.stock.yahoo.com/news/%E7%94%A2%E9%9A%AA%E5%85%AC%E6%9C%83%E6%8B%8D%E6%9D%BF%E4%B8%8D%E4%BE%BF%E9%9A%AA%E6%BB%AF%E7%95%99%E6%B5%B7%E5%A4%96%E7%90%86%E8%B3%A0%E5%BE%9E%E5%AF%AC%E8%AA%8D%E5%AE%9A-%E5%AF%8C%E9%82%A6%E7%94%A2%E9%9F%BF%E6%87%89-4%E6%9C%88%E5%BE%8C%E4%BF%9D%E5%96%AE%E7%9A%86%E9%81%A9%E7%94%A8-052247774.html",
+          "title": "才5週就變臉！SpaceX市值蒸發1兆美元  神秘贏家卻爽賺50億美元",
+          "link": "https://tw.stock.yahoo.com/news/%E6%89%8D5%E9%80%B1%E5%B0%B1%E8%AE%8A%E8%87%89-spacex%E5%B8%82%E5%80%BC%E8%92%B8%E7%99%BC1%E5%85%86%E7%BE%8E%E5%85%83-%E7%A5%9E%E7%A7%98%E8%B4%8F%E5%AE%B6%E5%8D%BB%E7%88%BD%E8%B3%BA50%E5%84%84%E7%BE%8E%E5%85%83-093621539.html",
           "source": "yahoo",
-          "pubdate": "2026-07-19T13:22:47+08:00",
-          "summary": "近年颱風頻襲台，導致海外旅遊航班取消、旅客被迫滯留的消費爭議屢見不鮮。今年 4 月 1 日新版海外旅行不便險上路後，部分民眾因無法提供回國當天的「預訂住宿單據」，理賠金額被限縮至每日 2000 元，引",
-          "additional_sources": [
-            {
-              "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6539452",
-              "title": "產險公會拍板不便險滯留海外理賠從寬認定 富邦產響應：4月後保單皆適用"
-            }
-          ]
-        },
-        {
-          "title": "韓人均GDP將破4萬美元！韓媒憂台韓差距擴大",
-          "link": "https://tw.news.yahoo.com/%E9%9F%93%E4%BA%BA%E5%9D%87gdp%E5%B0%87%E7%A0%B44%E8%90%AC%E7%BE%8E%E5%85%83-%E9%9F%93%E5%AA%92%E6%86%82%E5%8F%B0%E9%9F%93%E5%B7%AE%E8%B7%9D%E6%93%B4%E5%A4%A7-084057617.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T16:40:57+08:00",
-          "summary": "[NOWNEWS今日新聞]韓國今年人均國內生產毛額（GDP）預估將創下近5年來的最大增幅，可望達到3萬9164美元，距離突破4萬美元大關僅差最後一步。然而，韓媒卻有些憂心，拿台灣的GDP成長數字來比較",
+          "pubdate": "2026-07-19T17:36:21+08:00",
+          "summary": "SpaceX才剛創下全球史上最大IPO紀錄，上市蜜月行情卻迅速變調。距離6月12日掛牌僅約5周，SpaceX股價已跌破135美元發行價，上周五進一步下挫逾5％，收在123.99美元。若自6月16日股價",
           "additional_sources": []
         },
         {
-          "title": "中共團促法上路 賴清德：從反獨走向強統 籲團結反紅色恐怖",
-          "link": "https://tw.news.yahoo.com/%E4%B8%AD%E5%85%B1%E5%9C%98%E4%BF%83%E6%B3%95%E4%B8%8A%E8%B7%AF-%E8%B3%B4%E6%B8%85%E5%BE%B7-%E5%BE%9E%E5%8F%8D%E7%8D%A8%E8%B5%B0%E5%90%91%E5%BC%B7%E7%B5%B1-%E7%B1%B2%E5%9C%98%E7%B5%90%E5%8F%8D%E7%B4%85%E8%89%B2%E6%81%90%E6%80%96-075708410.html",
+          "title": "上半年金融三業籌資2217億元　銀行居冠、證券創高",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8A%E5%8D%8A%E5%B9%B4%E9%87%91%E8%9E%8D%E4%B8%89%E6%A5%AD%E7%B1%8C%E8%B3%872217%E5%84%84%E5%85%83-%E9%8A%80%E8%A1%8C%E5%B1%85%E5%86%A0-%E8%AD%89%E5%88%B8%E5%89%B5%E9%AB%98-090014090.html",
           "source": "yahoo",
-          "pubdate": "2026-07-19T15:57:08+08:00",
-          "summary": "民進黨全代會今天(19日)登場，兼任民進黨主席的賴清德總統在會中表示，中國自7月實施《民族團結進步促進法》，這部惡法不僅侵害台灣主權與國家尊嚴，更濫施跨境鎮壓，威脅全球民主秩序。賴清德呼籲全黨團結一致",
-          "additional_sources": []
-        },
-        {
-          "title": "川普揚言反制加拿大野火汙染 安大略省長促取消軟木關稅",
-          "link": "https://tw.news.yahoo.com/%E5%B7%9D%E6%99%AE%E6%8F%9A%E8%A8%80%E5%8F%8D%E5%88%B6%E5%8A%A0%E6%8B%BF%E5%A4%A7%E9%87%8E%E7%81%AB%E6%B1%99%E6%9F%93-%E5%AE%89%E5%A4%A7%E7%95%A5%E7%9C%81%E9%95%B7%E4%BF%83%E5%8F%96%E6%B6%88%E8%BB%9F%E6%9C%A8%E9%97%9C%E7%A8%85-073308682.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T15:33:08+08:00",
-          "summary": "美國總統川普(Donald Trump)近日批評加拿大未能有效控制野火，導致大量煙霧飄向美國，必須被施加更多關稅。對此，加拿大安大略省長福特(Doug Ford)表示，這樣的言論令人無法接受，川普反而",
-          "additional_sources": []
-        },
-        {
-          "title": "點名川普回家路線　伊朗PO「在哪殺掉川普」",
-          "link": "https://tw.news.yahoo.com/%E9%BB%9E%E5%90%8D%E5%B7%9D%E6%99%AE%E5%9B%9E%E5%AE%B6%E8%B7%AF%E7%B7%9A-%E4%BC%8A%E6%9C%97po-%E5%9C%A8%E5%93%AA%E6%AE%BA%E6%8E%89%E5%B7%9D%E6%99%AE-072516562.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T15:25:16+08:00",
-          "summary": "[NOWNEWS今日新聞]美伊衝突持續升高之際，伊朗媒體近日發布一支題為「在哪裡殺掉川普？」（WheretokillTrump?）的影片，內容直接點名美國總統川普往返佛州海湖莊園（Mar-a-Lago",
-          "additional_sources": []
-        },
-        {
-          "title": "日本iPhone全面漲價！原因不只有記憶體",
-          "link": "https://tw.news.yahoo.com/%E6%97%A5%E6%9C%ACiphone%E5%85%A8%E9%9D%A2%E6%BC%B2%E5%83%B9-%E5%8E%9F%E5%9B%A0%E4%B8%8D%E5%8F%AA%E6%9C%89%E8%A8%98%E6%86%B6%E9%AB%94-072321841.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T15:23:21+08:00",
-          "summary": "[NOWNEWS今日新聞]蘋果上月調漲iPad、Mac等多款產品售價，日本市場也確定跟進，蘋果確定調漲日本國內的iPhone銷售價格，漲幅約10%，且這波漲勢不只反映記憶體價格，還有僅限於日本市場的關",
-          "additional_sources": []
-        },
-        {
-          "title": "河馬界世足預言家！泰國彈跳豬押寶阿根廷",
-          "link": "https://tw.news.yahoo.com/%E6%B2%B3%E9%A6%AC%E7%95%8C%E4%B8%96%E8%B6%B3%E9%A0%90%E8%A8%80%E5%AE%B6-%E6%B3%B0%E5%9C%8B%E5%BD%88%E8%B7%B3%E8%B1%AC%E6%8A%BC%E5%AF%B6%E9%98%BF%E6%A0%B9%E5%BB%B7-071251843.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T15:12:51+08:00",
-          "summary": "[NOWNEWS今日新聞]世界盃決賽開踢在即，泰國知名網紅動物「彈跳豬」（MooDeng）18日再度出馬預測賽果！這隻侏儒河馬在春武里府綠山野生動物園舉行的最新一場預測活動中，選擇了插著阿根廷國旗的水",
-          "additional_sources": []
-        },
-        {
-          "title": "印度女產後遭「輸錯血」　發抖、血尿險喪命",
-          "link": "https://tw.news.yahoo.com/%E5%8D%B0%E5%BA%A6%E5%A5%B3%E7%94%A2%E5%BE%8C%E9%81%AD-%E8%BC%B8%E9%8C%AF%E8%A1%80-%E7%99%BC%E6%8A%96-%E8%A1%80%E5%B0%BF%E9%9A%AA%E5%96%AA%E5%91%BD-065940850.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T14:59:40+08:00",
-          "summary": "[NOWNEWS今日新聞]印度拉賈斯坦邦（Rajasthan）發生一起重大醫療疏失。一名24歲產婦在生下男嬰後，因嚴重貧血及產後併發症接受輸血治療，不料在輸血過程中，遭到醫護人員誤輸錯誤血型的血液，導",
-          "additional_sources": []
-        },
-        {
-          "title": "民進黨全代會登場 賴清德親授戰旗 吹響2026選戰號角",
-          "link": "https://tw.news.yahoo.com/%E6%B0%91%E9%80%B2%E9%BB%A8%E5%85%A8%E4%BB%A3%E6%9C%83%E7%99%BB%E5%A0%B4-%E8%B3%B4%E6%B8%85%E5%BE%B7%E8%A6%AA%E6%8E%88%E6%88%B0%E6%97%97-%E5%90%B9%E9%9F%BF2026%E9%81%B8%E6%88%B0%E8%99%9F%E8%A7%92-064639801.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T14:46:39+08:00",
-          "summary": "民進黨全代會今天(19日)登場，為迎戰年底九合一選舉，兼任黨主席的賴清德總統親自授戰旗給19位民進黨提名的縣市長參選人，同時邀請副總統蕭美琴、行政院長卓榮泰及民進黨現任地方首長登台，象徵中央與地方對接",
-          "additional_sources": []
-        },
-        {
-          "title": "月薪4萬新鮮人曝「半年存21萬」！網一看哭了：我還負債50萬",
-          "link": "https://tw.stock.yahoo.com/news/%E6%9C%88%E8%96%AA4%E8%90%AC%E6%96%B0%E9%AE%AE%E4%BA%BA%E6%9B%9D-%E5%8D%8A%E5%B9%B4%E5%AD%9821%E8%90%AC-%E7%B6%B2-%E7%9C%8B%E5%93%AD%E4%BA%86-%E6%88%91%E9%82%84%E8%B2%A0%E5%82%B550%E8%90%AC-062607655.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T14:26:07+08:00",
-          "summary": "財經中心／邱于芳報導近年物價、房租持續攀升，讓不少人直呼存錢越來越不容易。根據行政院主計處統計，台灣人5月經常性薪資平均數為4萬9216元。一名剛出社會工作半年左右的新鮮人在社群上透露，她計算工作後靠",
-          "additional_sources": []
-        },
-        {
-          "title": "名古屋男子墜樓砸路人　20多歲女遭波及身亡",
-          "link": "https://tw.news.yahoo.com/%E5%90%8D%E5%8F%A4%E5%B1%8B%E7%94%B7%E5%AD%90%E5%A2%9C%E6%A8%93%E7%A0%B8%E8%B7%AF%E4%BA%BA-20%E5%A4%9A%E6%AD%B2%E5%A5%B3%E9%81%AD%E6%B3%A2%E5%8F%8A%E8%BA%AB%E4%BA%A1-062229220.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T14:22:29+08:00",
-          "summary": "[NOWNEWS今日新聞]日本名古屋市中心19日凌晨發生一起墜樓事故，一名男子從集合式住宅高處墜落，意外撞上當時行走在人行道上的20多歲女子。兩人隨即被送往醫院搶救，但女子最終因出血性休克死亡，墜樓男",
-          "additional_sources": []
-        },
-        {
-          "title": "藍營號召上凱道反毒油 潘孟安：食安需中央地方合作解決",
-          "link": "https://tw.news.yahoo.com/%E8%97%8D%E7%87%9F%E8%99%9F%E5%8F%AC%E4%B8%8A%E5%87%B1%E9%81%93%E5%8F%8D%E6%AF%92%E6%B2%B9-%E6%BD%98%E5%AD%9F%E5%AE%89-%E9%A3%9F%E5%AE%89%E9%9C%80%E4%B8%AD%E5%A4%AE%E5%9C%B0%E6%96%B9%E5%90%88%E4%BD%9C%E8%A7%A3%E6%B1%BA-061926244.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T14:19:26+08:00",
-          "summary": "中聯問題油風暴持續延燒，藍營號召民眾725上凱道抗議。總統府秘書長潘孟安今天(19日)表示，總統府的態度就是中央、地方一起合作；至於是否有人為缺失或相關責任，未來一定會究責並防微杜漸，希望類似事件不再",
-          "additional_sources": []
-        },
-        {
-          "title": "中客「鑽圍欄」插隊亂象頻傳　韓機場出手了",
-          "link": "https://tw.news.yahoo.com/%E4%B8%AD%E5%AE%A2-%E9%91%BD%E5%9C%8D%E6%AC%84-%E6%8F%92%E9%9A%8A%E4%BA%82%E8%B1%A1%E9%A0%BB%E5%82%B3-%E9%9F%93%E6%A9%9F%E5%A0%B4%E5%87%BA%E6%89%8B%E4%BA%86-034703697.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T13:37:29+08:00",
-          "summary": "[NOWNEWS今日新聞]韓國仁川國際機場近期接連發生中國旅客集體插隊亂象，引發外界關注。數十名中國旅客在報到櫃檯開放後，未依序排隊，而是集體鑽過排隊圍欄、推著行李衝向櫃檯，甚至造成現場工作人員受傷。",
-          "additional_sources": []
-        },
-        {
-          "title": "世界盃決賽逃煙霾攪局？專家曝最新空氣品質",
-          "link": "https://tw.news.yahoo.com/%E4%B8%96%E7%95%8C%E7%9B%83%E6%B1%BA%E8%B3%BD%E9%80%83%E7%85%99%E9%9C%BE%E6%94%AA%E5%B1%80-%E5%B0%88%E5%AE%B6%E6%9B%9D%E6%9C%80%E6%96%B0%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA-053618882.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T13:36:18+08:00",
-          "summary": "[NOWNEWS今日新聞]加拿大野火持續延燒，大量濃煙連日籠罩美國東北部，紐約及紐澤西等地空氣品質一度惡化，也讓即將登場的2026世界盃足球賽決賽受到關注。不過，美國氣象專家表示，隨著雷雨鋒面通過，預",
-          "additional_sources": []
-        },
-        {
-          "title": "央廣前進日本關西無線電節 拓展新世代聽眾獲熱烈迴響",
-          "link": "https://tw.news.yahoo.com/%E5%A4%AE%E5%BB%A3%E5%89%8D%E9%80%B2%E6%97%A5%E6%9C%AC%E9%97%9C%E8%A5%BF%E7%84%A1%E7%B7%9A%E9%9B%BB%E7%AF%80-%E6%8B%93%E5%B1%95%E6%96%B0%E4%B8%96%E4%BB%A3%E8%81%BD%E7%9C%BE%E7%8D%B2%E7%86%B1%E7%83%88%E8%BF%B4%E9%9F%BF-051859097.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T13:18:59+08:00",
-          "summary": "連續兩年榮獲日本短波俱樂部票選最有人氣海外日語廣播的Rti財團法人中央廣播電臺，18日在日本大阪，參加關西最大業餘無線電盛會「KANHAM 2026」，藉由設攤簡說明、節目錄製及面對面交流，向日本民眾",
-          "additional_sources": []
-        },
-        {
-          "title": "伊朗最高領袖嗆美國將「付出代價」！美發全球旅遊警示：攻擊恐不限中東",
-          "link": "https://tw.stock.yahoo.com/news/%E4%BC%8A%E6%9C%97%E6%9C%80%E9%AB%98%E9%A0%98%E8%A2%96%E5%97%86%E7%BE%8E%E5%9C%8B%E5%B0%87-%E4%BB%98%E5%87%BA%E4%BB%A3%E5%83%B9-%E7%BE%8E%E7%99%BC%E5%85%A8%E7%90%83%E6%97%85%E9%81%8A%E8%AD%A6%E7%A4%BA-%E6%94%BB%E6%93%8A%E6%81%90%E4%B8%8D%E9%99%90%E4%B8%AD%E6%9D%B1-050007216.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T13:00:07+08:00",
-          "summary": "美伊衝突持續升級，伊朗最高領袖穆吉塔巴 · 哈米尼警告美國將付出「永生難忘的教訓」，並宣布停止履行停火備忘錄。美國則發布全球旅遊警示，提醒中東安全風險升高，雙方互控違約，區域局勢持續惡化。",
-          "additional_sources": []
-        },
-        {
-          "title": "史上最狂體育盛會！大谷球卡飆20萬巨星到齊",
-          "link": "https://tw.news.yahoo.com/%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%8B%82%E9%AB%94%E8%82%B2%E7%9B%9B%E6%9C%83-%E5%A4%A7%E8%B0%B7%E7%90%83%E5%8D%A1%E9%A3%8620%E8%90%AC%E5%B7%A8%E6%98%9F%E5%88%B0%E9%BD%8A-044731667.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T12:47:31+08:00",
-          "summary": "[NOWNEWS今日新聞]號稱全球規模最大體育盛會之一的「FanaticsFest」，16日至19日一連4天在紐約曼哈頓賈維茨中心盛大舉行，吸引超過500位世界頂尖運動員、藝術家與名人齊聚一堂，整場活",
-          "additional_sources": []
-        },
-        {
-          "title": "2026世界盃／盛讚本屆史上最成功 川普出席將成為決賽焦點",
-          "link": "https://tw.news.yahoo.com/2026%E4%B8%96%E7%95%8C%E7%9B%83-%E7%9B%9B%E8%AE%9A%E6%9C%AC%E5%B1%86%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%88%90%E5%8A%9F-%E5%B7%9D%E6%99%AE%E5%87%BA%E5%B8%AD%E5%B0%87%E6%88%90%E7%82%BA%E6%B1%BA%E8%B3%BD%E7%84%A6%E9%BB%9E-044547505.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T12:45:47+08:00",
-          "summary": "法新社報導，美國總統川普(Donald Trump)先前已為本屆世界盃製造了最具爭議性的事件之一，而他將在19日的世足決賽中成為鎂光燈焦點。 世足決賽19日登場 川普預料將和國際足球總會(FIFA)主",
-          "additional_sources": []
-        },
-        {
-          "title": "宣明智驚傳「腦出血」急送醫動刀　特助發聲揭最新病況",
-          "link": "https://tw.stock.yahoo.com/news/%E8%81%AF%E9%9B%BB%E6%A6%AE%E8%AD%BD%E5%89%AF%E8%91%A3%E5%AE%A3%E6%98%8E%E6%99%BA%E9%A9%9A%E5%82%B3%E6%84%8F%E8%AD%98%E4%B8%8D%E6%B8%85-%E7%B7%8A%E6%80%A5%E9%80%81%E9%86%AB%E8%85%A6%E9%83%A8%E6%89%8B%E8%A1%93-010538607.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T12:39:10+08:00",
-          "summary": "首次上稿：07/19 08:55更新時間：07/19 12:39（更新特助最新聲明）即時中心／梁博超報導現年74歲的聯電榮譽副董宣明智，今（19）日上午驚傳意識不清送醫急救，目前已在醫院進行治療。中午",
-          "additional_sources": []
-        },
-        {
-          "title": "美國盯上韓國晶片暴利！傳要求三星、SK海力士「分錢」  理由曝光全炸鍋",
-          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E7%9B%AF%E4%B8%8A%E9%9F%93%E5%9C%8B%E6%99%B6%E7%89%87%E6%9A%B4%E5%88%A9-%E5%82%B3%E8%A6%81%E6%B1%82%E4%B8%89%E6%98%9F-sk%E6%B5%B7%E5%8A%9B%E5%A3%AB-%E5%88%86%E9%8C%A2-%E7%90%86%E7%94%B1%E6%9B%9D%E5%85%89%E5%85%A8%E7%82%B8%E9%8D%8B-041904588.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T12:19:04+08:00",
-          "summary": "美國對韓國半導體產業的要求，正從「赴美建廠」進一步升高到「分享利潤」。據《韓國時報》引述知情人士報導，美國貿易代表辦公室副代表Rick Switzer上月與韓國通商部長官呂翰九會談時表示，美國企業大量",
-          "additional_sources": []
-        },
-        {
-          "title": "2026大暑「濕熱交蒸」！謝沅瑾揭5生肖下半年翻身關鍵：屬羊用這色財運升級、屬雞注意健康警訊",
-          "link": "https://tw.stock.yahoo.com/news/2026%E5%A4%A7%E6%9A%91%E3%80%8C%E6%BF%95%E7%86%B1%E4%BA%A4%E8%92%B8%E3%80%8D%EF%BC%81%E8%AC%9D%E6%B2%85%E7%91%BE%E6%8F%AD5%E7%94%9F%E8%82%96%E4%B8%8B%E5%8D%8A%E5%B9%B4%E7%BF%BB%E8%BA%AB%E9%97%9C%E9%8D%B5%EF%BC%9A%E5%B1%AC%E7%BE%8A%E7%94%A8%E9%80%99%E8%89%B2%E8%B2%A1%E9%81%8B%E5%8D%87%E7%B4%9A%E3%80%81%E5%B1%AC%E9%9B%9E%E6%B3%A8%E6%84%8F%E5%81%A5%E5%BA%B7%E8%AD%A6%E8%A8%8A-034100319.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T11:41:00+08:00",
-          "summary": "二十四節氣的大暑有俗諺「大暑不見青」，即形容田裡穀物收訖，此時天氣愈熱，代表氣候愈正常、作物大豐收，更是農曆六月十五的「半年節」，象徵年過一半，傳統會吃「半年圓」祈求下半年全家團圓平安。本節氣當然也會",
-          "additional_sources": []
-        },
-        {
-          "title": "下一個暴漲記憶體是它？下半年恐飆120％至170％ 背後4大搶貨黑手曝",
-          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8B-%E5%80%8B%E6%9A%B4%E6%BC%B2%E8%A8%98%E6%86%B6%E9%AB%94%E6%98%AF%E5%AE%83-%E4%B8%8B%E5%8D%8A%E5%B9%B4%E6%81%90%E9%A3%86120-%E8%87%B3170-%E8%83%8C%E5%BE%8C4%E5%A4%A7%E6%90%B6%E8%B2%A8%E9%BB%91%E6%89%8B%E6%9B%9D-033815663.html",
-          "source": "yahoo",
-          "pubdate": "2026-07-19T11:38:15+08:00",
-          "summary": "據TrendForce（集邦科技）最新記憶體價格調查內容，由於高層數3D NAND等高附加價值產品排擠成熟製程產能，MLC NAND供給極度短缺，迫使部分工控、車用和網通客戶計畫改採用SLC NAND",
-          "additional_sources": []
-        },
-        {
-          "title": "近30年來最大規模 宜家中國集中出售8座賣場！",
-          "link": "https://news.cnyes.com/news/id/6539475",
-          "source": "cnyes",
-          "pubdate": "2026-07-19T15:54:18+08:00",
-          "summary": "鉅亨網編譯鍾詠翔 綜合報導2026-07-19 15:54\n商業地產服務投資管理機構仲量聯行已獲宜家母公司英格卡集團獨家銷售委托，將上海、廣州、天津、哈爾濱、南通、徐州、貴陽、寧波八座城市的宜家自持閒置物業整體出售。\n據《北京日報》周日（19 日）報導，這是宜家進入中國市場近 30 年來最大規模自持…",
+          "pubdate": "2026-07-19T17:00:14+08:00",
+          "summary": "（中央社記者蘇思云台北2026年07月19日電）金管會統計金融三業今年上半年現金增資與發債合計達2217.1億元，年增32.67%，其中，銀行業以1094億元居冠，其次為保險業730億元，再來是證券業",
           "additional_sources": []
         },
         {
@@ -432,47 +177,7 @@
           "link": "https://news.cnyes.com/news/id/6539367",
           "source": "cnyes",
           "pubdate": "2026-07-19T14:10:02+08:00",
-          "summary": "鉅亨網編譯莊閔棻2026-07-19 14:10\n美國聯準會（Fed）主席華許（Kevin Warsh）本週再次強調，聯準會正密切關注通膨情勢，而這項承諾能否兌現，考驗可能很快就會到來。\n聯準會鷹派勢力壯大、華許喊對通膨「零容忍」。(圖：Shutterstock)\n根據《彭博》報導，聯準會官員預計將…",
-          "additional_sources": []
-        },
-        {
-          "title": "中聯原料油產品檢驗 7／20公布結果做再上架依據",
-          "link": "https://www.ctee.com.tw/news/20260719700534-430104",
-          "source": "ctee",
-          "pubdate": "2026-07-19T16:59:25+08:00",
-          "summary": "問題油品案持續，食藥署今天公布，受影響業者家數連3天「加零」，維持1,322家。中聯3至4月原料油及下游產品今天完成檢驗、明天對外公布，若相關證據足夠就會納入再上架評估。\n中聯油脂4月至6月共計製造30批油品，其中有3批未出貨，經食藥署檢驗結果符合規定；問題油品累計7批次，批號為315-115040…",
-          "additional_sources": []
-        },
-        {
-          "title": "台股創史上最大跌點！主動式ETF誰最抗跌？「這類型」強包前三名",
-          "link": "https://www.ctee.com.tw/news/20260719700531-430403",
-          "source": "ctee",
-          "pubdate": "2026-07-19T16:52:06+08:00",
-          "summary": "台股17日上演黑色星期五急殺行情，創下史上單日最大收盤跌點達2,953.71點，下跌幅度6.47％。資料統計，這波下殺行情中，今年最熱門的主動式台股ETF共有6檔表現超過大盤、8檔表現優於權值王台積電，最抗跌排行由高股息主動式ETF包辦前三名，依序為：上周新掛牌的00408A主動第一金優股息、009…",
-          "additional_sources": []
-        },
-        {
-          "title": "AI撐起全球經濟韌性？東方匯理警告：下半年面臨真正壓力測試",
-          "link": "https://www.ctee.com.tw/news/20260719700522-430301",
-          "source": "ctee",
-          "pubdate": "2026-07-19T16:42:58+08:00",
-          "summary": "東方匯理資產管理發表2026年下半年全球市場投資展望。全球經濟至今仍展現相當的韌性，主要受惠於人工智慧（AI）相關投資，以及各國提升戰略自主能力（strategic autonomy）所帶動的投資動能。但下半年各國經濟、政策制定者及市場將面臨真正的壓力測試，考驗各國消化衝擊的能力。預計各地經濟成長步…",
-          "additional_sources": []
-        },
-        {
-          "title": "7／19本周國內外財經焦點｜谷歌、特斯拉、英特爾財報接力、6月新青安統計",
-          "link": "https://www.ctee.com.tw/news/20260719700527-430105",
-          "source": "ctee",
-          "pubdate": "2026-07-19T16:39:16+08:00",
-          "summary": "展望未來一周，全球市場將迎來多項關鍵的通膨數據與央行利率決策，而科技巨頭的財報季也將進入高潮。\n國際方面，週一（7/20）柏南（Andy Burnham）預定接替施凱爾（Keir Starmer），成為英國下一任首相。週二（7/21）英國將公布5月失業率，歐元區與德國則會發布7月ZEW經濟信心指數。…",
-          "additional_sources": []
-        },
-        {
-          "title": "「語你前行」帶孩子執行SDGs 從小開始海洋保衛戰",
-          "link": "https://www.ctee.com.tw/news/20260719700516-431401",
-          "source": "ctee",
-          "pubdate": "2026-07-19T16:33:41+08:00",
-          "summary": "當孩子踏上這趟蘭嶼旅程，從親手拾起岸上的垃圾、戴上面鏡深入海洋，探索潮間帶豐富的生態；當他們拿起麥克風，走進部落採訪耆老；深入夜市攤位服務客人。不只是暑期營隊，而是一堂沒有課本、卻最貼近生活的實體教學。\n今年暑假，「語你前行 Speak Forward」攜手蘭嶼在地團體「島人共生協會」，帶領孩子展開…",
+          "summary": "鉅亨網編譯莊閔棻2026-07-19 14:10\n美國聯準會（Fed）主席華許（Kevin Warsh）本週再次強調，聯準會正密切關注通膨情勢，而這項承諾能否兌現，考驗可能很快就會到來。\n根據《彭博》報導，聯準會官員預計將在 7 月 28 日至 29 日於華府召開的政策會議上維持利率不變。\n然而，隨…",
           "additional_sources": []
         }
       ]

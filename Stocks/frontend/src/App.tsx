@@ -7,6 +7,7 @@ import News from './components/News'
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
 import JFVSPage from './pages/JFVSPage'
+import NewsAdminPage from './pages/NewsAdminPage'
 import StockHeader from './components/StockHeader'
 import RealtimeChart from './components/RealtimeChart'
 import PriceChart from './components/PriceChart'
@@ -374,6 +375,7 @@ export default function App() {
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/stock/2497-2516.TW" element={<JFVSPage />} />
           <Route path="/stock/:symbol" element={<StockTabs />} />
+          <Route path="/admin/news" element={<NewsAdminPage />} />
         </Routes>
       </main>
 

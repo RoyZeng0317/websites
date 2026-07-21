@@ -69,6 +69,10 @@ def run():
     grouped = grouping.group(deduped)
     print(f"[pipeline] 分為 {len(grouped)} 組")
 
+    grouped = rules.filter_unclassified_group(grouped)
+    kept_count = sum(len(articles) for articles in grouped.values())
+    print(f"[pipeline] 未分類新聞財經相關性複檢後剩 {kept_count} 篇、{len(grouped)} 組")
+
     summarized = summarize.summarize_groups(grouped)
 
     report = output.build_report(summarized, report_date=today)

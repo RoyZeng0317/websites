@@ -1,0 +1,100 @@
+{
+  "date": "2026-07-16",
+  "generated_at": "2026-07-16T15:38:57.446490+08:00",
+  "sources": [
+    "NPR",
+    "The Guardian"
+  ],
+  "articles": {
+    "C2": {
+      "title": "Fears for New Zealand’s native species as first bird flu case emerges",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/world/2026/jul/16/new-zealand-first-h5n1-bird-flu-case",
+      "grade_level": 13.3,
+      "content": "Minister urges public to report cases of three or more sick or dead birds in a group after brown skua seabird tests positive for H5N1 on Wellington be…\n\n(Read the full article: https://www.theguardian.com/world/2026/jul/16/new-zealand-first-h5n1-bird-flu-case)",
+      "vocabulary": [
+        {
+          "word": "birds",
+          "definition": "A member of the class of animals Aves in the phylum Chordata, characterized by being warm-blooded, having feathers and wings usually capable of flight, and laying eggs."
+        },
+        {
+          "word": "bird",
+          "definition": "A member of the class of animals Aves in the phylum Chordata, characterized by being warm-blooded, having feathers and wings usually capable of flight, and laying eggs."
+        },
+        {
+          "word": "species",
+          "definition": "Type or kind. (Compare race.)"
+        },
+        {
+          "word": "virus",
+          "definition": "A submicroscopic, non-cellular structure consisting of a core of DNA or RNA surrounded by a protein coat, that requires a living host cell to replicate, and often causes disease in the host organism."
+        },
+        {
+          "word": "endangered",
+          "definition": "To put (someone or something) in danger; to risk causing harm to."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C1": {
+      "title": "China's economy grows 4.3% in Q2, slowest since late 2022",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/07/15/g-s1-133672/chinas-economy-grows-4-3-in-q2-slowest-since-late-2022",
+      "grade_level": 11.5,
+      "content": "Lagging consumer spending and business investment offset the boost from strong exports thanks partly to the boom in artificial intelligence.\n\n(Read the full article: https://www.npr.org/2026/07/15/g-s1-133672/chinas-economy-grows-4-3-in-q2-slowest-since-late-2022)",
+      "vocabulary": [
+        {
+          "word": "growth",
+          "definition": "An increase in size, number, value, or strength."
+        },
+        {
+          "word": "economy",
+          "definition": "Effective management of a community or system, or especially its resources."
+        },
+        {
+          "word": "year",
+          "definition": "A solar year, the time it takes the Earth to complete one revolution of the Sun (between 365.24 and 365.26 days depending on the point of reference)."
+        },
+        {
+          "word": "exports",
+          "definition": "To carry away"
+        },
+        {
+          "word": "half",
+          "definition": "One of two usually roughly equal parts into which anything may be divided, or considered as divided."
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "China and Xi favored over U.S. and Trump in many nations: Survey",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/07/15/g-s1-133827/china-and-xi-favored-over-us-and-trump-in-many-nations-survey",
+      "grade_level": 6.6,
+      "content": "The change is driven by improved perceptions of China and declining views of the United States.\n\n(Read the full article: https://www.npr.org/2026/07/15/g-s1-133827/china-and-xi-favored-over-us-and-trump-in-many-nations-survey)",
+      "vocabulary": [
+        {
+          "word": "views",
+          "definition": "(physical) Visual perception."
+        },
+        {
+          "word": "people",
+          "definition": "Used as plural of person; a body of human beings considered generally or collectively; a group of two or more persons."
+        },
+        {
+          "word": "countries",
+          "definition": "(chiefly British) An area of land; a district, region."
+        },
+        {
+          "word": "favorable",
+          "definition": "Pleasing, encouraging or approving."
+        },
+        {
+          "word": "opinions",
+          "definition": "A subjective belief, judgment or perspective that a person has formed about a topic, issue, person or thing."
+        }
+      ],
+      "additional_sources": []
+    }
+  }
+}

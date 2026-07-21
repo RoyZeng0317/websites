@@ -1,0 +1,10 @@
+{
+  "name": "release-notify",
+  "private": true,
+  "type": "module",
+  "description": "Emails every registered user when a new Stocks frontend version is deployed.",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "resend": "^4.0.1"
+  }
+}
