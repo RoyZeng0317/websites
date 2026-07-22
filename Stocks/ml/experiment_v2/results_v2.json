@@ -1,0 +1,168 @@
+{
+ "1": {
+  "classification": {
+   "n_test": 7832,
+   "accuracy": 0.40551583248212464,
+   "acc_ci95": [
+    0.39469060990525046,
+    0.4164336986821003
+   ],
+   "balanced_accuracy": 0.3830990478561725,
+   "per_class": {
+    "down": {
+     "precision": 0.3125,
+     "recall": 0.27633443552196507,
+     "f1": 0.29330659313111057,
+     "support": 2117
+    },
+    "flat": {
+     "precision": 0.4721859493340298,
+     "recall": 0.5520610687022901,
+     "f1": 0.509009009009009,
+     "support": 3275
+    },
+    "up": {
+     "precision": 0.3674331299859221,
+     "recall": 0.3209016393442623,
+     "f1": 0.34259461824546045,
+     "support": 2440
+    }
+   },
+   "confusion_matrix": [
+    [
+     585,
+     959,
+     573
+    ],
+    [
+     692,
+     1808,
+     775
+    ],
+    [
+     595,
+     1062,
+     783
+    ]
+   ],
+   "baselines": {
+    "always_majority": {
+     "label": "flat",
+     "accuracy": 0.4181562819203269
+    },
+    "carry_prev_label": {
+     "accuracy": 0.3613316261203585,
+     "n": 7810
+    }
+   },
+   "directional": {
+    "n_calls": 4003,
+    "sign_hit_all": 0.4876342742942793,
+    "sign_hit_ci95": [
+     0.4721689349131154,
+     0.5031233252051783
+    ],
+    "n_up_calls": 2131,
+    "n_down_calls": 1872
+   },
+   "label_distribution": {
+    "flat": 3275,
+    "up": 2440,
+    "down": 2117
+   }
+  },
+  "regression": {
+   "n_test": 7832,
+   "n_test_dates": 323,
+   "ic_mean": 0.06265375537894202,
+   "ic_std": 0.2625269094558397,
+   "ic_tstat": 4.2891826673971,
+   "tercile_spread_mean": 0.0018777953947913917,
+   "tercile_spread_std": 0.01309532446947513,
+   "tercile_spread_tstat": 2.7055589749789224
+  }
+ },
+ "5": {
+  "classification": {
+   "n_test": 7832,
+   "accuracy": 0.3854698672114402,
+   "acc_ci95": [
+    0.3747493128492665,
+    0.3963027206681031
+   ],
+   "balanced_accuracy": 0.3769431074514517,
+   "per_class": {
+    "down": {
+     "precision": 0.2935614588023413,
+     "recall": 0.33834976647638815,
+     "f1": 0.3143683702989392,
+     "support": 1927
+    },
+    "flat": {
+     "precision": 0.46084724005134786,
+     "recall": 0.43727161997563946,
+     "f1": 0.44875,
+     "support": 3284
+    },
+    "up": {
+     "precision": 0.37314629258517035,
+     "recall": 0.35520793590232735,
+     "f1": 0.3639562157935887,
+     "support": 2621
+    }
+   },
+   "confusion_matrix": [
+    [
+     652,
+     708,
+     567
+    ],
+    [
+     851,
+     1436,
+     997
+    ],
+    [
+     718,
+     972,
+     931
+    ]
+   ],
+   "baselines": {
+    "always_majority": {
+     "label": "flat",
+     "accuracy": 0.4193054136874362
+    },
+    "carry_prev_label": {
+     "accuracy": 0.6719590268886043,
+     "n": 7810
+    }
+   },
+   "directional": {
+    "n_calls": 4716,
+    "sign_hit_all": 0.5203562340966921,
+    "sign_hit_ci95": [
+     0.5060867919602577,
+     0.5345925393122154
+    ],
+    "n_up_calls": 2495,
+    "n_down_calls": 2221
+   },
+   "label_distribution": {
+    "flat": 3284,
+    "up": 2621,
+    "down": 1927
+   }
+  },
+  "regression": {
+   "n_test": 7832,
+   "n_test_dates": 338,
+   "ic_mean": 0.008260761530467365,
+   "ic_std": 0.27643003009261496,
+   "ic_tstat": 0.549405767687527,
+   "tercile_spread_mean": 0.000667263922849725,
+   "tercile_spread_std": 0.03475752415805404,
+   "tercile_spread_tstat": 0.36222115416743267
+  }
+ }
+}
