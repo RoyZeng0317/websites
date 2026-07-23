@@ -101,6 +101,11 @@ def market_features(mkt: pd.DataFrame) -> pd.DataFrame:
 def build_rows(symbol: str, df: pd.DataFrame, mkt_feat: pd.DataFrame) -> pd.DataFrame:
     ind = indicators.add_technical_indicators(df)
     ind = ind.join(mkt_feat, how="left")
+    # Yahoo occasionally drops a single day from the index feed (seen 2026-07-10)
+    # while individual stocks still have a (degenerate) row for it; without this,
+    # that one missing market data point poisons the trailing 20d rolling window
+    # for the next ~20 trading days. Isolated single-day gaps only (limit=2).
+    ind[MARKET_FEATURE_NAMES[:3]] = ind[MARKET_FEATURE_NAMES[:3]].ffill(limit=2)
     stock_ret1 = df["close"].pct_change(1)
     ind["excess_ret1"] = stock_ret1 - ind["mkt_ret1"]
     ind["rel_strength5"] = ind["excess_ret1"].rolling(5, min_periods=5).mean()
