@@ -55,18 +55,40 @@ export default function News() {
   async function fetchNews() {
     setLoading(true)
     setError(null)
-    try {
-      const res = await fetch(`${NEWS_API_BASE}/news`)
-      if (!res.ok) throw new Error(res.status === 404 ? '近 7 日無可用新聞資料' : `載入失敗（${res.status}）`)
-      const json = await res.json() as NewsData
-      if (!Array.isArray(json.groups)) throw new Error('新聞資料格式錯誤')
-      setData(json)
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err)
-      setError(msg)
-      console.error('[News] 載入失敗:', msg)
-    } finally {
-      setLoading(false)
+    const maxAttempts = 3
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      try {
+        const res = await fetch(`${NEWS_API_BASE}/news`)
+        const isJson = (res.headers.get('content-type') || '').includes('application/json')
+
+        if (!res.ok) {
+          // 後端有回應但回報錯誤：若是合法 JSON 錯誤（例如近 7 日無資料），直接顯示，不重試
+          if (isJson) {
+            const body = await res.json().catch(() => null) as { detail?: string } | null
+            setError(res.status === 404 ? '近 7 日無可用新聞資料' : (body?.detail ?? `載入失敗（${res.status}）`))
+            setLoading(false)
+            return
+          }
+          throw new Error(`伺服器暫時無回應（${res.status}）`)
+        }
+        if (!isJson) throw new Error('伺服器回應格式異常')
+
+        const json = await res.json() as NewsData
+        if (!Array.isArray(json.groups)) throw new Error('新聞資料格式錯誤')
+        setData(json)
+        setLoading(false)
+        return
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err)
+        console.error(`[News] 第 ${attempt + 1} 次載入失敗:`, msg)
+        if (attempt === maxAttempts - 1) {
+          // 後端可能剛從休眠中喚醒（回傳 HTML 而非 JSON），重試後仍失敗才顯示錯誤
+          setError('伺服器暫時無法連線，請稍後點擊重新整理再試')
+          setLoading(false)
+          return
+        }
+        await new Promise((r) => setTimeout(r, 3000 * (attempt + 1)))
+      }
     }
   }
 

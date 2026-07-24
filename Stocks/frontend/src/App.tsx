@@ -28,7 +28,7 @@ import WatchlistButton from './components/WatchlistButton'
 import ErrorBoundary from './components/ErrorBoundary'
 import { getStockInfo, calculateMissingFundamentals } from './api/stockApi'
 import type { StockInfo } from './types/stock'
-import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon, Newspaper, X } from 'lucide-react'
+import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon, Newspaper, Wallet, X } from 'lucide-react'
 
 // ── K 線圖前端快取 ──────────────────────────────────────────────────────────
 // 攔截所有 /chart?period= 請求：命中 sessionStorage 就直接回傳，否則 fetch 後寫入。
@@ -350,19 +350,22 @@ export default function App() {
             </Link>
             <span className="hidden text-xs text-slate-500 sm:inline">全球股市追蹤平台</span>
           </div>
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <Link
               to="/portfolio"
-              className="rounded-full border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-500/40 hover:bg-slate-800 hover:text-emerald-300"
+              className="flex items-center gap-1.5 rounded-full border border-slate-700 px-2 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-500/40 hover:bg-slate-800 hover:text-emerald-300 sm:px-4"
+              title="我的持股"
             >
-              我的持股
+              <Wallet size={14} className="sm:hidden" />
+              <span className="hidden sm:inline">我的持股</span>
             </Link>
             <button
               onClick={() => setNewsOpen(true)}
-              className="flex items-center gap-1.5 rounded-full border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-500/40 hover:bg-slate-800 hover:text-emerald-300"
+              className="flex items-center gap-1.5 rounded-full border border-slate-700 px-2 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-500/40 hover:bg-slate-800 hover:text-emerald-300 sm:px-4"
+              title="市場快訊"
             >
               <Newspaper size={14} />
-              市場快訊
+              <span className="hidden sm:inline">市場快訊</span>
             </button>
           </div>
           <NotificationBell />
