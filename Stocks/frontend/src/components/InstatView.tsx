@@ -92,6 +92,9 @@ const DEFAULT_SYMBOLS = [
   '5347.TWO', '2345.TW', '6116.TW', '4904.TW', '3045.TW',
 ]
 
+// 台股單日漲跌幅限制為 10%，因跳動點位四捨五入實際值多落在 9.5%~10% 間，取 9.5% 作為亮燈門檻
+const LIMIT_THRESHOLD = 9.5
+
 const LS_KEY = 'tw_instatview_symbols'
 
 function loadSymbols(): string[] {
@@ -224,23 +227,49 @@ export default function InstatView() {
         </div>
       </div>
 
+      {/* Limit up/down legend */}
+      <div className="mb-2 flex items-center gap-3 text-[10px] text-slate-500">
+        <span className="flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-red-500 shadow-[0_0_5px_1px_rgba(239,68,68,0.7)]" />
+          漲停
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_5px_1px_rgba(16,185,129,0.7)]" />
+          跌停
+        </span>
+      </div>
+
       {/* Stock grid */}
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2">
         {displayStocks.map((stock) => {
           const p = prices[stock.symbol]
           const isUp = p ? p.change > 0 : false
           const isDown = p ? p.change < 0 : false
+          const isLimitUp = p ? p.changePercent >= LIMIT_THRESHOLD : false
+          const isLimitDown = p ? p.changePercent <= -LIMIT_THRESHOLD : false
           const shortCode = stock.symbol.replace(/\.(TW|HK)$/, '')
 
           return (
             <button
               key={stock.symbol}
               onClick={() => navigate(`/stock/${stock.symbol}`)}
+              style={
+                isLimitUp
+                  ? ({ '--glow-color': 'rgba(239,68,68,0.65)' } as React.CSSProperties)
+                  : isLimitDown
+                  ? ({ '--glow-color': 'rgba(16,185,129,0.65)' } as React.CSSProperties)
+                  : undefined
+              }
               className={[
                 'group relative flex flex-col gap-1.5 rounded-xl border p-2.5 text-left transition-all duration-150',
                 'hover:scale-[1.03] hover:shadow-md active:scale-[0.98]',
                 loading && !p ? 'animate-pulse' : '',
-                isUp
+                isLimitUp || isLimitDown ? 'animate-limit-glow' : '',
+                isLimitUp
+                  ? 'border-red-500 bg-red-500/15 hover:border-red-400 hover:bg-red-500/20'
+                  : isLimitDown
+                  ? 'border-emerald-500 bg-emerald-500/15 hover:border-emerald-400 hover:bg-emerald-500/20'
+                  : isUp
                   ? 'border-red-500/30 bg-red-500/5 hover:border-red-500/50 hover:bg-red-500/10'
                   : isDown
                   ? 'border-emerald-500/30 bg-emerald-500/5 hover:border-emerald-500/50 hover:bg-emerald-500/10'
@@ -249,6 +278,16 @@ export default function InstatView() {
                 .filter(Boolean)
                 .join(' ')}
             >
+              {(isLimitUp || isLimitDown) && (
+                <span
+                  className={[
+                    'absolute -top-2 -right-1.5 rounded-full px-1.5 py-0.5 text-[8px] font-bold text-white shadow-md',
+                    isLimitUp ? 'bg-red-600' : 'bg-emerald-600',
+                  ].join(' ')}
+                >
+                  {isLimitUp ? '漲停' : '跌停'}
+                </span>
+              )}
               <div className="flex items-start justify-between">
                 <div className="min-w-0">
                   <div className="truncate text-[11px] font-semibold leading-tight text-slate-200">
@@ -259,7 +298,7 @@ export default function InstatView() {
                 <div
                   className={[
                     'ml-1 mt-0.5 shrink-0',
-                    isUp ? 'text-red-400' : isDown ? 'text-emerald-400' : 'text-slate-600',
+                    isLimitUp ? 'text-red-400' : isLimitDown ? 'text-emerald-400' : isUp ? 'text-red-400' : isDown ? 'text-emerald-400' : 'text-slate-600',
                   ].join(' ')}
                 >
                   {isUp ? <TrendingUp size={11} /> : isDown ? <TrendingDown size={11} /> : <Minus size={11} />}
@@ -271,7 +310,7 @@ export default function InstatView() {
                   <div
                     className={[
                       'text-sm font-bold leading-none tabular-nums',
-                      isUp ? 'text-red-300' : isDown ? 'text-emerald-300' : 'text-slate-200',
+                      isLimitUp ? 'text-red-200' : isLimitDown ? 'text-emerald-200' : isUp ? 'text-red-300' : isDown ? 'text-emerald-300' : 'text-slate-200',
                     ].join(' ')}
                   >
                     {p.price.toFixed(2)}
@@ -280,7 +319,7 @@ export default function InstatView() {
                     <span
                       className={[
                         'text-[9px] font-medium tabular-nums',
-                        isUp ? 'text-red-400' : isDown ? 'text-emerald-400' : 'text-slate-500',
+                        isLimitUp ? 'text-red-300' : isLimitDown ? 'text-emerald-300' : isUp ? 'text-red-400' : isDown ? 'text-emerald-400' : 'text-slate-500',
                       ].join(' ')}
                     >
                       {isUp ? '+' : ''}
@@ -289,7 +328,11 @@ export default function InstatView() {
                     <span
                       className={[
                         'rounded px-1 py-px text-[9px] font-semibold tabular-nums',
-                        isUp
+                        isLimitUp
+                          ? 'bg-red-600/40 text-red-200'
+                          : isLimitDown
+                          ? 'bg-emerald-600/40 text-emerald-200'
+                          : isUp
                           ? 'bg-red-500/20 text-red-400'
                           : isDown
                           ? 'bg-emerald-500/20 text-emerald-400'
@@ -310,7 +353,7 @@ export default function InstatView() {
               <div
                 className={[
                   'absolute bottom-0 left-3 right-3 h-[2px] rounded-full transition-opacity',
-                  isUp ? 'bg-red-500/50' : isDown ? 'bg-emerald-500/50' : 'bg-slate-700/50',
+                  isLimitUp ? 'bg-red-500' : isLimitDown ? 'bg-emerald-500' : isUp ? 'bg-red-500/50' : isDown ? 'bg-emerald-500/50' : 'bg-slate-700/50',
                   p ? 'opacity-60 group-hover:opacity-100' : 'opacity-0',
                 ].join(' ')}
               />

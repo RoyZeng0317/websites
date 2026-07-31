@@ -1,0 +1,100 @@
+{
+  "date": "2026-07-30",
+  "generated_at": "2026-07-30T07:00:53.000512+08:00",
+  "sources": [
+    "Al Jazeera",
+    "CBS News"
+  ],
+  "articles": {
+    "C2": {
+      "title": "James Comey’s lawyers say US government distorted details in seashell case",
+      "source": "Al Jazeera",
+      "link": "https://www.aljazeera.com/news/2026/7/29/james-comeys-lawyers-say-us-government-distorted-details-in-seashell-case?traffic_source=rss",
+      "grade_level": 14.1,
+      "content": "Case centres on social media post featuring seashells that prosecutors allege is a reference to killing President Trump.\n\n(Read the full article: https://www.aljazeera.com/news/2026/7/29/james-comeys-lawyers-say-us-government-distorted-details-in-seashell-case?traffic_source=rss)",
+      "vocabulary": [
+        {
+          "word": "case",
+          "definition": "An actual event, situation, or fact."
+        },
+        {
+          "word": "prosecutors",
+          "definition": "A prosecuting attorney."
+        },
+        {
+          "word": "lawyers",
+          "definition": "A professional person qualified (as by a law degree or bar exam) and authorized to practice law, i.e. represent parties in lawsuits or trials and give legal advice."
+        },
+        {
+          "word": "president",
+          "definition": "An act in the past which may be used as an example to help decide the outcome of similar instances in the future."
+        },
+        {
+          "word": "federal",
+          "definition": "A law-enforcement official of the FBI; a federal agent."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C1": {
+      "title": "Japan quake toll rises, people still missing in damaged mall and factory",
+      "source": "CBS News",
+      "link": "https://www.cbsnews.com/news/japan-earthquake-deaths-aeon-mall-paper-factory-missing/",
+      "grade_level": 10.3,
+      "content": "The powerful earthquake that rocked southern Japan has killed at least 18 people and more remain missing in a damaged shopping mall and a paper factor…\n\n(Read the full article: https://www.cbsnews.com/news/japan-earthquake-deaths-aeon-mall-paper-factory-missing/)",
+      "vocabulary": [
+        {
+          "word": "people",
+          "definition": "Used as plural of person; a body of human beings considered generally or collectively; a group of two or more persons."
+        },
+        {
+          "word": "still",
+          "definition": "A period of calm or silence."
+        },
+        {
+          "word": "mall",
+          "definition": "A pedestrianised street, especially a shopping precinct."
+        },
+        {
+          "word": "quake",
+          "definition": "A trembling or shaking."
+        },
+        {
+          "word": "explosion",
+          "definition": "A violent release of energy (sometimes mechanical, nuclear, or chemical.)"
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "Actor Jared Leto accused of criminal sexual conduct by 4 women",
+      "source": "CBS News",
+      "link": "https://www.cbsnews.com/news/jared-leto-women-accuse-us-actor-sexual-offenses-bbc-documentary/",
+      "grade_level": 9.0,
+      "content": "Four women say Hollywood star Jared Leto committed sexual crimes against them when they were teenagers, in interviews with the BBC.\n\n(Read the full article: https://www.cbsnews.com/news/jared-leto-women-accuse-us-actor-sexual-offenses-bbc-documentary/)",
+      "vocabulary": [
+        {
+          "word": "told",
+          "definition": "(archaic outside of idioms) To count, reckon, or enumerate."
+        },
+        {
+          "word": "sexual",
+          "definition": "A species which reproduces by sexual rather than asexual reproduction, or a member of such a species."
+        },
+        {
+          "word": "women",
+          "definition": "An adult female human."
+        },
+        {
+          "word": "band",
+          "definition": "A strip of material used for strengthening or coupling."
+        },
+        {
+          "word": "room",
+          "definition": "Opportunity or scope (to do something)."
+        }
+      ],
+      "additional_sources": []
+    }
+  }
+}

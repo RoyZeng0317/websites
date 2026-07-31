@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { User } from 'firebase/auth'
 import {
-  collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc,
+  collection, doc, onSnapshot, updateDoc, deleteDoc,
   serverTimestamp, query, orderBy, getDoc, setDoc,
 } from 'firebase/firestore'
 import { ArrowLeft, Lock, Flame, Paperclip, Send, Pencil, Undo2, SlidersHorizontal, Fingerprint, Eye, EyeOff, Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { db } from '../firebase'
 import { encryptionService } from '../services/encryption'
+import { pushMessage, fetchMessage, editMessageContent, deleteMessageContent, BACKEND_URL } from '../services/messageCache'
 import { hashPassword, getPeerHash, setPeerHash, clearPeerHash } from '../services/lock'
 import { isBiometricAvailable, registerBiometric, verifyBiometric, isBiometricEnabled, disableBiometric } from '../services/biometric'
 import { ChatUser, ChatMessage } from '../types'
@@ -102,6 +103,7 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
                 burnTimer: burnT, isBurned: false, isSentByMe: isMe, recalled: true, edited: false,
               }]
             })
+            deleteMessageContent(change.doc.id)
             if (!isMe) deleteDoc(change.doc.ref).catch(() => {})
             continue
           }
@@ -112,18 +114,16 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
           let fileName: string | undefined
 
           try {
-            if (sharedKeyRef.current && d.ct) {
-              const decrypted = await encryptionService.decrypt(
-                { ct: d.ct, nonce: d.nonce, mac: d.mac },
-                sharedKeyRef.current,
-              )
+            if (sharedKeyRef.current) {
+              const encrypted = await fetchMessage(change.doc.id)
+              const decrypted = await encryptionService.decrypt(encrypted, sharedKeyRef.current)
               const payload = JSON.parse(decrypted)
               plainText = payload.text || ''
               mediaUrl = payload.mediaUrl
               mediaType = payload.mediaType
               fileName = payload.fileName
             }
-          } catch { /* decryption failed */ }
+          } catch { /* message expired on the Pi cache, or decryption failed */ }
 
           const msg: ChatMessage = {
             documentId: change.doc.id,
@@ -177,13 +177,14 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
           if (d.recalled) {
             setMessages(prev => prev.map(m => m.documentId === change.doc.id ? { ...m, recalled: true } : m))
             setTimeout(() => setMessages(prev => prev.filter(m => m.documentId !== change.doc.id)), 800)
+            deleteMessageContent(change.doc.id)
             deleteDoc(change.doc.ref).catch(() => {})
           } else if (d.edited && !d.recalled && sharedKeyRef.current) {
             const from = d.from as string
             if (from !== user.uid) {
               try {
-                const decrypted = await encryptionService.decrypt(
-                  { ct: d.ct, nonce: d.nonce, mac: d.mac }, sharedKeyRef.current)
+                const encrypted = await fetchMessage(change.doc.id)
+                const decrypted = await encryptionService.decrypt(encrypted, sharedKeyRef.current)
                 const payload = JSON.parse(decrypted)
                 setMessages(prev => prev.map(m => m.documentId === change.doc.id
                   ? { ...m, text: payload.text || '', edited: true } : m))
@@ -208,8 +209,10 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
     })
     return () => {
       unsub()
-      // Delete pending messages on exit (burn=exit or burn=off)
+      // Delete pending messages on exit (burn=exit) — 'exit' has no TTL on the
+      // Pi cache, so the client must explicitly purge it on chat close.
       pendingDeletions.current.forEach(id => {
+        deleteMessageContent(id)
         deleteDoc(doc(db, 'chats', cid, 'messages', id)).catch(() => {})
       })
     }
@@ -225,14 +228,20 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
     if (!t && !mUrl) return
     setText('')
 
-    const payload = JSON.stringify({ text: t, mediaUrl: mUrl, mediaType: mType, fileName: mFileName })
-    let encrypted: { ct: string; nonce: string; mac: string } | null = null
+    if (!sharedKeyRef.current) { toast.error('尚未建立加密金鑰'); return }
 
-    if (sharedKeyRef.current) {
-      try {
-        encrypted = await encryptionService.encrypt(payload, sharedKeyRef.current)
-      } catch { /* fallback: send unencrypted for now */ }
-    }
+    const payload = JSON.stringify({ text: t, mediaUrl: mUrl, mediaType: mType, fileName: mFileName })
+    let encrypted: { ct: string; nonce: string; mac: string }
+    try {
+      encrypted = await encryptionService.encrypt(payload, sharedKeyRef.current)
+    } catch { toast.error('加密失敗'); return }
+
+    // Ciphertext goes to the Pi cache first — Firestore only gets a metadata
+    // signal doc (same id) so the peer's onSnapshot fires and can fetch it.
+    let pushed: { id: string; timestamp: number } | null = null
+    try {
+      pushed = await pushMessage(peer.userId, encrypted, burnTimer)
+    } catch { toast.error('發送失敗，請確認後端伺服器是否啟動'); return }
 
     const docData: Record<string, unknown> = {
       from: user.uid,
@@ -243,22 +252,23 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
       recalled: false,
       edited: false,
       timestamp: serverTimestamp(),
-      ...(encrypted ?? { ct: '', nonce: '', mac: '' }),
     }
 
-    const ref = collection(db, 'chats', cid, 'messages')
-    const newDoc = await addDoc(ref, docData).catch(() => null)
-    if (!newDoc) { toast.error('發送失敗'); return }
+    const id = pushed.id
+    await setDoc(doc(db, 'chats', cid, 'messages', id), docData).catch(() => {
+      deleteMessageContent(id)
+      toast.error('發送失敗')
+    })
 
-    // Optimistic update — also fixes case where snapshot arrived before addDoc resolved
+    // Optimistic update — also fixes case where snapshot arrived before setDoc resolved
     const optimistic: ChatMessage = {
-      documentId: newDoc.id, from: user.uid, to: peer.userId,
+      documentId: id, from: user.uid, to: peer.userId,
       text: t, mediaUrl: mUrl, mediaType: mType as ChatMessage['mediaType'],
       fileName: mFileName, timestamp: new Date(), burnTimer,
       isBurned: false, isSentByMe: true, recalled: false, edited: false,
     }
     setMessages(prev => {
-      const idx = prev.findIndex(m => m.documentId === newDoc.id)
+      const idx = prev.findIndex(m => m.documentId === id)
       if (idx >= 0) {
         // Snapshot beat us — patch in the correct text/media from optimistic
         const next = [...prev]
@@ -277,8 +287,9 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
 
   const recallMessage = async (msg: ChatMessage) => {
     setMsgOptions(null)
+    await deleteMessageContent(msg.documentId)
     await updateDoc(doc(db, 'chats', cid, 'messages', msg.documentId), {
-      recalled: true, ct: '', nonce: '', mac: '',
+      recalled: true,
     }).catch(() => toast.error('收回失敗'))
     setMessages(prev => prev.map(m => m.documentId === msg.documentId ? { ...m, recalled: true } : m))
     setTimeout(() => setMessages(prev => prev.filter(m => m.documentId !== msg.documentId)), 800)
@@ -289,7 +300,8 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
     try {
       const encrypted = await encryptionService.encrypt(
         JSON.stringify({ text: newText }), sharedKeyRef.current)
-      await updateDoc(doc(db, 'chats', cid, 'messages', id), { ...encrypted, edited: true })
+      await editMessageContent(id, encrypted)
+      await updateDoc(doc(db, 'chats', cid, 'messages', id), { edited: true })
       setMessages(prev => prev.map(m => m.documentId === id ? { ...m, text: newText, edited: true } : m))
     } catch { toast.error('編輯失敗') }
     setEditMode(null)
@@ -310,8 +322,7 @@ export default function ChatView({ user, peer, onClose, onLock }: Props) {
 
     try {
       // Fetch signed credentials from backend (secret stays server-side)
-      const backendUrl = import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:3001'
-      const credsRes = await fetch(`${backendUrl}/api/upload-credentials`)
+      const credsRes = await fetch(`${BACKEND_URL}/api/upload-credentials`)
       if (!credsRes.ok) throw new Error('Cannot reach backend')
       const { signature, timestamp, apiKey, cloudName, folder } = await credsRes.json() as {
         signature: string; timestamp: number; apiKey: string; cloudName: string; folder: string
