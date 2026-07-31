@@ -16,7 +16,7 @@ import {
   type RulesConfig,
   type WorkflowRun,
 } from '../../api/adminNewsApi'
-import { RefreshCw, Trash2, Save, ExternalLink, Plus, X, ShieldAlert } from 'lucide-react'
+import { RefreshCw, Trash2, Save, ExternalLink, Plus, X, ShieldAlert, Copy, Check } from 'lucide-react'
 
 type TabId = 'news' | 'rules' | 'runs'
 
@@ -29,6 +29,39 @@ function GithubResultNote({ result }: { result: GithubCommitResult | null }) {
     <p className="text-xs text-amber-400">
       未 commit 回 GitHub（{result.reason ?? '未知原因'}）——本地已生效，但下次部署/pipeline 執行前可能被覆蓋。
     </p>
+  )
+}
+
+// 讓本地 StockInfoEditor.py（tkinter 桌面工具）能拿到 Firebase ID Token 當
+// Bearer token 呼叫 /api/admin/stock/*。Token 效期約 1 小時，工具端過期後重貼一次即可。
+function CopyTokenButton({ user }: { user: User }) {
+  const [copied, setCopied] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleCopy() {
+    setError('')
+    try {
+      const token = await user.getIdToken()
+      await navigator.clipboard.writeText(token)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err))
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      {error && <span className="text-xs text-red-400">{error}</span>}
+      <button
+        onClick={() => void handleCopy()}
+        title="複製後貼到本地 StockInfoEditor.py 桌面工具（效期約 1 小時）"
+        className="flex items-center gap-1.5 rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300 transition hover:border-emerald-500/40"
+      >
+        {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+        {copied ? '已複製' : '複製管理員 Token'}
+      </button>
+    </div>
   )
 }
 
@@ -85,6 +118,8 @@ export default function NewsAdminPanel() {
             {t.label}
           </button>
         ))}
+        <div className="flex-1" />
+        <CopyTokenButton user={user} />
       </div>
 
       {tab === 'news' && <NewsManageTab />}

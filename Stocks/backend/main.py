@@ -38,6 +38,7 @@ load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
 
 from admin_news import router as admin_news_router
+from admin_stock_info import router as admin_stock_router, load_override as _load_stock_override
 
 # yfinance cache workaround
 try:
@@ -2259,6 +2260,7 @@ app.add_middleware(
 )
 
 app.include_router(admin_news_router)
+app.include_router(admin_stock_router)
 
 CACHE = {}
 CACHE_TTL = 120
@@ -2483,6 +2485,12 @@ async def get_stock_info(symbol: str):
         "isAttentionStock": bool(info.get("_isAttentionStock", False)),
         "isDispositionStock": bool(info.get("_isDispositionStock", False)),
     }
+
+    # 人工修正/補充的欄位（見 admin_stock_info.py，StockInfoEditor.py 寫入）覆蓋即時抓取值
+    override = _load_stock_override(symbol)
+    if override:
+        result.update(override)
+        result["hasOverride"] = True
 
     return result
 
