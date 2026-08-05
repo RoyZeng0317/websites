@@ -74,7 +74,7 @@ export default function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="輸入股票代號或名稱搜尋（如 AAPL、2330.TW、0700.HK）"
+          placeholder="搜尋股票、期貨、ETF 或黃金（如 AAPL、GC=F、0050.TW）"
           className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
         />
         {loading && (

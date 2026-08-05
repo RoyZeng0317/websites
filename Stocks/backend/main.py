@@ -848,9 +848,9 @@ def _fetch_twse_mops_ratios(stock_no: str) -> dict:
                 for row in data:
                     if str(row.get("公司代號", "")).strip() == stock_no:
                         def g(k): return _safe_float(row.get(k))
-                        # ROE, ROA
-                        roe = g("資產報酬率(%)")
-                        roa_val = g("股東權益報酬率(%)")
+                        # ROE = 股東權益報酬率, ROA = 資產報酬率 (正確對應)
+                        roe = g("股東權益報酬率(%)")
+                        roa_val = g("資產報酬率(%)")
                         if roe: result["returnOnEquity"] = roe / 100
                         if roa_val: result["returnOnAssets"] = roa_val / 100
                         # Profit margin
@@ -861,7 +861,6 @@ def _fetch_twse_mops_ratios(stock_no: str) -> dict:
                         # D/E ratio
                         dte = g("負債佔資產比率(%)")
                         if dte and dte < 100:
-                            # Convert: debt/assets% -> debt/equity ratio
                             result["debtToEquity"] = round(dte / (100 - dte), 4) if dte != 100 else None
                         # EPS
                         eps = g("每股盈餘(元)")
@@ -869,6 +868,11 @@ def _fetch_twse_mops_ratios(stock_no: str) -> dict:
                         # Book value
                         bv = g("每股淨值(元)")
                         if bv: result["bookValue"] = bv
+                        # Additional ratios from t187ap14_L
+                        cr = g("流動比率(%)")
+                        if cr: result["currentRatio"] = round(cr / 100, 4)
+                        qr = g("速動比率(%)")
+                        if qr: result["quickRatio"] = round(qr / 100, 4)
                         break
     except Exception:
         pass
@@ -939,6 +943,181 @@ def _fetch_twse_mops_ratios(stock_no: str) -> dict:
         _TWSE_MOPS_CACHE["data"][cache_key] = result
         _TWSE_MOPS_CACHE["time"] = now_val
         _cap_cache(_TWSE_MOPS_CACHE["data"])
+
+    return result
+
+
+_TWSE_BALANCE_SHEET_CACHE: dict = {"data": {}, "time": 0}
+_TWSE_BALANCE_SHEET_TTL = 3600  # 1 hour
+
+def _fetch_twse_balance_sheet(stock_no: str) -> dict:
+    """
+    Fetch balance sheet data from TWSE OpenAPI t187ap07_L_ci.
+    Returns: currentRatio, quickRatio, debtRatio, totalAssets, totalLiabilities,
+             totalEquity, currentAssets, currentLiabilities, inventory
+    """
+    now_val = time.time()
+    cache_key = f"bs_{stock_no}"
+    if cache_key in _TWSE_BALANCE_SHEET_CACHE["data"] and now_val - _TWSE_BALANCE_SHEET_CACHE["time"] < _TWSE_BALANCE_SHEET_TTL:
+        return _TWSE_BALANCE_SHEET_CACHE["data"][cache_key]
+
+    result = {}
+    for url in [
+        "https://openapi.twse.com.tw/v1/opendata/t187ap07_L_ci",
+        "https://openapi.twse.com.tw/v1/opendata/t187ap07_X_ci",
+    ]:
+        try:
+            r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            if not isinstance(data, list):
+                continue
+            for row in data:
+                if str(row.get("公司代號", "")).strip() == stock_no:
+                    def g(k): return _safe_float(row.get(k))
+                    ca = g("流動資產")
+                    cl = g("流動負債")
+                    inv = g("存貨")
+                    pre = g("預付款項")
+                    ta = g("資產總額")
+                    tl = g("負債總額")
+                    eq = g("權益總額")
+                    if ca and cl and cl != 0:
+                        result["currentAssets"] = ca
+                        result["currentLiabilities"] = cl
+                        result["currentRatio"] = round(ca / cl, 4)
+                        qa = ca - (inv or 0) - (pre or 0)
+                        result["quickRatio"] = round(qa / cl, 4)
+                    if inv: result["inventory"] = inv
+                    if ta: result["totalAssets"] = ta
+                    if tl: result["totalLiabilities"] = tl
+                    if eq: result["totalEquity"] = eq
+                    if ta and tl and ta != 0:
+                        result["debtRatio"] = round(tl / ta, 4)
+                    break
+            if result:
+                break
+        except Exception:
+            continue
+
+    if result:
+        _TWSE_BALANCE_SHEET_CACHE["data"][cache_key] = result
+        _TWSE_BALANCE_SHEET_CACHE["time"] = now_val
+        _cap_cache(_TWSE_BALANCE_SHEET_CACHE["data"])
+
+    return result
+
+
+_TWSE_INCOME_CACHE: dict = {"data": {}, "time": 0}
+_TWSE_INCOME_TTL = 3600  # 1 hour
+
+def _fetch_twse_income_statement(stock_no: str) -> dict:
+    """
+    Fetch income statement from TWSE OpenAPI t187ap06_L_ci.
+    Returns: revenue, costOfRevenue, grossProfit, operatingIncome,
+             netIncome, eps, revenueGrowth (if prior period available)
+    """
+    now_val = time.time()
+    cache_key = f"income_{stock_no}"
+    if cache_key in _TWSE_INCOME_CACHE["data"] and now_val - _TWSE_INCOME_CACHE["time"] < _TWSE_INCOME_TTL:
+        return _TWSE_INCOME_CACHE["data"][cache_key]
+
+    result = {}
+    for url in [
+        "https://openapi.twse.com.tw/v1/opendata/t187ap06_L_ci",
+        "https://openapi.twse.com.tw/v1/opendata/t187ap06_X_ci",
+    ]:
+        try:
+            r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            if not isinstance(data, list):
+                continue
+            for row in data:
+                if str(row.get("公司代號", "")).strip() == stock_no:
+                    def g(k): return _safe_float(row.get(k))
+                    rev = g("營業收入合計") or g("營業收入")
+                    cogs = g("營業成本")
+                    gp = g("營業毛利")
+                    oi = g("營業利益") or g("營業淨利")
+                    ni = g("本期淨利") or g("稅後淨利") or g("本期損益")
+                    eps_val = g("基本每股盈餘") or g("每股盈餘")
+                    if rev: result["totalRevenue"] = rev
+                    if cogs: result["costOfRevenue"] = cogs
+                    if gp: result["grossProfit"] = gp
+                    if oi: result["operatingIncome"] = oi
+                    if ni: result["netIncome"] = ni
+                    if eps_val: result["trailingEps"] = eps_val
+                    if rev and ni and rev != 0:
+                        result["profitMargins"] = round(ni / rev, 4)
+                    if oi and rev and rev != 0:
+                        result["operatingMargins"] = round(oi / rev, 4)
+                    if gp and rev and rev != 0:
+                        result["grossMargins"] = round(gp / rev, 4)
+                    break
+            if result:
+                break
+        except Exception:
+            continue
+
+    if result:
+        _TWSE_INCOME_CACHE["data"][cache_key] = result
+        _TWSE_INCOME_CACHE["time"] = now_val
+        _cap_cache(_TWSE_INCOME_CACHE["data"])
+
+    return result
+
+
+_TWSE_MONTHLY_REV_CACHE: dict = {"data": {}, "time": 0}
+_TWSE_MONTHLY_REV_TTL = 3600  # 1 hour
+
+def _fetch_twse_monthly_revenue(stock_no: str) -> dict:
+    """
+    Fetch monthly revenue from TWSE OpenAPI t187ap05_L.
+    Returns: latestRevenue, revenueMonth, revenueYear, revenueGrowthYoY
+    """
+    now_val = time.time()
+    cache_key = f"mrev_{stock_no}"
+    if cache_key in _TWSE_MONTHLY_REV_CACHE["data"] and now_val - _TWSE_MONTHLY_REV_CACHE["time"] < _TWSE_MONTHLY_REV_TTL:
+        return _TWSE_MONTHLY_REV_CACHE["data"][cache_key]
+
+    result = {}
+    for url in [
+        "https://openapi.twse.com.tw/v1/opendata/t187ap05_L",
+        "https://openapi.twse.com.tw/v1/opendata/t187ap05_P",
+    ]:
+        try:
+            r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            if not isinstance(data, list):
+                continue
+            rows = [d for d in data if str(d.get("公司代號", "")).strip() == stock_no]
+            if not rows:
+                continue
+            row = rows[0]
+            def g(k): return _safe_float(row.get(k))
+            rev = g("當月營收") or g("營業收入")
+            last_rev = g("上月營收") or g("去年同月營收")
+            last_year_rev = g("去年同月營收")
+            yoy = g("去年同月增減(%)") or g("增減百分比")
+            if rev: result["latestRevenue"] = rev
+            if yoy is not None: result["revenueGrowthYoY"] = yoy / 100
+            elif rev and last_year_rev and last_year_rev != 0:
+                result["revenueGrowthYoY"] = round((rev - last_year_rev) / last_year_rev, 4)
+            result["revenueYear"] = str(row.get("年度", ""))
+            result["revenueMonth"] = str(row.get("月分", row.get("月份", "")))
+            break
+        except Exception:
+            continue
+
+    if result:
+        _TWSE_MONTHLY_REV_CACHE["data"][cache_key] = result
+        _TWSE_MONTHLY_REV_CACHE["time"] = now_val
+        _cap_cache(_TWSE_MONTHLY_REV_CACHE["data"])
 
     return result
 
@@ -1066,6 +1245,39 @@ def _fetch_fundamentals(symbol: str, current_price: float = 0) -> dict:
                 result = mops
             else:
                 for k, v in mops.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
+
+    # Method 1.51: TWSE Balance Sheet (currentRatio, quickRatio, debtRatio, totalAssets...)
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        bs = _fetch_twse_balance_sheet(stock_no)
+        if bs:
+            if not result:
+                result = bs
+            else:
+                for k, v in bs.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
+
+    # Method 1.52: TWSE Income Statement (grossProfit, operatingIncome, netIncome...)
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        inc = _fetch_twse_income_statement(stock_no)
+        if inc:
+            if not result:
+                result = inc
+            else:
+                for k, v in inc.items():
+                    if v is not None and result.get(k) is None:
+                        result[k] = v
+
+    # Method 1.53: TWSE Monthly Revenue (latestRevenue, revenueGrowthYoY)
+    if symbol.endswith(".TW") or symbol.endswith(".TWO"):
+        mrev = _fetch_twse_monthly_revenue(stock_no)
+        if mrev:
+            if not result:
+                result = mrev
+            else:
+                for k, v in mrev.items():
                     if v is not None and result.get(k) is None:
                         result[k] = v
 
@@ -2441,6 +2653,25 @@ async def get_stock_info(symbol: str):
         "fiftyTwoWeekLow": safe(info.get("fiftyTwoWeekLow")),
         "fiftyTwoWeekChange": safe(info.get("52WeekChange")),
         "beta": safe(info.get("beta")),
+        # Advanced financial ratios (TWSE)
+        "currentRatio": safe(info.get("currentRatio")),
+        "quickRatio": safe(info.get("quickRatio")),
+        "debtRatio": safe(info.get("debtRatio")),
+        "totalAssets": safe(info.get("totalAssets")),
+        "totalLiabilities": safe(info.get("totalLiabilities")),
+        "totalEquity": safe(info.get("totalEquity")),
+        "currentAssets": safe(info.get("currentAssets")),
+        "currentLiabilities": safe(info.get("currentLiabilities")),
+        "inventory": safe(info.get("inventory")),
+        "grossProfit": safe(info.get("grossProfit")),
+        "grossMargins": safe(info.get("grossMargins")),
+        "operatingIncome": safe(info.get("operatingIncome")),
+        "netIncome": safe(info.get("netIncome")),
+        "costOfRevenue": safe(info.get("costOfRevenue")),
+        "latestRevenue": safe(info.get("latestRevenue")),
+        "revenueGrowthYoY": safe(info.get("revenueGrowthYoY")),
+        "revenueYear": safe_str(info.get("revenueYear")),
+        "revenueMonth": safe_str(info.get("revenueMonth")),
         "sector": safe(info.get("sector")),
         "industry": safe(info.get("industry")),
         "country": safe(info.get("country")),
@@ -3863,6 +4094,227 @@ async def websocket_price(websocket: WebSocket, symbol: str):
                     })
         except Exception:
             pass
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 區塊3-5: 同產業比較 / 籌碼面 / 股利歷史
+# ═══════════════════════════════════════════════════════════════════════════════
+
+_PEERS_CACHE: dict = {"data": {}, "time": 0}
+_PEERS_TTL = 3600
+
+@app.get("/api/stock/{symbol}/peers")
+async def get_peers(symbol: str):
+    """Return peer companies in the same sector with key metrics for comparison."""
+    if not (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        return {"symbol": symbol, "sector": None, "peers": []}
+
+    info = _get_stock_info(symbol)
+    sector = info.get("sector") or info.get("_sector", "")
+    if not sector:
+        return {"symbol": symbol, "sector": None, "peers": []}
+
+    now_val = time.time()
+    cache_key = f"peers_{sector}"
+    if cache_key in _PEERS_CACHE["data"] and now_val - _PEERS_CACHE["time"] < _PEERS_TTL:
+        all_peers = _PEERS_CACHE["data"][cache_key]
+    else:
+        all_peers = []
+        try:
+            bwibbu = _fetch_twse_bwibbu()
+            for stk_no, entry in bwibbu.items():
+                stk_sym = stk_no + ".TW" if not stk_no.endswith((".TW", ".TWO")) else stk_no
+                if stk_sym == symbol:
+                    continue
+                stk_info = STOCK_SECTORS.get(stk_no, {})
+                if stk_info.get("sector") == sector:
+                    pe = entry.get("pe")
+                    dy = entry.get("divYield")
+                    pb = entry.get("pb")
+                    name_entry = STOCK_NAMES.get(stk_sym, {})
+                    all_peers.append({
+                        "symbol": stk_sym,
+                        "name": name_entry.get("name", stk_no),
+                        "peRatio": pe,
+                        "dividendYield": round(dy / 100, 4) if dy else None,
+                        "priceToBook": pb,
+                    })
+            _PEERS_CACHE["data"][cache_key] = all_peers
+            _PEERS_CACHE["time"] = now_val
+            _cap_cache(_PEERS_CACHE["data"])
+        except Exception:
+            pass
+
+    # Add current stock to the list
+    current_entry = {
+        "symbol": symbol,
+        "name": info.get("nameCn") or info.get("name", ""),
+        "peRatio": info.get("trailingPE"),
+        "dividendYield": info.get("dividendYield"),
+        "priceToBook": info.get("priceToBook"),
+        "roe": info.get("returnOnEquity"),
+        "isCurrent": True,
+    }
+    peers = [current_entry] + [p for p in all_peers if p["symbol"] != symbol][:19]
+
+    return {"symbol": symbol, "sector": sector, "peers": peers}
+
+
+_CHIPS_CACHE: dict = {"data": {}, "time": 0}
+_CHIPS_TTL = 300  # 5 min
+
+@app.get("/api/stock/{symbol}/chips")
+async def get_chips(symbol: str):
+    """Return chip analysis data: margin trading, institutional flow."""
+    if not (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        return {"symbol": symbol, "margin": [], "institutional": []}
+
+    _sn = symbol.replace(".TW", "").replace(".TWO", "")
+    now_val = time.time()
+    cache_key = f"chips_{_sn}"
+    if cache_key in _CHIPS_CACHE["data"] and now_val - _CHIPS_CACHE["time"] < _CHIPS_TTL:
+        return _CHIPS_CACHE["data"][cache_key]
+
+    result = {"symbol": symbol, "margin": [], "institutional": []}
+
+    # 1. Margin trading (融資融券) from MI_MARGN
+    try:
+        r = requests.get(
+            "https://openapi.twse.com.tw/v1/exchangeReport/MI_MARGN",
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=15,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            if isinstance(data, list):
+                for row in data:
+                    if str(row.get("證券代號", "")).strip() == _sn:
+                        def g(k): return _safe_float(row.get(k))
+                        result["margin"].append({
+                            "date": row.get("日期", ""),
+                            "marginBuy": g("融資買進"),
+                            "marginSell": g("融資賣出"),
+                            "marginBalance": g("融資餘額"),
+                            "shortSell": g("融券賣出"),
+                            "shortBuyback": g("融券買進"),
+                            "shortBalance": g("融券餘額"),
+                        })
+                        break
+    except Exception:
+        pass
+
+    # 2. Institutional flow (三大法人) from T86
+    try:
+        today = datetime.now(timezone.utc)
+        for days_back in range(7):
+            d = today - timedelta(days=days_back)
+            if d.weekday() >= 5:
+                continue
+            ds = d.strftime("%Y%m%d")
+            try:
+                rate_limit()
+                r = requests.get(
+                    f"https://www.twse.com.tw/fund/T86?response=json&date={ds}&selectType=ALL",
+                    headers={"User-Agent": "Mozilla/5.0"},
+                    timeout=15,
+                )
+                if r.status_code != 200:
+                    continue
+                data = r.json()
+                rows = data.get("data", [])
+                for row in rows:
+                    cols = [c.strip() if isinstance(c, str) else c for c in row]
+                    if len(cols) >= 4 and cols[0] == _sn:
+                        def pi(v):
+                            try: return int(str(v).replace(",", ""))
+                            except: return 0
+                        result["institutional"].append({
+                            "date": ds,
+                            "foreign": pi(cols[1]),
+                            "trust": pi(cols[2]),
+                            "dealer": pi(cols[3]),
+                        })
+                        break
+                if result["institutional"]:
+                    break
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    if result["margin"] or result["institutional"]:
+        _CHIPS_CACHE["data"][cache_key] = result
+        _CHIPS_CACHE["time"] = now_val
+        _cap_cache(_CHIPS_CACHE["data"])
+
+    return result
+
+
+_DIV_HIST_CACHE: dict = {"data": {}, "time": 0}
+_DIV_HIST_TTL = 86400  # 24 hr
+
+@app.get("/api/stock/{symbol}/dividend-history")
+async def get_dividend_history(symbol: str):
+    """Return dividend history with ex-dividend dates and amounts."""
+    if not (symbol.endswith(".TW") or symbol.endswith(".TWO")):
+        return {"symbol": symbol, "history": []}
+
+    _sn = symbol.replace(".TW", "").replace(".TWO", "")
+    now_val = time.time()
+    cache_key = f"divhist_{_sn}"
+    if cache_key in _DIV_HIST_CACHE["data"] and now_val - _DIV_HIST_CACHE["time"] < _DIV_HIST_TTL:
+        return _DIV_HIST_CACHE["data"][cache_key]
+
+    history = []
+    try:
+        r = requests.get(
+            "https://openapi.twse.com.tw/v1/opendata/t187ap45_L",
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=15,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            if isinstance(data, list):
+                for row in data:
+                    if str(row.get("公司代號", "")).strip() == _sn:
+                        def g(k): return _safe_float(row.get(k))
+                        year = row.get("年度", row.get("股利所屬年份", ""))
+                        cash_div = g("現金股利合計") or g("現金股利") or g("每股現金股利")
+                        stock_div = g("股票股利合計") or g("股票股利") or g("每股股票股利")
+                        total_div = g("股利合計每股股利") or g("合計每股股利")
+                        ex_date = row.get("除息交易日", row.get("除權交易日", ""))
+                        pay_date = row.get("股利發放日", "")
+                        if cash_div or stock_div or total_div:
+                            history.append({
+                                "year": str(year),
+                                "cashDividend": cash_div,
+                                "stockDividend": stock_div,
+                                "totalDividend": total_div or cash_div,
+                                "exDate": str(ex_date) if ex_date else None,
+                                "payDate": str(pay_date) if pay_date else None,
+                            })
+    except Exception:
+        pass
+
+    # Sort by year descending
+    history.sort(key=lambda x: x["year"], reverse=True)
+
+    # Calculate consecutive years with dividends
+    consecutive_years = 0
+    if history:
+        years_list = sorted([int(h["year"]) for h in history if h["year"].isdigit()], reverse=True)
+        for i, y in enumerate(years_list):
+            if i == 0 or years_list[i - 1] - y == 1:
+                consecutive_years += 1
+            else:
+                break
+
+    result = {"symbol": symbol, "history": history[:20], "consecutiveYears": consecutive_years}
+    _DIV_HIST_CACHE["data"][cache_key] = result
+    _DIV_HIST_CACHE["time"] = now_val
+    _cap_cache(_DIV_HIST_CACHE["data"])
+
+    return result
 
 
 # AI 漲跌預判 — self-contained module (own OHLCV fetch, own rate limiter),

@@ -3,6 +3,13 @@ import datetime
 import config
 
 
+def normalize_display_text(article):
+    """移除新聞來源偶爾插入標題的裝飾符號，避免被誤認為亂碼。"""
+    title = article.get("title")
+    if isinstance(title, str):
+        article["title"] = title.replace("⊕", "")
+
+
 def passes_length_rule(article):
     body = article.get("body") or ""
     return len(body) >= config.MIN_BODY_LENGTH
@@ -81,6 +88,7 @@ RULES = [
 def apply_rules(articles, today=None):
     passed = []
     for article in articles:
+        normalize_display_text(article)
         ok = True
         for rule in RULES:
             try:

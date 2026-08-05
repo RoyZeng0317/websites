@@ -1,0 +1,101 @@
+{
+  "date": "2026-08-01",
+  "generated_at": "2026-08-01T07:00:52.137170+08:00",
+  "sources": [
+    "CBS News",
+    "NPR",
+    "The Guardian"
+  ],
+  "articles": {
+    "C2": {
+      "title": "FIFA official resigns in protest of World Cup investment plan",
+      "source": "CBS News",
+      "link": "https://www.cbsnews.com/news/fifa-official-resigns-protest-world-cup-investment-plan/",
+      "grade_level": 12.8,
+      "content": "The pressure is rising on FIFA President Gianni Infantino to ditch a $20 billion privatization plan, but soccer's governing body is doubling down and…\n\n(Read the full article: https://www.cbsnews.com/news/fifa-official-resigns-protest-world-cup-investment-plan/)",
+      "vocabulary": [
+        {
+          "word": "football",
+          "definition": "(general) A sport played on foot in which teams attempt to get a ball into a goal or zone defended by the other team."
+        },
+        {
+          "word": "statement",
+          "definition": "A declaration or remark."
+        },
+        {
+          "word": "process",
+          "definition": "A series of events which produce a result (the product)."
+        },
+        {
+          "word": "billion",
+          "definition": "(modern British & Australian, short scale) a thousand million (logic: 1,000 × 1,000^2): 1 followed by nine zeros, 109; a milliard"
+        },
+        {
+          "word": "media",
+          "definition": "The middle layer of the wall of a blood vessel or lymph vessel which is composed of connective and muscular tissue."
+        }
+      ],
+      "additional_sources": []
+    },
+    "B2": {
+      "title": "FTSE 100 on track for best month since first US attacks on Iran five months ago – as it happened",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/business/live/2026/jul/31/bp-sell-north-sea-ai-record-korea-kospi-stock-market-latest-news-updates",
+      "grade_level": 8.8,
+      "content": "Live, rolling coverage as London’s biggest companies defy Middle East disruption and UK petrol prices rise to around £1.60 per litre, the highest sinc…\n\n(Read the full article: https://www.theguardian.com/business/live/2026/jul/31/bp-sell-north-sea-ai-record-korea-kospi-stock-market-latest-news-updates)",
+      "vocabulary": [
+        {
+          "word": "inflation",
+          "definition": "An act, instance of, or state of expansion or increase in size, especially by injection of a gas."
+        },
+        {
+          "word": "price",
+          "definition": "The cost required to gain possession of something."
+        },
+        {
+          "word": "year",
+          "definition": "A solar year, the time it takes the Earth to complete one revolution of the Sun (between 365.24 and 365.26 days depending on the point of reference)."
+        },
+        {
+          "word": "cost",
+          "definition": "To incur a charge of; to require payment of a (specified) price."
+        },
+        {
+          "word": "double",
+          "definition": "Twice the number, amount, size, etc."
+        }
+      ],
+      "additional_sources": []
+    },
+    "C1": {
+      "title": "Trump announced a deal for Hamas to disarm. And, the U.S. economy slowed a bit",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/07/31/g-s1-136527/up-first-newsletter-trump-hamas-israel-todd-blanche-us-economy",
+      "grade_level": 9.2,
+      "content": "President Trump says a deal has been reached for Hamas to completely disarm and Israeli forces to withdraw from Gaza. And, the U.S. economy slowed som…\n\n(Read the full article: https://www.npr.org/2026/07/31/g-s1-136527/up-first-newsletter-trump-hamas-israel-todd-blanche-us-economy)",
+      "vocabulary": [
+        {
+          "word": "caption",
+          "definition": "The descriptive heading or title of a document or part therof"
+        },
+        {
+          "word": "hide",
+          "definition": "To put (something) in a place where it will be harder to discover or out of sight."
+        },
+        {
+          "word": "museum",
+          "definition": "A building or institution dedicated to the acquisition, conservation, study, exhibition, and educational interpretation of objects having scientific, historical, cultural or artistic value."
+        },
+        {
+          "word": "says",
+          "definition": "A chance to speak; the right or power to influence or make a decision."
+        },
+        {
+          "word": "president",
+          "definition": "An act in the past which may be used as an example to help decide the outcome of similar instances in the future."
+        }
+      ],
+      "additional_sources": []
+    }
+  }
+}

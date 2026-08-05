@@ -1,0 +1,21 @@
+[
+  {"market": "US", "code": "AAPL", "name": "Apple Inc.", "short": "蘋果", "aliases": ["Apple", "AAPL", "蘋果公司"]},
+  {"market": "US", "code": "MSFT", "name": "Microsoft Corporation", "short": "微軟", "aliases": ["Microsoft", "MSFT"]},
+  {"market": "US", "code": "NVDA", "name": "NVIDIA Corporation", "short": "輝達", "aliases": ["NVIDIA", "NVDA", "英偉達"]},
+  {"market": "US", "code": "AMZN", "name": "Amazon.com, Inc.", "short": "亞馬遜", "aliases": ["Amazon", "AMZN"]},
+  {"market": "US", "code": "GOOGL", "name": "Alphabet Inc.", "short": "Alphabet", "aliases": ["Google", "GOOGL", "GOOG", "谷歌"]},
+  {"market": "US", "code": "META", "name": "Meta Platforms, Inc.", "short": "Meta", "aliases": ["Facebook", "META"]},
+  {"market": "US", "code": "TSLA", "name": "Tesla, Inc.", "short": "特斯拉", "aliases": ["Tesla", "TSLA"]},
+  {"market": "US", "code": "AMD", "name": "Advanced Micro Devices, Inc.", "short": "超微", "aliases": ["AMD", "Advanced Micro Devices"]},
+  {"market": "US", "code": "INTC", "name": "Intel Corporation", "short": "英特爾", "aliases": ["Intel", "INTC"]},
+  {"market": "US", "code": "AVGO", "name": "Broadcom Inc.", "short": "博通", "aliases": ["Broadcom", "AVGO"]},
+  {"market": "US", "code": "TSM", "name": "Taiwan Semiconductor Manufacturing ADR", "short": "台積電 ADR", "aliases": ["TSM", "TSMC ADR"]},
+  {"market": "US", "code": "BABA", "name": "Alibaba Group Holding Limited", "short": "阿里巴巴", "aliases": ["Alibaba", "BABA", "阿里"]},
+  {"market": "HK", "code": "0700", "name": "Tencent Holdings", "short": "騰訊", "aliases": ["Tencent", "0700.HK", "騰訊控股"]},
+  {"market": "HK", "code": "9988", "name": "Alibaba Group Holding", "short": "阿里巴巴港股", "aliases": ["9988.HK"]},
+  {"market": "HK", "code": "3690", "name": "Meituan", "short": "美團", "aliases": ["Meituan", "3690.HK"]},
+  {"market": "HK", "code": "1810", "name": "Xiaomi Corporation", "short": "小米", "aliases": ["Xiaomi", "1810.HK", "小米集團"]},
+  {"market": "HK", "code": "2318", "name": "Ping An Insurance", "short": "中國平安", "aliases": ["Ping An", "2318.HK"]},
+  {"market": "HK", "code": "0005", "name": "HSBC Holdings", "short": "匯豐", "aliases": ["HSBC", "0005.HK", "匯豐控股"]},
+  {"market": "HK", "code": "1211", "name": "BYD Company", "short": "比亞迪", "aliases": ["BYD", "1211.HK"]}
+]

@@ -62,6 +62,24 @@ export interface StockInfo {
   debtToEquity: number | null
   bookValue: number | null
   priceToBook: number | null
+  // Advanced financial ratios (TWSE)
+  currentRatio?: number | null
+  quickRatio?: number | null
+  debtRatio?: number | null
+  totalLiabilities?: number | null
+  totalEquity?: number | null
+  currentAssets?: number | null
+  currentLiabilities?: number | null
+  inventory?: number | null
+  grossProfit?: number | null
+  grossMargins?: number | null
+  operatingIncome?: number | null
+  netIncome?: number | null
+  costOfRevenue?: number | null
+  latestRevenue?: number | null
+  revenueGrowthYoY?: number | null
+  revenueYear?: string | null
+  revenueMonth?: string | null
   fiftyTwoWeekHigh: number
   fiftyTwoWeekLow: number
   fiftyTwoWeekChange: number | null

@@ -142,18 +142,32 @@ def _load_company_list():
     return companies
 
 
+def _load_international_company_list():
+    """讀取專案內建的美股與港股標的；檔案不存在或格式錯誤時安全略過。"""
+    try:
+        with open(config.INTERNATIONAL_COMPANY_MAP, encoding="utf-8") as f:
+            companies = json.load(f)
+        return companies if isinstance(companies, list) else []
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"[grouping] 讀取國際標的對照表失敗：{exc}")
+        return []
+
+
 def _build_lookup(companies):
     """回傳依「簡稱長度由長到短」排序的 (keyword, code, display_name) 清單，
     比對時優先匹配較長的簡稱，避免短簡稱誤配（例如「台泥」不會被更短的字串誤蓋）。"""
     lookup = []
     seen = set()
     for c in companies:
-        for keyword in filter(None, [c["short"], c["name"]]):
+        aliases = c.get("aliases", [])
+        for keyword in filter(None, [c["short"], c["name"], *aliases]):
             key = (keyword, c["code"])
             if key in seen or len(keyword) < 2:
                 continue
             seen.add(key)
-            display = f"{c['code']} {c['short'] or c['name']}"
+            market = c.get("market")
+            prefix = f"{market} " if market else ""
+            display = f"{prefix}{c['code']} {c['short'] or c['name']}"
             lookup.append((keyword, c["code"], display))
     lookup.sort(key=lambda t: len(t[0]), reverse=True)
     return lookup
@@ -207,7 +221,8 @@ def _has_valid_match(keyword, code, title, text):
 
 def group(articles, companies=None):
     """回傳 dict：{分組顯示名稱: [articles...]}，組內依 additional_sources 數量（重要性）由多到少排序。"""
-    companies = companies if companies is not None else _load_company_list()
+    if companies is None:
+        companies = _load_company_list() + _load_international_company_list()
     lookup = _build_lookup(companies)
 
     groups = {}

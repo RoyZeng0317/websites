@@ -8,6 +8,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # 不再需要寫到巢狀暫存路徑後手動搬移。
 OUTPUT_DIR = os.path.join(BASE_DIR, "..", "backend", "data", "news")
 FILE_NAME_FORMAT = "%Y-%m-%d.json"
+MARKET_OUTPUT_DIRS = {
+    "US": os.path.join(OUTPUT_DIR, "us"),
+    "HK": os.path.join(OUTPUT_DIR, "hk"),
+}
 
 # 排程執行時間：由 .github/workflows/news-automation.yml 的 cron 驅動
 # （07:00 UTC = 15:00 台北時間），此值僅供參考/文件用途。
@@ -143,6 +147,9 @@ TPEX_LISTED_CSV = "https://mopsfin.twse.com.tw/opendata/t187ap03_O.csv"
 
 # 公司代碼對照表本地快取（避免每次執行都重新下載）
 COMPANY_MAP_CACHE = os.path.join(BASE_DIR, "cache", "company_map.json")
+
+# 美股與港股的常用標的對照表。檔案可自行新增公司與別名，不需改動分群程式。
+INTERNATIONAL_COMPANY_MAP = os.path.join(BASE_DIR, "international_companies.json")
 
 # HTTP 請求共用設定
 REQUEST_TIMEOUT = 15

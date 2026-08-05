@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { PremiumProvider } from './context/PremiumContext'
 import App from './App'
 import './index.css'
 import './firebase'
@@ -8,7 +9,9 @@ import './firebase'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <PremiumProvider>
+        <App />
+      </PremiumProvider>
     </BrowserRouter>
   </StrictMode>
 )

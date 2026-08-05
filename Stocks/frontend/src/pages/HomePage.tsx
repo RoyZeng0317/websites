@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar'
 import AttentionStocks from '../components/AttentionStocks'
 import ErrorBoundary from '../components/ErrorBoundary'
 import InstatView from '../components/InstatView'
+import CrossAssetMarkets from '../components/CrossAssetMarkets'
 import { getWatchlist, removeFromWatchlist, type WatchlistItem } from '../utils/watchlist'
 import { Star, X } from 'lucide-react'
 
@@ -306,6 +307,10 @@ export default function HomePage() {
       {/* 台股即時盤面 */}
       <ErrorBoundary>
         <InstatView />
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <CrossAssetMarkets />
       </ErrorBoundary>
 
       {/* 市場列表 */}

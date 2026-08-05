@@ -53,6 +53,24 @@ def fetch_all():
     return all_articles
 
 
+def write_market_reports(grouped, report_date=None):
+    """Write dedicated US and Hong Kong market reports from grouped articles."""
+    report_date = report_date or datetime.date.today()
+    paths = {}
+    for market, output_dir in config.MARKET_OUTPUT_DIRS.items():
+        market_groups = {
+            group_name: articles
+            for group_name, articles in grouped.items()
+            if group_name.startswith(f"{market} ")
+        }
+        summarized = summarize.summarize_groups(market_groups)
+        report = output.build_report(summarized, report_date=report_date)
+        report["market"] = market
+        paths[market] = output.write_report(report, output_dir=output_dir)
+        print(f"[pipeline] {market} report: {paths[market]} ({report['total_articles']} articles)")
+    return paths
+
+
 def run():
     today = datetime.date.today()
     print(f"=== Stocks_Auto pipeline 開始執行 {today.isoformat()} ===")
@@ -76,7 +94,9 @@ def run():
     summarized = summarize.summarize_groups(grouped)
 
     report = output.build_report(summarized, report_date=today)
+    report["market"] = "ALL"
     path = output.write_report(report)
+    write_market_reports(grouped, report_date=today)
     print(f"[pipeline] 已輸出：{path}")
     print(f"=== 完成，共 {report['total_articles']} 篇、{report['group_count']} 組 ===")
     return path

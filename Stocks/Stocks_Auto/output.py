@@ -10,12 +10,16 @@ import os
 import config
 
 
+def _clean_display_text(value):
+    return value.replace("⊕", "") if isinstance(value, str) else value
+
+
 def _serialize_article(article):
     """將 article dict 轉為可 json.dump 的形式（pubdate -> ISO字串，移除大型 body 只留 summary）。"""
     pubdate = article.get("pubdate")
     pubdate_str = pubdate.isoformat() if isinstance(pubdate, datetime.datetime) else None
     return {
-        "title": article.get("title"),
+        "title": _clean_display_text(article.get("title")),
         "link": article.get("link"),
         "source": article.get("source"),
         "pubdate": pubdate_str,

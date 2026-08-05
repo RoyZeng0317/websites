@@ -14,10 +14,15 @@ import PriceChart from './components/PriceChart'
 import KlineChart from './components/KlineChart'
 import FuturesPrice from './components/FuturesPrice'
 import Fundamentals from './components/Fundamentals'
+import FundamentalsAdvanced from './components/FundamentalsAdvanced'
+import AdvancedScore from './components/AdvancedScore'
 import BuyAnalysis from './components/BuyAnalysis'
+import PeerComparison from './components/PeerComparison'
 import DividendInfo from './components/DividendInfo'
 import Sentiment from './components/Sentiment'
 import InstitutionalInvestors from './components/InstitutionalInvestors'
+import ChipAnalysis from './components/ChipAnalysis'
+import DividendHistory from './components/DividendHistory'
 import HoldingTracker from './components/HoldingTracker'
 import ETFPremium from './components/ETFPremium'
 import ETFAnalysis from './components/ETFAnalysis'
@@ -26,9 +31,11 @@ import ETFHoldings from './components/ETFHoldings'
 import AiConsult from './components/AiConsult'
 import WatchlistButton from './components/WatchlistButton'
 import ErrorBoundary from './components/ErrorBoundary'
+import PremiumGate from './components/PremiumGate'
+import { usePremium } from './context/PremiumContext'
 import { getStockInfo, calculateMissingFundamentals } from './api/stockApi'
 import type { StockInfo } from './types/stock'
-import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon, Newspaper, Wallet, X } from 'lucide-react'
+import { ArrowLeft, AlertCircle, AlertTriangle, AlertOctagon, Newspaper, Wallet, X, Lock } from 'lucide-react'
 
 // ── K 線圖前端快取 ──────────────────────────────────────────────────────────
 // 攔截所有 /chart?period= 請求：命中 sessionStorage 就直接回傳，否則 fetch 後寫入。
@@ -95,6 +102,7 @@ const ALL_TABS: { id: TabId; label: string; etfOnly?: boolean }[] = [
 ]
 
 const PREFETCH_TABS: TabId[] = ['realtime', 'kline', 'price']
+const PREMIUM_TABS = new Set<TabId>(['fundamentals', 'institutional', 'muchorlessanysis', 'futuresprice', 'dividend', 'company'])
 
 function StockTabs() {
   const { symbol } = useParams<{ symbol: string }>()
@@ -103,6 +111,7 @@ function StockTabs() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const mountedTabs = useRef<Set<TabId>>(new Set(PREFETCH_TABS))
+  const { isPremium } = usePremium()
 
   const fetchInfo = useCallback(async () => {
     if (!symbol) return
@@ -209,7 +218,10 @@ function StockTabs() {
                   : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
               }`}
             >
-              {tab.label}
+              <span className="inline-flex items-center gap-1">
+                {tab.label}
+                {PREMIUM_TABS.has(tab.id) && !isPremium && <Lock size={12} className="text-amber-400/70" />}
+              </span>
             </button>
           ))}
         </div>
@@ -237,39 +249,55 @@ function StockTabs() {
           {mountedTabs.current.has('fundamentals') && (
             <div className="space-y-6">
               <Fundamentals info={info} />
-              <BuyAnalysis info={info} />
+              <FundamentalsAdvanced info={info} />
+              <PeerComparison symbol={symbol!} />
+              <PremiumGate label="精準評分與購買分析">
+                <AdvancedScore info={info} />
+                <BuyAnalysis info={info} />
+              </PremiumGate>
             </div>
           )}
         </div>
 
         <div style={{ display: activeTab === 'institutional' ? 'block' : 'none' }}>
           {mountedTabs.current.has('institutional') && (
-            <div className="space-y-6">
-              <InstitutionalInvestors symbol={symbol!} />
-              
-            </div>
+            <PremiumGate label="法人買賣超與籌碼面">
+              <div className="space-y-6">
+                <InstitutionalInvestors symbol={symbol!} />
+                <ChipAnalysis symbol={symbol!} />
+              </div>
+            </PremiumGate>
           )}
         </div>
 
         <div style={{ display: activeTab === 'muchorlessanysis' ? 'block' : 'none' }}>
           {mountedTabs.current.has('muchorlessanysis') && (
-            <div className="space-y-6">
-              <Sentiment symbol={symbol!} />
-            </div>
+            <PremiumGate label="多空與利空分析">
+              <div className="space-y-6">
+                <Sentiment symbol={symbol!} />
+              </div>
+            </PremiumGate>
           )}
         </div>
         
         <div style={{ display: activeTab === 'futuresprice' ? 'block' : 'none' }}>
           {mountedTabs.current.has('futuresprice') && (
-            <div className="space-y-6">
-              <FuturesPrice symbol={symbol!} />
-            </div>
+            <PremiumGate label="相關期貨">
+              <div className="space-y-6">
+                <FuturesPrice symbol={symbol!} />
+              </div>
+            </PremiumGate>
           )}
         </div>
 
         <div style={{ display: activeTab === 'dividend' ? 'block' : 'none' }}>
           {mountedTabs.current.has('dividend') && (
-            <DividendInfo symbol={symbol!} currency={info.currency} meetingUrl={info.meetingUrl} />
+            <PremiumGate label="股息資訊">
+              <div className="space-y-6">
+                <DividendInfo symbol={symbol!} currency={info.currency} meetingUrl={info.meetingUrl} />
+                <DividendHistory symbol={symbol!} currency={info.currency} />
+              </div>
+            </PremiumGate>
           )}
         </div>
 
@@ -307,15 +335,17 @@ function StockTabs() {
 
         <div style={{ display: activeTab === 'company' ? 'block' : 'none' }}>
           {mountedTabs.current.has('company') && (
-            <div className="space-y-6">
-              <CompanyInfo info={info} />
-              {info.description && (
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h2 className="text-lg font-semibold text-slate-200 mb-3">公司簡介</h2>
-                  <p className="text-sm text-slate-400 leading-relaxed">{info.description}</p>
-                </div>
-              )}
-            </div>
+            <PremiumGate label="公司資訊">
+              <div className="space-y-6">
+                <CompanyInfo info={info} />
+                {info.description && (
+                  <div className="bg-slate-800/50 rounded-xl p-6">
+                    <h2 className="text-lg font-semibold text-slate-200 mb-3">公司簡介</h2>
+                    <p className="text-sm text-slate-400 leading-relaxed">{info.description}</p>
+                  </div>
+                )}
+              </div>
+            </PremiumGate>
           )}
         </div>
 

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07131f" />
+    <title>登入 | StockInfo</title>
+    <style>
+      :root { color-scheme: dark; font-family: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif; }
+      * { box-sizing: border-box; }
+      body { min-height: 100dvh; margin: 0; background: #07131f; color: #e7edf4; }
+      .page { display: grid; min-height: 100dvh; grid-template-columns: minmax(0, 1.15fr) minmax(380px, .85fr); }
+      .context { position: relative; overflow: hidden; padding: clamp(2rem, 7vw, 7rem); background: #0b2031; }
+      .context::before { position: absolute; inset: 0; content: ""; background: linear-gradient(135deg, rgba(9, 26, 41, .12), rgba(7, 19, 31, .76)); }
+      .context-inner { position: relative; z-index: 1; display: flex; max-width: 36rem; min-height: calc(100dvh - clamp(4rem, 14vw, 14rem)); flex-direction: column; justify-content: space-between; }
+      .brand { color: #f2f7fa; font-size: 1.05rem; font-weight: 750; letter-spacing: -.02em; text-decoration: none; }
+      .brand span { color: #56d6ac; }
+      h1 { max-width: 10ch; margin: 0; color: #f6f9fb; font-size: clamp(2.45rem, 5vw, 4.8rem); line-height: 1.07; letter-spacing: -.055em; }
+      .context p { max-width: 29rem; margin: 1.2rem 0 0; color: #b3c3d0; font-size: 1rem; line-height: 1.7; }
+      .benefits { display: grid; gap: .75rem; margin: 2rem 0 0; padding: 0; list-style: none; color: #c8d7e0; font-size: .93rem; }
+      .benefits li { display: flex; align-items: center; gap: .75rem; }
+      .benefits i { width: .5rem; height: .5rem; border-radius: 50%; background: #56d6ac; box-shadow: 0 0 0 4px rgba(86, 214, 172, .12); }
+      .support { color: #79909f; font-size: .82rem; }
+      .signin { display: grid; place-items: center; padding: 2rem; background: #07131f; }
+      .panel { width: min(100%, 25rem); }
+      .eyebrow { margin: 0 0 .9rem; color: #56d6ac; font-size: .8rem; font-weight: 700; letter-spacing: .04em; }
+      h2 { margin: 0; color: #f4f7f8; font-size: clamp(1.9rem, 3vw, 2.45rem); line-height: 1.15; letter-spacing: -.04em; }
+      .intro { margin: .9rem 0 2rem; color: #aabac6; font-size: .96rem; line-height: 1.65; }
+      .google { display: flex; width: 100%; min-height: 3.3rem; align-items: center; justify-content: center; gap: .8rem; border: 1px solid #d9e1e6; border-radius: .85rem; background: #f5f8fa; color: #102030; cursor: pointer; font: inherit; font-size: .95rem; font-weight: 700; transition: transform .18s ease, background .18s ease, box-shadow .18s ease; }
+      .google:hover { background: #fff; box-shadow: 0 10px 28px rgba(0, 0, 0, .2); }
+      .google:active { transform: translateY(1px); }
+      .google:focus-visible, .back:focus-visible { outline: 3px solid #56d6ac; outline-offset: 3px; }
+      .google:disabled { cursor: wait; opacity: .72; }
+      .google img { width: 1.2rem; height: 1.2rem; }
+      .notice, .error { margin-top: 1rem; border-radius: .7rem; padding: .85rem 1rem; font-size: .86rem; line-height: 1.55; }
+      .notice { border: 1px solid #1f3b4d; background: #0b1c2b; color: #9eb2c0; }
+      .error { display: none; border: 1px solid rgba(252, 113, 113, .4); background: rgba(127, 29, 29, .25); color: #fecaca; }
+      .error.show { display: block; }
+      .back { display: inline-block; margin-top: 1.75rem; color: #9db3c1; font-size: .9rem; text-decoration: none; }
+      .back:hover { color: #e7edf4; }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+      @media (max-width: 760px) { .page { grid-template-columns: 1fr; } .context { min-height: 15rem; padding: 2rem 1.5rem; } .context-inner { min-height: auto; } .context h1 { margin-top: 4rem; max-width: 15ch; font-size: 2.35rem; } .context p, .benefits, .support { display: none; } .signin { min-height: calc(100dvh - 15rem); padding: 2.25rem 1.5rem; } }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="context" aria-labelledby="page-title">
+        <div class="context-inner">
+          <a class="brand" href="/">Stock<span>Info</span></a>
+          <div>
+            <h1 id="page-title">讓投資紀錄跟著你。</h1>
+            <p>登入後，你的持股與個人化工具會安全地儲存在自己的帳戶中。</p>
+            <ul class="benefits" aria-label="登入後可使用的功能">
+              <li><i aria-hidden="true"></i>同步你的持股清單</li>
+              <li><i aria-hidden="true"></i>保留跨裝置的使用狀態</li>
+              <li><i aria-hidden="true"></i>使用個人化市場工具</li>
+            </ul>
+          </div>
+          <p class="support">安全登入由 Google 提供。</p>
+        </div>
+      </section>
+      <section class="signin" aria-labelledby="signin-title">
+        <div class="panel">
+          <p class="eyebrow">帳戶登入</p>
+          <h2 id="signin-title">使用 Google 繼續</h2>
+          <p class="intro">選擇你的 Google 帳戶即可登入 StockInfo。</p>
+          <button class="google" id="google-login" type="button">
+            <img alt="" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" />
+            <span id="button-label">使用 Google 登入</span>
+          </button>
+          <p class="notice">目前僅支援 Google 登入。你的帳戶資料會依照 Firebase 的安全規則保存。</p>
+          <p class="error" id="error-message" role="alert"></p>
+          <a class="back" id="back-link" href="/">返回 StockInfo</a>
+        </div>
+      </section>
+    </main>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js'
+      import { getAuth, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithPopup } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js'
+
+      const firebaseConfig = {
+        // Keep this configuration in sync with src/firebase.ts.  The ID token
+        // issued by this Firebase project is verified by the Python API.
+        apiKey: 'AIzaSyBT9ueRFmd8CsFtb6VyRkjwLuVNy1sDsHM',
+        authDomain: 'stocks-global.firebaseapp.com',
+        projectId: 'stocks-global',
+        storageBucket: 'stocks-global.firebasestorage.app',
+        messagingSenderId: '896423596342',
+        appId: '1:896423596342:web:95a76103ace72aa40ae397',
+        measurementId: 'G-4JSGJ99VWG',
+      }
+
+      const auth = getAuth(initializeApp(firebaseConfig))
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({ prompt: 'select_account' })
+      const button = document.querySelector('#google-login')
+      const label = document.querySelector('#button-label')
+      const errorMessage = document.querySelector('#error-message')
+      const query = new URLSearchParams(window.location.search)
+      const requestedReturn = query.get('returnTo')
+      const returnTo = requestedReturn && requestedReturn.startsWith('/') && !requestedReturn.startsWith('//') ? requestedReturn : '/'
+
+      document.querySelector('#back-link').href = returnTo
+      setPersistence(auth, browserLocalPersistence).catch(() => {})
+
+      function showError(message) {
+        errorMessage.textContent = message
+        errorMessage.classList.add('show')
+      }
+
+      function formatError(error) {
+        if (error && typeof error === 'object' && 'code' in error) {
+          if (error.code === 'auth/popup-closed-by-user') return '登入視窗已關閉，尚未完成登入。'
+          if (error.code === 'auth/popup-blocked') return '瀏覽器封鎖了登入視窗，請允許彈出視窗後再試一次。'
+          if (error.code === 'auth/cancelled-popup-request') return '登入請求已取消。'
+          if (error.code === 'auth/api-key-not-valid') return '登入服務設定有誤，請聯絡網站管理員。'
+        }
+        return '登入失敗，請稍後再試。'
+      }
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) window.location.replace(returnTo)
+      })
+
+      button.addEventListener('click', async () => {
+        button.disabled = true
+        label.textContent = '登入中...'
+        errorMessage.classList.remove('show')
+        try {
+          await signInWithPopup(auth, provider)
+        } catch (error) {
+          showError(formatError(error))
+          button.disabled = false
+          label.textContent = '使用 Google 登入'
+        }
+      })
+    </script>
+  </body>
+</html>

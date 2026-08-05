@@ -1,6 +1,9 @@
 import type { StockInfo } from '../types/stock'
 import { formatPercent, formatNumber } from '../api/stockApi'
 import { TrendingUp, DollarSign, PieChart, BarChart3, Activity, Shield, Wallet } from 'lucide-react'
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell, ReferenceLine,
+} from 'recharts'
 
 interface Props {
   info: StockInfo
@@ -14,6 +17,142 @@ function fmt(v: number | null | undefined, decimals = 2): string {
 function pct(v: number | null | undefined): string {
   if (v == null) return 'N/A'
   return `${(v * 100).toFixed(2)}%`
+}
+
+const BAR_COLORS = ['#34d399', '#60a5fa', '#fbbf24', '#f87171', '#a78bfa']
+
+function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; name: string }>; label?: string }) {
+  if (!active || !payload?.length) return null
+  return (
+    <div className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs">
+      <p className="text-slate-300 font-medium mb-1">{label}</p>
+      {payload.map((p, i) => (
+        <p key={i} className="text-emerald-400">{p.name}: {typeof p.value === 'number' ? p.value.toFixed(2) : p.value}</p>
+      ))}
+    </div>
+  )
+}
+
+function ProfitabilityChart({ info }: { info: StockInfo }) {
+  const data = [
+    { name: 'ROE', value: info.roe != null ? +(info.roe * 100).toFixed(2) : null },
+    { name: 'ROA', value: info.roa != null ? +(info.roa * 100).toFixed(2) : null },
+    { name: '利潤率', value: info.profitMargin != null ? +(info.profitMargin * 100).toFixed(2) : null },
+    { name: '營業利益率', value: info.operatingMargin != null ? +(info.operatingMargin * 100).toFixed(2) : null },
+  ].filter((d) => d.value != null)
+
+  if (data.length === 0) return null
+
+  return (
+    <div className="bg-slate-800/50 rounded-xl p-5">
+      <div className="flex items-center gap-2 mb-4 text-emerald-400">
+        <BarChart3 size={18} />
+        <h3 className="font-medium text-slate-200">獲利能力比較</h3>
+      </div>
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+          <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 12 }} />
+          <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} unit="%" />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar dataKey="value" name="百分比" radius={[4, 4, 0, 0]}>
+            {data.map((_, i) => <Cell key={i} fill={BAR_COLORS[i % BAR_COLORS.length]} />)}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  )
+}
+
+function ValuationChart({ info }: { info: StockInfo }) {
+  const data = [
+    { name: '本益比', value: info.peRatio },
+    { name: '預估P/E', value: info.forwardPE },
+    { name: '股價淨值比', value: info.priceToBook },
+  ].filter((d): d is { name: string; value: number } => d.value != null)
+
+  if (data.length === 0) return null
+
+  return (
+    <div className="bg-slate-800/50 rounded-xl p-5">
+      <div className="flex items-center gap-2 mb-4 text-emerald-400">
+        <TrendingUp size={18} />
+        <h3 className="font-medium text-slate-200">估值指標比較</h3>
+      </div>
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+          <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 12 }} />
+          <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar dataKey="value" name="倍數" radius={[4, 4, 0, 0]}>
+            {data.map((_, i) => <Cell key={i} fill={BAR_COLORS[i % BAR_COLORS.length]} />)}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  )
+}
+
+function Week52Chart({ info }: { info: StockInfo }) {
+  const low = info.fiftyTwoWeekLow
+  const high = info.fiftyTwoWeekHigh
+  const current = info.currentPrice
+  if (!low || !high || !current || low === high) return null
+
+  const range = high - low
+  const position = ((current - low) / range) * 100
+
+  const data = [
+    { name: '52週低', value: low },
+    { name: '目前', value: current },
+    { name: '52週高', value: high },
+  ]
+
+  return (
+    <div className="bg-slate-800/50 rounded-xl p-5">
+      <div className="flex items-center gap-2 mb-4 text-emerald-400">
+        <Activity size={18} />
+        <h3 className="font-medium text-slate-200">52週價格走勢</h3>
+      </div>
+      <div className="mb-3 flex justify-between text-xs text-slate-400">
+        <span>低 {fmt(low)}</span>
+        <span className="text-emerald-400 font-medium">目前 {fmt(current)} ({position.toFixed(0)}%)</span>
+        <span>高 {fmt(high)}</span>
+      </div>
+      <div className="relative h-6 bg-slate-700 rounded-full overflow-hidden">
+        <div
+          className="absolute inset-y-0 left-0 rounded-full"
+          style={{
+            width: `${position}%`,
+            background: `linear-gradient(90deg, #f87171 0%, #fbbf24 50%, #34d399 100%)`,
+          }}
+        />
+        <div
+          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full border-2 border-emerald-400 shadow-lg"
+          style={{ left: `calc(${position}% - 6px)` }}
+        />
+      </div>
+      <ResponsiveContainer width="100%" height={120}>
+        <BarChart data={data} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
+          <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 11 }} />
+          <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} width={50} />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar dataKey="value" name="價格" radius={[0, 4, 4, 0]}>
+            {data.map((entry, i) => (
+              <Cell key={i} fill={i === 0 ? '#f87171' : i === 1 ? '#34d399' : '#60a5fa'} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+      {info.fiftyTwoWeekChange != null && (
+        <p className="text-xs text-slate-400 mt-2 text-center">
+          52週變化: <span className={info.fiftyTwoWeekChange >= 0 ? 'text-emerald-400' : 'text-rose-400'}>{pct(info.fiftyTwoWeekChange)}</span>
+        </p>
+      )}
+    </div>
+  )
 }
 
 export default function Fundamentals({ info }: Props) {
@@ -120,6 +259,19 @@ export default function Fundamentals({ info }: Props) {
           </div>
         ))}
       </div>
+
+      {!isETF && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+          <ProfitabilityChart info={info} />
+          <ValuationChart info={info} />
+          <Week52Chart info={info} />
+        </div>
+      )}
+      {isETF && (
+        <div className="grid grid-cols-1 gap-4 mt-4">
+          <Week52Chart info={info} />
+        </div>
+      )}
     </div>
   )
 }

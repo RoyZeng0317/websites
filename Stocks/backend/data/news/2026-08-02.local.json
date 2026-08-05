@@ -1,0 +1,422 @@
+{
+  "date": "2026-08-02",
+  "generated_at": "2026-08-02T22:06:44.520578",
+  "group_count": 5,
+  "total_articles": 39,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "台灣",
+        "ai",
+        "1",
+        "公司",
+        "投資"
+      ],
+      "article_count": 32,
+      "articles": [
+        {
+          "title": "AI重塑記憶體版圖！HBM、DRAM、NAND大洗牌  誰將掌握下一代運算主導權？",
+          "link": "https://tw.stock.yahoo.com/news/ai%E9%87%8D%E5%A1%91%E8%A8%98%E6%86%B6%E9%AB%94%E7%89%88%E5%9C%96-hbm-dram-nand%E5%A4%A7%E6%B4%97%E7%89%8C-%E8%AA%B0%E5%B0%87%E6%8E%8C%E6%8F%A1%E4%B8%8B-124002526.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T20:40:02+08:00",
+          "summary": "AI 需求引爆全球記憶體超級循環，DRAM 與 NAND 市場規模創新高，三星、SK 海力士、美光相繼站上兆美元市值。HBM 供不應求、DDR5 價格飆升、企業級 SSD 需求爆發，長鑫科技快速崛起，",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6556023",
+              "title": "AI重塑記憶體版圖！HBM、DRAM、NAND大洗牌  誰將掌握下一代運算主導權？"
+            }
+          ]
+        },
+        {
+          "title": "【公告】合一「速必一」(ON101) 新藥上市後臨床試驗 (計畫編號:ON101CLCT06) 解盲，主要療效指標達到統計顯著，安全性良好，整體達到預期目標。",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E5%90%88-%E9%80%9F%E5%BF%85-on101-%E6%96%B0%E8%97%A5%E4%B8%8A%E5%B8%82%E5%BE%8C%E8%87%A8%E5%BA%8A%E8%A9%A6%E9%A9%97-114449965.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T19:44:49+08:00",
+          "summary": "日 期：2026年08月02日公司名稱：合一(4743)主 旨：合一「速必一」(ON101) 新藥上市後臨床試驗 (計畫編號:ON101CLCT06) 解盲，主要療效指標達到統計顯著，安全性良好，整體",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E5%90%88-%E6%9C%AC%E5%85%AC%E5%8F%B8-%E9%80%9F%E5%BF%85-on101-%E6%96%B0%E8%97%A5%E4%B8%8A%E5%B8%82%E5%BE%8C%E8%87%A8%E5%BA%8A%E8%A9%A6%E9%A9%97-111800253.html",
+              "title": "合一 本公司「速必一」(ON101) 新藥上市後臨床試驗 (計畫編號:ON101CLCT06) 解盲，主要療效指標達到統計顯著，安全性良好，整體達到預..."
+            }
+          ]
+        },
+        {
+          "title": "〈台股風向球〉台股最慘7月收斂正乖 8月多方拚突破月季線兩個反壓",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%A2%A8%E5%90%91%E7%90%83-%E5%8F%B0%E8%82%A1%E6%9C%80%E6%85%987%E6%9C%88%E6%94%B6%E6%96%82%E6%AD%A3%E4%B9%96-8%E6%9C%88%E5%A4%9A%E6%96%B9%E6%8B%9A%E7%AA%81%E7%A0%B4%E6%9C%88%E5%AD%A3%E7%B7%9A%E5%85%A9%E5%80%8B%E5%8F%8D%E5%A3%93-073730128.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:37:30+08:00",
+          "summary": "〈台股風向球〉浮額清洗後 多方拚衝鋒月季線兩個反壓",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6555893",
+              "title": "〈台股風向球〉台股最慘7月收斂正乖 8月多方拚突破月季線兩個反壓"
+            }
+          ]
+        },
+        {
+          "title": "提前偵測幫叫瓦斯、手機變身專業棒球教練！盤點改變你我生活的5大AI「黑科技」",
+          "link": "https://tw.stock.yahoo.com/news/%E6%8F%90%E5%89%8D%E5%81%B5%E6%B8%AC%E5%B9%AB%E5%8F%AB%E7%93%A6%E6%96%AF-%E6%89%8B%E6%A9%9F%E8%AE%8A%E8%BA%AB%E5%B0%88%E6%A5%AD%E6%A3%92%E7%90%83%E6%95%99%E7%B7%B4-%E7%9B%A4%E9%BB%9E%E6%94%B9%E8%AE%8A%E4%BD%A0%E6%88%91%E7%94%9F%E6%B4%BB%E7%9A%845%E5%A4%A7ai-%E9%BB%91%E7%A7%91%E6%8A%80-071524357.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:15:24+08:00",
+          "summary": "政府推動 AI 賦能百工百業政策，不僅帶動台灣科技硬體與供應鏈升級，更讓人工智慧無痛深入食衣住行育樂與醫療等庶民日常。從凌波科技的智慧瓦斯液位偵測、傳接球實驗室的手機揮棒分析、您好健康打造的 AI 數",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6555941",
+              "title": "提前偵測幫叫瓦斯、手機變身專業棒球教練！盤點改變你我生活的5大AI「黑科技」"
+            }
+          ]
+        },
+        {
+          "title": "台股周一恐殺跌？不敗教主陳重銘：大漲後回檔很正常、點名6檔撿便宜",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E8%82%A1%E5%91%A8-%E6%81%90%E6%AE%BA%E8%B7%8C-%E4%B8%8D%E6%95%97%E6%95%99%E4%B8%BB%E9%99%B3%E9%87%8D%E9%8A%98-%E5%A4%A7%E6%BC%B2%E5%BE%8C%E5%9B%9E%E6%AA%94%E5%BE%88%E6%AD%A3%E5%B8%B8-%E9%BB%9E%E5%90%8D6%E6%AA%94%E6%92%BF%E4%BE%BF%E5%AE%9C-135531977.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T21:55:31+08:00",
+          "summary": "台股上周五上演暴力反彈後，台指期夜盤隨即重挫1077點，引發投資人對周一開盤大跌的憂慮。對此，「不敗教主」陳重銘直言，大漲後出現回檔修正屬於「很正常」的現象，並預估4萬點大關仍具有強勁支撐力道，呼籲投",
+          "additional_sources": []
+        },
+        {
+          "title": "台股重挫半導體、AI股大崩跌　阮慕驊示警：個股比指數慘",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E8%82%A1%E9%87%8D%E6%8C%AB%E5%8D%8A%E5%B0%8E%E9%AB%94-ai%E8%82%A1%E5%A4%A7%E5%B4%A9%E8%B7%8C-%E9%98%AE%E6%85%95%E9%A9%8A%E7%A4%BA%E8%AD%A6-%E5%80%8B%E8%82%A1%E6%AF%94%E6%8C%87%E6%95%B8%E6%85%98-135310955.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T21:53:10+08:00",
+          "summary": "台股7月波動劇烈，個別股票跌勢遠比加權指數更為嚴重，投資人傷亡慘重。根據分析，台股加權指數自6月23日盤中高點4萬8219點，下跌至7月29日低點3萬9385點，最大回檔幅度達18.3%，隨後於7月3",
+          "additional_sources": []
+        },
+        {
+          "title": "莫斯科餐廳炸彈攻擊3死 市長：殘暴的恐怖行動",
+          "link": "https://tw.news.yahoo.com/%E8%8E%AB%E6%96%AF%E7%A7%91%E9%A4%90%E5%BB%B3%E7%82%B8%E5%BD%88%E6%94%BB%E6%93%8A3%E6%AD%BB-%E5%B8%82%E9%95%B7-%E6%AE%98%E6%9A%B4%E7%9A%84%E6%81%90%E6%80%96%E8%A1%8C%E5%8B%95-134340314.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T21:43:40+08:00",
+          "summary": "莫斯科市長索比亞寧(Sergei Sobyanin)今天(2日)稱，前一天在首都一家餐廳發生的一起炸彈攻擊為「殘暴的恐怖行動」，但他沒有說明誰該為此事負責。 俄羅斯國營媒體引述當地官員的話報導，1日晚",
+          "additional_sources": []
+        },
+        {
+          "title": "高收入大叔砸2500萬想當包租公 30年保證變半年跳票",
+          "link": "https://tw.stock.yahoo.com/news/%E9%AB%98%E6%94%B6%E5%85%A5%E5%A4%A7%E5%8F%94%E7%A0%B82500%E8%90%AC%E6%83%B3%E7%95%B6%E5%8C%85%E7%A7%9F%E5%85%AC-30%E5%B9%B4%E4%BF%9D%E8%AD%89%E8%AE%8A%E5%8D%8A%E5%B9%B4%E8%B7%B3%E7%A5%A8-133354556.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T21:33:54+08:00",
+          "summary": "日本一名50多歲上班族，為了替退休生活打造穩定的被動收入，砸下約1.2億日圓（約新台幣2503萬元）購入整棟出租公寓，並因相信業者主打的「30年租金保證」、「沒有空屋風險」等承諾，認為未來可安心收租。",
+          "additional_sources": []
+        },
+        {
+          "title": "中天 公告子公司中天(上海)生物科技有限公司「速必一」(ON101)新藥上市後臨床試驗(計畫編號:ON101CLCT06) 解盲，主要療效指標達到統計...",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%A4%A9-%E5%85%AC%E5%91%8A%E5%AD%90%E5%85%AC%E5%8F%B8%E4%B8%AD%E5%A4%A9-%E4%B8%8A%E6%B5%B7-%E7%94%9F%E7%89%A9%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8-%E9%80%9F%E5%BF%85-123400019.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T20:34:00+08:00",
+          "summary": "公開資訊觀測站重大訊息公告(4128)中天-公告子公司中天(上海)生物科技有限公司「速必一」(ON101)新藥上市後臨床試驗(計畫編號:ON101CLCT06) 解盲，主要療效指標達到統計顯著，安全性",
+          "additional_sources": []
+        },
+        {
+          "title": "是巡演還是集內衣大賽？Drake曬戰利品照",
+          "link": "https://tw.news.yahoo.com/%E6%98%AF%E5%B7%A1%E6%BC%94%E9%82%84%E6%98%AF%E9%9B%86%E5%85%A7%E8%A1%A3%E5%A4%A7%E8%B3%BD-drake%E6%9B%AC%E6%88%B0%E5%88%A9%E5%93%81%E7%85%A7-120937844.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T20:09:37+08:00",
+          "summary": "[NOWNEWS今日新聞]在Drake「It'sAllABlur」巡演期間,逐漸形成一個相當特別的傳統——許多粉絲會把胸罩丟上舞台,藉此表達對他的支持與喜愛。令人意外的是,這些胸罩並沒有被丟棄,Dra",
+          "additional_sources": []
+        },
+        {
+          "title": "「鬼城」真的翻身了？淡海科學城啟動都計公開展覽　首購3字頭還有新利多",
+          "link": "https://tw.stock.yahoo.com/news/%E9%AC%BC%E5%9F%8E-%E7%9C%9F%E7%9A%84%E7%BF%BB%E8%BA%AB%E4%BA%86-%E6%B7%A1%E6%B5%B7%E7%A7%91%E5%AD%B8%E5%9F%8E%E5%95%9F%E5%8B%95%E9%83%BD%E8%A8%88%E5%85%AC%E9%96%8B%E5%B1%95%E8%A6%BD-%E9%A6%96%E8%B3%BC3%E5%AD%97%E9%A0%AD%E9%82%84%E6%9C%89%E6%96%B0%E5%88%A9%E5%A4%9A-115800411.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T19:58:00+08:00",
+          "summary": "曾被外界貼上「鬼城」標籤的淡海新市鎮，再迎重大開發進展。內政部國土管理署宣布，「變更淡海新市鎮特定區主要計畫（配合第二期發展區第一開發區開發）案」及「擬定淡海新市鎮特定區第二期發展區第一開發區細部計畫",
+          "additional_sources": []
+        },
+        {
+          "title": "AI工廠蓋不停 藍領工人秒變330萬年薪族 黃仁勳揭最夯職業",
+          "link": "https://tw.stock.yahoo.com/news/ai%E5%B7%A5%E5%BB%A0%E8%93%8B%E4%B8%8D%E5%81%9C-%E8%97%8D%E9%A0%98%E5%B7%A5%E4%BA%BA%E7%A7%92%E8%AE%8A330%E8%90%AC%E5%B9%B4%E8%96%AA%E6%97%8F-%E9%BB%83%E4%BB%81%E5%8B%B3%E6%8F%AD%E6%9C%80%E5%A4%AF%E8%81%B7%E6%A5%AD-115158756.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T19:51:58+08:00",
+          "summary": "人工智慧（AI）快速發展，帶動全球科技業持續投入資料中心與AI工廠建設。輝達執行長黃仁勳表示，隨著人工智慧基礎設施持續擴建，水管工、電工、建築工人及鋼鐵工人等技術職種需求將大幅增加，不少職缺年薪可達1",
+          "additional_sources": []
+        },
+        {
+          "title": "金融三業上半年賺逾9千億　全年挑戰歷史新高",
+          "link": "https://tw.stock.yahoo.com/news/%E9%87%91%E8%9E%8D%E4%B8%89%E6%A5%AD%E4%B8%8A%E5%8D%8A%E5%B9%B4%E8%B3%BA%E9%80%BE9%E5%8D%83%E5%84%84-%E5%85%A8%E5%B9%B4%E6%8C%91%E6%88%B0%E6%AD%B7%E5%8F%B2%E6%96%B0%E9%AB%98-115152593.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T19:51:52+08:00",
+          "summary": "（中央社記者蘇思云台北2026年8月2日電）金融業今年受惠於存放款成長，加上資本市場熱絡，金管會統計顯示，銀行、保險、證券期貨等金融三業2026年上半年獲利達新台幣9042.45億元，年增率為139.",
+          "additional_sources": []
+        },
+        {
+          "title": "AI熱潮能延續多久？半島電視台列台灣經濟5大隱憂",
+          "link": "https://tw.news.yahoo.com/ai%E7%86%B1%E6%BD%AE%E8%83%BD%E5%BB%B6%E7%BA%8C%E5%A4%9A%E4%B9%85-%E5%8D%8A%E5%B3%B6%E9%9B%BB%E8%A6%96%E5%8F%B0%E5%88%97%E5%8F%B0%E7%81%A3%E7%B6%93%E6%BF%9F5%E5%A4%A7%E9%9A%B1%E6%86%82-114528698.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T19:45:28+08:00",
+          "summary": "半島電視台昨（1）日撰文指出，受惠AI熱潮，今年5月台股市值已超越印度，躍升為全球第五大股票市場。但台灣在經濟高速增長的背景下，同時也存在5大隱憂，包括對美貿易順差過大恐引發川普不滿、傳產表現不佳、人",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣賺太多可能再被川普盯上？專家示警",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E7%81%A3%E8%B3%BA%E5%A4%AA%E5%A4%9A%E5%8F%AF%E8%83%BD%E5%86%8D%E8%A2%AB%E5%B7%9D%E6%99%AE%E7%9B%AF%E4%B8%8A-%E5%B0%88%E5%AE%B6%E7%A4%BA%E8%AD%A6-114301255.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T19:43:01+08:00",
+          "summary": "[NOWNEWS今日新聞]在人工智慧（AI）狂潮的推動下，台灣迎來了強勁的經濟榮景。台股市值一路躍升為全球第五大股市。然而，國際政治學者與智庫專家提醒，若台灣這波經濟大爆發持續，美國總統川普可能將再度",
+          "additional_sources": []
+        },
+        {
+          "title": "「機器人清潔員」出征！打掃一小時多少錢？",
+          "link": "https://tw.news.yahoo.com/%E6%A9%9F%E5%99%A8%E4%BA%BA%E6%B8%85%E6%BD%94%E5%93%A1-%E5%87%BA%E5%BE%81-%E6%89%93%E6%8E%83-%E5%B0%8F%E6%99%82%E5%A4%9A%E5%B0%91%E9%8C%A2-104552647.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T18:45:52+08:00",
+          "summary": "[NOWNEWS今日新聞]打掃阿姨工作要被搶走了？舊金山一家機器人新創公司TauRobotics執行長科赫（AlexKoch）透露，該公司已開始提供人形機器人（HumanoidRobots）的到府清潔",
+          "additional_sources": []
+        },
+        {
+          "title": "台北萬華\"太空艙\"出租超搶手 最便宜6600元含水.網路.瓦斯.清潔管理費",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E5%8C%97%E8%90%AC%E8%8F%AF-%E5%A4%AA%E7%A9%BA%E8%89%99-%E5%87%BA%E7%A7%9F%E8%B6%85%E6%90%B6%E6%89%8B-%E6%9C%80%E4%BE%BF%E5%AE%9C6600%E5%85%83%E5%90%AB%E6%B0%B4-%E7%B6%B2%E8%B7%AF-101714906.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T18:17:14+08:00",
+          "summary": "財經中心／陳妍霖 鄭國陽 台北報導台北租屋不易，小小坪數的雅房，動不動破萬起跳，讓租屋族吃不消，在台北萬華就有太空艙出租，月租最便宜6600元，還標榜含水費、網路、瓦斯費、清潔及管理費，雖然房租有調漲",
+          "additional_sources": []
+        },
+        {
+          "title": "希臘多處野火延燒損失擴大 強風阻礙消防飛機滅火",
+          "link": "https://tw.news.yahoo.com/%E5%B8%8C%E8%87%98%E5%A4%9A%E8%99%95%E9%87%8E%E7%81%AB%E5%BB%B6%E7%87%92%E6%90%8D%E5%A4%B1%E6%93%B4%E5%A4%A7-%E5%BC%B7%E9%A2%A8%E9%98%BB%E7%A4%99%E6%B6%88%E9%98%B2%E9%A3%9B%E6%A9%9F%E6%BB%85%E7%81%AB-101135409.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T18:11:35+08:00",
+          "summary": "希臘今天(2日)面臨多處野火延燒，損失不斷擴大，據信已有大片森林和農田遭到燒毀。希臘總理米佐塔基斯(Kyriakos Mitsotakis)警告，未來幾天將「極度艱難」。 米佐塔基斯說，希臘面臨「極端",
+          "additional_sources": []
+        },
+        {
+          "title": "「會走路的灌木」美警6小時狂抓74名低頭族",
+          "link": "https://tw.news.yahoo.com/%E6%9C%83%E8%B5%B0%E8%B7%AF%E7%9A%84%E7%81%8C%E6%9C%A8-%E7%BE%8E%E8%AD%A66%E5%B0%8F%E6%99%82%E7%8B%82%E6%8A%9374%E5%90%8D%E4%BD%8E%E9%A0%AD%E6%97%8F-100915451.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T18:09:15+08:00",
+          "summary": "[NOWNEWS今日新聞]為了揪出開車玩手機的「低頭族」,美國紐澤西州警方祭出新招,竟派警察打扮成「灌木叢」,隱身在繁忙的路邊進行秘密執法,短短6小時內就開出74張駕駛中使用手機的罰單,而這個特殊的執",
+          "additional_sources": []
+        },
+        {
+          "title": "波音地位不保？全新「未來客機」長相太震撼",
+          "link": "https://tw.news.yahoo.com/%E6%B3%A2%E9%9F%B3%E5%9C%B0%E4%BD%8D%E4%B8%8D%E4%BF%9D-%E5%85%A8%E6%96%B0-%E6%9C%AA%E4%BE%86%E5%AE%A2%E6%A9%9F-%E9%95%B7%E7%9B%B8%E5%A4%AA%E9%9C%87%E6%92%BC-092355622.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T17:23:55+08:00",
+          "summary": "[NOWNEWS今日新聞]未來客機樣貌將超出你的想像！美國加州航太新創公司JetZero研發中的劃時代Z4客機，機身外觀有別於傳統客機，一改兩側舷窗配置，改採天窗與扁形機身，但艙內空間卻更加寬敞，美媒",
+          "additional_sources": []
+        },
+        {
+          "title": "賴總統：台灣世界競爭力排名全球第四 持續強化人才培育",
+          "link": "https://tw.news.yahoo.com/%E8%B3%B4%E7%B8%BD%E7%B5%B1-%E5%8F%B0%E7%81%A3%E4%B8%96%E7%95%8C%E7%AB%B6%E7%88%AD%E5%8A%9B%E6%8E%92%E5%90%8D%E5%85%A8%E7%90%83%E7%AC%AC%E5%9B%9B-%E6%8C%81%E7%BA%8C%E5%BC%B7%E5%8C%96%E4%BA%BA%E6%89%8D%E5%9F%B9%E8%82%B2-091146576.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T17:11:46+08:00",
+          "summary": "總統賴清德2日表示，台灣世界競爭力排名已居全球第4，在人口超過2,000萬的經濟體中連續6年居冠，並預估明年將進入前20大經濟體。面對全球供應鏈重組及AI帶來的產業變革，政府將持續投資教育與人才培育，",
+          "additional_sources": []
+        },
+        {
+          "title": "這是要打仗了?解放軍狼群、機器戰士同步曝",
+          "link": "https://tw.news.yahoo.com/%E9%80%99%E6%98%AF%E8%A6%81%E6%89%93%E4%BB%97%E4%BA%86-%E8%A7%A3%E6%94%BE%E8%BB%8D%E7%8B%BC%E7%BE%A4-%E6%A9%9F%E5%99%A8%E6%88%B0%E5%A3%AB%E5%90%8C%E6%AD%A5%E6%9B%9D-075622794.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T17:00:58+08:00",
+          "summary": "[NOWNEWS今日新聞]中國人民解放軍建軍99週年前夕,官媒中央電視台「新聞聯播」罕見公開一系列無人化軍事裝備畫面,包括配備大口徑火箭筒的「機器狼」群,以及疑似「人形機器戰士」的測試畫面,引發外界高",
+          "additional_sources": []
+        },
+        {
+          "title": "AI股神翻船後辦婚禮！他道歉：讓你們失望了",
+          "link": "https://tw.news.yahoo.com/ai%E8%82%A1%E7%A5%9E%E7%BF%BB%E8%88%B9%E5%BE%8C%E8%BE%A6%E5%A9%9A%E7%A6%AE-%E4%BB%96%E9%81%93%E6%AD%89-%E8%AE%93%E4%BD%A0%E5%80%91%E5%A4%B1%E6%9C%9B%E4%BA%86-082902575.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T16:29:02+08:00",
+          "summary": "[NOWNEWS今日新聞]美股人工智慧類股近一個月以來向下震盪劇烈，近一周行情更宛如坐雲霄飛車，過去一年被認為是AI股神的避險基金SituationalAwareness創辦人、24歲艾森勃納（Leo",
+          "additional_sources": []
+        },
+        {
+          "title": "討26億未果就斷交台灣!諾魯突襲式改名",
+          "link": "https://tw.news.yahoo.com/%E8%A8%8E26%E5%84%84%E6%9C%AA%E6%9E%9C%E5%B0%B1%E6%96%B7%E4%BA%A4%E5%8F%B0%E7%81%A3-%E8%AB%BE%E9%AD%AF%E7%AA%81%E8%A5%B2%E5%BC%8F%E6%94%B9%E5%90%8D-080654763.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T16:06:54+08:00",
+          "summary": "[NOWNEWS今日新聞]太平洋島國諾魯(Nauru)近日無預警宣布更改國名為「瑙埃羅共和國」(RepublicofNaoero),消息一出引發外界關注。值得注意的是,諾魯正是2024年因未能從台灣爭",
+          "additional_sources": []
+        },
+        {
+          "title": "熊本商場女員工聽公司話喪命！日本人火大了",
+          "link": "https://tw.news.yahoo.com/%E7%86%8A%E6%9C%AC%E5%95%86%E5%A0%B4%E5%A5%B3%E5%93%A1%E5%B7%A5%E8%81%BD%E5%85%AC%E5%8F%B8%E8%A9%B1%E5%96%AA%E5%91%BD-%E6%97%A5%E6%9C%AC%E4%BA%BA%E7%81%AB%E5%A4%A7%E4%BA%86-075922028.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:59:22+08:00",
+          "summary": "[NOWNEWS今日新聞]日本熊本縣強震間接讓位於嘉島町的購物中心「永旺夢樂城熊本」（AEONMall熊本）發生爆炸，造成7人死亡、5人受傷。警方與消防人員對現場進行的搜救活動，已於1日正午宣告結束。",
+          "additional_sources": []
+        },
+        {
+          "title": "民眾黨慶7週年柯文哲回歸 強調已非1人政黨",
+          "link": "https://tw.news.yahoo.com/%E6%B0%91%E7%9C%BE%E9%BB%A8%E6%85%B67%E9%80%B1%E5%B9%B4%E6%9F%AF%E6%96%87%E5%93%B2%E5%9B%9E%E6%AD%B8-%E5%BC%B7%E8%AA%BF%E5%B7%B2%E9%9D%9E1%E4%BA%BA%E6%94%BF%E9%BB%A8-075420275.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:54:20+08:00",
+          "summary": "台灣民眾黨創黨7週年活動今天(2日)在台中登場，這也是創黨主席柯文哲歷經官司纏身後，睽違1年再度出席黨慶活動。柯文哲向支持者喊話，創黨時有人認為民眾黨只是一時的政治現象，但7年過去了，民眾黨不僅還在，",
+          "additional_sources": []
+        },
+        {
+          "title": "休達非法移民增至67死！西班牙揭最新情況",
+          "link": "https://tw.news.yahoo.com/%E4%BC%91%E9%81%94%E9%9D%9E%E6%B3%95%E7%A7%BB%E6%B0%91%E5%A2%9E%E8%87%B367%E6%AD%BB-%E8%A5%BF%E7%8F%AD%E7%89%99%E6%8F%AD%E6%9C%80%E6%96%B0%E6%83%85%E6%B3%81-072028477.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:20:28+08:00",
+          "summary": "[NOWNEWS今日新聞]西班牙位於北非的飛地休達（Ceuta）爆發史上最大規模非法移民潮，約6萬名移民聽聞西班牙政府不遣返非法移民的消息後，自摩洛哥大舉越境，希望藉此踏入歐洲，至今造成67人死亡，許",
+          "additional_sources": []
+        },
+        {
+          "title": "馬斯克悄悄追蹤DeepSeek！Grok誠實回應引網友點讚",
+          "link": "https://tw.stock.yahoo.com/news/%E9%A6%AC%E6%96%AF%E5%85%8B%E6%82%84%E6%82%84%E8%BF%BD%E8%B9%A4deepseek-grok%E8%AA%A0%E5%AF%A6%E5%9B%9E%E6%87%89%E5%BC%95%E7%B6%B2%E5%8F%8B%E9%BB%9E%E8%AE%9A-071002923.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:10:02+08:00",
+          "summary": "馬斯克在 X 平台悄悄追蹤 DeepSeek 官方帳號，引發 AI 圈熱議。就在同一時間，DeepSeek 宣布 V4-Flash 正式版 API 開放公測，主打低成本、高效能。Grok 分析，Dee",
+          "additional_sources": []
+        },
+        {
+          "title": "國道ETC整案輸出至印度 背後推手遠通攜手眾台廠成功輸出新南向",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B%E9%81%93etc%E6%95%B4%E6%A1%88%E8%BC%B8%E5%87%BA%E8%87%B3%E5%8D%B0%E5%BA%A6-%E8%83%8C%E5%BE%8C%E6%8E%A8%E6%89%8B%E9%81%A0%E9%80%9A%E6%94%9C%E6%89%8B%E7%9C%BE%E5%8F%B0%E5%BB%A0%E6%88%90%E5%8A%9F%E8%BC%B8%E5%87%BA%E6%96%B0%E5%8D%97%E5%90%91-070950842.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:09:50+08:00",
+          "summary": "遠傳 (4904-TW) 轉投資公司遠通電收宣布，由「ETC 台灣隊」跨國打造的印度首座「多車道自由流」(MLFF）電子收費系統近期已正式通車營運。",
+          "additional_sources": []
+        },
+        {
+          "title": "〈熱門股〉東典H1光通、低軌衛星需求強勁 周漲9.33%、周K連2紅",
+          "link": "https://tw.stock.yahoo.com/news/%E7%86%B1%E9%96%80%E8%82%A1-%E6%9D%B1%E5%85%B8h1%E5%85%89%E9%80%9A-%E4%BD%8E%E8%BB%8C%E8%A1%9B%E6%98%9F%E9%9C%80%E6%B1%82%E5%BC%B7%E5%8B%81-%E5%91%A8%E6%BC%B29-33-070800314.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T15:08:00+08:00",
+          "summary": "東典光電 (6588-TW) 今 (2026) 年上半年營收為 1.84 億元、年增 132.45%，即便上周台股波動劇烈下，仍繳出周漲 9.33%、周 K 連收 2 紅，單周成交量也爆增至 3.5",
+          "additional_sources": []
+        },
+        {
+          "title": "泰國擬收緊大麻政策　新法案將禁娛樂用途",
+          "link": "https://tw.news.yahoo.com/%E6%B3%B0%E5%9C%8B%E6%93%AC%E6%94%B6%E7%B7%8A%E5%A4%A7%E9%BA%BB%E6%94%BF%E7%AD%96-%E6%96%B0%E6%B3%95%E6%A1%88%E5%B0%87%E7%A6%81%E5%A8%9B%E6%A8%82%E7%94%A8%E9%80%94-064752345.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-02T14:47:52+08:00",
+          "summary": "[NOWNEWS今日新聞]泰國政府擬大幅收緊大麻管理政策。泰國公共衛生部已完成《大麻管制法》（CannabisControlAct）草案，將把大麻用途嚴格限制於醫療與學術研究，並全面禁止娛樂性使用及相",
+          "additional_sources": []
+        },
+        {
+          "title": "AI股回檔免驚？大摩120頁報告拆解3大疑慮：真正被低估的是「這個」！",
+          "link": "https://news.cnyes.com/news/id/6555942",
+          "source": "cnyes",
+          "pubdate": "2026-08-02T16:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-02 16:10\n今年 6 月底以來，全球人工智慧（AI）類股歷經一波明顯拉回，市場人心浮動，關於「AI 投資熱潮是否已見頂」的討論再度甚囂塵上。面對這波疑慮，摩根士丹利 (MS-US) 在 7 月 27 日拋出重磅報告《Playing the AI Infrastr…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AMD 超微",
+      "keywords": [
+        "us",
+        "市場",
+        "本週",
+        "fed",
+        "7"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "本週操盤筆記：美7月非農、SpaceX超微Sandisk財報、AI行情及中東局勢",
+          "link": "https://news.cnyes.com/news/id/6554937",
+          "source": "cnyes",
+          "pubdate": "2026-08-02T21:30:04+08:00",
+          "summary": "鉅亨網新聞中心2026-08-02 21:30\n本週國際大事包括美國 7 月非農就業報告，還有一系列企業財報，包括 SpaceX(SPCX-US)將於週二公布首次公開發行 (IPO) 後第一份季報，以及晶片製造商超微、記憶體股 Sandisk(SNDK-US)和大型製藥商禮來 (Eli Lilly)…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "台股",
+        "市場",
+        "光通",
+        "通訊",
+        "最大"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "周末精選／台股大V轉後後市穩了？四大名師看台股8月將衝45K",
+          "link": "https://money.udn.com/money/story/5607/9666152?from=edn_maintab_index",
+          "source": "udn",
+          "pubdate": "2026-08-02T17:16:40+08:00",
+          "summary": "擔心錯過重要新聞？經濟日報幫您精選周末結束前必看的內容。\n\n四大名師看台股8月將衝45K 預期指數進入震盪築底階段台股歷經7月驚濤駭浪後，8月可望進入震盪築底階段，四大台股名師預期大盤指數可望於40...",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "6219 富旺",
+      "keywords": [
+        "富旺",
+        "社區",
+        "住宅",
+        "活動",
+        "造鎮"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "大型造鎮＋房貸利息補貼 富旺「艾美莊園」搶攻鹿港首購市場",
+          "link": "https://www.ctee.com.tw/news/20260802700564-430601",
+          "source": "ctee",
+          "pubdate": "2026-08-02T20:54:35+08:00",
+          "summary": "富旺國際（6219）布局彰化鹿港的「艾美莊園－市鎮香榭」完工落成，今（2）日下午舉辦「富旺仲夏派對」，邀請金曲台語歌后孫淑媚、MOMO親子台櫻花姊姊接力演出，結合音樂、親子互動及特色市集，也同步揭開社區完整落成後的生活場景。從寬闊中庭、景觀空間到全齡公設，皆能容納大型活動，凸顯大型造鎮案與一般單棟住…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "億元",
+        "分析",
+        "獲利",
+        "證券",
+        "同期"
+      ],
+      "article_count": 4,
+      "articles": [
+        {
+          "title": "國防股跌出機會？「這家公司」估值回落、分析師看漲32%",
+          "link": "https://news.cnyes.com/news/id/6555975",
+          "source": "cnyes",
+          "pubdate": "2026-08-02T19:10:02+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-02 19:10\n儘管中東戰事未歇、全球地緣政治風險持續升溫，加上財報表現亮眼，國防類股理應迎來多頭行情，但美股國防相關個股近期表現卻普遍疲軟，與基本面走勢背道而馳。不過分析師指出，在這波修正後，部分大型軍工股評價已跌至具吸引力的水準，其中又以 L3 哈里斯科技 (L…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B%E9%98%B2%E8%82%A1%E8%B7%8C%E5%87%BA%E6%A9%9F%E6%9C%83-%E9%80%99%E5%AE%B6%E5%85%AC%E5%8F%B8-%E4%BC%B0%E5%80%BC%E5%9B%9E%E8%90%BD-%E5%88%86%E6%9E%90%E5%B8%AB%E7%9C%8B%E6%BC%B232-111002428.html",
+              "title": "國防股跌出機會？「這家公司」估值回落、分析師看漲32%"
+            }
+          ]
+        },
+        {
+          "title": "OpenAI新模型Astra曝！攻克10道數學難題、多AI代理協作挑戰AGI",
+          "link": "https://news.cnyes.com/news/id/6555943",
+          "source": "cnyes",
+          "pubdate": "2026-08-02T17:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-02 17:10\nOpenAI 正在開發代號「Astra」的全新模型家族，主打多個人工智慧（AI）代理長時間協同運作、共同解決高難度問題的能力。這項技術若順利問世，將是該公司邁向通用人工智慧（AGI）的重要里程碑，同時也可能成為美國川普政府新版 AI 監管框架上路後，…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/openai%E6%96%B0%E6%A8%A1%E5%9E%8Bastra%E6%9B%9D-%E6%94%BB%E5%85%8B10%E9%81%93%E6%95%B8%E5%AD%B8%E9%9B%A3%E9%A1%8C-%E5%A4%9Aai%E4%BB%A3%E7%90%86%E5%8D%94%E4%BD%9C%E6%8C%91%E6%88%B0agi-091003248.html",
+              "title": "OpenAI新模型Astra曝！攻克10道數學難題、多AI代理協作挑戰AGI"
+            }
+          ]
+        },
+        {
+          "title": "KOSPI最壞已過？外資買超創新高、退休基金翻多、花旗維持10000點目標",
+          "link": "https://news.cnyes.com/news/id/6555944",
+          "source": "cnyes",
+          "pubdate": "2026-08-02T18:10:02+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-02 18:10\n花旗證券認為，南韓股市最壞的資金面已經過去。隨著外資單日淨買超創下歷史新高、退休基金轉為淨買超，加上監管機關收緊槓桿型 ETF 規範、抑制市場波動，資金面正持續改善，因此維持 KOSPI 年底 10000 點的目標，看好韓股後市仍具上行空間。\n花旗看…",
+          "additional_sources": []
+        },
+        {
+          "title": "金融三業上半年獲利創史上同期新高 三業同創高",
+          "link": "https://www.ctee.com.tw/news/20260802700576-430301",
+          "source": "ctee",
+          "pubdate": "2026-08-02T21:28:13+08:00",
+          "summary": "今年上半年全球金融市場旺，金融業獲利加速成長，締造史上同期新高。金管會公布金融三業今年上半年獲利，整體獲利達9,042.45億元，較去年同期的3,781.26億元，大增逾5,000億元，增加5,261.19億元，年增幅度達139.14％。\n其中，三業都出現年增，且銀行、證券期貨、保險都創下史上同期新…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
