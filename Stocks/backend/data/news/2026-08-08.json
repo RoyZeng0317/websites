@@ -1,0 +1,366 @@
+{
+  "date": "2026-08-08",
+  "generated_at": "2026-08-08T15:52:12.864042",
+  "group_count": 5,
+  "total_articles": 32,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "市場",
+        "ai",
+        "價格",
+        "投資",
+        "可能"
+      ],
+      "article_count": 28,
+      "articles": [
+        {
+          "title": "大摩「空頭」態度大轉彎！記憶體股修正近尾聲：迎戰術性買點",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%A7%E6%91%A9-%E7%A9%BA%E9%A0%AD-%E6%85%8B%E5%BA%A6%E5%A4%A7%E8%BD%89%E5%BD%8E-%E8%A8%98%E6%86%B6%E9%AB%94%E8%82%A1%E4%BF%AE%E6%AD%A3%E8%BF%91%E5%B0%BE%E8%81%B2-%E8%BF%8E%E6%88%B0%E8%A1%93%E6%80%A7%E8%B2%B7%E9%BB%9E-061003098.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T14:10:03+08:00",
+          "summary": "摩根士丹利分析師 Shawn Kim 轉向看多記憶體股，認為七月修正已接近尾聲，三星、SK 海力士估值具吸引力。AI 需求強勁下，記憶體產業有望迎來估值修復。",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6566403",
+              "title": "大摩「空頭」態度大轉彎！記憶體股修正近尾聲：迎戰術性買點"
+            }
+          ]
+        },
+        {
+          "title": "輝達Rubin Ultra傳縮減HBM容量！記憶體短缺下晶片廠商如何破局？",
+          "link": "https://news.cnyes.com/news/id/6566400",
+          "source": "cnyes",
+          "pubdate": "2026-08-08T13:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-08 13:10\nAI 晶片巨頭輝達 (NVDA-US) 傳出正悄悄調整下一代旗艦晶片的設計藍圖。據了解，該公司近期針對新一代 Rubin Ultra GPU 測試多款「縮水版」配置，部分方案的高頻寬記憶體（HBM）容量已不如當初規劃，凸顯這波 AI 熱潮帶動的晶片需…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94rubin-ultra%E5%82%B3%E7%B8%AE%E6%B8%9Bhbm%E5%AE%B9%E9%87%8F-%E8%A8%98%E6%86%B6%E9%AB%94%E7%9F%AD%E7%BC%BA%E4%B8%8B%E6%99%B6%E7%89%87%E5%BB%A0%E5%95%86%E5%A6%82%E4%BD%95%E7%A0%B4%E5%B1%80-051003726.html",
+              "title": "輝達Rubin Ultra傳縮減HBM容量！記憶體短缺下晶片廠商如何破局？"
+            }
+          ]
+        },
+        {
+          "title": "那指4日狂增3.5兆美元市值 Palantir飆近40%領軍科技股 財報成美股本週最大行情推手",
+          "link": "https://tw.stock.yahoo.com/news/%E9%82%A3%E6%8C%874%E6%97%A5%E7%8B%82%E5%A2%9E3-5%E5%85%86%E7%BE%8E%E5%85%83%E5%B8%82%E5%80%BC-palantir%E9%A3%86%E8%BF%9140-%E9%A0%98%E8%BB%8D%E7%A7%91%E6%8A%80%E8%82%A1-%E8%B2%A1%E5%A0%B1%E6%88%90%E7%BE%8E%E8%82%A1%E6%9C%AC%E9%80%B1%E6%9C%80%E5%A4%A7%E8%A1%8C%E6%83%85%E6%8E%A8%E6%89%8B-043005011.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T12:30:05+08:00",
+          "summary": "美股科技股本週由財報行情主導, Nasdaq 100 短短 4 個交易日增加 3.5 兆美元市值。Palantir 股價飆升 39.78% 領漲, 但 Western Digital 重挫 20.29",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6566349",
+              "title": "那指4日狂增3.5兆美元市值 Palantir飆近40%領軍科技股 財報成美股本週最大行情推手"
+            }
+          ]
+        },
+        {
+          "title": "記憶體雙雄大對決！美光漲208%後估值遭質疑 分析師：SK hynix更便宜",
+          "link": "https://tw.stock.yahoo.com/news/%E8%A8%98%E6%86%B6%E9%AB%94%E9%9B%99%E9%9B%84%E5%A4%A7%E5%B0%8D%E6%B1%BA-%E7%BE%8E%E5%85%89%E6%BC%B2208-%E5%BE%8C%E4%BC%B0%E5%80%BC%E9%81%AD%E8%B3%AA%E7%96%91-%E5%88%86%E6%9E%90%E5%B8%AB-sk-034004734.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:40:04+08:00",
+          "summary": "AI 需求推升記憶體價格, Micron 今年股價已飆升 208%,SK hynix 則從上市後高點回落約 29%。分析師認為, 兩家公司基本面同樣強勁, 但估值差距可能讓 SK hynix 具備更高",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6566379",
+              "title": "記憶體雙雄大對決！美光漲208%後估值遭質疑 分析師：SK hynix更便宜"
+            }
+          ]
+        },
+        {
+          "title": "餐具發霉爬滿蛆蟲！美飛機餐空廚爆食安危機",
+          "link": "https://tw.news.yahoo.com/%E9%A4%90%E5%85%B7%E7%99%BC%E9%9C%89%E7%88%AC%E6%BB%BF%E8%9B%86%E8%9F%B2-%E7%BE%8E%E9%A3%9B%E6%A9%9F%E9%A4%90%E7%A9%BA%E5%BB%9A%E7%88%86%E9%A3%9F%E5%AE%89%E5%8D%B1%E6%A9%9F-074003316.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T15:40:03+08:00",
+          "summary": "[NOWNEWS今日新聞]美國洛杉磯國際機場（LAX）旁的一家知名航空餐勤公司，近日遭爆出食安與工作環境不佳的問題。員工向加州職業安全與健康管理局（Cal/OSHA）提出檢舉，指控工作場所內出現蛆蟲、",
+          "additional_sources": []
+        },
+        {
+          "title": "選前喊13萬、上任砍到3萬！民團轟社宅「一戶未蓋先跳票」 創台灣民主惡例",
+          "link": "https://tw.stock.yahoo.com/news/%E9%81%B8%E5%89%8D%E5%96%8A13%E8%90%AC%E3%80%81%E4%B8%8A%E4%BB%BB%E7%A0%8D%E5%88%B03%E8%90%AC%EF%BC%81%E6%B0%91%E5%9C%98%E8%BD%9F%E7%A4%BE%E5%AE%85%E3%80%8C%E4%B8%80%E6%88%B6%E6%9C%AA%E8%93%8B%E5%85%88%E8%B7%B3%E7%A5%A8%E3%80%8D-%E5%89%B5%E5%8F%B0%E7%81%A3%E6%B0%91%E4%B8%BB%E6%83%A1%E4%BE%8B-070700088.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T15:07:00+08:00",
+          "summary": "選前承諾滿滿，選後直接跳票！社會住宅推動聯盟、OURs都市改革組織、托育及就業政策催生聯盟、台灣勞工陣線、台灣青年思潮等多個民團今（7）日召開記者會，針對行政院7月修正的新版「百萬戶租屋家庭支持計畫（",
+          "additional_sources": []
+        },
+        {
+          "title": "林口平價小火鍋超高CP值吸客! 最低190元自助吧吃到飽",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9E%97%E5%8F%A3%E5%B9%B3%E5%83%B9%E5%B0%8F%E7%81%AB%E9%8D%8B%E8%B6%85%E9%AB%98cp%E5%80%BC%E5%90%B8%E5%AE%A2-%E6%9C%80%E4%BD%8E190%E5%85%83%E8%87%AA%E5%8A%A9%E5%90%A7%E5%90%83%E5%88%B0%E9%A3%BD-125955109.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T14:58:16+08:00",
+          "summary": "財經中心／陳妍霖 宮仲毅 台北報導物價持續飆漲，連帶外食費居高不下，創下半年來最大漲幅，民眾大喊吃不消，不過在林口及龜山就有平價小火鍋，最便宜190元，不僅有''自助吧''吃到飽，學生內用還能便宜10",
+          "additional_sources": []
+        },
+        {
+          "title": "美國浣熊頭卡美乃滋罐裡面！獲救後名字更狂",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E5%9C%8B%E6%B5%A3%E7%86%8A%E9%A0%AD%E5%8D%A1%E7%BE%8E%E4%B9%83%E6%BB%8B%E7%BD%90%E8%A3%A1%E9%9D%A2-%E7%8D%B2%E6%95%91%E5%BE%8C%E5%90%8D%E5%AD%97%E6%9B%B4%E7%8B%82-065022971.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T14:50:22+08:00",
+          "summary": "[NOWNEWS今日新聞]頭被罐罐卡住、看不清楚路，還能在街區趴趴走！美國德州達拉斯近日有一隻小浣熊，因為頭部被困在美乃滋罐子裡，在街頭遊蕩好幾天，最後終於被動物救援人員拯救，還獲得一個相當符合牠遭遇",
+          "additional_sources": []
+        },
+        {
+          "title": "白海豚逼近閩浙　中國防颱管制台海航行挨批",
+          "link": "https://tw.news.yahoo.com/%E7%99%BD%E6%B5%B7%E8%B1%9A%E9%80%BC%E8%BF%91%E9%96%A9%E6%B5%99-%E4%B8%AD%E5%9C%8B%E9%98%B2%E9%A2%B1%E7%AE%A1%E5%88%B6%E5%8F%B0%E6%B5%B7%E8%88%AA%E8%A1%8C%E6%8C%A8%E6%89%B9-054036904.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T13:40:36+08:00",
+          "summary": "[NOWNEWS今日新聞]中度颱風「白海豚」正以每小時11公里的速度，持續向西南西進行，侵襲日本沖繩縣、鹿兒島縣期間，已知造成至少7人受傷，4.5萬戶停電。中國為了因應颱風登陸，浙江省、福建省已升高防",
+          "additional_sources": []
+        },
+        {
+          "title": "葉門叛軍青年運動連2天襲擊、政府軍回擊 聯合國警告大規模衝突重燃",
+          "link": "https://tw.news.yahoo.com/%E8%91%89%E9%96%80%E5%8F%9B%E8%BB%8D%E9%9D%92%E5%B9%B4%E9%81%8B%E5%8B%95%E9%80%A32%E5%A4%A9%E8%A5%B2%E6%93%8A-%E6%94%BF%E5%BA%9C%E8%BB%8D%E5%9B%9E%E6%93%8A-%E8%81%AF%E5%90%88%E5%9C%8B%E8%AD%A6%E5%91%8A%E5%A4%A7%E8%A6%8F%E6%A8%A1%E8%A1%9D%E7%AA%81%E9%87%8D%E7%87%83-051517534.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T13:15:17+08:00",
+          "summary": "葉門官方通訊社薩巴新聞社(Saba)引述地方政府指出，與伊朗結盟的葉門叛軍青年運動(Houthis)7日朝馬里卜(Marib)的難民營和住宅區發射彈道飛彈和無人機，導致2人死亡、14人受傷。 葉門軍方",
+          "additional_sources": []
+        },
+        {
+          "title": "布局歐日、高齡友善科技正夯 2027年台灣健康福祉產值估達3799億元",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B8%83%E5%B1%80%E6%AD%90%E6%97%A5-%E9%AB%98%E9%BD%A1%E5%8F%8B%E5%96%84%E7%A7%91%E6%8A%80%E6%AD%A3%E5%A4%AF-2027%E5%B9%B4%E5%8F%B0%E7%81%A3%E5%81%A5%E5%BA%B7%E7%A6%8F%E7%A5%89%E7%94%A2%E5%80%BC%E4%BC%B0%E9%81%943799%E5%84%84%E5%85%83-050232029.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T13:02:32+08:00",
+          "summary": "不怕久坐站不起！產發署 2 智慧輔具獲獎 站不起來它推你一把！產發署 2 智慧輔具奪獎 3 年催生 40 億商機久坐起身免擔心！產發署 2 輔具獲十大友",
+          "additional_sources": []
+        },
+        {
+          "title": "台股夜盤狂飆近千點！美魔王數據大爆雷  為何成「暴力噴發密碼」？",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E5%A4%9C%E7%9B%A4%E7%8B%82%E9%A3%86%E8%BF%91%E5%8D%83%E9%BB%9E-%E7%BE%8E%E9%AD%94%E7%8E%8B%E6%95%B8%E6%93%9A%E5%A4%A7%E7%88%86%E9%9B%B7-%E7%82%BA%E4%BD%95%E6%88%90-%E6%9A%B4%E5%8A%9B%E5%99%B4%E7%99%BC%E5%AF%86%E7%A2%BC-042125925.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T12:21:25+08:00",
+          "summary": "台指期周五（7日）夜盤一度暴衝近千點，終場大漲736點或 1.66%，以45033點作收，重新站回4萬5000點大關。投資專家分析，美國就業市場意外轉弱，不僅壓低聯準會9 月升息機率，反而點燃市場對降",
+          "additional_sources": []
+        },
+        {
+          "title": "哥倫比亞右翼總統就職 川普政府擬提供10億美元安全援助",
+          "link": "https://tw.news.yahoo.com/%E5%93%A5%E5%80%AB%E6%AF%94%E4%BA%9E%E5%8F%B3%E7%BF%BC%E7%B8%BD%E7%B5%B1%E5%B0%B1%E8%81%B7-%E5%B7%9D%E6%99%AE%E6%94%BF%E5%BA%9C%E6%93%AC%E6%8F%90%E4%BE%9B10%E5%84%84%E7%BE%8E%E5%85%83%E5%AE%89%E5%85%A8%E6%8F%B4%E5%8A%A9-035643241.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:56:43+08:00",
+          "summary": "美國國務院今天(7日)表示，美國總統川普(Donald Trump)政府計畫向哥倫比亞右翼新總統艾思普雷雅(Abelardo de la Espriella)政府，提供10億美元的安全援助。 美國國務",
+          "additional_sources": []
+        },
+        {
+          "title": "「萬元股」小資族也能碰？專家PO對帳單：賺30萬",
+          "link": "https://tw.stock.yahoo.com/news/%E8%90%AC%E5%85%83%E8%82%A1-%E5%B0%8F%E8%B3%87%E6%97%8F%E4%B9%9F%E8%83%BD%E7%A2%B0-%E5%B0%88%E5%AE%B6po%E5%B0%8D%E5%B8%B3%E5%96%AE-%E8%B3%BA30%E8%90%AC-033410911.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:34:10+08:00",
+          "summary": "財經中心／李汶臻報導台股高價股動輒數百萬元的股價，常讓資金有限的小資族望而卻步，甚至直呼「買不起」。對此，資深財經專家阮慕驊就在臉書大方分享「高價股買法」，他指出一張動輒數百萬的高價股，連他自己都不會",
+          "additional_sources": []
+        },
+        {
+          "title": "AI基建吃錢無止境 Jane Street擬轉私人信貸籌110億美元 華爾街也瘋AI軍備競賽",
+          "link": "https://tw.stock.yahoo.com/news/ai%E5%9F%BA%E5%BB%BA%E5%90%83%E9%8C%A2%E7%84%A1%E6%AD%A2%E5%A2%83-jane-street%E6%93%AC%E8%BD%89%E7%A7%81%E4%BA%BA%E4%BF%A1%E8%B2%B8%E7%B1%8C110%E5%84%84%E7%BE%8E%E5%85%83-%E8%8F%AF%E7%88%BE%E8%A1%97%E4%B9%9F%E7%98%8Bai%E8%BB%8D%E5%82%99%E7%AB%B6%E8%B3%BD-033003020.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:30:03+08:00",
+          "summary": "Jane Street 傳出尋求約 110 億美元私人信貸再融資, 並考慮將公開市場債務轉入私人融資工具, 資金將支持資料中心及 AI 交易技術擴張。這場交易也凸顯 AI 基建熱潮正加速向私人信貸市場",
+          "additional_sources": []
+        },
+        {
+          "title": "台股處置天數縮短、撮合改2分鐘8/10上路 這10檔上市股提前出關",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E8%99%95%E7%BD%AE%E5%A4%A9%E6%95%B8%E7%B8%AE%E7%9F%AD-%E6%92%AE%E5%90%88%E6%94%B92%E5%88%86%E9%90%988-10%E4%B8%8A%E8%B7%AF-%E9%80%9910%E6%AA%94%E4%B8%8A%E5%B8%82%E8%82%A1%E6%8F%90%E5%89%8D%E5%87%BA%E9%97%9C-031006757.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:10:06+08:00",
+          "summary": "證交所公告，修正後的「公布或通知注意交易資訊暨處置作業要點」將於下周一 (8 月 10 日) 正式實施。新制針對處置天數、撮合間隔以及注意股票門檻進行大幅度調整，現行仍在處置期間的個股將全面適用新規定",
+          "additional_sources": []
+        },
+        {
+          "title": "評分暴跌1.8分！豪華度假村天堂變公關災難",
+          "link": "https://tw.news.yahoo.com/%E8%A9%95%E5%88%86%E6%9A%B4%E8%B7%8C1-8%E5%88%86-%E8%B1%AA%E8%8F%AF%E5%BA%A6%E5%81%87%E6%9D%91%E5%A4%A9%E5%A0%82%E8%AE%8A%E5%85%AC%E9%97%9C%E7%81%BD%E9%9B%A3-031000934.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:10:00+08:00",
+          "summary": "[NOWNEWS今日新聞]一家才剛開幕不久的超豪華度假村，竟捲入一場重大爭議風波！墨西哥全新頂級度假村Amanvari，是由奢華酒店品牌Aman旗下打造，每晚房價高達約6000美元（約新台幣19萬元）",
+          "additional_sources": []
+        },
+        {
+          "title": "4級土石流警報響！白海豚沖繩「龜速」釀災",
+          "link": "https://tw.news.yahoo.com/4%E7%B4%9A%E5%9C%9F%E7%9F%B3%E6%B5%81%E8%AD%A6%E5%A0%B1%E9%9F%BF-%E7%99%BD%E6%B5%B7%E8%B1%9A%E6%B2%96%E7%B9%A9-%E9%BE%9C%E9%80%9F-%E9%87%80%E7%81%BD-030834268.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:08:34+08:00",
+          "summary": "[NOWNEWS今日新聞]威力強大的颱風「白海豚」持續從日本南部往西移動，強風豪雨已在沖繩縣及鹿兒島縣造成嚴重災情，兩地合計約4.5萬戶停電，沖繩縣至少7人受傷。日本氣象廳警告，由於白海豚移動速度緩慢",
+          "additional_sources": []
+        },
+        {
+          "title": "看到「晶片實力」後悔了？斷交19年「前邦交國」要來台了",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9C%8B%E5%88%B0-%E6%99%B6%E7%89%87%E5%AF%A6%E5%8A%9B-%E5%BE%8C%E6%82%94%E4%BA%86-%E6%96%B7%E4%BA%A419%E5%B9%B4-%E5%89%8D%E9%82%A6%E4%BA%A4%E5%9C%8B-030703963.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:07:03+08:00",
+          "summary": "財經中心／李明融報導在「晶片即國力」的全球科技浪潮下，台灣強大的半導體實力再次吸引前邦交國靠攏！與台灣斷交長達19年的中美洲國家哥斯大黎加，為了推動國家半導體產業轉型，繼2025年首度組團參展後，今年",
+          "additional_sources": []
+        },
+        {
+          "title": "儲存晶片漲勢踩煞車！伯恩斯坦：價格上行空間已明顯受限 短線可反彈但別追高",
+          "link": "https://tw.stock.yahoo.com/news/%E5%84%B2%E5%AD%98%E6%99%B6%E7%89%87%E6%BC%B2%E5%8B%A2%E8%B8%A9%E7%85%9E%E8%BB%8A-%E4%BC%AF%E6%81%A9%E6%96%AF%E5%9D%A6-%E5%83%B9%E6%A0%BC%E4%B8%8A%E8%A1%8C%E7%A9%BA%E9%96%93%E5%B7%B2%E6%98%8E%E9%A1%AF%E5%8F%97%E9%99%90-%E7%9F%AD%E7%B7%9A%E5%8F%AF%E5%8F%8D%E5%BD%88%E4%BD%86%E5%88%A5%E8%BF%BD%E9%AB%98-030020949.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T11:00:20+08:00",
+          "summary": "儲存晶片供應短缺仍未解除，但漲價動能開始降溫。伯恩斯坦指出，DRAM、NAND 第 3 季漲幅將明顯收斂，PC 與手機需求轉弱，加上 LTA 價格上限，正壓縮下一波漲價空間。",
+          "additional_sources": []
+        },
+        {
+          "title": "華邦電漲完100％再漲50％ 毛利衝8成 估明年暴賺6股本 官股目標價翻倍 緊跟小摩天價",
+          "link": "https://tw.stock.yahoo.com/news/%E8%8F%AF%E9%82%A6%E9%9B%BB%E6%BC%B2%E5%AE%8C100-%E5%86%8D%E6%BC%B250-%E6%AF%9B%E5%88%A9%E8%A1%9D8%E6%88%90-%E4%BC%B0%E6%98%8E%E5%B9%B4%E6%9A%B4%E8%B3%BA6%E8%82%A1%E6%9C%AC-%E5%AE%98%E8%82%A1%E7%9B%AE%E6%A8%99%E5%83%B9%E7%BF%BB%E5%80%8D-025256439.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:52:56+08:00",
+          "summary": "全球NOR Flash龍頭華邦電，受惠AI排擠舊世代記憶體產能，DDR4、FLASH供不應求，上季漲價40~100%，估第3季再漲價30~50%，官股法人看好記憶體需求緊俏，有利報價走升，預估明年毛利",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣經濟與碳排逐步脫鉤！電力排放係數降 葉俊顯揭綠色轉型關鍵成效",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%81%A3%E7%B6%93%E6%BF%9F%E8%88%87%E7%A2%B3%E6%8E%92%E9%80%90%E6%AD%A5%E8%84%AB%E9%89%A4-%E9%9B%BB%E5%8A%9B%E6%8E%92%E6%94%BE%E4%BF%82%E6%95%B8%E9%99%8D-%E8%91%89%E4%BF%8A%E9%A1%AF%E6%8F%AD%E7%B6%A0%E8%89%B2%E8%BD%89%E5%9E%8B%E9%97%9C%E9%8D%B5%E6%88%90%E6%95%88-025004116.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:50:04+08:00",
+          "summary": "國發會主委葉俊顯表示，台灣的經濟成長與碳排已經朝向「脫鉤」的趨勢，依據國家總體減碳行動計畫及五大策略的持續推動，台灣的電力排放係數從2023年的0.49降到2025年的0.453，「這一小步，對台灣是",
+          "additional_sources": []
+        },
+        {
+          "title": "財部：公民併設4面向評估機制　提升公股銀競爭力",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B2%A1%E9%83%A8-%E5%85%AC%E6%B0%91%E4%BD%B5%E8%A8%AD4%E9%9D%A2%E5%90%91%E8%A9%95%E4%BC%B0%E6%A9%9F%E5%88%B6-%E6%8F%90%E5%8D%87%E5%85%AC%E8%82%A1%E9%8A%80%E7%AB%B6%E7%88%AD%E5%8A%9B-024831344.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:48:31+08:00",
+          "summary": "（中央社記者呂晏慈台北2026年08月8日電）市場關注公股、民營金融機構合併議題，財政部書面報告指出，若以公股主導前提，可思考規劃方向，藉此提升公股銀行競爭力；建立涵蓋財務、業務、企業文化及法規等4面",
+          "additional_sources": []
+        },
+        {
+          "title": "中國跨境鎮壓伸入宗教領域 美天主教取消楊鳳崗演說惹議",
+          "link": "https://tw.news.yahoo.com/%E4%B8%AD%E5%9C%8B%E8%B7%A8%E5%A2%83%E9%8E%AE%E5%A3%93%E4%BC%B8%E5%85%A5%E5%AE%97%E6%95%99%E9%A0%98%E5%9F%9F-%E7%BE%8E%E5%A4%A9%E4%B8%BB%E6%95%99%E5%8F%96%E6%B6%88%E6%A5%8A%E9%B3%B3%E5%B4%97%E6%BC%94%E8%AA%AA%E6%83%B9%E8%AD%B0-024252772.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:42:52+08:00",
+          "summary": "普渡大學宗教社會學教授楊鳳崗近日披露，他原訂於今年7月31日至8月2日在美國中國天主教協會（USCCA）休斯頓雙年會上發表演講，卻在會前遭臨時撤除，過程中疑似涉及中國官方施壓，引發外界對中國跨境鎮壓衝",
+          "additional_sources": []
+        },
+        {
+          "title": "漢光42／海軍大秀無人機新戰力 總統親赴視導並鼓舞官兵",
+          "link": "https://tw.news.yahoo.com/%E6%BC%A2%E5%85%8942-%E6%B5%B7%E8%BB%8D%E5%A4%A7%E7%A7%80%E7%84%A1%E4%BA%BA%E6%A9%9F%E6%96%B0%E6%88%B0%E5%8A%9B-%E7%B8%BD%E7%B5%B1%E8%A6%AA%E8%B5%B4%E8%A6%96%E5%B0%8E%E4%B8%A6%E9%BC%93%E8%88%9E%E5%AE%98%E5%85%B5-024251970.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:42:51+08:00",
+          "summary": "年度漢光42號演習持續進行，賴清德總統8日上午親赴左營軍港，視導海軍演訓情形。總統除親自登艦鼓舞官兵士氣外，也視導部隊在無人機領域的運用情形。海軍也首次公開驗證定翼型「中型自殺無人機」及FPV型「攻擊",
+          "additional_sources": []
+        },
+        {
+          "title": "KOSPI崩跌22%掀「逃往美股」潮 韓國螞蟻大軍7月狂買46億美元美股",
+          "link": "https://tw.stock.yahoo.com/news/kospi%E5%B4%A9%E8%B7%8C22-%E6%8E%80-%E9%80%83%E5%BE%80%E7%BE%8E%E8%82%A1-%E6%BD%AE-%E9%9F%93%E5%9C%8B%E8%9E%9E%E8%9F%BB%E5%A4%A7%E8%BB%8D7%E6%9C%88%E7%8B%82%E8%B2%B746%E5%84%84%E7%BE%8E%E5%85%83%E7%BE%8E%E8%82%A1-024003103.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:40:03+08:00",
+          "summary": "韓國股市近期劇烈震盪，KOSPI 連續 7 週走跌，散戶資金再度大舉轉向美股，7 月買入金額突破 50 億美元，市場擔憂資金外流將加劇韓元長期貶值壓力。",
+          "additional_sources": []
+        },
+        {
+          "title": "白海豚中颱來襲 中央示警應嚴防強風豪雨及長浪 勿逗留海邊嬉戲",
+          "link": "https://tw.news.yahoo.com/%E7%99%BD%E6%B5%B7%E8%B1%9A%E4%B8%AD%E9%A2%B1%E4%BE%86%E8%A5%B2-%E4%B8%AD%E5%A4%AE%E7%A4%BA%E8%AD%A6%E6%87%89%E5%9A%B4%E9%98%B2%E5%BC%B7%E9%A2%A8%E8%B1%AA%E9%9B%A8%E5%8F%8A%E9%95%B7%E6%B5%AA-%E5%8B%BF%E9%80%97%E7%95%99%E6%B5%B7%E9%82%8A%E5%AC%89%E6%88%B2-023947775.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:39:47+08:00",
+          "summary": "白海豚颱風來襲，中央災害應變中心副指揮官、內政次長董建宏今天(8日)上午在工作會議關切疏散撤離、救災整備等防颱情況，由於北部、東北部長浪風險高，董建宏要求地方縣市政府及海巡人員應加強岸際勸離，守護民眾",
+          "additional_sources": []
+        },
+        {
+          "title": "阿伯窗口變監視站！長鏡頭讓全社區膽戰心驚",
+          "link": "https://tw.news.yahoo.com/%E9%98%BF%E4%BC%AF%E7%AA%97%E5%8F%A3%E8%AE%8A%E7%9B%A3%E8%A6%96%E7%AB%99-%E9%95%B7%E9%8F%A1%E9%A0%AD%E8%AE%93%E5%85%A8%E7%A4%BE%E5%8D%80%E8%86%BD%E6%88%B0%E5%BF%83%E9%A9%9A-023000845.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T10:30:00+08:00",
+          "summary": "[NOWNEWS今日新聞]在新加坡，維護組屋環境本來是一件好事，但如果樓上每天都有一支長焦鏡頭，對準停車場和樓下公共空間，事情恐怕就不只是「抓不抓垃圾蟲」這麼簡單了。淡濱尼一名68歲退休人士譚強生（音",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "6804 明係",
+      "keywords": [
+        "買回",
+        "公司",
+        "股份",
+        "員工",
+        "本公"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "明係 公告本公司董事會決議買回庫藏股",
+          "link": "https://tw.stock.yahoo.com/news/%E6%98%8E%E4%BF%82-%E5%85%AC%E5%91%8A%E6%9C%AC%E5%85%AC%E5%8F%B8%E8%91%A3%E4%BA%8B%E6%9C%83%E6%B1%BA%E8%AD%B0%E8%B2%B7%E5%9B%9E%E5%BA%AB%E8%97%8F%E8%82%A1-055800347.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T13:58:00+08:00",
+          "summary": "公開資訊觀測站重大訊息公告(6804)明係-公告本公司董事會決議買回庫藏股1.董事會決議日期:115/08/072.買回股份目的:轉讓股份予員工3.買回股份種類:普通股4.買回股份總金額上限(元):7",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "像電",
+        "金像",
+        "股價",
+        "rubin",
+        "婉婷"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "PCB女王看好誰？欣興、金居、金像電血洗後 點名「這檔被錯殺」本益比低爆",
+          "link": "https://tw.stock.yahoo.com/news/pcb%E5%A5%B3%E7%8E%8B%E7%9C%8B%E5%A5%BD%E8%AA%B0-%E6%AC%A3%E8%88%88-%E9%87%91%E5%B1%85-%E9%87%91%E5%83%8F%E9%9B%BB%E8%A1%80%E6%B4%97%E5%BE%8C-%E9%BB%9E%E5%90%8D-054239241.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T13:42:39+08:00",
+          "summary": "台股7月歷經大幅拉回，包含印刷電路板（PCB）族群在內的六成個股，在股價幾近腰斬後陸續展開反彈。有「PCB女王」封號的統一投顧總經理廖婉婷針對欣興、金像電及金居等指標股分析，尤其點名金像電股價回落至7",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AMZN 亞馬遜",
+      "keywords": [
+        "輝達",
+        "spacex",
+        "us",
+        "ai",
+        "可能"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "單周市值暴增5620億美元破紀錄！馬斯克背書加雲端巨頭擴張 輝達周飆11%",
+          "link": "https://tw.stock.yahoo.com/news/%E5%96%AE%E5%91%A8%E5%B8%82%E5%80%BC%E6%9A%B4%E5%A2%9E5620%E5%84%84%E7%BE%8E%E5%85%83%E7%A0%B4%E7%B4%80%E9%8C%84-%E9%A6%AC%E6%96%AF%E5%85%8B%E8%83%8C%E6%9B%B8%E5%8A%A0%E9%9B%B2%E7%AB%AF%E5%B7%A8%E9%A0%AD%E6%93%B4%E5%BC%B5-%E8%BC%9D%E9%81%94%E5%96%AE%E5%91%A8%E7%8B%82%E9%A3%8611-040010646.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-08T12:00:10+08:00",
+          "summary": "輝達 (NVDA-US) 股價本周創下逾一年來最佳單周表現，兩大因素是主力：旗下人工智慧 (AI) 晶片獲得重量級背書，以及大型雲端業者持續大手筆投入 AI 基礎設施，印證市場需求強勁。 輝達周五 (",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6566315",
+              "title": "單周市值暴增5620億美元破紀錄！馬斯克背書加雲端巨頭擴張 輝達周飆11%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "海峽",
+        "協議",
+        "伊朗",
+        "姆茲",
+        "茲海"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "川普頻喊和平市場買單嗎？荷姆茲海峽協議陷空談 專家示警油價恐暴漲 ",
+          "link": "https://news.cnyes.com/news/id/6566280",
+          "source": "cnyes",
+          "pubdate": "2026-08-08T13:30:13+08:00",
+          "summary": "鉅亨網編譯余曉惠2026-08-08 13:30\n川普政府本周釋放美國與伊朗可能很快就荷姆茲海峽達成協議的樂觀訊號，帶動油價下跌、股市大漲，但最終協議並未出現。這一切似曾相識：美國總統川普已數十次宣稱，美伊即將達成協議，結束這場已持續超過五個月的戰爭。為何市場多次買單？\n川普頻喊和平市場買單嗎？荷姆…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E5%B7%9D%E6%99%AE%E9%A0%BB%E5%96%8A%E5%92%8C%E5%B9%B3%E5%B8%82%E5%A0%B4%E8%B2%B7%E5%96%AE%E5%97%8E-%E8%8D%B7%E5%A7%86%E8%8C%B2%E6%B5%B7%E5%B3%BD%E5%8D%94%E8%AD%B0%E9%99%B7%E7%A9%BA%E8%AB%87-%E5%B0%88%E5%AE%B6%E7%A4%BA%E8%AD%A6%E6%B2%B9%E5%83%B9%E6%81%90%E6%9A%B4%E6%BC%B2-053013262.html",
+              "title": "川普頻喊和平市場買單嗎？荷姆茲海峽協議陷空談 專家示警油價恐暴漲"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
