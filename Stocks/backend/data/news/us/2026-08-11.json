@@ -1,0 +1,208 @@
+{
+  "date": "2026-08-11",
+  "generated_at": "2026-08-11T16:11:07.547364",
+  "group_count": 3,
+  "total_articles": 20,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "ai",
+        "報導",
+        "2",
+        "市場",
+        "投資"
+      ],
+      "article_count": 17,
+      "articles": [
+        {
+          "title": "仁寶砸逾40億打造大溪製造中心，AI伺服器業務衝鋒",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BB%81%E5%AF%B6%E7%A0%B8%E9%80%BE40%E5%84%84%E6%89%93%E9%80%A0%E5%A4%A7%E6%BA%AA%E8%A3%BD%E9%80%A0%E4%B8%AD%E5%BF%83-ai%E4%BC%BA%E6%9C%8D%E5%99%A8%E6%A5%AD%E5%8B%99%E8%A1%9D%E9%8B%92-080240992.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T16:02:40+08:00",
+          "summary": "【財訊快報／記者王宜弘報導】仁寶(2324)週二(11日)桃園大溪製造中心舉行剪綵啟用儀式，董事長陳瑞聰指出，仁寶加速朝以AI為核心的轉型，AI伺服器客戶版圖由傳統的PC ODM客戶拓展到NeoClo",
+          "additional_sources": []
+        },
+        {
+          "title": "89歲老母變提款機！女兒抖內燒千萬狠心動手",
+          "link": "https://tw.news.yahoo.com/89%E6%AD%B2%E8%80%81%E6%AF%8D%E8%AE%8A%E6%8F%90%E6%AC%BE%E6%A9%9F-%E5%A5%B3%E5%85%92%E6%8A%96%E5%85%A7%E7%87%92%E5%8D%83%E8%90%AC%E7%8B%A0%E5%BF%83%E5%8B%95%E6%89%8B-080200675.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T16:02:00+08:00",
+          "summary": "[NOWNEWS今日新聞]日本千葉縣日前發生一起令人唏噓的冷血命案。2024年8月，住在千葉縣夷隅市（いすみ市）小澤地區、獨居的89歲老婦石上靜子，被發現於家中慘遭勒斃身亡。經過警方長達2年的縝密調查",
+          "additional_sources": []
+        },
+        {
+          "title": "東捷資訊上半年EPS1.86元，ERP建置案推進，營運動能回溫",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9D%B1%E6%8D%B7%E8%B3%87%E8%A8%8A%E4%B8%8A%E5%8D%8A%E5%B9%B4eps1-86%E5%85%83-erp%E5%BB%BA%E7%BD%AE%E6%A1%88%E6%8E%A8%E9%80%B2-%E7%87%9F%E9%81%8B%E5%8B%95%E8%83%BD%E5%9B%9E%E6%BA%AB-080156955.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T16:01:56+08:00",
+          "summary": "【財訊快報／記者陳浩寧報導】東捷資訊(6697)上半年營收為7.12億元，年增3.3%，稅後淨利0.51億元，年增1.5%，EPS 1.86元。東捷資訊表示，上半年因投入AI加值應用開發、擴編資安團隊",
+          "additional_sources": []
+        },
+        {
+          "title": "捷運進站煞車能「發電」！三鶯線84公噸列車藏玄機　冷氣、照明都能用",
+          "link": "https://tw.stock.yahoo.com/news/%E6%8D%B7%E9%81%8B%E9%80%B2%E7%AB%99%E7%85%9E%E8%BB%8A%E8%83%BD%E3%80%8C%E7%99%BC%E9%9B%BB%E3%80%8D%EF%BC%81%E4%B8%89%E9%B6%AF%E7%B7%9A84%E5%85%AC%E5%99%B8%E5%88%97%E8%BB%8A%E8%97%8F%E7%8E%84%E6%A9%9F-%E5%86%B7%E6%B0%A3%E3%80%81%E7%85%A7%E6%98%8E%E9%83%BD%E8%83%BD%E7%94%A8-080021992.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T16:00:21+08:00",
+          "summary": "捷運進站煞車時，竟然也能「發電」！新北捷運局分享，捷運三鶯線列車滿載重量約84公噸，行駛過程累積大量動能，列車減速進站時，透過「再生電力煞車」技術，將原本可能轉化為摩擦熱能的動能重新轉換成電力，不僅可",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣經濟上半年成長13.72%創半世紀新高　謝金河：不只考100分",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%81%A3%E7%B6%93%E6%BF%9F%E4%B8%8A%E5%8D%8A%E5%B9%B4%E6%88%90%E9%95%B713-72-%E5%89%B5%E5%8D%8A%E4%B8%96%E7%B4%80%E6%96%B0%E9%AB%98-%E8%AC%9D%E9%87%91%E6%B2%B3-%E4%B8%8D%E5%8F%AA%E8%80%83100%E5%88%86-075154798.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:51:54+08:00",
+          "summary": "財經中心／王駿凱報導財信傳媒董事長謝金河近日在臉書發文，以「台灣經濟關鍵的半年報」為題，整理台灣今年上半年經濟表現。他指出，台灣上半年經濟成長率達13.72%，若把這份成績單視為「期中考」，台灣不只考",
+          "additional_sources": []
+        },
+        {
+          "title": "降薪轉職好難受！50K變46K掀共鳴　網友勸「把難受當燃料」",
+          "link": "https://tw.stock.yahoo.com/news/%E9%99%8D%E8%96%AA%E8%BD%89%E8%81%B7%E5%A5%BD%E9%9B%A3%E5%8F%97-50k%E8%AE%8A46k%E6%8E%80%E5%85%B1%E9%B3%B4-%E7%B6%B2%E5%8F%8B%E5%8B%B8-%E6%8A%8A%E9%9B%A3%E5%8F%97%E7%95%B6%E7%87%83%E6%96%99-075137013.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:51:37+08:00",
+          "summary": "財經中心／王駿凱報導轉職究竟該不該接受降薪？日前有網友在社群平台分享自身經歷，原PO透露自己決定降薪轉職，月薪從5萬元降至4.6萬元，雖然理性上可以接受，心情卻相當難受。短短幾行文字引發大批網友共鳴，",
+          "additional_sources": []
+        },
+        {
+          "title": "巧新Q2毛利率衝24.3%　半導體＋再生鋁雙引擎點火",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B7%A7%E6%96%B0q2%E6%AF%9B%E5%88%A9%E7%8E%87%E8%A1%9D24-3-%E5%8D%8A%E5%B0%8E%E9%AB%94-%E5%86%8D%E7%94%9F%E9%8B%81%E9%9B%99%E5%BC%95%E6%93%8E%E9%BB%9E%E7%81%AB-075127095.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:51:27+08:00",
+          "summary": "財經中心／王駿凱報導鋁合金鍛造大廠巧新（1563）第2季營運表現改善，法人指出，2026年第2季營收19.8億元，季增5.76%、年增15.45%，毛利4.82億元，年增41.83%，毛利率升至24.",
+          "additional_sources": []
+        },
+        {
+          "title": "哥倫比亞地震深度百公里！為何晃動仍劇烈？",
+          "link": "https://tw.news.yahoo.com/%E5%93%A5%E5%80%AB%E6%AF%94%E4%BA%9E%E5%9C%B0%E9%9C%87%E6%B7%B1%E5%BA%A6%E7%99%BE%E5%85%AC%E9%87%8C-%E7%82%BA%E4%BD%95%E6%99%83%E5%8B%95%E4%BB%8D%E5%8A%87%E7%83%88-075127880.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:51:27+08:00",
+          "summary": "[NOWNEWS今日新聞]哥倫比亞當地時間周一早上發生規模7.4強震，至今已造成至少132人死亡，570人受傷，超過千棟房屋倒塌，仍有民眾受困瓦礫堆，傷亡持續增加中，哥倫比亞總統也發布緊急狀態。這起地",
+          "additional_sources": []
+        },
+        {
+          "title": "鉅橡迎黃金期！AI載板需求升溫　Q2淨利狂增325%",
+          "link": "https://tw.stock.yahoo.com/news/%E9%89%85%E6%A9%A1%E8%BF%8E%E9%BB%83%E9%87%91%E6%9C%9F-ai%E8%BC%89%E6%9D%BF%E9%9C%80%E6%B1%82%E5%8D%87%E6%BA%AB-q2%E6%B7%A8%E5%88%A9%E7%8B%82%E5%A2%9E325-075117149.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:51:17+08:00",
+          "summary": "財經中心／綜合報導PCB墊板廠鉅橡（8074）第2季營運表現亮眼，國泰證期研究部指出，2026年第2季營收達4.2億元，年增24.2%、季增15.2%，毛利1.14億元，年增65.1%，毛利率升至27",
+          "additional_sources": []
+        },
+        {
+          "title": "穎崴、望隼評價大洗牌！一檔降目標價、一檔喊升　但雙雙獲「買進」",
+          "link": "https://tw.stock.yahoo.com/news/%E7%A9%8E%E5%B4%B4-%E6%9C%9B%E9%9A%BC%E8%A9%95%E5%83%B9%E5%A4%A7%E6%B4%97%E7%89%8C-%E6%AA%94%E9%99%8D%E7%9B%AE%E6%A8%99%E5%83%B9-%E6%AA%94%E5%96%8A%E5%8D%87-%E4%BD%86%E9%9B%99%E9%9B%99%E7%8D%B2-075101079.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:51:01+08:00",
+          "summary": "財經中心／綜合報導永豐投顧最新晨訊針對測試介面與隱形眼鏡族群穎崴（6515）及望隼（4771）出具最新評價，兩家公司同獲「買進」建議，但受到獲利表現及產能展望不同影響，目標價一降一升。",
+          "additional_sources": []
+        },
+        {
+          "title": "京元電忍一時拚Q4爆發！永豐投顧喊買　定穎遭CCL漲價壓制維持中立",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BA%AC%E5%85%83%E9%9B%BB%E5%BF%8D-%E6%99%82%E6%8B%9Aq4%E7%88%86%E7%99%BC-%E6%B0%B8%E8%B1%90%E6%8A%95%E9%A1%A7%E5%96%8A%E8%B2%B7-%E5%AE%9A%E7%A9%8E%E9%81%ADccl%E6%BC%B2%E5%83%B9%E5%A3%93%E5%88%B6%E7%B6%AD%E6%8C%81%E4%B8%AD%E7%AB%8B-075043499.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:50:43+08:00",
+          "summary": "財經中心／王駿凱報導永豐投顧最新晨訊針對京元電子（2449）及定穎投控（3715）出具最新評價，京元電子雖短期面臨逆風，但看好第4季起進入高速成長期，維持「買進」建議；定穎則受到CCL漲價及泰國廠稼動",
+          "additional_sources": []
+        },
+        {
+          "title": "遠傳7月三大財報指標創同期新高！5G用戶衝49.6%　營運全面升溫",
+          "link": "https://tw.stock.yahoo.com/news/%E9%81%A0%E5%82%B37%E6%9C%88%E4%B8%89%E5%A4%A7%E8%B2%A1%E5%A0%B1%E6%8C%87%E6%A8%99%E5%89%B5%E5%90%8C%E6%9C%9F%E6%96%B0%E9%AB%98-5g%E7%94%A8%E6%88%B6%E8%A1%9D49-6-%E7%87%9F%E9%81%8B%E5%85%A8%E9%9D%A2%E5%8D%87%E6%BA%AB-075023056.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:50:23+08:00",
+          "summary": "財經中心／王駿凱報導遠傳電信（4904）今（10）日公布2026年7月自結營運數據，受惠5G用戶持續升級、資費方案及手機銷售帶動，加上企業智慧資通訊專案挹注，7月營收、EBITDA及營業淨利同步創歷年",
+          "additional_sources": []
+        },
+        {
+          "title": "在麥當勞辦婚禮！「I'm lovin' it」真實版",
+          "link": "https://tw.news.yahoo.com/%E5%9C%A8%E9%BA%A5%E7%95%B6%E5%8B%9E%E8%BE%A6%E5%A9%9A%E7%A6%AE-im-lovin-%E7%9C%9F%E5%AF%A6%E7%89%88-074923659.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:49:23+08:00",
+          "summary": "[NOWNEWS今日新聞]對於許多人來說，麥當勞是填飽肚子的地方；但對美國俄亥俄州的一對新人而言，麥當勞卻是見證他們愛情的神聖殿堂。同樣任職於俄亥俄州阿克倫一家家麥當勞門市的傑米（Jamie）與喬治（",
+          "additional_sources": []
+        },
+        {
+          "title": "極端高溫重創歐洲經濟，損失恐達數千億歐元並推升通膨",
+          "link": "https://tw.stock.yahoo.com/news/%E6%A5%B5%E7%AB%AF%E9%AB%98%E6%BA%AB%E9%87%8D%E5%89%B5%E6%AD%90%E6%B4%B2%E7%B6%93%E6%BF%9F-%E6%90%8D%E5%A4%B1%E6%81%90%E9%81%94%E6%95%B8%E5%8D%83%E5%84%84%E6%AD%90%E5%85%83%E4%B8%A6%E6%8E%A8%E5%8D%87%E9%80%9A%E8%86%A8-074851882.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:48:51+08:00",
+          "summary": "【財訊快報／陳孟朔】路透報導，歐洲今夏接連遭遇破紀錄高溫、乾旱及野火，經濟學家估計，發電、航運、農業、觀光和公共衛生系統受到的損失已達數千億歐元，全年災損可能超越歷年紀錄。歐洲升溫速度快於其他大洲，多",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】麗彤向關係人取得使用權資產",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E9%BA%97%E5%BD%A4%E5%90%91%E9%97%9C%E4%BF%82%E4%BA%BA%E5%8F%96%E5%BE%97%E4%BD%BF%E7%94%A8%E6%AC%8A%E8%B3%87%E7%94%A2-074518613.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:45:18+08:00",
+          "summary": "日 期：2026年08月11日公司名稱：麗彤(6539)主 旨：麗彤向關係人取得使用權資產發言人：陳美秀說 明：1.標的物之名稱及性質（如坐落台中市北區ＸＸ段ＸＸ小段土地）:桃園門市：桃園市桃園區中正",
+          "additional_sources": []
+        },
+        {
+          "title": "一檔國巨看穿台股！ 分析師揭多頭中段暗號：「這數字」以上別再追",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AA%94%E5%9C%8B%E5%B7%A8%E7%9C%8B%E7%A9%BF%E5%8F%B0%E8%82%A1-%E5%88%86%E6%9E%90%E5%B8%AB%E6%8F%AD%E5%A4%9A%E9%A0%AD%E4%B8%AD%E6%AE%B5%E6%9A%97%E8%99%9F-%E9%80%99%E6%95%B8%E5%AD%97-%E4%BB%A5%E4%B8%8A%E5%88%A5%E5%86%8D%E8%BF%BD-074500735.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:45:00+08:00",
+          "summary": "國巨暴漲看穿台股洗籌劇本！分析師周代運在臉書發文表示看好「中秋變盤目標53,000點」，但強調短線仍有壓力，警惕投資人不要看見反彈就手癢盲目追高。",
+          "additional_sources": []
+        },
+        {
+          "title": "日圓若快速反轉恐震盪美債與科技股 牽動全球市場穩定",
+          "link": "https://tw.stock.yahoo.com/news/%E6%97%A5%E5%9C%93%E8%8B%A5%E5%BF%AB%E9%80%9F%E5%8F%8D%E8%BD%89%E6%81%90%E9%9C%87%E7%9B%AA%E7%BE%8E%E5%82%B5%E8%88%87%E7%A7%91%E6%8A%80%E8%82%A1-%E7%89%BD%E5%8B%95%E5%85%A8%E7%90%83%E5%B8%82%E5%A0%B4%E7%A9%A9%E5%AE%9A-074337996.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-11T15:43:37+08:00",
+          "summary": "圖／示意圖商傳媒｜吳承岳／台北報導近期日本政府為穩定日圓匯率採取多項措施，美國也出手相助。由於日圓貶值至近四十年的低點，日本持續干預匯市，這使得日圓問題與美國的資金市場及全球金融穩定直接關聯。分析師指",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "中心",
+        "ai",
+        "料中",
+        "資料",
+        "投資"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "[新聞] 資料中心引爆民怨！ 艾克曼力挺Ramaswamy",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1786418897.A.6A9.html",
+          "source": "ptt",
+          "pubdate": "2026-08-11T11:28:15+08:00",
+          "summary": "資料中心引爆民怨！ 艾克曼力挺Ramaswamy「Ohioans First」居民免電費、降房產稅\nhttps://news.cnyes.com/news/id/6570330\n鉅亨網新聞中心2026-08-11 10:20\n\n\n潘興廣場 (Pershing Square) 執行長艾克曼 (Bill…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 貝萊德Q2末持倉名單！狂押AI全產業鏈 美",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1786429121.A.D94.html",
+          "source": "ptt",
+          "pubdate": "2026-08-11T14:18:37+08:00",
+          "summary": "貝萊德Q2末持倉名單！狂押AI全產業鏈 美光、AMD、設備股成加碼重心\nhttps://news.cnyes.com/news/id/6570512\n鉅亨網新聞中心 2026-08-11 11:00\n\n\n全球最大資產管理公司貝萊德 (BlackRock, BLK-US)2026 年第 2 季 13F…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "ai",
+        "資產",
+        "基礎",
+        "可能",
+        "輝達"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 輝達攜手6大金融巨頭募資5000億美元！黃",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1786429769.A.5E4.html",
+          "source": "ptt",
+          "pubdate": "2026-08-11T14:29:26+08:00",
+          "summary": "原文標題：\n輝達攜手6大金融巨頭募資5000億美元！黃仁勳：AI算力已成可投資資產\n\n原文連結：\nhttps://news.cnyes.com/news/id/6569966\n發布時間：\n2026-08-11 06:00\n\n記者署名：\n鉅亨網編譯許家華\n\n原文內容：\n輝達周一 (10 日) 宣布，已…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "US"
+}
