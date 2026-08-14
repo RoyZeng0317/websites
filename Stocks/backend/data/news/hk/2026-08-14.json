@@ -1,0 +1,30 @@
+{
+  "date": "2026-08-14",
+  "generated_at": "2026-08-14T16:18:22.639938",
+  "group_count": 1,
+  "total_articles": 1,
+  "groups": [
+    {
+      "group": "HK 1810 小米",
+      "keywords": [
+        "成本",
+        "品牌",
+        "手機",
+        "銷量",
+        "可能"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "中國智慧手機市場618後銷量跌幅突破雙位數 下半年成本壓力品牌恐再漲價",
+          "link": "https://news.cnyes.com/news/id/6577053",
+          "source": "cnyes",
+          "pubdate": "2026-08-14T16:08:50+08:00",
+          "summary": "鉅亨網記者吳承諦 台北2026-08-14 16:08\n研調機構Counterpoint Research指出，受需求持續疲弱影響，2026 年前 30 週中國智慧型手機銷量年減 8.6%。618 購物節後，隨著市場進入季節性淡季，加上記憶體成本上升，銷量年減幅再度擴大至雙位數，並預期 2026 年…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "HK"
+}
