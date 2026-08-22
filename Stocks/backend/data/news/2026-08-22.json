@@ -1,0 +1,478 @@
+{
+  "date": "2026-08-22",
+  "generated_at": "2026-08-22T15:34:47.019410",
+  "group_count": 9,
+  "total_articles": 41,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "美國",
+        "1",
+        "台灣",
+        "我們",
+        "ai"
+      ],
+      "article_count": 30,
+      "articles": [
+        {
+          "title": "美加貿易談判破局！川普對加拿大部分商品加徵50%關稅、卡尼宣布報復",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%8A%A0%E8%B2%BF%E6%98%93%E8%AB%87%E5%88%A4%E7%A0%B4%E5%B1%80-%E5%B7%9D%E6%99%AE%E5%B0%8D%E5%8A%A0%E6%8B%BF%E5%A4%A7%E9%83%A8%E5%88%86%E5%95%86%E5%93%81%E5%8A%A0%E5%BE%B550-%E9%97%9C%E7%A8%85-%E5%8D%A1%E5%B0%BC%E5%AE%A3%E5%B8%83%E5%A0%B1%E5%BE%A9-061006729.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T14:10:06+08:00",
+          "summary": "美加貿易談判破局，美國宣布對價值約200億美元的加拿大商品加徵50%關稅，卡尼暫停談判並誓言等額報復，美加貿易緊張升溫。",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6584187",
+              "title": "美加貿易談判破局！川普對加拿大部分商品加徵50%關稅、卡尼宣布報復"
+            }
+          ]
+        },
+        {
+          "title": "遺贈稅法修正三讀！取消30萬分期門檻、終止為人「買單」等6大關鍵懶人包",
+          "link": "https://tw.stock.yahoo.com/news/%E9%81%BA%E8%B4%88%E7%A8%85%E6%B3%95%E4%BF%AE%E6%AD%A3%E4%B8%89%E8%AE%80-%E5%8F%96%E6%B6%8830%E8%90%AC%E5%88%86%E6%9C%9F%E9%96%80%E6%AA%BB-%E7%B5%82%E6%AD%A2%E7%82%BA%E4%BA%BA-%E8%B2%B7%E5%96%AE-%E7%AD%896%E5%A4%A7%E9%97%9C%E9%8D%B5%E6%87%B6%E4%BA%BA%E5%8C%85-050844962.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T13:08:44+08:00",
+          "summary": "立法院昨(21)日三讀通過遺產及贈與稅法（下稱遺贈稅法）部分條文修正草案，響應憲法法庭113年憲判字第11號判決意旨。本次修法包括六大修正，包括取消稅額滿30萬元申請分期的門檻、劃一被繼承人死亡前2年",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6584160",
+              "title": "遺贈稅法修正三讀！取消30萬分期門檻、終止為人「買單」等6大關鍵懶人包"
+            }
+          ]
+        },
+        {
+          "title": "油價逼近1個月新高衝擊科技股 資金爆輪動潮 法人點名下周4件大事",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B2%B9%E5%83%B9%E9%80%BC%E8%BF%911%E5%80%8B%E6%9C%88%E6%96%B0%E9%AB%98%E8%A1%9D%E6%93%8A%E7%A7%91%E6%8A%80%E8%82%A1-%E8%B3%87%E9%87%91%E7%88%86%E8%BC%AA%E5%8B%95%E6%BD%AE-%E6%B3%95%E4%BA%BA%E9%BB%9E%E5%90%8D%E4%B8%8B%E5%91%A84%E4%BB%B6%E5%A4%A7%E4%BA%8B-050616832.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T13:06:16+08:00",
+          "summary": "美伊60天停火期限屆滿未達新協議，中東戰事疑慮再起推升油價與美債殖利率，拖累美股全線收低，道瓊與標普500指數通周跌逾1.7%。富蘭克林證券投顧表示，雖然地緣政治短期引發通膨擔憂，但美國企業第2季獲利",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6584134",
+              "title": "油價逼近1個月新高衝擊科技股 資金爆輪動潮 法人點名下周4件大事"
+            }
+          ]
+        },
+        {
+          "title": "單月外銷訂單逼近千億美元、明年普發現金1萬元、中信金法說 本周大事回顧",
+          "link": "https://tw.stock.yahoo.com/news/%E5%96%AE%E6%9C%88%E5%A4%96%E9%8A%B7%E8%A8%82%E5%96%AE%E9%80%BC%E8%BF%91%E5%8D%83%E5%84%84%E7%BE%8E%E5%85%83-%E6%98%8E%E5%B9%B4%E6%99%AE%E7%99%BC%E7%8F%BE%E9%87%911%E8%90%AC%E5%85%83-%E4%B8%AD%E4%BF%A1%E9%87%91%E6%B3%95%E8%AA%AA-%E6%9C%AC%E5%91%A8%E5%A4%A7%E4%BA%8B%E5%9B%9E%E9%A1%A7-045442080.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:54:42+08:00",
+          "summary": "經濟部周四公布7月外銷訂單統計，接單金額達979.4億美元，創歷史單月新高，連18紅；總統賴清德周一表示，明年將普發現金1萬元，讓全民共享AI紅利；中信金周二召開法說會，總經理高麗雪指出，上半年淨值增",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6584068",
+              "title": "單月外銷訂單逼近千億美元、明年普發現金1萬元、中信金法說 本周大事回顧"
+            }
+          ]
+        },
+        {
+          "title": "【公告】聯強(補充115/7/24公告)代子公司PEER DEVELOPMENTS LTD.公告處份CONCENTRIX CORP.股票",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E8%81%AF%E5%BC%B7-%E8%A3%9C%E5%85%85115-7-24%E5%85%AC%E5%91%8A-071119472.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T15:11:19+08:00",
+          "summary": "日 期：2026年08月22日公司名稱：聯強(2347)主 旨：(補充115/7/24公告)代子公司PEER DEVELOPMENTS LTD.公告處份CONCENTRIX CORP.股票發言人：杜書",
+          "additional_sources": []
+        },
+        {
+          "title": "語出驚人！川普稱霸荷姆茲海峽：是美國領土",
+          "link": "https://tw.news.yahoo.com/%E8%AA%9E%E5%87%BA%E9%A9%9A%E4%BA%BA-%E5%B7%9D%E6%99%AE%E7%A8%B1%E9%9C%B8%E8%8D%B7%E5%A7%86%E8%8C%B2%E6%B5%B7%E5%B3%BD-%E6%98%AF%E7%BE%8E%E5%9C%8B%E9%A0%98%E5%9C%9F-063740781.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T14:37:40+08:00",
+          "summary": "[NOWNEWS今日新聞]美國總統川普21日在南卡羅來納州一場造勢活動上，語出驚人地把荷姆茲海峽形容為「美國領土」，同時再度重申，美國絕不能讓伊朗擁有核武。川普也提到，伊朗方面很希望與美國達成協議，但",
+          "additional_sources": []
+        },
+        {
+          "title": "坦言不熟國安惹議　川普仍替葛蘭姆胞妹站台",
+          "link": "https://tw.news.yahoo.com/%E5%9D%A6%E8%A8%80%E4%B8%8D%E7%86%9F%E5%9C%8B%E5%AE%89%E6%83%B9%E8%AD%B0-%E5%B7%9D%E6%99%AE%E4%BB%8D%E6%9B%BF%E8%91%9B%E8%98%AD%E5%A7%86%E8%83%9E%E5%A6%B9%E7%AB%99%E5%8F%B0-063449915.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T14:34:49+08:00",
+          "summary": "[NOWNEWS今日新聞]美國共和黨籍的知名友台參議員葛蘭姆（LindseyGraham）於7月逝世，他的妹妹達琳（DarlineGraham）暫代哥哥的席次，卻在近日參加共和黨參議員初選辯論、被問到",
+          "additional_sources": []
+        },
+        {
+          "title": "台北SOGO大巨蛋試營運+獅象大戰! 今估湧4萬人潮",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E5%8C%97sogo%E5%A4%A7%E5%B7%A8%E8%9B%8B%E8%A9%A6%E7%87%9F%E9%81%8B-%E7%8D%85%E8%B1%A1%E5%A4%A7%E6%88%B0-%E4%BB%8A%E4%BC%B0%E6%B9%A74%E8%90%AC%E4%BA%BA%E6%BD%AE-062233115.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T14:22:33+08:00",
+          "summary": "財經中心／陳妍霖 戴亞倫 鄭國陽 台北報導歷經3年多，台北SOGO大巨蛋終於迎來全區開放，今天對外試營運，3萬6000坪空間，引進超過560個品牌，一口氣集結11家的米其林級的餐廳，打造不少亮點，一早",
+          "additional_sources": []
+        },
+        {
+          "title": "遠東Garden City全區試營運　明年挑戰新竹以北業績王",
+          "link": "https://tw.stock.yahoo.com/news/%E9%81%A0%E6%9D%B1garden-city%E5%85%A8%E5%8D%80%E8%A9%A6%E7%87%9F%E9%81%8B-%E6%98%8E%E5%B9%B4%E6%8C%91%E6%88%B0%E6%96%B0%E7%AB%B9%E4%BB%A5%E5%8C%97%E6%A5%AD%E7%B8%BE%E7%8E%8B-051711017.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T13:17:11+08:00",
+          "summary": "（中央社記者何秀玲台北2026年08月22日電）位於大巨蛋的遠東Garden City今天全區試營運，適逢台北大巨蛋舉辦棒球賽事，首日即面臨人流考驗。遠東SOGO董事長黃晴雯表示，商場將於9月16日開",
+          "additional_sources": []
+        },
+        {
+          "title": "〈熱門股〉本周最狂飆股世紀*搭無人機題材起飛 除權後連拉6根漲停",
+          "link": "https://tw.stock.yahoo.com/news/%E7%86%B1%E9%96%80%E8%82%A1-%E6%9C%AC%E5%91%A8%E6%9C%80%E7%8B%82%E9%A3%86%E8%82%A1%E4%B8%96%E7%B4%80-%E6%90%AD%E7%84%A1%E4%BA%BA%E6%A9%9F%E9%A1%8C%E6%9D%90%E8%B5%B7%E9%A3%9B-%E9%99%A4%E6%AC%8A%E5%BE%8C%E9%80%A3%E6%8B%896%E6%A0%B9%E6%BC%B2%E5%81%9C-044605531.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:46:05+08:00",
+          "summary": "世紀*8月14日除權，祭出高比例配股策略，每仟股無償配發3157.03股，吸引市場資金湧入，除權以來連拉6根漲停，同時，也宣布將水面無人載具(USV)納入AI無人載具系統事業發展核心，激勵世紀*本周漲",
+          "additional_sources": []
+        },
+        {
+          "title": "美加貿易談判破局 美國開徵50%關稅、卡尼將回敬對等關稅",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E5%8A%A0%E8%B2%BF%E6%98%93%E8%AB%87%E5%88%A4%E7%A0%B4%E5%B1%80-%E7%BE%8E%E5%9C%8B%E9%96%8B%E5%BE%B550-%E9%97%9C%E7%A8%85-%E5%8D%A1%E5%B0%BC%E5%B0%87%E5%9B%9E%E6%95%AC%E5%B0%8D%E7%AD%89%E9%97%9C%E7%A8%85-043840101.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:38:40+08:00",
+          "summary": "在美國和加拿大的貿易談判於最後一刻破裂後，美國對加拿大進口商品課徵的新一波關稅在今天(22日)午夜(台灣時間22日中午)生效。 就在21日晚間最後期限到期的不久前，卡尼宣布暫停談判，並表示他將對美國商",
+          "additional_sources": []
+        },
+        {
+          "title": "美軍新航母傳改名川普號　珍珠港英雄恐讓位",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E8%BB%8D%E6%96%B0%E8%88%AA%E6%AF%8D%E5%82%B3%E6%94%B9%E5%90%8D%E5%B7%9D%E6%99%AE%E8%99%9F-%E7%8F%8D%E7%8F%A0%E6%B8%AF%E8%8B%B1%E9%9B%84%E6%81%90%E8%AE%93%E4%BD%8D-043703412.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:37:03+08:00",
+          "summary": "[NOWNEWS今日新聞]「川普號」真的要來了？美國海軍一艘正在建造中的新航母，傳出可能改以現任總統川普命名，儘管這艘編號CVN-81的福特級核動力航母，在2020年便已被命名為「USSDorisMi",
+          "additional_sources": []
+        },
+        {
+          "title": "為進一步提升估值 輝達需要這麼做",
+          "link": "https://tw.stock.yahoo.com/news/%E7%82%BA%E9%80%B2-%E6%AD%A5%E6%8F%90%E5%8D%87%E4%BC%B0%E5%80%BC-%E8%BC%9D%E9%81%94%E9%9C%80%E8%A6%81%E9%80%99%E9%BA%BC%E5%81%9A-043206330.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:32:06+08:00",
+          "summary": "如果說在8月26日輝達(Nvidia)(NVDA-US)公布財報前有任何理由需要保持謹慎，那就是市場已經預期公司將交出亮眼成績，而且執行長黃仁勳也會在財報電話會議上釋放非常樂觀的訊號。",
+          "additional_sources": []
+        },
+        {
+          "title": "加密貨幣超19萬人爆倉！美股週五全面收紅  黃金、油價走強",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8A%A0%E5%AF%86%E8%B2%A8%E5%B9%A3%E8%B6%8519%E8%90%AC%E4%BA%BA%E7%88%86%E5%80%89-%E7%BE%8E%E8%82%A1%E9%80%B1%E4%BA%94%E5%85%A8%E9%9D%A2%E6%94%B6%E7%B4%85-%E9%BB%83%E9%87%91-%E6%B2%B9%E5%83%B9%E8%B5%B0%E5%BC%B7-043004831.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:30:04+08:00",
+          "summary": "美股週五收高，道瓊大漲517點，但標普500與那斯達克週線分別跌1.4%、2%，終止3週連漲。特斯拉漲5%，金價週漲5%，美債殖利率續升。",
+          "additional_sources": []
+        },
+        {
+          "title": "大家不吃了？台股「鹹酥雞概念股」狂崩40％！專家曝台灣餐飲致命慘況",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%A7%E5%AE%B6%E4%B8%8D%E5%90%83%E4%BA%86-%E5%8F%B0%E8%82%A1-%E9%B9%B9%E9%85%A5%E9%9B%9E%E6%A6%82%E5%BF%B5%E8%82%A1-%E7%8B%82%E5%B4%A940-%E5%B0%88%E5%AE%B6%E6%9B%9D%E5%8F%B0%E7%81%A3%E9%A4%90%E9%A3%B2%E8%87%B4%E5%91%BD%E6%85%98%E6%B3%81-040638660.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T12:06:38+08:00",
+          "summary": "台股「鹹酥雞概念股」香繼光登錄興櫃後，短短兩個月內股價慘烈修正，從111元高點一路下探至66.5元，跌幅高達40%。投資達人葉育碩分析，香繼光的財報表現並不差，但現在市場開始質疑，這樣的成長到底值不值",
+          "additional_sources": []
+        },
+        {
+          "title": "巴西總統魯拉與川普通話 盼解決貿易關稅爭端",
+          "link": "https://tw.news.yahoo.com/%E5%B7%B4%E8%A5%BF%E7%B8%BD%E7%B5%B1%E9%AD%AF%E6%8B%89%E8%88%87%E5%B7%9D%E6%99%AE%E9%80%9A%E8%A9%B1-%E7%9B%BC%E8%A7%A3%E6%B1%BA%E8%B2%BF%E6%98%93%E9%97%9C%E7%A8%85%E7%88%AD%E7%AB%AF-035225500.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:52:25+08:00",
+          "summary": "巴西總統魯拉(Luiz Inacio Lula da Silva)21日在電話中敦促美國總統川普(Donald Trump)解決兩國之間的貿易爭端，稱美國徵收關稅的理由「毫無根據」。 華盛頓7月對這個",
+          "additional_sources": []
+        },
+        {
+          "title": "川普警告：共和黨中期選舉失利自己恐遭「彈劾」！強調荷姆茲海峽是「美國領土」",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B7%9D%E6%99%AE%E8%AD%A6%E5%91%8A-%E5%85%B1%E5%92%8C%E9%BB%A8%E4%B8%AD%E6%9C%9F%E9%81%B8%E8%88%89%E5%A4%B1%E5%88%A9%E8%87%AA%E5%B7%B1%E6%81%90%E9%81%AD-%E5%BD%88%E5%8A%BE-%E5%BC%B7%E8%AA%BF%E8%8D%B7%E5%A7%86%E8%8C%B2%E6%B5%B7%E5%B3%BD%E6%98%AF-%E7%BE%8E%E5%9C%8B%E9%A0%98%E5%9C%9F-035127177.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:51:27+08:00",
+          "summary": "川普支持率跌至33%，創本屆任期新低。最新民調顯示，美伊衝突、油價與通膨拖累民意，川普更警告共和黨若中期選舉失利，他可能面臨彈劾。",
+          "additional_sources": []
+        },
+        {
+          "title": "台股量價背離 Q4多頭等柴火！阿魯米教你「順大勢逆小勢」 短停損、長獲利抓波段",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%87%8F%E5%83%B9%E8%83%8C%E9%9B%A2-q4%E5%A4%9A%E9%A0%AD%E7%AD%89%E6%9F%B4%E7%81%AB-%E9%98%BF%E9%AD%AF%E7%B1%B3%E6%95%99%E4%BD%A0-%E9%A0%86%E5%A4%A7%E5%8B%A2%E9%80%86%E5%B0%8F%E5%8B%A2-%E7%9F%AD%E5%81%9C%E6%90%8D-033000338.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:30:00+08:00",
+          "summary": "[非凡新聞]台股第三季上下大洗盤，就連短線交易大神阿魯米都承認「確實不好做」，連他自己都有小賠，但透過期貨、個股期及美股避險，仍能控制風險。展望第四季，他認為目前台股仍處於區間整理，人氣尚未明顯回流，",
+          "additional_sources": []
+        },
+        {
+          "title": "鹿港天后宮「普度植福」線上搞定",
+          "link": "https://tw.news.yahoo.com/%E9%B9%BF%E6%B8%AF%E5%A4%A9%E5%90%8E%E5%AE%AE-%E6%99%AE%E5%BA%A6%E6%A4%8D%E7%A6%8F-%E7%B7%9A%E4%B8%8A%E6%90%9E%E5%AE%9A-032324798.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:23:24+08:00",
+          "summary": "[NOWNEWS今日新聞]中元節將至，鹿港天后宮延續百年傳統，將於農曆七月十五日（國曆8月27日）舉辦中元普度法會及植福服務。今年推出限量一萬份「普度植福箱」，信眾不必在炎夏採買、搬供品，透過手機線上",
+          "additional_sources": []
+        },
+        {
+          "title": "民眾黨辦論壇談無人機 專家籲建立完整軍用系統發展策略",
+          "link": "https://tw.news.yahoo.com/%E6%B0%91%E7%9C%BE%E9%BB%A8%E8%BE%A6%E8%AB%96%E5%A3%87%E8%AB%87%E7%84%A1%E4%BA%BA%E6%A9%9F-%E5%B0%88%E5%AE%B6%E7%B1%B2%E5%BB%BA%E7%AB%8B%E5%AE%8C%E6%95%B4%E8%BB%8D%E7%94%A8%E7%B3%BB%E7%B5%B1%E7%99%BC%E5%B1%95%E7%AD%96%E7%95%A5-032150690.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:21:50+08:00",
+          "summary": "無人機採購條例正進入最後關鍵審查階段，預計將於28日在立法院上演表決大戰。民眾黨今天(22日)舉行論壇，檢視台灣無人機產業政策。海軍退役上校辜存柱質疑政府在軍用無人載具規劃上缺乏整體系統概念，呼籲政府",
+          "additional_sources": []
+        },
+        {
+          "title": "北溪爆炸嫌疑人遭捕　竟參與相關電影製作",
+          "link": "https://tw.news.yahoo.com/%E5%8C%97%E6%BA%AA%E7%88%86%E7%82%B8%E5%AB%8C%E7%96%91%E4%BA%BA%E9%81%AD%E6%8D%95-%E7%AB%9F%E5%8F%83%E8%88%87%E7%9B%B8%E9%97%9C%E9%9B%BB%E5%BD%B1%E8%A3%BD%E4%BD%9C-025532678.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:55:32+08:00",
+          "summary": "[NOWNEWS今日新聞]一名遭德國檢方指控，涉嫌參與2022年「北溪」天然氣管線爆炸案（ NordStreampipeline‌blasts）的烏克蘭籍潛水員，近日在克羅埃西亞遭到逮捕；更...",
+          "additional_sources": []
+        },
+        {
+          "title": "民進黨雙北桃宜4參選人同台 法律人聯手拚北台灣共好",
+          "link": "https://tw.news.yahoo.com/%E6%B0%91%E9%80%B2%E9%BB%A8%E9%9B%99%E5%8C%97%E6%A1%83%E5%AE%9C4%E5%8F%83%E9%81%B8%E4%BA%BA%E5%90%8C%E5%8F%B0-%E6%B3%95%E5%BE%8B%E4%BA%BA%E8%81%AF%E6%89%8B%E6%8B%9A%E5%8C%97%E5%8F%B0%E7%81%A3%E5%85%B1%E5%A5%BD-025528322.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:55:28+08:00",
+          "summary": "民進黨台北市長參選人沈伯洋、新北市長參選人蘇巧慧今天(22日)出席律師後援會成立大會，桃園市長參選人黃世杰、宜蘭縣長參選人林國漳也到場力挺。4人皆具法律背景，除強調法律人守護制度的角色，也不約而同談到",
+          "additional_sources": []
+        },
+        {
+          "title": "家庭收入大解密　新竹縣市獎金進補、台北市財產所得冠全台",
+          "link": "https://tw.stock.yahoo.com/news/%E5%AE%B6%E5%BA%AD%E6%94%B6%E5%85%A5%E5%A4%A7%E8%A7%A3%E5%AF%86-%E6%96%B0%E7%AB%B9%E7%B8%A3%E5%B8%82%E7%8D%8E%E9%87%91%E9%80%B2%E8%A3%9C-%E5%8F%B0%E5%8C%97%E5%B8%82%E8%B2%A1%E7%94%A2%E6%89%80%E5%BE%97%E5%86%A0%E5%85%A8%E5%8F%B0-024939280.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:49:39+08:00",
+          "summary": "（中央社記者潘姿羽台北2026年08月22日電）主計總處最新家庭收支調查出爐，114年全體家庭平均每戶所得總額為新台幣152.9萬元，續創新高。所得結構顯示，薪資確實是家庭的主要收入來源，但不同縣市存",
+          "additional_sources": []
+        },
+        {
+          "title": "趙建銘深夜丟「保密條款」炸彈 陳幸妤要賠1億？律師回應了：公開就是違約",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B6%99%E5%BB%BA%E9%8A%98%E6%B7%B1%E5%A4%9C%E4%B8%9F-%E4%BF%9D%E5%AF%86%E6%A2%9D%E6%AC%BE-%E7%82%B8%E5%BD%88-%E9%99%B3%E5%B9%B8%E5%A6%A4%E8%A6%81%E8%B3%A01%E5%84%84-%E5%BE%8B%E5%B8%AB%E5%9B%9E%E6%87%89%E4%BA%86-023939217.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:39:39+08:00",
+          "summary": "前總統千金陳幸妤開撕前夫趙建銘話題不斷，從醫德、男女關係、6千萬房貸、2300萬教育基金到違反保密條款要賠1億？律師蘇家宏先說結論，陳幸妤不需要賠趙建銘1億，因為趙建銘公開保密條款已經違約；如果覺得陳",
+          "additional_sources": []
+        },
+        {
+          "title": "AI紅利催動經濟　主計總處預測2027年人均GDP近5萬美元",
+          "link": "https://tw.stock.yahoo.com/news/ai%E7%B4%85%E5%88%A9%E5%82%AC%E5%8B%95%E7%B6%93%E6%BF%9F-%E4%B8%BB%E8%A8%88%E7%B8%BD%E8%99%95%E9%A0%90%E6%B8%AC2027%E5%B9%B4%E4%BA%BA%E5%9D%87gdp%E8%BF%915%E8%90%AC%E7%BE%8E%E5%85%83-022715194.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:27:15+08:00",
+          "summary": "（中央社記者潘姿羽台北2026年08月22日電）人工智慧（AI）商機大爆發，台灣身處AI基礎建設供應鏈核心，主計總處預估今年經濟成長率達11.05%，創39年最高，明年在高基期下仍可望成長6.04%，",
+          "additional_sources": []
+        },
+        {
+          "title": "被控侵犯兒童隱私 TikTok與美司法部達成4億美元和解",
+          "link": "https://tw.news.yahoo.com/%E8%A2%AB%E6%8E%A7%E4%BE%B5%E7%8A%AF%E5%85%92%E7%AB%A5%E9%9A%B1%E7%A7%81-tiktok%E8%88%87%E7%BE%8E%E5%8F%B8%E6%B3%95%E9%83%A8%E9%81%94%E6%88%904%E5%84%84%E7%BE%8E%E5%85%83%E5%92%8C%E8%A7%A3-022410001.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:24:10+08:00",
+          "summary": "Tiktok與其中國母公司字節跳動21日同意支付4億美元的和解金，以解決美國司法部對這個短影音平台提出的侵犯兒童隱私指控。 美國司法部2024年控告Tiktok和字節跳動，指控他們未能保護兒童隱私，以",
+          "additional_sources": []
+        },
+        {
+          "title": "美債40兆未爆彈最快1年爆發！華爾街大咖急警告：「快砍債券、搶買2資產」",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%82%B540%E5%85%86%E6%9C%AA%E7%88%86%E5%BD%88%E6%9C%80%E5%BF%AB1%E5%B9%B4%E7%88%86%E7%99%BC-%E8%8F%AF%E7%88%BE%E8%A1%97%E5%A4%A7%E5%92%96%E6%80%A5%E8%AD%A6%E5%91%8A-%E5%BF%AB%E7%A0%8D%E5%82%B5%E5%88%B8-%E6%90%B6%E8%B2%B72%E8%B3%87%E7%94%A2-021420703.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:14:20+08:00",
+          "summary": "美國聯邦政府債務突破40兆美元（約新台幣1273兆元），凸顯政府借貸與利息成本日益沉重，市場再度浮現財政危機警訊。橋水基金創辦人達里歐（Ray Dalio）表示，美國財政狀況正處於轉折點，若不盡快解決",
+          "additional_sources": []
+        },
+        {
+          "title": "輝達財報下周揭曉！20季14度「三連勝」股價卻連3次收跌 黃仁勳得端更大驚喜",
+          "link": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94%E8%B2%A1%E5%A0%B1%E4%B8%8B%E5%91%A8%E6%8F%AD%E6%9B%89-20%E5%AD%A314%E5%BA%A6-%E4%B8%89%E9%80%A3%E5%8B%9D-%E8%82%A1%E5%83%B9%E5%8D%BB%E9%80%A33%E6%AC%A1%E6%94%B6%E8%B7%8C-%E9%BB%83%E4%BB%81%E5%8B%B3%E5%BE%97%E7%AB%AF%E6%9B%B4%E5%A4%A7%E9%A9%9A%E5%96%9C-020022353.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T10:00:22+08:00",
+          "summary": "金融市場本周由債券市場主導，但下周焦點可望重新拉回企業基本面，因為輝達(NVDA-US)將在下周三(8月26日)盤後公布財報與財測。但研究與分析機構Bespoke Investment分析，這份財報若",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣夜市紅到東京　日比谷公園9月開逛",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E7%81%A3%E5%A4%9C%E5%B8%82%E7%B4%85%E5%88%B0%E6%9D%B1%E4%BA%AC-%E6%97%A5%E6%AF%94%E8%B0%B7%E5%85%AC%E5%9C%929%E6%9C%88%E9%96%8B%E9%80%9B-015851862.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T09:58:51+08:00",
+          "summary": "[NOWNEWS今日新聞]東京也要逛台灣夜市了！日本城市指南網站《TimeOutTokyo》近日報導，東京日比谷公園將於9月3日至6日，首度舉辦以台灣夜市為主題的「屋台湾フェス2026」，從牛肉麵、滷",
+          "additional_sources": []
+        },
+        {
+          "title": "美債殖利率恐戳破美股泡沫？分析：高估值與AI循環融資風險升高",
+          "link": "https://news.cnyes.com/news/id/6583096",
+          "source": "cnyes",
+          "pubdate": "2026-08-22T13:31:11+08:00",
+          "summary": "鉅亨網編譯羅昀玫2026-08-22 13:31\n《Marketwatch》專欄作家 Brett Arends 警告，美國及全球長期殖利率持續攀升，可能成為戳破美股泡沫的導火線。雖然沒有人能準確預測市場何時反轉，但債市近期動盪，正使股市下跌的風險逼近。\n美債殖利率恐戳破美股泡沫？分析：高估值與AI循…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "市場",
+        "美元",
+        "美債",
+        "化銦",
+        "磷化"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "比記憶體還缺！CPO爆磷化銦致命缺口...大陸竟握「3大生產命脈」",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AF%94%E8%A8%98%E6%86%B6%E9%AB%94%E9%82%84%E7%BC%BA-cpo%E7%88%86%E7%A3%B7%E5%8C%96%E9%8A%A6%E8%87%B4%E5%91%BD%E7%BC%BA%E5%8F%A3-%E5%A4%A7%E9%99%B8%E7%AB%9F%E6%8F%A1-3%E5%A4%A7%E7%94%9F%E7%94%A2%E5%91%BD%E8%84%88-061236671.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T14:12:36+08:00",
+          "summary": "美國光通訊龍頭 Lumentum示警，指出在AI資料中心急速擴建下，磷化銦雷射晶片需求呈倍數暴增，缺貨危機恐怕比記憶體更為嚴重。然而，磷化銦晶片從原生銦冶煉、銦純化到磷化銦晶圓製造這三大核心環節，大陸",
+          "additional_sources": []
+        },
+        {
+          "title": "貝森特沒救成美債卻點燃「美元貶值交易」！美元跌、黃金比特幣上漲",
+          "link": "https://news.cnyes.com/news/id/6584178",
+          "source": "cnyes",
+          "pubdate": "2026-08-22T13:40:06+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-22 13:40\n美國財政部長貝森特試圖透過擴大美債回購規模壓低長天期美債殖利率，但市場反應顯示，政策效果相當短暫。長債殖利率在短暫回落後重新承壓，整週大致持平，反而是美元走弱、黃金與比特幣同步上漲，進一步推升市場對「貨幣貶值交易」的關注。\n貝森特沒救成美債卻點燃「美…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "1",
+        "最強",
+        "萬元",
+        "台灣",
+        "etf"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "1表看》普發1萬花完就沒了！達人想買4檔最強ETF「20年後還在替你賺錢」",
+          "link": "https://tw.stock.yahoo.com/news/1%E8%A1%A8%E7%9C%8B-%E6%99%AE%E7%99%BC1%E8%90%AC%E8%8A%B1%E5%AE%8C%E5%B0%B1%E6%B2%92%E4%BA%86-%E9%81%94%E4%BA%BA%E6%83%B3%E8%B2%B74%E6%AA%94%E6%9C%80%E5%BC%B7etf-20%E5%B9%B4%E5%BE%8C%E9%82%84%E5%9C%A8%E6%9B%BF%E4%BD%A0%E8%B3%BA%E9%8C%A2-034858866.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:48:58+08:00",
+          "summary": "政府明年將普發1萬元，要將「AI紅利全民共享」，有打算怎麼花嗎？小資理財教主Dr.Selena(楊倩琳博士)表示，錢花掉就沒了，但投資ETF會幫你錢滾錢，她推薦4檔最強的ETF：台股最強009816、",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2248 華勝-KY",
+      "keywords": [
+        "公司",
+        "貸與",
+        "資金",
+        "金貸",
+        "仟元"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "華勝-KY 公開發行公司或其子公司新增資金貸與金額達新臺幣一千萬元以上且達該公開發行公司最近期財務報表淨值百分之二以上者",
+          "link": "https://tw.stock.yahoo.com/news/%E8%8F%AF%E5%8B%9D-ky-%E5%85%AC%E9%96%8B%E7%99%BC%E8%A1%8C%E5%85%AC%E5%8F%B8%E6%88%96%E5%85%B6%E5%AD%90%E5%85%AC%E5%8F%B8%E6%96%B0%E5%A2%9E%E8%B3%87%E9%87%91%E8%B2%B8%E8%88%87%E9%87%91%E9%A1%8D%E9%81%94%E6%96%B0%E8%87%BA%E5%B9%A3-%E5%8D%83%E8%90%AC%E5%85%83%E4%BB%A5%E4%B8%8A%E4%B8%94%E9%81%94%E8%A9%B2%E5%85%AC%E9%96%8B%E7%99%BC%E8%A1%8C%E5%85%AC%E5%8F%B8%E6%9C%80%E8%BF%91%E6%9C%9F%E8%B2%A1%E5%8B%99%E5%A0%B1%E8%A1%A8%E6%B7%A8%E5%80%BC%E7%99%BE%E5%88%86%E4%B9%8B%E4%BA%8C%E4%BB%A5%E4%B8%8A%E8%80%85-031900841.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-22T11:19:00+08:00",
+          "summary": "公開資訊觀測站重大訊息公告(2248)華勝-KY-公開發行公司或其子公司新增資金貸與金額達新臺幣一千萬元以上且達該公開發行公司最近期財務報表淨值百分之二以上者1.事實發生日:115/08/222.接受",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2637 慧洋-KY",
+      "keywords": [
+        "航運",
+        "慧洋",
+        "上漲",
+        "外資",
+        "漲停"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 瑤池金母與外資加碼！慧洋衝漲停　航運",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787361310.A.29D.html",
+          "source": "ptt",
+          "pubdate": "2026-08-22T09:15:07+08:00",
+          "summary": "原文標題：\n瑤池金母與外資加碼！慧洋衝漲停　航運股強勢走高\n原文連結：\nhttps://reurl.cc/aELbND\n發布時間：\n2026年8月21日週五 下午8:21\n記者署名：\n中天鄭緯浩\n原文內容：\n受惠第三季旺季與運價指數支撐，台股航運類股今（21）日強勢大漲，萬海與慧洋-KY盤中\n衝上漲…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US TSM 台積電 ADR",
+      "keywords": [
+        "投資",
+        "證券",
+        "天證",
+        "樂天",
+        "交易"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[情報] 日本樂天證券12月開辦台股複委託",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787363606.A.A6E.html",
+          "source": "ptt",
+          "pubdate": "2026-08-22T09:53:23+08:00",
+          "summary": "標題：業界唯一！樂天證券開始提供台灣股票交易服務，NISA 成長投資額度也適用\n\n來源：PRTimes (新聞稿網站)、樂天證券官網\n\n網址：\nhttps://prtimes.jp/main/html/rd/p/000000745.000011088.html\nhttps://www.rakuten…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2356 英業達",
+      "keywords": [
+        "杜金",
+        "金龍",
+        "鴻海",
+        "000",
+        "台股"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 台股46K卡關還會殺？杜金龍看V轉關鍵：鴻",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787368077.A.1F7.html",
+          "source": "ptt",
+          "pubdate": "2026-08-22T11:07:53+08:00",
+          "summary": "原新聞標題:台股46K卡關還會殺？杜金龍看V轉關鍵：鴻海重挫可撿 電子五哥「這2檔\n\n            」等輪漲\n\n原文連結：\nhttps://reurl.cc/lngbrE\n發布時間：2026.08.22  09:26\n\n記者署名：陳彥綺\n\n原文內容：\n\n台股本周震盪加劇，指數持續徘徊在44…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2383 台光電",
+      "keywords": [
+        "聯茂",
+        "ccl",
+        "外資",
+        "產品",
+        "萬張"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 內外資一致看好 聯茂不到一個月飆漲1.3倍",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787382914.A.7D1.html",
+          "source": "ptt",
+          "pubdate": "2026-08-22T15:15:12+08:00",
+          "summary": "原文標題：\n請勿刪減或自創標題，違者4-1處分，此行請刪除\n內外資一致看好 聯茂不到一個月飆漲1.3倍\n原文連結：\n網址超過一行，請用縮網址，連結不能點擊者板規 1-2-2 處分\n。\nhttps://ec.ltn.com.tw/article/paper/1767647\n發布時間：\n請勿張貼超過3天…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "黃金",
+        "金價",
+        "高盛",
+        "市場",
+        "3"
+      ],
+      "article_count": 3,
+      "articles": [
+        {
+          "title": "高盛黃金多頭升至60％！金價目標上看5500美元、白銀三個月內或漲至90美元",
+          "link": "https://news.cnyes.com/news/id/6584177",
+          "source": "cnyes",
+          "pubdate": "2026-08-22T15:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-08-22 15:10\n黃金漲勢持續升溫，高盛近期明顯增加多頭部位，隨著機構資金加速進場，加上選擇權市場的避險機制可能放大金價波動，黃金後市上漲空間受到市場關注。另一方面，高盛也指出，部分大客戶正在押注白銀，相關數位選擇權押注白銀未來三個月升至90美元/盎司。\n高盛最新報告…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 大家不吃了？台股「鹹酥雞概念股」狂崩40",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787376673.A.D99.html",
+          "source": "ptt",
+          "pubdate": "2026-08-22T13:31:10+08:00",
+          "summary": "原文標題：\n大家不吃了？台股「鹹酥雞概念股」狂崩40％！專家曝台灣餐飲致命慘況\n原文連結：\nhttps://www.chinatimes.com/realtimenews/20260822001720-260410?chdtv\n發布時間：\n2026/08/22\n記者署名：\n吳美觀\n原文內容：\n台股「…",
+          "additional_sources": []
+        },
+        {
+          "title": "[心得] 信貸/質押/房增貸長期投資策略分享26Q3",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787379952.A.DB3.html",
+          "source": "ptt",
+          "pubdate": "2026-08-22T14:25:50+08:00",
+          "summary": "2026H2(8/21) 元大證券質押利率提高，策略調整\n\n1. 股票質借-元大證券(\n3.85%\n) 840萬(額度1200萬)無額度再借\n\n2. 原屋融資 aka 理財型房貸-國泰人壽(2.27%) 295萬(原本借400萬)20年\n\n3. 個人信貸-台新銀行(2.23%) 230萬(原本借32…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
