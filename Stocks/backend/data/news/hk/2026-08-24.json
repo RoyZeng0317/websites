@@ -1,0 +1,30 @@
+{
+  "date": "2026-08-24",
+  "generated_at": "2026-08-24T16:00:05.738496",
+  "group_count": 1,
+  "total_articles": 1,
+  "groups": [
+    {
+      "group": "HK 1810 小米",
+      "keywords": [
+        "晶片",
+        "小米",
+        "xring",
+        "o3",
+        "一代"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "小米發表新一代自研晶片Xring O3 傳台積電3奈米代工、鎖定旗艦折疊手機",
+          "link": "https://news.cnyes.com/news/id/6585236",
+          "source": "cnyes",
+          "pubdate": "2026-08-24T15:00:07+08:00",
+          "summary": "鉅亨網編譯劉祥航 綜合報導2026-08-24 15:00\n小米(01810-HK)周一(24日)發表新一代自研旗艦手機處理器「Xring O3(玄戒O3)」，展現擴大自研晶片布局與深化供應鏈自主權的決心。\n小米工程部副總裁朱丹於線上直播中，首度揭露此款旗艦單晶片系統(SoC)的初步細節。此晶片是繼…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "HK"
+}
