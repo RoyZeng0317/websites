@@ -1,171 +1,522 @@
 {
   "date": "2026-08-29",
-  "generated_at": "2026-08-29T03:19:50.410085",
-  "group_count": 3,
-  "total_articles": 21,
+  "generated_at": "2026-08-29T21:02:31.611667",
+  "group_count": 8,
+  "total_articles": 50,
   "groups": [
     {
       "group": "US GOOGL Alphabet",
       "keywords": [
-        "美元",
-        "1",
-        "2",
-        "研究",
-        "5"
+        "中國",
+        "市場",
+        "可能",
+        "美國",
+        "報導"
       ],
-      "article_count": 15,
+      "article_count": 38,
       "articles": [
         {
-          "title": "美國救日元原來是在救自己？貝森特揭背後盤算",
-          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E6%95%91%E6%97%A5%E5%85%83%E5%8E%9F%E4%BE%86%E6%98%AF%E5%9C%A8%E6%95%91%E8%87%AA%E5%B7%B1-%E8%B2%9D%E6%A3%AE%E7%89%B9%E6%8F%AD%E8%83%8C%E5%BE%8C%E7%9B%A4%E7%AE%97-183057601.html",
+          "title": "摩根士丹利示警中國記憶體崛起！2028年DRAM、NAND供給恐迎重大轉折",
+          "link": "https://tw.stock.yahoo.com/news/%E6%91%A9%E6%A0%B9%E5%A3%AB%E4%B8%B9%E5%88%A9%E7%A4%BA%E8%AD%A6%E4%B8%AD%E5%9C%8B%E8%A8%98%E6%86%B6%E9%AB%94%E5%B4%9B%E8%B5%B7-2028%E5%B9%B4dram-nand%E4%BE%9B%E7%B5%A6%E6%81%90%E8%BF%8E%E9%87%8D%E5%A4%A7%E8%BD%89%E6%8A%98-112003411.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:30:57+08:00",
-          "summary": "美國財政部長貝森特(Scott Bessent)為上月罕見出手支撐日元辯護，表示日元若出現失序波動，可能迫使投資人解除部位、衝擊全球金融市場，最終推高美國利率及家庭與企業的借貸成本。",
+          "pubdate": "2026-08-29T19:20:03+08:00",
+          "summary": "摩根士丹利指出，長鑫與長江儲存持續擴產，2026至2027年有望填補AI記憶體供給缺口，但2028年後中國新增產能與全球擴產可能衝擊DRAM、NAND供需與產業獲利。",
           "additional_sources": [
             {
               "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6591215",
-              "title": "美國救日元原來是在救自己？貝森特揭背後盤算"
+              "link": "https://news.cnyes.com/news/id/6591420",
+              "title": "摩根士丹利示警中國記憶體崛起！2028年DRAM、NAND供給恐迎重大轉折"
             }
           ]
         },
         {
-          "title": "AI成長引擎力抗能源危機！全球經濟意外展現韌性 過度集中卻成最大隱憂",
-          "link": "https://tw.stock.yahoo.com/news/ai%E6%88%90%E9%95%B7%E5%BC%95%E6%93%8E%E5%8A%9B%E6%8A%97%E8%83%BD%E6%BA%90%E5%8D%B1%E6%A9%9F-%E5%85%A8%E7%90%83%E7%B6%93%E6%BF%9F%E6%84%8F%E5%A4%96%E5%B1%95%E7%8F%BE%E9%9F%8C%E6%80%A7-%E9%81%8E%E5%BA%A6%E9%9B%86%E4%B8%AD%E5%8D%BB%E6%88%90%E6%9C%80%E5%A4%A7%E9%9A%B1%E6%86%82-160008293.html",
+          "title": "中國房地產迎制度大改革！現房銷售優先、房貸最長延至40年、開發貸款改採主辦銀行制",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%9C%8B%E6%88%BF%E5%9C%B0%E7%94%A2%E8%BF%8E%E5%88%B6%E5%BA%A6%E5%A4%A7%E6%94%B9%E9%9D%A9-%E7%8F%BE%E6%88%BF%E9%8A%B7%E5%94%AE%E5%84%AA%E5%85%88-%E6%88%BF%E8%B2%B8%E6%9C%80%E9%95%B7%E5%BB%B6%E8%87%B340%E5%B9%B4-%E9%96%8B%E7%99%BC%E8%B2%B8%E6%AC%BE%E6%94%B9%E6%8E%A1%E4%B8%BB%E8%BE%A6%E9%8A%80%E8%A1%8C%E5%88%B6-102002057.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T00:00:08+08:00",
-          "summary": "過去幾周以來，從美國與加拿大的激烈貿易戰、美國總統川普加強施壓伊朗，到債券殖利率大幅攀升，種種事件都有重創全球經濟的可能性，但全球經濟的表現卻出人意料的強韌。 目前國際油價仍維持在每桶90美元以下，股",
+          "pubdate": "2026-08-29T18:20:02+08:00",
+          "summary": "中國房地產制度迎來重大改革，預售門檻提高並優先推動現房銷售，個人房貸最長延至40年，開發貸款建立主辦銀行及資金封閉管理制度，房地產信貸與融資體系全面調整。",
           "additional_sources": [
             {
               "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6589941",
-              "title": "AI成長引擎力抗能源危機！全球經濟意外展現韌性 過度集中卻成最大隱憂"
+              "link": "https://news.cnyes.com/news/id/6591482",
+              "title": "中國房地產迎制度大改革！現房銷售優先、房貸最長延至40年、開發貸款改採主辦銀行制"
             }
           ]
         },
         {
-          "title": "寵物通路信用卡回饋多　鏟屎官們賺回罐罐錢",
-          "link": "https://tw.news.yahoo.com/%E5%AF%B5%E7%89%A9%E9%80%9A%E8%B7%AF%E4%BF%A1%E7%94%A8%E5%8D%A1%E5%9B%9E%E9%A5%8B%E5%A4%9A-%E9%8F%9F%E5%B1%8E%E5%AE%98%E5%80%91%E8%B3%BA%E5%9B%9E%E7%BD%90%E7%BD%90%E9%8C%A2-183549114.html",
+          "title": "美股挺過華許放鷹考驗！下周博通財報接棒 華爾街嚴防非農變數",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E8%82%A1%E6%8C%BA%E9%81%8E%E8%8F%AF%E8%A8%B1%E6%94%BE%E9%B7%B9%E8%80%83%E9%A9%97-%E4%B8%8B%E5%91%A8%E5%8D%9A%E9%80%9A%E8%B2%A1%E5%A0%B1%E6%8E%A5%E6%A3%92-%E8%8F%AF%E7%88%BE%E8%A1%97%E5%9A%B4%E9%98%B2%E9%9D%9E%E8%BE%B2%E8%AE%8A%E6%95%B8-085646795.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:35:49+08:00",
-          "summary": "寵愛毛小孩不用擔心花費高，透過信用卡回饋就能賺到一些罐罐錢(圖/xframe)",
+          "pubdate": "2026-08-29T16:56:46+08:00",
+          "summary": "美股本周看似獲得所有需要的上漲條件，但最終幾乎收在平盤，展望下周，美國就業報告和博通(AVGO-US)財報將接棒，考驗人工智慧(AI)行情能否續航。 標普500指數本周僅上漲0.5%，過去三周幾乎持平",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6591274",
+              "title": "美股挺過華許放鷹考驗！下周博通財報接棒 華爾街嚴防非農變數"
+            }
+          ]
+        },
+        {
+          "title": "長鑫科技起訴美國國防部！中國最大DRAM廠提告、挑戰「1260H清單」列名",
+          "link": "https://tw.stock.yahoo.com/news/%E9%95%B7%E9%91%AB%E7%A7%91%E6%8A%80%E8%B5%B7%E8%A8%B4%E7%BE%8E%E5%9C%8B%E5%9C%8B%E9%98%B2%E9%83%A8-%E4%B8%AD%E5%9C%8B%E6%9C%80%E5%A4%A7dram%E5%BB%A0%E6%8F%90%E5%91%8A-%E6%8C%91%E6%88%B0-1260h%E6%B8%85%E5%96%AE-%E5%88%97%E5%90%8D-082004040.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T16:20:04+08:00",
+          "summary": "中國最大DRAM廠長鑫科技正式控告美國國防部，挑戰「1260H清單」列名合法性。繼小米、禾賽、藥明康德等中企後，長鑫科技成第7家透過司法途徑反擊。",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6591460",
+              "title": "長鑫科技起訴美國國防部！中國最大DRAM廠提告、挑戰「1260H清單」列名"
+            }
+          ]
+        },
+        {
+          "title": "科技巨頭急抱民主黨大腿？Meta砸3000萬美元布局、憂共和黨失守眾院遭調查",
+          "link": "https://tw.stock.yahoo.com/news/%E7%A7%91%E6%8A%80%E5%B7%A8%E9%A0%AD%E6%80%A5%E6%8A%B1%E6%B0%91%E4%B8%BB%E9%BB%A8%E5%A4%A7%E8%85%BF-meta%E7%A0%B83000%E8%90%AC%E7%BE%8E%E5%85%83%E5%B8%83%E5%B1%80-%E6%86%82%E5%85%B1%E5%92%8C%E9%BB%A8%E5%A4%B1%E5%AE%88%E7%9C%BE%E9%99%A2%E9%81%AD%E8%AA%BF%E6%9F%A5-072004680.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:20:04+08:00",
+          "summary": "美國期中選舉逼近，Meta、OpenAI等科技巨頭開始加強與民主黨關係，部分企業甚至成立小組因應國會調查。Meta今年政治捐款至少3000萬美元，科技業提前布局。",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6591421",
+              "title": "科技巨頭急抱民主黨大腿？Meta砸3000萬美元布局、憂共和黨失守眾院遭調查"
+            }
+          ]
+        },
+        {
+          "title": "全台313件核了動不了、554萬老屋還在等 「時間成本」才是最貴的",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E5%8F%B0313%E4%BB%B6%E6%A0%B8%E4%BA%86%E5%8B%95%E4%B8%8D%E4%BA%86%E3%80%81554%E8%90%AC%E8%80%81%E5%B1%8B%E9%82%84%E5%9C%A8%E7%AD%89-%E3%80%8C%E6%99%82%E9%96%93%E6%88%90%E6%9C%AC%E3%80%8D%E6%89%8D%E6%98%AF%E6%9C%80%E8%B2%B4%E7%9A%84-123200063.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T20:32:00+08:00",
+          "summary": "全台老屋逼近554萬宅，而全國通過核定卻尚未動工的都更案高達313件，雙北市就佔了245件、比重超過78%。這代表的是：房子還在繼續老，都更卻越卡越死。",
           "additional_sources": []
         },
         {
-          "title": "一卡通雙北公車自動加值　悠遊卡助攻學生喝鮮奶",
-          "link": "https://tw.news.yahoo.com/%E5%8D%A1%E9%80%9A%E9%9B%99%E5%8C%97%E5%85%AC%E8%BB%8A%E8%87%AA%E5%8B%95%E5%8A%A0%E5%80%BC-%E6%82%A0%E9%81%8A%E5%8D%A1%E5%8A%A9%E6%94%BB%E5%AD%B8%E7%94%9F%E5%96%9D%E9%AE%AE%E5%A5%B6-183540792.html",
+          "title": "民眾騎機車硬闖奈良吊橋！警方卻無法開罰",
+          "link": "https://tw.news.yahoo.com/%E6%B0%91%E7%9C%BE%E9%A8%8E%E6%A9%9F%E8%BB%8A%E7%A1%AC%E9%97%96%E5%A5%88%E8%89%AF%E5%90%8A%E6%A9%8B-%E8%AD%A6%E6%96%B9%E5%8D%BB%E7%84%A1%E6%B3%95%E9%96%8B%E7%BD%B0-120834355.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:35:40+08:00",
-          "summary": "免費鮮奶補助對象擴大，持悠遊卡學生證即可在超商兌領(圖/悠遊卡公司 提供)",
+          "pubdate": "2026-08-29T20:08:34+08:00",
+          "summary": "[NOWNEWS今日新聞]日本奈良縣十津川村以歷史悠久的吊橋景觀聞名，然而近期社群網路上卻頻頻出現有民眾為博取關注，駕駛機車騎上著名觀光景點「谷瀨吊橋」的相關影片。由於吊橋結構難以承受機車的重量與劇烈",
           "additional_sources": []
         },
         {
-          "title": "小米中階新機即日開賣　小金剛能力耐摔又續航",
-          "link": "https://tw.news.yahoo.com/%E5%B0%8F%E7%B1%B3%E4%B8%AD%E9%9A%8E%E6%96%B0%E6%A9%9F%E5%8D%B3%E6%97%A5%E9%96%8B%E8%B3%A3-%E5%B0%8F%E9%87%91%E5%89%9B%E8%83%BD%E5%8A%9B%E8%80%90%E6%91%94%E5%8F%88%E7%BA%8C%E8%88%AA-183533324.html",
+          "title": "哈佛學者警告：台海衝突恐成美債危機引爆點",
+          "link": "https://tw.news.yahoo.com/%E5%93%88%E4%BD%9B%E5%AD%B8%E8%80%85%E8%AD%A6%E5%91%8A-%E5%8F%B0%E6%B5%B7%E8%A1%9D%E7%AA%81%E6%81%90%E6%88%90%E7%BE%8E%E5%82%B5%E5%8D%B1%E6%A9%9F%E5%BC%95%E7%88%86%E9%BB%9E-105615585.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:35:33+08:00",
-          "summary": "REDMI Note 17系列新機登台，不僅續航力大幅升級，還更耐摔(圖/卡優新聞網)",
+          "pubdate": "2026-08-29T18:56:15+08:00",
+          "summary": "[NOWNEWS今日新聞]哈佛大學學者、前IMF首席經濟學家羅格夫（KennethRogoff）警告，若沒有一場巨型「衝擊」，華府絕無可能自發性推動財政改革，來應對雪球越滾越大的美債危機。他更直接點名",
           "additional_sources": []
         },
         {
-          "title": "Mia C’bon中秋檔起跑　頂級和牛與海鮮吃到飽",
-          "link": "https://tw.news.yahoo.com/mia-c-bon%E4%B8%AD%E7%A7%8B%E6%AA%94%E8%B5%B7%E8%B7%91-%E9%A0%82%E7%B4%9A%E5%92%8C%E7%89%9B%E8%88%87%E6%B5%B7%E9%AE%AE%E5%90%83%E5%88%B0%E9%A3%BD-183524845.html",
+          "title": "缺貨比記憶體還慘！陸面板巨頭也殺入CPO 搶攻「磷化銦晶片」",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BC%BA%E8%B2%A8%E6%AF%94%E8%A8%98%E6%86%B6%E9%AB%94%E9%82%84%E6%85%98-%E9%99%B8%E9%9D%A2%E6%9D%BF%E5%B7%A8%E9%A0%AD%E4%B9%9F%E6%AE%BA%E5%85%A5cpo-%E6%90%B6%E6%94%BB-%E7%A3%B7%E5%8C%96%E9%8A%A6%E6%99%B6%E7%89%87-102452434.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:35:24+08:00",
-          "summary": "Mia C'bon中秋商品預購啟動，多款高檔肉品與禮盒上陣搶市(圖/卡優新聞網)",
+          "pubdate": "2026-08-29T18:24:52+08:00",
+          "summary": "AI資料中心持續擴建，帶動高速光通訊需求升溫，大陸面板廠TCL華星也加速布局相關市場，計畫從磷化銦雷射晶片切入，再逐步延伸至光元件及高速光模組，搶攻AI算力基礎建設商機。",
           "additional_sources": []
         },
         {
-          "title": "國泰金賺贏去年全年　明年股利有望更優渥",
-          "link": "https://tw.news.yahoo.com/%E5%9C%8B%E6%B3%B0%E9%87%91%E8%B3%BA%E8%B4%8F%E5%8E%BB%E5%B9%B4%E5%85%A8%E5%B9%B4-%E6%98%8E%E5%B9%B4%E8%82%A1%E5%88%A9%E6%9C%89%E6%9C%9B%E6%9B%B4%E5%84%AA%E6%B8%A5-183510951.html",
+          "title": "尼泊爾村民撬開被沖走保險箱分錢！29人被捕",
+          "link": "https://tw.news.yahoo.com/%E5%B0%BC%E6%B3%8A%E7%88%BE%E6%9D%91%E6%B0%91%E6%92%AC%E9%96%8B%E8%A2%AB%E6%B2%96%E8%B5%B0%E4%BF%9D%E9%9A%AA%E7%AE%B1%E5%88%86%E9%8C%A2-29%E4%BA%BA%E8%A2%AB%E6%8D%95-101153143.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:35:10+08:00",
-          "summary": "國泰金控上半年稅後淨利1659億元，超越去全年水準並創新高(圖/卡優新聞網)",
+          "pubdate": "2026-08-29T18:11:53+08:00",
+          "summary": "[NOWNEWS今日新聞]尼泊爾26日遭逢毀滅性洪災，未料在災區竟傳出趁火打劫的犯罪事件。當地警方證實，已逮捕29名涉嫌強行撬開被洪水沖走之銀行保險箱並洗劫現金的民眾。此前，才有男子自罹難者身上強行拔",
           "additional_sources": []
         },
         {
-          "title": "日本5大動漫地朝聖　曼迪秋日祭周邊必收",
-          "link": "https://tw.news.yahoo.com/%E6%97%A5%E6%9C%AC5%E5%A4%A7%E5%8B%95%E6%BC%AB%E5%9C%B0%E6%9C%9D%E8%81%96-%E6%9B%BC%E8%BF%AA%E7%A7%8B%E6%97%A5%E7%A5%AD%E5%91%A8%E9%82%8A%E5%BF%85%E6%94%B6-183457606.html",
+          "title": "漢堡嘉年華花博登場! 紐約美式BBQ.波士頓龍蝦堡掀排隊潮",
+          "link": "https://tw.stock.yahoo.com/news/%E6%BC%A2%E5%A0%A1%E5%98%89%E5%B9%B4%E8%8F%AF%E8%8A%B1%E5%8D%9A%E7%99%BB%E5%A0%B4-%E7%B4%90%E7%B4%84%E7%BE%8E%E5%BC%8Fbbq-%E6%B3%A2%E5%A3%AB%E9%A0%93%E9%BE%8D%E8%9D%A6%E5%A0%A1%E6%8E%80%E6%8E%92%E9%9A%8A%E6%BD%AE-100402304.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:34:57+08:00",
-          "summary": "日本5大動漫巡禮目的地，把動漫場景變成旅程的一站(圖/Booking.com 提供)",
+          "pubdate": "2026-08-29T18:04:02+08:00",
+          "summary": "財經中心／楊思敏、戴亞倫 台北報導漢堡嘉年華週六（29日）在台北花博登場，52家餐飲品牌參與，就連五星飯店也參戰。不用出國，就能品嘗來自世界各國的美食。像是經典美式BBQ煙燻牛胸肉漢堡，或五星飯店用料",
           "additional_sources": []
         },
         {
-          "title": "國銀房貸逾放全低估　銀行漏報8億搞烏龍",
-          "link": "https://tw.news.yahoo.com/%E5%9C%8B%E9%8A%80%E6%88%BF%E8%B2%B8%E9%80%BE%E6%94%BE%E5%85%A8%E4%BD%8E%E4%BC%B0-%E9%8A%80%E8%A1%8C%E6%BC%8F%E5%A0%B18%E5%84%84%E6%90%9E%E7%83%8F%E9%BE%8D-183445540.html",
+          "title": "欣興電子涉嫌洗產地?中國PCB換貼MIT 總座1500萬交保",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AC%A3%E8%88%88%E9%9B%BB%E5%AD%90%E6%B6%89%E5%AB%8C%E6%B4%97%E7%94%A2%E5%9C%B0-%E4%B8%AD%E5%9C%8Bpcb%E6%8F%9B%E8%B2%BCmit-%E7%B8%BD%E5%BA%A71500%E8%90%AC%E4%BA%A4%E4%BF%9D-100344776.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:34:45+08:00",
-          "summary": "銀行漏報逾8億元房貸逾放額，導致今年上半年的數據全部出錯(圖/卡優新聞網)",
+          "pubdate": "2026-08-29T18:03:44+08:00",
+          "summary": "財經中心／楊思敏、戴亞倫、賴國彬 桃園報導IC載板龍頭欣興電子，受惠於AI需求，週五（29日）早盤股價才創新高，沒想到中午就爆出檢調上門搜索，約談總經理、副總和廠長等員工和4名被告，共18人。桃園地檢",
           "additional_sources": []
         },
         {
-          "title": "柿子影言》玩命航線無冷場　老帥哥打架超耐看",
-          "link": "https://tw.news.yahoo.com/%E6%9F%BF%E5%AD%90%E5%BD%B1%E8%A8%80-%E7%8E%A9%E5%91%BD%E8%88%AA%E7%B7%9A%E7%84%A1%E5%86%B7%E5%A0%B4-%E8%80%81%E5%B8%A5%E5%93%A5%E6%89%93%E6%9E%B6%E8%B6%85%E8%80%90%E7%9C%8B-183433560.html",
+          "title": "大選前操控台灣農產品 學者公開中共4大手段",
+          "link": "https://tw.news.yahoo.com/%E5%A4%A7%E9%81%B8%E5%89%8D%E6%93%8D%E6%8E%A7%E5%8F%B0%E7%81%A3%E8%BE%B2%E7%94%A2%E5%93%81-%E5%AD%B8%E8%80%85%E5%85%AC%E9%96%8B%E4%B8%AD%E5%85%B14%E5%A4%A7%E6%89%8B%E6%AE%B5-095551056.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:34:33+08:00",
-          "summary": "傑森史塔森雖然演的角色都差不多，但看他打架就是很爽快(圖/車庫娛樂 提供)",
+          "pubdate": "2026-08-29T17:55:51+08:00",
+          "summary": "中共近日對一批台灣文旦柚包裝場及果園開放註冊，全部在花蓮，被外界視為政治操作。學者黃柏叡今天(29日)表示，中共對台灣農產品的操控，大致分為4種手段，預料在11月底台灣地方選舉前，中共將會交叉運用其中",
           "additional_sources": []
         },
         {
-          "title": "串流追劇熱度持續升溫　台劇、台綜觀看卻衰退",
-          "link": "https://tw.news.yahoo.com/%E4%B8%B2%E6%B5%81%E8%BF%BD%E5%8A%87%E7%86%B1%E5%BA%A6%E6%8C%81%E7%BA%8C%E5%8D%87%E6%BA%AB-%E5%8F%B0%E5%8A%87-%E5%8F%B0%E7%B6%9C%E8%A7%80%E7%9C%8B%E5%8D%BB%E8%A1%B0%E9%80%80-183423464.html",
+          "title": "下週汽柴油價震撼出爐！中油再拋補貼大招　重磅宣布：已吸收破百億",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8B%E9%80%B1%E6%B1%BD%E6%9F%B4%E6%B2%B9%E5%83%B9%E9%9C%87%E6%92%BC%E5%87%BA%E7%88%90-%E4%B8%AD%E6%B2%B9%E5%86%8D%E6%8B%8B%E8%A3%9C%E8%B2%BC%E5%A4%A7%E6%8B%9B-%E9%87%8D%E7%A3%85%E5%AE%A3%E5%B8%83-%E5%B7%B2%E5%90%B8%E6%94%B6%E7%A0%B4%E7%99%BE%E5%84%84-094445057.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:34:23+08:00",
-          "summary": "逾7成網友曾使用串流平台追劇，但本土影音內容收看數量卻衰退(圖/xframe)",
+          "pubdate": "2026-08-29T17:44:45+08:00",
+          "summary": "即時中心／高睿鴻報導能源價格與民生穩定息息相關，最近因國際地緣政治情勢不穩、中東戰爭仍未停歇，導致世界油價依舊動盪，並還維持高檔。不過，為照顧國內民生與平穩物價，經整體評估，政府決定繼續執行平穩機制；",
           "additional_sources": []
         },
         {
-          "title": "新北投車站那卡西彈唱　月琴熟悉旋律車廂迴響",
-          "link": "https://tw.news.yahoo.com/%E6%96%B0%E5%8C%97%E6%8A%95%E8%BB%8A%E7%AB%99%E9%82%A3%E5%8D%A1%E8%A5%BF%E5%BD%88%E5%94%B1-%E6%9C%88%E7%90%B4%E7%86%9F%E6%82%89%E6%97%8B%E5%BE%8B%E8%BB%8A%E5%BB%82%E8%BF%B4%E9%9F%BF-183405016.html",
+          "title": "荷莫茲重啟傳聞 國際油價下殺！中油宣布「下周最新油價」",
+          "link": "https://tw.stock.yahoo.com/news/%E8%8D%B7%E8%8E%AB%E8%8C%B2%E9%87%8D%E5%95%9F%E5%82%B3%E8%81%9E-%E5%9C%8B%E9%9A%9B%E6%B2%B9%E5%83%B9%E4%B8%8B%E6%AE%BA-%E4%B8%AD%E6%B2%B9%E5%AE%A3%E5%B8%83-%E4%B8%8B%E5%91%A8%E6%9C%80%E6%96%B0%E6%B2%B9%E5%83%B9-093626819.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:34:05+08:00",
-          "summary": "「北投－新北投」列車上現場彈唱，近距離感受月琴魅力(圖/台北市政府 提供)",
+          "pubdate": "2026-08-29T17:36:26+08:00",
+          "summary": "國際油價本周重挫逾5%，但國內油價按兵不動！台灣中油公司今（29）日宣布，自下週一（31）日凌晨零時起至9月6日晚上12時止，汽、柴油價格均維持不調整。參考零售價格分別為：92無鉛汽油每公升30.5元",
           "additional_sources": []
         },
         {
-          "title": "Rigaku與日本東北大學成立X射線量測學新研究所",
-          "link": "https://tw.stock.yahoo.com/news/rigaku%E8%88%87%E6%97%A5%E6%9C%AC%E6%9D%B1%E5%8C%97%E5%A4%A7%E5%AD%B8%E6%88%90%E7%AB%8Bx%E5%B0%84%E7%B7%9A%E9%87%8F%E6%B8%AC%E5%AD%B8%E6%96%B0%E7%A0%94%E7%A9%B6%E6%89%80-182600499.html",
+          "title": "土石流毀滅口岸僅7分鐘！專家：還有2危險源",
+          "link": "https://tw.news.yahoo.com/%E5%9C%9F%E7%9F%B3%E6%B5%81%E6%AF%80%E6%BB%85%E5%8F%A3%E5%B2%B8%E5%83%857%E5%88%86%E9%90%98-%E5%B0%88%E5%AE%B6-%E9%82%84%E6%9C%892%E5%8D%B1%E9%9A%AA%E6%BA%90-092340524.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T02:26:00+08:00",
-          "summary": "東京, August 28, 2026--(美國商業資訊)--Rigaku Holdings旗下集團公司、全球X射線分析系統解決方案合作夥伴Rigaku Corporation（總部：東京都昭島市；總",
+          "pubdate": "2026-08-29T17:23:40+08:00",
+          "summary": "[NOWNEWS今日新聞]尼泊爾與中國西藏邊境近日爆發嚴重洪災，重創當地各項基礎建設與民生設施，中國科學院成都山地災害與環境研究所所長康世昌，接受訪問時表示，「我人生中還沒見過這種程度的土石流，只有在",
           "additional_sources": []
         },
         {
-          "title": "《強勢美股特報》NOW,CSGP,AJG,CBRE等10檔",
-          "link": "https://tw.stock.yahoo.com/news/%E5%BC%B7%E5%8B%A2%E7%BE%8E%E8%82%A1%E7%89%B9%E5%A0%B1-now-csgp-ajg-cbre%E7%AD%8910%E6%AA%94-160500849.html",
+          "title": "台股周一暴跌500點機會來了？專家曝5檔低位階 恐有「神秘買盤」撐腰",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E5%91%A8-%E6%9A%B4%E8%B7%8C500%E9%BB%9E%E6%A9%9F%E6%9C%83%E4%BE%86%E4%BA%86-%E5%B0%88%E5%AE%B6%E6%9B%9D5%E6%AA%94%E4%BD%8E%E4%BD%8D%E9%9A%8E-%E6%81%90%E6%9C%89-%E7%A5%9E%E7%A7%98%E8%B2%B7%E7%9B%A4-085123425.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T00:05:00+08:00",
-          "summary": "MoneyDJ新聞 2026-08-29 00:05:20 數位內容中心 發佈ServiceNow（NOW.US）：成交價143.64美元，上漲3.76%，開盤138.48美元，盤中高點145.46美",
+          "pubdate": "2026-08-29T16:51:23+08:00",
+          "summary": "受美股費城半導體指數大跌拖累，台指期夜盤周五（28日）重挫457點，收在45900點。專家分析，台股下周一（31日）將面臨賣壓衝擊，預估大盤可能回檔500至600點；不過，即便失守46000點大關，整",
           "additional_sources": []
         },
         {
-          "title": "臻鼎-KY 代子公司PENG SHEN TECHNOLOGY (THAILAND) CO., LTD.公告取得機器設備",
-          "link": "https://tw.stock.yahoo.com/news/%E8%87%BB%E9%BC%8E-ky-%E4%BB%A3%E5%AD%90%E5%85%AC%E5%8F%B8peng-shen-technology-160300735.html",
+          "title": "天災或人禍？CNN：中印尼搶開發喜馬拉雅山",
+          "link": "https://tw.news.yahoo.com/%E5%A4%A9%E7%81%BD%E6%88%96%E4%BA%BA%E7%A6%8D-cnn-%E4%B8%AD%E5%8D%B0%E5%B0%BC%E6%90%B6%E9%96%8B%E7%99%BC%E5%96%9C%E9%A6%AC%E6%8B%89%E9%9B%85%E5%B1%B1-084059137.html",
           "source": "yahoo",
-          "pubdate": "2026-08-29T00:03:00+08:00",
-          "summary": "公開資訊觀測站重大訊息公告(4958)臻鼎-KY-代子公司PENG SHEN TECHNOLOGY (THAILAND) CO., LTD.公告取得機器設備1.標的物之名稱及性質（如坐落台中市北區ＸＸ",
+          "pubdate": "2026-08-29T16:40:59+08:00",
+          "summary": "[NOWNEWS今日新聞]尼泊爾與西藏交界的喜馬拉雅山區26日發生山洪與土石流造成嚴重災害，截至29日中午最新統計，尼泊爾已有至少626人遇難，西藏則有7人死亡；兩地合計仍有近3000人下落不明。《C",
+          "additional_sources": []
+        },
+        {
+          "title": "彭明敏基金會：台灣民主仍面臨威脅 應思考憲政如何因應",
+          "link": "https://tw.news.yahoo.com/%E5%BD%AD%E6%98%8E%E6%95%8F%E5%9F%BA%E9%87%91%E6%9C%83-%E5%8F%B0%E7%81%A3%E6%B0%91%E4%B8%BB%E4%BB%8D%E9%9D%A2%E8%87%A8%E5%A8%81%E8%84%85-%E6%87%89%E6%80%9D%E8%80%83%E6%86%B2%E6%94%BF%E5%A6%82%E4%BD%95%E5%9B%A0%E6%87%89-083627403.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T16:36:27+08:00",
+          "summary": "彭明敏文教基金會董事長楊黃美幸表示，台灣今日的民主自由是許多前輩犧牲爭取而來，但當前民主仍面臨威脅，應思考憲政制度如何因應挑戰；她並指出，政黨政治本應相互制衡，擔憂立法院濫用權力，導致國家無法正常運作",
+          "additional_sources": []
+        },
+        {
+          "title": "市場牛熊循環震盪 專家籲投資人堅守長期策略",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B8%82%E5%A0%B4%E7%89%9B%E7%86%8A%E5%BE%AA%E7%92%B0%E9%9C%87%E7%9B%AA-%E5%B0%88%E5%AE%B6%E7%B1%B2%E6%8A%95%E8%B3%87%E4%BA%BA%E5%A0%85%E5%AE%88%E9%95%B7%E6%9C%9F%E7%AD%96%E7%95%A5-082650306.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T16:26:50+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導全球股市在牛市與熊市之間擺盪，但專家強調，投資人若能堅持長期策略，才是應對市場波動的關鍵。《Aol.com》報導指出，判斷處於牛市或熊市，最主要的差異在於股價走勢",
+          "additional_sources": []
+        },
+        {
+          "title": "馬拉威全村無條件領錢！實驗結果跌破眼鏡",
+          "link": "https://tw.news.yahoo.com/%E9%A6%AC%E6%8B%89%E5%A8%81%E5%85%A8%E6%9D%91%E7%84%A1%E6%A2%9D%E4%BB%B6%E9%A0%98%E9%8C%A2-%E5%AF%A6%E9%A9%97%E7%B5%90%E6%9E%9C%E8%B7%8C%E7%A0%B4%E7%9C%BC%E9%8F%A1-080220142.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T16:02:20+08:00",
+          "summary": "[NOWNEWS今日新聞]非營利組織「GiveDirectly」啟動總金額高達1.98億美元（約新台幣64.3億元）的無條件發錢計畫，正在馬拉威一處村莊展開，當地約23萬名成年人每人都可獲得約700美",
+          "additional_sources": []
+        },
+        {
+          "title": "出席榮邦特展 林佳龍攜手帛琉等各國夥伴打造繁榮永續藍色太平洋",
+          "link": "https://tw.stock.yahoo.com/news/%E5%87%BA%E5%B8%AD%E6%A6%AE%E9%82%A6%E7%89%B9%E5%B1%95-%E6%9E%97%E4%BD%B3%E9%BE%8D%E6%94%9C%E6%89%8B%E5%B8%9B%E7%90%89%E7%AD%89%E5%90%84%E5%9C%8B%E5%A4%A5%E4%BC%B4%E6%89%93%E9%80%A0%E7%B9%81%E6%A6%AE%E6%B0%B8%E7%BA%8C%E8%97%8D%E8%89%B2%E5%A4%AA%E5%B9%B3%E6%B4%8B-080054439.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T16:00:54+08:00",
+          "summary": "外長林佳龍昨（28）日與帛琉總統惠恕仁（Surangel S. Whipps, Jr.），以及美國、日本、澳大利亞駐帛琉使節及代表，共同出席「榮邦特展」（Pacific Prosperity Exhi",
+          "additional_sources": []
+        },
+        {
+          "title": "紐澤西州信用卡債務居美國之冠 高收入反成高負債因素",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B4%90%E6%BE%A4%E8%A5%BF%E5%B7%9E%E4%BF%A1%E7%94%A8%E5%8D%A1%E5%82%B5%E5%8B%99%E5%B1%85%E7%BE%8E%E5%9C%8B%E4%B9%8B%E5%86%A0-%E9%AB%98%E6%94%B6%E5%85%A5%E5%8F%8D%E6%88%90%E9%AB%98%E8%B2%A0%E5%82%B5%E5%9B%A0%E7%B4%A0-075810142.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:58:10+08:00",
+          "summary": "商傳媒｜方承業／綜合外電報導美國線上借貸平台 LendingTree 最新報告指出，紐澤西州居民的信用卡債務平均餘額名列全國第一，顯示當地消費者面臨較高的信貸負擔。這項數據來自 LendingTree",
+          "additional_sources": []
+        },
+        {
+          "title": "中國假帳號社群滲透 擾亂美國AI數據中心建置",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%9C%8B%E5%81%87%E5%B8%B3%E8%99%9F%E7%A4%BE%E7%BE%A4%E6%BB%B2%E9%80%8F-%E6%93%BE%E4%BA%82%E7%BE%8E%E5%9C%8Bai%E6%95%B8%E6%93%9A%E4%B8%AD%E5%BF%83%E5%BB%BA%E7%BD%AE-075601527.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:56:01+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導根據《Axios》報導，有證據顯示中國正透過社群媒體上的假帳號，試圖影響美國民眾對人工智慧（AI）數據中心建置的看法，進而阻礙美國的AI發展。這些資訊操弄活動，讓美國國會",
+          "additional_sources": []
+        },
+        {
+          "title": "川普政府制裁埃及銀行阿聯酋分支 加強孤立伊朗經濟",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B7%9D%E6%99%AE%E6%94%BF%E5%BA%9C%E5%88%B6%E8%A3%81%E5%9F%83%E5%8F%8A%E9%8A%80%E8%A1%8C%E9%98%BF%E8%81%AF%E9%85%8B%E5%88%86%E6%94%AF-%E5%8A%A0%E5%BC%B7%E5%AD%A4%E7%AB%8B%E4%BC%8A%E6%9C%97%E7%B6%93%E6%BF%9F-074217336.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:42:17+08:00",
+          "summary": "圖／示意圖商傳媒｜吳承岳／台北報導美國川普政府為加強對伊朗的經濟孤立，已於昨日（28日）提出一項新規定，旨在切斷埃及第二大銀行 Banque Misr 位於阿拉伯聯合大公國（United Arab E",
+          "additional_sources": []
+        },
+        {
+          "title": "尼泊爾洪災重建費恐50億美元　達GDP近一成",
+          "link": "https://tw.news.yahoo.com/%E5%B0%BC%E6%B3%8A%E7%88%BE%E6%B4%AA%E7%81%BD%E9%87%8D%E5%BB%BA%E8%B2%BB%E6%81%9050%E5%84%84%E7%BE%8E%E5%85%83-%E9%81%94gdp%E8%BF%91-%E6%88%90-073738663.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:37:38+08:00",
+          "summary": "[NOWNEWS今日新聞]尼泊爾與中國西藏邊境近日爆發嚴重洪災，重創當地各項基礎建設與民生設施，累計死亡人數已超過623人，另有近2500人仍下落不明，災情相當慘重。尼泊爾財政部長瓦格萊（Swarni",
+          "additional_sources": []
+        },
+        {
+          "title": "X 平台揭中國假帳號農場 散布 AI 數據中心不實言論",
+          "link": "https://tw.stock.yahoo.com/news/x-%E5%B9%B3%E5%8F%B0%E6%8F%AD%E4%B8%AD%E5%9C%8B%E5%81%87%E5%B8%B3%E8%99%9F%E8%BE%B2%E5%A0%B4-%E6%95%A3%E5%B8%83-ai-%E6%95%B8%E6%93%9A%E4%B8%AD%E5%BF%83%E4%B8%8D%E5%AF%A6%E8%A8%80%E8%AB%96-073057980.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:30:57+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導社群媒體平台 X 公司（前身為 Twitter）近期揭露，其安全團隊發現一個由數十萬個可疑帳號組成的「殭屍帳號農場」（bot farm），這些帳號涉嫌參與影響力作戰，試圖",
+          "additional_sources": []
+        },
+        {
+          "title": "伊朗墓地價格飆漲官方價八倍 民眾月薪難負擔",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BC%8A%E6%9C%97%E5%A2%93%E5%9C%B0%E5%83%B9%E6%A0%BC%E9%A3%86%E6%BC%B2%E5%AE%98%E6%96%B9%E5%83%B9%E5%85%AB%E5%80%8D-%E6%B0%91%E7%9C%BE%E6%9C%88%E8%96%AA%E9%9B%A3%E8%B2%A0%E6%93%94-073038832.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:30:38+08:00",
+          "summary": "圖／示意圖商傳媒｜吳承岳／台北報導伊朗正面臨嚴峻的經濟挑戰，連基本民生所需如墓地價格也飆升至驚人水準。根據《Iran International》報導，德黑蘭一塊三層墓地的廣告價格高達 300 億里亞",
+          "additional_sources": []
+        },
+        {
+          "title": "尼泊爾鎖國式救災挨批後改口！喊需技術支援",
+          "link": "https://tw.news.yahoo.com/%E5%B0%BC%E6%B3%8A%E7%88%BE%E9%8E%96%E5%9C%8B%E5%BC%8F%E6%95%91%E7%81%BD%E6%8C%A8%E6%89%B9%E5%BE%8C%E6%94%B9%E5%8F%A3-%E5%96%8A%E9%9C%80%E6%8A%80%E8%A1%93%E6%94%AF%E6%8F%B4-072951216.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:29:51+08:00",
+          "summary": "[NOWNEWS今日新聞]尼泊爾與西藏交界的喜馬拉雅山區26日發生山洪與土石流造成嚴重災害，已知至少超過600死。而尼泊爾當局在第一時間「鎖國式救災」，拒絕外國搜救隊進駐也引發討論。對此，尼泊爾總理夏",
+          "additional_sources": []
+        },
+        {
+          "title": "泰國鎖定全球AI商機 印刷電路板產業成佈局核心",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%B0%E5%9C%8B%E9%8E%96%E5%AE%9A%E5%85%A8%E7%90%83ai%E5%95%86%E6%A9%9F-%E5%8D%B0%E5%88%B7%E9%9B%BB%E8%B7%AF%E6%9D%BF%E7%94%A2%E6%A5%AD%E6%88%90%E4%BD%88%E5%B1%80%E6%A0%B8%E5%BF%83-071029652.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:10:29+08:00",
+          "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導在華盛頓發動的貿易戰影響下，全球企業紛紛將生產線移出中國，東南亞各國積極爭取科技產業的青睞，其中泰國正憑藉其印刷電路板（PCB）產業的既有優勢，成為這波人工智",
+          "additional_sources": []
+        },
+        {
+          "title": "中國科技業 IPO 熱潮 擺脫模仿晉升創新龍頭",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%9C%8B%E7%A7%91%E6%8A%80%E6%A5%AD-ipo-%E7%86%B1%E6%BD%AE-%E6%93%BA%E8%84%AB%E6%A8%A1%E4%BB%BF%E6%99%89%E5%8D%87%E5%89%B5%E6%96%B0%E9%BE%8D%E9%A0%AD-070727036.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:07:27+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導曾被貼上「山寨」標籤的中國，正透過高科技產業的快速發展，擺脫模仿者的形象，轉型為全球科技創新的重要力量。近期一系列先進科技企業成功在資本市場上市，顯示其在機器人、",
+          "additional_sources": []
+        },
+        {
+          "title": "租屋市場「年齡潛規則」曝光！20歲房東怕跑、30歲最搶手、60歲有錢也租不到",
+          "link": "https://tw.stock.yahoo.com/news/%E7%A7%9F%E5%B1%8B%E5%B8%82%E5%A0%B4%E3%80%8C%E5%B9%B4%E9%BD%A1%E6%BD%9B%E8%A6%8F%E5%89%87%E3%80%8D%E6%9B%9D%E5%85%89%EF%BC%8120%E6%AD%B2%E6%88%BF%E6%9D%B1%E6%80%95%E8%B7%91%E3%80%8130%E6%AD%B2%E6%9C%80%E6%90%B6%E6%89%8B%E3%80%8160%E6%AD%B2%E6%9C%89%E9%8C%A2%E4%B9%9F%E7%A7%9F%E4%B8%8D%E5%88%B0-065900152.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:59:00+08:00",
+          "summary": "在高房價時代，租屋已是許多人的常態，但你知道嗎？在房東眼中，不同年齡層的租客待遇天差地別，甚至存在一條「年齡鄙視鏈」。",
+          "additional_sources": []
+        },
+        {
+          "title": "納伯斯工業3500萬美元押注地熱新創 Quaise 擴展再生能源版圖",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B4%8D%E4%BC%AF%E6%96%AF%E5%B7%A5%E6%A5%AD3500%E8%90%AC%E7%BE%8E%E5%85%83%E6%8A%BC%E6%B3%A8%E5%9C%B0%E7%86%B1%E6%96%B0%E5%89%B5-quaise-%E6%93%B4%E5%B1%95%E5%86%8D%E7%94%9F%E8%83%BD%E6%BA%90%E7%89%88%E5%9C%96-065523253.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:55:23+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導美國鑽探承包商納伯斯工業（Nabors Industries Ltd）近期宣布，已完成對地熱能源新創公司 Quaise Energy, Inc.（簡稱 Qu",
+          "additional_sources": []
+        },
+        {
+          "title": "阿聯酋、新加坡航空豪華艙位較勁 長途飛行服務細節全面解析",
+          "link": "https://tw.stock.yahoo.com/news/%E9%98%BF%E8%81%AF%E9%85%8B-%E6%96%B0%E5%8A%A0%E5%9D%A1%E8%88%AA%E7%A9%BA%E8%B1%AA%E8%8F%AF%E8%89%99%E4%BD%8D%E8%BC%83%E5%8B%81-%E9%95%B7%E9%80%94%E9%A3%9B%E8%A1%8C%E6%9C%8D%E5%8B%99%E7%B4%B0%E7%AF%80%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90-065418786.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:54:18+08:00",
+          "summary": "商傳媒｜方承業／綜合外電報導對於經常往返國際長途航線的旅客而言，優選經濟艙（Premium Economy Class）已成為傳統經濟艙與商務艙之間，提供更佳舒適度與升級服務的熱門選擇。這項艙等特別在",
+          "additional_sources": []
+        },
+        {
+          "title": "美AI新創Genspark揮軍日本 未來三年砸1億美元搶市",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8Eai%E6%96%B0%E5%89%B5genspark%E6%8F%AE%E8%BB%8D%E6%97%A5%E6%9C%AC-%E6%9C%AA%E4%BE%86%E4%B8%89%E5%B9%B4%E7%A0%B81%E5%84%84%E7%BE%8E%E5%85%83%E6%90%B6%E5%B8%82-064825900.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:48:25+08:00",
+          "summary": "圖／示意圖商傳媒｜吳承岳／台北報導美國人工智慧（AI）新創公司 MainFunc Inc. 旗下品牌 Genspark 宣布，將在未來三年內向日本市場投入 1 億美元資金，積極擴展其在日本的業務版圖。",
+          "additional_sources": []
+        },
+        {
+          "title": "印度電信巨頭Jio獲准上市 Meta數十億美元持股終獲公允估價",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8D%B0%E5%BA%A6%E9%9B%BB%E4%BF%A1%E5%B7%A8%E9%A0%ADjio%E7%8D%B2%E5%87%86%E4%B8%8A%E5%B8%82-meta%E6%95%B8%E5%8D%81%E5%84%84%E7%BE%8E%E5%85%83%E6%8C%81%E8%82%A1%E7%B5%82%E7%8D%B2%E5%85%AC%E5%85%81%E4%BC%B0%E5%83%B9-064010788.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:40:10+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導印度電信科技公司 Jio Platforms（Jio）的首次公開募股（IPO）計畫，今日已獲得印度證券監管機構的批准，這項關鍵里程碑使得 Meta Platfor",
+          "additional_sources": []
+        },
+        {
+          "title": "洪水突襲尼國校園　校車載40多名學生遭沖走",
+          "link": "https://tw.news.yahoo.com/%E6%B4%AA%E6%B0%B4%E7%AA%81%E8%A5%B2%E5%B0%BC%E5%9C%8B%E6%A0%A1%E5%9C%92-%E6%A0%A1%E8%BB%8A%E8%BC%8940%E5%A4%9A%E5%90%8D%E5%AD%B8%E7%94%9F%E9%81%AD%E6%B2%96%E8%B5%B0-063824145.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:38:24+08:00",
+          "summary": "[NOWNEWS今日新聞]尼泊爾北部26日爆發大規模洪災，位於特里蘇里河（TrishuliRiver）、塔迪河（TadiRiver）交匯處的努瓦科特（Nuwakot）災情慘重，滾滾山洪沖進校園，當地1",
+          "additional_sources": []
+        },
+        {
+          "title": "日本中小型高股息股潛力浮現 專家揭三大動能助漲",
+          "link": "https://tw.stock.yahoo.com/news/%E6%97%A5%E6%9C%AC%E4%B8%AD%E5%B0%8F%E5%9E%8B%E9%AB%98%E8%82%A1%E6%81%AF%E8%82%A1%E6%BD%9B%E5%8A%9B%E6%B5%AE%E7%8F%BE-%E5%B0%88%E5%AE%B6%E6%8F%AD%E4%B8%89%E5%A4%A7%E5%8B%95%E8%83%BD%E5%8A%A9%E6%BC%B2-063403459.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T14:34:03+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導曾任基金經理人、在日本股市擁有 25 年豐富經驗的窪田真之分析指出，儘管自 2020 年以來，日本股市主要由大型股領漲，但他預期自 2025 年起，中小型股票將迎",
           "additional_sources": []
         }
       ]
     },
     {
-      "group": "3661 世芯-KY",
+      "group": "US NVDA 輝達",
       "keywords": [
-        "1",
+        "美元",
+        "營收",
+        "輝達",
+        "市場",
+        "ai"
+      ],
+      "article_count": 3,
+      "articles": [
+        {
+          "title": "法人：華許言論偏中性　輝達財報蘋果新機有利台股",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%95%E4%BA%BA-%E8%8F%AF%E8%A8%B1%E8%A8%80%E8%AB%96%E5%81%8F%E4%B8%AD%E6%80%A7-%E8%BC%9D%E9%81%94%E8%B2%A1%E5%A0%B1%E8%98%8B%E6%9E%9C%E6%96%B0%E6%A9%9F%E6%9C%89%E5%88%A9%E5%8F%B0%E8%82%A1-112823661.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T19:28:23+08:00",
+          "summary": "（中央社記者潘智義台北2026年08月29日電）美國聯準會主席華許言論被市場解讀偏鷹，美股下挫，法人認為，華許為因應美國公債到期資金壓力，現階段仍將維持不升息、不降息態度；且輝達財報優於預期，看好即將",
+          "additional_sources": []
+        },
+        {
+          "title": "美科技股重挫「台股週一恐血洗」？分析師點名抗跌族群「關鍵1防線」全說了",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E7%A7%91%E6%8A%80%E8%82%A1%E9%87%8D%E6%8C%AB-%E5%8F%B0%E8%82%A1%E9%80%B1-%E6%81%90%E8%A1%80%E6%B4%97-%E5%88%86%E6%9E%90%E5%B8%AB%E9%BB%9E%E5%90%8D%E6%8A%97%E8%B7%8C%E6%97%8F%E7%BE%A4-%E9%97%9C%E9%8D%B51%E9%98%B2%E7%B7%9A-104213281.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T18:42:13+08:00",
+          "summary": "財經中心／綜合報導美國聯準會主席華許（Kevin Warsh）在全球央行年會釋出偏鷹訊號，市場對9月升息預期快速升溫，美股科技股週五（28日）全面承壓，費城半導體指數重挫3.5%、輝達（NVIDIA）",
+          "additional_sources": []
+        },
+        {
+          "title": "周末精選｜輝達財報展望亮眼！扮演救世主或一日行情　一文掌握法人看法",
+          "link": "https://tw.stock.yahoo.com/news/%E5%91%A8%E6%9C%AB%E7%B2%BE%E9%81%B8-%E8%BC%9D%E9%81%94%E8%B2%A1%E5%A0%B1%E5%B1%95%E6%9C%9B%E4%BA%AE%E7%9C%BC-%E8%82%A1%E5%83%B9%E8%A1%9D%E9%AB%98%E5%8F%88%E4%B8%8B%E6%AE%BA-%E6%96%87%E6%8E%8C%E6%8F%A1%E7%87%9F%E9%81%8B%E9%87%8D%E9%BB%9E%E5%92%8C%E6%B3%95%E4%BA%BA%E7%9C%8B%E6%B3%95-230000033.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:26:00+08:00",
+          "summary": "【記者蕭文康／台北報導】輝達（NVIDIA）27日公布2027年會計年度第2季財報，單季營收倍增至962億美元，優於市場預期，同時預估本季營收將達1080億美元，上下浮動2%，一度因低於市場樂觀期望的",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "3037 欣興",
+      "keywords": [
+        "欣興",
+        "經理",
+        "總經",
+        "公司",
+        "產地"
+      ],
+      "article_count": 3,
+      "articles": [
+        {
+          "title": "Re: [新聞] 遭控陸製變MIT！欣興涉「洗產地」被搜索",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787982708.A.C34.html",
+          "source": "ptt",
+          "pubdate": "2026-08-29T13:51:46+08:00",
+          "summary": "什麼公司說法，台灣檢調都不重要啦\n\n開公司就是為了賺錢，這些都不影響公司營收\n\n後續真的大事是看會不會撞上川普禁止洗產地槍口，美國官員才不會管你是傳統PCB還是ABF\n產線，都是欣興的產品\n\n後續可以分成\n\n1.被美國禁止進口：下去且可能要趴很久但應該機率低\n\n2.被列入觀察名單：估值短期下去但幾個…",
+          "additional_sources": [
+            {
+              "source": "ptt",
+              "link": "https://www.ptt.cc/bbs/Stock/M.1788000582.A.C51.html",
+              "title": "Re: [新聞] 遭控陸製變MIT！欣興涉「洗產地」被搜索"
+            }
+          ]
+        },
+        {
+          "title": "[新聞] 原產地標示不實 欣興電子PCB總經理1500萬",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787984998.A.373.html",
+          "source": "ptt",
+          "pubdate": "2026-08-29T14:29:56+08:00",
+          "summary": "原文標題：原產地標示不實 欣興電子PCB總經理1500萬交保\n原文連結：\nhttps://udn.com/news/story/7321/9721283\n發布時間：2026-08-29 10:01\n記者署名：聯合報／ 記者 陳恩惠 ／桃園即時報導\n原文內容：\nABF載板三雄之一欣興電子昨遭檢調搜索，…",
+          "additional_sources": []
+        },
+        {
+          "title": "Re: [新聞] 遭控陸製變MIT！欣興涉「洗產地」被搜索",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787994487.A.8B1.html",
+          "source": "ptt",
+          "pubdate": "2026-08-29T17:08:03+08:00",
+          "summary": "有看到這則新聞，昨天當下馬上搜尋\n\n現在消息滿天飛，新聞下午才出來，然而 一早就有人先知\n\n提早出場跌了5%以上\n\n這新聞我認為洗產地不重要，而是進口中國基板跟半成品\n\n這牽涉到技術護城河，只是前端原物料還沒什麼事情\n\n然而\n\n如果有進口到比較關鍵技術的成品，那就不妙了\n\n現在大家給他這麼高估值就是…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "3432 台端",
+      "keywords": [
+        "公司",
         "0",
-        "2",
-        "3",
-        "5"
+        "本公",
+        "交易",
+        "仟元"
       ],
       "article_count": 1,
       "articles": [
         {
-          "title": "[情報] 主動ETF/外資共同買賣超排行 (8/28)",
-          "link": "https://www.ptt.cc/bbs/Stock/M.1787943963.A.EC0.html",
+          "title": "【公告】依臺灣證券交易所股份有限公司臺證上一字第1121801204號函辦理",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E4%BE%9D%E8%87%BA%E7%81%A3%E8%AD%89%E5%88%B8%E4%BA%A4%E6%98%93%E6%89%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E8%87%BA%E8%AD%89%E4%B8%8A-%E5%AD%97%E7%AC%AC1121801204%E8%99%9F%E5%87%BD%E8%BE%A6%E7%90%86-073413820.html",
+          "source": "yahoo",
+          "pubdate": "2026-08-29T15:34:13+08:00",
+          "summary": "日 期：2026年08月29日公司名稱：台端(3432)主 旨：依臺灣證券交易所股份有限公司臺證上一字第1121801204號函辦理發言人：鄭佩琪說 明：1.事實發生日:115/08/292.公司名稱",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%AB%AF-%E4%BE%9D%E8%87%BA%E7%81%A3%E8%AD%89%E5%88%B8%E4%BA%A4%E6%98%93%E6%89%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E8%87%BA%E8%AD%89%E4%B8%8A-%E5%AD%97%E7%AC%AC1121801204%E8%99%9F%E5%87%BD%E8%BE%A6%E7%90%86-062900325.html",
+              "title": "台端 依臺灣證券交易所股份有限公司臺證上一字第1121801204號函辦理"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "US AMZN 亞馬遜",
+      "keywords": [
+        "ai",
+        "模型",
+        "產業",
+        "榜單",
+        "資料"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "《時代》AI百大黃仁勳、梁文峰落選！AI競賽不只拼模型了？算力、能源與工作流程成新戰場",
+          "link": "https://news.cnyes.com/news/id/6591512",
+          "source": "cnyes",
+          "pubdate": "2026-08-29T20:20:03+08:00",
+          "summary": "鉅亨網新聞中心2026-08-29 20:20\n《時代》（TIME）雜誌近日公布第四屆「TIME100 AI」榜單，除了OpenAI、Anthropic、xAI等人工智慧（AI）領域熟悉的面孔外，美國參議員Bernie Sanders、美國勞工聯合會與產業工會聯合會（AFL-CIO）主席Liz Sh…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "3532 台勝科",
+      "keywords": [
+        "5",
+        "明年",
+        "1",
+        "交易",
+        "公教"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "輝達財報帶旺全球股市、勞保費率調升至13% 本周不可不知的五件財經大事",
+          "link": "https://money.udn.com/money/story/5607/9720309?from=edn_maintab_index",
+          "source": "udn",
+          "pubdate": "2026-08-29T10:30:00+08:00",
+          "summary": "輝達（NVIDIA）第2季財報優於預期，有望帶動相關供應鏈、概念股；明年起勞保普通事故費率將調升0.5個百分點至13%，受僱員工平均每月保費增加36.5元；半導體矽晶圓市場掀起三年多來首次漲價潮，相...",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AAPL 蘋果",
+      "keywords": [
+        "銷量",
+        "iphone",
+        "全球",
+        "手機",
+        "型手"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] iPhone 17 全球銷量霸榜前三，Android 只",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1788006584.A.B00.html",
           "source": "ptt",
-          "pubdate": "2026-08-29T03:06:00+08:00",
-          "summary": "標題：主動ETF/外資共同買賣超排行 (8/28)\n\n來源：Marffet\n\n網址：\nhttps://marffet-app.zeabur.app/etf\n內文：\n\n股票          投信主動ETF(千元)  外資(千元)  合計(千元)   漲跌幅\n---------------------…",
+          "pubdate": "2026-08-29T20:29:37+08:00",
+          "summary": "原文標題：\niPhone 17 全球銷量霸榜前三，Android 只剩三星苦撐\n原文連結：\nhttps://technews.tw/2026/08/28/iphone-17-sales-volume/\n發布時間：\n2026 年 08 月 28 日 13:20\n記者署名：\n邱 倢芯\n原文內容：\n調研機…",
           "additional_sources": []
         }
       ]
@@ -173,64 +524,28 @@
     {
       "group": "大盤/未分類",
       "keywords": [
-        "通膨",
-        "華許",
-        "市場",
-        "升息",
-        "利率"
+        "違規",
+        "1",
+        "長鑫",
+        "4",
+        "6"
       ],
-      "article_count": 5,
+      "article_count": 2,
       "articles": [
         {
-          "title": "華許想讓市場忽略Fed發言？美債反應卻恰好相反",
-          "link": "https://news.cnyes.com/news/id/6591181",
-          "source": "cnyes",
-          "pubdate": "2026-08-29T01:00:05+08:00",
-          "summary": "鉅亨網編譯段智恆2026-08-29 01:00\n聯準會(Fed)主席華許(Kevin Warsh)希望債券投資人根據美國經濟基本面交易，不要隨著央行官員的發言起舞，但市場迄今的表現卻恰好相反。自華許5月上任以來，美債殖利率曲線幅度最大的3次單日波動，全都發生在他公開露面之後。\n華許想讓市場忽略Fe…",
-          "additional_sources": [
-            {
-              "source": "yahoo",
-              "link": "https://tw.stock.yahoo.com/news/%E8%8F%AF%E8%A8%B1%E6%83%B3%E8%AE%93%E5%B8%82%E5%A0%B4%E5%BF%BD%E7%95%A5fed%E7%99%BC%E8%A8%80-%E7%BE%8E%E5%82%B5%E5%8F%8D%E6%87%89%E5%8D%BB%E6%81%B0%E5%A5%BD%E7%9B%B8%E5%8F%8D-170005411.html",
-              "title": "華許想讓市場忽略Fed發言？美債反應卻恰好相反"
-            }
-          ]
-        },
-        {
-          "title": "華許說了很多又像沒說？華爾街：Fed拒給方向 市場恐迎更大波動",
-          "link": "https://news.cnyes.com/news/id/6591137",
-          "source": "cnyes",
-          "pubdate": "2026-08-29T00:31:35+08:00",
-          "summary": "鉅亨網編譯段智恆2026-08-29 00:31\n聯準會(Fed)主席華許(Kevin Warsh)周五(28日)在傑克森霍爾央行年會發表演說，重申2%通膨目標，並表示若物價未能以足夠快的速度回落，Fed就「還有工作要做」。華爾街普遍將談話解讀為偏鷹，但也認為華許刻意保留9月政策空間，既恢復部分抗通…",
-          "additional_sources": [
-            {
-              "source": "yahoo",
-              "link": "https://tw.stock.yahoo.com/news/%E8%8F%AF%E8%A8%B1%E8%AA%AA%E4%BA%86%E5%BE%88%E5%A4%9A%E5%8F%88%E5%83%8F%E6%B2%92%E8%AA%AA-%E8%8F%AF%E7%88%BE%E8%A1%97-fed%E6%8B%92%E7%B5%A6%E6%96%B9%E5%90%91-%E5%B8%82%E5%A0%B4%E6%81%90%E8%BF%8E%E6%9B%B4%E5%A4%A7%E6%B3%A2%E5%8B%95-163135964.html",
-              "title": "華許說了很多又像沒說？華爾街：Fed拒給方向 市場恐迎更大波動"
-            }
-          ]
-        },
-        {
-          "title": "14檔外資狂買 向上攻堅",
-          "link": "https://www.ctee.com.tw/news/20260829700022-439901",
-          "source": "ctee",
-          "pubdate": "2026-08-29T03:00:00+08:00",
-          "summary": "輝達財報報喜，激勵市場信心，台股28日開高走揚，再創反彈波段新高。法人指出，短線量能回升之際，可先關注籌碼、基本面表現，包括富喬、台塑等14檔外資積極加倉，月營收穩步向上，8月營收可望延續成長態勢的個股，上攻動能可期，下周將領台股挑戰47,000點。\n兆豐投顧董事長留政鈺指出，輝達財報繳出亮眼成績，…",
-          "additional_sources": []
-        },
-        {
-          "title": "華許放鷹 要將美通膨壓至2％",
-          "link": "https://www.ctee.com.tw/news/20260829700025-439901",
-          "source": "ctee",
-          "pubdate": "2026-08-29T03:00:00+08:00",
-          "summary": "美國聯準會（Fed）主席華許（Kevin Warsh）在傑克森霍爾全球央行年會演說，提到通膨並未出現有意義的放緩，除非決策者確信通膨已正在回落，否則的話，聯準會將「還有工作要做」。\n他這番誓言要把通膨壓低到2％目標的偏鷹言論，讓市場對9月升息押注提高。據芝商所FedWatch工具顯示，目前市場估9月…",
-          "additional_sources": []
-        },
-        {
-          "title": "[新聞] 美國聯準會主席示警通膨堪憂　暗示未來可",
-          "link": "https://www.ptt.cc/bbs/Stock/M.1787933344.A.561.html",
+          "title": "[新聞] 大陸DRAM一哥 長鑫上半年賺逾3,000億",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1787987263.A.DBA.html",
           "source": "ptt",
-          "pubdate": "2026-08-29T00:09:01+08:00",
-          "summary": "美國聯準會主席示警通膨堪憂　暗示未來可能重啟升息\nhttps://finance.ftvnews.com.tw/news/detail/2026828W0786\n發布時間：2026/08/28 22:06:44\n更新時間：2026/08/28 23:01:50\n\nAFP 法新社報導\n\n美國聯準會（F…",
+          "pubdate": "2026-08-29T15:07:41+08:00",
+          "summary": "標題：\n大陸DRAM一哥 長鑫上半年賺逾3,000億\n原文連結：\nhttps://reurl.cc/omyGdM\n發布時間：\n2026-08-29 01:06\n記者署名：\n經濟日報 大陸中心/綜合報導\n原文內容：\n大陸DRAM一哥長鑫科技公布半年報，今年上半年營收人民幣1,503億元，年增873%；…",
+          "additional_sources": []
+        },
+        {
+          "title": "[公告] 沒梗水桶",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1788005547.A.59F.html",
+          "source": "ptt",
+          "pubdate": "2026-08-29T20:12:24+08:00",
+          "summary": "經AI大鳥守衛主動巡查，以下使用者熔斷數日\n\n\n1.\n違規人  ：xox5678\n違規文章：\n#1gZKQXuj (Stock)\n違規條目：4-6-1\n罰則　　：水桶一年\n違規事證：\n2.\n違規人  ：newti\n違規文章：\n#1gaZH3py (Stock)\n違規條目：4-6-1\n罰則　　：水桶3…",
           "additional_sources": []
         }
       ]
