@@ -1,0 +1,492 @@
+{
+  "date": "2026-09-03",
+  "generated_at": "2026-09-03T20:00:50.937806",
+  "group_count": 9,
+  "total_articles": 45,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "ai",
+        "公司",
+        "市場",
+        "我們",
+        "美國"
+      ],
+      "article_count": 35,
+      "articles": [
+        {
+          "title": "豐田、福斯、獺祭案例啟示：標準化打造企業持續競爭力",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B1%90%E7%94%B0-%E7%A6%8F%E6%96%AF-%E7%8D%BA%E7%A5%AD%E6%A1%88%E4%BE%8B%E5%95%9F%E7%A4%BA-%E6%A8%99%E6%BA%96%E5%8C%96%E6%89%93%E9%80%A0%E4%BC%81%E6%A5%AD%E6%8C%81%E7%BA%8C%E7%AB%B6%E7%88%AD%E5%8A%9B-114610111.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:46:10+08:00",
+          "summary": "圖／示意圖商傳媒｜吳承岳／台北報導企業在面對環境變化時，若組織文化或管理模式缺乏彈性，往往會失去競爭力。然而，日本豐田汽車、德國福斯集團（Volkswagen Group）與日本清酒品牌獺祭（Dass",
+          "additional_sources": []
+        },
+        {
+          "title": "人工智慧加劇線上隱私威脅 遊戲玩家與直播主保護真實身分指南",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7%E5%8A%A0%E5%8A%87%E7%B7%9A%E4%B8%8A%E9%9A%B1%E7%A7%81%E5%A8%81%E8%84%85-%E9%81%8A%E6%88%B2%E7%8E%A9%E5%AE%B6%E8%88%87%E7%9B%B4%E6%92%AD%E4%B8%BB%E4%BF%9D%E8%AD%B7%E7%9C%9F%E5%AF%A6%E8%BA%AB%E5%88%86%E6%8C%87%E5%8D%97-113919226.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:39:19+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導隨著網路遊戲與直播日漸普及，遊戲玩家與直播主在線上建立的形象，已快速成為其公開身份的一部分。然而，這種線上身份不僅包含使用者名稱、遊戲片段或直播排程，更可能",
+          "additional_sources": []
+        },
+        {
+          "title": "模型上下文協議簡化AI Agent開發 強化互通性",
+          "link": "https://tw.stock.yahoo.com/news/%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%94%E8%AD%B0%E7%B0%A1%E5%8C%96ai-agent%E9%96%8B%E7%99%BC-%E5%BC%B7%E5%8C%96%E4%BA%92%E9%80%9A%E6%80%A7-113846554.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:38:46+08:00",
+          "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導人工智慧（AI）領域不斷發展，AI Agent（人工智慧代理）的開發正邁向標準化里程碑。由 Anthropic 公司主導推出的模型上下文協議（Model Cont",
+          "additional_sources": []
+        },
+        {
+          "title": "Baya Systems選擇AdoreSys為合作夥伴，擴大半導體IP在中國及亞太市場的觸及范圍",
+          "link": "https://tw.stock.yahoo.com/news/baya-systems%E9%81%B8%E6%93%87adoresys%E7%82%BA%E5%90%88%E4%BD%9C%E5%A4%A5%E4%BC%B4-%E6%93%B4%E5%A4%A7%E5%8D%8A%E5%B0%8E%E9%AB%94ip%E5%9C%A8%E4%B8%AD%E5%9C%8B%E5%8F%8A%E4%BA%9E%E5%A4%AA%E5%B8%82%E5%A0%B4%E7%9A%84%E8%A7%B8%E5%8F%8A%E8%8C%83%E5%9C%8D-113000733.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:30:00+08:00",
+          "summary": "加州聖塔克拉拉和新加坡, September 03, 2026--(美國商業資訊)--Baya Systems是軟體驅動型互連架構與系統IP解決方案領域的創新企業，AdoreSys是首屈一指的半導體設",
+          "additional_sources": []
+        },
+        {
+          "title": "德國358年大廠加強在台布局　高層爆料執行長嫉妒他搬到台灣",
+          "link": "https://tw.stock.yahoo.com/news/%E5%BE%B7%E5%9C%8B358%E5%B9%B4%E5%A4%A7%E5%BB%A0%E5%8A%A0%E5%BC%B7%E5%9C%A8%E5%8F%B0%E5%B8%83%E5%B1%80-%E9%AB%98%E5%B1%A4%E7%88%86%E6%96%99%E5%9F%B7%E8%A1%8C%E9%95%B7%E5%AB%89%E5%A6%92%E4%BB%96%E6%90%AC%E5%88%B0%E5%8F%B0%E7%81%A3-112955741.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:29:55+08:00",
+          "summary": "國際半導體展（SEMICON Taiwan 2026）期間，德國科技大廠默克集團（Merck）執行董事會成員暨電子科技事業體執行長賀天銘（Ben Hein） 3日指出，人工智慧（AI）正重塑半導體產業",
+          "additional_sources": []
+        },
+        {
+          "title": "AI 熱潮推動數據中心擴建 美國電池儲能迎來五倍成長",
+          "link": "https://tw.stock.yahoo.com/news/ai-%E7%86%B1%E6%BD%AE%E6%8E%A8%E5%8B%95%E6%95%B8%E6%93%9A%E4%B8%AD%E5%BF%83%E6%93%B4%E5%BB%BA-%E7%BE%8E%E5%9C%8B%E9%9B%BB%E6%B1%A0%E5%84%B2%E8%83%BD%E8%BF%8E%E4%BE%86%E4%BA%94%E5%80%8D%E6%88%90%E9%95%B7-112916293.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:29:16+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導受人工智慧（AI）應用激增影響，美國數據中心正以驚人速度擴張，其龐大的能源需求不僅引發環境疑慮，也同步推動了電池儲能市場的快速成長。根據《Yale E360",
+          "additional_sources": []
+        },
+        {
+          "title": "美委簽歷史性協議掌控委國1/5油儲 鞏固地緣控制(影音)",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E5%A7%94%E7%B0%BD%E6%AD%B7%E5%8F%B2%E6%80%A7%E5%8D%94%E8%AD%B0%E6%8E%8C%E6%8E%A7%E5%A7%94%E5%9C%8B1-5%E6%B2%B9%E5%84%B2-%E9%9E%8F%E5%9B%BA%E5%9C%B0%E7%B7%A3%E6%8E%A7%E5%88%B6-%E5%BD%B1%E9%9F%B3-112912781.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:29:12+08:00",
+          "summary": "美委簽協議 美將控制1/5委國石油儲量 在美國能源部長萊特（Chris Wright）的見證下，美國能源企業2日與與委內瑞拉簽署歷史性石油協議，允許美國取得委內瑞拉約五分之一的石油儲量。 美國能源部長",
+          "additional_sources": []
+        },
+        {
+          "title": "中信投信與韓國FinTech新創簽MOU　擬合推ETF商品",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E4%BF%A1%E6%8A%95%E4%BF%A1%E8%88%87%E9%9F%93%E5%9C%8Bfintech%E6%96%B0%E5%89%B5%E7%B0%BDmou-%E6%93%AC%E5%90%88%E6%8E%A8etf%E5%95%86%E5%93%81-112852349.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:28:52+08:00",
+          "summary": "（中央社記者曾仁凱台北2026年09月3日電）中信投信今天宣布，與韓國金融科技（FinTech）指數研發公司Akros簽署合作備忘錄，啟動策略合作，未來在符合主管機關規範，以及兼顧投資人權益與風險管理",
+          "additional_sources": []
+        },
+        {
+          "title": "陳重銘借錢買這檔賺500萬！遭轟「割韭菜」本人反擊了",
+          "link": "https://tw.stock.yahoo.com/news/%E9%99%B3%E9%87%8D%E9%8A%98%E5%80%9F%E9%8C%A2%E8%B2%B7%E9%80%99%E6%AA%94%E8%B3%BA500%E8%90%AC-%E9%81%AD%E8%BD%9F-%E5%89%B2%E9%9F%AD%E8%8F%9C-%E6%9C%AC%E4%BA%BA%E5%8F%8D%E6%93%8A%E4%BA%86-111729984.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:17:29+08:00",
+          "summary": "財經中心／綜合報導台股今（3）日多空分歧，大盤受電子股拖累下挫逾 300 點，金融族群卻一枝獨秀衝上歷史新高。「不敗教主」陳重銘在臉書發文分享，自己開槓桿進場的「彰銀（2801）」帳面獲利已大賺逾 5",
+          "additional_sources": []
+        },
+        {
+          "title": "日債失控、台灣要遭殃？ 數據一攤開：真正的考驗在亞洲這強國",
+          "link": "https://tw.stock.yahoo.com/news/%E6%97%A5%E5%82%B5%E5%A4%B1%E6%8E%A7-%E5%8F%B0%E7%81%A3%E8%A6%81%E9%81%AD%E6%AE%83-%E6%95%B8%E6%93%9A-%E6%94%A4%E9%96%8B-%E7%9C%9F%E6%AD%A3%E7%9A%84%E8%80%83%E9%A9%97%E5%9C%A8%E4%BA%9E%E6%B4%B2%E9%80%99%E5%BC%B7%E5%9C%8B-111645834.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:16:45+08:00",
+          "summary": "日圓、日債失控是否會把台灣拖下水？近期網路再度出現看衰日本經濟的言論，甚至出現日本快破產、日本要崩了等說法。對此，財信傳媒集團董事長謝金河在臉書發文分析相關匯率與債券殖利率變化，認為從日本與大陸的對照",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】安盛生經主管機關核准撤銷115年現金增資案",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E5%AE%89%E7%9B%9B%E7%94%9F%E7%B6%93%E4%B8%BB%E7%AE%A1%E6%A9%9F%E9%97%9C%E6%A0%B8%E5%87%86%E6%92%A4%E9%8A%B7115%E5%B9%B4%E7%8F%BE%E9%87%91%E5%A2%9E%E8%B3%87%E6%A1%88-111447347.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:14:47+08:00",
+          "summary": "日 期：2026年09月03日公司名稱：安盛生(6734)主 旨：安盛生經主管機關核准撤銷115年現金增資案發言人：黃舒蘭說 明：1.事實發生日:115/09/032.公司名稱:安盛生科股份有限公司3",
+          "additional_sources": []
+        },
+        {
+          "title": "儲值1000元到帳2641兆！法院判全須返還",
+          "link": "https://tw.news.yahoo.com/%E5%84%B2%E5%80%BC1000%E5%85%83%E5%88%B0%E5%B8%B32641%E5%85%86-%E6%B3%95%E9%99%A2%E5%88%A4%E5%85%A8%E9%A0%88%E8%BF%94%E9%82%84-111258751.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:12:58+08:00",
+          "summary": "[NOWNEWS今日新聞]因系統操作員一時烏龍，竟創造出一位最新「全球首富」！中國湖南一名李姓男子，日前向上海某科技公司進行線上平台儲值時，因業者誤將另一名用戶的ID碼當成金額輸入，導致李男帳戶瞬間暴",
+          "additional_sources": []
+        },
+        {
+          "title": "DDR4記憶體十年飆漲8.6倍 電腦市場現「晶片通膨」效應",
+          "link": "https://tw.stock.yahoo.com/news/ddr4%E8%A8%98%E6%86%B6%E9%AB%94%E5%8D%81%E5%B9%B4%E9%A3%86%E6%BC%B28-6%E5%80%8D-%E9%9B%BB%E8%85%A6%E5%B8%82%E5%A0%B4%E7%8F%BE-%E6%99%B6%E7%89%87%E9%80%9A%E8%86%A8-%E6%95%88%E6%87%89-111126437.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:11:26+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導電腦記憶體規格 DDR4（一種電腦記憶體規格）的平均合約價格，今年八月已月漲 4.17%，達到每顆 8Gb 晶片 25 美元。相較於 2016 年 6 月，DDR4 晶片",
+          "additional_sources": []
+        },
+        {
+          "title": "Eltropy執行長談代理式AI金融應用 助美信用合作社轉型升級",
+          "link": "https://tw.stock.yahoo.com/news/eltropy%E5%9F%B7%E8%A1%8C%E9%95%B7%E8%AB%87%E4%BB%A3%E7%90%86%E5%BC%8Fai%E9%87%91%E8%9E%8D%E6%87%89%E7%94%A8-%E5%8A%A9%E7%BE%8E%E4%BF%A1%E7%94%A8%E5%90%88%E4%BD%9C%E7%A4%BE%E8%BD%89%E5%9E%8B%E5%8D%87%E7%B4%9A-111052676.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:10:52+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導Eltropy, Inc.（Eltropy）共同創辦人兼執行長阿希瑟·加爾格（Ashish Garg）近日受訪時，闡述了該公司如何透過Agentic AI（代理式人工智慧",
+          "additional_sources": []
+        },
+        {
+          "title": "歐盟AI法規面臨競爭與企業出走壓力　智庫籲重審標準",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AD%90%E7%9B%9Fai%E6%B3%95%E8%A6%8F%E9%9D%A2%E8%87%A8%E7%AB%B6%E7%88%AD%E8%88%87%E4%BC%81%E6%A5%AD%E5%87%BA%E8%B5%B0%E5%A3%93%E5%8A%9B-%E6%99%BA%E5%BA%AB%E7%B1%B2%E9%87%8D%E5%AF%A9%E6%A8%99%E6%BA%96-111037907.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:10:37+08:00",
+          "summary": "（中央社記者吳柏緯布魯塞爾2026年09月3日專電）歐盟的人工智慧法案分階段施行，智庫學者指出，面對美國的競爭壓力、企業出走的風險，歐盟推動法規簡化與放寬，在科技創新與監管之間如何取得平衡是一大挑戰；",
+          "additional_sources": []
+        },
+        {
+          "title": "一次解雇107人被「告洋狀」 中國企業港股上市恐受衝擊",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AC%A1%E8%A7%A3%E9%9B%87107%E4%BA%BA%E8%A2%AB-%E5%91%8A%E6%B4%8B%E7%8B%80-%E4%B8%AD%E5%9C%8B%E4%BC%81%E6%A5%AD%E6%B8%AF%E8%82%A1%E4%B8%8A%E5%B8%82%E6%81%90%E5%8F%97%E8%A1%9D%E6%93%8A-111035973.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:10:35+08:00",
+          "summary": "（中央社台北2026年09月3日電）中國車燈龍頭星宇股份有限公司，日前違法解僱107名剛入職一個多月的應屆畢業生，經當事人「告洋狀」後，該公司在歐洲的客戶如賓士和福斯汽車皆表示要調查。事件持續發酵，有",
+          "additional_sources": []
+        },
+        {
+          "title": "美股盤勢解析：標普500年漲11% 專家示警「負Beta」個股激增",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E8%82%A1%E7%9B%A4%E5%8B%A2%E8%A7%A3%E6%9E%90-%E6%A8%99%E6%99%AE500%E5%B9%B4%E6%BC%B211-%E5%B0%88%E5%AE%B6%E7%A4%BA%E8%AD%A6-%E8%B2%A0beta-%E5%80%8B%E8%82%A1%E6%BF%80%E5%A2%9E-110853958.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:08:53+08:00",
+          "summary": "圖／示意圖商傳媒｜方承業／綜合外電報導全球主要股市近期表現強勁，其中標普500（S&P 500）指數今年迄今已上漲超過 11%。儘管大盤整體走高，但市場內部數據卻顯示出潛在的結構性變化，一些專家正密切",
+          "additional_sources": []
+        },
+        {
+          "title": "〈台幣〉與亞幣脫鉤！股匯齊挫 量縮連2黑收31.755元",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E5%B9%A3-%E8%88%87%E4%BA%9E%E5%B9%A3%E8%84%AB%E9%89%A4-%E8%82%A1%E5%8C%AF%E9%BD%8A%E6%8C%AB-%E9%87%8F%E7%B8%AE%E9%80%A32%E9%BB%91%E6%94%B631-755%E5%85%83-110404561.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:04:04+08:00",
+          "summary": "台北股匯今(3)日走勢震盪，台股尾盤賣壓出籠收黑，新台幣兌美元先升後貶，一度摜破 31.8 元關卡，並未跟隨日元走強，在央行出手調節下，",
+          "additional_sources": []
+        },
+        {
+          "title": "日圓升值見「156」！日本分析師研判走勢",
+          "link": "https://tw.news.yahoo.com/%E6%97%A5%E5%9C%93%E5%8D%87%E5%80%BC%E8%A6%8B-156-%E6%97%A5%E6%9C%AC%E5%88%86%E6%9E%90%E5%B8%AB%E7%A0%94%E5%88%A4%E8%B5%B0%E5%8B%A2-110226139.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:02:26+08:00",
+          "summary": "[NOWNEWS今日新聞]日圓兌美元匯率今（3日）突大幅升值，受到日本央行收緊訊號的預期心理，市場對9月升息的看法迅速升溫，日圓兌美元匯價今（3日）走升見156字頭，是自美日七月底宣布干預匯率以來的一",
+          "additional_sources": []
+        },
+        {
+          "title": "輝達將砸140億美元收購Hugging Face？分析師：全球AI開源體系恐面臨重構",
+          "link": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94%E5%B0%87%E7%A0%B8140%E5%84%84%E7%BE%8E%E5%85%83%E6%94%B6%E8%B3%BChugging-face-%E5%88%86%E6%9E%90%E5%B8%AB-%E5%85%A8%E7%90%83ai%E9%96%8B%E6%BA%90%E9%AB%94%E7%B3%BB%E6%81%90%E9%9D%A2%E8%87%A8%E9%87%8D%E6%A7%8B-110004266.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:00:04+08:00",
+          "summary": "《彭博資訊》與《金融時報》等外媒週三(2日)報導指出，輝達正就收購開源AI平台Hugging Face深入談判，收購價格約140億美元，其中現金收購價約129億，另配10億美元員工留任措施保留核心研發",
+          "additional_sources": []
+        },
+        {
+          "title": "U.S. Polo Assn. 作為 2026 年太平洋海岸公開賽的冠名贊助商，持續締造成功佳績",
+          "link": "https://tw.stock.yahoo.com/news/u-polo-assn-%E4%BD%9C%E7%82%BA-2026-110000391.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:00:00+08:00",
+          "summary": "加州聖塔芭芭拉 / ACCESS Newswire / 2026年9月3日 /美國馬球協會（USPA）的官方運動品牌 U.S. Polo Assn.® ，慶祝 2026 年 U.S. Polo Ass",
+          "additional_sources": []
+        },
+        {
+          "title": "基輔籲民航機避開俄領空 普丁控增加和平談判難度",
+          "link": "https://tw.news.yahoo.com/%E5%9F%BA%E8%BC%94%E7%B1%B2%E6%B0%91%E8%88%AA%E6%A9%9F%E9%81%BF%E9%96%8B%E4%BF%84%E9%A0%98%E7%A9%BA-%E6%99%AE%E4%B8%81%E6%8E%A7%E5%A2%9E%E5%8A%A0%E5%92%8C%E5%B9%B3%E8%AB%87%E5%88%A4%E9%9B%A3%E5%BA%A6-105850676.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:58:50+08:00",
+          "summary": "俄羅斯總統普丁(Vladimir Putin)今天(3日)表示，仍有機會達成結束烏克蘭戰爭的和平協議，但由於烏克蘭攻擊船隻，及基輔呼籲民航機避開俄羅斯領空，重啟談判變得更加困難。 普丁表示，包括美國和",
+          "additional_sources": []
+        },
+        {
+          "title": "美滿電子AI業務 光學元件營收居大宗 客製化晶片前景看好",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E6%BB%BF%E9%9B%BB%E5%AD%90ai%E6%A5%AD%E5%8B%99-%E5%85%89%E5%AD%B8%E5%85%83%E4%BB%B6%E7%87%9F%E6%94%B6%E5%B1%85%E5%A4%A7%E5%AE%97-%E5%AE%A2%E8%A3%BD%E5%8C%96%E6%99%B6%E7%89%87%E5%89%8D%E6%99%AF%E7%9C%8B%E5%A5%BD-105234252.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:52:34+08:00",
+          "summary": "商傳媒｜何映辰／台北報導美滿電子（Marvell），這家專注於半導體解決方案的美國公司，正將其業務重心大幅轉向資料中心與人工智慧（AI）領域。根據最新財報預估，美滿電子的AI相關營收成長顯著，但其中主",
+          "additional_sources": []
+        },
+        {
+          "title": "虛擬資產課不課營業稅！財政部給答案：比特幣、穩定幣交易不課 NFT要",
+          "link": "https://tw.stock.yahoo.com/news/%E8%99%9B%E6%93%AC%E8%B3%87%E7%94%A2%E8%AA%B2%E4%B8%8D%E8%AA%B2%E7%87%9F%E6%A5%AD%E7%A8%85-%E8%B2%A1%E6%94%BF%E9%83%A8%E7%B5%A6%E7%AD%94%E6%A1%88-%E6%AF%94%E7%89%B9%E5%B9%A3-%E7%A9%A9%E5%AE%9A%E5%B9%A3%E4%BA%A4%E6%98%93%E4%B8%8D%E8%AA%B2-nft%E8%A6%81-105059391.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:50:59+08:00",
+          "summary": "吳靜君／台北報導",
+          "additional_sources": []
+        },
+        {
+          "title": "股東會紀念品eGift上線44家公司導入　超商商品卡最熱門",
+          "link": "https://tw.stock.yahoo.com/news/%E8%82%A1%E6%9D%B1%E6%9C%83%E7%B4%80%E5%BF%B5%E5%93%81egift%E4%B8%8A%E7%B7%9A44%E5%AE%B6%E5%85%AC%E5%8F%B8%E5%B0%8E%E5%85%A5-%E8%B6%85%E5%95%86%E5%95%86%E5%93%81%E5%8D%A1%E6%9C%80%E7%86%B1%E9%96%80-105028173.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:50:28+08:00",
+          "summary": "（中央社記者蘇思云台北2026年09月3日電）金管會督導集保公司推動「股東會紀念品電子化服務（eGift）」，自今年3月23日上線。金管會表示，截至8月28日，累計簽約家數已達234家，今年已有中鋼、",
+          "additional_sources": []
+        },
+        {
+          "title": "國家防災日 9/16-18花東震災演練 9/21測試多項警報",
+          "link": "https://tw.news.yahoo.com/%E5%9C%8B%E5%AE%B6%E9%98%B2%E7%81%BD%E6%97%A5-9-16-18%E8%8A%B1%E6%9D%B1%E9%9C%87%E7%81%BD%E6%BC%94%E7%B7%B4-9-104018907.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:40:18+08:00",
+          "summary": "內政部今天(3日)宣布9月國家防災日演練及系列活動細節，今年以「強震危機、吾有以待」為主軸，9月16日至18日將在台東縣、花蓮縣舉辦「大規模震災救災動員演練」。此外，自9月1日至10月31日止，也將辦",
+          "additional_sources": []
+        },
+        {
+          "title": "4檔記憶體遭狙擊！外資翻臉狂砍9.5萬張 逆勢狂掃「這家面板廠」",
+          "link": "https://tw.stock.yahoo.com/news/4%E6%AA%94%E8%A8%98%E6%86%B6%E9%AB%94%E9%81%AD%E7%8B%99%E6%93%8A-%E5%A4%96%E8%B3%87%E7%BF%BB%E8%87%89%E7%8B%82%E7%A0%8D9-5%E8%90%AC%E5%BC%B5-%E9%80%86%E5%8B%A2%E7%8B%82%E6%8E%83-%E9%80%99%E5%AE%B6%E9%9D%A2%E6%9D%BF%E5%BB%A0-103811700.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:38:11+08:00",
+          "summary": "台股今（3）日尾盤急殺307點，收在45857點失守46000點大關。外資連兩日狂提款1395億元，其中由「瑤池金母」陳釧瑤操盤的統一台股增長（00981A）遭倒貨近4萬張再度高居賣超榜首，南亞科等4",
+          "additional_sources": []
+        },
+        {
+          "title": "勤誠陳亞男點出金融科技真正價值 不只是「讓錢跑得快」",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8B%A4%E8%AA%A0%E9%99%B3%E4%BA%9E%E7%94%B7%E9%BB%9E%E5%87%BA%E9%87%91%E8%9E%8D%E7%A7%91%E6%8A%80%E7%9C%9F%E6%AD%A3%E5%83%B9%E5%80%BC-%E4%B8%8D%E5%8F%AA%E6%98%AF-%E8%AE%93%E9%8C%A2%E8%B7%91%E5%BE%97%E5%BF%AB-103532255.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:35:32+08:00",
+          "summary": "勤誠執行長陳亞男今(3)日出席FinTechOn 2026，並以全球中型企業的實際使用者角度分享看法，指出金融科技的真正價值不只是「讓錢跑得快」，而是讓企業可以更早看見、精準判斷，並聰明決定資源配置。",
+          "additional_sources": []
+        },
+        {
+          "title": "研調：記憶體衝擊成本　估iPhone 18系列漲1到2成",
+          "link": "https://tw.stock.yahoo.com/news/%E7%A0%94%E8%AA%BF-%E8%A8%98%E6%86%B6%E9%AB%94%E8%A1%9D%E6%93%8A%E6%88%90%E6%9C%AC-%E4%BC%B0iphone-18%E7%B3%BB%E5%88%97%E6%BC%B21%E5%88%B02%E6%88%90-103325578.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:33:25+08:00",
+          "summary": "（中央社記者江明晏台北2026年09月3日電）研調機構TrendForce表示，記憶體價格自2025下半年起進入超級週期，新機成本衝擊劇烈，但Apple將採取溫和調價機制，預估iPhone 18系列新",
+          "additional_sources": []
+        },
+        {
+          "title": "賣口香糖挺台灣電影30年　李遠為她一路哭回文化部",
+          "link": "https://tw.news.yahoo.com/%E8%B3%A3%E5%8F%A3%E9%A6%99%E7%B3%96%E6%8C%BA%E5%8F%B0%E7%81%A3%E9%9B%BB%E5%BD%B130%E5%B9%B4-%E6%9D%8E%E9%81%A0%E7%82%BA%E5%A5%B9-%E8%B7%AF%E5%93%AD%E5%9B%9E%E6%96%87%E5%8C%96%E9%83%A8-103232781.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:32:32+08:00",
+          "summary": "文化部長李遠日前出席國家電影及視聽文化中心台語片70週年活動時，遇見特地從高雄北上的資深影迷葉金杏。她靠賣口香糖及資源回收攢錢，30年來持續捐款支持台灣電影，這次又因不捨文化部近期遭遇，再捐出10萬元",
+          "additional_sources": []
+        },
+        {
+          "title": "國台辦證實盤問入境台青6小時 梁文傑：要你心中有「小警總」",
+          "link": "https://tw.news.yahoo.com/%E5%9C%8B%E5%8F%B0%E8%BE%A6%E8%AD%89%E5%AF%A6%E7%9B%A4%E5%95%8F%E5%85%A5%E5%A2%83%E5%8F%B0%E9%9D%926%E5%B0%8F%E6%99%82-%E6%A2%81%E6%96%87%E5%82%91-%E8%A6%81%E4%BD%A0%E5%BF%83%E4%B8%AD%E6%9C%89-%E5%B0%8F%E8%AD%A6%E7%B8%BD-103149741.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:31:49+08:00",
+          "summary": "中國國台辦證實一名台灣青年因曾在國際特赦組織台灣分會工作，而在日前入境中國時遭到6小時盤問。陸委會發言人梁文傑今天(3日)表示，國台辦會公開承認此事的目的就是要每個人的心中都有個「小警總」，這對台灣現",
+          "additional_sources": []
+        },
+        {
+          "title": "Radiodays Asia 2027首度移師臺北　Rti央廣攜手教育廣播電台邀全球聲音產業明年相聚臺灣",
+          "link": "https://tw.news.yahoo.com/radiodays-asia-2027%E9%A6%96%E5%BA%A6%E7%A7%BB%E5%B8%AB%E8%87%BA%E5%8C%97-rti%E5%A4%AE%E5%BB%A3%E6%94%9C%E6%89%8B%E6%95%99%E8%82%B2%E5%BB%A3%E6%92%AD%E9%9B%BB%E5%8F%B0%E9%82%80%E5%85%A8%E7%90%83%E8%81%B2%E9%9F%B3%E7%94%A2%E6%A5%AD%E6%98%8E%E5%B9%B4%E7%9B%B8%E8%81%9A%E8%87%BA%E7%81%A3-103118981.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:31:18+08:00",
+          "summary": "亞太地區廣播、音訊及Podcast產業具指標性的國際年度盛會「Radiodays Asia」，2027年將首度移師臺北舉辦。Rti中央廣播電臺與國立教育廣播電台共同組成臺灣代表團，赴印尼雅加達參與Ra",
+          "additional_sources": []
+        },
+        {
+          "title": "日元飛速飆升 日銀本次並未大規模干預 空軍畏戰主動平倉",
+          "link": "https://tw.stock.yahoo.com/news/%E6%97%A5%E5%85%83%E9%A3%9B%E9%80%9F%E9%A3%86%E5%8D%87-%E6%97%A5%E9%8A%80%E6%9C%AC%E6%AC%A1%E4%B8%A6%E6%9C%AA%E5%A4%A7%E8%A6%8F%E6%A8%A1%E5%B9%B2%E9%A0%90-%E7%A9%BA%E8%BB%8D%E7%95%8F%E6%88%B0%E4%B8%BB%E5%8B%95%E5%B9%B3%E5%80%89-103002529.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:30:02+08:00",
+          "summary": "日元兌美元匯率周三(2日)與周四出現強烈波動，走勢自 160.38 快速升值並突破 158 關卡，盤中甚至一度創下近一個月新高 156.36。",
+          "additional_sources": []
+        },
+        {
+          "title": "記憶體漲價壓抑PC出貨　宏碁：預留零件升級空間因應",
+          "link": "https://tw.stock.yahoo.com/news/%E8%A8%98%E6%86%B6%E9%AB%94%E6%BC%B2%E5%83%B9%E5%A3%93%E6%8A%91pc%E5%87%BA%E8%B2%A8-%E5%AE%8F%E7%A2%81-%E9%A0%90%E7%95%99%E9%9B%B6%E4%BB%B6%E5%8D%87%E7%B4%9A%E7%A9%BA%E9%96%93%E5%9B%A0%E6%87%89-102835922.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:28:35+08:00",
+          "summary": "（中央社記者吳家豪柏林2026年09月3日電）電腦品牌廠宏碁(2353)董事長暨執行長陳俊聖表示，受記憶體漲價影響，下半年個人電腦（PC）出貨量可能受到壓抑，但因產品單價提高，宏碁仍力拚整體營收成長；",
+          "additional_sources": []
+        },
+        {
+          "title": "別等暴跌才後悔！2000億操盤手示警「出現4大訊號」快逃命",
+          "link": "https://tw.stock.yahoo.com/news/%E5%88%A5%E7%AD%89%E6%9A%B4%E8%B7%8C%E6%89%8D%E5%BE%8C%E6%82%94-2000%E5%84%84%E6%93%8D%E7%9B%A4%E6%89%8B%E7%A4%BA%E8%AD%A6-%E5%87%BA%E7%8F%BE4%E5%A4%A7%E8%A8%8A%E8%99%9F-%E5%BF%AB%E9%80%83%E5%91%BD-102832928.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T18:28:32+08:00",
+          "summary": "財經中心／綜合報導面對手中持股一路跌破買入價，股民究竟該死守還是果斷停損？曾操盤超過 2000 億日圓（約新台幣 400 億元）資產的樂天證券前基金經理人窪田真之指出，投資人想要靠股票累積財富，關鍵不",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "8046 南電",
+      "keywords": [
+        "交易",
+        "公司",
+        "證券",
+        "不適",
+        "日期"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "【公告】新門取得有價證券",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E6%96%B0%E9%96%80%E5%8F%96%E5%BE%97%E6%9C%89%E5%83%B9%E8%AD%89%E5%88%B8-111449431.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-03T19:14:49+08:00",
+          "summary": "日 期：2026年09月03日公司名稱：新門(5432)主 旨：新門取得有價證券發言人：李曉青說 明：1.證券名稱:南亞電路板股份有限公司2.交易日期:115/9/3~115/9/33.董事會通過日期",
+          "additional_sources": []
+        },
+        {
+          "title": "[情報] 5432 新門 今天買南電42張 均價:1,103元",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1788433880.A.245.html",
+          "source": "ptt",
+          "pubdate": "2026-09-03T19:11:18+08:00",
+          "summary": "1. 標題：公告本公司取得有價證券\n\n2. 來源：公開資訊觀測站\n\n3. 網址：\nhttps://mops.twse.com.tw/mops/#/web/home\n4. 內文：\n\n1.證券名稱:\n南\n亞\n電\n路板股份有限公司\n2.\n交易日期:115/9/3~115/9/3\n3.董事會通過日期: 不適…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "4958 臻鼎-KY",
+      "keywords": [
+        "萬張",
+        "1",
+        "張",
+        "7",
+        "2"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "4萬6失守 外資續賣481億元砍殺記憶體族群 逆勢加碼面板雙雄及航運股",
+          "link": "https://news.cnyes.com/news/id/6596622",
+          "source": "cnyes",
+          "pubdate": "2026-09-03T19:38:51+08:00",
+          "summary": "鉅亨網記者彭昱文 台北2026-09-03 19:38\n台股今(3)日跌下跌307點失守4萬6關卡，外資再砍481億元，連2賣共1395億元，但在台指期回補空單3704口、淨空單降至8.15萬口，期現貨多空不同調。個股方面，外資大砍記憶體族群，買超面板雙雄虎及航運股。\n4萬6失守 外資續賣481億元…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US TSLA 特斯拉",
+      "keywords": [
+        "斯拉",
+        "特斯",
+        "cab",
+        "cyber",
+        "車隊"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "Cyber​​cab今晚正式發布！大摩：這次活動意義遠超以往 Robotaxi車隊擴張為最大看點",
+          "link": "https://news.cnyes.com/news/id/6596528",
+          "source": "cnyes",
+          "pubdate": "2026-09-03T19:30:04+08:00",
+          "summary": "鉅亨網編譯陳韋廷2026-09-03 19:30\n特斯拉將在美國時間周四(3日)舉行Cyber​​cab發表會，這款取消方向盤與踏板、雙座鷗翼門的原生Robotaxi車型，從概念車到德州超級工廠量產，再到今晚正式入列，成為了檢驗特斯拉自動駕駛商業化成色的特斯拉。\n(圖:shutterstock)\n摩…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "1590 亞德客-KY",
+      "keywords": [
+        "8",
+        "需求",
+        "亞德",
+        "億元",
+        "德客"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "亞德客8月營收創同期新高 氣動市場需求上升循環看至2027",
+          "link": "https://news.cnyes.com/news/id/6596588",
+          "source": "cnyes",
+          "pubdate": "2026-09-03T19:15:18+08:00",
+          "summary": "鉅亨網記者陳于晴 台北2026-09-03 19:15\n氣動元件大廠亞德客-KY(1590-TW)今(3)日公布 8 月自結合併營收新台幣37.07 億元，雖然受行業傳統季節性因素影響月減 7.18%，但與去年同期相比大幅成長 43.33%，創歷年同期新高；累計前 8 月自結營收高達 298.79…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "6690 安碁資訊",
+      "keywords": [
+        "ai",
+        "企業",
+        "資訊",
+        "安碁",
+        "治理"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "安碁資訊8月營收創同期高 樂看AI快速發展帶動資安需求",
+          "link": "https://news.cnyes.com/news/id/6596566",
+          "source": "cnyes",
+          "pubdate": "2026-09-03T19:10:45+08:00",
+          "summary": "鉅亨網記者王莞甯 台北2026-09-03 19:10\n隨著資安防護和雲端服務需求穩定成長，資安服務廠商安碁資訊 (6690-TW)今(3)日公告8月合併營收2.2億元，月增4.22%，年增8.21%，續創同期新高，累計合併營收17.15億元，年增13.51%；安碁資訊總經理吳乙南表示，AI 快速發…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2850 新產",
+      "keywords": [
+        "中國",
+        "企業",
+        "科技",
+        "考察",
+        "工業"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "中國科技創新產業快速發展引國際注目 工業旅遊商機湧現",
+          "link": "https://www.ctee.com.tw/news/20260903702107-430804",
+          "source": "ctee",
+          "pubdate": "2026-09-03T19:54:21+08:00",
+          "summary": "中國在AI、機器人和電動車等領域迅速發展，吸引越來越多外國投資者、企業家和遊客付費參訪當地工廠，近距離瞭解中國的創新實力，並尋找應對新一輪「中國衝擊」的答案。\n外國人士對中國創新生態的興趣升溫，也催生了專門安排企業參訪和工廠行程的科技考察服務。路透9月3日報導稱，一些投資者和企業家不惜花費數千美元，…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "4971 IET-KY",
+      "keywords": [
+        "00",
+        "50",
+        "8",
+        "9",
+        "11"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[情報] 0903 上市櫃股票週轉率排行",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1788433490.A.549.html",
+          "source": "ptt",
+          "pubdate": "2026-09-03T19:04:48+08:00",
+          "summary": "上市\n\n排行     股票名稱       收盤價  漲跌    漲跌幅  成交量  周轉率\n\n1        2434統懋       64.10   -0.90   -1.38%  3,405   20.03%\n2        2481強茂       156.00  +8.00   +5.…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "投資",
+        "指數",
+        "投信",
+        "資產",
+        "tisa"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "中信投信與韓國指數公司Akros簽署MOU 共拓台灣ETF市場",
+          "link": "https://news.cnyes.com/news/id/6596569",
+          "source": "cnyes",
+          "pubdate": "2026-09-03T19:07:20+08:00",
+          "summary": "鉅亨網記者陳于晴 台北2026-09-03 19:07\n中國信託投信今(3)日宣布與韓國金融科技指數研發公司Akros Technologies, Inc. 簽署合作備忘錄，正式建立策略合作關係。將結合中國信託投信在台灣市場的產品開發及資產管理經驗，以及Akros在指數工程、量化研究與選擇權策略領域…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E4%BF%A1%E6%8A%95%E4%BF%A1%E8%88%87%E9%9F%93%E5%9C%8B%E6%8C%87%E6%95%B8%E5%85%AC%E5%8F%B8akros%E7%B0%BD%E7%BD%B2mou-%E5%85%B1%E6%8B%93%E5%8F%B0%E7%81%A3etf%E5%B8%82%E5%A0%B4-110720187.html",
+              "title": "中信投信與韓國指數公司Akros簽署MOU 共拓台灣ETF市場"
+            }
+          ]
+        },
+        {
+          "title": "TISA上路滿周年！資產規模突破210億元 金管會跨部會推進第二階段",
+          "link": "https://news.cnyes.com/news/id/6596614",
+          "source": "cnyes",
+          "pubdate": "2026-09-03T19:28:52+08:00",
+          "summary": "鉅亨網記者陳于晴 台北2026-09-03 19:28\n臺灣特色個人投資儲蓄帳戶(TISA)上路滿一周年，吸引逾24萬戶開戶、資產規模突破210億元大關，顯示國人退休理財意識顯著升溫。金管會證期局今(3)日表示，為進一步擴大政策效益與全民參與度，目前正全力跨部會爭取政策誘因，加速推動「第二階段TIS…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
