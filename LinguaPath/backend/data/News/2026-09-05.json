@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-05",
+  "generated_at": "2026-09-05T07:07:32.772132+08:00",
+  "sources": [
+    "NPR",
+    "The Guardian"
+  ],
+  "articles": {
+    "C2": {
+      "title": "The U.N. backs a new world map showing Africa in its true relative size",
+      "source": "NPR",
+      "link": "https://www.npr.org/2026/09/04/nx-s1-5958611/africa-world-map-un-vote",
+      "grade_level": 12.3,
+      "content": "The U.N. has backed a new map showing Africa in its true relative size, with the U.S. standing alone in opposition.\n\n(Read the full article: https://www.npr.org/2026/09/04/nx-s1-5958611/africa-world-map-un-vote)",
+      "vocabulary": [],
+      "additional_sources": []
+    },
+    "C1": {
+      "title": "‘We continue to suffer’: victims of apartheid-era Sharpeville massacre demand compensation",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/world/2026/sep/03/victims-sue-south-african-government-sharpeville-massacre-apartheid",
+      "grade_level": 11.6,
+      "content": "Claim relating to 1960 attack on hundreds of protesters part of wave of litigation over apartheid crimes in South Africa The day dawned brightly on 21…\n\n(Read the full article: https://www.theguardian.com/world/2026/sep/03/victims-sue-south-african-government-sharpeville-massacre-apartheid)",
+      "vocabulary": [],
+      "additional_sources": []
+    }
+  }
+}

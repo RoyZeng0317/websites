@@ -201,7 +201,7 @@ function renderQuestion() {
         h += `<div class="${fbClass}" id="fb-${q.id}">`;
     }
     h += `</div></div>`;
-    c.innerHTML = h; updateStats();
+    c.innerHTML = h; updateStats(); updateOverview();
 }
 
 function getQuestionImageUrl(q) {
@@ -306,47 +306,53 @@ function renderExam() {
     document.getElementById('q-num').textContent = currentIndex+1;
     document.getElementById('q-total').textContent = examQuestions.length;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (examOverviewVisible) updateExamOverview();
+    updateOverview();
 }
 
-function renderExamOverview() {
-    let h = '<div class="exam-overview"><h3>作答總覽</h3><div class="grid">';
-    examQuestions.forEach((q, i) => {
+function overviewList() { return examMode ? examQuestions : filteredQuestions; }
+
+function renderOverview() {
+    const list = overviewList();
+    let h = `<div class="exam-overview"><h3>${examMode ? '作答總覽' : '題目總覽'}</h3><div class="grid">`;
+    list.forEach((q, i) => {
         const sel = answeredMap[q.id] || [];
         const hasAns = sel.length > 0;
+        const submitted = examMode ? examSubmitted : !!submittedMap[q.id];
         let cls = 'q';
-        if (examSubmitted) {
+        if (submitted) {
             const correct = JSON.stringify([...sel].sort()) === JSON.stringify([...q.answer].sort());
             cls += hasAns ? (correct ? ' correct' : ' incorrect') : ' incorrect';
         } else if (hasAns) {
             cls += ' answered';
         }
-        h += `<div class="${cls}" onclick="goToExamQuestion(${i})">${i+1}</div>`;
+        h += `<div class="${cls}" onclick="goToOverviewQuestion(${i})">${i+1}</div>`;
     });
     h += '</div></div>';
     return h;
 }
 
-function goToExamQuestion(idx) {
-    if (idx >= 0 && idx < examQuestions.length) { currentIndex = idx; renderExam(); }
+function goToOverviewQuestion(idx) {
+    const list = overviewList();
+    if (idx < 0 || idx >= list.length) return;
+    currentIndex = idx;
+    examMode ? renderExam() : renderQuestion();
 }
 
-function toggleExamOverview() {
-    if (!examQuestions.length) return;
+function toggleOverview() {
+    if (!overviewList().length) return;
     examOverviewVisible = !examOverviewVisible;
     document.getElementById('question-container').style.display = 'block';
     if (examOverviewVisible) {
-        updateExamOverview();
+        updateOverview();
         document.getElementById('exam-overview-container').style.display = 'block';
     } else {
         document.getElementById('exam-overview-container').style.display = 'none';
     }
 }
 
-function updateExamOverview() {
-    if (!examOverviewVisible || !examQuestions.length) return;
-    const container = document.getElementById('exam-overview-container');
-    container.innerHTML = renderExamOverview();
+function updateOverview() {
+    if (!examOverviewVisible || !overviewList().length) return;
+    document.getElementById('exam-overview-container').innerHTML = renderOverview();
 }
 
 function examToggleOpt(qId, idx, type) {
@@ -469,7 +475,7 @@ function toggleMode() {
     examOverviewVisible = false;
     document.getElementById('mode-toggle').textContent = examMode ? '練習模式' : '考試模式';
     document.getElementById('mode-toggle').style.borderColor = examMode ? '#f44336' : '#444';
-    document.getElementById('overview-btn').style.display = examMode ? '' : 'none';
+    document.getElementById('overview-btn').textContent = examMode ? '作答總覽' : '題目總覽';
     document.getElementById('exam-overview-container').style.display = 'none';
     document.getElementById('exam-overview-container').innerHTML = '';
     document.getElementById('practice-nav').style.display = examMode ? 'none' : 'flex';
