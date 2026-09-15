@@ -1,0 +1,387 @@
+{
+  "date": "2026-09-15",
+  "generated_at": "2026-09-15T20:32:17.380154",
+  "group_count": 4,
+  "total_articles": 40,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "ai",
+        "8",
+        "億元",
+        "台灣",
+        "市場"
+      ],
+      "article_count": 36,
+      "articles": [
+        {
+          "title": "外資券商調高台灣大目標價 股價衝124元創高",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%96%E8%B3%87%E5%88%B8%E5%95%86%E8%AA%BF%E9%AB%98%E5%8F%B0%E7%81%A3%E5%A4%A7%E7%9B%AE%E6%A8%99%E5%83%B9-%E8%82%A1%E5%83%B9%E8%A1%9D124%E5%85%83%E5%89%B5%E9%AB%98-114108107.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:41:08+08:00",
+          "summary": "台灣大(3045-TW)持續推進Telco+Tech策略，成長動能多軌並進，上半年EPS達2.86元，為電信三雄之守，本益比約22.6至23.5倍，外資券商近期調高台灣大目標價，最高至130元，且外資",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6607142",
+              "title": "外資券商調高台灣大目標價 股價衝124元創高"
+            }
+          ]
+        },
+        {
+          "title": "搶攻高端財管 渣打在台推出「世界之極卡」禮遇",
+          "link": "https://tw.news.yahoo.com/%E6%90%B6%E6%94%BB%E9%AB%98%E7%AB%AF%E8%B2%A1%E7%AE%A1-%E6%B8%A3%E6%89%93%E5%9C%A8%E5%8F%B0%E6%8E%A8%E5%87%BA-%E4%B8%96%E7%95%8C%E4%B9%8B%E6%A5%B5%E5%8D%A1-%E7%A6%AE%E9%81%87-120152985.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T20:01:52+08:00",
+          "summary": "國際發卡組織萬事達卡推出的「世界之極卡」，是台灣目前等級最高的信用卡，目前有國銀玉山和外資星展銀行2家提供。渣打銀行今天(15日)宣布，台灣成為集團第四個推出「世界之極卡」的重點市場，希望藉此擴大高端",
+          "additional_sources": []
+        },
+        {
+          "title": "商仲：台北A級商辦迎供需重組　2029年轉承租方市場",
+          "link": "https://tw.stock.yahoo.com/news/%E5%95%86%E4%BB%B2-%E5%8F%B0%E5%8C%97a%E7%B4%9A%E5%95%86%E8%BE%A6%E8%BF%8E%E4%BE%9B%E9%9C%80%E9%87%8D%E7%B5%84-2029%E5%B9%B4%E8%BD%89%E6%89%BF%E7%A7%9F%E6%96%B9%E5%B8%82%E5%A0%B4-120112327.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T20:01:12+08:00",
+          "summary": "（中央社記者何秀玲台北2026年09月15日電）商仲仲量聯行表示，台北未來5年A級商辦新增供給約60萬坪；隨新大樓陸續完工，估2029年市場將進入轉換期，由房東市場逐步轉向承租方市場，空置率預期走升，",
+          "additional_sources": []
+        },
+        {
+          "title": "居家裝修保險懶人包｜漏水鄰損、工人職災、工程毀損　開工前先查3類保障",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B1%85%E5%AE%B6%E8%A3%9D%E4%BF%AE%E4%BF%9D%E9%9A%AA%E6%87%B6%E4%BA%BA%E5%8C%85%EF%BD%9C%E6%BC%8F%E6%B0%B4%E9%84%B0%E6%90%8D%E3%80%81%E5%B7%A5%E4%BA%BA%E8%81%B7%E7%81%BD%E3%80%81%E5%B7%A5%E7%A8%8B%E6%AF%80%E6%90%8D-%E9%96%8B%E5%B7%A5%E5%89%8D%E5%85%88%E6%9F%A53%E9%A1%9E%E4%BF%9D%E9%9A%9C-115800941.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:58:00+08:00",
+          "summary": "台灣目前沒有一張所有住宅裝修都適用的「裝修保險」，實務上會依工程內容，搭配住宅保險、工程保險、第三人責任及職災保障處理。",
+          "additional_sources": []
+        },
+        {
+          "title": "矽谷勞工影響力起落 科技業勞資關係與政治結盟受關注",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9F%BD%E8%B0%B7%E5%8B%9E%E5%B7%A5%E5%BD%B1%E9%9F%BF%E5%8A%9B%E8%B5%B7%E8%90%BD-%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8B%9E%E8%B3%87%E9%97%9C%E4%BF%82%E8%88%87%E6%94%BF%E6%B2%BB%E7%B5%90%E7%9B%9F%E5%8F%97%E9%97%9C%E6%B3%A8-115300056.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:53:00+08:00",
+          "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導過去數年，美國矽谷科技業內部的勞工影響力經歷明顯變化。根據《波士頓評論》（Boston Review）分析，科技員工曾因平台治理、隱私、軍事技術與企業倫理等議題",
+          "additional_sources": []
+        },
+        {
+          "title": "油價續漲亞股收盤全倒　美債殖利率破5%衝上19年新高",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B2%B9%E5%83%B9%E7%BA%8C%E6%BC%B2%E4%BA%9E%E8%82%A1%E6%94%B6%E7%9B%A4%E5%85%A8%E5%80%92-%E7%BE%8E%E5%82%B5%E6%AE%96%E5%88%A9%E7%8E%87%E7%A0%B45-%E8%A1%9D%E4%B8%8A19%E5%B9%B4%E6%96%B0%E9%AB%98-115043362.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:50:43+08:00",
+          "summary": "（中央社香港2026年09月15日綜合外電報導）中東緊張情勢升溫，刺激油價走揚，加深通貨膨脹疑慮，美國10年期公債殖利率攀上19年高點，投資人預期美國聯邦準備理事會（Fed）本週將調高利率，亞洲股市今",
+          "additional_sources": []
+        },
+        {
+          "title": "8月人民幣存款連3升　央行：關注戰事升溫後續影響",
+          "link": "https://tw.stock.yahoo.com/news/8%E6%9C%88%E4%BA%BA%E6%B0%91%E5%B9%A3%E5%AD%98%E6%AC%BE%E9%80%A33%E5%8D%87-%E5%A4%AE%E8%A1%8C-%E9%97%9C%E6%B3%A8%E6%88%B0%E4%BA%8B%E5%8D%87%E6%BA%AB%E5%BE%8C%E7%BA%8C%E5%BD%B1%E9%9F%BF-114641787.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:46:41+08:00",
+          "summary": "（中央社記者潘姿羽台北2026年09月15日電）中央銀行今天公布國銀人民幣業務概況，8月人民幣存款餘額為人民幣1099.89億元，連3月走揚，並寫下5個月來高點。不過央行官員指出，9月中東局勢緊繃、市",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】揚智更正115年第一季及第二季合併財務報告說明",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E6%8F%9A%E6%99%BA%E6%9B%B4%E6%AD%A3115%E5%B9%B4%E7%AC%AC-%E5%AD%A3%E5%8F%8A%E7%AC%AC%E4%BA%8C%E5%AD%A3%E5%90%88%E4%BD%B5%E8%B2%A1%E5%8B%99%E5%A0%B1%E5%91%8A%E8%AA%AA%E6%98%8E-114539566.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:45:39+08:00",
+          "summary": "日 期：2026年09月15日公司名稱：揚智(3041)主 旨：揚智更正115年第一季及第二季合併財務報告說明發言人：林湞瑄說 明：1.事實發生日:115/09/152.更正或重編之財務報告年季:11",
+          "additional_sources": []
+        },
+        {
+          "title": "市場恐慌全錯了？ 「6檔強力買進」AI股名單曝 台積電也在列",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B8%82%E5%A0%B4%E6%81%90%E6%85%8C%E5%85%A8%E9%8C%AF%E4%BA%86-6%E6%AA%94%E5%BC%B7%E5%8A%9B%E8%B2%B7%E9%80%B2-ai%E8%82%A1%E5%90%8D%E5%96%AE%E6%9B%9D-%E5%8F%B0%E7%A9%8D%E9%9B%BB%E4%B9%9F%E5%9C%A8%E5%88%97-113557023.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:35:57+08:00",
+          "summary": "AI產業近期面臨市場重新評估，除了AI發展速度過快及安全風險的疑慮升溫，美國10年期公債殖利率一度觸及5%，也讓成長型股票估值承受壓力。在市場情緒轉弱之際，投資人關注的焦點也從AI題材能否持續，轉向企",
+          "additional_sources": []
+        },
+        {
+          "title": "AI股拉回就是買點？外媒點名6檔AI股：強到擋不住",
+          "link": "https://tw.stock.yahoo.com/news/ai%E8%82%A1%E6%8B%89%E5%9B%9E%E5%B0%B1%E6%98%AF%E8%B2%B7%E9%BB%9E-%E5%A4%96%E5%AA%92%E9%BB%9E%E5%90%8D6%E6%AA%94ai%E8%82%A1-%E5%BC%B7%E5%88%B0%E6%93%8B%E4%B8%8D%E4%BD%8F-113057282.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:30:57+08:00",
+          "summary": "財經中心／綜合報導受市場憂心AI發展過快、安全疑慮聲浪四起影響，加上美債殖利率一度攀升逼近5％，科技成長股重壓上身，AI概念股近期迎來一波修正。不過，外國投資媒體《Zacks》指出，若這波賣壓僅是市場",
+          "additional_sources": []
+        },
+        {
+          "title": "全球市場雙重警報！油價飆破107美元、10年期美債殖利率攻上5%",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E5%B8%82%E5%A0%B4%E9%9B%99%E9%87%8D%E8%AD%A6%E5%A0%B1-%E6%B2%B9%E5%83%B9%E9%A3%86%E7%A0%B4107%E7%BE%8E%E5%85%83-10%E5%B9%B4%E6%9C%9F%E7%BE%8E%E5%82%B5%E6%AE%96%E5%88%A9%E7%8E%87%E6%94%BB%E4%B8%8A5-113050446.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:30:50+08:00",
+          "summary": "沙國能源設施接連遭到攻擊，關鍵東西輸油管又持續停擺，加深市場對原油供應中斷的擔憂，布蘭特原油周二升破每桶107美元。油價上漲也加劇通膨疑慮，全球公債賣壓擴大，美國10年期公債殖利率一度突破5%，創近2",
+          "additional_sources": []
+        },
+        {
+          "title": "美光祭\"百萬獎金\"是話術? 工會要求15%分潤",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%85%89%E7%A5%AD-%E7%99%BE%E8%90%AC%E7%8D%8E%E9%87%91-%E6%98%AF%E8%A9%B1%E8%A1%93-%E5%B7%A5%E6%9C%83%E8%A6%81%E6%B1%8215-%E5%88%86%E6%BD%A4-112523359.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:25:23+08:00",
+          "summary": "財經中心／陳孟暄、黃彥誠 台北報導記憶體大廠美光，上周五(11)宣布新獎金方案，儘管發放高達百萬獎金，但還是引發工會不滿，因為美光工會正在跟美光協商獎金制度，公司就宣布獎金數字疑似帶風向，在今天工會前",
+          "additional_sources": []
+        },
+        {
+          "title": "〈台幣〉股匯雙殺！超級央行周前夕陷恐慌 重挫1.6角創近半年最大貶幅",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E5%B9%A3-%E8%82%A1%E5%8C%AF%E9%9B%99%E6%AE%BA-%E8%B6%85%E7%B4%9A%E5%A4%AE%E8%A1%8C%E5%91%A8%E5%89%8D%E5%A4%95%E9%99%B7%E6%81%90%E6%85%8C-%E9%87%8D%E6%8C%AB1-6%E8%A7%92%E5%89%B5%E8%BF%91%E5%8D%8A%E5%B9%B4%E6%9C%80%E5%A4%A7%E8%B2%B6%E5%B9%85-112521530.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:25:21+08:00",
+          "summary": "昨日美債殖利率突破 5%、美元指數持續走強，進一步加深投資人對美國聯準會(Fed)升息的預期，在各大央行利率決策公布前夕，市場避險情緒急速升溫",
+          "additional_sources": []
+        },
+        {
+          "title": "跨年倒數3個月！101煙火房提前開搶 飯店出招搶商機",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B7%A8%E5%B9%B4%E5%80%92%E6%95%B83%E5%80%8B%E6%9C%88-101%E7%85%99%E7%81%AB%E6%88%BF%E6%8F%90%E5%89%8D%E9%96%8B%E6%90%B6-%E9%A3%AF%E5%BA%97%E5%87%BA%E6%8B%9B%E6%90%B6%E5%95%86%E6%A9%9F-112240412.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:22:40+08:00",
+          "summary": "財經中心／陳孟暄 黃彥誠 台北報導每年跨年台北101煙火都是重頭戲，不少民眾為了避開人潮，乾脆提前卡位景觀飯店，在房間裡就能舒舒服服看煙火，飯店業者也早早備戰，不只推出煙火房，還端出跨年大餐、派對活動",
+          "additional_sources": []
+        },
+        {
+          "title": "101國慶煙火搶先看! 600台無人機14分鐘比去年更狂",
+          "link": "https://tw.stock.yahoo.com/news/101%E5%9C%8B%E6%85%B6%E7%85%99%E7%81%AB%E6%90%B6%E5%85%88%E7%9C%8B-600%E5%8F%B0%E7%84%A1%E4%BA%BA%E6%A9%9F14%E5%88%86%E9%90%98%E6%AF%94%E5%8E%BB%E5%B9%B4%E6%9B%B4%E7%8B%82-112207568.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:22:07+08:00",
+          "summary": "財經中心／葉為襄、張智凱 台北報導任期倒數一年的台北101董事長賈永婕，即將在國慶日，施放任內第三次國慶煙火，今年煙火再升級，表演時間比去年多2分鐘、拉長到14分鐘，無人機也從500台加碼到600台，",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣126萬低薪勞工 年薪不到39萬 服務業月薪僅3.1萬",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%81%A3126%E8%90%AC%E4%BD%8E%E8%96%AA%E5%8B%9E%E5%B7%A5-%E5%B9%B4%E8%96%AA%E4%B8%8D%E5%88%B039%E8%90%AC-%E6%9C%8D%E5%8B%99%E6%A5%AD%E6%9C%88%E8%96%AA%E5%83%853-1%E8%90%AC-112150645.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:21:50+08:00",
+          "summary": "財經中心／陳致帆、李澤民 台北報導領多少錢才算\"低薪\"？主計總處，首度引用OECD國際標準估算，以2024年全年總薪資中位數58萬5千元估算，年薪低於39萬元，就屬於低薪族群，換算下來全台灣，約有12",
+          "additional_sources": []
+        },
+        {
+          "title": "國際塑橡膠機械展登場 350家業者關注AI轉型",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B%E9%9A%9B%E5%A1%91%E6%A9%A1%E8%86%A0%E6%A9%9F%E6%A2%B0%E5%B1%95%E7%99%BB%E5%A0%B4-350%E5%AE%B6%E6%A5%AD%E8%80%85%E9%97%9C%E6%B3%A8ai%E8%BD%89%E5%9E%8B-112116357.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:21:16+08:00",
+          "summary": "財經中心／陳致帆、李澤民 台北報導傳統塑橡膠產業，也搭上AI浪潮！台北國際塑橡膠機械展，今天（15）在南港展覽館，盛大登場，吸引國內外350家業者齊聚，更導入AI科技，不只省人力，更提升產品穩定度，讓",
+          "additional_sources": []
+        },
+        {
+          "title": "國泰金控蔡宗翰首談數位轉型10年 做好下水道工程 拚彎道超車",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B%E6%B3%B0%E9%87%91%E6%8E%A7%E8%94%A1%E5%AE%97%E7%BF%B0%E9%A6%96%E8%AB%87%E6%95%B8%E4%BD%8D%E8%BD%89%E5%9E%8B10%E5%B9%B4-%E5%81%9A%E5%A5%BD%E4%B8%8B%E6%B0%B4%E9%81%93%E5%B7%A5%E7%A8%8B-%E6%8B%9A%E5%BD%8E%E9%81%93%E8%B6%85%E8%BB%8A-111926767.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:19:26+08:00",
+          "summary": "金融業最具指標性金融科技盛會「2026國泰金控技術年會」15日登場；適逢國泰金數位轉型10周年，國泰金控副董事長蔡宗翰擔綱爐邊對談與談人；蔡宗翰表示，面對AI轉型，拒絕做表面工夫，投入五年做「下水道工",
+          "additional_sources": []
+        },
+        {
+          "title": "認定傾銷事實  韓、陸電磁鋼品課徵反傾銷稅 最高59％",
+          "link": "https://tw.stock.yahoo.com/news/%E8%AA%8D%E5%AE%9A%E5%82%BE%E9%8A%B7%E4%BA%8B%E5%AF%A6-%E9%9F%93-%E9%99%B8%E9%9B%BB%E7%A3%81%E9%8B%BC%E5%93%81%E8%AA%B2%E5%BE%B5%E5%8F%8D%E5%82%BE%E9%8A%B7%E7%A8%85-%E6%9C%80%E9%AB%9859-111858081.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:18:58+08:00",
+          "summary": "關務署今日表示，中鋼申請自韓國與大陸產製進口冷軋扁軋非方向性電磁鋼品反傾銷調查案，財政部最終認定有傾銷事實，即日起依最終認定的傾銷差率課徵反傾銷稅，韓國為49.8％到59.35％；大陸為26.44％。",
+          "additional_sources": []
+        },
+        {
+          "title": "瞄準私人理財客戶 渣打首推邀請制世界之極卡",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9E%84%E6%BA%96%E7%A7%81%E4%BA%BA%E7%90%86%E8%B2%A1%E5%AE%A2%E6%88%B6-%E6%B8%A3%E6%89%93%E9%A6%96%E6%8E%A8%E9%82%80%E8%AB%8B%E5%88%B6%E4%B8%96%E7%95%8C%E4%B9%8B%E6%A5%B5%E5%8D%A1-111720274.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:17:20+08:00",
+          "summary": "高資產客戶「卡」位戰開打，渣打國際商業銀行15日攜手萬事達卡（Mastercard）推出為優先私人理財客戶打造的專屬邀請制「渣打 Beyond 世界之極卡」，將優先私人理財服務與專屬權益從資產配置與財",
+          "additional_sources": []
+        },
+        {
+          "title": "黃仁勳示警AIDC瓶頸 點名代理型AI引爆電力與應用新商機 「這類」ETF趁勢崛起",
+          "link": "https://tw.stock.yahoo.com/news/%E9%BB%83%E4%BB%81%E5%8B%B3%E7%A4%BA%E8%AD%A6aidc%E7%93%B6%E9%A0%B8-%E9%BB%9E%E5%90%8D%E4%BB%A3%E7%90%86%E5%9E%8Bai%E5%BC%95%E7%88%86%E9%9B%BB%E5%8A%9B%E8%88%87%E6%87%89%E7%94%A8%E6%96%B0%E5%95%86%E6%A9%9F-%E9%80%99%E9%A1%9E-etf%E8%B6%81%E5%8B%A2%E5%B4%9B%E8%B5%B7-111610816.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:16:10+08:00",
+          "summary": "全球AI產業投資主軸出現轉變，輝達執行長黃仁勳示警資料中心土地與電力成為新瓶頸，市場焦點正從硬體建置轉向算力變現與電力需求。法人指出，隨晶片與伺服器基期墊高，AI下半場關鍵在於軟體應用能否將算力轉化為",
+          "additional_sources": []
+        },
+        {
+          "title": "經濟短期衝擊加快  國發會找政策解方！導入新經濟預測模型",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B6%93%E6%BF%9F%E7%9F%AD%E6%9C%9F%E8%A1%9D%E6%93%8A%E5%8A%A0%E5%BF%AB-%E5%9C%8B%E7%99%BC%E6%9C%83%E6%89%BE%E6%94%BF%E7%AD%96%E8%A7%A3%E6%96%B9-%E5%B0%8E%E5%85%A5%E6%96%B0%E7%B6%93%E6%BF%9F%E9%A0%90%E6%B8%AC%E6%A8%A1%E5%9E%8B-111451246.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:14:51+08:00",
+          "summary": "基於近兩年台灣經濟成長已出現結構型改變，且國際情勢地緣政治更為動盪，短期衝擊若缺少即時因應，恐對台灣經濟造成中長期影響。國發會主委葉俊顯15日表示，除了加強與智庫討論景氣研究方法更新，亦派員前往澳洲學",
+          "additional_sources": []
+        },
+        {
+          "title": "暑假海外旅遊夯　5大發卡行8月刷3163億元",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9A%91%E5%81%87%E6%B5%B7%E5%A4%96%E6%97%85%E9%81%8A%E5%A4%AF-5%E5%A4%A7%E7%99%BC%E5%8D%A1%E8%A1%8C8%E6%9C%88%E5%88%B73163%E5%84%84%E5%85%83-111236492.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:12:36+08:00",
+          "summary": "（中央社記者呂晏慈、蘇思云台北2026年09月15日電）5大發卡銀行8月刷卡成績單出爐，受惠暑假旅遊旺季帶動海外消費，整體簽帳金額達新台幣3163億元，年增19%；其中，中信銀單月刷卡金額逾859億元",
+          "additional_sources": []
+        },
+        {
+          "title": "電子特殊氣體供應廠兆捷　最快年底前創新板上市",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9B%BB%E5%AD%90%E7%89%B9%E6%AE%8A%E6%B0%A3%E9%AB%94%E4%BE%9B%E6%87%89%E5%BB%A0%E5%85%86%E6%8D%B7-%E6%9C%80%E5%BF%AB%E5%B9%B4%E5%BA%95%E5%89%8D%E5%89%B5%E6%96%B0%E6%9D%BF%E4%B8%8A%E5%B8%82-111232556.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:12:32+08:00",
+          "summary": "（中央社記者潘智義台北2026年09月15日電）電子特殊氣體供應廠兆捷科技國際(6959)今天獲台灣證券交易所董事會通過創新板上市案，主辦承銷商為富邦證券，初次上市普通股股票承銷案將採詢價圈購作業，預",
+          "additional_sources": []
+        },
+        {
+          "title": "13家金控前8月狂賺5789億元創新高！富邦金重返三冠王 5家賺贏去年",
+          "link": "https://tw.stock.yahoo.com/news/13%E5%AE%B6%E9%87%91%E6%8E%A7%E5%89%8D8%E6%9C%88%E7%8B%82%E8%B3%BA5789%E5%84%84%E5%85%83%E5%89%B5%E6%96%B0%E9%AB%98-%E5%AF%8C%E9%82%A6%E9%87%91%E9%87%8D%E8%BF%94%E4%B8%89%E5%86%A0%E7%8E%8B-5%E5%AE%B6%E8%B3%BA%E8%B4%8F%E5%8E%BB%E5%B9%B4-111207043.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:12:07+08:00",
+          "summary": "13家上市金控2026年8月自結獲利全數揭曉！受惠於台股反彈、AI相關類股強勢領漲及資本市場交投熱絡帶動，各大金控獲利噴發。",
+          "additional_sources": []
+        },
+        {
+          "title": "外資大舉撤退　新台幣重貶1.6角創逾半年最大跌幅",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%96%E8%B3%87%E5%A4%A7%E8%88%89%E6%92%A4%E9%80%80-%E6%96%B0%E5%8F%B0%E5%B9%A3%E9%87%8D%E8%B2%B61-6%E8%A7%92%E5%89%B5%E9%80%BE%E5%8D%8A%E5%B9%B4%E6%9C%80%E5%A4%A7%E8%B7%8C%E5%B9%85-111128234.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:11:28+08:00",
+          "summary": "（中央社記者潘姿羽台北2026年09月15日電）投資人對AI發展的疑慮再起，加上通膨陰影籠罩，主要央行決策出爐之前，市場避險情緒升溫，外資大舉提款台股並匯出，導致新台幣貶勢洶洶，今天盤中一度貶逾2角、",
+          "additional_sources": []
+        },
+        {
+          "title": "會計師法修法上路　可兼公營事業董監事但不得領酬",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9C%83%E8%A8%88%E5%B8%AB%E6%B3%95%E4%BF%AE%E6%B3%95%E4%B8%8A%E8%B7%AF-%E5%8F%AF%E5%85%BC%E5%85%AC%E7%87%9F%E4%BA%8B%E6%A5%AD%E8%91%A3%E7%9B%A3%E4%BA%8B%E4%BD%86%E4%B8%8D%E5%BE%97%E9%A0%98%E9%85%AC-111026144.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:10:26+08:00",
+          "summary": "（中央社記者高華謙台北2026年09月15日電）金管會今天表示，會計師法修正條文已於8月5日公布施行，除增訂由會計師公會擬訂永續資訊簽證助理人員資格，也適度放寬會計師兼任公營事業董監事，但不得擔任對經",
+          "additional_sources": []
+        },
+        {
+          "title": "台股8月反彈、股利進帳　6大壽險單月賺近400億",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A18%E6%9C%88%E5%8F%8D%E5%BD%88-%E8%82%A1%E5%88%A9%E9%80%B2%E5%B8%B3-6%E5%A4%A7%E5%A3%BD%E9%9A%AA%E5%96%AE%E6%9C%88%E8%B3%BA%E8%BF%91400%E5%84%84-111021228.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:10:21+08:00",
+          "summary": "（中央社記者蘇思云、呂晏慈台北2026年09月15日電）8月AI類股財報亮眼，全球股市普遍走揚，壽險業受惠台股8月反彈逾3000點，帶動評價利益回升，加上現金股利進帳，6大壽險8月獲利擴大至新台幣39",
+          "additional_sources": []
+        },
+        {
+          "title": "搶攻台灣財管市場　渣打推高資產客戶邀請制信用卡",
+          "link": "https://tw.stock.yahoo.com/news/%E6%90%B6%E6%94%BB%E5%8F%B0%E7%81%A3%E8%B2%A1%E7%AE%A1%E5%B8%82%E5%A0%B4-%E6%B8%A3%E6%89%93%E6%8E%A8%E9%AB%98%E8%B3%87%E7%94%A2%E5%AE%A2%E6%88%B6%E9%82%80%E8%AB%8B%E5%88%B6%E4%BF%A1%E7%94%A8%E5%8D%A1-110919848.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:09:19+08:00",
+          "summary": "（中央社記者呂晏慈台北2026年09月15日電）外銀持續擴大在台財管布局，渣打銀行今天宣布，專為往來資產達新台幣3000萬元以上的優先私人理財客戶推出邀請制信用卡，深化財管服務。據統計，截至今年7月，",
+          "additional_sources": []
+        },
+        {
+          "title": "泰合生技10月下旬掛牌上市　抗血栓口溶膜拚歐美取證",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%B0%E5%90%88%E7%94%9F%E6%8A%8010%E6%9C%88%E4%B8%8B%E6%97%AC%E6%8E%9B%E7%89%8C%E4%B8%8A%E5%B8%82-%E6%8A%97%E8%A1%80%E6%A0%93%E5%8F%A3%E6%BA%B6%E8%86%9C%E6%8B%9A%E6%AD%90%E7%BE%8E%E5%8F%96%E8%AD%89-110917168.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:09:17+08:00",
+          "summary": "（中央社記者何秀玲台北2026年09月15日電）新藥研發公司泰合生技(6467)將於10月下旬掛牌上市，董事長李世仁表示，針對抗血栓口溶膜BEQIA，正在申請歐美藥證中，並同步洽談區域授權，希望在取得",
+          "additional_sources": []
+        },
+        {
+          "title": "iPhone 18 Pro系列9/18開賣　電信三雄資費出爐",
+          "link": "https://tw.stock.yahoo.com/news/iphone-18-pro%E7%B3%BB%E5%88%979-18%E9%96%8B%E8%B3%A3-%E9%9B%BB%E4%BF%A1%E4%B8%89%E9%9B%84%E8%B3%87%E8%B2%BB%E5%87%BA%E7%88%90-110815216.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:08:15+08:00",
+          "summary": "（中央社記者江明晏台北2026年09月15日電）蘋果iPhone18 Pro系列將在18日開賣，電信三雄資費出爐，零元購機方案要月付2699元、綁約48個月，可免費入手iPhone18 Pro 256",
+          "additional_sources": []
+        },
+        {
+          "title": "蕭美琴：車業為台灣產業不可或缺命脈 政府將從多面向支持中小企業",
+          "link": "https://tw.stock.yahoo.com/news/%E8%95%AD%E7%BE%8E%E7%90%B4-%E8%BB%8A%E6%A5%AD%E7%82%BA%E5%8F%B0%E7%81%A3%E7%94%A2%E6%A5%AD%E4%B8%8D%E5%8F%AF%E6%88%96%E7%BC%BA%E5%91%BD%E8%84%88-%E6%94%BF%E5%BA%9C%E5%B0%87%E5%BE%9E%E5%A4%9A%E9%9D%A2%E5%90%91%E6%94%AF%E6%8C%81%E4%B8%AD%E5%B0%8F%E4%BC%81%E6%A5%AD-110754301.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:07:54+08:00",
+          "summary": "副總統蕭美琴今(15)日下午接見「中華民國汽車商業同業公會全國聯合會」時表示，政府推動「均衡台灣」，促進地理、企業規模及產業別三方面均衡發展，從融資、人力、資源運用及產業政策等面向支持中小微型企業，也",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】永虹先進因有價證券達財團法人證券櫃檯買賣中心興櫃股票買賣辦法第11-1條暫停交易標準，公布相關財務業務資訊。",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E6%B0%B8%E8%99%B9%E5%85%88%E9%80%B2%E5%9B%A0%E6%9C%89%E5%83%B9%E8%AD%89%E5%88%B8%E9%81%94%E8%B2%A1%E5%9C%98%E6%B3%95%E4%BA%BA%E8%AD%89%E5%88%B8%E6%AB%83%E6%AA%AF%E8%B2%B7%E8%B3%A3%E4%B8%AD%E5%BF%83%E8%88%88%E6%AB%83%E8%82%A1%E7%A5%A8%E8%B2%B7%E8%B3%A3%E8%BE%A6%E6%B3%95%E7%AC%AC11-1%E6%A2%9D%E6%9A%AB%E5%81%9C%E4%BA%A4%E6%98%93%E6%A8%99%E6%BA%96-%E5%85%AC%E5%B8%83%E7%9B%B8%E9%97%9C%E8%B2%A1%E5%8B%99%E6%A5%AD%E5%8B%99%E8%B3%87%E8%A8%8A-110613679.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:06:13+08:00",
+          "summary": "日 期：2026年09月15日公司名稱：永虹先進(6618)主 旨：永虹先進因有價證券達財團法人證券櫃檯買賣中心興櫃股票買賣辦法第11-1條暫停交易標準，公布相關財務業務資訊。發言人：吳家幸說 明：1",
+          "additional_sources": []
+        },
+        {
+          "title": "泰合10月下旬轉上市 四大動能支撐成長",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%B0%E5%90%8810%E6%9C%88%E4%B8%8B%E6%97%AC%E8%BD%89%E4%B8%8A%E5%B8%82-%E5%9B%9B%E5%A4%A7%E5%8B%95%E8%83%BD%E6%94%AF%E6%92%90%E6%88%90%E9%95%B7-110456685.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:04:56+08:00",
+          "summary": "泰合(6467-TW)將於明(16)日舉辦上市前業績發表會，並將於10月下旬轉上市。董事長李世仁指出，公司聚焦505(b)(2)新劑型新藥與困難學名藥，未來營運在藥證收成、市場剛需、平台技術以及自有生",
+          "additional_sources": []
+        },
+        {
+          "title": "電價審議會18日登場 經長：工商團體支持預算撥補中油、台電",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9B%BB%E5%83%B9%E5%AF%A9%E8%AD%B0%E6%9C%8318%E6%97%A5%E7%99%BB%E5%A0%B4-%E7%B6%93%E9%95%B7-%E5%B7%A5%E5%95%86%E5%9C%98%E9%AB%94%E6%94%AF%E6%8C%81%E9%A0%90%E7%AE%97%E6%92%A5%E8%A3%9C%E4%B8%AD%E6%B2%B9-%E5%8F%B0%E9%9B%BB-110440602.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:04:40+08:00",
+          "summary": "下半年電價費率審議會即將於18日召開，外界關心對台電、中油的預算撥補未定，是否影響電價，以及AI資料中心等用電需求大，是否考慮調漲部分工業電價，經濟部長龔明鑫回應，經濟部會通盤考量，並由電價費率審議會",
+          "additional_sources": []
+        },
+        {
+          "title": "為何Google、Meta逆勢上漲？AI巨頭喊放慢開發科技股承壓",
+          "link": "https://news.cnyes.com/news/id/6606441",
+          "source": "cnyes",
+          "pubdate": "2026-09-15T20:00:04+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-09-15 20:00\n在 Anthropic、OpenAI 與SpaceX(SPCX-US) 高層相繼呼籲放慢人工智慧（AI）開發之際，科技股週一（14日）普遍承壓，但Google(GOOGL-US) 母公司 Alphabet 與 Facebook 母公司Meta(MET…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AAPL 蘋果",
+      "keywords": [
+        "蘋果",
+        "記憶",
+        "憶體",
+        "消費",
+        "費者"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "升級後故障照樣收錢？蘋果「軟體不保固」條款遭印度調查",
+          "link": "https://news.cnyes.com/news/id/6607137",
+          "source": "cnyes",
+          "pubdate": "2026-09-15T20:20:04+08:00",
+          "summary": "鉅亨網編譯段智恆2026-09-15 20:20\n印度消費者監管機關正升級調查蘋果(AAPL-US)的軟體保固條款，起因是部分消費者指控，升級iOS 18後出現螢幕及麥克風故障，卻因蘋果不為軟體提供保固，被迫支付「高得離譜」的維修費用。若違法事實成立，蘋果除可能遭到罰款，也可能被要求退款或修改現行保…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 三星記憶體明年Q1漲幅30％起跳！傳蘋果點",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1789473309.A.85D.html",
+          "source": "ptt",
+          "pubdate": "2026-09-15T19:55:06+08:00",
+          "summary": "原文標題：\n三星記憶體明年Q1漲幅30％起跳！傳蘋果點頭吞下去 Android壓力大\n原文連結：\nhttps://www.ctee.com.tw/news/20260915701389-430704\n發布時間：\n2026.09.15  15:00\n記者署名：\n李正傑\n原文內容：\n外媒報導，蘋果已接受…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "ai",
+        "資安",
+        "產業",
+        "明彰",
+        "蔡明"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "黃仁勳喊「資安不能停」！專家點名台股資安族群將補漲",
+          "link": "https://tw.news.yahoo.com/%E9%BB%83%E4%BB%81%E5%8B%B3%E5%96%8A-%E8%B3%87%E5%AE%89%E4%B8%8D%E8%83%BD%E5%81%9C-%E5%B0%88%E5%AE%B6%E9%BB%9E%E5%90%8D%E5%8F%B0%E8%82%A1%E8%B3%87%E5%AE%89%E6%97%8F%E7%BE%A4%E5%B0%87%E8%A3%9C%E6%BC%B2-111411410.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-15T19:14:11+08:00",
+          "summary": "Anthropic、OpenAI與xAI等產業領袖齊聲呼籲放緩AI發展速度，引發全球資本市場高度關注。然而，輝達（NVIDIA）執行長黃仁勳罕見點出產業下一個關鍵戰場，強調「AI可以慢，但資安不能停」",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US META Meta",
+      "keywords": [
+        "asx",
+        "e",
+        "vr",
+        "mitsubishi",
+        "生產"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 裕隆生產外銷、第四季交付給紐澳車主，Mi",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1789472967.A.252.html",
+          "source": "ptt",
+          "pubdate": "2026-09-15T19:49:24+08:00",
+          "summary": "裕隆生產外銷、第四季交付給紐澳車主，Mitsubishi ASX VR-e預計9月下旬出海\n\nnews.u-car編輯部撰文20260914\n\nMitsubishi 即將在 2026 年第四季於紐西蘭和澳洲所推出的 ASX VR-e，其實也就是\n Foxtron Model B 的三菱版，而在 8…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "US"
+}
