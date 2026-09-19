@@ -1,0 +1,438 @@
+{
+  "date": "2026-09-19",
+  "generated_at": "2026-09-19T19:50:51.489043",
+  "group_count": 7,
+  "total_articles": 40,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "美國",
+        "電池",
+        "市場",
+        "台灣",
+        "報導"
+      ],
+      "article_count": 33,
+      "articles": [
+        {
+          "title": "iPhone 18 Pro開賣！分析師挺蘋果：換機周期優於預期 股價有13%上漲空間",
+          "link": "https://tw.stock.yahoo.com/news/iphone-18-pro%E9%96%8B%E8%B3%A3-%E5%88%86%E6%9E%90%E5%B8%AB%E6%8C%BA%E8%98%8B%E6%9E%9C-%E6%8F%9B%E6%A9%9F%E5%91%A8%E6%9C%9F%E5%84%AA%E6%96%BC%E9%A0%90%E6%9C%9F-103002372.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:30:02+08:00",
+          "summary": "Evercore ISI將蘋果目標價由365美元調升至380美元，估iPhone換機周期可能優於預期。 iPhone 18 Pro與Pro Max已開賣，蘋果今年先推高階機型，明年春季再推標準款。 i",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6610974",
+              "title": "iPhone 18 Pro開賣！分析師挺蘋果：換機周期優於預期 股價有13%上漲空間"
+            }
+          ]
+        },
+        {
+          "title": "小米、華為搶攻動力電池主導權！寧德時代面臨供應鏈新挑戰",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B0%8F%E7%B1%B3-%E8%8F%AF%E7%82%BA%E6%90%B6%E6%94%BB%E5%8B%95%E5%8A%9B%E9%9B%BB%E6%B1%A0%E4%B8%BB%E5%B0%8E%E6%AC%8A-%E5%AF%A7%E5%BE%B7%E6%99%82%E4%BB%A3%E9%9D%A2%E8%87%A8%E4%BE%9B%E6%87%89%E9%8F%88%E6%96%B0%E6%8C%91%E6%88%B0-091004491.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:10:04+08:00",
+          "summary": "小米、華為、理想汽車等車企深入電池研發、製造與品質管理，爭取關鍵零組件主導權 9月4日小米宣布中創新航、欣旺達動力為龍甲電池戰略夥伴，理想擬斥資26.5億元入股欣旺達動力 寧德時代憑製造規模與量產品質",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6610926",
+              "title": "小米、華為搶攻動力電池主導權！寧德時代面臨供應鏈新挑戰"
+            }
+          ]
+        },
+        {
+          "title": "中國若攻台恐釀災難性後果 學者示警衝擊全球經濟穩定",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%9C%8B%E8%8B%A5%E6%94%BB%E5%8F%B0%E6%81%90%E9%87%80%E7%81%BD%E9%9B%A3%E6%80%A7%E5%BE%8C%E6%9E%9C-%E5%AD%B8%E8%80%85%E7%A4%BA%E8%AD%A6%E8%A1%9D%E6%93%8A%E5%85%A8%E7%90%83%E7%B6%93%E6%BF%9F%E7%A9%A9%E5%AE%9A-113654741.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T19:36:54+08:00",
+          "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導根據《The Washington Post》報導，史丹佛大學（Stanford University）胡佛研究所（Hoover Institution）學者 E",
+          "additional_sources": []
+        },
+        {
+          "title": "綠建築標章是什麼？買房為什麼要看這個？阿明一次講清楚",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B6%A0%E5%BB%BA%E7%AF%89%E6%A8%99%E7%AB%A0%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F%E8%B2%B7%E6%88%BF%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%9C%8B%E9%80%99%E5%80%8B%EF%BC%9F%E9%98%BF%E6%98%8E%E4%B8%80%E6%AC%A1%E8%AC%9B%E6%B8%85%E6%A5%9A-113600525.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T19:36:00+08:00",
+          "summary": "以後買房不只要看地段、看價格，還要看這棟房子「綠不綠」。綠建築標章、建築能效標示、低碳建築標示，這三個東西會影響你的電費、房價，甚至未來轉手的難易度。",
+          "additional_sources": []
+        },
+        {
+          "title": "美諾酒店集團歐洲擴展遊戲住宿服務 PlayStation 5 進駐多國飯店",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E8%AB%BE%E9%85%92%E5%BA%97%E9%9B%86%E5%9C%98%E6%AD%90%E6%B4%B2%E6%93%B4%E5%B1%95%E9%81%8A%E6%88%B2%E4%BD%8F%E5%AE%BF%E6%9C%8D%E5%8B%99-playstation-5-%E9%80%B2%E9%A7%90%E5%A4%9A%E5%9C%8B%E9%A3%AF%E5%BA%97-113143635.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T19:31:43+08:00",
+          "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導美諾酒店集團（Minor Hotels）旗下的 nhow 飯店品牌，正在歐洲各地飯店推行一項創新概念 GAME:NXT by nhow，將 PlayStatio",
+          "additional_sources": []
+        },
+        {
+          "title": "宏碁概念掌機整合遊戲與生產力 市場質疑能否兩全其美",
+          "link": "https://tw.stock.yahoo.com/news/%E5%AE%8F%E7%A2%81%E6%A6%82%E5%BF%B5%E6%8E%8C%E6%A9%9F%E6%95%B4%E5%90%88%E9%81%8A%E6%88%B2%E8%88%87%E7%94%9F%E7%94%A2%E5%8A%9B-%E5%B8%82%E5%A0%B4%E8%B3%AA%E7%96%91%E8%83%BD%E5%90%A6%E5%85%A9%E5%85%A8%E5%85%B6%E7%BE%8E-112728652.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T19:27:28+08:00",
+          "summary": "圖／示意圖商傳媒｜何映辰／台北報導在掌上型遊戲機市場逐漸復甦之際，台灣科技大廠宏碁（Acer）推出了一款結合遊戲與行動辦公的創新概念產品 Project DualPlay Mini，試圖打破傳統界線，",
+          "additional_sources": []
+        },
+        {
+          "title": "16歲少女遭捕後堅稱清白！暴瘦剩19公斤離世",
+          "link": "https://tw.news.yahoo.com/16%E6%AD%B2%E5%B0%91%E5%A5%B3%E9%81%AD%E6%8D%95%E5%BE%8C%E5%A0%85%E7%A8%B1%E6%B8%85%E7%99%BD-%E6%9A%B4%E7%98%A6%E5%89%A919%E5%85%AC%E6%96%A4%E9%9B%A2%E4%B8%96-112327030.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T19:23:27+08:00",
+          "summary": "[NOWNEWS今日新聞]一名在日本身心障礙者支援機構工作的16歲少女「琉奈」（化名），因涉嫌虐待機構使用者遭警方逮捕。然而，她在拘留期間始終堅稱清白，警方則對其反覆強勢訊問，最終琉奈身心嚴重創傷引發",
+          "additional_sources": []
+        },
+        {
+          "title": "足球巨星姆巴佩告別 Nike 轉投 On 瑞士品牌強勢進軍足球市場",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B6%B3%E7%90%83%E5%B7%A8%E6%98%9F%E5%A7%86%E5%B7%B4%E4%BD%A9%E5%91%8A%E5%88%A5-nike-%E8%BD%89%E6%8A%95-%E7%91%9E%E5%A3%AB%E5%93%81%E7%89%8C%E5%BC%B7%E5%8B%A2%E9%80%B2%E8%BB%8D%E8%B6%B3%E7%90%83%E5%B8%82%E5%A0%B4-110423861.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T19:04:23+08:00",
+          "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導法國足球巨星基利安·姆巴佩（Kylian Mbappé）近日宣布與瑞士運動品牌 On 簽下全球代言合約，結束了與 Nike 長達近二十年的合作關係。這項合作不",
+          "additional_sources": []
+        },
+        {
+          "title": "美報告揭私人飛機空污嚴重 稅負不公加劇氣候危機",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%A0%B1%E5%91%8A%E6%8F%AD%E7%A7%81%E4%BA%BA%E9%A3%9B%E6%A9%9F%E7%A9%BA%E6%B1%A1%E5%9A%B4%E9%87%8D-%E7%A8%85%E8%B2%A0%E4%B8%8D%E5%85%AC%E5%8A%A0%E5%8A%87%E6%B0%A3%E5%80%99%E5%8D%B1%E6%A9%9F-105106654.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:51:06+08:00",
+          "summary": "圖／示意圖商傳媒｜方承業／綜合外電報導根據《The Guardian》報導，政策研究學會（Institute for Policy Studies）近日發布一份報告指出，美國私人飛機旅行正迅速擴張，然",
+          "additional_sources": []
+        },
+        {
+          "title": "筆電尺寸怎麼挑？14吋輕巧便攜、15.6吋視野開闊 各擁優勢",
+          "link": "https://tw.stock.yahoo.com/news/%E7%AD%86%E9%9B%BB%E5%B0%BA%E5%AF%B8%E6%80%8E%E9%BA%BC%E6%8C%91-14%E5%90%8B%E8%BC%95%E5%B7%A7%E4%BE%BF%E6%94%9C-15-6%E5%90%8B%E8%A6%96%E9%87%8E%E9%96%8B%E9%97%8A-%E5%90%84%E6%93%81%E5%84%AA%E5%8B%A2-104216412.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:42:16+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導選購筆記型電腦時，除了處理器、記憶體等硬體規格，螢幕尺寸也是影響使用體驗的關鍵因素。市面上常見的14吋與15.6吋筆電各有千秋，消費者應依個人需求、工作習慣與偏好的使用情",
+          "additional_sources": []
+        },
+        {
+          "title": "名古屋亞運／天皇伉儷親臨開幕　台灣第36順位亮相",
+          "link": "https://tw.news.yahoo.com/%E5%90%8D%E5%8F%A4%E5%B1%8B%E4%BA%9E%E9%81%8B-%E5%A4%A9%E7%9A%87%E4%BC%89%E5%84%B7%E8%A6%AA%E8%87%A8%E9%96%8B%E5%B9%95-%E5%8F%B0%E7%81%A3%E7%AC%AC36%E9%A0%86%E4%BD%8D%E4%BA%AE%E7%9B%B8-103242961.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:32:42+08:00",
+          "summary": "2026愛知・名古屋亞運今晚(19日)在名古屋市瑞穗公園陸上競技場正式開幕，日本天皇、皇后親臨現場。台灣代表團則由拳擊好手黃筱雯、散打選手張煥宜共同掌旗，以第36順位進場，當代表團走進會場時，現場也響",
+          "additional_sources": []
+        },
+        {
+          "title": "歐洲多國撤回在美黃金儲備 地緣政治與川普因素引避險潮",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AD%90%E6%B4%B2%E5%A4%9A%E5%9C%8B%E6%92%A4%E5%9B%9E%E5%9C%A8%E7%BE%8E%E9%BB%83%E9%87%91%E5%84%B2%E5%82%99-%E5%9C%B0%E7%B7%A3%E6%94%BF%E6%B2%BB%E8%88%87%E5%B7%9D%E6%99%AE%E5%9B%A0%E7%B4%A0%E5%BC%95%E9%81%BF%E9%9A%AA%E6%BD%AE-102927174.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:29:27+08:00",
+          "summary": "商傳媒｜吳承岳／台北報導近期，歐洲多個國家陸續將其存放在美國的黃金儲備轉移回本土或倫敦，這項舉動不僅反映地緣政治動盪加劇，也顯示部分國家對美國金融穩定性與政治領導力產生疑慮。其中，荷蘭與法國的行動尤其",
+          "additional_sources": []
+        },
+        {
+          "title": "淘汰緝毒犬被「差別待遇」慘遭放生？關務署回應了",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B7%98%E6%B1%B0%E7%B7%9D%E6%AF%92%E7%8A%AC%E8%A2%AB-%E5%B7%AE%E5%88%A5%E5%BE%85%E9%81%87-%E6%85%98%E9%81%AD%E6%94%BE%E7%94%9F-%E9%97%9C%E5%8B%99%E7%BD%B2%E5%9B%9E%E6%87%89%E4%BA%86-102431429.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:24:31+08:00",
+          "summary": "淘汰緝毒犬慘遭放生！有網友在網路上發表，待轉訓犬長期無人帶去散步等問題，財政部關務署今日急澄清，經評估不適任的的緝毒犬，已經積極媒合到其他值勤犬機關轉訓，已經有11個機關提出22之需求。",
+          "additional_sources": []
+        },
+        {
+          "title": "智商168！美13歲罹癌神童成NYU最年輕研究生",
+          "link": "https://tw.news.yahoo.com/%E6%99%BA%E5%95%86168-%E7%BE%8E13%E6%AD%B2%E7%BD%B9%E7%99%8C%E7%A5%9E%E7%AB%A5%E6%88%90nyu%E6%9C%80%E5%B9%B4%E8%BC%95%E7%A0%94%E7%A9%B6%E7%94%9F-102155240.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:21:55+08:00",
+          "summary": "[NOWNEWS今日新聞]在美國，攻讀碩士學位的平均年齡是33歲，但來自長島的一名天才神童正準備打破這項紀錄。明年秋季，當他踏入紐約大學（NYU）碩士班的課堂時，年齡將還不到身旁同學的一半，很可能成為",
+          "additional_sources": []
+        },
+        {
+          "title": "SK海力士矽谷推創投品牌 擴展AI生態與技術合作",
+          "link": "https://tw.stock.yahoo.com/news/sk%E6%B5%B7%E5%8A%9B%E5%A3%AB%E7%9F%BD%E8%B0%B7%E6%8E%A8%E5%89%B5%E6%8A%95%E5%93%81%E7%89%8C-%E6%93%B4%E5%B1%95ai%E7%94%9F%E6%85%8B%E8%88%87%E6%8A%80%E8%A1%93%E5%90%88%E4%BD%9C-102059358.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:20:59+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導韓國記憶體大廠SK海力士宣布在美國矽谷推出其公司風險投資（CVC）品牌「SK Hynix Ventures」，旨在深化與全球人工智慧（AI）生態系的策略合作，並確保未來創",
+          "additional_sources": []
+        },
+        {
+          "title": "美退將：台灣是民主兵工廠一環 台美共同對抗威權國家",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E9%80%80%E5%B0%87-%E5%8F%B0%E7%81%A3%E6%98%AF%E6%B0%91%E4%B8%BB%E5%85%B5%E5%B7%A5%E5%BB%A0-%E7%92%B0-%E5%8F%B0%E7%BE%8E%E5%85%B1%E5%90%8C%E5%B0%8D%E6%8A%97%E5%A8%81%E6%AC%8A%E5%9C%8B%E5%AE%B6-101957686.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:19:57+08:00",
+          "summary": "全社會防衛韌性國際論壇今天(19日)登場，保衛民主基金會資深主任、退役海軍少將蒙哥馬利（Mark Montgomery）表示，台灣已是「民主兵工廠」的一部分，台、美要持續扮演此重要角色，共同對抗俄羅斯",
+          "additional_sources": []
+        },
+        {
+          "title": "超級聖嬰現象威脅亞洲糧食與民生 各國加緊防災應變",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B6%85%E7%B4%9A%E8%81%96%E5%AC%B0%E7%8F%BE%E8%B1%A1%E5%A8%81%E8%84%85%E4%BA%9E%E6%B4%B2%E7%B3%A7%E9%A3%9F%E8%88%87%E6%B0%91%E7%94%9F-%E5%90%84%E5%9C%8B%E5%8A%A0%E7%B7%8A%E9%98%B2%E7%81%BD%E6%87%89%E8%AE%8A-101305915.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:13:05+08:00",
+          "summary": "商傳媒｜方承業／綜合外電報導預計將達到極強等級的「超級聖嬰」現象，正對亞洲地區構成嚴峻挑戰。聯合國秘書長安東尼奧·古特雷斯（António Guterres）已指出，當前聖嬰現象的強度前所未有，而世界",
+          "additional_sources": []
+        },
+        {
+          "title": "下週油價出爐了！政府震撼宣布「繼續補貼」　已累積吸收219.2億元",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8B%E9%80%B1%E6%B2%B9%E5%83%B9%E5%87%BA%E7%88%90%E4%BA%86-%E6%94%BF%E5%BA%9C%E9%9C%87%E6%92%BC%E5%AE%A3%E5%B8%83-%E7%B9%BC%E7%BA%8C%E8%A3%9C%E8%B2%BC-%E5%B7%B2%E7%B4%AF%E7%A9%8D%E5%90%B8%E6%94%B6219-2%E5%84%84%E5%85%83-095902317.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:59:02+08:00",
+          "summary": "即時中心／高睿鴻報導自從美國、以色列與伊朗今（2026）年2月底爆發戰爭，國際能源價格便不斷動盪，也導致各國油價應聲而漲；台灣中油今（19）再指出，沙烏地阿拉伯東西向輸油管線遇襲關閉，嚴重衝擊全球原油",
+          "additional_sources": []
+        },
+        {
+          "title": "華碩 ROG 推 260W 高效充電座 整合 LCD 螢幕與多模式供電",
+          "link": "https://tw.stock.yahoo.com/news/%E8%8F%AF%E7%A2%A9-rog-%E6%8E%A8-260w-%E9%AB%98%E6%95%88%E5%85%85%E9%9B%BB%E5%BA%A7-095820458.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:58:20+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導華碩（Asus）旗下電競品牌 Republic of Gamers（ROG）於近日推出 ROG Flux Charger Dock 多功能充電座，專為電競玩家與筆記型電腦",
+          "additional_sources": []
+        },
+        {
+          "title": "才重啟就出包? 環南市場\"桌椅晃如蹺蹺板\" 攤商批:危險",
+          "link": "https://tw.stock.yahoo.com/news/%E6%89%8D%E9%87%8D%E5%95%9F%E5%B0%B1%E5%87%BA%E5%8C%85-%E7%92%B0%E5%8D%97%E5%B8%82%E5%A0%B4-%E6%A1%8C%E6%A4%85%E6%99%83%E5%A6%82%E8%B9%BA%E8%B9%BA%E6%9D%BF-%E6%94%A4%E5%95%86%E6%89%B9-%E5%8D%B1%E9%9A%AA-095607757.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:56:07+08:00",
+          "summary": "生活中心／陳致帆、李奇 台北報導斥資95億改建的\"台北市環南市場\"，去年重啟營運，但二樓美食區的桌椅，卻頻頻出包，不只搖晃嚴重，有人坐了差點倒頭栽，甚至還有受訪者抱怨，家人曾被尖銳邊角割傷市場。市場處",
+          "additional_sources": []
+        },
+        {
+          "title": "分析｜先進封裝爭霸戰！英特爾大搶單　台積電CoWoS看好穩坐主流至2028",
+          "link": "https://tw.stock.yahoo.com/news/%E5%88%86%E6%9E%90-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E7%88%AD%E9%9C%B8%E6%88%B0-%E8%8B%B1%E7%89%B9%E7%88%BE%E5%A4%A7%E6%90%B6%E5%96%AE-%E5%8F%B0%E7%A9%8D%E9%9B%BBcowos%E7%9C%8B%E5%A5%BD%E7%A9%A9%E5%9D%90%E4%B8%BB%E6%B5%81%E8%87%B32028-015900573.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:45:00+08:00",
+          "summary": "【記者蕭文康／台北報導】先進封裝產業近期隨著英特爾EMIB積極搶單，讓市場憂心台積電的CoWoS優勢是否遭到侵蝕？對此，台積電全球AI與HPC業務開發處長李湘日前在半導體展演講時透露，今年台積電將量產",
+          "additional_sources": []
+        },
+        {
+          "title": "期權市場警示 Cavco Industries 股價波動 分析師卻評級強力賣出",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9C%9F%E6%AC%8A%E5%B8%82%E5%A0%B4%E8%AD%A6%E7%A4%BA-cavco-industries-%E8%82%A1%E5%83%B9%E6%B3%A2%E5%8B%95-%E5%88%86%E6%9E%90%E5%B8%AB%E5%8D%BB%E8%A9%95%E7%B4%9A%E5%BC%B7%E5%8A%9B%E8%B3%A3%E5%87%BA-094205618.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:42:05+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導根據《Yahoo Finance》報導，美國組合屋與休旅車製造商 Cavco Industries（CVCO）近期在期權市場上表現異常活躍，引起投資人密切關注。這",
+          "additional_sources": []
+        },
+        {
+          "title": "沙國求救大陸 國際油價下殺！中油宣布「下周最新油價」",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B2%99%E5%9C%8B%E6%B1%82%E6%95%91%E5%A4%A7%E9%99%B8-%E5%9C%8B%E9%9A%9B%E6%B2%B9%E5%83%B9%E4%B8%8B%E6%AE%BA-%E4%B8%AD%E6%B2%B9%E5%AE%A3%E5%B8%83-%E4%B8%8B%E5%91%A8%E6%9C%80%E6%96%B0%E6%B2%B9%E5%83%B9-093550563.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:35:50+08:00",
+          "summary": "台灣中油公司今（19）日宣布，自下周一（21日）零時起至27日24時止，汽、柴油價格皆不調整。調整後參考零售價為92無鉛汽油每公升31.2元、95無鉛汽油每公升32.7元、98無鉛汽油每公升34.7元",
+          "additional_sources": []
+        },
+        {
+          "title": "美新創公司力拚 2028 年實現軌道太陽能發電 挑戰能源版圖革新",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E6%96%B0%E5%89%B5%E5%85%AC%E5%8F%B8%E5%8A%9B%E6%8B%9A-2028-%E5%B9%B4%E5%AF%A6%E7%8F%BE%E8%BB%8C%E9%81%93%E5%A4%AA%E9%99%BD%E8%83%BD%E7%99%BC%E9%9B%BB-%E6%8C%91%E6%88%B0%E8%83%BD%E6%BA%90%E7%89%88%E5%9C%96%E9%9D%A9%E6%96%B0-093119521.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:31:19+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導美國新創公司 Overview Energy 計畫在 2028 年 1 月，開始從地球軌道向電網傳輸太陽能，目標是實現太空太陽能發電的商業化營運。這家總部位",
+          "additional_sources": []
+        },
+        {
+          "title": "讚沈伯洋「潛力股」爆發力驚人！謝金河曝1力量推波",
+          "link": "https://tw.stock.yahoo.com/news/%E8%AE%9A%E6%B2%88%E4%BC%AF%E6%B4%8B-%E6%BD%9B%E5%8A%9B%E8%82%A1-%E7%88%86%E7%99%BC%E5%8A%9B%E9%A9%9A%E4%BA%BA-%E8%AC%9D%E9%87%91%E6%B2%B3%E6%9B%9D1%E5%8A%9B%E9%87%8F%E6%8E%A8%E6%B3%A2-092836314.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:28:36+08:00",
+          "summary": "財經中心／綜合報導2026年底九合一選舉將在11月28日舉行投票。投票日倒數70多天，財信傳媒集團董事長謝金河18日在臉書以「這是一場AI的賽局」為題，分享對台北市長選情的觀察。他指出，2026年地方",
+          "additional_sources": []
+        },
+        {
+          "title": "美加密資產監管法案闖關失敗 兩大機構轉採行政措施",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%8A%A0%E5%AF%86%E8%B3%87%E7%94%A2%E7%9B%A3%E7%AE%A1%E6%B3%95%E6%A1%88%E9%97%96%E9%97%9C%E5%A4%B1%E6%95%97-%E5%85%A9%E5%A4%A7%E6%A9%9F%E6%A7%8B%E8%BD%89%E6%8E%A1%E8%A1%8C%E6%94%BF%E6%8E%AA%E6%96%BD-091112660.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:11:12+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導美國參議院稍早否決了《數位資產市場清晰法案》（Digital Asset Market CLARITY Act），這項原本旨在釐清加密貨幣監管權責的法案未能闖關成",
+          "additional_sources": []
+        },
+        {
+          "title": "AES集團出售案獲俄亥俄州批准 貝萊德旗下財團主導收購",
+          "link": "https://tw.stock.yahoo.com/news/aes%E9%9B%86%E5%9C%98%E5%87%BA%E5%94%AE%E6%A1%88%E7%8D%B2%E4%BF%84%E4%BA%A5%E4%BF%84%E5%B7%9E%E6%89%B9%E5%87%86-%E8%B2%9D%E8%90%8A%E5%BE%B7%E6%97%97%E4%B8%8B%E8%B2%A1%E5%9C%98%E4%B8%BB%E5%B0%8E%E6%94%B6%E8%B3%BC-090457020.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:04:57+08:00",
+          "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導美國電力公用事業公司AES集團（AES Corp.）近日在出售案上取得重要進展。據《TradingView》報導，俄亥俄州的公共事業監管機構 Public U",
+          "additional_sources": []
+        },
+        {
+          "title": "美汽車業團體致函川普　籲勿讓中國車企進入美國",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E6%B1%BD%E8%BB%8A%E6%A5%AD%E5%9C%98%E9%AB%94%E8%87%B4%E5%87%BD%E5%B7%9D%E6%99%AE-%E7%B1%B2%E5%8B%BF%E8%AE%93%E4%B8%AD%E5%9C%8B%E8%BB%8A%E4%BC%81%E9%80%B2%E5%85%A5%E7%BE%8E%E5%9C%8B-085228386.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T16:52:28+08:00",
+          "summary": "（中央社紐約2026年09月18日綜合外電報導）美國汽車製造商及零組件供應商今天敦促總統川普，不要讓中國汽車業者進入美國市場。川普預定24日與中國國家主席習近平舉行峰會。法新社報導，美國汽車業者在致川",
+          "additional_sources": []
+        },
+        {
+          "title": "台電：智慧電表已掌握83%用電量　拚2030年布建600萬戶",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E9%9B%BB-%E6%99%BA%E6%85%A7%E9%9B%BB%E8%A1%A8%E5%B7%B2%E6%8E%8C%E6%8F%A183-%E7%94%A8%E9%9B%BB%E9%87%8F-%E6%8B%9A2030%E5%B9%B4%E5%B8%83%E5%BB%BA600%E8%90%AC%E6%88%B6-085024817.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T16:50:24+08:00",
+          "summary": "（中央社記者呂晏慈台北2026年09月19日電）台電公司今天表示，為提升電力管理效率，持續穩健推動智慧電表布建；台電已完成高壓智慧電表布建，目前正全力推動低壓智慧電表安裝，截至今年7月可掌握全國約83",
+          "additional_sources": []
+        },
+        {
+          "title": "KBRA研究：歐盟/英國直接貸款信貸品質勝美國 違約風險僅0.3%",
+          "link": "https://tw.stock.yahoo.com/news/kbra%E7%A0%94%E7%A9%B6-%E6%AD%90%E7%9B%9F-%E8%8B%B1%E5%9C%8B%E7%9B%B4%E6%8E%A5%E8%B2%B8%E6%AC%BE%E4%BF%A1%E8%B2%B8%E5%93%81%E8%B3%AA%E5%8B%9D%E7%BE%8E%E5%9C%8B-%E9%81%95%E7%B4%84%E9%A2%A8%E9%9A%AA%E5%83%850-3-084418206.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T16:44:18+08:00",
+          "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導根據Kroll Bond Rating Agency（KBRA）最新發布的研究報告指出，歐盟與英國提供給中型企業的直接貸款（direct lending），其信貸",
+          "additional_sources": []
+        },
+        {
+          "title": "Electra 擴大IPO規模 募資近3.5億美元 注力抗體療法開發",
+          "link": "https://tw.stock.yahoo.com/news/electra-%E6%93%B4%E5%A4%A7ipo%E8%A6%8F%E6%A8%A1-%E5%8B%9F%E8%B3%87%E8%BF%913-5%E5%84%84%E7%BE%8E%E5%85%83-%E6%B3%A8%E5%8A%9B%E6%8A%97%E9%AB%94%E7%99%82%E6%B3%95%E9%96%8B%E7%99%BC-084207051.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T16:42:07+08:00",
+          "summary": "圖／示意圖商傳媒｜方承業／綜合外電報導總部位於加州的抗體療法開發商 Electra Therapeutics, Inc.（Electra Therapeutics），已擴大其首次公開募股（IPO）規模",
+          "additional_sources": []
+        },
+        {
+          "title": "美國電力天然氣佔比穩居四成，兩中游業者前景看俏",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E9%9B%BB%E5%8A%9B%E5%A4%A9%E7%84%B6%E6%B0%A3%E4%BD%94%E6%AF%94%E7%A9%A9%E5%B1%85%E5%9B%9B%E6%88%90-%E5%85%A9%E4%B8%AD%E6%B8%B8%E6%A5%AD%E8%80%85%E5%89%8D%E6%99%AF%E7%9C%8B%E4%BF%8F-083428510.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T16:34:28+08:00",
+          "summary": "商傳媒｜責任編輯／綜合外電報導根據美國能源資訊署（EIA）數據顯示，天然氣在美國電力生產中持續扮演核心角色，預計未來數年將維持其主導地位。隨著資料中心擴張以及空調需求增加，美國的電力需求預期將保持強勁",
+          "additional_sources": []
+        },
+        {
+          "title": "「世界沒台灣能運作多久？」 谷立言：美願做台灣能源首選夥伴",
+          "link": "https://tw.news.yahoo.com/%E4%B8%96%E7%95%8C%E6%B2%92%E5%8F%B0%E7%81%A3%E8%83%BD%E9%81%8B%E4%BD%9C%E5%A4%9A%E4%B9%85-%E8%B0%B7%E7%AB%8B%E8%A8%80-%E7%BE%8E%E9%A1%98%E5%81%9A%E5%8F%B0%E7%81%A3%E8%83%BD%E6%BA%90%E9%A6%96%E9%81%B8%E5%A4%A5%E4%BC%B4-083226597.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T16:32:26+08:00",
+          "summary": "總統府「全社會防衛韌性委員會國際論壇」今(19)日登場，會中邀請美、英、歐等駐台使節討論台灣的能源韌性等議題，AIT處長谷立言直言，一旦天災或台海衝突發生，問題不在台灣能撐多久，而是全球沒有台灣可以運",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AVGO 博通",
+      "keywords": [
+        "ai",
+        "中國",
+        "美國",
+        "macom",
+        "台灣"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "美中加強AI安全對話 台灣半導體成競爭核心",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E4%B8%AD%E5%8A%A0%E5%BC%B7ai%E5%AE%89%E5%85%A8%E5%B0%8D%E8%A9%B1-%E5%8F%B0%E7%81%A3%E5%8D%8A%E5%B0%8E%E9%AB%94%E6%88%90%E7%AB%B6%E7%88%AD%E6%A0%B8%E5%BF%83-104550088.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:45:50+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導隨著人工智慧（AI）技術快速發展，美國與中國之間的AI競爭已成為全球矚目的焦點。兩國政府正積極推動高層對話，以應對潛在的AI安全風險。美國財政部長史考特·貝",
+          "additional_sources": []
+        },
+        {
+          "title": "隱藏版AI半導體黑馬！MACOM受惠AI資料中心擴建 一年來大漲超過100%",
+          "link": "https://news.cnyes.com/news/id/6610930",
+          "source": "cnyes",
+          "pubdate": "2026-09-19T16:30:03+08:00",
+          "summary": "鉅亨網編譯余曉惠2026-09-19 16:30\n鮮為人知的半導體公司MACOM Technology Solutions Holdings(MTSI-US)因受惠於資料中心加速擴建，逐漸受到華爾街關注。\n隱藏版AI半導體黑馬！MACOM受惠AI資料中心擴建 一年來大漲超過100% (圖:Shutt…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "4763 材料*-KY",
+      "keywords": [
+        "萬張",
+        "買超",
+        "張",
+        "ai",
+        "供應"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "狂彈近千點！大戶爆買「記憶體3巨頭」破17萬張 15檔黑馬第一名是它",
+          "link": "https://tw.stock.yahoo.com/news/%E7%8B%82%E5%BD%88%E8%BF%91%E5%8D%83%E9%BB%9E-%E5%A4%A7%E6%88%B6%E7%88%86%E8%B2%B7-%E8%A8%98%E6%86%B6%E9%AB%943%E5%B7%A8%E9%A0%AD-%E7%A0%B417%E8%90%AC%E5%BC%B5-15%E6%AA%94%E9%BB%91%E9%A6%AC%E7%AC%AC-105201973.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:52:01+08:00",
+          "summary": "台股18日強勢反彈，終場大漲892點、收在47180點，盤面買氣明顯回溫。法人觀察，近期市場量能放大，若搭配股價收紅、三大法人買超及KD指標翻揚等條件，可留意15檔「三多」強棒，包括力積電、華邦電、南",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "ai",
+        "投資",
+        "美元",
+        "美國",
+        "關鍵"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "美國關鍵礦物政策發酵 科技巨頭AI投資催生礦業股新機",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E9%97%9C%E9%8D%B5%E7%A4%A6%E7%89%A9%E6%94%BF%E7%AD%96%E7%99%BC%E9%85%B5-%E7%A7%91%E6%8A%80%E5%B7%A8%E9%A0%ADai%E6%8A%95%E8%B3%87%E5%82%AC%E7%94%9F%E7%A4%A6%E6%A5%AD%E8%82%A1%E6%96%B0%E6%A9%9F-104243751.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T18:42:43+08:00",
+          "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導美國政府近年積極推動關鍵礦物開採與加工，旨在減少對中國的依賴，並強化本土製造業。這項政策轉變源於川普總統在內的領導人普遍認為，美國過度將工業產能與關鍵資源生產",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "台灣",
+        "仁勳",
+        "黃仁",
+        "宏碁",
+        "輝達"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "黃仁勳：台灣是全球AI核心　生態系成就輝達",
+          "link": "https://tw.stock.yahoo.com/news/%E9%BB%83%E4%BB%81%E5%8B%B3-%E5%8F%B0%E7%81%A3%E6%98%AF%E5%85%A8%E7%90%83ai%E6%A0%B8%E5%BF%83-%E7%94%9F%E6%85%8B%E7%B3%BB%E6%88%90%E5%B0%B1%E8%BC%9D%E9%81%94-094635249.html",
+          "source": "yahoo",
+          "pubdate": "2026-09-19T17:46:35+08:00",
+          "summary": "（中央社記者鍾榮峰台北2026年09月19日電）輝達（NVIDIA）執行長黃仁勳今天表示，台灣建立全球最重要的科技生態系之一，現在台灣是全球人工智慧AI的核心，他指出，宏碁成立50周年，協助奠定電腦產",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US INTC 英特爾",
+      "keywords": [
+        "ai",
+        "會議",
+        "合國",
+        "安理",
+        "理會"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "OpenAI奧特曼下週赴聯合國安理會談AI安全！聚焦國際協調與失控風險",
+          "link": "https://news.cnyes.com/news/id/6610925",
+          "source": "cnyes",
+          "pubdate": "2026-09-19T19:10:06+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-09-19 19:10\nOpenAI執行長奧特曼（Sam Altman）下週將在紐約舉行的聯合國大會期間，向聯合國安全理事會進行簡報，屆時全球各國領袖將齊聚紐約出席一年一度的聯合國大會。\nOpenAI奧特曼下週赴聯合國安理會談AI安全！聚焦國際協調與失控風險（圖：Shutt…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "ai",
+        "anthropic",
+        "評估",
+        "accenture",
+        "安全"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "Anthropic引進第三方安全評估！埃森哲消弭AI取代疑慮 盤後飆漲8%",
+          "link": "https://news.cnyes.com/news/id/6610922",
+          "source": "cnyes",
+          "pubdate": "2026-09-19T17:30:04+08:00",
+          "summary": "鉅亨網編譯余曉惠2026-09-19 17:30\nAnthropic宣布將與科技顧問商埃森哲(Accenture)(ACN-US)合作，推動人工智慧(AI)安全評估，帶動其股價周五(18日)盤後大漲，擺脫近期歷經的劇烈跌勢。\nAnthropic引進第三方安全評估！埃森哲消弭AI取代疑慮 盤後飆漲8%…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/anthropic%E5%BC%95%E9%80%B2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%AE%89%E5%85%A8%E8%A9%95%E4%BC%B0-%E5%9F%83%E6%A3%AE%E5%93%B2%E6%B6%88%E5%BC%ADai%E5%8F%96%E4%BB%A3%E7%96%91%E6%85%AE-%E7%9B%A4%E5%BE%8C%E9%A3%86%E6%BC%B28-093004982.html",
+              "title": "Anthropic引進第三方安全評估！埃森哲消弭AI取代疑慮 盤後飆漲8%"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
