@@ -1,0 +1,389 @@
+{
+  "date": "2026-10-04",
+  "generated_at": "2026-10-04T21:05:41.010663",
+  "group_count": 2,
+  "total_articles": 42,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "ai",
+        "中國",
+        "美元",
+        "我們",
+        "投資"
+      ],
+      "article_count": 40,
+      "articles": [
+        {
+          "title": "AI算力投資浪潮向上游擴散！伯恩斯坦重磅報告：半導體設備迎「黃金時代」 日本廠商成焦點",
+          "link": "https://tw.stock.yahoo.com/news/ai%E7%AE%97%E5%8A%9B%E6%8A%95%E8%B3%87%E6%B5%AA%E6%BD%AE%E5%90%91%E4%B8%8A%E6%B8%B8%E6%93%B4%E6%95%A3-%E4%BC%AF%E6%81%A9%E6%96%AF%E5%9D%A6%E9%87%8D%E7%A3%85%E5%A0%B1%E5%91%8A-%E5%8D%8A%E5%B0%8E%E9%AB%94%E8%A8%AD%E5%82%99%E8%BF%8E-%E9%BB%83%E9%87%91%E6%99%82%E4%BB%A3-%E6%97%A5%E6%9C%AC%E5%BB%A0%E5%95%86%E6%88%90%E7%84%A6%E9%BB%9E-121002671.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T20:10:02+08:00",
+          "summary": "Bernstein指AI投資浪潮擴散至半導體設備，受AI Agent帶動，WFE需求與獲利週期可望同升。 日本8月半導體設備銷售5450億日元、年增50%；前道設備年增36.6%，測試年增98%。 B",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6620939",
+              "title": "AI算力投資浪潮向上游擴散！伯恩斯坦重磅報告：半導體設備迎「黃金時代」 日本廠商成焦點"
+            }
+          ]
+        },
+        {
+          "title": "台積電千億美元投資登全球第一！2025跨國投資破1.3兆美元、AI資料中心成焦點",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%A9%8D%E9%9B%BB%E5%8D%83%E5%84%84%E7%BE%8E%E5%85%83%E6%8A%95%E8%B3%87%E7%99%BB%E5%85%A8%E7%90%83%E7%AC%AC-2025%E8%B7%A8%E5%9C%8B%E6%8A%95%E8%B3%87%E7%A0%B41-3%E5%85%86%E7%BE%8E%E5%85%83-ai%E8%B3%87%E6%96%99%E4%B8%AD%E5%BF%83%E6%88%90%E7%84%A6%E9%BB%9E-112005603.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T19:20:05+08:00",
+          "summary": "2025年全球新增外資投資破1.3兆美元，年增2.2%。 台積電以1,000億美元居企業榜首，亞利桑那州累計投資達2,650億美元。 AI運算與半導體供應鏈重組推升資料中心投資，科技業占全球十大跨國投",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6621091",
+              "title": "台積電千億美元投資登全球第一！2025跨國投資破1.3兆美元、AI資料中心成焦點"
+            }
+          ]
+        },
+        {
+          "title": "越南深陷「電荒」！富士康、三星等1.1萬家企業被迫限電　急向中國購電解燃眉之急",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B6%8A%E5%8D%97%E6%B7%B1%E9%99%B7-%E9%9B%BB%E8%8D%92-%E5%AF%8C%E5%A3%AB%E5%BA%B7-%E4%B8%89%E6%98%9F%E7%AD%891-1%E8%90%AC%E5%AE%B6%E4%BC%81%E6%A5%AD%E8%A2%AB%E8%BF%AB%E9%99%90%E9%9B%BB-111003572.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T19:10:03+08:00",
+          "summary": "越南全國用電量突破11億千瓦時，祭史上最嚴節電令，富士康、三星、佳能等1.1萬家企業受影響。 酷暑乾旱使今年Q1水力發電年減10.5%，加上電網十年未更新、北部供需缺口擴大，生產線被迫停擺。 越南5月",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6620960",
+              "title": "越南深陷「電荒」！富士康、三星等1.1萬家企業被迫限電　急向中國購電解燃眉之急"
+            }
+          ]
+        },
+        {
+          "title": "巴爾幹小國波赫大選投票 結果恐影響入歐進程",
+          "link": "https://tw.news.yahoo.com/%E5%B7%B4%E7%88%BE%E5%B9%B9%E5%B0%8F%E5%9C%8B%E6%B3%A2%E8%B5%AB%E5%A4%A7%E9%81%B8%E6%8A%95%E7%A5%A8-%E7%B5%90%E6%9E%9C%E6%81%90%E5%BD%B1%E9%9F%BF%E5%85%A5%E6%AD%90%E9%80%B2%E7%A8%8B-122039714.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T20:20:39+08:00",
+          "summary": "波士尼亞(全名「波士尼亞與赫塞哥維納」，Bosnia and Herzegovina，又簡稱「波赫」)人民今天(4日)大選投票，這場選舉結果將可能影響該國加入歐洲聯盟(European Union,",
+          "additional_sources": []
+        },
+        {
+          "title": "AI掀搶廠潮！日月光、大立光重金購廠　擴廠瞄準「黃金20」",
+          "link": "https://tw.stock.yahoo.com/news/ai%E6%8E%80%E6%90%B6%E5%BB%A0%E6%BD%AE-%E6%97%A5%E6%9C%88%E5%85%89-%E5%A4%A7%E7%AB%8B%E5%85%89%E9%87%8D%E9%87%91%E8%B3%BC%E5%BB%A0-%E6%93%B4%E5%BB%A0%E7%9E%84%E6%BA%96-%E9%BB%83%E9%87%9120-121600419.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T20:16:00+08:00",
+          "summary": "財經中心／綜合報導AI擴產動能強勁，甚至出現罕見「搶廠潮」，日月光今年已斥資近5百億購置廠房、大立光更是七度加碼掃貨。商仲專家分析，今年工業地產市場熱度超乎預期，企業短時間內密集購廠，除反映AI產業鏈",
+          "additional_sources": []
+        },
+        {
+          "title": "從學運女神到毒品案被告！劉喬安最重判死刑",
+          "link": "https://tw.news.yahoo.com/%E5%BE%9E%E5%AD%B8%E9%81%8B%E5%A5%B3%E7%A5%9E%E5%88%B0%E6%AF%92%E5%93%81%E6%A1%88%E8%A2%AB%E5%91%8A-%E5%8A%89%E5%96%AC%E5%AE%89%E6%9C%80%E9%87%8D%E5%88%A4%E6%AD%BB%E5%88%91-115627226.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T19:56:27+08:00",
+          "summary": "[NOWNEWS今日新聞]曾因太陽花學運爆紅、被封為「太陽花女神」的劉喬安（本名劉依函），潛逃美國7年後，今年6月遭美方押解返台。新北地檢署近日偵查終結，指控她涉嫌加入具香港黑幫「14K」背景的跨國販",
+          "additional_sources": []
+        },
+        {
+          "title": "專任約快到期 房仲帶「假買方」踩線？內行人：不給名片直接列黑名單",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B0%88%E4%BB%BB%E7%B4%84%E5%BF%AB%E5%88%B0%E6%9C%9F-%E6%88%BF%E4%BB%B2%E5%B8%B6%E3%80%8C%E5%81%87%E8%B2%B7%E6%96%B9%E3%80%8D%E8%B8%A9%E7%B7%9A%EF%BC%9F%E5%85%A7%E8%A1%8C%E4%BA%BA%EF%BC%9A%E4%B8%8D%E7%B5%A6%E5%90%8D%E7%89%87%E7%9B%B4%E6%8E%A5%E5%88%97%E9%BB%91%E5%90%8D%E5%96%AE-113300222.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T19:33:00+08:00",
+          "summary": "一名地主在臉書社團買房知識家發文，專任約這個月底才到期，卻有另一名房仲月初就叫他「不要再專任了」，還帶著建商親自拜訪。但整場會面，房仲沒給名片、建商不透露身份、也沒談到價格，讓地主越想越不對勁。有網友",
+          "additional_sources": []
+        },
+        {
+          "title": "沖繩女遭駐日美軍殺害！死因曝光",
+          "link": "https://tw.news.yahoo.com/%E6%B2%96%E7%B9%A9%E5%A5%B3%E9%81%AD%E9%A7%90%E6%97%A5%E7%BE%8E%E8%BB%8D%E6%AE%BA%E5%AE%B3-%E6%AD%BB%E5%9B%A0%E6%9B%9D%E5%85%89-111641238.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T19:16:41+08:00",
+          "summary": "[NOWNEWS今日新聞]日本沖繩縣那霸市一名女子，被發現陳屍在飯店內，涉嫌殺害並奪取財物的駐日美軍海軍陸戰隊士兵巴拉德（DevinJacobBallard）被捕，日本警方稍早公布死因，受害者家屬也悲",
+          "additional_sources": []
+        },
+        {
+          "title": "AI族群震盪不怕！明星分析師重押5檔猛將 2檔主打準備噴",
+          "link": "https://tw.stock.yahoo.com/news/ai%E6%97%8F%E7%BE%A4%E9%9C%87%E7%9B%AA%E4%B8%8D%E6%80%95-%E6%98%8E%E6%98%9F%E5%88%86%E6%9E%90%E5%B8%AB%E9%87%8D%E6%8A%BC5%E6%AA%94%E7%8C%9B%E5%B0%87-2%E6%AA%94%E4%B8%BB%E6%89%93%E6%BA%96%E5%82%99%E5%99%B4-110929939.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T19:09:29+08:00",
+          "summary": "台股周五（2日）續創收盤新高，上漲122點至48475點，距離5萬點越來越近。《工商時報》最新一季「台股逐洞賽」第1洞競賽中，摩爾投顧分析師林鈺凱以6.99%報酬率拿下第2名，進入第2洞後，選股重點轉",
+          "additional_sources": []
+        },
+        {
+          "title": "世界最乾燥沙漠開花海！超級聖嬰創罕見美景",
+          "link": "https://tw.news.yahoo.com/%E4%B8%96%E7%95%8C%E6%9C%80%E4%B9%BE%E7%87%A5%E6%B2%99%E6%BC%A0%E9%96%8B%E8%8A%B1%E6%B5%B7-%E8%B6%85%E7%B4%9A%E8%81%96%E5%AC%B0%E5%89%B5%E7%BD%95%E8%A6%8B%E7%BE%8E%E6%99%AF-105247308.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T18:52:47+08:00",
+          "summary": "[NOWNEWS今日新聞]智利阿塔卡馬沙漠（AtacamaDesert）被公認為地球上最乾燥的沙漠。今年的聖嬰現象（ElNiño）為該地區帶來強降雨，導致這片沙漠的大片土地如今被鮮花覆蓋。異常充沛的水",
+          "additional_sources": []
+        },
+        {
+          "title": "\"湯頭.麵條.刀工\"各有千秋征服老饕 盤點台北人氣牛肉麵",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B9%AF%E9%A0%AD-%E9%BA%B5%E6%A2%9D-%E5%88%80%E5%B7%A5-%E5%90%84%E6%9C%89%E5%8D%83%E7%A7%8B%E5%BE%81%E6%9C%8D%E8%80%81%E9%A5%95-%E7%9B%A4%E9%BB%9E%E5%8F%B0%E5%8C%97%E4%BA%BA%E6%B0%A3%E7%89%9B%E8%82%89%E9%BA%B5-104454467.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T18:44:54+08:00",
+          "summary": "生活中心／張晏緹、曾宸洛 台北報導天氣入秋，來碗熱騰騰的牛肉麵最過癮！台北不少人氣名店，各自都有一票死忠支持者。有老字號堅持清燉、紅燒湯頭調和，牛筋牛肉燉到軟嫩；也有必比登推薦名店，靠每天現做的Q彈麵",
+          "additional_sources": []
+        },
+        {
+          "title": "名古屋亞運／台灣隊亮相閉幕式 16天賽事落幕、亞運會旗交棒卡達杜哈",
+          "link": "https://tw.news.yahoo.com/%E5%90%8D%E5%8F%A4%E5%B1%8B%E4%BA%9E%E9%81%8B-%E5%8F%B0%E7%81%A3%E9%9A%8A%E4%BA%AE%E7%9B%B8%E9%96%89%E5%B9%95%E5%BC%8F-16%E5%A4%A9%E8%B3%BD%E4%BA%8B%E8%90%BD%E5%B9%95-%E4%BA%9E%E9%81%8B%E6%9C%83%E6%97%97%E4%BA%A4%E6%A3%92%E5%8D%A1%E9%81%94%E6%9D%9C%E5%93%88-102936165.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T18:29:36+08:00",
+          "summary": "2026年第20屆愛知・名古屋亞運歷經16天競逐，今晚(4日)迎來閉幕典禮，為本屆賽會畫下句點。典禮於名古屋市瑞穗公園陸上競技場登場，台灣代表團由年僅17歲、首度參加亞運的「跆拳道甜心」王婕菱擔任掌旗",
+          "additional_sources": []
+        },
+        {
+          "title": "新北市長選戰／平民抗權貴？蘇、李都說自己基層出身",
+          "link": "https://tw.news.yahoo.com/%E6%96%B0%E5%8C%97%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E5%B9%B3%E6%B0%91%E6%8A%97%E6%AC%8A%E8%B2%B4-%E8%98%87-%E6%9D%8E%E9%83%BD%E8%AA%AA%E8%87%AA%E5%B7%B1%E5%9F%BA%E5%B1%A4%E5%87%BA%E8%BA%AB-101224805.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T18:12:24+08:00",
+          "summary": "2026九合一選舉愈來愈白熱化。新北市長選戰藍、綠兩位候選人今天(4日)為自己的出身交鋒。被國民黨主席鄭麗文說是「公主」的民進黨候選人蘇巧慧，強調自己是「民主的第二代」，由新北市栽培的市長候選人；國民",
+          "additional_sources": []
+        },
+        {
+          "title": "亞運閉幕！愛知縣知事自信評：比賽基本順利",
+          "link": "https://tw.news.yahoo.com/%E4%BA%9E%E9%81%8B%E9%96%89%E5%B9%95-%E6%84%9B%E7%9F%A5%E7%B8%A3%E7%9F%A5%E4%BA%8B%E8%87%AA%E4%BF%A1%E8%A9%95-%E6%AF%94%E8%B3%BD%E5%9F%BA%E6%9C%AC%E9%A0%86%E5%88%A9-100922351.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T18:09:22+08:00",
+          "summary": "[NOWNEWS今日新聞]2026愛知名古屋亞運於4日晚間閉幕，閉幕前夕，擔任大會籌備委員會會長的愛知縣知事大村秀章，針對賽事期間接連發生的事故與失誤表示，他們每天都在應對各種預期之外的問題與課題。對",
+          "additional_sources": []
+        },
+        {
+          "title": "國會選舉獲勝 拉脫維亞總理料組挺烏克蘭聯合政府",
+          "link": "https://tw.news.yahoo.com/%E5%9C%8B%E6%9C%83%E9%81%B8%E8%88%89%E7%8D%B2%E5%8B%9D-%E6%8B%89%E8%84%AB%E7%B6%AD%E4%BA%9E%E7%B8%BD%E7%90%86%E6%96%99%E7%B5%84%E6%8C%BA%E7%83%8F%E5%85%8B%E8%98%AD%E8%81%AF%E5%90%88%E6%94%BF%E5%BA%9C-100638324.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T18:06:38+08:00",
+          "summary": "拉脫維亞總理庫爾柏格斯(Andris Kulbergs)預計將繼續執政，並組成一個親烏克蘭的聯合政府。此前，他領導的中間派政黨「聯合名單」(United List)贏得了自拉脫維亞1991年重獲獨立以",
+          "additional_sources": []
+        },
+        {
+          "title": "台北市長選戰／沈伯洋競總成立破12萬洋流匯聚 賴清德、蔡英文力挺",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E6%B2%88%E4%BC%AF%E6%B4%8B%E7%AB%B6%E7%B8%BD%E6%88%90%E7%AB%8B%E7%A0%B412%E8%90%AC%E6%B4%8B%E6%B5%81%E5%8C%AF%E8%81%9A-%E8%B3%B4%E6%B8%85%E5%BE%B7-%E8%94%A1%E8%8B%B1%E6%96%87%E5%8A%9B%E6%8C%BA-095239249.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T17:52:39+08:00",
+          "summary": "民進黨台北市長參選人沈伯洋4日下午舉行競選總部成立大會，賴清德總統、副總統蕭美琴、行政院長卓榮泰皆到場助陣，前總統蔡英文也以神秘嘉賓身分現身站台。主辦單位宣布，下午5時現場人數超過12萬「洋流」匯聚，",
+          "additional_sources": []
+        },
+        {
+          "title": "馬斯克證實洽談台積電! 傳攜手打造德州晶圓廠",
+          "link": "https://tw.stock.yahoo.com/news/%E9%A6%AC%E6%96%AF%E5%85%8B%E8%AD%89%E5%AF%A6%E6%B4%BD%E8%AB%87%E5%8F%B0%E7%A9%8D%E9%9B%BB-%E5%82%B3%E6%94%9C%E6%89%8B%E6%89%93%E9%80%A0%E5%BE%B7%E5%B7%9E%E6%99%B6%E5%9C%93%E5%BB%A0-094952732.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T17:49:52+08:00",
+          "summary": "全球科技圈投下世紀震撼彈！台積電董事長魏哲家，在今年六月股東會上，談到全球首富馬斯克宣稱要自建晶片廠時，曾幽默送上「祝福」，沒想到這場競爭如今可能走向世紀大合作！馬斯克在社群平台X上親自證實，雙方確實",
+          "additional_sources": []
+        },
+        {
+          "title": "吳瑟致專欄》台灣如何因應中國擴大對東南亞國家統戰作為",
+          "link": "https://tw.news.yahoo.com/%E5%90%B3%E7%91%9F%E8%87%B4%E5%B0%88%E6%AC%84-%E5%8F%B0%E7%81%A3%E5%A6%82%E4%BD%95%E5%9B%A0%E6%87%89%E4%B8%AD%E5%9C%8B%E6%93%B4%E5%A4%A7%E5%B0%8D%E6%9D%B1%E5%8D%97%E4%BA%9E%E5%9C%8B%E5%AE%B6%E7%B5%B1%E6%88%B0%E4%BD%9C%E7%82%BA-093727896.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T17:37:27+08:00",
+          "summary": "近年中國對東南亞國家的對外政策，已逐漸由傳統以經貿往來、基礎建設及發展援助為核心的雙邊合作模式，轉向涵蓋政治、經濟、安全、社會、教育、文化、媒體與數位科技等多重面向的複合型影響力運作，此一轉變顯示，中",
+          "additional_sources": []
+        },
+        {
+          "title": "沖繩女子遭駐日美軍殺害！高市早苗震怒",
+          "link": "https://tw.news.yahoo.com/%E6%B2%96%E7%B9%A9%E5%A5%B3%E5%AD%90%E9%81%AD%E9%A7%90%E6%97%A5%E7%BE%8E%E8%BB%8D%E6%AE%BA%E5%AE%B3-%E9%AB%98%E5%B8%82%E6%97%A9%E8%8B%97%E9%9C%87%E6%80%92-092828323.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T17:28:28+08:00",
+          "summary": "[NOWNEWS今日新聞]日本沖繩縣那霸市內飯店，一名39歲女子屋宜杏奈3日被發現陳屍在飯店房間，錢包、背包等財物被搶走。沖繩警方4日逮捕駐日美軍普天間基地一名20歲海軍陸戰隊員巴拉德（DevinJa",
+          "additional_sources": []
+        },
+        {
+          "title": "數學界AlphaGo時刻出現！Meta AI攻克6大數學難題、Muse Spark突破研究無人區",
+          "link": "https://tw.stock.yahoo.com/news/%E6%95%B8%E5%AD%B8%E7%95%8Calphago%E6%99%82%E5%88%BB%E5%87%BA%E7%8F%BE-meta-ai%E6%94%BB%E5%85%8B6%E5%A4%A7%E6%95%B8%E5%AD%B8%E9%9B%A3%E9%A1%8C-muse-spark%E7%AA%81%E7%A0%B4%E7%A0%94%E7%A9%B6%E7%84%A1%E4%BA%BA%E5%8D%80-091005836.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T17:10:05+08:00",
+          "summary": "Meta研究人員畢樹超指出，Muse Spark近半年協助數學家攻關6大領域的開放性問題。 Muse Spark參與尋找反例、推導公式及撰寫論文，並找到384個元素的有限群反例，推翻既有猜想。 畢樹超",
+          "additional_sources": []
+        },
+        {
+          "title": "台股衝5萬點不買會後悔？周冠軍分析師押「最新5檔爆發股」",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E8%A1%9D5%E8%90%AC%E9%BB%9E%E4%B8%8D%E8%B2%B7%E6%9C%83%E5%BE%8C%E6%82%94-%E5%91%A8%E5%86%A0%E8%BB%8D%E5%88%86%E6%9E%90%E5%B8%AB%E6%8A%BC-%E6%9C%80%E6%96%B05%E6%AA%94%E7%88%86%E7%99%BC%E8%82%A1-085734730.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:57:34+08:00",
+          "summary": "台股2日上漲122點，收在48475點，續創收盤新高，周線上漲451點，周線連三紅，下周有望衝破上5萬點大關。《工商時報》最新一季「台股逐洞賽」第1洞競賽結果出爐，大來投顧分析師謝逸文以單周8.05%",
+          "additional_sources": []
+        },
+        {
+          "title": "OPEC+將召開會議 預計11月石油產量目標不變",
+          "link": "https://tw.news.yahoo.com/opec-%E5%B0%87%E5%8F%AC%E9%96%8B%E6%9C%83%E8%AD%B0-%E9%A0%90%E8%A8%8811%E6%9C%88%E7%9F%B3%E6%B2%B9%E7%94%A2%E9%87%8F%E7%9B%AE%E6%A8%99%E4%B8%8D%E8%AE%8A-084933015.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:49:33+08:00",
+          "summary": "3名知情人士在今天(4日)石油輸出國組織與夥伴國(OPEC+)會議召開前透露，OPEC+預計將維持11月的石油產量目標不變。 由於美國和以色列對伊朗戰爭持續造成出口中斷，波斯灣地區的OPEC+產油國產",
+          "additional_sources": []
+        },
+        {
+          "title": "江蘇出現山寨「灌籃高手平交道」　日媒看傻",
+          "link": "https://tw.news.yahoo.com/%E6%B1%9F%E8%98%87%E5%87%BA%E7%8F%BE%E5%B1%B1%E5%AF%A8-%E7%81%8C%E7%B1%83%E9%AB%98%E6%89%8B%E5%B9%B3%E4%BA%A4%E9%81%93-%E6%97%A5%E5%AA%92%E7%9C%8B%E5%82%BB-084301582.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:43:01+08:00",
+          "summary": "[NOWNEWS今日新聞]中國已進入「十一」黃金周國慶連假，隨著中日關係轉冷影響，中國今年赴日旅遊的人數較以往減少。沒想到，中國內部卻出現了仿製日本的景點，江蘇一處仿造灌籃高手平交道的新景點「小鎌倉」",
+          "additional_sources": []
+        },
+        {
+          "title": "矽格6日法說聚焦三大議題 AI高階測試、擴產進度與明年成長受關注",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9F%BD%E6%A0%BC6%E6%97%A5%E6%B3%95%E8%AA%AA%E8%81%9A%E7%84%A6%E4%B8%89%E5%A4%A7%E8%AD%B0%E9%A1%8C-ai%E9%AB%98%E9%9A%8E%E6%B8%AC%E8%A9%A6-%E6%93%B4%E7%94%A2%E9%80%B2%E5%BA%A6%E8%88%87%E6%98%8E%E5%B9%B4%E6%88%90%E9%95%B7%E5%8F%97%E9%97%9C%E6%B3%A8-082159393.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:21:59+08:00",
+          "summary": "封測廠矽格（6257）將於10月6日舉行法人說明會，在AI、高效能運算（HPC）、ASIC及矽光子測試需求持續升溫，加上新產能陸續開出帶動下，公司近期營運持續走高，8月營收再創單月歷史新高。市場預期，",
+          "additional_sources": []
+        },
+        {
+          "title": "台股逢高先落袋為安 外資9月淨匯出機率大",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%80%A2%E9%AB%98%E5%85%88%E8%90%BD%E8%A2%8B%E7%82%BA%E5%AE%89-%E5%A4%96%E8%B3%879%E6%9C%88%E6%B7%A8%E5%8C%AF%E5%87%BA%E6%A9%9F%E7%8E%87%E5%A4%A7-082159461.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:21:59+08:00",
+          "summary": "台股9月氣勢如虹上演最強9月，但外資卻悄賣。金管會5日預計公布外資9月淨匯入、淨匯出狀況，法人預估在新台幣貶值、外資9月又賣超台股的情況下淨匯出機率大，據Cmoney統計，外資9月買超前三大類股為「半",
+          "additional_sources": []
+        },
+        {
+          "title": "大陸7日公布截至9月底外匯存底與黃金儲備",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%A7%E9%99%B87%E6%97%A5%E5%85%AC%E5%B8%83%E6%88%AA%E8%87%B39%E6%9C%88%E5%BA%95%E5%A4%96%E5%8C%AF%E5%AD%98%E5%BA%95%E8%88%87%E9%BB%83%E9%87%91%E5%84%B2%E5%82%99-082159577.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:21:59+08:00",
+          "summary": "中國人民銀行與大陸外匯管理局將於7日公布截至9月底的外匯存底與黃金儲備數據。分析認為，由於美國聯準會9月升息一碼，匯率折算與債券等資產價格面臨帳面下修壓力。不過最終外匯存底數據是升是降，仍取決當月貿易",
+          "additional_sources": []
+        },
+        {
+          "title": "OpenAI前安全研究員離職開砲！批AI開發過於急進：試錯時代已結束",
+          "link": "https://tw.stock.yahoo.com/news/openai%E5%89%8D%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E5%93%A1%E9%9B%A2%E8%81%B7%E9%96%8B%E7%A0%B2-%E6%89%B9ai%E9%96%8B%E7%99%BC%E9%81%8E%E6%96%BC%E6%80%A5%E9%80%B2-%E8%A9%A6%E9%8C%AF%E6%99%82%E4%BB%A3%E5%B7%B2%E7%B5%90%E6%9D%9F-081003383.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T16:10:03+08:00",
+          "summary": "前OpenAI安全研究員David Robinson離職後批評，公司文化過度追求快速開發，增加AI失誤風險。 他稱OpenAI依賴「迭代部署」，主張先進AI安全防護應比照核能、航空採更嚴格標準。 Op",
+          "additional_sources": []
+        },
+        {
+          "title": "投資客退場、認真房仲出頭！買方時代來臨 誠實服務反而更被看見",
+          "link": "https://tw.stock.yahoo.com/news/%E6%8A%95%E8%B3%87%E5%AE%A2%E9%80%80%E5%A0%B4%E3%80%81%E8%AA%8D%E7%9C%9F%E6%88%BF%E4%BB%B2%E5%87%BA%E9%A0%AD%EF%BC%81%E6%88%BF%E4%BB%B2%EF%BC%9A%E8%B2%B7%E6%96%B9%E6%99%82%E4%BB%A3%E4%BE%86%E8%87%A8-%E8%AA%A0%E5%AF%A6%E6%9C%8D%E5%8B%99%E5%8F%8D%E8%80%8C%E6%9B%B4%E8%A2%AB%E7%9C%8B%E8%A6%8B-075729083.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T15:57:29+08:00",
+          "summary": "房市降溫、投資客退場，市場主導權正式回到剛性需求與換屋族手中。有「房仲周子瑜」之稱的房仲賴卉蓁觀察，這波調整對認真經營的房仲業者來說，其實是難得的轉機。她直言，當市場不再靠炒作撐場，願意誠實告知屋況、",
+          "additional_sources": []
+        },
+        {
+          "title": "不顧俄羅斯攻擊警告 德總理梅爾茨突訪基輔秀支持",
+          "link": "https://tw.news.yahoo.com/%E4%B8%8D%E9%A1%A7%E4%BF%84%E7%BE%85%E6%96%AF%E6%94%BB%E6%93%8A%E8%AD%A6%E5%91%8A-%E5%BE%B7%E7%B8%BD%E7%90%86%E6%A2%85%E7%88%BE%E8%8C%A8%E7%AA%81%E8%A8%AA%E5%9F%BA%E8%BC%94%E7%A7%80%E6%94%AF%E6%8C%81-072423603.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T15:24:23+08:00",
+          "summary": "德國總理梅爾茨(Friedrich Merz)今天(4日)抵達烏克蘭首都基輔，進行未經事先宣佈的訪問，以示對烏克蘭在與俄羅斯的戰爭的支持。 梅爾茨在抵達後發佈的一份聲明中表示：「我今天來到基輔，是因為",
+          "additional_sources": []
+        },
+        {
+          "title": "星巴克進軍新疆！美議員轟「道德破產」",
+          "link": "https://tw.news.yahoo.com/%E6%98%9F%E5%B7%B4%E5%85%8B%E9%80%B2%E8%BB%8D%E6%96%B0%E7%96%86-%E7%BE%8E%E8%AD%B0%E5%93%A1%E8%BD%9F-%E9%81%93%E5%BE%B7%E7%A0%B4%E7%94%A2-071535933.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T15:15:35+08:00",
+          "summary": "[NOWNEWS今日新聞]美國咖啡連鎖巨頭星巴克（Starbucks）正式進軍新疆，9月29日在烏魯木齊一次開出兩家門市，沒想到迅速捲入美中人權爭議。美國眾議院中國問題特別委員會主席穆勒納爾（John",
+          "additional_sources": []
+        },
+        {
+          "title": "面板雙虎轉型　法人聚焦先進封裝技術進展",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9D%A2%E6%9D%BF%E9%9B%99%E8%99%8E%E8%BD%89%E5%9E%8B-%E6%B3%95%E4%BA%BA%E8%81%9A%E7%84%A6%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E6%8A%80%E8%A1%93%E9%80%B2%E5%B1%95-070843116.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T15:08:43+08:00",
+          "summary": "（中央社記者潘智義台北2026年10月4日電）面板雙虎轉型跨入半導體先進封裝領域的進度受市場矚目，低價轉機題材成為推升股價的最大動能，群創及友達分別創下股價高點。法人表示，股價反映轉型題材，將持續追蹤",
+          "additional_sources": []
+        },
+        {
+          "title": "太子油飯驚爆集體資遣！網曝2月致電早有詭異徵兆「最致命死穴曝光」市場必然萎縮、老字號也撐不住",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%AA%E5%AD%90%E6%B2%B9%E9%A3%AF%E9%A9%9A%E7%88%86%E9%9B%86%E9%AB%94%E8%B3%87%E9%81%A3-%E7%B6%B2%E6%9B%9D2%E6%9C%88%E8%87%B4%E9%9B%BB%E6%97%A9%E6%9C%89%E8%A9%AD%E7%95%B0%E5%BE%B5%E5%85%86-%E6%9C%80%E8%87%B4%E5%91%BD%E6%AD%BB%E7%A9%B4%E6%9B%9D%E5%85%89-%E5%B8%82%E5%A0%B4%E5%BF%85%E7%84%B6%E8%90%8E%E7%B8%AE-%E8%80%81%E5%AD%97%E8%99%9F%E4%B9%9F%E6%92%90%E4%B8%8D%E4%BD%8F-065511984.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T14:55:11+08:00",
+          "summary": "台灣許多準爸媽心中不可取代的彌月油飯首選、創立於1985年的41年老字號品牌「太子油飯」，驚傳實質停業已超過半年！官方原本於今年3月對外公告，因廠房設備更新自4月1日起暫停營業，然而時至今日，大門依舊",
+          "additional_sources": []
+        },
+        {
+          "title": "川普變「超級助選員」　預計走訪至少10州",
+          "link": "https://tw.news.yahoo.com/%E5%B7%9D%E6%99%AE%E8%AE%8A-%E8%B6%85%E7%B4%9A%E5%8A%A9%E9%81%B8%E5%93%A1-%E9%A0%90%E8%A8%88%E8%B5%B0%E8%A8%AA%E8%87%B3%E5%B0%9110%E5%B7%9E-060704503.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T14:07:04+08:00",
+          "summary": "[NOWNEWS今日新聞]美國期中選舉進入最後衝刺階段，總統川普（DonaldTrump）預計在選前最後4週密集造勢，走訪至少10個州，不僅鎖定密西根、北卡羅來納及喬治亞等參議院關鍵戰區，也將前往多個",
+          "additional_sources": []
+        },
+        {
+          "title": "金融三業前8月稅前大賺1.17兆　超越2024年全年新高紀錄",
+          "link": "https://tw.stock.yahoo.com/news/%E9%87%91%E8%9E%8D%E4%B8%89%E6%A5%AD%E5%89%8D8%E6%9C%88%E7%A8%85%E5%89%8D%E5%A4%A7%E8%B3%BA1-17%E5%85%86-%E8%B6%85%E8%B6%8A2024%E5%B9%B4%E5%85%A8%E5%B9%B4%E6%96%B0%E9%AB%98%E7%B4%80%E9%8C%84-060438919.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T14:04:38+08:00",
+          "summary": "（中央社記者蘇思云台北2026年10月4日電）台股8月反彈近7%，銀行、保險與證券等金融三業2026年前8月累計稅前獲利達新台幣1兆1702.35億元，年增93%，累計數不僅創同期新高，更已超越202",
+          "additional_sources": []
+        },
+        {
+          "title": "聯發科「快跑一陣子」輪到台積電？謝金河：可能奮起",
+          "link": "https://tw.stock.yahoo.com/news/%E8%81%AF%E7%99%BC%E7%A7%91-%E5%BF%AB%E8%B7%91-%E9%99%A3%E5%AD%90-%E8%BC%AA%E5%88%B0%E5%8F%B0%E7%A9%8D%E9%9B%BB-%E8%AC%9D%E9%87%91%E6%B2%B3-055927957.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T13:59:27+08:00",
+          "summary": "財經中心／李汶臻報導美國日前公布最新非農就業數據，9月非農就業新增2.9萬人，低於市場預期的9萬人。數據被外界解讀為10月聯準會升息機率微，引發股市上漲；對此，財訊傳媒董事長謝金河直言：「這可能為第四",
+          "additional_sources": []
+        },
+        {
+          "title": "林佳龍率企業團訪鳳凰城 盼深化台美經貿合作",
+          "link": "https://tw.news.yahoo.com/%E6%9E%97%E4%BD%B3%E9%BE%8D%E7%8E%87%E4%BC%81%E6%A5%AD%E5%9C%98%E8%A8%AA%E9%B3%B3%E5%87%B0%E5%9F%8E-%E7%9B%BC%E6%B7%B1%E5%8C%96%E5%8F%B0%E7%BE%8E%E7%B6%93%E8%B2%BF%E5%90%88%E4%BD%9C-055016042.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T13:50:16+08:00",
+          "summary": "外交部長林佳龍於美國當地時間10月3日至5日，偕同全國創新創業總會(NiEA)等企業代表訪問亞利桑納州鳳凰城，將出席台灣駐鳳凰城辦事處揭牌儀式，並拜會州長郝愷悌(Katie Hobbs)及鳳凰城市長蓋",
+          "additional_sources": []
+        },
+        {
+          "title": "蘋果證實iPhone 18 Pro Max爆斷訊問題！受影響用戶須更換手機",
+          "link": "https://tw.stock.yahoo.com/news/%E8%98%8B%E6%9E%9C%E8%AD%89%E5%AF%A6iphone-18-pro-max%E7%88%86%E6%96%B7%E8%A8%8A%E5%95%8F%E9%A1%8C-%E5%8F%97%E5%BD%B1%E9%9F%BF%E7%94%A8%E6%88%B6%E9%A0%88%E6%9B%B4%E6%8F%9B%E6%89%8B%E6%A9%9F-051003636.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T13:10:03+08:00",
+          "summary": "蘋果證實少數AT&T網路的iPhone 18 Pro Max發生斷訊，無法通話、收發簡訊及使用行動數據。 蘋果推出iOS 27.0.1及電信業者設定更新，設定更新將於14天內自動下載。 已斷訊裝置無法",
+          "additional_sources": []
+        },
+        {
+          "title": "不貸款就穩賺？ 專家直言：全額現金購車恐是最昂貴錯誤",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8D%E8%B2%B8%E6%AC%BE%E5%B0%B1%E7%A9%A9%E8%B3%BA-%E5%B0%88%E5%AE%B6%E7%9B%B4%E8%A8%80-%E5%85%A8%E9%A1%8D%E7%8F%BE%E9%87%91%E8%B3%BC%E8%BB%8A%E6%81%90%E6%98%AF%E6%9C%80%E6%98%82%E8%B2%B4%E9%8C%AF%E8%AA%A4-050530015.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T13:05:30+08:00",
+          "summary": "買車時一次付清、不留下任何貸款，表面上可以避開利息與每月還款，但對手上有較多資金的美國消費者而言，真正需要計算的成本可能不只貸款利息。當數萬美元一次投入一輛持續貶值的汽車，還必須考慮資金原本可以發揮的",
+          "additional_sources": []
+        },
+        {
+          "title": "OCA總幹事：逾50項世界紀錄證明亞運成功",
+          "link": "https://tw.news.yahoo.com/oca%E7%B8%BD%E5%B9%B9%E4%BA%8B-%E9%80%BE50%E9%A0%85%E4%B8%96%E7%95%8C%E7%B4%80%E9%8C%84%E8%AD%89%E6%98%8E%E4%BA%9E%E9%81%8B%E6%88%90%E5%8A%9F-050312841.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T13:03:12+08:00",
+          "summary": "法新社報導，名古屋亞運將在今天(4日)舉行閉幕典禮，亞洲奧林匹克理事會(OCA)總幹事穆沙蘭(Husain Al-Musallam)表示，雖然有感到不滿的代表隊提出許多抱怨，但這場在日本舉行的亞運創下",
+          "additional_sources": []
+        },
+        {
+          "title": "周末精選／美訂光通訊新規、台鏈迎利多 記憶體供需仍緊俏",
+          "link": "https://money.udn.com/money/story/5612/9793982?from=edn_maintab_index",
+          "source": "udn",
+          "pubdate": "2026-10-04T16:33:19+08:00",
+          "summary": "擔心周休二日錯過重要新聞？經濟日報幫您精選周末結束前必看的內容。\n\n美訂光通訊新規 台鏈利多 聯亞、華星光等迎轉單\n摩根士丹利（大摩）1日發布報告，指出美國聯邦通信委員會（FCC）對於光收發模組的...",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "組裝",
+        "機器",
+        "器人",
+        "輝達",
+        "功率"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "輝達鴻海合作自動化機器人組裝　提升GB300成功率",
+          "link": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94%E9%B4%BB%E6%B5%B7%E5%90%88%E4%BD%9C%E8%87%AA%E5%8B%95%E5%8C%96%E6%A9%9F%E5%99%A8%E4%BA%BA%E7%B5%84%E8%A3%9D-%E6%8F%90%E5%8D%87gb300%E6%88%90%E5%8A%9F%E7%8E%87-122855783.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T20:28:55+08:00",
+          "summary": "（中央社記者鍾榮峰台北2026年10月4日電）人工智慧AI晶片大廠輝達（NVIDIA）近日在技術部落格，分享與鴻海(2317)合作使用機器人製造機器成果，輝達指出，NVIDIA GB300匯流排母線（",
+          "additional_sources": []
+        },
+        {
+          "title": "鴻海攜手輝達推進機器人組裝技術導入GB300生產 Busbar組裝成功率超過95%",
+          "link": "https://tw.stock.yahoo.com/news/%E9%B4%BB%E6%B5%B7%E6%94%9C%E6%89%8B%E8%BC%9D%E9%81%94%E6%8E%A8%E9%80%B2%E6%A9%9F%E5%99%A8%E4%BA%BA%E7%B5%84%E8%A3%9D%E6%8A%80%E8%A1%93%E5%B0%8E%E5%85%A5gb300%E7%94%9F%E7%94%A2-busbar%E7%B5%84%E8%A3%9D%E6%88%90%E5%8A%9F%E7%8E%87%E8%B6%85%E9%81%8E95-075051267.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-04T15:50:51+08:00",
+          "summary": "輝達攜手鴻海將最新機器人自動化技術導入GB300組裝製程。 Busbar組裝成功率逾95%，多連接器插接約90%至95%，目標邁向99.5%。 Busbar作業約160秒、目標124秒內；4組連接器目",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "US"
+}
