@@ -1,0 +1,373 @@
+{
+  "date": "2026-10-10",
+  "generated_at": "2026-10-10T21:23:14.838645",
+  "group_count": 6,
+  "total_articles": 32,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "美國",
+        "台灣",
+        "中國",
+        "產業",
+        "表示"
+      ],
+      "article_count": 27,
+      "articles": [
+        {
+          "title": "國慶演說 賴清德以打造「山巔之城」為題 期許科技帶百工百業向前行",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B%E6%85%B6%E6%BC%94%E8%AA%AA-%E8%B3%B4%E6%B8%85%E5%BE%B7%E4%BB%A5%E6%89%93%E9%80%A0-%E5%B1%B1%E5%B7%94%E4%B9%8B%E5%9F%8E-%E7%82%BA%E9%A1%8C-%E6%9C%9F%E8%A8%B1%E7%A7%91%E6%8A%80%E5%B8%B6%E7%99%BE%E5%B7%A5%E7%99%BE%E6%A5%AD%E5%90%91%E5%89%8D%E8%A1%8C-115842037.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T19:58:42+08:00",
+          "summary": "賴清德國慶演說稱台灣今年經濟成長率可望逾11%，創39年新高，台股衝上4萬9千點、成全球第四大股市。 他宣布推動多元綠能、儲能、電網強韌與13項核心戰略產業，並以中小微企業振興、AI新十大建設強化下一",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6627310",
+              "title": "國慶演說 賴清德以打造「山巔之城」為題 期許科技帶百工百業向前行"
+            }
+          ]
+        },
+        {
+          "title": "賴清德發表雙十國慶演說 國台辦回應！",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B3%B4%E6%B8%85%E5%BE%B7%E7%99%BC%E8%A1%A8%E9%9B%99%E5%8D%81%E5%9C%8B%E6%85%B6%E6%BC%94%E8%AA%AA-%E5%9C%8B%E5%8F%B0%E8%BE%A6%E5%9B%9E%E6%87%89-102041209.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T18:20:41+08:00",
+          "summary": "賴清德稱，今年是臺灣總統直選30週年，臺灣走過民主轉型與政黨輪替，民主與經濟發展並不背道而馳。 賴清德表示，中國持續以軍事與灰色地帶行動施壓，臺灣將推動國防改革、強化不對稱戰力與國防自主產業，增加國防",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6627325",
+              "title": "賴清德發表雙十國慶演說 國台辦回應！"
+            }
+          ]
+        },
+        {
+          "title": "美發動337調查 經部：尊重程序、與涉案台廠保持聯繫",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E7%99%BC%E5%8B%95337%E8%AA%BF%E6%9F%A5-%E7%B6%93%E9%83%A8-%E5%B0%8A%E9%87%8D%E7%A8%8B%E5%BA%8F-%E8%88%87%E6%B6%89%E6%A1%88%E5%8F%B0%E5%BB%A0%E4%BF%9D%E6%8C%81%E8%81%AF%E7%B9%AB-125151606.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T20:51:51+08:00",
+          "summary": "美國宣布對多家企業發起337調查，涉及公司包含中國的立訊精密，還有台鴻海、台達電、廣達等台廠。經濟部今天(10日)晚間回應，若原告勝訴，美方可限制相關產品進入美國市場，後續將尊重美方程序，除了關注後續",
+          "additional_sources": []
+        },
+        {
+          "title": "要電價漲？或稅收補貼台電 立委：答案明白清楚",
+          "link": "https://tw.stock.yahoo.com/news/%E8%A6%81%E9%9B%BB%E5%83%B9%E6%BC%B2-%E6%88%96%E7%A8%85%E6%94%B6%E8%A3%9C%E8%B2%BC%E5%8F%B0%E9%9B%BB-%E7%AB%8B%E5%A7%94-%E7%AD%94%E6%A1%88%E6%98%8E%E7%99%BD%E6%B8%85%E6%A5%9A-125109308.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T20:51:09+08:00",
+          "summary": "中油10日表示，因執行政府專案平穩各項措施，2月至今國際油價高漲的成本，單是汽、柴油合計就已擴大吸收約267.9億元。油電一條線的台電公司，也因購油成本大漲，累積虧損恐將再度突破4,000億元。立委鍾",
+          "additional_sources": []
+        },
+        {
+          "title": "美國啟動337調查！包括台達電、廣達、鴻海",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E5%9C%8B%E5%95%9F%E5%8B%95337%E8%AA%BF%E6%9F%A5-%E5%8C%85%E6%8B%AC%E5%8F%B0%E9%81%94%E9%9B%BB-%E5%BB%A3%E9%81%94-%E9%B4%BB%E6%B5%B7-123400347.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T20:34:00+08:00",
+          "summary": "[NOWNEWS今日新聞]美國國際貿易委員會（USITC）9日公告，對「特定垂直電力傳輸系統、其組件以及含有該系統之計算系統」啟動337調查。有20餘家企業被列為調查對象，包括台達電、廣達、鴻海等企業",
+          "additional_sources": []
+        },
+        {
+          "title": "泰國擬收離境稅1000泰銖　觀光飯店業反對籲暫緩推動",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%B0%E5%9C%8B%E6%93%AC%E6%94%B6%E9%9B%A2%E5%A2%83%E7%A8%851000%E6%B3%B0%E9%8A%96-%E8%A7%80%E5%85%89%E9%A3%AF%E5%BA%97%E6%A5%AD%E5%8F%8D%E5%B0%8D%E7%B1%B2%E6%9A%AB%E7%B7%A9%E6%8E%A8%E5%8B%95-121841431.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T20:18:41+08:00",
+          "summary": "（中央社記者李宗憲曼谷2026年10月10日專電）泰國研議向所有國籍、搭機離境的旅客徵收1000泰銖（約新台幣951元）的離境稅，雖然該草案仍在公眾諮詢階段，但已引發泰國觀光業者的反彈，認為額外費用將",
+          "additional_sources": []
+        },
+        {
+          "title": "預售屋買賣流程全攻略：從看屋到下訂、簽約到交屋，8大步驟一次搞懂！",
+          "link": "https://tw.stock.yahoo.com/news/%E9%A0%90%E5%94%AE%E5%B1%8B%E8%B2%B7%E8%B3%A3%E6%B5%81%E7%A8%8B%E5%85%A8%E6%94%BB%E7%95%A5%EF%BC%9A%E5%BE%9E%E7%9C%8B%E5%B1%8B%E5%88%B0%E4%B8%8B%E8%A8%82%E3%80%81%E7%B0%BD%E7%B4%84%E5%88%B0%E4%BA%A4%E5%B1%8B%EF%BC%8C8%E5%A4%A7%E6%AD%A5%E9%A9%9F%E4%B8%80%E6%AC%A1%E6%90%9E%E6%87%82%EF%BC%81-120000185.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T20:00:00+08:00",
+          "summary": "預售屋因為自備款壓力相對較低、付款方式有彈性，一直是很多首購族和小資族的選項。但預售屋從看屋到下訂、簽約、繳工程款、客變、對保、驗屋到最後交屋，整個流程可能橫跨2到5年。今天阿明就用最白話的方式，帶你",
+          "additional_sources": []
+        },
+        {
+          "title": "國慶酒會美食外交 史瓦帝尼國王大啖杏仁豆腐喊乾杯",
+          "link": "https://tw.news.yahoo.com/%E5%9C%8B%E6%85%B6%E9%85%92%E6%9C%83%E7%BE%8E%E9%A3%9F%E5%A4%96%E4%BA%A4-%E5%8F%B2%E7%93%A6%E5%B8%9D%E5%B0%BC%E5%9C%8B%E7%8E%8B%E5%A4%A7%E5%95%96%E6%9D%8F%E4%BB%81%E8%B1%86%E8%85%90%E5%96%8A%E4%B9%BE%E6%9D%AF-113855872.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T19:38:55+08:00",
+          "summary": "國慶酒會今天(10日)晚間在台北賓館登場，賴清德總統陪同史瓦帝尼國王恩史瓦帝三世逛了今年外交部策劃的多家台灣特色美食攤位，恩史瓦帝三世不但以杏仁豆腐向總統「乾杯」，還向媒體表示，此行來台的感覺很好、非",
+          "additional_sources": []
+        },
+        {
+          "title": "IMF與世銀年會將於曼谷登場　當局啟動居家辦公紓解交通",
+          "link": "https://tw.stock.yahoo.com/news/imf%E8%88%87%E4%B8%96%E9%8A%80%E5%B9%B4%E6%9C%83%E5%B0%87%E6%96%BC%E6%9B%BC%E8%B0%B7%E7%99%BB%E5%A0%B4-%E7%95%B6%E5%B1%80%E5%95%9F%E5%8B%95%E5%B1%85%E5%AE%B6%E8%BE%A6%E5%85%AC%E7%B4%93%E8%A7%A3%E4%BA%A4%E9%80%9A-113033152.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T19:30:33+08:00",
+          "summary": "（中央社曼谷2026年10月10日綜合外電報導）國際貨幣基金（IMF）與世界銀行（World Bank）年會將於12日至18日在曼谷登場，預計將有來自191個國家、超過1萬5000名人士與會，包括各國",
+          "additional_sources": []
+        },
+        {
+          "title": "美國上班族會飛！他背動力飛行傘通勤",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E5%9C%8B%E4%B8%8A%E7%8F%AD%E6%97%8F%E6%9C%83%E9%A3%9B-%E4%BB%96%E8%83%8C%E5%8B%95%E5%8A%9B%E9%A3%9B%E8%A1%8C%E5%82%98%E9%80%9A%E5%8B%A4-111929429.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T19:19:29+08:00",
+          "summary": "[NOWNEWS今日新聞]美國科羅拉多州一名28歲的男子胡茨勒（JakeHutzler），他是一名機場塔台管制員，他的上班方式相當特別，透過動力飛行傘（Paramotor）直接「飛」去機場上班。對於大",
+          "additional_sources": []
+        },
+        {
+          "title": "提前退休夢想成真？ 專家揭暗藏的財務挑戰",
+          "link": "https://tw.stock.yahoo.com/news/%E6%8F%90%E5%89%8D%E9%80%80%E4%BC%91%E5%A4%A2%E6%83%B3%E6%88%90%E7%9C%9F-%E5%B0%88%E5%AE%B6%E6%8F%AD%E6%9A%97%E8%97%8F%E7%9A%84%E8%B2%A1%E5%8B%99%E6%8C%91%E6%88%B0-110530400.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T19:05:30+08:00",
+          "summary": "原本預期的退休年齡，未必就是最後真正離開職場的時間。有人因財務準備不足而延後退休，也有人因工作型態改變，提早進入半退休狀態。美國的情況也呈現出退休預期與實際年齡的落差，蓋洛普（Gallup）調查顯示，",
+          "additional_sources": []
+        },
+        {
+          "title": "川普沒得諾貝爾和平獎怒了？美國制裁ICC",
+          "link": "https://tw.news.yahoo.com/%E5%B7%9D%E6%99%AE%E6%B2%92%E5%BE%97%E8%AB%BE%E8%B2%9D%E7%88%BE%E5%92%8C%E5%B9%B3%E7%8D%8E%E6%80%92%E4%BA%86-%E7%BE%8E%E5%9C%8B%E5%88%B6%E8%A3%81icc-103641815.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T18:36:41+08:00",
+          "summary": "[NOWNEWS今日新聞]2026年諾貝爾和平獎頒給曾任國際刑事法院（ICC）法官與聯合國人權事務高級專員的南非律師皮萊（NaviPillay），美國總統川普（DonaldTrump）怒轟自己沒得獎對",
+          "additional_sources": []
+        },
+        {
+          "title": "美國宣布啟動337調查 　鴻海、台達電和廣達等企業入列",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E5%AE%A3%E5%B8%83%E5%95%9F%E5%8B%95337%E8%AA%BF%E6%9F%A5-%E9%B4%BB%E6%B5%B7-%E5%8F%B0%E9%81%94%E9%9B%BB%E5%92%8C%E5%BB%A3%E9%81%94%E7%AD%89%E4%BC%81%E6%A5%AD%E5%85%A5%E5%88%97-102800650.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T18:28:00+08:00",
+          "summary": "【編譯林文彬／綜合報導】美國國際貿易委員會（USITC）9日宣布對特定垂直供電系統，以及這類系統零組件和含有該系統的運算系統啟動337條款調查，被調查公司包括鴻海等台灣企業。",
+          "additional_sources": []
+        },
+        {
+          "title": "台股下周狂崩千點？這2大族群成護身符 16檔別人恐懼時勇敢買",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%91%A8%E7%8B%82%E5%B4%A9%E5%8D%83%E9%BB%9E-%E9%80%992%E5%A4%A7%E6%97%8F%E7%BE%A4%E6%88%90%E8%AD%B7%E8%BA%AB%E7%AC%A6-16%E6%AA%94%E5%88%A5%E4%BA%BA%E6%81%90%E6%87%BC%E6%99%82%E5%8B%87%E6%95%A2%E8%B2%B7-101703257.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T18:17:03+08:00",
+          "summary": "台股在國慶連假期間面臨美股震盪、費半指數下挫的壓力，台指期夜盤周四（8日）重挫652點，收在48705點，盤中一度崩跌944點，預期下周開盤將面臨短線補跌與震盪考驗。不過，隨著上市櫃公司第3季營收陸續",
+          "additional_sources": []
+        },
+        {
+          "title": "歐中汽車貿易磋商  中國商務部：避免了局面升級",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AD%90%E4%B8%AD%E6%B1%BD%E8%BB%8A%E8%B2%BF%E6%98%93%E7%A3%8B%E5%95%86-%E4%B8%AD%E5%9C%8B%E5%95%86%E5%8B%99%E9%83%A8-%E9%81%BF%E5%85%8D%E4%BA%86%E5%B1%80%E9%9D%A2%E5%8D%87%E7%B4%9A-101230530.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T18:12:30+08:00",
+          "summary": "（中央社台北2026年10月10日電）中國商務部今天表示，中歐近日深入討論了電動汽車和油電混合動力汽車貿易，避免了局面升級。此前，歐盟官員指雙方已達成協議，可將中國輸歐油電混合動力汽車數量減少一半以上",
+          "additional_sources": []
+        },
+        {
+          "title": "全球首次！中國西湖科技機器人WR1比肩黃仁勳加碼投資的Figure　全身協同連貫自主摺衣",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E9%A6%96%E6%AC%A1-%E4%B8%AD%E5%9C%8B%E8%A5%BF%E6%B9%96%E7%A7%91%E6%8A%80%E6%A9%9F%E5%99%A8%E4%BA%BAwr1%E6%AF%94%E8%82%A9%E9%BB%83%E4%BB%81%E5%8B%B3%E5%8A%A0%E7%A2%BC%E6%8A%95%E8%B3%87%E7%9A%84figure-%E5%85%A8%E8%BA%AB%E5%8D%94%E5%90%8C%E9%80%A3%E8%B2%AB%E8%87%AA%E4%B8%BB%E6%91%BA%E8%A1%A3-100003027.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T18:00:03+08:00",
+          "summary": "西湖機器人升級通用大腦WR1，直面家庭複雜家務場景 WR1採全球首創大小腦雙預訓練架構，融合WM與VLA、GAE 實測完成摺衣、取衣、跨房間收納等一鏡到底家務流程",
+          "additional_sources": []
+        },
+        {
+          "title": "1.3億名選民「被消失」！印度青年上街抗議",
+          "link": "https://tw.news.yahoo.com/1-3%E5%84%84%E5%90%8D%E9%81%B8%E6%B0%91-%E8%A2%AB%E6%B6%88%E5%A4%B1-%E5%8D%B0%E5%BA%A6%E9%9D%92%E5%B9%B4%E4%B8%8A%E8%A1%97%E6%8A%97%E8%AD%B0-095109713.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:51:09+08:00",
+          "summary": "[NOWNEWS今日新聞]印度首都新德里今（10）日風聲鶴唳，大規模警力進行嚴密戒備。為了阻撓由青年團體發起的全城抗議行動，印度政府動員數千名警力封鎖道路、關閉數十座地鐵站並切斷市中心行動網路，甚至在",
+          "additional_sources": []
+        },
+        {
+          "title": "墨西哥灣颶風 國際油價狂震！中油「下周最新油價」出爐",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A2%A8%E8%A5%BF%E5%93%A5%E7%81%A3%E9%A2%B6%E9%A2%A8-%E5%9C%8B%E9%9A%9B%E6%B2%B9%E5%83%B9%E7%8B%82%E9%9C%87-%E4%B8%AD%E6%B2%B9-%E4%B8%8B%E5%91%A8%E6%9C%80%E6%96%B0%E6%B2%B9%E5%83%B9-%E5%87%BA%E7%88%90-092718397.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:27:18+08:00",
+          "summary": "台灣中油公司今（10）日宣布，自下周一（12日）零時起至10月18日24時止，汽、柴油價格均不調整。參考零售價格分別為92無鉛汽油每公升31.2元、95無鉛汽油每公升32.7元、98無鉛汽油每公升34",
+          "additional_sources": []
+        },
+        {
+          "title": "總統國慶演說 董立文：精簡版的「國家安全戰略報告」",
+          "link": "https://tw.news.yahoo.com/%E7%B8%BD%E7%B5%B1%E5%9C%8B%E6%85%B6%E6%BC%94%E8%AA%AA-%E8%91%A3%E7%AB%8B%E6%96%87-%E7%B2%BE%E7%B0%A1%E7%89%88%E7%9A%84-%E5%9C%8B%E5%AE%B6%E5%AE%89%E5%85%A8%E6%88%B0%E7%95%A5%E5%A0%B1%E5%91%8A-092425869.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:24:25+08:00",
+          "summary": "賴清德總統今天(10日)以「台灣 山巔之城，地上的鹽，世上的光」為題發表國慶演說。學者分析指出，總統引用《聖經》意象勾勒國家願景，強調民主治理、防衛韌性、貢獻世界；也有學者將這篇演說形容為精簡版的「國",
+          "additional_sources": []
+        },
+        {
+          "title": "馬斯克想進軍手機通訊嚇壞美電信商　市值單日蒸發逾一家聯電",
+          "link": "https://tw.stock.yahoo.com/news/%E9%A6%AC%E6%96%AF%E5%85%8B%E6%83%B3%E9%80%B2%E8%BB%8D%E6%89%8B%E6%A9%9F%E9%80%9A%E8%A8%8A%E5%9A%87%E5%A3%9E%E7%BE%8E%E9%9B%BB%E4%BF%A1%E5%95%86-%E5%B8%82%E5%80%BC%E5%96%AE%E6%97%A5%E8%92%B8%E7%99%BC%E9%80%BE-%E5%AE%B6%E8%81%AF%E9%9B%BB-092300247.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:23:00+08:00",
+          "summary": "【編譯林文彬／綜合外電】全球首富馬斯克旗下SpaceX宣布收購低頻段頻譜組合，朝提供美國消費者Stralink行動服務跨出一大步，美國大型電信商股價9日應聲大跌，市值單日總計蒸發約620億美元。從聯電",
+          "additional_sources": []
+        },
+        {
+          "title": "俄羅斯擬向美國增供柴油　專家：難紓解高油價壓力",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BF%84%E7%BE%85%E6%96%AF%E6%93%AC%E5%90%91%E7%BE%8E%E5%9C%8B%E5%A2%9E%E4%BE%9B%E6%9F%B4%E6%B2%B9-%E5%B0%88%E5%AE%B6-%E9%9B%A3%E7%B4%93%E8%A7%A3%E9%AB%98%E6%B2%B9%E5%83%B9%E5%A3%93%E5%8A%9B-092019024.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:20:19+08:00",
+          "summary": "（中央社華盛頓2026年10月10日綜合外電報導）美國能源政策專家表示，俄羅斯未來數月將增加對美國的柴油供應，但這項新協議恐怕難以有效降低居高不下的柴油價格，遑論紓解其他商品的價格壓力。美聯社報導，美",
+          "additional_sources": []
+        },
+        {
+          "title": "中國發布新質生產力19項改革任務！AI、機器人、量子科技成布局重點",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%9C%8B%E7%99%BC%E5%B8%83%E6%96%B0%E8%B3%AA%E7%94%9F%E7%94%A2%E5%8A%9B19%E9%A0%85%E6%94%B9%E9%9D%A9%E4%BB%BB%E5%8B%99-ai-%E6%A9%9F%E5%99%A8%E4%BA%BA-%E9%87%8F%E5%AD%90%E7%A7%91%E6%8A%80%E6%88%90%E5%B8%83%E5%B1%80%E9%87%8D%E9%BB%9E-091005759.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:10:05+08:00",
+          "summary": "國務院與中共中央10月9日發布《關於發展新質生產力的意見》，提出19項改革任務，要求全面實施「人工智慧+」。 《意見》推動傳統產業升級、新興產業擴張與未來產業布局，並以因地制宜避免盲目投資、同質化競爭",
+          "additional_sources": []
+        },
+        {
+          "title": "韓國瑜國慶批賴卓 府方人士指貽笑國際 對賓客「真歹勢」",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9F%93%E5%9C%8B%E7%91%9C%E5%9C%8B%E6%85%B6%E6%89%B9%E8%B3%B4%E5%8D%93-%E5%BA%9C%E6%96%B9%E4%BA%BA%E5%A3%AB%E6%8C%87%E8%B2%BD%E7%AC%91%E5%9C%8B%E9%9A%9B-%E5%B0%8D%E8%B3%93%E5%AE%A2-%E7%9C%9F%E6%AD%B9%E5%8B%A2-090209910.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T17:02:09+08:00",
+          "summary": "立法院長韓國瑜今（10日）主持國慶大會致詞脫稿，將矛頭指向總統賴清德和行政院長卓榮泰，直指去年大罷免是「政治獵殺」，更批行政院不副署是「憲法」負面教材。對此，府方人士指出，韓國瑜身兼國慶籌備委員會主委",
+          "additional_sources": []
+        },
+        {
+          "title": "瑞銀指金價短線恐回測4000美元　是加碼的好機會",
+          "link": "https://tw.stock.yahoo.com/news/%E7%91%9E%E9%8A%80%E6%8C%87%E9%87%91%E5%83%B9%E7%9F%AD%E7%B7%9A%E6%81%90%E5%9B%9E%E6%B8%AC4000%E7%BE%8E%E5%85%83-%E6%98%AF%E5%8A%A0%E7%A2%BC%E7%9A%84%E5%A5%BD%E6%A9%9F%E6%9C%83-084700463.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T16:47:00+08:00",
+          "summary": "【記者陳建彰／台北報導】隨著美債實際殖利率攀升、美元走強，持有黃金的機會成本抬升，黃金價格可能持續震盪走低。",
+          "additional_sources": []
+        },
+        {
+          "title": "AI跑太快誰敢先踩煞車？美中競賽陷兩難 研究揭「誰先減速誰恐掉隊」：美中都怕AI失控",
+          "link": "https://tw.stock.yahoo.com/news/ai%E8%B7%91%E5%A4%AA%E5%BF%AB%E8%AA%B0%E6%95%A2%E5%85%88%E8%B8%A9%E7%85%9E%E8%BB%8A-%E7%BE%8E%E4%B8%AD%E7%AB%B6%E8%B3%BD%E9%99%B7%E5%85%A9%E9%9B%A3-%E7%A0%94%E7%A9%B6%E6%8F%AD-%E8%AA%B0%E5%85%88%E6%B8%9B%E9%80%9F%E8%AA%B0%E6%81%90%E6%8E%89%E9%9A%8A-%E7%BE%8E%E4%B8%AD%E9%83%BD%E6%80%95ai%E5%A4%B1%E6%8E%A7-083727331.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T16:37:27+08:00",
+          "summary": "前沿AI能力一路向前衝，安全與發展速度卻逐漸形成新的美中角力。研究機構SemiAnalysis最新分析指出，中國政府已公開討論AI欺騙、越權甚至失控等前沿風險，美國科技業也出現要求放慢模型能力提升速度",
+          "additional_sources": []
+        },
+        {
+          "title": "韓國賣場天花板突崩塌！38人受傷多為長者",
+          "link": "https://tw.news.yahoo.com/%E9%9F%93%E5%9C%8B%E8%B3%A3%E5%A0%B4%E5%A4%A9%E8%8A%B1%E6%9D%BF%E7%AA%81%E5%B4%A9%E5%A1%8C-38%E4%BA%BA%E5%8F%97%E5%82%B7%E5%A4%9A%E7%82%BA%E9%95%B7%E8%80%85-082753533.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T16:27:53+08:00",
+          "summary": "[NOWNEWS今日新聞]韓國大邱北區觀音洞一處4層樓高的商辦大樓，今（10）日上午發生天花板坍塌意外。一間位於二樓、正在舉辦廚房用品促銷活動的展場，其天花板與結構物因不明原因突然大面積崩塌。當時場內",
+          "additional_sources": []
+        },
+        {
+          "title": "「雙十國慶」曬超狂成績單！謝金河：台灣最大底氣",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9B%99%E5%8D%81%E5%9C%8B%E6%85%B6-%E6%9B%AC%E8%B6%85%E7%8B%82%E6%88%90%E7%B8%BE%E5%96%AE-%E8%AC%9D%E9%87%91%E6%B2%B3-%E5%8F%B0%E7%81%A3%E6%9C%80%E5%A4%A7%E5%BA%95%E6%B0%A3-082639057.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-10T16:26:39+08:00",
+          "summary": "財經中心／李汶臻報導今（10）日適逢雙十國慶，財信傳媒董事長謝金河在臉書發文，曬出台灣最新的超狂經濟成績單。他表示，以出口數字來看，2026年最後三個月，只要每月維持在800億美元以上，台灣2026年",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "6209 今國光",
+      "keywords": [
+        "今國",
+        "國光",
+        "營收",
+        "億元",
+        "外線"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "今國光紅外線鏡頭熱賣挹注 前9月營收41.64億元超越去年全年",
+          "link": "https://news.cnyes.com/news/id/6627318",
+          "source": "cnyes",
+          "pubdate": "2026-10-10T20:04:22+08:00",
+          "summary": "鉅亨網記者張欽發 台北2026-10-10 20:04\n光學元件廠今國光(6209-TW)受惠紅外線熱感應鏡頭熱銷，下半年營收持續攀升。今國光今(10)日公布最新營收，2026年9月營收達6.69億元，創歷史新高，月增20.12%、年增81.57%；今年1至9月累計營收達41.64億元，年增71.3…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E4%BB%8A%E5%9C%8B%E5%85%89%E7%B4%85%E5%A4%96%E7%B7%9A%E9%8F%A1%E9%A0%AD%E7%86%B1%E8%B3%A3%E6%8C%B9%E6%B3%A8-%E5%89%8D9%E6%9C%88%E7%87%9F%E6%94%B641-64%E5%84%84%E5%85%83%E8%B6%85%E8%B6%8A%E5%8E%BB%E5%B9%B4%E5%85%A8%E5%B9%B4-120422459.html",
+              "title": "今國光紅外線鏡頭熱賣挹注 前9月營收41.64億元超越去年全年"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "營收",
+        "化營",
+        "年化",
+        "openai",
+        "anthropic"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "OpenAI、Anthropic營收難比較！年化營收差異恐掩蓋AI真實獲利能力",
+          "link": "https://news.cnyes.com/news/id/6627234",
+          "source": "cnyes",
+          "pubdate": "2026-10-10T18:10:04+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-10-10 18:10\n人工智慧（AI）產業兩大新創巨頭 OpenAI 與 Anthropic 的營收數字看似接近，背後卻採用不同的計算方式，讓投資人難以準確判斷兩家公司的實際業務規模，也為 AI 熱潮下的高估值增添不確定性。\nOpenAI、Anthropic營收難比較！年…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/openai-anthropic%E7%87%9F%E6%94%B6%E9%9B%A3%E6%AF%94%E8%BC%83-%E5%B9%B4%E5%8C%96%E7%87%9F%E6%94%B6%E5%B7%AE%E7%95%B0%E6%81%90%E6%8E%A9%E8%93%8Bai%E7%9C%9F%E5%AF%A6%E7%8D%B2%E5%88%A9%E8%83%BD%E5%8A%9B-101004846.html",
+              "title": "OpenAI、Anthropic營收難比較！年化營收差異恐掩蓋AI真實獲利能力"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "US TSLA 特斯拉",
+      "keywords": [
+        "斯拉",
+        "特斯",
+        "駕駛",
+        "系統",
+        "功能"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "特斯拉FSD歐洲改名TAD！德國尚未開放、歐盟全面批准仍待審",
+          "link": "https://news.cnyes.com/news/id/6627342",
+          "source": "cnyes",
+          "pubdate": "2026-10-10T21:10:02+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-10-10 21:10\n特斯拉(TSLA-US) 堅持使用近十年的「全自動輔助駕駛」（Full Self-Driving，FSD）名稱，終究因歐洲監管要求而調整。\n特斯拉FSD歐洲改名TAD！德國尚未開放、歐盟全面批准仍待審（圖：Shutterstock）\n特斯拉德國、比利…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "ai",
+        "憶體",
+        "記憶",
+        "季辛",
+        "辛格"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "前英特爾CEO示警AI算力瓶頸！電力、HBM記憶體與光互連成關鍵戰場",
+          "link": "https://news.cnyes.com/news/id/6627311",
+          "source": "cnyes",
+          "pubdate": "2026-10-10T19:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-10-10 19:10\n人工智慧（AI）加速發展，晶片設計的門檻與時間成本正因AI工具而降低，但硬體製造、記憶體、能源供應及資料傳輸等環節，卻成為限制算力擴張的新瓶頸。前英特爾(INTC-US) 執行長季辛格（Pat Gelsinger）認為，AI正推動硬體產業迎來一波前所…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "柴油",
+        "美國",
+        "俄羅",
+        "羅斯",
+        "川普"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "《巴隆》川普放寬俄羅斯柴油制裁仍「難壓油價」！美國柴油年漲逾70%、烏克蘭批助長俄國",
+          "link": "https://news.cnyes.com/news/id/6627217",
+          "source": "cnyes",
+          "pubdate": "2026-10-10T20:10:02+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-10-10 20:10\n美國柴油價格持續飆升，川普政府決定暫時放寬對俄羅斯柴油進口的制裁，試圖增加市場供應。不過，儘管美國總統川普宣稱已與俄羅斯總統普丁達成協議，將由俄方增供柴油，短期內恐難明顯壓低美國零售柴油價格，因為首批供應量相較美國每日柴油出口規模仍相當有限。\n《巴隆…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E5%B7%B4%E9%9A%86-%E5%B7%9D%E6%99%AE%E6%94%BE%E5%AF%AC%E4%BF%84%E7%BE%85%E6%96%AF%E6%9F%B4%E6%B2%B9%E5%88%B6%E8%A3%81%E4%BB%8D-%E9%9B%A3%E5%A3%93%E6%B2%B9%E5%83%B9-%E7%BE%8E%E5%9C%8B%E6%9F%B4%E6%B2%B9%E5%B9%B4%E6%BC%B2%E9%80%BE70-%E7%83%8F%E5%85%8B%E8%98%AD%E6%89%B9%E5%8A%A9%E9%95%B7%E4%BF%84%E5%9C%8B-121002343.html",
+              "title": "《巴隆》川普放寬俄羅斯柴油制裁仍「難壓油價」！美國柴油年漲逾70%、烏克蘭批助長俄國"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
