@@ -1,8 +1,309 @@
 {
   "date": "2026-10-13",
-  "generated_at": "2026-10-13T00:35:26.334134",
-  "group_count": 0,
-  "total_articles": 0,
-  "groups": [],
+  "generated_at": "2026-10-13T22:52:53.448909",
+  "group_count": 2,
+  "total_articles": 32,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "美元",
+        "投資",
+        "市場",
+        "報導",
+        "ai"
+      ],
+      "article_count": 31,
+      "articles": [
+        {
+          "title": "AI巨頭發債潮推升融資成本 新興市場主權債面臨資金排擠效應",
+          "link": "https://news.cnyes.com/news/id/6629530",
+          "source": "cnyes",
+          "pubdate": "2026-10-13T20:40:05+08:00",
+          "summary": "鉅亨網編譯劉祥航 綜合報導2026-10-13 20:40\n人工智慧(AI)基礎建設的巨額融資浪潮，不僅美歐日等先進國家的發債受影響，新興市場政府更是被迫與科技巨頭在在資本市場展開激烈的資金爭奪戰。\nAI巨頭發債潮推升融資成本 新興市場主權債面臨資金排擠效應(圖:shutterstock)\n根據美國…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/ai%E5%B7%A8%E9%A0%AD%E7%99%BC%E5%82%B5%E6%BD%AE%E6%8E%A8%E5%8D%87%E8%9E%8D%E8%B3%87%E6%88%90%E6%9C%AC-%E6%96%B0%E8%88%88%E5%B8%82%E5%A0%B4%E4%B8%BB%E6%AC%8A%E5%82%B5%E9%9D%A2%E8%87%A8%E8%B3%87%E9%87%91%E6%8E%92%E6%93%A0%E6%95%88%E6%87%89-124005198.html",
+              "title": "AI巨頭發債潮推升融資成本 新興市場主權債面臨資金排擠效應"
+            }
+          ]
+        },
+        {
+          "title": "〈財報〉股票交易大賺一筆！高盛Q3獲利增近3成 盤前股價走揚",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B2%A1%E5%A0%B1-%E8%82%A1%E7%A5%A8%E4%BA%A4%E6%98%93%E5%A4%A7%E8%B3%BA-%E7%AD%86-%E9%AB%98%E7%9B%9Bq3%E7%8D%B2%E5%88%A9%E5%A2%9E%E8%BF%913%E6%88%90-%E7%9B%A4%E5%89%8D%E8%82%A1%E5%83%B9%E8%B5%B0%E6%8F%9A-122003828.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:20:03+08:00",
+          "summary": "高盛第三季淨利52.9億美元、EPS 17.01美元，淨營收186.8億美元，年增23% 股票交易收入64.4億美元年增72%；FICC收入34.7億美元年減1%，低於預期 投行手續費收入32.2億美",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6629578",
+              "title": "〈財報〉股票交易大賺一筆！高盛Q3獲利增近3成 盤前股價走揚"
+            }
+          ]
+        },
+        {
+          "title": "MacBook資安防護：內建機制夠用嗎？這情況下恐需第三方防毒",
+          "link": "https://tw.stock.yahoo.com/news/macbook%E8%B3%87%E5%AE%89%E9%98%B2%E8%AD%B7-%E5%85%A7%E5%BB%BA%E6%A9%9F%E5%88%B6%E5%A4%A0%E7%94%A8%E5%97%8E-%E9%80%99%E6%83%85%E6%B3%81%E4%B8%8B%E6%81%90%E9%9C%80%E7%AC%AC%E4%B8%89%E6%96%B9%E9%98%B2%E6%AF%92-143143663.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T22:31:43+08:00",
+          "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導對於廣大蘋果（Apple）MacBook 用戶而言，電腦是否需要額外安裝第三方防毒軟體，一直是個常見的疑問。一份最新報導指出，macOS（蘋果桌面作業系統）具備多",
+          "additional_sources": []
+        },
+        {
+          "title": "蘋果發表智慧家庭中樞裝置HomeView　深度整合Siri AI",
+          "link": "https://tw.stock.yahoo.com/news/%E8%98%8B%E6%9E%9C%E7%99%BC%E8%A1%A8%E6%99%BA%E6%85%A7%E5%AE%B6%E5%BA%AD%E4%B8%AD%E6%A8%9E%E8%A3%9D%E7%BD%AEhomeview-%E6%B7%B1%E5%BA%A6%E6%95%B4%E5%90%88siri-ai-142845591.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T22:28:45+08:00",
+          "summary": "（中央社記者吳家豪台北2026年10月13日電）蘋果公司（Apple）今天擴大布局智慧家庭領域，除了發表全新智慧家庭中樞裝置HomeView，更罕見宣布與韓國LG電子、全球能源管理巨擘施耐德電機（Sc",
+          "additional_sources": []
+        },
+        {
+          "title": "記憶體股價連崩！美光早盤再跌4%",
+          "link": "https://tw.news.yahoo.com/%E8%A8%98%E6%86%B6%E9%AB%94%E8%82%A1%E5%83%B9%E9%80%A3%E5%B4%A9-%E7%BE%8E%E5%85%89%E6%97%A9%E7%9B%A4%E5%86%8D%E8%B7%8C4-141318866.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T22:13:18+08:00",
+          "summary": "[NOWNEWS今日新聞]美股周二（13日）早盤主要指數漲跌互見，費城半導體指數持續下探，記憶體類股股價連挫第三個交易日，美光下跌4%，光通訊概念股也齊跌。美股主要指數13日早盤，截止至台灣時間晚間1",
+          "additional_sources": []
+        },
+        {
+          "title": "FinTechSpace攜5新創攻日本　深化台日金融科技合作",
+          "link": "https://tw.stock.yahoo.com/news/fintechspace%E6%94%9C5%E6%96%B0%E5%89%B5%E6%94%BB%E6%97%A5%E6%9C%AC-%E6%B7%B1%E5%8C%96%E5%8F%B0%E6%97%A5%E9%87%91%E8%9E%8D%E7%A7%91%E6%8A%80%E5%90%88%E4%BD%9C-140338975.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T22:03:38+08:00",
+          "summary": "（中央社記者蘇思云台北2026年10月13日電）金融科技創新園區（FinTechSpace）今天表示，10月上旬率5家台灣金融科技新創團隊前往日本九州，透過跨國媒合與國際展會等，加速台灣新創拓展日本市",
+          "additional_sources": []
+        },
+        {
+          "title": "萬事達卡攜手Spotify推支付音效 科特勒理論解讀品牌新策略",
+          "link": "https://tw.stock.yahoo.com/news/%E8%90%AC%E4%BA%8B%E9%81%94%E5%8D%A1%E6%94%9C%E6%89%8Bspotify%E6%8E%A8%E6%94%AF%E4%BB%98%E9%9F%B3%E6%95%88-%E7%A7%91%E7%89%B9%E5%8B%92%E7%90%86%E8%AB%96%E8%A7%A3%E8%AE%80%E5%93%81%E7%89%8C%E6%96%B0%E7%AD%96%E7%95%A5-140134805.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T22:01:34+08:00",
+          "summary": "商傳媒｜吳承岳／台北報導支付科技巨擘萬事達卡（Mastercard）近期採取一項獨特的品牌策略，將其支付完成音效上架至音樂串流平台 Spotify，此舉被視為實踐現代行銷理論的最新案例。根據《JBpr",
+          "additional_sources": []
+        },
+        {
+          "title": "眼皮連跳7天！高雄鳳山開出大樂透3.5億元頭獎 一注獨得",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9C%BC%E7%9A%AE%E9%80%A3%E8%B7%B37%E5%A4%A9%EF%BC%81%E9%AB%98%E9%9B%84%E9%B3%B3%E5%B1%B1%E9%96%8B%E5%87%BA%E5%A4%A7%E6%A8%82%E9%80%8F35%E5%84%84%E5%85%83%E9%A0%AD%E7%8D%8E-%E4%B8%80%E6%B3%A8%E7%8D%A8%E5%BE%97-140226342.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:59:07+08:00",
+          "summary": "大樂透頭獎 3.5 億元今（13）日獎落高雄市鳳山區鳳松路上的「穩答答彩券行」，由一注獨得。代理人王小姐驚喜表示，這次能開出第五屆的第一個頭獎真的非常幸運、開心，她也笑著分享店內的開獎巧合與徵兆，不僅",
+          "additional_sources": []
+        },
+        {
+          "title": "金融科技 Revolut 擴大佈局 預計 2027 年投資墨西哥 2.5 億美元",
+          "link": "https://tw.stock.yahoo.com/news/%E9%87%91%E8%9E%8D%E7%A7%91%E6%8A%80-revolut-%E6%93%B4%E5%A4%A7%E4%BD%88%E5%B1%80-%E9%A0%90%E8%A8%88-2027-135710816.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:57:10+08:00",
+          "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導英國金融科技公司 Revolut 正積極拓展在拉丁美洲的市場，計畫至 2027 年將其在墨西哥的累計投資額增至約 2.5 億美元。此舉顯示 Revolut 對",
+          "additional_sources": []
+        },
+        {
+          "title": "雷虎與密西根州簽合作備忘錄　瞄準台美國防市場",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9B%B7%E8%99%8E%E8%88%87%E5%AF%86%E8%A5%BF%E6%A0%B9%E5%B7%9E%E7%B0%BD%E5%90%88%E4%BD%9C%E5%82%99%E5%BF%98%E9%8C%84-%E7%9E%84%E6%BA%96%E5%8F%B0%E7%BE%8E%E5%9C%8B%E9%98%B2%E5%B8%82%E5%A0%B4-135034390.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:50:34+08:00",
+          "summary": "（中央社記者潘智義台北2026年10月13日電）雷虎科技(8033)今天在美國陸軍協會年度展會與密西根州經濟發展公司（Michigan Economic DevelopmentCorporation，",
+          "additional_sources": []
+        },
+        {
+          "title": "小額投資人進軍不良資產市場 DSCR貸款成雙面刃",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B0%8F%E9%A1%8D%E6%8A%95%E8%B3%87%E4%BA%BA%E9%80%B2%E8%BB%8D%E4%B8%8D%E8%89%AF%E8%B3%87%E7%94%A2%E5%B8%82%E5%A0%B4-dscr%E8%B2%B8%E6%AC%BE%E6%88%90%E9%9B%99%E9%9D%A2%E5%88%83-134735033.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:47:35+08:00",
+          "summary": "圖／示意圖商傳媒｜簡明心／綜合外電報導一種名為「債務償付覆蓋率貸款」（DSCR loans）的抵押貸款產品，正協助美國小型投資人進入以往難以觸及的「不良資產市場」（distressed markets",
+          "additional_sources": []
+        },
+        {
+          "title": "Clarify研究：德州三都會區商業增長全美領先 奧斯汀居第三",
+          "link": "https://tw.stock.yahoo.com/news/clarify%E7%A0%94%E7%A9%B6-%E5%BE%B7%E5%B7%9E%E4%B8%89%E9%83%BD%E6%9C%83%E5%8D%80%E5%95%86%E6%A5%AD%E5%A2%9E%E9%95%B7%E5%85%A8%E7%BE%8E%E9%A0%98%E5%85%88-%E5%A5%A7%E6%96%AF%E6%B1%80%E5%B1%85%E7%AC%AC%E4%B8%89-134607160.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:46:07+08:00",
+          "summary": "圖／示意圖商傳媒｜方承業／綜合外電報導根據美國當地媒體《CW33》報導，Clarify, Inc. 最近一項研究指出，德州有三個主要都會區在全美商業增長方面表現出色，名列前茅。奧斯汀（Austin）位",
+          "additional_sources": []
+        },
+        {
+          "title": "美國信貸評分規則變革 三檔抵押貸款股受投資人關注",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E4%BF%A1%E8%B2%B8%E8%A9%95%E5%88%86%E8%A6%8F%E5%89%87%E8%AE%8A%E9%9D%A9-%E4%B8%89%E6%AA%94%E6%8A%B5%E6%8A%BC%E8%B2%B8%E6%AC%BE%E8%82%A1%E5%8F%97%E6%8A%95%E8%B3%87%E4%BA%BA%E9%97%9C%E6%B3%A8-133925358.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:39:25+08:00",
+          "summary": "圖／示意圖商傳媒｜方承業／綜合外電報導美國抵押貸款市場正經歷一場重要的信貸評分規則變革，FICO 的影響力逐漸下降，而 VantageScore 4.0 則日益受到重視。這項轉變不僅影響借款人取得貸款",
+          "additional_sources": []
+        },
+        {
+          "title": "經典 BBC Micro 掌上重現 開源模擬器效能躍升逾 7 倍",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B6%93%E5%85%B8-bbc-micro-%E6%8E%8C%E4%B8%8A%E9%87%8D%E7%8F%BE-%E9%96%8B%E6%BA%90%E6%A8%A1%E6%93%AC%E5%99%A8%E6%95%88%E8%83%BD%E8%BA%8D%E5%8D%87%E9%80%BE-133751432.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:37:51+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導一款在 1980 年代於英國普及的經典家用電腦——英國廣播公司微型（BBC Micro），近日由研究員多米尼克·帕賈克（Dominic Pajak）成功開發",
+          "additional_sources": []
+        },
+        {
+          "title": "阿波羅全球管理營收不如預期 股價盤中仍微漲顯示市場信心",
+          "link": "https://tw.stock.yahoo.com/news/%E9%98%BF%E6%B3%A2%E7%BE%85%E5%85%A8%E7%90%83%E7%AE%A1%E7%90%86%E7%87%9F%E6%94%B6%E4%B8%8D%E5%A6%82%E9%A0%90%E6%9C%9F-%E8%82%A1%E5%83%B9%E7%9B%A4%E4%B8%AD%E4%BB%8D%E5%BE%AE%E6%BC%B2%E9%A1%AF%E7%A4%BA%E5%B8%82%E5%A0%B4%E4%BF%A1%E5%BF%83-132854364.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:28:54+08:00",
+          "summary": "圖／本報資料庫商傳媒｜簡明心／綜合外電報導美國另類資產管理巨擘阿波羅全球管理（Apollo Global Management）在最新的季度財報中，其每股盈餘和營收表現未能達到市場預期。儘管財報不如預",
+          "additional_sources": []
+        },
+        {
+          "title": "法國歌手 Malou Oheix 於 Fondation Louis Vuitton 舉行的 2026 年 Herbie Hancock Institute 國際爵士樂歌唱大賽中奪冠",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%95%E5%9C%8B%E6%AD%8C%E6%89%8B-malou-oheix-%E6%96%BC-fondation-132000563.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:20:00+08:00",
+          "summary": "來自法國、現年 27 歲的 Malou Oheix，勇奪 2026 年 Herbie Hancock Institute 國際爵士樂歌唱大賽冠軍。大賽與 Fondation Louis Vuitton",
+          "additional_sources": []
+        },
+        {
+          "title": "搭上AI列車！PCB暨半導體設備廠''志聖''前3季EPS 10.67元創新高",
+          "link": "https://tw.stock.yahoo.com/news/%E6%90%AD%E4%B8%8Aai%E5%88%97%E8%BB%8A-pcb%E6%9A%A8%E5%8D%8A%E5%B0%8E%E9%AB%94%E8%A8%AD%E5%82%99%E5%BB%A0%E5%BF%97%E8%81%96%E5%89%8D3%E5%AD%A3eps-10-67%E5%85%83%E5%89%B5%E6%96%B0%E9%AB%98-131954427.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:19:54+08:00",
+          "summary": "財經中心／綜合報導搭上AI列車，PCB暨半導體設備廠「志聖」公布最新財報，前三季EPS 10.67元創歷史新高，稅後淨利年增191.83%，雖然交出漂亮成績單，不過13日股價卻跌了34元，股價來到55",
+          "additional_sources": []
+        },
+        {
+          "title": "美國國稅局公布 2026 稅務年度所得稅抵免標準 最高可退還 8,231 美元",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E5%9C%8B%E7%A8%85%E5%B1%80%E5%85%AC%E5%B8%83-2026-%E7%A8%85%E5%8B%99%E5%B9%B4%E5%BA%A6%E6%89%80%E5%BE%97%E7%A8%85%E6%8A%B5%E5%85%8D%E6%A8%99%E6%BA%96-%E6%9C%80%E9%AB%98%E5%8F%AF%E9%80%80%E9%82%84-8-130837233.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:08:37+08:00",
+          "summary": "商傳媒｜方承業／綜合外電報導美國國稅局 (IRS)，作為美國聯邦政府的稅務機關，已公布 2026 稅務年度的「所得稅抵免 (Earned Income Tax Credit, EITC)」標準。這項聯",
+          "additional_sources": []
+        },
+        {
+          "title": "「鋼鐵人」機器人伸鹹豬手！16歲少女被摸臀",
+          "link": "https://tw.news.yahoo.com/%E9%8B%BC%E9%90%B5%E4%BA%BA-%E6%A9%9F%E5%99%A8%E4%BA%BA%E4%BC%B8%E9%B9%B9%E8%B1%AC%E6%89%8B-16%E6%AD%B2%E5%B0%91%E5%A5%B3%E8%A2%AB%E6%91%B8%E8%87%80-045616167.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:08:28+08:00",
+          "summary": "[NOWNEWS今日新聞]德國科隆（Cologne）近日發生一起離譜的性騷擾案件，一台外型仿照漫威超級英雄「鋼鐵人」紅金配色的人形機器人，竟在速食店外涉嫌觸摸一名16歲少女的臀部，並做出帶有性暗示的頂",
+          "additional_sources": []
+        },
+        {
+          "title": "偷砍樹修高爾夫球場！法官批川普政府講不聽",
+          "link": "https://tw.news.yahoo.com/%E5%81%B7%E7%A0%8D%E6%A8%B9%E4%BF%AE%E9%AB%98%E7%88%BE%E5%A4%AB%E7%90%83%E5%A0%B4-%E6%B3%95%E5%AE%98%E6%89%B9%E5%B7%9D%E6%99%AE%E6%94%BF%E5%BA%9C%E8%AC%9B%E4%B8%8D%E8%81%BD-130712625.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:07:12+08:00",
+          "summary": "[NOWNEWS今日新聞]熱衷於高爾夫球的美國總統川普，計畫翻新年久失修的華盛頓特區東波多馬克高爾夫球場（EastPotomacGolfCourse），讓未來有機會能在該場地舉辦大型高爾夫球賽事。不過",
+          "additional_sources": []
+        },
+        {
+          "title": "前9月稅收狂飆3.5兆！ 財政部曝今年超徵的關鍵密碼",
+          "link": "https://tw.stock.yahoo.com/news/%E5%89%8D9%E6%9C%88%E7%A8%85%E6%94%B6%E7%8B%82%E9%A3%863-5%E5%85%86-%E8%B2%A1%E6%94%BF%E9%83%A8%E6%9B%9D%E4%BB%8A%E5%B9%B4%E8%B6%85%E5%BE%B5%E7%9A%84%E9%97%9C%E9%8D%B5%E5%AF%86%E7%A2%BC-130630913.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:06:30+08:00",
+          "summary": "財政部今日公布稅收，前9月的稅收已經達到3兆5714億元，較去年同期增加7004億元，由於中央政府總預算9月18日公布，稅課收入較原預算增加6000億元，併計地方政府及特種基金後，全國稅課收入教育算數",
+          "additional_sources": []
+        },
+        {
+          "title": "台股崩近千點誰最抗震？ 達人揭自組ETF心法 靠「雙主軸」穩賺波段財",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E5%B4%A9%E8%BF%91%E5%8D%83%E9%BB%9E%E8%AA%B0%E6%9C%80%E6%8A%97%E9%9C%87-%E9%81%94%E4%BA%BA%E6%8F%AD%E8%87%AA%E7%B5%84etf%E5%BF%83%E6%B3%95-%E9%9D%A0-%E9%9B%99%E4%B8%BB%E8%BB%B8-%E7%A9%A9%E8%B3%BA%E6%B3%A2%E6%AE%B5%E8%B2%A1-130512011.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:05:12+08:00",
+          "summary": "台股今（13）日遭遇沉重賣壓，加權指數終場重挫960.65點，收在48341.31點。不過，中信金逆勢上漲2元，收在71.8元，成為盤面亮點。有「不敗教主」之稱的財經作家陳重銘認為，中信金股價走揚可能",
+          "additional_sources": []
+        },
+        {
+          "title": "全聯今年台灣鯛銷售拚6億元　台積電效應將是展店考量因素",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E8%81%AF%E4%BB%8A%E5%B9%B4%E5%8F%B0%E7%81%A3%E9%AF%9B%E9%8A%B7%E5%94%AE%E6%8B%9A6%E5%84%84%E5%85%83-%E5%8F%B0%E7%A9%8D%E9%9B%BB%E6%95%88%E6%87%89%E5%B0%87%E6%98%AF%E5%B1%95%E5%BA%97%E8%80%83%E9%87%8F%E5%9B%A0%E7%B4%A0-125833265.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:58:33+08:00",
+          "summary": "（中央社記者何秀玲台北2026年10月13日電）去年底全聯台灣鯛檢驗烏龍事件仍影響消費信心，全聯鯛魚最大供應商口湖漁類生產合作社總經理王益豐表示，產能與銷售作業已恢復正常，但市場銷量目前還差約6%；全",
+          "additional_sources": []
+        },
+        {
+          "title": "歐中貿易談判後  王文濤稱磋商成果穩定業界預期",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AD%90%E4%B8%AD%E8%B2%BF%E6%98%93%E8%AB%87%E5%88%A4%E5%BE%8C-%E7%8E%8B%E6%96%87%E6%BF%A4%E7%A8%B1%E7%A3%8B%E5%95%86%E6%88%90%E6%9E%9C%E7%A9%A9%E5%AE%9A%E6%A5%AD%E7%95%8C%E9%A0%90%E6%9C%9F-123922913.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:39:22+08:00",
+          "summary": "（中央社台北2026年10月13日電）歐中貿易談判上週在北京結束，中國商務部部長王文濤12日表示，中歐貿易投資磋商機制第2次例會達成一系列成果共識，穩定了業界的預期。據中國商務部網站發布，王文濤12日",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣出身超微執行長蘇姿丰 帶領公司成功轉型半導體巨擘",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%81%A3%E5%87%BA%E8%BA%AB%E8%B6%85%E5%BE%AE%E5%9F%B7%E8%A1%8C%E9%95%B7%E8%98%87%E5%A7%BF%E4%B8%B0-%E5%B8%B6%E9%A0%98%E5%85%AC%E5%8F%B8%E6%88%90%E5%8A%9F%E8%BD%89%E5%9E%8B%E5%8D%8A%E5%B0%8E%E9%AB%94%E5%B7%A8%E6%93%98-123029912.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:30:29+08:00",
+          "summary": "商傳媒｜何映辰／台北報導超微半導體（AMD）執行長蘇姿丰憑藉其在半導體產業的深厚背景與卓越領導力，成功引領公司在高效能運算、遊戲和人工智慧（AI）等關鍵領域拓展業務版圖。《The Economic T",
+          "additional_sources": []
+        },
+        {
+          "title": "居家安全檢查｜瓦斯、電線、熱水器、門窗、陽台、樓梯6大重點",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B1%85%E5%AE%B6%E5%AE%89%E5%85%A8%E6%AA%A2%E6%9F%A5%EF%BD%9C%E7%93%A6%E6%96%AF%E3%80%81%E9%9B%BB%E7%B7%9A%E3%80%81%E7%86%B1%E6%B0%B4%E5%99%A8%E3%80%81%E9%96%80%E7%AA%97%E3%80%81%E9%99%BD%E5%8F%B0%E3%80%81%E6%A8%93%E6%A2%AF6%E5%A4%A7%E9%87%8D%E9%BB%9E-122800736.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:28:00+08:00",
+          "summary": "瓦斯漏氣、電線過熱、一氧化碳中毒、兒童墜落及樓梯跌倒，很多風險在事故發生前，其實都會留下跡象。\n\n阿明整理住宅最常見的6大安全重點，買中古屋、搬新家、出租房屋或老屋翻修時，都可以照著巡一遍。",
+          "additional_sources": []
+        },
+        {
+          "title": "盯新興風險　金管會發布金融業運用代理AI諮詢文件",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9B%AF%E6%96%B0%E8%88%88%E9%A2%A8%E9%9A%AA-%E9%87%91%E7%AE%A1%E6%9C%83%E7%99%BC%E5%B8%83%E9%87%91%E8%9E%8D%E6%A5%AD%E9%81%8B%E7%94%A8%E4%BB%A3%E7%90%86ai%E8%AB%AE%E8%A9%A2%E6%96%87%E4%BB%B6-122213465.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:22:13+08:00",
+          "summary": "（中央社記者蘇思云台北2026年10月13日電）金管會今天表示，金融業現行運用代理AI多數多處於試驗階段，並未正式上線，但考量代理AI遲早導入到行政與業務流程，因此發布「金融業運用代理AI安全諮詢文件",
+          "additional_sources": []
+        },
+        {
+          "title": "富達退休理財調查 6成民眾退休想月花5萬以上 卻面臨起步晚等三困境",
+          "link": "https://tw.stock.yahoo.com/news/%E5%AF%8C%E9%81%94%E9%80%80%E4%BC%91%E7%90%86%E8%B2%A1%E8%AA%BF%E6%9F%A5-6%E6%88%90%E6%B0%91%E7%9C%BE%E9%80%80%E4%BC%91%E6%83%B3%E6%9C%88%E8%8A%B15%E8%90%AC%E4%BB%A5%E4%B8%8A-%E5%8D%BB%E9%9D%A2%E8%87%A8%E8%B5%B7%E6%AD%A5%E6%99%9A%E7%AD%89%E4%B8%89%E5%9B%B0%E5%A2%83-122205506.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:22:05+08:00",
+          "summary": "富達國際13日發布《2026台灣退休理財暨TISA認知民調》，6成台灣受訪者表態，退休想月花5萬，但回歸現實面，卻有現在每月儲蓄不到1萬，且還面臨退休準備面臨儲蓄不足、起步太晚及缺乏長期投資知識三大困",
+          "additional_sources": []
+        },
+        {
+          "title": "屋齡逾30年住宅516萬戶  賴清德籲都更危老修正案立院速通過",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B1%8B%E9%BD%A1%E9%80%BE30%E5%B9%B4%E4%BD%8F%E5%AE%85516%E8%90%AC%E6%88%B6-%E8%B3%B4%E6%B8%85%E5%BE%B7%E7%B1%B2%E9%83%BD%E6%9B%B4%E5%8D%B1%E8%80%81%E4%BF%AE%E6%AD%A3%E6%A1%88%E7%AB%8B%E9%99%A2%E9%80%9F%E9%80%9A%E9%81%8E-121920622.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T20:19:20+08:00",
+          "summary": "總統賴清德今（13日）晚間出席「中華民國全國建築師公會第16屆、17屆理事長交接典禮」表示，政府持續推動都市更新、危老重建及50億元老宅延壽計畫，內政部並核發綠建築標章及候選綠建築證書總計逾1.5萬件",
+          "additional_sources": []
+        },
+        {
+          "title": "微軟近一年首度挑戰收盤新高 自低點強彈50%、市值增1.5兆美元",
+          "link": "https://news.cnyes.com/news/id/6629723",
+          "source": "cnyes",
+          "pubdate": "2026-10-13T22:25:32+08:00",
+          "summary": "鉅亨網編輯林羿君2026-10-13 22:25\n微軟(MSFT-US) 股價連漲四個月，漲勢持續升溫，可望近一年來首度創下收盤新高。\n微軟週二(13日)股價盤中一度上漲1.8%，至551.13美元，有望突破2025年10月以來的收盤紀錄。隨著市場對微軟及其AI布局的信心持續改善，該股自6月低點以來…",
+          "additional_sources": []
+        },
+        {
+          "title": "Siri AI來當管家了！蘋果HomeView等3新品登場 搶攻智慧家庭",
+          "link": "https://news.cnyes.com/news/id/6629700",
+          "source": "cnyes",
+          "pubdate": "2026-10-13T22:00:08+08:00",
+          "summary": "鉅亨網編譯段智恆2026-10-13 22:00\nSiri正式走進客廳與廚房！蘋果(AAPL-US)周二(13日)發表首款智慧顯示器HomeView，美國售價299美元，結合7吋觸控螢幕、人臉辨識與升級版Siri AI，可辨識最多六名家庭成員，提供個人化資訊與居家控制功能。蘋果也同步推出新版Appl…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US TSM 台積電 ADR",
+      "keywords": [
+        "us",
+        "指數",
+        "下跌",
+        "美元",
+        "0"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "〈美股早盤〉銀行財報喜憂參半、晶片股續挫 主要指數漲跌互現",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E8%82%A1%E6%97%A9%E7%9B%A4-%E9%8A%80%E8%A1%8C%E8%B2%A1%E5%A0%B1%E5%96%9C%E6%86%82%E5%8F%83%E5%8D%8A-%E6%99%B6%E7%89%87%E8%82%A1%E7%BA%8C%E6%8C%AB-%E4%B8%BB%E8%A6%81%E6%8C%87%E6%95%B8%E6%BC%B2%E8%B7%8C%E4%BA%92%E7%8F%BE-134501932.html",
+          "source": "yahoo",
+          "pubdate": "2026-10-13T21:45:01+08:00",
+          "summary": "晶片股賣壓加劇，費半跌2.73%，那斯達克走弱，台積電ADR跌1.19%。 長鑫存儲技術進展引發記憶體競爭疑慮，美光、威騰、希捷與SanDisk盤前重挫。 銀行財報好壞參半，摩根大通受惠淨利息收入上調",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6629574",
+              "title": "〈美股早盤〉銀行財報喜憂參半、晶片股續挫 主要指數漲跌互現"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "market": "US"
 }
