@@ -321,3 +321,17 @@ export function formatNumber(value: number | null | undefined): string {
   if (value == null) return 'N/A'
   return value.toLocaleString('en-US', { maximumFractionDigits: 2 })
 }
+
+export interface ForexData {
+  pair: string
+  points: { timestamp: number; rate: number }[]
+  fetchedAt: number
+  asOf: number | null
+  interval: '5m' | '1d'
+  source: string
+}
+export async function getForex(pair: string, period: string, signal: AbortSignal): Promise<ForexData> {
+  const response = await fetch(`${BASE}/forex?pair=${encodeURIComponent(pair)}&period=${period}`, { signal })
+  if (!response.ok) throw new Error('匯率來源暫時無法使用，請稍後重試')
+  return response.json()
+}

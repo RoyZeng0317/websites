@@ -1,3 +1,4 @@
+import ForexMarkets from '../components/ForexMarkets'
 import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
@@ -233,6 +234,8 @@ export default function HomePage() {
       </div>
 
       <SearchBar />
+
+      <ErrorBoundary><ForexMarkets /></ErrorBoundary>
 
       <ErrorBoundary>
         <AttentionStocks />
