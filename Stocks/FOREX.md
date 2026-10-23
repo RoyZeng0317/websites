@@ -5,8 +5,8 @@
 ## 資料與限制
 
 - Yahoo Finance v8 chart：`TWD=X`（USD/TWD）、`HKD=X`（USD/HKD）。Yahoo 官方來源表列外匯為 ICE Data Services：https://help.yahoo.com/kb/finance/article-exchanges-data-delays-sln2310.html 。市場參考價不等於銀行買賣價：https://tw.help.yahoo.com/kb/SLN37200.html 。
-- `GET /api/forex?pair=TWD/HKD&period=5d`：五分鐘資料；1mo / 1y 明確使用日資料。前端完成每次請求後 60 秒再查詢，後端每條資料快取 60 秒。快取不會改寫原始資料時間。
-- 來源屬即時外匯 feed，但 chart 端點沒有可驗證的固定延遲或服務承諾，因此介面標示延遲未知、不保證逐筆即時；不把日線或每分鐘查詢宣稱成即時報價。
+- `GET /api/forex?pair=TWD/HKD&period=5d`：五分鐘資料；1mo / 1y 明確使用日資料。開啟頁面立即查詢，前端完成每次請求後 300 秒自動再查詢，後端每條資料快取 60 秒。快取不會改寫原始資料時間。
+- 來源屬即時外匯 feed，但 chart 端點沒有可驗證的固定延遲或服務承諾，因此介面標示延遲未知、不保證逐筆即時；不把日線或定時查詢宣稱成即時報價。
 - TWD/HKD = USD/HKD ÷ USD/TWD；TWD/USD = 1 ÷ USD/TWD。只計算兩條來源具有**相同時間戳**的交集，不插值、不以前值補齊。最後零散更新可能被捨棄，資料時間反映實際交集。
 - 漲跌幅為所選區間首末筆差異，不是昨收漲跌。資料時間為 bar 時間，查詢時間另列，皆以台北時區顯示。
 - 五分鐘資料超過 30 分鐘／日資料超過三天未更新會提示較舊或可能休市；不憑週末或無報價斷言休市，來源未提供可驗證市場狀態。

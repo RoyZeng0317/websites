@@ -21,7 +21,7 @@ export default function ForexMarkets() {
       } catch {
         if (!controller.signal.aborted) setError('無法更新匯率；已有資料僅供歷史參考。請重試。')
       } finally {
-        if (!controller.signal.aborted) { setLoading(false); timer = window.setTimeout(refresh, 60_000) }
+        if (!controller.signal.aborted) { setLoading(false); timer = window.setTimeout(refresh, 300_000) }
       }
     }
     refresh()
@@ -43,7 +43,7 @@ export default function ForexMarkets() {
         <option value="5d">近五交易日（五分鐘）</option><option value="1mo">近一月（日資料）</option><option value="1y">近一年（日資料）</option>
       </select>
     </div>
-    <p className="text-xs text-slate-400">市場參考匯率，非銀行買賣價。每分鐘查詢；供應延遲未知，不保證逐筆即時。</p>
+    <p className="text-xs text-slate-400">市場參考匯率，非銀行買賣價。每五分鐘自動更新；供應延遲未知，不保證逐筆即時。</p>
     {loading && <p role="status">匯率載入中…</p>}
     {error && <p role="alert" className="text-amber-400">{error} <button type="button" onClick={() => setRetry(v => v + 1)}>重試</button></p>}
     {!loading && data && !points.length && <p>此期間無可對齊的匯率資料，請切換期間。</p>}
