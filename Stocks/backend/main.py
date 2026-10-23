@@ -4323,3 +4323,7 @@ async def get_dividend_history(symbol: str):
 # rest of this 3800+ line file.
 from ml_predict import router as ml_router  # noqa: E402
 app.include_router(ml_router)
+
+# FX uses separate validation and timestamps from stock quotes.
+from forex import router as forex_router
+app.include_router(forex_router)
