@@ -53,4 +53,4 @@ def forex(pair: str = 'TWD/HKD', period: str = Query('5d', pattern='^(5d|1mo|1y)
             'asOf': points[-1]['timestamp'] if points else None,
             'interval': '5m' if period == '5d' else '1d',
             'source': 'Yahoo Finance / ICE（美元基準交叉換算）',
-            'delaySeconds': None, 'pollSeconds': 60}
+            'delaySeconds': None, 'pollSeconds': 300}
