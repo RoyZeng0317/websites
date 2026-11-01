@@ -1,0 +1,568 @@
+{
+  "date": "2026-11-01",
+  "generated_at": "2026-11-01T22:08:23.708383",
+  "group_count": 11,
+  "total_articles": 49,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "權證",
+        "ai",
+        "1",
+        "交易",
+        "市場"
+      ],
+      "article_count": 35,
+      "articles": [
+        {
+          "title": "DeepSeek推出Super-agent架構！打造24小時自主AI代理、跨平台並行處理多項任務",
+          "link": "https://tw.stock.yahoo.com/news/deepseek%E6%8E%A8%E5%87%BAsuper-agent%E6%9E%B6%E6%A7%8B-%E6%89%93%E9%80%A024%E5%B0%8F%E6%99%82%E8%87%AA%E4%B8%BBai%E4%BB%A3%E7%90%86-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E4%B8%A6%E8%A1%8C%E8%99%95%E7%90%86%E5%A4%9A%E9%A0%85%E4%BB%BB%E5%8B%99-091002700.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T17:10:02+08:00",
+          "summary": "DeepSeek發表Super-agent架構，以雙層Router/Worker、事件驅動等設計，讓AI可長時間在線、跨平台接收指令。 實驗顯示，單一工作階段p95任務完成時間由29.5分鐘降至15.",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6643211",
+              "title": "DeepSeek推出Super-agent架構！打造24小時自主AI代理、跨平台並行處理多項任務"
+            }
+          ]
+        },
+        {
+          "title": "盼追加預算11月順利過關 卓揆：讓普發1萬最快春節前發錢 行政準備絕不拖延",
+          "link": "https://tw.stock.yahoo.com/news/%E7%9B%BC%E8%BF%BD%E5%8A%A0%E9%A0%90%E7%AE%9711%E6%9C%88%E9%A0%86%E5%88%A9%E9%81%8E%E9%97%9C-%E5%8D%93%E6%8F%86-%E8%AE%93%E6%99%AE%E7%99%BC1%E8%90%AC%E6%9C%80%E5%BF%AB%E6%98%A5%E7%AF%80%E5%89%8D%E7%99%BC%E9%8C%A2-%E8%A1%8C%E6%94%BF%E6%BA%96%E5%82%99%E7%B5%95%E4%B8%8D%E6%8B%96%E5%BB%B6-085002822.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:50:02+08:00",
+          "summary": "卓榮泰稱台灣第3季GDP概估14.36%、全年估11.06%，世界第2；台灣整體競爭力居全球第4。 明年度中央政府總預算歲出3兆9266億元，含普發1萬預算若1月20日前公布最快春節前發放。 政院盼1",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6643192",
+              "title": "盼追加預算11月順利過關 卓揆：讓普發1萬最快春節前發錢 行政準備絕不拖延"
+            }
+          ]
+        },
+        {
+          "title": "中國人頻傳廁所密碼！釜山要處理公廁問題",
+          "link": "https://tw.news.yahoo.com/%E4%B8%AD%E5%9C%8B%E4%BA%BA%E9%A0%BB%E5%82%B3%E5%BB%81%E6%89%80%E5%AF%86%E7%A2%BC-%E9%87%9C%E5%B1%B1%E8%A6%81%E8%99%95%E7%90%86%E5%85%AC%E5%BB%81%E5%95%8F%E9%A1%8C-134713209.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T21:47:13+08:00",
+          "summary": "[NOWNEWS今日新聞]韓國釜山的外國遊客正大幅增加，但旅客「內急」時想找廁所卻不容易，因此有許多中國人在小紅書等社群平台上流傳「釜山商家廁所密碼」，這也讓許多店家抱怨許多店內設施被人未授權使用。對",
+          "additional_sources": []
+        },
+        {
+          "title": "獎勵青年地方創生　龔明鑫：若拓展海外經濟部可協助",
+          "link": "https://tw.stock.yahoo.com/news/%E7%8D%8E%E5%8B%B5%E9%9D%92%E5%B9%B4%E5%9C%B0%E6%96%B9%E5%89%B5%E7%94%9F-%E9%BE%94%E6%98%8E%E9%91%AB-%E8%8B%A5%E6%8B%93%E5%B1%95%E6%B5%B7%E5%A4%96%E7%B6%93%E6%BF%9F%E9%83%A8%E5%8F%AF%E5%8D%94%E5%8A%A9-133804398.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T21:38:04+08:00",
+          "summary": "（中央社記者高華謙台北2026年11月1日電）經濟部長龔明鑫今天出席獎勵青年投入地方創生行動計畫成果發表會時表示，為支持青年投入地方創生，政府提供地方創生團隊第一桶金，後續若有進一步商業化、甚至拓展海",
+          "additional_sources": []
+        },
+        {
+          "title": "AI變現疑慮　葉俊顯：台灣以硬體為主、即便衝擊也屬短暫",
+          "link": "https://tw.stock.yahoo.com/news/ai%E8%AE%8A%E7%8F%BE%E7%96%91%E6%85%AE-%E8%91%89%E4%BF%8A%E9%A1%AF-%E5%8F%B0%E7%81%A3%E4%BB%A5%E7%A1%AC%E9%AB%94%E7%82%BA%E4%B8%BB-%E5%8D%B3%E4%BE%BF%E8%A1%9D%E6%93%8A%E4%B9%9F%E5%B1%AC%E7%9F%AD%E6%9A%AB-133702177.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T21:37:02+08:00",
+          "summary": "（中央社記者高華謙台北2026年11月1日電）AI投資變現能力引爆市場疑慮，美國科技股重挫。國發會主委葉俊顯認為，目前應是美國資本市場對AI軟體部分有些擔憂，而以硬體為主的台灣企業在訂單、資金方面都沒",
+          "additional_sources": []
+        },
+        {
+          "title": "葡萄牙住房危機 警方強拆示威者帳篷逮13人",
+          "link": "https://tw.news.yahoo.com/%E8%91%A1%E8%90%84%E7%89%99%E4%BD%8F%E6%88%BF%E5%8D%B1%E6%A9%9F-%E8%AD%A6%E6%96%B9%E5%BC%B7%E6%8B%86%E7%A4%BA%E5%A8%81%E8%80%85%E5%B8%B3%E7%AF%B7%E9%80%AE13%E4%BA%BA-130341222.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T21:03:41+08:00",
+          "summary": "葡萄牙鎮暴警察今天(1日)清晨攜帶警犬突襲了里斯本(Lisbon)和波多(Porto)的抗議營地，持警棍驅散示威者，逮捕了13人，還造成數十人受傷。這是葡萄牙住房危機引發的最新一波衝突。 在數十名警察",
+          "additional_sources": []
+        },
+        {
+          "title": "英男徒步環球28年將返家！紀錄片計畫浮現",
+          "link": "https://tw.news.yahoo.com/%E8%8B%B1%E7%94%B7%E5%BE%92%E6%AD%A5%E7%92%B0%E7%90%8328%E5%B9%B4%E5%B0%87%E8%BF%94%E5%AE%B6-%E7%B4%80%E9%8C%84%E7%89%87%E8%A8%88%E7%95%AB%E6%B5%AE%E7%8F%BE-122944676.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T20:29:44+08:00",
+          "summary": "[NOWNEWS今日新聞]英國冒險家布希比（KarlBushby）在歷經28年的「徒步返鄉」之旅後，10月終於踏上英國本土，預計將在當地時間周一（11/2）抵達終點，如今的他在英格蘭北部一條繁忙的鄉間",
+          "additional_sources": []
+        },
+        {
+          "title": "房市冷了一年終於動了！10月交易量月增14% 「這縣市」最熱",
+          "link": "https://tw.stock.yahoo.com/news/%E6%88%BF%E5%B8%82%E5%86%B7%E4%BA%86-%E5%B9%B4%E7%B5%82%E6%96%BC%E5%8B%95%E4%BA%86-10%E6%9C%88%E4%BA%A4%E6%98%93%E9%87%8F%E6%9C%88%E5%A2%9E14-%E9%80%99%E7%B8%A3%E5%B8%82-%E6%9C%80%E7%86%B1-122500433.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T20:25:00+08:00",
+          "summary": "年底傳統購屋旺季來臨，加上10月有國慶日與光復節兩個三天連假，民眾看屋意願增，讓10月房市交易量繳出年月雙增表現，根據房仲內部成交資料顯示，與9月相比，全台交易量月增14%，其中，台北量增13%，新北",
+          "additional_sources": []
+        },
+        {
+          "title": "經濟成長率有望破12％ 賴總統籲在野支持追加預算補貼油電",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B6%93%E6%BF%9F%E6%88%90%E9%95%B7%E7%8E%87%E6%9C%89%E6%9C%9B%E7%A0%B412-%E8%B3%B4%E7%B8%BD%E7%B5%B1%E7%B1%B2%E5%9C%A8%E9%87%8E%E6%94%AF%E6%8C%81%E8%BF%BD%E5%8A%A0%E9%A0%90%E7%AE%97%E8%A3%9C%E8%B2%BC%E6%B2%B9%E9%9B%BB-121540091.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T20:15:40+08:00",
+          "summary": "總統賴清德今天（1日）出席「高雄市醫師公會新會館啟用典禮」表示，今年經濟成長率可望突破12%，預估稅收將增加，希望在地緣政治變化嚴重、國際油價及物價攀升之際，台灣不只發展經濟、不只讓經濟果實為人民所共",
+          "additional_sources": []
+        },
+        {
+          "title": "裝修蟑螂專挑買房族下手！低價接案、惡意追加、收錢失聯　阿明提醒簽約前查清5件事",
+          "link": "https://tw.stock.yahoo.com/news/%E8%A3%9D%E4%BF%AE%E8%9F%91%E8%9E%82%E5%B0%88%E6%8C%91%E8%B2%B7%E6%88%BF%E6%97%8F%E4%B8%8B%E6%89%8B%EF%BC%81%E4%BD%8E%E5%83%B9%E6%8E%A5%E6%A1%88%E3%80%81%E6%83%A1%E6%84%8F%E8%BF%BD%E5%8A%A0%E3%80%81%E6%94%B6%E9%8C%A2%E5%A4%B1%E8%81%AF-%E9%98%BF%E6%98%8E%E6%8F%90%E9%86%92%E7%B0%BD%E7%B4%84%E5%89%8D%E6%9F%A5%E6%B8%855%E4%BB%B6%E4%BA%8B-120000279.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T20:00:00+08:00",
+          "summary": "買房裝潢最怕遇到裝修蟑螂！原本報價100萬元，施工後卻不斷追加工程款，最後花了150萬元還沒完工。更嚴重的情況，是業者收取大筆訂金後直接失聯，留下拆到一半的房子，屋主還得另外花錢找人收拾",
+          "additional_sources": []
+        },
+        {
+          "title": "獨家》APEC年會傳中方搞小動作  國安團隊沙盤推演我出席不受影響",
+          "link": "https://tw.stock.yahoo.com/news/%E7%8D%A8%E5%AE%B6-apec%E5%B9%B4%E6%9C%83%E5%82%B3%E4%B8%AD%E6%96%B9%E6%90%9E%E5%B0%8F%E5%8B%95%E4%BD%9C-%E5%9C%8B%E5%AE%89%E5%9C%98%E9%9A%8A%E6%B2%99%E7%9B%A4%E6%8E%A8%E6%BC%94%E6%88%91%E5%87%BA%E5%B8%AD%E4%B8%8D%E5%8F%97%E5%BD%B1%E9%9F%BF-115244549.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T19:52:44+08:00",
+          "summary": "亞太經濟合作會議（APEC）領袖峰會將於18日至19日在中國深圳舉行，我國領袖代表將循例持邀請函出席。但據透露，東道主中國在APEC致函上搞差別待遇，以「歧視」方式致函。對此，外交部表示，對於中方任何",
+          "additional_sources": []
+        },
+        {
+          "title": "勞保保越久領越少？專家揭2大請領陷阱　最慘恐少領逾52萬元",
+          "link": "https://tw.news.yahoo.com/%E5%8B%9E%E4%BF%9D%E4%BF%9D%E8%B6%8A%E4%B9%85%E9%A0%98%E8%B6%8A%E5%B0%91-%E5%B0%88%E5%AE%B6%E6%8F%AD2%E5%A4%A7%E8%AB%8B%E9%A0%98%E9%99%B7%E9%98%B1-%E6%9C%80%E6%85%98%E6%81%90%E5%B0%91%E9%A0%98%E9%80%BE52%E8%90%AC%E5%85%83-113805630.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T19:38:05+08:00",
+          "summary": "勞工辛苦繳納勞保多年，未必代表退休後領得越多，若沒有掌握請領規定，甚至可能出現「保越久、領越少」的情況。勞保達人張秘書指出，勞保一次請領與月領年金的平均投保薪資計算方式不同，一次請領採計最後36個月平",
+          "additional_sources": []
+        },
+        {
+          "title": "巴菲特48年不喝水！知名富豪好友揭秘辛",
+          "link": "https://tw.news.yahoo.com/%E5%B7%B4%E8%8F%B2%E7%89%B948%E5%B9%B4%E4%B8%8D%E5%96%9D%E6%B0%B4-%E7%9F%A5%E5%90%8D%E5%AF%8C%E8%B1%AA%E5%A5%BD%E5%8F%8B%E6%8F%AD%E7%A7%98%E8%BE%9B-113116748.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T19:31:16+08:00",
+          "summary": "[NOWNEWS今日新聞]股神巴菲特的飲食習慣總是掀起議論，因他每天喝5罐可樂，平時喜愛吃麥當勞早餐，熱狗、薯條、爆米花、餅乾等食物充斥生活，幾乎不吃蔬菜。如今，億萬富翁、避險基金經理人艾克曼（Bil",
+          "additional_sources": []
+        },
+        {
+          "title": "台股跌破半年線機會來了？ 冠軍分析師鎖定「5檔抗震股」 拚年底作帳行情",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E8%B7%8C%E7%A0%B4%E5%8D%8A%E5%B9%B4%E7%B7%9A%E6%A9%9F%E6%9C%83%E4%BE%86%E4%BA%86-%E5%86%A0%E8%BB%8D%E5%88%86%E6%9E%90%E5%B8%AB%E9%8E%96%E5%AE%9A-5%E6%AA%94%E6%8A%97%E9%9C%87%E8%82%A1-%E6%8B%9A%E5%B9%B4%E5%BA%95%E4%BD%9C%E5%B8%B3%E8%A1%8C%E6%83%85-110435039.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T19:04:35+08:00",
+          "summary": "受美股科技巨頭財報不如預期與AI資本支出疑慮影響，台股上周失守半年線，周跌幅約1.8%。但在《工商時報》「台股逐洞賽」第5洞競賽中，浦惠投顧分析師趙彭博以1.13%的單周報酬率，奪下周冠軍。面對美股費",
+          "additional_sources": []
+        },
+        {
+          "title": "掀開神祕面紗! 李老師東京現身 本尊露臉網友震撼",
+          "link": "https://tw.news.yahoo.com/%E6%8E%80%E9%96%8B%E7%A5%9E%E7%A5%95%E9%9D%A2%E7%B4%97-%E6%9D%8E%E8%80%81%E5%B8%AB%E6%9D%B1%E4%BA%AC%E7%8F%BE%E8%BA%AB-%E6%9C%AC%E5%B0%8A%E9%9C%B2%E8%87%89%E7%B6%B2%E5%8F%8B%E9%9C%87%E6%92%BC-105229704.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T18:52:29+08:00",
+          "summary": "第三屆「不明白節」昨天( 31日 )在日本東京落幕。活動中，在X平台擁有超過200萬追蹤者、長期關注中國社會抗爭的帳號「李老師不是你老師」（李穎）在活動中首度公開現身、引發廣泛關注與討論。 「不明白節",
+          "additional_sources": []
+        },
+        {
+          "title": "保加利亞總統大選2輪投票 現任總統對決前看守總理",
+          "link": "https://tw.news.yahoo.com/%E4%BF%9D%E5%8A%A0%E5%88%A9%E4%BA%9E%E7%B8%BD%E7%B5%B1%E5%A4%A7%E9%81%B82%E8%BC%AA%E6%8A%95%E7%A5%A8-%E7%8F%BE%E4%BB%BB%E7%B8%BD%E7%B5%B1%E5%B0%8D%E6%B1%BA%E5%89%8D%E7%9C%8B%E5%AE%88%E7%B8%BD%E7%90%86-104237102.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T18:42:37+08:00",
+          "summary": "保加利亞民眾今天(1日)投票選舉總統。此前，兩位領先的候選人在上週末第一輪投票中競爭激烈，未能決出勝負。 保加利亞總統主要是儀式性職位。 現任總統、61歲的約托娃(Iliana Iotova)領先50",
+          "additional_sources": []
+        },
+        {
+          "title": "漲聲響起! 春水堂中杯珍奶漲至200元 牛肉麵再漲50元",
+          "link": "https://tw.stock.yahoo.com/news/%E6%BC%B2%E8%81%B2%E9%9F%BF%E8%B5%B7-%E6%98%A5%E6%B0%B4%E5%A0%82%E4%B8%AD%E6%9D%AF%E7%8F%8D%E5%A5%B6%E6%BC%B2%E8%87%B3200%E5%85%83-%E7%89%9B%E8%82%89%E9%BA%B5%E5%86%8D%E6%BC%B250%E5%85%83-102503011.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T18:25:03+08:00",
+          "summary": "財經中心／張晏緹、李澤民 台北報導又是漲價消息！知名茶飲品牌春水堂，近期調整部分餐點價格，其中經典珍珠奶茶，中杯就要200元，御品牛肉麵更是一口氣漲了50元！而不只春水堂，近期不少餐飲業者接連調漲價格",
+          "additional_sources": []
+        },
+        {
+          "title": "認購權證、認售權證差在哪？看多與看空的獲利邏輯一次看懂",
+          "link": "https://tw.stock.yahoo.com/news/%E8%AA%8D%E8%B3%BC%E6%AC%8A%E8%AD%89%E3%80%81%E8%AA%8D%E5%94%AE%E6%AC%8A%E8%AD%89%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F%E7%9C%8B%E5%A4%9A%E8%88%87%E7%9C%8B%E7%A9%BA%E7%9A%84%E7%8D%B2%E5%88%A9%E9%82%8F%E8%BC%AF%E4%B8%80%E6%AC%A1%E7%9C%8B%E6%87%82-100000713.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T18:00:00+08:00",
+          "summary": "股票有漲就有跌，一般散戶習慣「買進股票等它漲」（做多），但當市場面臨回檔或個股利空時，只能眼睜睜看著資產縮水。但權證不同，看多與看空，都可以透過權證有對應的操作。認購權證（Call）與認售權證（Put",
+          "additional_sources": []
+        },
+        {
+          "title": "權證到期一定要履約嗎？忘記賣掉會怎樣？自動現金結算與最後交易日解析",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AC%8A%E8%AD%89%E5%88%B0%E6%9C%9F%E4%B8%80%E5%AE%9A%E8%A6%81%E5%B1%A5%E7%B4%84%E5%97%8E%EF%BC%9F%E5%BF%98%E8%A8%98%E8%B3%A3%E6%8E%89%E6%9C%83%E6%80%8E%E6%A8%A3%EF%BC%9F%E8%87%AA%E5%8B%95%E7%8F%BE%E9%87%91%E7%B5%90%E7%AE%97%E8%88%87%E6%9C%80%E5%BE%8C%E4%BA%A4%E6%98%93%E6%97%A5%E8%A7%A3%E6%9E%90-100000081.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T18:00:00+08:00",
+          "summary": "權證屬於一種「有壽命」的衍生性金融商品，與可以終身持有的股票不同。當權證一步步走向壽命終點時，投資人最關心的莫過於自己的資金權益。接續前幾篇的權證觀念與下單實務，本篇文章帶你一次搞懂：權證到期的處理方",
+          "additional_sources": []
+        },
+        {
+          "title": "權證怎麼買賣？需要另外開戶嗎？交易時間、下單方式與相關稅費一次搞懂",
+          "link": "https://tw.stock.yahoo.com/news/%E6%AC%8A%E8%AD%89%E6%80%8E%E9%BA%BC%E8%B2%B7%E8%B3%A3%EF%BC%9F%E9%9C%80%E8%A6%81%E5%8F%A6%E5%A4%96%E9%96%8B%E6%88%B6%E5%97%8E%EF%BC%9F%E4%BA%A4%E6%98%93%E6%99%82%E9%96%93%E3%80%81%E4%B8%8B%E5%96%AE%E6%96%B9%E5%BC%8F%E8%88%87%E7%9B%B8%E9%97%9C%E7%A8%85%E8%B2%BB%E4%B8%80%E6%AC%A1%E6%90%9E%E6%87%82-100000673.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T18:00:00+08:00",
+          "summary": "搞懂了權證的核心名詞與多空邏輯後，到了臨門一腳的「實務交易」環節，許多新手常被下單軟體的警示與參數搞得一頭霧水——買賣權證需要另外去券商開戶嗎？交易時間跟一般股票一樣嗎？手續費和稅金怎麼算？本篇帶大家",
+          "additional_sources": []
+        },
+        {
+          "title": "週一剉咧等? 台股10月市值蒸發10.5兆 郭哲榮:年底5萬點",
+          "link": "https://tw.stock.yahoo.com/news/%E9%80%B1-%E5%89%89%E5%92%A7%E7%AD%89-%E5%8F%B0%E8%82%A110%E6%9C%88%E5%B8%82%E5%80%BC%E8%92%B8%E7%99%BC10-5%E5%85%86-%E9%83%AD%E5%93%B2%E6%A6%AE-094324360.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T17:43:24+08:00",
+          "summary": "財經中心／唐詩晴、張智凱 台北報導10月的最後一個交易日，台北股市慘遭重擊，外資單日狂砍1,124億元，拖累大盤大跌1,156點、一度失守半年線，沒想到週五晚間美股繼續重挫，台期指跌破4萬5千點關卡！",
+          "additional_sources": []
+        },
+        {
+          "title": "光寶科技第三季營收NT$574億元 年、季雙成長  累計前三季每股盈餘逾NT8元",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%89%E5%AF%B6%E7%A7%91%E6%8A%80%E7%AC%AC%E4%B8%89%E5%AD%A3%E7%87%9F%E6%94%B6nt-574%E5%84%84%E5%85%83-%E5%B9%B4-%E5%AD%A3%E9%9B%99%E6%88%90%E9%95%B7-%E7%B4%AF%E8%A8%88%E5%89%8D%E4%B8%89%E5%AD%A3%E6%AF%8F%E8%82%A1%E7%9B%88%E9%A4%98%E9%80%BEnt8%E5%85%83-093514562.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T17:35:14+08:00",
+          "summary": "財經中心/綜合報導光寶科技(2301)今日公布2026年第三季營運成果。第三季合併營收達NT$574億元，季增9%、年增28%；第三季營業毛利率達25.9%，年增0.9個百分點；營業利益率15.1%，",
+          "additional_sources": []
+        },
+        {
+          "title": "傳統購屋旺季來臨！ 永慶房屋：10月房市買氣回溫 10月全台房市交易量月增14%",
+          "link": "https://tw.stock.yahoo.com/news/%E5%82%B3%E7%B5%B1%E8%B3%BC%E5%B1%8B%E6%97%BA%E5%AD%A3%E4%BE%86%E8%87%A8-%E6%B0%B8%E6%85%B6%E6%88%BF%E5%B1%8B-10%E6%9C%88%E6%88%BF%E5%B8%82%E8%B2%B7%E6%B0%A3%E5%9B%9E%E6%BA%AB-10%E6%9C%88%E5%85%A8%E5%8F%B0%E6%88%BF%E5%B8%82%E4%BA%A4%E6%98%93%E9%87%8F%E6%9C%88%E5%A2%9E14-093010960.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T17:30:10+08:00",
+          "summary": "財經中心/綜合報導年底傳統購屋旺季來臨，加上10月有國慶日與光復節兩個三天連假，民眾看屋意願增，讓10月房市交易量繳出年月雙增表現，顯示在經濟基本面穩健成長與自住需求支撐下，第四季房市買氣延續回溫走勢",
+          "additional_sources": []
+        },
+        {
+          "title": "台中工業地價愈漲愈高！企業擴廠轉向烏日　每坪不到40萬",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E4%B8%AD%E5%B7%A5%E6%A5%AD%E5%9C%B0%E5%83%B9%E6%84%88%E6%BC%B2%E6%84%88%E9%AB%98-%E4%BC%81%E6%A5%AD%E6%93%B4%E5%BB%A0%E8%BD%89%E5%90%91%E7%83%8F%E6%97%A5-%E6%AF%8F%E5%9D%AA%E4%B8%8D%E5%88%B040%E8%90%AC-093000604.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T17:30:00+08:00",
+          "summary": "AI浪潮下，工業不動產需求持續擴大，上市櫃企業今年投資台中工業地產金額達538億元創歷史新高，烏日憑藉三鐵共構交通樞紐，加上土地價格具競爭力，可望承接擴廠需求外溢商機。",
+          "additional_sources": []
+        },
+        {
+          "title": "成衣工人持續抗議 孟加拉成立勞工薪資委員會",
+          "link": "https://tw.news.yahoo.com/%E6%88%90%E8%A1%A3%E5%B7%A5%E4%BA%BA%E6%8C%81%E7%BA%8C%E6%8A%97%E8%AD%B0-%E5%AD%9F%E5%8A%A0%E6%8B%89%E6%88%90%E7%AB%8B%E5%8B%9E%E5%B7%A5%E8%96%AA%E8%B3%87%E5%A7%94%E5%93%A1%E6%9C%83-085933216.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:59:33+08:00",
+          "summary": "孟加拉今天(1日)成立了一個新的委員會，負責審查成衣工人的最低薪資，當局正尋求平息擾亂達卡(Dhaka)週邊主要工業中心的抗議活動。 儘管採取了這項舉措，今天仍有數千名工人在達卡週邊的工業區持續示威，",
+          "additional_sources": []
+        },
+        {
+          "title": "國1五堵至汐止段不再「打結」！卓揆：基北往返尖峰省15分鐘 車速升至80公里",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B1%E4%BA%94%E5%A0%B5%E8%87%B3%E6%B1%90%E6%AD%A2%E6%AE%B5%E4%B8%8D%E5%86%8D-%E6%89%93%E7%B5%90-%E5%8D%93%E6%8F%86-%E5%9F%BA%E5%8C%97%E5%BE%80%E8%BF%94%E5%B0%96%E5%B3%B0%E7%9C%8115%E5%88%86%E9%90%98-%E8%BB%8A%E9%80%9F%E5%8D%87%E8%87%B380%E5%85%AC%E9%87%8C-084354518.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:43:54+08:00",
+          "summary": "國道1號五堵至汐止交流道拓寬工程推進，主線雙向2車道增至3車道並新增匝道。 完工後尖峰車速可由每小時23至32公里升至80至82公里，基隆往返台北可縮短10至15分鐘。 卓榮泰稱中央與地方協力解決台北",
+          "additional_sources": []
+        },
+        {
+          "title": "〈台股風向球〉融資恐殺出引爆補跌壓力 台股走勢可能有2種情境",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%A2%A8%E5%90%91%E7%90%83-%E8%9E%8D%E8%B3%87%E6%81%90%E6%AE%BA%E5%87%BA%E5%BC%95%E7%88%86%E8%A3%9C%E8%B7%8C%E5%A3%93%E5%8A%9B-%E5%8F%B0%E8%82%A1%E8%B5%B0%E5%8B%A2%E5%8F%AF%E8%83%BD%E6%9C%892%E7%A8%AE%E6%83%85%E5%A2%83-084318192.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:43:18+08:00",
+          "summary": "費半上周五崩跌逾7%、台積電ADR重挫近6%，台股11月開局恐面臨補跌壓力。 永豐投顧稱45000點半年線為多空分水嶺，指數若跌破年線，融資恐需降至約4200億元才止穩。",
+          "additional_sources": []
+        },
+        {
+          "title": "「李老師不是你老師」被醜化？真面目差超多",
+          "link": "https://tw.news.yahoo.com/%E6%9D%8E%E8%80%81%E5%B8%AB%E4%B8%8D%E6%98%AF%E4%BD%A0%E8%80%81%E5%B8%AB-%E8%A2%AB%E9%86%9C%E5%8C%96-%E7%9C%9F%E9%9D%A2%E7%9B%AE%E5%B7%AE%E8%B6%85%E5%A4%9A-083424890.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:34:24+08:00",
+          "summary": "[NOWNEWS今日新聞]旅義中國異議人士李穎經營的「李老師不是你老師」，因中國「白紙運動」而聲名大噪，長期在社群平台發布中國各地的抗爭與社會事件而遭到通緝，但他始終未曾公開露面過，近期他罕見出現在日",
+          "additional_sources": []
+        },
+        {
+          "title": "江啟臣趕場力挺藍營議員 提「前店後廠」與三大施政藍圖",
+          "link": "https://tw.news.yahoo.com/%E6%B1%9F%E5%95%9F%E8%87%A3%E8%B6%95%E5%A0%B4%E5%8A%9B%E6%8C%BA%E8%97%8D%E7%87%9F%E8%AD%B0%E5%93%A1-%E6%8F%90-%E5%89%8D%E5%BA%97%E5%BE%8C%E5%BB%A0-%E8%88%87%E4%B8%89%E5%A4%A7%E6%96%BD%E6%94%BF%E8%97%8D%E5%9C%96-082128422.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:21:28+08:00",
+          "summary": "九合一選戰進入倒數階段，國民黨臺中市長候選人、立法院副院長江啟臣今(1)日接連走訪海線及市區，為陳廷秀、顏莉敏、張彥彤及朱暖英等四位議員競選總部站台。江啟臣以「安全第一、健康優先、賺錢省時」為未來市政",
+          "additional_sources": []
+        },
+        {
+          "title": "何欣純連跑三場議總成立 強調「市民第一」拚建設、顧福利",
+          "link": "https://tw.news.yahoo.com/%E4%BD%95%E6%AC%A3%E7%B4%94%E9%80%A3%E8%B7%91%E4%B8%89%E5%A0%B4%E8%AD%B0%E7%B8%BD%E6%88%90%E7%AB%8B-%E5%BC%B7%E8%AA%BF-%E5%B8%82%E6%B0%91%E7%AC%AC-%E6%8B%9A%E5%BB%BA%E8%A8%AD-%E9%A1%A7%E7%A6%8F%E5%88%A9-081520994.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:15:20+08:00",
+          "summary": "台中市長候選人、立委何欣純今(1)日接連前往市議員張耀中、楊典忠競選總部成立大會站台，下午並趕往市議員江肇國競總造勢。何欣純在致詞時強調「沒有市民就沒有市長」，並聚焦地方建設與民生福利，提出捷運工程推",
+          "additional_sources": []
+        },
+        {
+          "title": "美期中選舉三劇本！專家點名台股四檔須注意",
+          "link": "https://tw.news.yahoo.com/%E7%BE%8E%E6%9C%9F%E4%B8%AD%E9%81%B8%E8%88%89%E4%B8%89%E5%8A%87%E6%9C%AC-%E5%B0%88%E5%AE%B6%E9%BB%9E%E5%90%8D%E5%8F%B0%E8%82%A1%E5%9B%9B%E6%AA%94%E9%A0%88%E6%B3%A8%E6%84%8F-081217635.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T16:12:17+08:00",
+          "summary": "[NOWNEWS今日新聞]美國期中選舉將於當地時間11月3日登場，美媒《彭博》列出三種可能的選後情境，並分析這場選舉結果對於包含中國、日本、韓國、台灣等亞洲地區股市可能帶來何種風險以及機遇；其中，台股",
+          "additional_sources": []
+        },
+        {
+          "title": "揮別「嗨落屎」！HYROX失禁女將復出摘冠",
+          "link": "https://tw.news.yahoo.com/%E6%8F%AE%E5%88%A5-%E5%97%A8%E8%90%BD%E5%B1%8E-hyrox%E5%A4%B1%E7%A6%81%E5%A5%B3%E5%B0%87%E5%BE%A9%E5%87%BA%E6%91%98%E5%86%A0-072915673.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T15:29:15+08:00",
+          "summary": "[NOWNEWS今日新聞]澳洲24歲室內體能競賽HYROX女將喬安娜（JoannaWietrzyk）今年9月參加HYROX北京站比賽時，在賽事過程中失禁，卻繼續完成賽事，引發巨大爭議。經歷失禁風暴後，",
+          "additional_sources": []
+        },
+        {
+          "title": "賴清德：經濟成長率可望破12% 籲在野支持追加預算補貼中油台電",
+          "link": "https://tw.news.yahoo.com/%E8%B3%B4%E6%B8%85%E5%BE%B7-%E7%B6%93%E6%BF%9F%E6%88%90%E9%95%B7%E7%8E%87%E5%8F%AF%E6%9C%9B%E7%A0%B412-%E7%B1%B2%E5%9C%A8%E9%87%8E%E6%94%AF%E6%8C%81%E8%BF%BD%E5%8A%A0%E9%A0%90%E7%AE%97%E8%A3%9C%E8%B2%BC%E4%B8%AD%E6%B2%B9%E5%8F%B0%E9%9B%BB-071328956.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-01T15:13:28+08:00",
+          "summary": "賴清德總統今天(1日)出席「高雄市醫師公會新會館啟用典禮」表示，今年經濟成長率可望突破12%，預估稅收將增加，希望在地緣政治變化嚴重、國際油價及物價攀升之際，台灣不只發展經濟、不只讓經濟果實為人民所共",
+          "additional_sources": []
+        },
+        {
+          "title": "本週操盤筆記：美國期中選舉、蘋果財報、非農就業報告",
+          "link": "https://news.cnyes.com/news/id/6643249",
+          "source": "cnyes",
+          "pubdate": "2026-11-01T21:50:02+08:00",
+          "summary": "鉅亨網編譯段智恆 綜合外電2026-11-01 21:50\n美股本周將迎來美國期中選舉、密集企業財報及10月就業報告三大考驗。人工智慧(AI)投資的資金需求與獲利前景疑慮持續升溫，蘋果(AAPL-US)、超微(AMD-US)與Palantir(PLTR-US)等指標企業能否交出亮眼成績，以及選後監管…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] AI融資、財報與政治風險三重夾擊，市場開",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793527457.A.637.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T18:04:13+08:00",
+          "summary": "AI融資、財報與政治風險三重夾擊，市場開始拷問行業投資回報\nhttps://news.cnyes.com/news/id/6643227\nBlockBeats 律動財經2026-11-01 12:05\n\n\nBlockBeats 消息，11 月 1 日，AI 熱潮正遭遇債券市場、企業財報和美國政治風險…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "器人",
+        "機器",
+        "meta",
+        "技術",
+        "晶片"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "輝達展示下一代光互連技術OOI！光引擎整合矽中介層、量產最快2030年後",
+          "link": "https://news.cnyes.com/news/id/6643213",
+          "source": "cnyes",
+          "pubdate": "2026-11-01T20:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-01 20:10\n輝達(NVDA-US) 正持續推進人工智慧（AI）晶片的光互連技術，並在近期於美國舊金山舉行的半導體展覽會SEMICON West 2026上，展示下一代共同封裝光學（CPO）技術原型，命名為OOI（Optics-on-Interposer，中介層上…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94%E5%B1%95%E7%A4%BA%E4%B8%8B-%E4%BB%A3%E5%85%89%E4%BA%92%E9%80%A3%E6%8A%80%E8%A1%93ooi-%E5%85%89%E5%BC%95%E6%93%8E%E6%95%B4%E5%90%88%E7%9F%BD%E4%B8%AD%E4%BB%8B%E5%B1%A4-%E9%87%8F%E7%94%A2%E6%9C%80%E5%BF%AB2030%E5%B9%B4%E5%BE%8C-121003341.html",
+              "title": "輝達展示下一代光互連技術OOI！光引擎整合矽中介層、量產最快2030年後"
+            }
+          ]
+        },
+        {
+          "title": "Meta攜手中國傅里葉開發人形機器人「Max」！第二代啟動研發、搭載輝達晶片",
+          "link": "https://news.cnyes.com/news/id/6643212",
+          "source": "cnyes",
+          "pubdate": "2026-11-01T21:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-01 21:10\nMeta(META-US) 正將人工智慧（AI）布局從數位服務延伸至實體世界。知情人士指出，Meta已與中國機器人公司傅里葉（Fourier）合作開發人形機器人原型，內部代號為「Max」，並於今年9月啟動第二代產品的研發，顯示Meta正加快推進消費級…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AAPL 蘋果",
+      "keywords": [
+        "蘋果",
+        "故障",
+        "duo",
+        "iphone",
+        "售後"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "蘋果iPhone Duo暫無召回計畫！緊急下發售後指引、但換機仍面臨缺貨",
+          "link": "https://news.cnyes.com/news/id/6643102",
+          "source": "cnyes",
+          "pubdate": "2026-11-01T18:10:04+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-01 18:10\n蘋果(AAPL-US) 首款摺疊iPhone Duo上市後接連傳出內螢幕沿摺痕開裂問題，如今官方進一步要求全美Apple Store及第三方授權維修中心，針對相關故障採取統一檢測與售後處理流程。\n蘋果iPhone Duo暫無召回計畫！緊急下發售後指引…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E8%98%8B%E6%9E%9Ciphone-duo%E6%9A%AB%E7%84%A1%E5%8F%AC%E5%9B%9E%E8%A8%88%E7%95%AB-%E7%B7%8A%E6%80%A5%E4%B8%8B%E7%99%BC%E5%94%AE%E5%BE%8C%E6%8C%87%E5%BC%95-%E4%BD%86%E6%8F%9B%E6%A9%9F%E4%BB%8D%E9%9D%A2%E8%87%A8%E7%BC%BA%E8%B2%A8-101004372.html",
+              "title": "蘋果iPhone Duo暫無召回計畫！緊急下發售後指引、但換機仍面臨缺貨"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "US META Meta",
+      "keywords": [
+        "台股",
+        "10",
+        "外資",
+        "1",
+        "億元"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "周末精選／台股11月天崩開局？美晶片股暴跌、費半下挫7% 這兩家重量級財報能扮股市救世主？",
+          "link": "https://money.udn.com/money/story/123398/9850359?from=edn_maintab_index",
+          "source": "udn",
+          "pubdate": "2026-11-01T17:06:02+08:00",
+          "summary": "擔心錯過重要新聞？經濟日報幫您精選周末結束前必看的內容。\n\n美晶片股暴跌 費半下挫7% 繫緊安全帶 本周緊盯超微、蘋果等財報美國晶片股10月30日大跌，費半重挫7.2%，因英特爾展望失色，加上Ant...",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US INTC 英特爾",
+      "keywords": [
+        "特爾",
+        "英特",
+        "美元",
+        "億美",
+        "營收"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "Re: [新聞] 財報〉英特爾財測疲弱暴跌20% 歸咎PC市場",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793510684.A.E36.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T13:24:41+08:00",
+          "summary": "這幾天思考看很多說英特爾關係讓人恐慌SI泡沫，因為財報不好。\n\n後來我稍微跟SI討論前幾天七大財報，都是現金流不足，營收都是增長，除了谷歌。\n\n那回來看台股，台積電營收有不好嗎？沒有。\n沒有現金流嗎？現金滿到沒地方花\n\n台灣半導體業都已經先收錢了，會怕被棄單嗎？而且大部分都是對，接谷歌單的我不敢說，…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "HK 0005 匯豐",
+      "keywords": [
+        "選舉",
+        "期中",
+        "中選",
+        "美股",
+        "市場"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 市場不在乎期中選舉？歷史數據顯示：不",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793513511.A.4E1.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T14:11:49+08:00",
+          "summary": "原文標題：\n市場不在乎期中選舉？歷史數據顯示：不論誰贏誰輸 選後美股都會漲\n原文連結：\nhttps://money.udn.com/money/amp/story/123398/9849416\n發布時間：\n2026-10-31 23:00\n記者署名：\n經濟日報 編譯湯淑君／綜合外電\n原文內容：\n美國…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "6488 環球晶",
+      "keywords": [
+        "哲榮",
+        "郭哲",
+        "0050",
+        "投資",
+        "跌破"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 郭哲榮：再跌破4萬點砸幾千萬買0050　 點",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793517020.A.EC9.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T15:10:18+08:00",
+          "summary": "郭哲榮：再跌破4萬點砸幾千萬買0050　 點名6檔看好年底反彈\n\n記者葉國吏／綜合報導　2026年10月31日 06:55\n\n▲摩爾投顧投資長郭哲榮揚言，如果再跌破4萬點就買幾千萬的0050。（圖／翻攝YouTube／郭哲榮分析師-摩爾證券投顧，下同）\n\n台股30日重挫千點，引起市場恐慌。不過摩爾投…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "3665 貿聯-KY",
+      "keywords": [
+        "億元",
+        "人",
+        "台灣",
+        "萬",
+        "2"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞]資產規模遭00406A超車！00403A再破發「8千",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793519773.A.2D0.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T15:56:10+08:00",
+          "summary": "原文標題：\n資產規模遭00406A超車！00403A再破發「8千股民搶便宜入手」　外資再砍8.8萬張連賣3\n周\n原文連結：\nhttps://www.ftnn.com.tw/news/591944\n發布時間：\n2026/11/1 13:40\n記者署名：\n薛明峻\n原文內容：\n記者薛明峻／台北報導\n\n台股…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2633 台灣高鐵",
+      "keywords": [
+        "10",
+        "台股",
+        "外資",
+        "15",
+        "2"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 美股重挫台股週一剉咧等？陳重銘揭「15檔",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793529966.A.7D2.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T18:46:01+08:00",
+          "summary": "原文標題：\n請勿刪減或自創標題，違者4-1處分，此行請刪除\n美股重挫台股週一剉咧等？陳重銘揭「15檔」外資逆勢加碼股\n原文連結：\n網址超過一行，請用縮網址，連結不能點擊者板規 1-2-2 處分\n。\nhttps://news.tvbs.com.tw/money/4044133\n發布時間：\n請勿張貼超過…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "6757 台灣虎航",
+      "keywords": [
+        "虎航",
+        "營收",
+        "三季",
+        "台灣",
+        "年增"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 獲利創同期新高！台灣虎航前三季賺進逾半",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793532095.A.91C.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T19:21:31+08:00",
+          "summary": "原文標題：獲利創同期新高！台灣虎航前三季賺進逾半個股本 估Q4營運維持高檔\n\n原文連結：\nhttps://www.ctee.com.tw/news/20261030701532-430503\n發布時間：2026.10.30  17:40\n\n記者署名：工商時報  邱莉玲\n\n原文內容：\n\n台灣虎航（67…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "市場",
+        "報酬",
+        "2",
+        "投資",
+        "10"
+      ],
+      "article_count": 4,
+      "articles": [
+        {
+          "title": "高盛示警AI資本支出成長恐見頂！科技巨頭變現能力受考驗、年底股市關鍵看油價",
+          "link": "https://news.cnyes.com/news/id/6643103",
+          "source": "cnyes",
+          "pubdate": "2026-11-01T19:10:03+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-01 19:10\n高盛分析師指出，全球人工智慧（AI）基礎設施投資正進入新的階段，市場對科技巨頭資本支出的樂觀預期開始面臨考驗。隨著雲端業者財報表現出現分歧，AI投資能否順利轉化為營收與獲利，已成為市場關注焦點。\n高盛示警AI資本支出成長恐見頂！科技巨頭變現能力受考驗…",
+          "additional_sources": []
+        },
+        {
+          "title": "Re: [請益] 大盤正2是投資還是投機",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793523983.A.2B6.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T17:06:20+08:00",
+          "summary": ": 因AI 的關係，市場對資本支出與變現能力一直存在質疑\n: 再加上美伊戰爭推升通膨與資料中心的建置反對聲浪\n: 不管是華爾街或者川普\n: 只要有一點點聲音（雜訊）就會讓股價大幅波動\n: AI已經確定不可回頭，現在人人已經將AI融入生活中\n: 但因為高波動的股票市場，讓槓桿ETF多出來的耗損也被放大…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 金管會出手了！防堵「四貸同堂」",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793528099.A.F46.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T18:14:56+08:00",
+          "summary": "原文標題：\n金管會出手了！防堵「四貸同堂」 銀行與券商將互通資料\n原文連結：\nhttps://news.ebc.net.tw/news/business/578186\n發布時間：\n2026-10-30 11:26\n記者署名：\n實習編輯 林瑜□\n原文內容：\n為了全面防堵房貸、信貸、車貸及股票質押所形成…",
+          "additional_sources": []
+        },
+        {
+          "title": "[標的] 台股大盤世界第一強後續會補跌還續漲？",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793531024.A.B01.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T19:03:42+08:00",
+          "summary": "標的：\n台股大盤\n分類：\n討論\n正文：\n先上數據 全球主要市場表現\n\n「年初至~10/30」\n\n台灣加權         +55.81%\n費城半導體       +50.91%\n韓國綜合         +35.65%\n日經225          +24.07%\n多倫多           +11…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}

@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-01",
+  "generated_at": "2026-11-01T22:08:23.739263",
+  "group_count": 1,
+  "total_articles": 1,
+  "groups": [
+    {
+      "group": "HK 0005 匯豐",
+      "keywords": [
+        "選舉",
+        "期中",
+        "中選",
+        "美股",
+        "市場"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 市場不在乎期中選舉？歷史數據顯示：不",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1793513511.A.4E1.html",
+          "source": "ptt",
+          "pubdate": "2026-11-01T14:11:49+08:00",
+          "summary": "原文標題：\n市場不在乎期中選舉？歷史數據顯示：不論誰贏誰輸 選後美股都會漲\n原文連結：\nhttps://money.udn.com/money/amp/story/123398/9849416\n發布時間：\n2026-10-31 23:00\n記者署名：\n經濟日報 編譯湯淑君／綜合外電\n原文內容：\n美國…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "HK"
+}
