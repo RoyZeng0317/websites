@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-03",
+  "generated_at": "2026-11-03T00:54:22.103740",
+  "group_count": 1,
+  "total_articles": 5,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "ai",
+        "我們",
+        "代理",
+        "美國",
+        "智能"
+      ],
+      "article_count": 5,
+      "articles": [
+        {
+          "title": "製造業擴張加快！美國10月ISM製造業指數升至55.5 創逾四年次高",
+          "link": "https://tw.stock.yahoo.com/news/%E8%A3%BD%E9%80%A0%E6%A5%AD%E6%93%B4%E5%BC%B5%E5%8A%A0%E5%BF%AB-%E7%BE%8E%E5%9C%8B10%E6%9C%88ism%E8%A3%BD%E9%80%A0%E6%A5%AD%E6%8C%87%E6%95%B8%E5%8D%87%E8%87%B355-5-%E5%89%B5%E9%80%BE%E5%9B%9B%E5%B9%B4%E6%AC%A1%E9%AB%98-160007755.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T00:00:07+08:00",
+          "summary": "10月ISM製造業指數升至55.5，高於預期，為逾四年次高，美國製造業連10月擴張。 新訂單、生產與出口訂單走強，12個產業回報擴張；就業指數52.4，連4月增加。 供應商交貨放慢、價格指數75.2仍",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6644402",
+              "title": "製造業擴張加快！美國10月ISM製造業指數升至55.5 創逾四年次高"
+            }
+          ]
+        },
+        {
+          "title": "C.H. Robinson首度推出Lean AI，適用於海運、空運及清關業務",
+          "link": "https://tw.stock.yahoo.com/news/c-h-robinson%E9%A6%96%E5%BA%A6%E6%8E%A8%E5%87%BAlean-ai-%E9%81%A9%E7%94%A8%E6%96%BC%E6%B5%B7%E9%81%8B-163700708.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T00:37:00+08:00",
+          "summary": "美國明尼蘇達州伊甸草原市, November 02, 2026--(美國商業資訊)--作為Lean AI領域的全球領先企業，C.H. Robinson已推出全新AI智能代理，負責處理海運、空運及清關服",
+          "additional_sources": []
+        },
+        {
+          "title": "英男徒步環球28年冒險落幕！返家與母親擁抱",
+          "link": "https://tw.news.yahoo.com/%E8%8B%B1%E7%94%B7%E5%BE%92%E6%AD%A5%E7%92%B0%E7%90%8328%E5%B9%B4%E5%86%92%E9%9A%AA%E8%90%BD%E5%B9%95-%E8%BF%94%E5%AE%B6%E8%88%87%E6%AF%8D%E8%A6%AA%E6%93%81%E6%8A%B1-160037870.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T00:21:13+08:00",
+          "summary": "[NOWNEWS今日新聞]英國冒險家布希比（KarlBushby）完成了一場長達3萬1,000英里（約5萬公里）、自南美洲一路徒步回到英國赫爾城（Hull）的壯舉。在啟程整整28年後，他在周一終於走回",
+          "additional_sources": []
+        },
+        {
+          "title": "Vedanta Aluminium 2027會計年度第二季業績：利潤倍增至618.7億盧比，EBITDA較去年同期成長83%",
+          "link": "https://tw.stock.yahoo.com/news/vedanta-aluminium-2027%E6%9C%83%E8%A8%88%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%BA%8C%E5%AD%A3%E6%A5%AD%E7%B8%BE-%E5%88%A9%E6%BD%A4%E5%80%8D%E5%A2%9E%E8%87%B3618-7%E5%84%84%E7%9B%A7%E6%AF%94-161100113.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T00:11:00+08:00",
+          "summary": "印度孟買, November 02, 2026--(美國商業資訊)--印度第一大鋁生產商Vedanta Aluminium Metal Limited (BSE: 544780 & NSE: VAML",
+          "additional_sources": []
+        },
+        {
+          "title": "MetaOptics發佈ADS轉換及發行流程操作指引",
+          "link": "https://tw.stock.yahoo.com/news/metaoptics%E7%99%BC%E4%BD%88ads%E8%BD%89%E6%8F%9B%E5%8F%8A%E7%99%BC%E8%A1%8C%E6%B5%81%E7%A8%8B%E6%93%8D%E4%BD%9C%E6%8C%87%E5%BC%95-161100470.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T00:11:00+08:00",
+          "summary": "前沿半導體光學企業MetaOptics Ltd (Catalist: 9MT) (OTCQX: MOTLY)（下稱「MetaOptics」或「公司」，連同其子公司統稱「集團」），援引其2026年9月2",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "US"
+}
