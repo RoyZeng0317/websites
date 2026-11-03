@@ -1,64 +1,288 @@
 {
   "date": "2026-11-03",
-  "generated_at": "2026-11-03T00:54:22.103740",
-  "group_count": 1,
-  "total_articles": 5,
+  "generated_at": "2026-11-03T22:55:05.718931",
+  "group_count": 3,
+  "total_articles": 29,
   "groups": [
     {
       "group": "US GOOGL Alphabet",
       "keywords": [
-        "ai",
-        "我們",
-        "代理",
-        "美國",
-        "智能"
+        "市場",
+        "資產",
+        "3",
+        "投資",
+        "產業"
       ],
-      "article_count": 5,
+      "article_count": 27,
       "articles": [
         {
-          "title": "製造業擴張加快！美國10月ISM製造業指數升至55.5 創逾四年次高",
-          "link": "https://tw.stock.yahoo.com/news/%E8%A3%BD%E9%80%A0%E6%A5%AD%E6%93%B4%E5%BC%B5%E5%8A%A0%E5%BF%AB-%E7%BE%8E%E5%9C%8B10%E6%9C%88ism%E8%A3%BD%E9%80%A0%E6%A5%AD%E6%8C%87%E6%95%B8%E5%8D%87%E8%87%B355-5-%E5%89%B5%E9%80%BE%E5%9B%9B%E5%B9%B4%E6%AC%A1%E9%AB%98-160007755.html",
+          "title": "綠能融資怎「解套」？中信銀李靜婷曝轉型3要件：從放款變身「投組」",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B6%A0%E8%83%BD%E8%9E%8D%E8%B3%87%E6%80%8E-%E8%A7%A3%E5%A5%97-%E4%B8%AD%E4%BF%A1%E9%8A%80%E6%9D%8E%E9%9D%9C%E5%A9%B7%E6%9B%9D%E8%BD%89%E5%9E%8B3%E8%A6%81%E4%BB%B6-%E5%BE%9E%E6%94%BE%E6%AC%BE%E8%AE%8A%E8%BA%AB-%E6%8A%95%E7%B5%84-132149634.html",
           "source": "yahoo",
-          "pubdate": "2026-11-03T00:00:07+08:00",
-          "summary": "10月ISM製造業指數升至55.5，高於預期，為逾四年次高，美國製造業連10月擴張。 新訂單、生產與出口訂單走強，12個產業回報擴張；就業指數52.4，連4月增加。 供應商交貨放慢、價格指數75.2仍",
+          "pubdate": "2026-11-03T21:21:49+08:00",
+          "summary": "中國信託商業銀行副總經理李靜婷今（3）日出席「綠能金融與資本市場創新論壇」於演講中強調，國內綠能產業正迎來關鍵轉型期，過去開發初期專注於銀行端的「可融資性」，當前最重要的任務是打通「從可融資到可投資」",
           "additional_sources": [
             {
               "source": "cnyes",
-              "link": "https://news.cnyes.com/news/id/6644402",
-              "title": "製造業擴張加快！美國10月ISM製造業指數升至55.5 創逾四年次高"
+              "link": "https://news.cnyes.com/news/id/6645290",
+              "title": "綠能融資怎「解套」？中信銀李靜婷曝轉型3要件：從放款變身「投組」"
             }
           ]
         },
         {
-          "title": "C.H. Robinson首度推出Lean AI，適用於海運、空運及清關業務",
-          "link": "https://tw.stock.yahoo.com/news/c-h-robinson%E9%A6%96%E5%BA%A6%E6%8E%A8%E5%87%BAlean-ai-%E9%81%A9%E7%94%A8%E6%96%BC%E6%B5%B7%E9%81%8B-163700708.html",
+          "title": "高雄食品展共吸引1.9萬人入場觀展 促成354場商務洽談",
+          "link": "https://tw.stock.yahoo.com/news/%E9%AB%98%E9%9B%84%E9%A3%9F%E5%93%81%E5%B1%95%E5%85%B1%E5%90%B8%E5%BC%951-9%E8%90%AC%E4%BA%BA%E5%85%A5%E5%A0%B4%E8%A7%80%E5%B1%95-%E4%BF%83%E6%88%90354%E5%A0%B4%E5%95%86%E5%8B%99%E6%B4%BD%E8%AB%87-132055417.html",
           "source": "yahoo",
-          "pubdate": "2026-11-03T00:37:00+08:00",
-          "summary": "美國明尼蘇達州伊甸草原市, November 02, 2026--(美國商業資訊)--作為Lean AI領域的全球領先企業，C.H. Robinson已推出全新AI智能代理，負責處理海運、空運及清關服",
+          "pubdate": "2026-11-03T21:20:55+08:00",
+          "summary": "由經濟部國貿署主辦、外貿協會執行的「2026年高雄國際食品展」，及貿協與展昭國際合辦的「2026年高雄國際飯店、餐飲暨烘焙設備用品展」，近期落幕，展期雖受颱風天候影響，仍不減買主與民眾熱情，累計吸引逾",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6645473",
+              "title": "高雄食品展共吸引1.9萬人入場觀展 促成354場商務洽談"
+            }
+          ]
+        },
+        {
+          "title": "台股重挫1612點！四大利空衝擊市場 高股息ETF、AI產業洗牌成焦點",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E9%87%8D%E6%8C%AB1612%E9%BB%9E-%E5%9B%9B%E5%A4%A7%E5%88%A9%E7%A9%BA%E8%A1%9D%E6%93%8A%E5%B8%82%E5%A0%B4-%E9%AB%98%E8%82%A1%E6%81%AFetf-ai%E7%94%A2%E6%A5%AD%E6%B4%97%E7%89%8C%E6%88%90%E7%84%A6%E9%BB%9E-143713037.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T22:37:13+08:00",
+          "summary": "財經中心／綜合報導台股賣壓持續擴大，短短四個交易日接連跌破重要整數關卡，大盤單日重挫1612點，收在43307點，創下史上第七大跌點紀錄。除了外資大舉撤出，國際政經局勢不確定性升高，加上全球製造業成長",
           "additional_sources": []
         },
         {
-          "title": "英男徒步環球28年冒險落幕！返家與母親擁抱",
-          "link": "https://tw.news.yahoo.com/%E8%8B%B1%E7%94%B7%E5%BE%92%E6%AD%A5%E7%92%B0%E7%90%8328%E5%B9%B4%E5%86%92%E9%9A%AA%E8%90%BD%E5%B9%95-%E8%BF%94%E5%AE%B6%E8%88%87%E6%AF%8D%E8%A6%AA%E6%93%81%E6%8A%B1-160037870.html",
+          "title": "美股震盪後誰領風騷？AI改寫科技版圖 納指ETF布局受矚",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E8%82%A1%E9%9C%87%E7%9B%AA%E5%BE%8C%E8%AA%B0%E9%A0%98%E9%A2%A8%E9%A8%B7-ai%E6%94%B9%E5%AF%AB%E7%A7%91%E6%8A%80%E7%89%88%E5%9C%96-%E7%B4%8D%E6%8C%87etf%E5%B8%83%E5%B1%80%E5%8F%97%E7%9F%9A-143628305.html",
           "source": "yahoo",
-          "pubdate": "2026-11-03T00:21:13+08:00",
-          "summary": "[NOWNEWS今日新聞]英國冒險家布希比（KarlBushby）完成了一場長達3萬1,000英里（約5萬公里）、自南美洲一路徒步回到英國赫爾城（Hull）的壯舉。在啟程整整28年後，他在周一終於走回",
+          "pubdate": "2026-11-03T22:36:28+08:00",
+          "summary": "財經中心／綜合報導美國期中選舉牽動金融市場走勢，選前不確定因素升高，讓美股面臨震盪壓力。不過，從過往市場表現來看，選舉結束後，隨著政治變數逐漸明朗，投資焦點往往重新回到經濟與企業獲利。而在AI持續推動",
           "additional_sources": []
         },
         {
-          "title": "Vedanta Aluminium 2027會計年度第二季業績：利潤倍增至618.7億盧比，EBITDA較去年同期成長83%",
-          "link": "https://tw.stock.yahoo.com/news/vedanta-aluminium-2027%E6%9C%83%E8%A8%88%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%BA%8C%E5%AD%A3%E6%A5%AD%E7%B8%BE-%E5%88%A9%E6%BD%A4%E5%80%8D%E5%A2%9E%E8%87%B3618-7%E5%84%84%E7%9B%A7%E6%AF%94-161100113.html",
+          "title": "【公告】臻鼎-KY代子公司禮鼎半導體科技(深圳)股份有限公司公告取得機器設備",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E8%87%BB%E9%BC%8E-ky%E4%BB%A3%E5%AD%90%E5%85%AC%E5%8F%B8%E7%A6%AE%E9%BC%8E%E5%8D%8A%E5%B0%8E%E9%AB%94%E7%A7%91%E6%8A%80-%E6%B7%B1%E5%9C%B3-%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%85%AC%E5%91%8A%E5%8F%96%E5%BE%97%E6%A9%9F%E5%99%A8%E8%A8%AD%E5%82%99-143422993.html",
           "source": "yahoo",
-          "pubdate": "2026-11-03T00:11:00+08:00",
-          "summary": "印度孟買, November 02, 2026--(美國商業資訊)--印度第一大鋁生產商Vedanta Aluminium Metal Limited (BSE: 544780 & NSE: VAML",
+          "pubdate": "2026-11-03T22:34:22+08:00",
+          "summary": "日 期：2026年11月03日公司名稱：臻鼎-KY(4958)主 旨：代子公司禮鼎半導體科技(深圳)股份有限公司公告取得機器設備發言人：凌惇說 明：1.標的物之名稱及性質（如坐落台中市北區ＸＸ段ＸＸ小",
           "additional_sources": []
         },
         {
-          "title": "MetaOptics發佈ADS轉換及發行流程操作指引",
-          "link": "https://tw.stock.yahoo.com/news/metaoptics%E7%99%BC%E4%BD%88ads%E8%BD%89%E6%8F%9B%E5%8F%8A%E7%99%BC%E8%A1%8C%E6%B5%81%E7%A8%8B%E6%93%8D%E4%BD%9C%E6%8C%87%E5%BC%95-161100470.html",
+          "title": "林佳龍《外交事務》撰文：自由世界需要台灣 團結合作方能守護繁榮",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9E%97%E4%BD%B3%E9%BE%8D-%E5%A4%96%E4%BA%A4%E4%BA%8B%E5%8B%99-%E6%92%B0%E6%96%87-%E8%87%AA%E7%94%B1%E4%B8%96%E7%95%8C%E9%9C%80%E8%A6%81%E5%8F%B0%E7%81%A3-%E5%9C%98%E7%B5%90%E5%90%88%E4%BD%9C%E6%96%B9%E8%83%BD%E5%AE%88%E8%AD%B7%E7%B9%81%E6%A6%AE-141652999.html",
           "source": "yahoo",
-          "pubdate": "2026-11-03T00:11:00+08:00",
-          "summary": "前沿半導體光學企業MetaOptics Ltd (Catalist: 9MT) (OTCQX: MOTLY)（下稱「MetaOptics」或「公司」，連同其子公司統稱「集團」），援引其2026年9月2",
+          "pubdate": "2026-11-03T22:16:52+08:00",
+          "summary": "外長林佳龍於今（2026）年11月3日在國際關係領域權威性期刊《外交事務》（Foreign Affairs），以「美國的AI壯志需要台灣協力促成」（America’s AI Ambitions Dep",
+          "additional_sources": []
+        },
+        {
+          "title": "法媒：通膨、動盪及政治不確定　法國經濟恐陷惡性循環",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%95%E5%AA%92-%E9%80%9A%E8%86%A8-%E5%8B%95%E7%9B%AA%E5%8F%8A%E6%94%BF%E6%B2%BB%E4%B8%8D%E7%A2%BA%E5%AE%9A-%E6%B3%95%E5%9C%8B%E7%B6%93%E6%BF%9F%E6%81%90%E9%99%B7%E6%83%A1%E6%80%A7%E5%BE%AA%E7%92%B0-141313410.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T22:13:13+08:00",
+          "summary": "（中央社記者曾依璇巴(黎)2026年11月3日專電）法國快訊週刊（L’Express）一篇文章分析，法國經濟成長停滯，同時通貨膨脹率升高、企業信心低迷，加上預算問題和政治不確定性，可能加劇法國經濟惡性",
+          "additional_sources": []
+        },
+        {
+          "title": "華芸科技第3季提庫存損失　前3季每股賺1.82元",
+          "link": "https://tw.stock.yahoo.com/news/%E8%8F%AF%E8%8A%B8%E7%A7%91%E6%8A%80%E7%AC%AC3%E5%AD%A3%E6%8F%90%E5%BA%AB%E5%AD%98%E6%90%8D%E5%A4%B1-%E5%89%8D3%E5%AD%A3%E6%AF%8F%E8%82%A1%E8%B3%BA1-82%E5%85%83-140809186.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T22:08:09+08:00",
+          "summary": "（中央社記者潘智義台北2026年11月3日電）華碩集團旗下專注於網路儲存伺服器與儲存解決方案的興櫃公司華芸科技(7801)，預計於11月19日舉行上櫃前業績發表會；華芸今天公布今年前3季歸屬母公司業主",
+          "additional_sources": []
+        },
+        {
+          "title": "OMP 透過「Agent Library」與「Agent Studio」擴充 UnisonIQ 功能：能產出可執行供應鏈計畫的人工智慧代理程式",
+          "link": "https://tw.stock.yahoo.com/news/omp-%E9%80%8F%E9%81%8E-agent-library-%E8%88%87-140000203.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T22:00:00+08:00",
+          "summary": "比利時安特衛普 / ACCESS Newswire / 2026年11月3日 / 供應鏈協調領域的領導者 OMP 今日宣布，針對其 Unison Planning™ 平台中的人工智慧框架 Unison",
+          "additional_sources": []
+        },
+        {
+          "title": "保誠白皮書：9成高資產族群具財富傳承需求　僅3.7%完成規劃",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BF%9D%E8%AA%A0%E7%99%BD%E7%9A%AE%E6%9B%B8-9%E6%88%90%E9%AB%98%E8%B3%87%E7%94%A2%E6%97%8F%E7%BE%A4%E5%85%B7%E8%B2%A1%E5%AF%8C%E5%82%B3%E6%89%BF%E9%9C%80%E6%B1%82-%E5%83%853-7-%E5%AE%8C%E6%88%90%E8%A6%8F%E5%8A%83-134600891.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:46:00+08:00",
+          "summary": "（中央社記者蘇思云台北2026年11月3日電）保誠人壽今天攜手勤業眾信發布「台灣高資產家庭財富傳承白皮書」，報告顯示，92.3%的受訪者具財富傳承需求，其中逾7成高資產傳承者已著手規劃財富傳承，但真正",
+          "additional_sources": []
+        },
+        {
+          "title": "竹南、頭份自來水土味問題　台水：持續改善供水品質",
+          "link": "https://tw.stock.yahoo.com/news/%E7%AB%B9%E5%8D%97-%E9%A0%AD%E4%BB%BD%E8%87%AA%E4%BE%86%E6%B0%B4%E5%9C%9F%E5%91%B3%E5%95%8F%E9%A1%8C-%E5%8F%B0%E6%B0%B4-%E6%8C%81%E7%BA%8C%E6%94%B9%E5%96%84%E4%BE%9B%E6%B0%B4%E5%93%81%E8%B3%AA-133251373.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:32:51+08:00",
+          "summary": "（中央社記者梁家柔台北2026年11月3日電）有苗栗縣竹南、頭份地區民眾反映自來水土味問題，台水公司今天表示，目前水質檢測結果均符合飲用水水質標準，也成立跨單位服務小組，由業務、水質、操作及廠所人員共",
+          "additional_sources": []
+        },
+        {
+          "title": "敘利亞破獲煉油廠襲擊案 指嫌犯與真主黨有關",
+          "link": "https://tw.news.yahoo.com/%E6%95%98%E5%88%A9%E4%BA%9E%E7%A0%B4%E7%8D%B2%E7%85%89%E6%B2%B9%E5%BB%A0%E8%A5%B2%E6%93%8A%E6%A1%88-%E6%8C%87%E5%AB%8C%E7%8A%AF%E8%88%87%E7%9C%9F%E4%B8%BB%E9%BB%A8%E6%9C%89%E9%97%9C-133026257.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:30:26+08:00",
+          "summary": "敘利亞當局3日表示，已阻止一起破壞重要煉油廠的行動，並指控嫌疑人與黎巴嫩真主黨（Hezbollah）有關。 在當局發布聲明前，敘利亞多個地區接連發生石油與天然氣管線遭襲事件，且沒有組織出面承認犯案。",
+          "additional_sources": []
+        },
+        {
+          "title": "1條飄帶騙走百萬！政院急下架逾5千假帳號 揭應援小物圈套",
+          "link": "https://tw.stock.yahoo.com/news/1%E6%A2%9D%E9%A3%84%E5%B8%B6%E9%A8%99%E8%B5%B0%E7%99%BE%E8%90%AC-%E6%94%BF%E9%99%A2%E6%80%A5%E4%B8%8B%E6%9E%B6%E9%80%BE5%E5%8D%83%E5%81%87%E5%B8%B3%E8%99%9F-%E6%8F%AD%E6%87%89%E6%8F%B4%E5%B0%8F%E7%89%A9%E5%9C%88%E5%A5%97-132608972.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:26:08+08:00",
+          "summary": "距離投票倒數25天，選情逐漸升溫，卻有歹徒利用民眾挺候選人的熱情發動詐騙。民眾在社群平台上索取1件應援飄帶，慘遭詐騙近100萬元。行政院打擊詐欺指揮中心特別呼籲，民眾在熱情應援時務必提高警覺，只要貼文",
+          "additional_sources": []
+        },
+        {
+          "title": "金管會：VASP業者實收資本額門檻最低5千萬",
+          "link": "https://tw.stock.yahoo.com/news/%E9%87%91%E7%AE%A1%E6%9C%83-vasp%E6%A5%AD%E8%80%85%E5%AF%A6%E6%94%B6%E8%B3%87%E6%9C%AC%E9%A1%8D%E9%96%80%E6%AA%BB%E6%9C%80%E4%BD%8E5%E5%8D%83%E8%90%AC-132119880.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:21:19+08:00",
+          "summary": "（中央社記者高華謙台北2026年11月3日電）金管會將預告虛擬資產服務商相關草案，虛擬資產服務業者（VASP）應具備最低實收資本額為新台幣5000萬元，若要經營全數業務，實收資本額門檻須達5億元，目前",
+          "additional_sources": []
+        },
+        {
+          "title": "牧德10月營收衝破4億元創新高年增95% 前10月已超過去年全年",
+          "link": "https://tw.stock.yahoo.com/news/%E7%89%A7%E5%BE%B710%E6%9C%88%E7%87%9F%E6%94%B6%E8%A1%9D%E7%A0%B44%E5%84%84%E5%85%83%E5%89%B5%E6%96%B0%E9%AB%98%E5%B9%B4%E5%A2%9E95-%E5%89%8D10%E6%9C%88%E5%B7%B2%E8%B6%85%E9%81%8E%E5%8E%BB%E5%B9%B4%E5%85%A8%E5%B9%B4-132007295.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:20:07+08:00",
+          "summary": "設備廠牧德科技(3563-TW)今(3)日公布最新營收資訊，2026年10月營收4.03 億元，月增 8.19% 、年增 95.59%，單月營收衝破四億大關且續創歷史新高，展現公司營運動能穩定，202",
+          "additional_sources": []
+        },
+        {
+          "title": "綠能資金募集不限融資　經部盼擴大至私募股權、REITs",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B6%A0%E8%83%BD%E8%B3%87%E9%87%91%E5%8B%9F%E9%9B%86%E4%B8%8D%E9%99%90%E8%9E%8D%E8%B3%87-%E7%B6%93%E9%83%A8%E7%9B%BC%E6%93%B4%E5%A4%A7%E8%87%B3%E7%A7%81%E5%8B%9F%E8%82%A1%E6%AC%8A-reits-131917049.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:19:17+08:00",
+          "summary": "（中央社記者梁家柔台北2026年11月3日電）綠能產業資金募集議題受市場關注，經濟部次長賴建信今天表示，政府持續推動地熱、離岸風電與太陽能等，結合明確政策與金融支持，若資金募集能從傳統融資擴展至私募股",
+          "additional_sources": []
+        },
+        {
+          "title": "金管會預告《虛擬資產服務法》9項子法草案 資本門檻、穩定幣發行規範一次看",
+          "link": "https://tw.stock.yahoo.com/news/%E9%87%91%E7%AE%A1%E6%9C%83%E9%A0%90%E5%91%8A-%E8%99%9B%E6%93%AC%E8%B3%87%E7%94%A2%E6%9C%8D%E5%8B%99%E6%B3%95-9%E9%A0%85%E5%AD%90%E6%B3%95%E8%8D%89%E6%A1%88-%E8%B3%87%E6%9C%AC%E9%96%80%E6%AA%BB-%E7%A9%A9%E5%AE%9A%E5%B9%A3%E7%99%BC%E8%A1%8C%E8%A6%8F%E7%AF%84-131447837.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:14:47+08:00",
+          "summary": "總統已於今年7月22日公布《虛擬資產服務法》，金管會今 (3) 日宣布，將針對新法研訂並預告共 9 項授權子法草案，其中包括證期局主管的 8 項虛擬資產服務商(VASP)管理法規，以及銀行局主管的穩定",
+          "additional_sources": []
+        },
+        {
+          "title": "〈財報〉輝瑞Q3業績優於預期！抗凝血藥與癌症藥熱賣 全年展望上修",
+          "link": "https://tw.stock.yahoo.com/news/%E8%B2%A1%E5%A0%B1-%E8%BC%9D%E7%91%9Eq3%E6%A5%AD%E7%B8%BE%E5%84%AA%E6%96%BC%E9%A0%90%E6%9C%9F-%E6%8A%97%E5%87%9D%E8%A1%80%E8%97%A5%E8%88%87%E7%99%8C%E7%97%87%E8%97%A5%E7%86%B1%E8%B3%A3-%E5%85%A8%E5%B9%B4%E5%B1%95%E6%9C%9B%E4%B8%8A%E4%BF%AE-131138611.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:11:38+08:00",
+          "summary": "輝瑞Q3營收165.8億美元、EPS 0.87美元，雙雙優於預期 Eliquis與Padcev銷售強勁，抵銷Paxlovid、Comirnaty下滑；非新冠產品營收增7% 全年營收預估上調至620億至",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】元太召開法人說明會相關資訊",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E5%85%83%E5%A4%AA%E5%8F%AC%E9%96%8B%E6%B3%95%E4%BA%BA%E8%AA%AA%E6%98%8E%E6%9C%83%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A-130249941.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T21:02:49+08:00",
+          "summary": "日 期：2026年11月03日公司名稱：元太(8069)主 旨：元太召開法人說明會相關資訊發言人：陳樂群說 明：符合條款第四條第XX款：12事實發生日：115/11/121.召開法人說明會之日期：11",
+          "additional_sources": []
+        },
+        {
+          "title": "台灣併購案受阻 Grab戰略重心回歸東南亞主場",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%81%A3%E4%BD%B5%E8%B3%BC%E6%A1%88%E5%8F%97%E9%98%BB-grab%E6%88%B0%E7%95%A5%E9%87%8D%E5%BF%83%E5%9B%9E%E6%AD%B8%E6%9D%B1%E5%8D%97%E4%BA%9E%E4%B8%BB%E5%A0%B4-125003671.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:50:03+08:00",
+          "summary": "Grab收購台灣Foodpanda遭否決，第四季將提列6,000萬美元終止補償金 財務長稱台灣不在規劃內，重心回到東南亞本土市場與有機成長 第三季營收11.1億美元、EBITDA 2.37億美元，三大",
+          "additional_sources": []
+        },
+        {
+          "title": "歐盟法院首起生成式AI案 佐審官：Gemini恐侵害出版商權利",
+          "link": "https://tw.news.yahoo.com/%E6%AD%90%E7%9B%9F%E6%B3%95%E9%99%A2%E9%A6%96%E8%B5%B7%E7%94%9F%E6%88%90%E5%BC%8Fai%E6%A1%88-%E4%BD%90%E5%AF%A9%E5%AE%98-gemini%E6%81%90%E4%BE%B5%E5%AE%B3%E5%87%BA%E7%89%88%E5%95%86%E6%AC%8A%E5%88%A9-124740238.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:47:40+08:00",
+          "summary": "歐盟最高法院一名法律顧問3日表示，Google的人工智慧聊天機器人Gemini在特定情況下使用新聞出版物時，可能會違反著作權相關法規。 匈牙利新聞出版商Like Company因Google使用其線上",
+          "additional_sources": []
+        },
+        {
+          "title": "積極回應油品需求 經濟部持續協調擴增產能、供需媒合",
+          "link": "https://tw.stock.yahoo.com/news/%E7%A9%8D%E6%A5%B5%E5%9B%9E%E6%87%89%E6%B2%B9%E5%93%81%E9%9C%80%E6%B1%82-%E7%B6%93%E6%BF%9F%E9%83%A8%E6%8C%81%E7%BA%8C%E5%8D%94%E8%AA%BF%E6%93%B4%E5%A2%9E%E7%94%A2%E8%83%BD-%E4%BE%9B%E9%9C%80%E5%AA%92%E5%90%88-124513241.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:45:13+08:00",
+          "summary": "為因應中聯油脂停工對國內沙拉油供應造成的影響，經濟部持續受理食品業者用油需求，透過協調國內業者增產、供需媒合及鼓勵擴大進口等措施，增加市場供應來源，協助業者取得所需原料。據統計，截至10月底，累計已媒",
+          "additional_sources": []
+        },
+        {
+          "title": "壽險綜合險給付時間引關注　金管會：尚在釐清是否違規",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A3%BD%E9%9A%AA%E7%B6%9C%E5%90%88%E9%9A%AA%E7%B5%A6%E4%BB%98%E6%99%82%E9%96%93%E5%BC%95%E9%97%9C%E6%B3%A8-%E9%87%91%E7%AE%A1%E6%9C%83-%E5%B0%9A%E5%9C%A8%E9%87%90%E6%B8%85%E6%98%AF%E5%90%A6%E9%81%95%E8%A6%8F-123837814.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:38:37+08:00",
+          "summary": "（中央社記者蘇思云台北2026年11月3日電）部分壽險綜合險直到第二個保單年度才給付疾病保障等部分項目，是否變相拉長等待期，引起關注。金管會表示，目前已完成相關保單的初步清查，因商品態樣各有差異，是否",
+          "additional_sources": []
+        },
+        {
+          "title": "電價若比照韓國能賺千億！台電工會籲支持追加預算",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9B%BB%E5%83%B9%E8%8B%A5%E6%AF%94%E7%85%A7%E9%9F%93%E5%9C%8B%E8%83%BD%E8%B3%BA%E5%8D%83%E5%84%84-%E5%8F%B0%E9%9B%BB%E5%B7%A5%E6%9C%83%E7%B1%B2%E6%94%AF%E6%8C%81%E8%BF%BD%E5%8A%A0%E9%A0%90%E7%AE%97-122825723.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:28:25+08:00",
+          "summary": "立法院3日審理今年度追加預算案，台電工會2日聲明表示，台電長期配合政府政策吸收成本、穩定電價，若比照韓國電價，台電已經有千億元盈餘，且政府編列預算補貼電價為國際常見做法，並非台灣獨有，因此獲得政府撥補",
+          "additional_sources": []
+        },
+        {
+          "title": "426億資金提前押寶 民主黨參院勝率衝74％ 共和黨優勢不見了？",
+          "link": "https://tw.stock.yahoo.com/news/426%E5%84%84%E8%B3%87%E9%87%91%E6%8F%90%E5%89%8D%E6%8A%BC%E5%AF%B6-%E6%B0%91%E4%B8%BB%E9%BB%A8%E5%8F%83%E9%99%A2%E5%8B%9D%E7%8E%87%E8%A1%9D74-%E5%85%B1%E5%92%8C%E9%BB%A8%E5%84%AA%E5%8B%A2%E4%B8%8D%E8%A6%8B%E4%BA%86-122540760.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:25:40+08:00",
+          "summary": "美國期中選舉於3日登場，而預測市場已提前掀起下注熱潮。根據福斯新聞網獨家報導，《福斯新聞網電子版》（Fox News Digital）取得的數據顯示，預測市場平台Kalshi關於期中選舉的交易量已將近",
+          "additional_sources": []
+        },
+        {
+          "title": "瑞士與中國更新自貿協定　促進經濟、人權質疑引分歧",
+          "link": "https://tw.stock.yahoo.com/news/%E7%91%9E%E5%A3%AB%E8%88%87%E4%B8%AD%E5%9C%8B%E6%9B%B4%E6%96%B0%E8%87%AA%E8%B2%BF%E5%8D%94%E5%AE%9A-%E4%BF%83%E9%80%B2%E7%B6%93%E6%BF%9F-%E4%BA%BA%E6%AC%8A%E8%B3%AA%E7%96%91%E5%BC%95%E5%88%86%E6%AD%A7-122332309.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-03T20:23:32+08:00",
+          "summary": "（中央社記者郭芳君蘇(黎)世2026年11月3日專電）瑞士總統兼經濟部長帕姆蘭（Guy Parmelin）10月30日在北京與中國領導人習近平重新簽訂瑞中自由貿易協定，瑞士各界看法不一，右派政黨肯定聯",
+          "additional_sources": []
+        },
+        {
+          "title": "從油棕園到全球算力重鎮：馬來西亞如何崛起為中美AI競賽的中立樞紐？",
+          "link": "https://news.cnyes.com/news/id/6645595",
+          "source": "cnyes",
+          "pubdate": "2026-11-03T22:09:56+08:00",
+          "summary": "鉅亨網新聞中心2026-11-03 22:09\n在馬來西亞南部的柔佛州(Johor)，昔日遍布油棕與鳳梨種植園的土地，如今正經歷一場驚人的產業轉型。超過15台大型起重機矗立在開挖的土地上，資料中心業者DayOne正在此打造龐大的設施。\n從油棕園到全球算力重鎮：馬來西亞如何崛起為中美AI競賽的中立樞紐…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AAPL 蘋果",
+      "keywords": [
+        "指數",
+        "投資",
+        "美元",
+        "市場",
+        "3"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "〈美股早盤〉晶片股回神！那指反彈走高 蘋果卻拖累道瓊",
+          "link": "https://news.cnyes.com/news/id/6645464",
+          "source": "cnyes",
+          "pubdate": "2026-11-03T22:39:29+08:00",
+          "summary": "鉅亨網編譯段智恆 綜合外電2026-11-03 22:39\n美股主要指數周二(3日)早盤走勢不一。布蘭特原油跌破每桶102美元，緩解市場對能源成本的擔憂。晶片股反彈，帶動那斯達克綜合指數走高，標普500指數也開高；道瓊指數則受蘋果(AAPL-US)毛利率展望不佳、股價下跌拖累而走低。美國期中選舉已開…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AMZN 亞馬遜",
+      "keywords": [
+        "市場",
+        "指數",
+        "場廣",
+        "廣度",
+        "500"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "美股出現反彈訊號！小摩：標普500市場廣度回升、年底上看8000點",
+          "link": "https://news.cnyes.com/news/id/6644584",
+          "source": "cnyes",
+          "pubdate": "2026-11-03T22:10:04+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-03 22:10\n美股近期受到人工智慧（AI）投資疑慮衝擊，科技股賣壓持續升高，但摩根大通私人銀行認為，標普500指數正浮現一項值得關注的反彈訊號：市場廣度明顯改善，顯示可能即將迎來反彈\n根據《Business Insider》報導，今年很長一段時間以來，美股市場廣度…",
           "additional_sources": []
         }
       ]
