@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import NavBar from './NavBar';
 import { useTheme } from '../hooks/useTheme';
 import styles from './VocabularyPage.module.css';
+import PictureCards from './PictureCards';
+import { PICTURE_DECKS } from './pictureDecks';
 
 const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const POS_OPTIONS = ['noun', 'verb', 'adjective', 'adverb', 'phrase', 'other'];
@@ -127,6 +129,8 @@ export default function VocabularyPage() {
   const [posFilter, setPosFilter] = useState('');
   const [catFilter, setCatFilter] = useState('');
   const [index, setIndex] = useState(0);
+  const [mode, setMode] = useState<'words' | 'cards' | 'match'>('words');
+  const [deck, setDeck] = useState(PICTURE_DECKS[0].id);
 
   useEffect(() => {
     fetch('vocab.json?t=' + Date.now())
@@ -159,13 +163,14 @@ export default function VocabularyPage() {
   const goNext = () => setIndex(i => (i < total - 1 ? i + 1 : 0));
 
   useEffect(() => {
+    if (mode !== 'words') return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') { setIndex(i => i > 0 ? i - 1 : total - 1); e.preventDefault(); }
       if (e.key === 'ArrowRight') { setIndex(i => i < total - 1 ? i + 1 : 0); e.preventDefault(); }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [total]);
+  }, [total, mode]);
 
   useEffect(() => { setIndex(0); }, [search, cefrFilter, posFilter, catFilter]);
 
@@ -176,45 +181,64 @@ export default function VocabularyPage() {
 
       <div className={styles.header}>
         <h1>Vocabulary Cards</h1>
-        <p>Click a card to flip and see the example sentence. Use 🔊 to listen.</p>
+        <p>Click a card to flip and see the example sentence. Use 🔊 to listen. Try Picture Cards and Picture Match to link words with images.</p>
       </div>
 
-      <div className={styles.filterBar}>
-        <input type="text" placeholder="Search words…" value={search}
-          onChange={(e) => setSearch(e.target.value)} className={styles.searchInput} />
-        <select value={cefrFilter} onChange={(e) => setCefrFilter(e.target.value)} className={styles.select}>
-          <option value="">All Levels</option>
-          {CEFR_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
-        </select>
-        <select value={posFilter} onChange={(e) => setPosFilter(e.target.value)} className={styles.select}>
-          <option value="">All Types</option>
-          {POS_OPTIONS.map(p => <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>)}
-        </select>
-        <select value={catFilter} onChange={(e) => setCatFilter(e.target.value)} className={styles.select}>
-          <option value="">All Topics</option>
-          {categories.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
-        </select>
-        <span className={styles.countLabel}>{total} word{total !== 1 ? 's' : ''}</span>
-      </div>
-
-      {loading ? (
-        <div className={styles.stateMsg}><span className={styles.icon}>⏳</span>Loading vocabulary…</div>
-      ) : total === 0 ? (
-        <div className={styles.stateMsg}>
-          <span className={styles.icon}>🔍</span>
-          {words.length === 0
-            ? 'No vocabulary yet. Add words in Admin and click Publish to Site.'
-            : 'No words match your filter.'}
+      <div className={styles.modeBar}>
+        <div className={styles.modeTabs}>
+          <button className={mode === 'words' ? styles.modeOn : ''} onClick={() => setMode('words')}>📖 Word Cards</button>
+          <button className={mode === 'cards' ? styles.modeOn : ''} onClick={() => setMode('cards')}>🖼️ Picture Cards</button>
+          <button className={mode === 'match' ? styles.modeOn : ''} onClick={() => setMode('match')}>🧩 Picture Match</button>
         </div>
+        {mode !== 'words' && PICTURE_DECKS.length > 1 && (
+          <select value={deck} onChange={(e) => setDeck(e.target.value)} className={styles.select}>
+            {PICTURE_DECKS.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
+          </select>
+        )}
+      </div>
+
+      {mode !== 'words' ? (
+        <PictureCards key={deck + mode} deck={deck} mode={mode} />
       ) : (
-        <div className={styles.sliderWrap}>
-          <button className={styles.sliderBtn} onClick={goPrev} title="Previous (←)">‹</button>
-          <div className={styles.sliderCardArea}>
-            {current && <FlipCard key={current.id} word={current} />}
-            <div className={styles.sliderPage}>{index + 1} / {total}</div>
-          </div>
-          <button className={styles.sliderBtn} onClick={goNext} title="Next (→)">›</button>
+      <>
+        <div className={styles.filterBar}>
+          <input type="text" placeholder="Search words…" value={search}
+            onChange={(e) => setSearch(e.target.value)} className={styles.searchInput} />
+          <select value={cefrFilter} onChange={(e) => setCefrFilter(e.target.value)} className={styles.select}>
+            <option value="">All Levels</option>
+            {CEFR_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
+          </select>
+          <select value={posFilter} onChange={(e) => setPosFilter(e.target.value)} className={styles.select}>
+            <option value="">All Types</option>
+            {POS_OPTIONS.map(p => <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>)}
+          </select>
+          <select value={catFilter} onChange={(e) => setCatFilter(e.target.value)} className={styles.select}>
+            <option value="">All Topics</option>
+            {categories.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+          </select>
+          <span className={styles.countLabel}>{total} word{total !== 1 ? 's' : ''}</span>
         </div>
+
+        {loading ? (
+          <div className={styles.stateMsg}><span className={styles.icon}>⏳</span>Loading vocabulary…</div>
+        ) : total === 0 ? (
+          <div className={styles.stateMsg}>
+            <span className={styles.icon}>🔍</span>
+            {words.length === 0
+              ? 'No vocabulary yet. Add words in Admin and click Publish to Site.'
+              : 'No words match your filter.'}
+          </div>
+        ) : (
+          <div className={styles.sliderWrap}>
+            <button className={styles.sliderBtn} onClick={goPrev} title="Previous (←)">‹</button>
+            <div className={styles.sliderCardArea}>
+              {current && <FlipCard key={current.id} word={current} />}
+              <div className={styles.sliderPage}>{index + 1} / {total}</div>
+            </div>
+            <button className={styles.sliderBtn} onClick={goNext} title="Next (→)">›</button>
+          </div>
+        )}
+      </>
       )}
     </>
   );

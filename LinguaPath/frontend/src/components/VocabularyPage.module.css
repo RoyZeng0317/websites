@@ -110,3 +110,14 @@
   text-align:center; font-size:0.82rem; color:var(--muted);
   padding:0.5rem 0 0; letter-spacing:0.03em;
 }
+
+/* ─── Mode tabs (words / picture cards / picture match) ─── */
+.modeBar { max-width:1200px; margin:1.2rem auto 0; padding:0 2rem; display:flex; flex-wrap:wrap; gap:0.7rem; align-items:center; }
+.modeTabs { display:flex; flex-wrap:wrap; gap:0.4rem; }
+.modeTabs button {
+  background:var(--surface); border:1px solid var(--border); border-radius:999px;
+  padding:0.45rem 0.95rem; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.85rem;
+}
+.modeTabs button:hover { color:var(--text); border-color:var(--muted); }
+.modeTabs .modeOn { color:var(--text); border-color:var(--accent); background:rgba(126,184,232,0.12); font-weight:600; }
+@media (max-width:480px) { .modeBar, .header, .filterBar { padding:0 1rem; } }
