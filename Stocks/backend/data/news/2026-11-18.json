@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-18",
+  "generated_at": "2026-11-18T00:45:55.274957",
+  "group_count": 3,
+  "total_articles": 4,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "年終",
+        "個月",
+        "平均",
+        "企業",
+        "1"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "各行業年終獎金大調查 逾7成8企業「平均1.61個月」",
+          "link": "https://tw.stock.yahoo.com/news/%E5%90%84%E8%A1%8C%E6%A5%AD%E5%B9%B4%E7%B5%82%E7%8D%8E%E9%87%91%E5%A4%A7%E8%AA%BF%E6%9F%A5-%E9%80%BE7%E6%88%908%E4%BC%81%E6%A5%AD-%E5%B9%B3%E5%9D%871-61%E5%80%8B%E6%9C%88-160046760.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-18T00:00:46+08:00",
+          "summary": "財經中心／吳瑞霖、張智凱 台北報導歲末年終，上班族最關心的話題之一，就是年終多少？會不會加薪？人力銀行調查顯示，今年（2026年）有78.5%的企業，會發年終獎金，平均1.61個月，哪個產業平均最高？",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "輝達",
+        "董事",
+        "事會",
+        "仁勳",
+        "黃仁"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "黃仁勳打破沉默！認了犯錯、願回任輝達 決定權交董事會",
+          "link": "https://news.cnyes.com/news/id/6665560",
+          "source": "cnyes",
+          "pubdate": "2026-11-18T00:08:27+08:00",
+          "summary": "鉅亨網編譯段智恆 綜合外電2026-11-18 00:08\n綜合外媒周二(17日)報導，輝達(NVDA-US)前執行長黃仁勳離任後首次發布公開聲明，表態若董事會認為他的回歸符合股東、員工、公司及美國的最佳利益，他願意回任執行長。他也承認個人生活犯下嚴重錯誤，承諾配合董事會的獨立調查。\n黃仁勳打破沉默…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "銀行",
+        "貸款",
+        "台股",
+        "投資",
+        "風險"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "銀行甩賣AI資料中心債務！ING、法興尋求出售8億美元貸款、甲骨文3大項目遭波及",
+          "link": "https://news.cnyes.com/news/id/6665041",
+          "source": "cnyes",
+          "pubdate": "2026-11-18T00:30:12+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-18 00:30\n隨著銀行業日益警惕對人工智慧（AI）基礎設施的集中曝險，部分金融機構開始出售相關貸款，降低資產負債表風險。荷蘭ING銀行與法國興業銀行近期合計尋求出售最多8億美元的資料中心債務，涉及多個與甲骨文(ORCL-US) 相關的建設項目，顯示銀行業正逐步釋出…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 散戶買不停！台股ETF受益人連五周創高 、",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1794933823.A.80A.html",
+          "source": "ptt",
+          "pubdate": "2026-11-18T00:43:41+08:00",
+          "summary": "原文標題：\n原文連結：\nhttps://www.taisounds.com/news/content/76/310159\n發布時間：2026-11-17 10:15\n記者署名：陳俐妏\n原文內容：\n\n大跌大買，買不停！台股ETF受益人數連續5周創新高。根據集保戶股權分散11月13日最新\n統計資料顯示，…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
