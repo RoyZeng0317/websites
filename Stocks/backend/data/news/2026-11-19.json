@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-19",
+  "generated_at": "2026-11-19T00:16:56.248328",
+  "group_count": 2,
+  "total_articles": 2,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "市場",
+        "投資",
+        "保險",
+        "下跌",
+        "合保"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "回顧1987黑色星期一 程式化停損如何釀成史上最大崩盤",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9B%9E%E9%A1%A71987%E9%BB%91%E8%89%B2%E6%98%9F%E6%9C%9F-%E7%A8%8B%E5%BC%8F%E5%8C%96%E5%81%9C%E6%90%8D%E5%A6%82%E4%BD%95%E9%87%80%E6%88%90%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%A4%A7%E5%B4%A9%E7%9B%A4-160738057.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-19T00:07:38+08:00",
+          "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導華爾街在歷史上經歷過無數次震盪，但從未有一天如同1987年10月19日的「黑色星期一」那樣慘烈。當天標準普爾500指數期貨單日暴跌29%，至今仍是現代金融史上",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US AAPL 蘋果",
+      "keywords": [
+        "蘋果",
+        "ai",
+        "估值",
+        "成長",
+        "科技"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "AI避風港愈來愈貴！蘋果今年漲30% 估值衝2007年來最高",
+          "link": "https://news.cnyes.com/news/id/6666532",
+          "source": "cnyes",
+          "pubdate": "2026-11-19T00:00:06+08:00",
+          "summary": "鉅亨網編譯段智恆2026-11-19 00:00\n據《彭博》周三(18日)報導，當投資人拋售晶片、雲端與AI基礎建設相關股票時，蘋果(AAPL-US)卻成為資金避風港，今年來累計上漲約30%，表現居科技七巨頭之首，市值達5.1兆美元，登上全球最大企業寶座。\n然而，追求穩定的代價也愈來愈高。蘋果未來1…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
