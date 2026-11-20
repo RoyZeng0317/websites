@@ -1,8 +1,371 @@
 {
   "date": "2026-11-20",
-  "generated_at": "2026-11-20T00:26:00.744191",
-  "group_count": 0,
-  "total_articles": 0,
-  "groups": [],
+  "generated_at": "2026-11-20T23:58:30.013083",
+  "group_count": 4,
+  "total_articles": 35,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "公司",
+        "美國",
+        "1",
+        "報導",
+        "ai"
+      ],
+      "article_count": 30,
+      "articles": [
+        {
+          "title": "史上最大IPO再擴大！Anthropic公開募資935億美元 仍難擋科技股賣壓",
+          "link": "https://news.cnyes.com/news/id/6669435",
+          "source": "cnyes",
+          "pubdate": "2026-11-20T23:10:08+08:00",
+          "summary": "鉅亨網編譯段智恆2026-11-20 23:10\nAnthropic(ANT-US)周五(20日)宣布，承銷商已全數行使超額配售權，將首次公開發行(IPO)募資規模推升至935億美元；加計同步完成的260億美元私募，總募資達1,195億美元，尚未扣除發行費用。不過，科技股賣壓持續，股價盤前下挫12%…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%A4%A7ipo%E5%86%8D%E6%93%B4%E5%A4%A7-anthropic%E5%85%AC%E9%96%8B%E5%8B%9F%E8%B3%87935%E5%84%84%E7%BE%8E%E5%85%83-%E4%BB%8D%E9%9B%A3%E6%93%8B%E7%A7%91%E6%8A%80%E8%82%A1%E8%B3%A3%E5%A3%93-151008549.html",
+              "title": "史上最大IPO再擴大！Anthropic公開募資935億美元 仍難擋科技股賣壓"
+            }
+          ]
+        },
+        {
+          "title": "【公告】統一超代重要子公司統一超商維京控股有限公司公告增資統一超商納閩島控股有限公司",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E7%B5%B1-%E8%B6%85%E4%BB%A3%E9%87%8D%E8%A6%81%E5%AD%90%E5%85%AC%E5%8F%B8%E7%B5%B1-%E8%B6%85%E5%95%86%E7%B6%AD%E4%BA%AC%E6%8E%A7%E8%82%A1%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%85%AC%E5%91%8A%E5%A2%9E%E8%B3%87%E7%B5%B1-%E8%B6%85%E5%95%86%E7%B4%8D%E9%96%A9%E5%B3%B6%E6%8E%A7%E8%82%A1%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8-134223547.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:42:23+08:00",
+          "summary": "日 期：2026年11月20日公司名稱：統一超(2912)主 旨：代重要子公司統一超商維京控股有限公司公告增資統一超商納閩島控股有限公司發言人：吳玟琪說 明：1.標的物之名稱及性質（屬特別股者，並應標",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E7%B5%B1-%E8%B6%85-%E4%BB%A3%E9%87%8D%E8%A6%81%E5%AD%90%E5%85%AC%E5%8F%B8%E7%B5%B1-%E8%B6%85%E5%95%86%E7%B6%AD%E4%BA%AC%E6%8E%A7%E8%82%A1%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%85%AC%E5%91%8A%E5%A2%9E%E8%B3%87%E7%B5%B1-%E8%B6%85%E5%95%86%E7%B4%8D%E9%96%A9%E5%B3%B6%E6%8E%A7%E8%82%A1%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8-132900845.html",
+              "title": "統一超 代重要子公司統一超商維京控股有限公司公告增資統一超商納閩島控股有限公司"
+            }
+          ]
+        },
+        {
+          "title": "美光預估本益比剩3.8倍還在跌！記憶體股下一關看什麼？",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%85%89%E9%A0%90%E4%BC%B0%E6%9C%AC%E7%9B%8A%E6%AF%94%E5%89%A93-8%E5%80%8D%E9%82%84%E5%9C%A8%E8%B7%8C-%E8%A8%98%E6%86%B6%E9%AB%94%E8%82%A1%E4%B8%8B-%E9%97%9C%E7%9C%8B%E4%BB%80%E9%BA%BC-130008286.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:00:08+08:00",
+          "summary": "美光盤前跌3.2%，近5日累跌12%，AI類股賣壓未解；估值降至歷史低檔。 美光預估本益比3.8倍，SK海力士3.1倍、三星2.5倍；美光平均目標價暗示近150%上漲空間。 HPE將於11月23日、A",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6669403",
+              "title": "美光預估本益比剩3.8倍還在跌！記憶體股下一關看什麼？"
+            }
+          ]
+        },
+        {
+          "title": "Google Cloud 推出物件擴充功能 處理千萬張圖片僅需 700 美元",
+          "link": "https://tw.stock.yahoo.com/news/google-cloud-%E6%8E%A8%E5%87%BA%E7%89%A9%E4%BB%B6%E6%93%B4%E5%85%85%E5%8A%9F%E8%83%BD-%E8%99%95%E7%90%86%E5%8D%83%E8%90%AC%E5%BC%B5%E5%9C%96%E7%89%87%E5%83%85%E9%9C%80-700-154855861.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T23:48:55+08:00",
+          "summary": "圖／示意圖商傳媒｜葉安庭／綜合外電報導在 AI Agent 浪潮推動下，企業處理海量資料的運算與管線成本急遽攀升。Google Cloud 於週四發表 Cloud Storage 的新功能「物件擴充（",
+          "additional_sources": []
+        },
+        {
+          "title": "GTA 6 上市掀 212GB 下載潮 全美固網流量飆破紀錄",
+          "link": "https://tw.stock.yahoo.com/news/gta-6-%E4%B8%8A%E5%B8%82%E6%8E%80-212gb-%E4%B8%8B%E8%BC%89%E6%BD%AE-154015646.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T23:40:15+08:00",
+          "summary": "圖／示意圖商傳媒｜何映辰／台北報導遊戲大廠 Rockstar Games 旗下萬眾矚目的開放世界大作《俠盜獵車手 VI》（Grand Theft Auto VI）於週四在 PlayStation 5",
+          "additional_sources": []
+        },
+        {
+          "title": "RingConn推出限量版第三代智能戒指至尊魔戒™ 靈感源自《指環王》三部曲",
+          "link": "https://tw.stock.yahoo.com/news/ringconn%E6%8E%A8%E5%87%BA%E9%99%90%E9%87%8F%E7%89%88%E7%AC%AC%E4%B8%89%E4%BB%A3%E6%99%BA%E8%83%BD%E6%88%92%E6%8C%87%E8%87%B3%E5%B0%8A%E9%AD%94%E6%88%92-%E9%9D%88%E6%84%9F%E6%BA%90%E8%87%AA-%E6%8C%87%E7%92%B0%E7%8E%8B-%E4%B8%89%E9%83%A8%E6%9B%B2-153000213.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T23:30:00+08:00",
+          "summary": "致力於幫助人們更好地了解自身健康狀況的智能戒指品牌RingConn今日宣布，該公司與華納兄弟全球消費品事業部(Warner Bros. Global Consumer Products)達成合作，推出",
+          "additional_sources": []
+        },
+        {
+          "title": "實測 Google 颶風 AI 模型 美大學研究證實預測力超越官方",
+          "link": "https://tw.stock.yahoo.com/news/%E5%AF%A6%E6%B8%AC-google-%E9%A2%B6%E9%A2%A8-ai-%E6%A8%A1%E5%9E%8B-151733565.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T23:17:33+08:00",
+          "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導人工智慧跨足極端氣候預測迎來重要獨立檢驗。根據學術期刊《地球物理研究通訊》（Geophysical Research Letters）刊登的最新研究，美國紐約州",
+          "additional_sources": []
+        },
+        {
+          "title": "Anthropic跳水領跌AI股！美股費半大跌400點",
+          "link": "https://tw.news.yahoo.com/anthropic%E8%B7%B3%E6%B0%B4%E9%A0%98%E8%B7%8Cai%E8%82%A1-%E7%BE%8E%E8%82%A1%E8%B2%BB%E5%8D%8A%E5%A4%A7%E8%B7%8C400%E9%BB%9E-145136306.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:51:36+08:00",
+          "summary": "[NOWNEWS今日新聞]美股週五（20日）開盤後，受到Anthropic大跌9％影響，AI與晶片股普遍承壓，以科技股為主的那斯達克指數和費城半導體指數也連帶重挫。截至寫稿時間為止，道瓊工業指數上漲2",
+          "additional_sources": []
+        },
+        {
+          "title": "台中市長選戰／綠營6+1縣市長候選人齊聚 總統：台中好、台灣才會好",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E4%B8%AD%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E7%B6%A0%E7%87%9F6-1%E7%B8%A3%E5%B8%82%E9%95%B7%E5%80%99%E9%81%B8%E4%BA%BA%E9%BD%8A%E8%81%9A-%E7%B8%BD%E7%B5%B1-%E5%8F%B0%E4%B8%AD%E5%A5%BD-145101398.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:51:01+08:00",
+          "summary": "選戰最後倒數，許多候選人都在選前黃金週舉行各種造勢活動，強力催票。民進黨今天(20日)在台中舉行號稱「全台最大場」的造勢晚會，賴清德總統致詞時表示，台中有歷史文化、位居台灣地理中心串連南北，還有高科技",
+          "additional_sources": []
+        },
+        {
+          "title": "軟體末日說失靈 雲端指數自谷底反彈逾八成",
+          "link": "https://tw.stock.yahoo.com/news/%E8%BB%9F%E9%AB%94%E6%9C%AB%E6%97%A5%E8%AA%AA%E5%A4%B1%E9%9D%88-%E9%9B%B2%E7%AB%AF%E6%8C%87%E6%95%B8%E8%87%AA%E8%B0%B7%E5%BA%95%E5%8F%8D%E5%BD%88%E9%80%BE%E5%85%AB%E6%88%90-144400277.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:44:00+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導兩天內蒸發 2,850 億美元市值——今年 1 月，人工智慧服務 Claude Cowork 推出引發市場恐慌，投資人擔憂生成式 AI 將徹底顛覆傳統軟體，",
+          "additional_sources": []
+        },
+        {
+          "title": "中亞經濟成長突破6% 歐亞物流樞紐引爆千億基建潮",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E4%BA%9E%E7%B6%93%E6%BF%9F%E6%88%90%E9%95%B7%E7%AA%81%E7%A0%B46-%E6%AD%90%E4%BA%9E%E7%89%A9%E6%B5%81%E6%A8%9E%E7%B4%90%E5%BC%95%E7%88%86%E5%8D%83%E5%84%84%E5%9F%BA%E5%BB%BA%E6%BD%AE-141113571.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:11:13+08:00",
+          "summary": "圖／本報資料庫商傳媒｜葉安庭／綜合外電報導歐亞大陸經貿板塊正加速重組，中亞地區成為串接歐洲與亞洲的關鍵貿易走廊。根據外媒《Container News》報導，中亞整體經濟在 2025 年成長超過 6%",
+          "additional_sources": []
+        },
+        {
+          "title": "伊斯坦堡市長學位遭撤銷 反對黨黨魁痛批裁決懦弱",
+          "link": "https://tw.news.yahoo.com/%E4%BC%8A%E6%96%AF%E5%9D%A6%E5%A0%A1%E5%B8%82%E9%95%B7%E5%AD%B8%E4%BD%8D%E9%81%AD%E6%92%A4%E9%8A%B7-%E5%8F%8D%E5%B0%8D%E9%BB%A8%E9%BB%A8%E9%AD%81%E7%97%9B%E6%89%B9%E8%A3%81%E6%B1%BA%E6%87%A6%E5%BC%B1-140807862.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:08:07+08:00",
+          "summary": "法新社今（20日）報導，土耳其主要反對黨領袖譴責一項針對伊斯坦堡市長的法院裁決是「懦夫行徑」。該裁決將導致目前身陷囹圄的市長無法在即將到來的選舉中，挑戰現任總統艾爾段（Recep Tayyip Erd",
+          "additional_sources": []
+        },
+        {
+          "title": "桃園市長選戰／力挺同黨候選人 黃世杰：好治理要連成一線",
+          "link": "https://tw.news.yahoo.com/%E6%A1%83%E5%9C%92%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E5%8A%9B%E6%8C%BA%E5%90%8C%E9%BB%A8%E5%80%99%E9%81%B8%E4%BA%BA-%E9%BB%83%E4%B8%96%E6%9D%B0-%E5%A5%BD%E6%B2%BB%E7%90%86%E8%A6%81%E9%80%A3%E6%88%90-%E7%B7%9A-140752811.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:07:52+08:00",
+          "summary": "選前黃金週，民進黨桃園市長候選人黃世杰今天(20日)晚間前往南投與台中參加「洋流慧聚，杰伴童行」造勢活動，力挺民進黨南投縣長候選人溫世政、民進黨台中市長候選人何欣純，呼籲選民支持正面力量，讓好的治理連",
+          "additional_sources": []
+        },
+        {
+          "title": "伊朗戰爭再啟？知情人士曝美以醞釀聯手空襲",
+          "link": "https://tw.news.yahoo.com/%E4%BC%8A%E6%9C%97%E6%88%B0%E7%88%AD%E5%86%8D%E5%95%9F-%E7%9F%A5%E6%83%85%E4%BA%BA%E5%A3%AB%E6%9B%9D%E7%BE%8E%E4%BB%A5%E9%86%9E%E9%87%80%E8%81%AF%E6%89%8B%E7%A9%BA%E8%A5%B2-140117513.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:01:17+08:00",
+          "summary": "[NOWNEWS今日新聞]中東局勢再度拉響警報！根據美國《CBSNews》報導引述知情人士說法，稱美國與以色列正考慮在短期內對伊朗發動新一輪重大軍事打擊。知情人士表示，以色列總理納坦雅胡（Benjam",
+          "additional_sources": []
+        },
+        {
+          "title": "限制親伊朗勢力 伊拉克安全部隊進駐真主黨旅據點",
+          "link": "https://tw.news.yahoo.com/%E9%99%90%E5%88%B6%E8%A6%AA%E4%BC%8A%E6%9C%97%E5%8B%A2%E5%8A%9B-%E4%BC%8A%E6%8B%89%E5%85%8B%E5%AE%89%E5%85%A8%E9%83%A8%E9%9A%8A%E9%80%B2%E9%A7%90%E7%9C%9F%E4%B8%BB%E9%BB%A8%E6%97%85%E6%93%9A%E9%BB%9E-135549116.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:55:49+08:00",
+          "summary": "伊拉克安全部隊今天(20日)根據一項協議，進駐朱爾夫塞赫爾(Jurf al-Sakhar)，這是伊朗支持的伊拉克武裝組織「真主黨旅」(Kataib Hezbollah)一個據點。該協議旨在限制伊朗在伊",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】仁新*代重要子公司Belite Bio,Inc公告LBS-008用於治療斯特格病變之新藥查驗",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E4%BB%81%E6%96%B0-%E4%BB%A3%E9%87%8D%E8%A6%81%E5%AD%90%E5%85%AC%E5%8F%B8belite-bio-inc%E5%85%AC%E5%91%8Albs-134728824.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:47:28+08:00",
+          "summary": "登記申請(NDA)經美國食品藥物管理局(FDA)通知延長審查期間3個月及預計溝通藥品仿單要求(labeling requests)時間日 期：2026年11月20日公司名稱：仁新*(6696)主 旨：",
+          "additional_sources": []
+        },
+        {
+          "title": "台中市長選戰／豐原造勢湧破萬人 江啟臣要打造台中成為國際旗艦城市",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E4%B8%AD%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E8%B1%90%E5%8E%9F%E9%80%A0%E5%8B%A2%E6%B9%A7%E7%A0%B4%E8%90%AC%E4%BA%BA-%E6%B1%9F%E5%95%9F%E8%87%A3%E8%A6%81%E6%89%93%E9%80%A0%E5%8F%B0%E4%B8%AD%E6%88%90%E7%82%BA%E5%9C%8B%E9%9A%9B%E6%97%97%E8%89%A6%E5%9F%8E%E5%B8%82-134042742.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:40:42+08:00",
+          "summary": "國民黨台中市長候選人江啟臣今晚(20日)在豐原舉辦大型造勢晚會，吸引超過萬名的支持者，新北市長侯友宜、台中市長盧秀燕等藍營大咖也到場力挺。江啟臣強調，自己不僅要守護台中，更要升級台中，讓縣市合併後的台",
+          "additional_sources": []
+        },
+        {
+          "title": "YouGov公布美體育博彩排名 預測市場平台首度納入評比",
+          "link": "https://tw.stock.yahoo.com/news/yougov%E5%85%AC%E5%B8%83%E7%BE%8E%E9%AB%94%E8%82%B2%E5%8D%9A%E5%BD%A9%E6%8E%92%E5%90%8D-%E9%A0%90%E6%B8%AC%E5%B8%82%E5%A0%B4%E5%B9%B3%E5%8F%B0%E9%A6%96%E5%BA%A6%E7%B4%8D%E5%85%A5%E8%A9%95%E6%AF%94-133750697.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:37:50+08:00",
+          "summary": "商傳媒｜方承業／綜合外電報導國際市場調查機構 YouGov 旗下品牌追蹤工具公布 2026 年美國線上體育博彩與預測市場品牌排名。這項調查的一大亮點，是將近期興起的事件預測合約平台納入評比，與傳統線上",
+          "additional_sources": []
+        },
+        {
+          "title": "太空邊緣運算大突破 新創軟體首度跨雙衛星運作",
+          "link": "https://tw.stock.yahoo.com/news/%E5%A4%AA%E7%A9%BA%E9%82%8A%E7%B7%A3%E9%81%8B%E7%AE%97%E5%A4%A7%E7%AA%81%E7%A0%B4-%E6%96%B0%E5%89%B5%E8%BB%9F%E9%AB%94%E9%A6%96%E5%BA%A6%E8%B7%A8%E9%9B%99%E8%A1%9B%E6%98%9F%E9%81%8B%E4%BD%9C-133402358.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:34:02+08:00",
+          "summary": "圖／本報資料庫商傳媒｜林昭衡／綜合外電報導軌道數據中心朝實際運作邁出關鍵一步。美國航太軟體新創 Sophia Space 於週四宣布，已成功在開普勒通訊（Kepler Communications）的",
+          "additional_sources": []
+        },
+        {
+          "title": "仁新* 代重要子公司Belite Bio,Inc公告LBS-008用於治療斯特格病變之新藥查驗登記申請(NDA)經美國食品藥物管理局(FDA)通知延長...",
+          "link": "https://tw.stock.yahoo.com/news/%E4%BB%81%E6%96%B0-%E4%BB%A3%E9%87%8D%E8%A6%81%E5%AD%90%E5%85%AC%E5%8F%B8belite-bio-inc%E5%85%AC%E5%91%8Albs-008%E7%94%A8%E6%96%BC%E6%B2%BB%E7%99%82%E6%96%AF%E7%89%B9%E6%A0%BC%E7%97%85%E8%AE%8A%E4%B9%8B%E6%96%B0%E8%97%A5%E6%9F%A5%E9%A9%97%E7%99%BB%E8%A8%98%E7%94%B3%E8%AB%8B-133400089.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:34:00+08:00",
+          "summary": "公開資訊觀測站重大訊息公告(6696)仁新*-代重要子公司Belite Bio,Inc公告LBS-008用於治療斯特格病變之新藥查驗登記申請(NDA)經美國食品藥物管理局(FDA)通知延長審查期間3個",
+          "additional_sources": []
+        },
+        {
+          "title": "美個人資安險納入網路戰免責條款 比例暴增至71%",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%80%8B%E4%BA%BA%E8%B3%87%E5%AE%89%E9%9A%AA%E7%B4%8D%E5%85%A5%E7%B6%B2%E8%B7%AF%E6%88%B0%E5%85%8D%E8%B2%AC%E6%A2%9D%E6%AC%BE-%E6%AF%94%E4%BE%8B%E6%9A%B4%E5%A2%9E%E8%87%B371-132514381.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:25:14+08:00",
+          "summary": "圖／示意圖商傳媒｜方承業／綜合外電報導面對地緣政治緊張與人工智慧詐騙激增，美國保險業者正加速重整資安風險轉嫁機制。保險科技公司 Zesty.ai, Inc. 針對監管文件分析指出，美國個人資安保險專案",
+          "additional_sources": []
+        },
+        {
+          "title": "10月外銷訂單突破1,200億美元再寫新高 AI趨勢仍看好",
+          "link": "https://tw.stock.yahoo.com/news/10%E6%9C%88%E5%A4%96%E9%8A%B7%E8%A8%82%E5%96%AE%E7%AA%81%E7%A0%B41-200%E5%84%84%E7%BE%8E%E5%85%83%E5%86%8D%E5%AF%AB%E6%96%B0%E9%AB%98-ai%E8%B6%A8%E5%8B%A2%E4%BB%8D%E7%9C%8B%E5%A5%BD-132504918.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:25:04+08:00",
+          "summary": "經濟部統計處公布10月外銷訂單1,238.2億美元，優於預期，連三月單月破1,000億美元、並再創新高。其中，資訊通信產品年增「翻倍」，與電子產品雙雙刷新前月紀錄、再創歷年單月新高。統計處認為，未來A",
+          "additional_sources": []
+        },
+        {
+          "title": "台股單週挫17%創35年最慘　哲哲喊「1121多頭歸隊」曝原因",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E5%96%AE%E9%80%B1%E6%8C%AB17-%E5%89%B535%E5%B9%B4%E6%9C%80%E6%85%98-%E5%93%B2%E5%93%B2%E5%96%8A-1121%E5%A4%9A%E9%A0%AD%E6%AD%B8%E9%9A%8A-%E6%9B%9D%E5%8E%9F%E5%9B%A0-132328164.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:23:28+08:00",
+          "summary": "財經中心／陳章華報導今（20）日台股再度上演崩盤式殺盤，暴跌2393.60點，最後失守3萬7000點大關，以36,033.29點作收。對此，先前喊出台股年底上看5萬點，並承諾若未達標就發送雞排、珍奶共",
+          "additional_sources": []
+        },
+        {
+          "title": "Sygnum預測2027年比特幣套利報酬將超越美債",
+          "link": "https://tw.stock.yahoo.com/news/sygnum%E9%A0%90%E6%B8%AC2027%E5%B9%B4%E6%AF%94%E7%89%B9%E5%B9%A3%E5%A5%97%E5%88%A9%E5%A0%B1%E9%85%AC%E5%B0%87%E8%B6%85%E8%B6%8A%E7%BE%8E%E5%82%B5-130201665.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:02:01+08:00",
+          "summary": "圖／示意圖商傳媒｜吳承岳／台北報導數位資產金融機構 Sygnum Bank 發布最新長期預測指出，比特幣套利交易的年化報酬率預計在 2027 年超越 3 個月期美國國債。這項預測為長期關注加密資產與傳",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】廣騰董事會決議召開116年第一次股東臨時會相關事宜",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E5%BB%A3%E9%A8%B0%E8%91%A3%E4%BA%8B%E6%9C%83%E6%B1%BA%E8%AD%B0%E5%8F%AC%E9%96%8B116%E5%B9%B4%E7%AC%AC-%E6%AC%A1%E8%82%A1%E6%9D%B1%E8%87%A8%E6%99%82%E6%9C%83%E7%9B%B8%E9%97%9C%E4%BA%8B%E5%AE%9C-130128656.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:01:28+08:00",
+          "summary": "日 期：2026年11月20日公司名稱：廣騰(7946)主 旨：廣騰董事會決議召開116年第一次股東臨時會相關事宜發言人：彭馨瑩說 明：1.董事會決議日期：115/11/202.股東臨時會召開日期：1",
+          "additional_sources": []
+        },
+        {
+          "title": "【公告】廣騰通過子公司「良昱股份有限公司」進行簡易合併案",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E5%BB%A3%E9%A8%B0%E9%80%9A%E9%81%8E%E5%AD%90%E5%85%AC%E5%8F%B8-%E8%89%AF%E6%98%B1%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8-%E9%80%B2%E8%A1%8C%E7%B0%A1%E6%98%93%E5%90%88%E4%BD%B5%E6%A1%88-130126983.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:01:26+08:00",
+          "summary": "日 期：2026年11月20日公司名稱：廣騰(7946)主 旨：通過子公司「良昱股份有限公司」進行簡易合併案發言人：彭馨瑩說 明：1.併購種類(如合併、分割、收購或股份受讓):簡易合併2.事實發生日:",
+          "additional_sources": []
+        },
+        {
+          "title": "韓國大學學測抓到111起電子作弊！考生怒了",
+          "link": "https://tw.news.yahoo.com/%E9%9F%93%E5%9C%8B%E5%A4%A7%E5%AD%B8%E5%AD%B8%E6%B8%AC%E6%8A%93%E5%88%B0111%E8%B5%B7%E9%9B%BB%E5%AD%90%E4%BD%9C%E5%BC%8A-%E8%80%83%E7%94%9F%E6%80%92%E4%BA%86-125445637.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T20:54:45+08:00",
+          "summary": "[NOWNEWS今日新聞]韓國2027學年度「大學修學能力試驗」（簡稱修能，相當於台灣的學測）才剛落幕，考場內外卻因層出不窮的高科技作弊案陷入前所未有的信任危機。繼日前國家資格考試接連爆出考生利用微型",
+          "additional_sources": []
+        },
+        {
+          "title": "南寶成立半導體發展部　拚明年業績續創新高",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8D%97%E5%AF%B6%E6%88%90%E7%AB%8B%E5%8D%8A%E5%B0%8E%E9%AB%94%E7%99%BC%E5%B1%95%E9%83%A8-%E6%8B%9A%E6%98%8E%E5%B9%B4%E6%A5%AD%E7%B8%BE%E7%BA%8C%E5%89%B5%E6%96%B0%E9%AB%98-125222535.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T20:52:22+08:00",
+          "summary": "（中央社記者潘智義台北2026年11月20日電）南寶樹脂(4766)董事長暨執行長黃映霖表示，近期成立「半導體產業發展部」，聚焦半導體、光電與銅箔基板（CCL）材料3大領域。短期以光電材料為主，主攻高",
+          "additional_sources": []
+        },
+        {
+          "title": "研調：11月下旬需求弱成本仍高　面板價格持平",
+          "link": "https://tw.stock.yahoo.com/news/%E7%A0%94%E8%AA%BF-11%E6%9C%88%E4%B8%8B%E6%97%AC%E9%9C%80%E6%B1%82%E5%BC%B1%E6%88%90%E6%9C%AC%E4%BB%8D%E9%AB%98-%E9%9D%A2%E6%9D%BF%E5%83%B9%E6%A0%BC%E6%8C%81%E5%B9%B3-125220691.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T20:52:20+08:00",
+          "summary": "（中央社記者潘智義台北2026年11月20日電）研調機構集邦科技研究副總經理范博毓預估，11月電視面板逐步轉入淡季循環，需求轉弱，第4季主要電視品牌採購動能預估將季減6%左右。范博毓指出，雖然面板廠試",
+          "additional_sources": []
+        },
+        {
+          "title": "民生電價明年凍漲   戰爭若持續   4月工商電價提補漲",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B0%91%E7%94%9F%E9%9B%BB%E5%83%B9%E6%98%8E%E5%B9%B4%E5%87%8D%E6%BC%B2-%E6%88%B0%E7%88%AD%E8%8B%A5%E6%8C%81%E7%BA%8C4%E6%9C%88%E5%B7%A5%E5%95%86%E9%9B%BB%E5%83%B9%E6%81%90%E8%A3%9C%E6%BC%B2-125120520.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T20:51:20+08:00",
+          "summary": "油電兩家公司共4063億的增資、撥補，今日(20)終獲立法院三讀通過，經濟部晚間發出感謝文，表示會在12月電價會上提「民生用電不漲」主張。據官方內部研議，民生電價明年會整年凍漲，但如果俄烏戰爭、美伊戰",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "ai",
+        "經濟",
+        "us",
+        "投資",
+        "可能"
+      ],
+      "article_count": 3,
+      "articles": [
+        {
+          "title": "黃仁勳卸任輝達CEO誰受惠？博通本月逆漲6% AI供應鏈一片慘綠",
+          "link": "https://news.cnyes.com/news/id/6669433",
+          "source": "cnyes",
+          "pubdate": "2026-11-20T21:30:06+08:00",
+          "summary": "鉅亨網編譯段智恆2026-11-20 21:30\n黃仁勳離任後，AI股的贏家與輸家逐漸浮現。據《彭博》報導，輝達(NVDA-US)自10月底以來跌逾29%、市值蒸發1.4兆美元，雲端與資料中心供應鏈也大幅回檔，博通(AVGO-US)卻成為少數逆勢上漲的公司。華爾街如今除了評估誰能搶走輝達訂單，也緊盯…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E9%BB%83%E4%BB%81%E5%8B%B3%E5%8D%B8%E4%BB%BB%E8%BC%9D%E9%81%94ceo%E8%AA%B0%E5%8F%97%E6%83%A0-%E5%8D%9A%E9%80%9A%E6%9C%AC%E6%9C%88%E9%80%86%E6%BC%B26-ai%E4%BE%9B%E6%87%89%E9%8F%88-%E7%89%87%E6%85%98%E7%B6%A0-133006301.html",
+              "title": "黃仁勳卸任輝達CEO誰受惠？博通本月逆漲6% AI供應鏈一片慘綠"
+            }
+          ]
+        },
+        {
+          "title": "微星推迷你 AI 工作站 塞入輝達晶片配 128GB 記憶體",
+          "link": "https://tw.stock.yahoo.com/news/%E5%BE%AE%E6%98%9F%E6%8E%A8%E8%BF%B7%E4%BD%A0-ai-%E5%B7%A5%E4%BD%9C%E7%AB%99-%E5%A1%9E%E5%85%A5%E8%BC%9D%E9%81%94%E6%99%B6%E7%89%87%E9%85%8D-128gb-142610686.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:26:10+08:00",
+          "summary": "圖／示意圖商傳媒｜何映辰／台北報導隨著邊緣運算與本機部署需求增加，體積小巧的迷你電腦開始跨足專業工作站領域。根據外媒《Digital Trends》報導，微星（MSI）推出一款主打本機人工智慧運算的迷",
+          "additional_sources": []
+        },
+        {
+          "title": "小摩示警2026恐是「AI頂峰」！2027年支出放緩但衝擊美國經濟有限",
+          "link": "https://news.cnyes.com/news/id/6669008",
+          "source": "cnyes",
+          "pubdate": "2026-11-20T22:10:02+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-20 22:10\n人工智慧（AI）投資熱潮可能已經接近高峰。摩根大通（JPMorgan）首席經濟學家 Michael Feroli 指出，2026年很可能成為AI支出熱潮的頂點，預計2027年相關投資成長將開始放緩。不過，他認為，這不代表美國經濟與金融市場將因此遭受重…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US TSM 台積電 ADR",
+      "keywords": [
+        "下跌",
+        "美元",
+        "指數",
+        "ai",
+        "3"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "〈美股早盤〉Anthropic重挫拖累AI股！那指開盤跌逾1% 道瓊逼近修正區間",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E8%82%A1%E6%97%A9%E7%9B%A4-anthropic%E9%87%8D%E6%8C%AB%E6%8B%96%E7%B4%AFai%E8%82%A1-%E9%82%A3%E6%8C%87%E9%96%8B%E7%9B%A4%E8%B7%8C%E9%80%BE1-%E9%81%93%E7%93%8A%E9%80%BC%E8%BF%91%E4%BF%AE%E6%AD%A3%E5%8D%80%E9%96%93-143903974.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T22:39:03+08:00",
+          "summary": "Anthropic掛牌次日股價重挫12%，拖累那斯達克跌逾1%、費半跌近3.8%，AI概念股再遭賣壓。 市場憂AI估值偏高與建設支出難持續，全球股市走弱，ACWI連7跌，資金湧入債市。 輝達遭美眾院民",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6669336",
+              "title": "〈美股早盤〉Anthropic重挫拖累AI股！那指開盤跌逾1% 道瓊逼近修正區間"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "鎖定",
+        "微軟",
+        "測試",
+        "筆電",
+        "管理"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "微軟測試 Windows 11 遠端鎖定 筆電遭竊免清空資料就能防盜",
+          "link": "https://tw.stock.yahoo.com/news/%E5%BE%AE%E8%BB%9F%E6%B8%AC%E8%A9%A6-windows-11-%E9%81%A0%E7%AB%AF%E9%8E%96%E5%AE%9A-%E7%AD%86%E9%9B%BB%E9%81%AD%E7%AB%8A%E5%85%8D%E6%B8%85%E7%A9%BA%E8%B3%87%E6%96%99%E5%B0%B1%E8%83%BD%E9%98%B2%E7%9B%9C-131709215.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-20T21:17:09+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導企業員工遺失筆電時，IT 管理人員往往面臨兩難，究竟該直接抹除整台電腦的資料，還是承擔外洩風險？微軟（Microsoft）正在為 Windows 11 測試",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
   "market": "US"
 }
