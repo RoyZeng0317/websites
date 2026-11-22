@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-22",
+  "generated_at": "2026-11-22T23:07:57.175481",
+  "group_count": 2,
+  "total_articles": 2,
+  "groups": [
+    {
+      "group": "HK 1211 比亞迪",
+      "keywords": [
+        "亞迪",
+        "比亞",
+        "法院",
+        "ti7",
+        "捷豹"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 侵犯捷豹路虎設計權 比亞迪Ti7被禁歐盟銷",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795355020.A.121.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T21:43:38+08:00",
+          "summary": "原文標題：\n侵犯捷豹路虎設計權 比亞迪Ti7被禁歐盟銷售\n原文連結：\nhttps://www.epochtimes.com/b5/26/11/21/n14892751.htm\n發布時間：\n2026-11-21 19:06\n記者署名：\n趙彬\n原文內容：\n中國電動車製造商比亞迪旗下方程豹Ti7\n因外觀酷…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "HK 1810 小米",
+      "keywords": [
+        "11",
+        "融資",
+        "口",
+        "外資",
+        "恐慌"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[標的]  加權指數 多 四大底部訊號浮現",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795357435.A.3A9.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T22:23:53+08:00",
+          "summary": "標的：台灣加權指數\n\n分類：多\n\n分析/正文：\n\n一、外資週五夜盤全面淨買超\n\n大台：+1,430口 小台：+6,102口 微台：+11,446口\n\n合計約3,528口等值大台，淨交易契約金額約246億元。\n\n不論是空單回補還是新增多單，至少外資期貨淨部位已經開始往多方移動。\n\n二、美台恐慌指數爆表…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "HK"
+}

@@ -1,0 +1,529 @@
+{
+  "date": "2026-11-22",
+  "generated_at": "2026-11-22T23:07:57.153972",
+  "group_count": 8,
+  "total_articles": 49,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "10",
+        "市場",
+        "投資",
+        "報導",
+        "仁勳"
+      ],
+      "article_count": 38,
+      "articles": [
+        {
+          "title": "加密貨幣失寵 昔日支持者加速認賠出場",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8A%A0%E5%AF%86%E8%B2%A8%E5%B9%A3%E5%A4%B1%E5%AF%B5-%E6%98%94%E6%97%A5%E6%94%AF%E6%8C%81%E8%80%85%E5%8A%A0%E9%80%9F%E8%AA%8D%E8%B3%A0%E5%87%BA%E5%A0%B4-142003923.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T22:20:03+08:00",
+          "summary": "比特幣跌破57,742美元，創2024年9月以來新低，總市值縮至約2兆美元，較去年高點腰斬。 美元走強、Fed升息押注升溫，加上幣安遭創紀錄駭客攻擊，市場賣壓加劇。 投資人加速認賠離場，資金轉向AI股",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6669842",
+              "title": "加密貨幣失寵 昔日支持者加速認賠出場"
+            }
+          ]
+        },
+        {
+          "title": "本週操盤筆記：美國10月PCE、Q3 GDP修正值及南韓央行利率決議",
+          "link": "https://tw.stock.yahoo.com/news/%E6%9C%AC%E9%80%B1%E6%93%8D%E7%9B%A4%E7%AD%86%E8%A8%98-%E7%BE%8E%E5%9C%8B10%E6%9C%88pce-q3-gdp%E4%BF%AE%E6%AD%A3%E5%80%BC%E5%8F%8A%E5%8D%97%E9%9F%93%E5%A4%AE%E8%A1%8C%E5%88%A9%E7%8E%87%E6%B1%BA%E8%AD%B0-140721167.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T22:07:21+08:00",
+          "summary": "美國本週迎PCE、第三季GDP修正值與耐久財訂單，市場聚焦通膨與成長動能 南韓央行週四料升息1碼至3.25%，因核心CPI 2.8%、GDP優於預期與半導體出口強勁 歐洲央行將公布會議紀要，另有全球1",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6669829",
+              "title": "本週操盤筆記：美國10月PCE、Q3 GDP修正值及南韓央行利率決議"
+            }
+          ]
+        },
+        {
+          "title": "韓股暴跌 散戶已無現金攤平！26兆韓元融資面臨斷頭風暴",
+          "link": "https://tw.stock.yahoo.com/news/%E9%9F%93%E8%82%A1%E6%9A%B4%E8%B7%8C-%E6%95%A3%E6%88%B6%E5%B7%B2%E7%84%A1%E7%8F%BE%E9%87%91%E6%94%A4%E5%B9%B3-26%E5%85%86%E9%9F%93%E5%85%83%E8%9E%8D%E8%B3%87%E9%9D%A2%E8%87%A8%E6%96%B7%E9%A0%AD%E9%A2%A8%E6%9A%B4-092002092.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:20:02+08:00",
+          "summary": "韓股20日重挫，KOSPI跌5.21%失守4,900點，KOSDAQ跌5.71%；三星、SK海力士重挫並觸發Sidecar。 KOFIA統計，截至19日投資人備用資金降至81.5669兆韓元，較12日",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6669840",
+              "title": "韓股暴跌 散戶已無現金攤平！26兆韓元融資面臨斷頭風暴"
+            }
+          ]
+        },
+        {
+          "title": "全球蒸發10兆美元！黃仁勳回歸有望？謝金河曝關鍵：世界發現不能沒有他",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E8%92%B8%E7%99%BC10%E5%85%86%E7%BE%8E%E5%85%83-%E9%BB%83%E4%BB%81%E5%8B%B3%E5%9B%9E%E6%AD%B8%E6%9C%89%E6%9C%9B-%E8%AC%9D%E9%87%91%E6%B2%B3%E6%9B%9D%E9%97%9C%E9%8D%B5-%E4%B8%96%E7%95%8C%E7%99%BC%E7%8F%BE%E4%B8%8D%E8%83%BD%E6%B2%92%E6%9C%89%E4%BB%96-142036788.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T22:20:36+08:00",
+          "summary": "輝達（Nvidia）前執行長黃仁勳日前因捲入婚外情跟國安問題而離職，且近日全球各金融市場又出現重挫。對此，財信傳媒董事長謝金河指出，這一波全球金融市場的修正，至少蒸發超過10兆美元。他還提到，目前美國",
+          "additional_sources": []
+        },
+        {
+          "title": "iPhone Duo上市滿月　中國市場降價幅度續擴大",
+          "link": "https://tw.stock.yahoo.com/news/iphone-duo%E4%B8%8A%E5%B8%82%E6%BB%BF%E6%9C%88-%E4%B8%AD%E5%9C%8B%E5%B8%82%E5%A0%B4%E9%99%8D%E5%83%B9%E5%B9%85%E5%BA%A6%E7%BA%8C%E6%93%B4%E5%A4%A7-141059111.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T22:10:59+08:00",
+          "summary": "（中央社台北2026年11月22日電）蘋果（Apple）首款摺疊機iPhone Duo上市滿月，中國財經媒體今天報導，中國部分電商平台已出現優惠價比官方定價低人民幣逾1000元（逾新台幣4930元）。",
+          "additional_sources": []
+        },
+        {
+          "title": "金馬63／舒淇奪新導演 淚謝侯孝賢：沒有他就沒有現在的我",
+          "link": "https://tw.news.yahoo.com/%E9%87%91%E9%A6%AC63-%E8%88%92%E6%B7%87%E5%A5%AA%E6%96%B0%E5%B0%8E%E6%BC%94-%E6%B7%9A%E8%AC%9D%E4%BE%AF%E5%AD%9D%E8%B3%A2-%E6%B2%92%E6%9C%89%E4%BB%96%E5%B0%B1%E6%B2%92%E6%9C%89%E7%8F%BE%E5%9C%A8%E7%9A%84%E6%88%91-140950357.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T22:09:50+08:00",
+          "summary": "第63屆金馬獎最佳新導演獎揭曉，舒淇憑藉首部自編自導電影《女孩》成功奪獎。曾獲金馬影后的她，這次轉戰幕後再獲金馬肯定。舒淇上台領獎時特別感謝一路栽培她的侯孝賢導演，感性地說，如果沒有侯孝賢，就沒有《女",
+          "additional_sources": []
+        },
+        {
+          "title": "金馬63／虞戡平獲金馬終身成就獎 獻電影人：往前走有光",
+          "link": "https://tw.news.yahoo.com/%E9%87%91%E9%A6%AC63-%E8%99%9E%E6%88%A1%E5%B9%B3%E7%8D%B2%E9%87%91%E9%A6%AC%E7%B5%82%E8%BA%AB%E6%88%90%E5%B0%B1%E7%8D%8E-%E7%8D%BB%E9%9B%BB%E5%BD%B1%E4%BA%BA-%E5%BE%80%E5%89%8D%E8%B5%B0%E6%9C%89%E5%85%89-132318768.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T21:23:18+08:00",
+          "summary": "第63屆金馬獎終身成就獎今晚(22日)頒給資深導演虞戡平。投入電影超過半世紀的他，重返金馬盛會感觸良多，除了回憶過去拍電影的歲月，以及轉而投入原住民族文化紀錄的心路歷程，最後更將獎項獻給所有電影人，感",
+          "additional_sources": []
+        },
+        {
+          "title": "股民平均縮水89.2萬 台股單周蒸發24.96兆",
+          "link": "https://tw.stock.yahoo.com/news/%E8%82%A1%E6%B0%91%E5%B9%B3%E5%9D%87%E7%B8%AE%E6%B0%B489-2%E8%90%AC-%E5%8F%B0%E8%82%A1%E5%96%AE%E5%91%A8%E8%92%B8%E7%99%BC24-96%E5%85%86-131746817.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T21:17:46+08:00",
+          "summary": "台股上周遭遇史詩級股災，5個交易日狂瀉7641.83點，全體上市公司市值單周蒸發24兆9665.09億元，創史上最慘紀錄。扣除外資持股後，平均每位國內開戶股民帳面市值粗估縮水89.2萬元，在權值王台積",
+          "additional_sources": []
+        },
+        {
+          "title": "黃仁勳想回鍋被拒！外媒曝握2席董事提名權",
+          "link": "https://tw.news.yahoo.com/%E9%BB%83%E4%BB%81%E5%8B%B3%E6%83%B3%E5%9B%9E%E9%8D%8B%E8%A2%AB%E6%8B%92-%E5%A4%96%E5%AA%92%E6%9B%9D%E6%8F%A12%E5%B8%AD%E8%91%A3%E4%BA%8B%E6%8F%90%E5%90%8D%E6%AC%8A-130441138.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T21:04:41+08:00",
+          "summary": "[NOWNEWS今日新聞]輝達創辦人黃仁勳辭職下台後，雖然表態願意回任，但董事會明確拒絕。不過，外媒發現，黃仁勳手中仍握有一張「王牌」：依照輝達規定，他可以提名2名董事候選人，讓明年的股東大會成為外界",
+          "additional_sources": []
+        },
+        {
+          "title": "大老力挺黃仁勳回鍋！諾貝爾得主開炮",
+          "link": "https://tw.news.yahoo.com/%E5%A4%A7%E8%80%81%E5%8A%9B%E6%8C%BA%E9%BB%83%E4%BB%81%E5%8B%B3%E5%9B%9E%E9%8D%8B-%E8%AB%BE%E8%B2%9D%E7%88%BE%E5%BE%97%E4%B8%BB%E9%96%8B%E7%82%AE-125634753.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T20:56:34+08:00",
+          "summary": "[NOWNEWS今日新聞]輝達前執行長黃仁勳辭職後，馬斯克、奧特曼、艾克曼等矽谷大老紛紛力挺他回鍋，但也有人持完全相反的看法。諾貝爾經濟學獎得主克魯曼（PaulKrugman）近日發文痛批，科技大老護",
+          "additional_sources": []
+        },
+        {
+          "title": "上海產特斯拉熱銷　韓自中國進口汽車逆差創新高",
+          "link": "https://tw.stock.yahoo.com/news/%E4%B8%8A%E6%B5%B7%E7%94%A2%E7%89%B9%E6%96%AF%E6%8B%89%E7%86%B1%E9%8A%B7-%E9%9F%93%E8%87%AA%E4%B8%AD%E5%9C%8B%E9%80%B2%E5%8F%A3%E6%B1%BD%E8%BB%8A%E9%80%86%E5%B7%AE%E5%89%B5%E6%96%B0%E9%AB%98-124651174.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T20:46:51+08:00",
+          "summary": "（中央社台北2026年11月22日電）韓國官方今天公布經濟數據顯示，中國上海生產基地的特斯拉（Tesla）電動車在韓國熱賣，今年韓國自中國進口汽車金額與汽車貿易逆差雙雙創歷年新高。韓聯社報導，韓國貿易",
+          "additional_sources": []
+        },
+        {
+          "title": "聯合國氣候談判破局 歐盟、巴拿馬等拒背書",
+          "link": "https://tw.news.yahoo.com/cop31%E5%8D%94%E8%AD%B0%E9%9A%BB%E5%AD%97%E6%9C%AA%E6%8F%90%E5%8C%96%E7%9F%B3%E7%87%83%E6%96%99-%E6%AD%90%E7%9B%9F-%E5%B7%B4%E6%8B%BF%E9%A6%AC%E6%8B%92%E8%83%8C%E6%9B%B8-124327789.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T20:43:27+08:00",
+          "summary": "法新社報導，在多國反對決議草案的情況下，第31屆聯合國氣候變遷大會（COP31）主席庫倫（Murat Kurum）今天（22日）承認，這場聯合國氣候大會未能就總體性協議達成共識。此前，由於協議中完全未",
+          "additional_sources": []
+        },
+        {
+          "title": "怕黑色星期一！韓國假日緊急開會救股市",
+          "link": "https://tw.news.yahoo.com/%E6%80%95%E9%BB%91%E8%89%B2%E6%98%9F%E6%9C%9F-%E9%9F%93%E5%9C%8B%E5%81%87%E6%97%A5%E7%B7%8A%E6%80%A5%E9%96%8B%E6%9C%83%E6%95%91%E8%82%A1%E5%B8%82-123628965.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T20:36:28+08:00",
+          "summary": "[NOWNEWS今日新聞]全球AI股賣壓延燒，亞洲股市接連重挫。繼台灣祭出限空令、國安基金第10度授權護盤後，南韓財政部22日也宣布，如果股市情況繼續惡化，將立即動用「證券市場穩定基金」救市。韓媒指出",
+          "additional_sources": []
+        },
+        {
+          "title": "別讓你家走廊變成「最後一哩路」！大樓公安6大隱形殺手：鞋櫃、門弓器、防火巷一次看懂",
+          "link": "https://tw.stock.yahoo.com/news/%E5%88%A5%E8%AE%93%E4%BD%A0%E5%AE%B6%E8%B5%B0%E5%BB%8A%E8%AE%8A%E6%88%90%E3%80%8C%E6%9C%80%E5%BE%8C%E4%B8%80%E5%93%A9%E8%B7%AF%E3%80%8D%EF%BC%81%E5%A4%A7%E6%A8%93%E5%85%AC%E5%AE%896%E5%A4%A7%E9%9A%B1%E5%BD%A2%E6%AE%BA%E6%89%8B%EF%BC%9A%E9%9E%8B%E6%AB%83%E3%80%81%E9%96%80%E5%BC%93%E5%99%A8%E3%80%81%E9%98%B2%E7%81%AB%E5%B7%B7%E4%B8%80%E6%AC%A1%E7%9C%8B%E6%87%82-120000168.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T20:00:00+08:00",
+          "summary": "「鞋櫃放走廊沒關係吧？」「防火門太重，把自動關門器卸掉比較好推？」「滅火器前面只是暫放一下紙箱啦。」這些話，阿明在社區現場聽過太多次。說的人通常沒有惡意，只是覺得「又沒擋到人」、「以前也都這樣」",
+          "additional_sources": []
+        },
+        {
+          "title": "金馬63／大馬印度裔南達古博爾奪新演員獎寫歷史 直呼意外",
+          "link": "https://tw.news.yahoo.com/%E9%87%91%E9%A6%AC63-%E5%A4%A7%E9%A6%AC%E5%8D%B0%E5%BA%A6%E8%A3%94%E5%8D%97%E9%81%94%E5%8F%A4%E5%8D%9A%E7%88%BE%E5%A5%AA%E6%96%B0%E6%BC%94%E5%93%A1%E7%8D%8E%E5%AF%AB%E6%AD%B7%E5%8F%B2-%E7%9B%B4%E5%91%BC%E6%84%8F%E5%A4%96-114856358.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T19:48:56+08:00",
+          "summary": "第63屆金馬獎最佳新演員獎今晚(22日)揭曉，首位入圍金馬獎的馬來西亞印度裔演員南達古博爾（Nandagopall Mohan），憑藉電影《沙央》擊敗其他4名勁敵，成功抱回最佳新演員獎，寫下個人演藝生",
+          "additional_sources": []
+        },
+        {
+          "title": "台北市長選戰／選前最後一個週日夜 韓國瑜、盧秀燕合體蔣萬安車掃",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E9%81%B8%E5%89%8D%E6%9C%80%E5%BE%8C-%E5%80%8B%E9%80%B1%E6%97%A5%E5%A4%9C-%E9%9F%93%E5%9C%8B%E7%91%9C-%E7%9B%A7%E7%A7%80%E7%87%95%E5%90%88%E9%AB%94%E8%94%A3%E8%90%AC%E5%AE%89%E8%BB%8A%E6%8E%83-113003741.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T19:30:03+08:00",
+          "summary": "2026「九合一」選舉，進入最後不到一週的衝刺階段，台北市長蔣萬安今天(22日)晚間展開車隊掃街拜票行程，特別邀請立法院長韓國瑜與台中市長盧秀燕同台合體，展現團結氣勢，並呼籲台北市民用選票支持他順利連",
+          "additional_sources": []
+        },
+        {
+          "title": "台股測底還沒完？ 冠軍分析師亮出5檔抗跌股 雙主軸曝光",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E6%B8%AC%E5%BA%95%E9%82%84%E6%B2%92%E5%AE%8C-%E5%86%A0%E8%BB%8D%E5%88%86%E6%9E%90%E5%B8%AB%E4%BA%AE%E5%87%BA5%E6%AA%94%E6%8A%97%E8%B7%8C%E8%82%A1-%E9%9B%99%E4%B8%BB%E8%BB%B8%E6%9B%9D%E5%85%89-112852748.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T19:28:52+08:00",
+          "summary": "台股近期震盪加劇，上周更是慘跌17.5%，大型權值電子股及半導體族群面臨外資提款與高檔獲利了結壓力，市場資金逐漸轉向軟體服務及資訊安全族群。在《工商時報》「台股逐洞賽」上周第8洞競賽中拿下周冠軍的大來",
+          "additional_sources": []
+        },
+        {
+          "title": "台北市長選戰／城市行動展吸引10萬人上街 沈伯洋：台北每週都可以那麼有活力",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E5%9F%8E%E5%B8%82%E8%A1%8C%E5%8B%95%E5%B1%95%E5%90%B8%E5%BC%9510%E8%90%AC%E4%BA%BA%E4%B8%8A%E8%A1%97-%E6%B2%88%E4%BC%AF%E6%B4%8B-%E5%8F%B0%E5%8C%97%E6%AF%8F%E9%80%B1%E9%83%BD%E5%8F%AF%E4%BB%A5%E9%82%A3%E9%BA%BC%E6%9C%89%E6%B4%BB%E5%8A%9B-110658874.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T19:06:58+08:00",
+          "summary": "今天(22日)是2026地方選舉前的超級星期天，民進黨台北市長候選人沈伯洋團隊下午舉辦「市民動起來-城市行動展」活動，號稱吸引10萬人響應。沈伯洋晚間在總部表示，本次活動串聯六個主題舞台與多元活動，盼",
+          "additional_sources": []
+        },
+        {
+          "title": "約旦河西岸4村莊遭縱火塗鴉 疑以色列屯墾者所為",
+          "link": "https://tw.news.yahoo.com/%E7%B4%84%E6%97%A6%E6%B2%B3%E8%A5%BF%E5%B2%B84%E6%9D%91%E8%8E%8A%E9%81%AD%E7%B8%B1%E7%81%AB%E5%A1%97%E9%B4%89-%E7%96%91%E4%BB%A5%E8%89%B2%E5%88%97%E5%B1%AF%E5%A2%BE%E8%80%85%E6%89%80%E7%82%BA-104200647.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T18:42:00+08:00",
+          "summary": "以色列官方今天（22日）表示，在遭佔領的約旦河西岸的四座城鎮中，發生巴勒斯坦人車輛與財產遭破壞及縱火事件。對此，當局已展開調查。當地一名社運人士指出，這些襲擊是由以色列屯墾者所為。 以色列軍方表示，在",
+          "additional_sources": []
+        },
+        {
+          "title": "新北市長選戰／李四川盼大漢溪捷運串聯基北北桃 蘇巧慧盼看守所遷後打造展演中心",
+          "link": "https://tw.news.yahoo.com/%E6%96%B0%E5%8C%97%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E6%9D%8E%E5%9B%9B%E5%B7%9D%E7%9B%BC%E5%A4%A7%E6%BC%A2%E6%BA%AA%E6%8D%B7%E9%81%8B%E4%B8%B2%E8%81%AF%E9%9B%99%E5%8C%97-%E8%98%87%E5%B7%A7%E6%85%A7%E7%9B%BC%E7%9C%8B%E5%AE%88%E6%89%80%E9%81%B7%E5%BE%8C%E6%89%93%E9%80%A0%E5%B1%95%E6%BC%94%E4%B8%AD%E5%BF%83-103600779.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T18:36:00+08:00",
+          "summary": "選前最後一個星期天，新北市長選戰藍綠分頭造勢。國民黨新北市長候選人李四川今天(22日)表示，若當選，將推動「大漢溪捷運縱貫線」，串聯基隆、雙北及桃園的捷運路網。民進黨新北市長候選人蘇巧慧則主張土城台北",
+          "additional_sources": []
+        },
+        {
+          "title": "金馬63／星光紅毯大咖雲集 舒淇、劉嘉玲、舒華搶鏡",
+          "link": "https://tw.news.yahoo.com/%E9%87%91%E9%A6%AC63-%E6%98%9F%E5%85%89%E7%B4%85%E6%AF%AF%E5%A4%A7%E5%92%96%E9%9B%B2%E9%9B%86-%E8%88%92%E6%B7%87-%E5%8A%89%E5%98%89%E7%8E%B2-%E8%88%92%E8%8F%AF%E6%90%B6%E9%8F%A1-102428598.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T18:24:28+08:00",
+          "summary": "第63屆金馬獎頒獎典禮今天(22日)登場，星光大道大咖雲集！舒淇、劉嘉玲、舒華、桂綸鎂、林嘉欣等女星盛裝亮相。阮經天、劉冠廷等影帝入圍者也踏上紅毯，加上李安、奉俊昊、福士蒼汰、菊地凜子等國際重量級電影",
+          "additional_sources": []
+        },
+        {
+          "title": "來了2000位CEO的APEC，AI錢潮台灣還可以怎麼賺？",
+          "link": "https://tw.news.yahoo.com/%E4%BE%86%E4%BA%862000%E4%BD%8Dceo%E7%9A%84apec-ai%E9%8C%A2%E6%BD%AE%E5%8F%B0%E7%81%A3%E9%82%84%E5%8F%AF%E4%BB%A5%E6%80%8E%E9%BA%BC%E8%B3%BA-095800707.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:58:00+08:00",
+          "summary": "小米的人形機器人，已經進自家汽車工廠「實習」，一整天可連續工作8小時，自己去充電兩次。這是APEC深圳企業家峰會上，雷軍親口透露的進度。APEC兩天會期下來，有CEO披露了高達1兆人民幣的AI投資。錢",
+          "additional_sources": []
+        },
+        {
+          "title": "紐約辦「最像黃樂」間諜大賽！網轟羞辱亞裔",
+          "link": "https://tw.news.yahoo.com/%E7%B4%90%E7%B4%84%E8%BE%A6-%E6%9C%80%E5%83%8F%E9%BB%83%E6%A8%82-%E9%96%93%E8%AB%9C%E5%A4%A7%E8%B3%BD-%E7%B6%B2%E8%BD%9F%E7%BE%9E%E8%BE%B1%E4%BA%9E%E8%A3%94-095736526.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:57:36+08:00",
+          "summary": "[NOWNEWS今日新聞]輝達前執行長黃仁勳的婚外情風波，竟然被拿來當成街頭活動的題材。美國紐約21日舉辦一場「中國間諜模仿大賽」，比誰最像與黃仁勳傳出婚外情、被指控為中國間諜的女商人黃樂（Alice",
+          "additional_sources": []
+        },
+        {
+          "title": "首里城正殿浴火重生！23日開放參觀要預約",
+          "link": "https://tw.news.yahoo.com/%E9%A6%96%E9%87%8C%E5%9F%8E%E6%AD%A3%E6%AE%BF%E6%B5%B4%E7%81%AB%E9%87%8D%E7%94%9F-23%E6%97%A5%E9%96%8B%E6%94%BE%E5%8F%83%E8%A7%80%E8%A6%81%E9%A0%90%E7%B4%84-094556151.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:45:56+08:00",
+          "summary": "[NOWNEWS今日新聞]2019年因大火焚毀的日本沖繩首里城正殿，22日舉行重建完工典禮，琉球王國時代的朱紅色宮殿在時隔7年後重現眼前，並將在23日中午起正式對外開放。首里城火災前每年吸引約280萬",
+          "additional_sources": []
+        },
+        {
+          "title": "台股暴跌只是開始？專家曝3風險骨牌：連續倒下恐不只影響科技業",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E6%9A%B4%E8%B7%8C%E5%8F%AA%E6%98%AF%E9%96%8B%E5%A7%8B-%E5%B0%88%E5%AE%B6%E6%9B%9D3%E9%A2%A8%E9%9A%AA%E9%AA%A8%E7%89%8C-%E9%80%A3%E7%BA%8C%E5%80%92%E4%B8%8B%E6%81%90%E4%B8%8D%E5%8F%AA%E5%BD%B1%E9%9F%BF%E7%A7%91%E6%8A%80%E6%A5%AD-093324092.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:33:24+08:00",
+          "summary": "台股這兩個月爆發史詩級崩跌，從10月高點49968.92點，一路下滑到本月20日的36,033.29點，讓許多投資人崩潰。對此，投資專家葉育碩指出，不只台股，這一波全球市場的暴跌，可能藏著一場全球流動",
+          "additional_sources": []
+        },
+        {
+          "title": "「強化版禁空令」23日啟動 分析師：影響成交量能有限",
+          "link": "https://tw.news.yahoo.com/%E5%BC%B7%E5%8C%96%E7%89%88%E7%A6%81%E7%A9%BA%E4%BB%A4-23%E6%97%A5%E5%95%9F%E5%8B%95-%E5%88%86%E6%9E%90%E5%B8%AB-%E5%BD%B1%E9%9F%BF%E6%88%90%E4%BA%A4%E9%87%8F%E8%83%BD%E6%9C%89%E9%99%90-093234982.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:32:34+08:00",
+          "summary": "台北股市近期隨著美股呈現大幅波動，金管會為維持證券市場秩序和穩定性，宣布從明天(23日)開始，全面禁止平盤以下放空。針對市場擔憂此次措施短期恐不利市場流動性，分析師認為，限制漲跌幅影響流動性較為顯著，",
+          "additional_sources": []
+        },
+        {
+          "title": "見朋友買國巨「秒放棄吵架」！網笑：仇人都釋懷",
+          "link": "https://tw.stock.yahoo.com/news/%E8%A6%8B%E6%9C%8B%E5%8F%8B%E8%B2%B7%E5%9C%8B%E5%B7%A8-%E7%A7%92%E6%94%BE%E6%A3%84%E5%90%B5%E6%9E%B6-%E7%B6%B2%E7%AC%91-%E4%BB%87%E4%BA%BA%E9%83%BD%E9%87%8B%E6%87%B7-092128577.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T17:21:28+08:00",
+          "summary": "財經中心／彭期正報導台股上周五（20日）面臨慘烈修正，盤中一度失守36000點大關，終場收在36033.29點。在市場一片哀號中，被動元件龍頭大廠國巨（2327）也難逃大盤跌勢，股價正式摜破300元整",
+          "additional_sources": []
+        },
+        {
+          "title": "台股暴跌ETF兩樣情！「這檔」報酬超車0050",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E6%9A%B4%E8%B7%8Cetf%E5%85%A9%E6%A8%A3%E6%83%85-%E9%80%99%E6%AA%94-%E5%A0%B1%E9%85%AC%E8%B6%85%E8%BB%8A0050-083551482.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:35:51+08:00",
+          "summary": "財經中心／李筱舲報導台股20日重挫2,393.60點，成為史上第三大跌點，在大型權值股承壓之際，台股ETF績效洗牌！截至11月20日統計，規模前五大被動式ETF今年含息報酬率皆逾31%，由報酬率高達4",
+          "additional_sources": []
+        },
+        {
+          "title": "黃樂只是門面？52歲中國男操盤輝達晶片走私",
+          "link": "https://tw.news.yahoo.com/%E9%BB%83%E6%A8%82%E5%8F%AA%E6%98%AF%E9%96%80%E9%9D%A2-52%E6%AD%B2%E4%B8%AD%E5%9C%8B%E7%94%B7%E6%93%8D%E7%9B%A4%E8%BC%9D%E9%81%94%E6%99%B6%E7%89%87%E8%B5%B0%E7%A7%81-082737676.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:27:37+08:00",
+          "summary": "[NOWNEWS今日新聞]輝達前執行長黃仁勳的婚外情風波持續延燒，美國《華爾街日報》21日再爆猛料，指出與黃仁勳傳出婚外情、涉嫌為中國從事間諜活動的女商人黃樂（AliceHuang），可能只是晶片走私",
+          "additional_sources": []
+        },
+        {
+          "title": "股匯狂震來的首次景氣發布 信心崩解亦難免",
+          "link": "https://tw.stock.yahoo.com/news/%E8%82%A1%E5%8C%AF%E7%8B%82%E9%9C%87%E4%BE%86%E7%9A%84%E9%A6%96%E6%AC%A1%E6%99%AF%E6%B0%A3%E7%99%BC%E5%B8%83-%E4%BF%A1%E5%BF%83%E5%B4%A9%E8%A7%A3%E4%BA%A6%E9%9B%A3%E5%85%8D-082109938.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:21:09+08:00",
+          "summary": "智庫台經院、中大台經中心將在25日、27日發布11月景氣動向調查報告、11月份消費者信心指數（CCI）調查；國發會也會在27日發布10月景氣燈號。這些機構單位都是固定每個月進行景氣調查或統計數據經濟模",
+          "additional_sources": []
+        },
+        {
+          "title": "力晶投控25日股臨會 7席董事、3席監察人改選牽動經營權",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8A%9B%E6%99%B6%E6%8A%95%E6%8E%A725%E6%97%A5%E8%82%A1%E8%87%A8%E6%9C%83-7%E5%B8%AD%E8%91%A3%E4%BA%8B-3%E5%B8%AD%E7%9B%A3%E5%AF%9F%E4%BA%BA%E6%94%B9%E9%81%B8%E7%89%BD%E5%8B%95%E7%B6%93%E7%87%9F%E6%AC%8A-082109690.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:21:09+08:00",
+          "summary": "力積電（6770）最大單一股東力晶投控（5346）將於下周三（25日）召開股東臨時會，全面改選7席董事及3席監察人，成為力晶集團創辦人黃崇仁今年7月底辭世後，首度攸關經營權布局的重大股東會。由於公司派",
+          "additional_sources": []
+        },
+        {
+          "title": "富邦台50分割有望8倍！降低投資門檻、70萬受益人將表決",
+          "link": "https://tw.stock.yahoo.com/news/%E5%AF%8C%E9%82%A6%E5%8F%B050%E5%88%86%E5%89%B2%E6%9C%89%E6%9C%9B8%E5%80%8D-%E9%99%8D%E4%BD%8E%E6%8A%95%E8%B3%87%E9%96%80%E6%AA%BB-70%E8%90%AC%E5%8F%97%E7%9B%8A%E4%BA%BA%E5%B0%87%E8%A1%A8%E6%B1%BA-082109664.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:21:09+08:00",
+          "summary": "富邦投信旗下人氣ETF「富邦台50（006208）」即將啟動分割投票！富邦投信將於11月26日舉辦「006208分割投票啟動記者會」，正式宣告分割投票活動起跑，並呼籲全體受益人踴躍行使投票權，共同決定",
+          "additional_sources": []
+        },
+        {
+          "title": "台股恐慌賣壓未止 中長期布局停看聽",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E6%81%90%E6%85%8C%E8%B3%A3%E5%A3%93%E6%9C%AA%E6%AD%A2-%E6%B3%95%E4%BA%BA%E4%BC%B032%E8%87%B338k%E5%8D%80%E9%96%93%E9%9C%87%E7%9B%AA-082109267.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:21:09+08:00",
+          "summary": "台股本周信心潰散，金管會祭出有條件限空令，仍難擋恐慌性賣壓，盤面跌停個股遍地開花，美股20日科技股賣壓再度擴大，四大指數全面收黑，拖累台指期夜盤續挫，預期台股下周開盤可能再面臨一波賣壓考驗。展望未來一",
+          "additional_sources": []
+        },
+        {
+          "title": "國銀海外據點前3季獲利811億　美國新加坡日本寫同期新高",
+          "link": "https://tw.stock.yahoo.com/news/%E5%9C%8B%E9%8A%80%E6%B5%B7%E5%A4%96%E6%93%9A%E9%BB%9E%E5%89%8D3%E5%AD%A3%E7%8D%B2%E5%88%A9811%E5%84%84-%E7%BE%8E%E5%9C%8B%E6%96%B0%E5%8A%A0%E5%9D%A1%E6%97%A5%E6%9C%AC%E5%AF%AB%E5%90%8C%E6%9C%9F%E6%96%B0%E9%AB%98-080538708.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:05:38+08:00",
+          "summary": "（中央社記者蘇思云台北2026年11月22日電）國銀持續拓展海外業務，金管會統計顯示，本國銀行今年前3季海外分支機構（含分、子行）獲利為新台幣811.8億元，創歷年同期新高，年增13.81%；海外獲利",
+          "additional_sources": []
+        },
+        {
+          "title": "北韓國際馬拉松延期  改至明年10月舉行",
+          "link": "https://tw.news.yahoo.com/%E5%8C%97%E9%9F%93%E5%9C%8B%E9%9A%9B%E9%A6%AC%E6%8B%89%E6%9D%BE%E5%BB%B6%E6%9C%9F-%E6%94%B9%E8%87%B3%E6%98%8E%E5%B9%B410%E6%9C%88%E8%88%89%E8%A1%8C-080116529.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T16:01:16+08:00",
+          "summary": "法新社報導，一家旅行社表示，北韓已將其年度國際馬拉松賽事延後六個月，改至明年10月舉行。北韓向來有「神秘國度」之稱，這項賽事讓世界各地的跑者得以難得一窺該國首都的面貌。 作為一個在外交方面採取孤立主義",
+          "additional_sources": []
+        },
+        {
+          "title": "台股慘綠仍砸3百萬「買2檔」！他霸氣喊：大不了套牢",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E8%82%A1%E6%85%98%E7%B6%A0%E4%BB%8D%E7%A0%B83%E7%99%BE%E8%90%AC-%E8%B2%B72%E6%AA%94-%E4%BB%96%E9%9C%B8%E6%B0%A3%E5%96%8A-%E5%A4%A7%E4%B8%8D%E4%BA%86%E5%A5%97%E7%89%A2-073651659.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T15:36:51+08:00",
+          "summary": "財經中心／李筱舲報導台股近期大幅震盪修正，市場恐慌情緒蔓延，不過知名財經作家施昇輝卻選擇逆勢進場。施昇輝在臉書粉專「樂活分享人生」發文揭露，自己上週連續4個交易日買進元大台灣50（0050）與元大高股",
+          "additional_sources": []
+        },
+        {
+          "title": "北京10月零售暴跌12.1%　京滬消費收縮引熱議",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8C%97%E4%BA%AC10%E6%9C%88%E9%9B%B6%E5%94%AE%E6%9A%B4%E8%B7%8C12-1-%E4%BA%AC%E6%BB%AC%E6%B6%88%E8%B2%BB%E6%94%B6%E7%B8%AE%E5%BC%95%E7%86%B1%E8%AD%B0-071429606.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T15:14:29+08:00",
+          "summary": "（中央社記者張淑伶北京2026年11月22日電）中國的北京和上海出現消費收縮的情況，引發關注。北京10月社會消費品零售總額年減幅度更是創下2025年1月以來最多，暴跌了12.1%；上海則是已經連續7個",
+          "additional_sources": []
+        },
+        {
+          "title": "馬斯克警告：AI產業2027年將面臨數千億美元資金短缺危機",
+          "link": "https://tw.stock.yahoo.com/news/%E9%A6%AC%E6%96%AF%E5%85%8B%E8%AD%A6%E5%91%8A-ai%E7%94%A2%E6%A5%AD2027%E5%B9%B4%E5%B0%87%E9%9D%A2%E8%87%A8%E6%95%B8%E5%8D%83%E5%84%84%E7%BE%8E%E5%85%83%E8%B3%87%E9%87%91%E7%9F%AD%E7%BC%BA%E5%8D%B1%E6%A9%9F-070005169.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T15:00:05+08:00",
+          "summary": "馬斯克警告，全球AI產業2027年恐出現數千億美元資金短缺，主因是硬體採購與獲利變現有時間差。 他稱GPU、HBM、DRAM供不應求，且數據中心、電力與冷卻建置拖慢部署，2027年AI晶片至少缺15",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "中國",
+        "情報",
+        "晶片",
+        "行動",
+        "這項"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "紐時：輝達醜聞爆發數年前　中國國安部已盯上AI晶片",
+          "link": "https://tw.stock.yahoo.com/news/%E7%B4%90%E6%99%82-%E8%BC%9D%E9%81%94%E9%86%9C%E8%81%9E%E7%88%86%E7%99%BC%E6%95%B8%E5%B9%B4%E5%89%8D-%E4%B8%AD%E5%9C%8B%E5%9C%8B%E5%AE%89%E9%83%A8%E5%B7%B2%E7%9B%AF%E4%B8%8Aai%E6%99%B6%E7%89%87-124653406.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-22T20:46:53+08:00",
+          "summary": "（中央社北京2026年11月22日綜合外電報導）紐約時報引述多國官員說法報導，中國最高情報機構國家安全部持續推動祕密行動，協助中企取得先進人工智慧（AI）晶片，同時蒐集該領域相關情報，這項行動已持續至",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "2330 台積電",
+      "keywords": [
+        "台股",
+        "資料",
+        "點",
+        "年線",
+        "輝達"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "周末精選／金管會穩市全面升級...平盤下全面禁止放空 台股六大名師曝心法、現在可以這樣做",
+          "link": "https://money.udn.com/money/story/5607/9894784?from=edn_maintab_index",
+          "source": "udn",
+          "pubdate": "2026-11-22T17:41:30+08:00",
+          "summary": "擔心錯過重要新聞？經濟日報幫您精選周末結束前必看的內容。\n\n台股限空令再升級 明起平盤下全面禁止放空 融券保證金拉升至150%行政院昨（21）日召集四大財經部會共商救市，金管會穩市措施升級，昨日宣布...",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "HK 1211 比亞迪",
+      "keywords": [
+        "亞迪",
+        "比亞",
+        "法院",
+        "ti7",
+        "捷豹"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 侵犯捷豹路虎設計權 比亞迪Ti7被禁歐盟銷",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795355020.A.121.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T21:43:38+08:00",
+          "summary": "原文標題：\n侵犯捷豹路虎設計權 比亞迪Ti7被禁歐盟銷售\n原文連結：\nhttps://www.epochtimes.com/b5/26/11/21/n14892751.htm\n發布時間：\n2026-11-21 19:06\n記者署名：\n趙彬\n原文內容：\n中國電動車製造商比亞迪旗下方程豹Ti7\n因外觀酷…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "HK 1810 小米",
+      "keywords": [
+        "11",
+        "融資",
+        "口",
+        "外資",
+        "恐慌"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[標的]  加權指數 多 四大底部訊號浮現",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795357435.A.3A9.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T22:23:53+08:00",
+          "summary": "標的：台灣加權指數\n\n分類：多\n\n分析/正文：\n\n一、外資週五夜盤全面淨買超\n\n大台：+1,430口 小台：+6,102口 微台：+11,446口\n\n合計約3,528口等值大台，淨交易契約金額約246億元。\n\n不論是空單回補還是新增多單，至少外資期貨淨部位已經開始往多方移動。\n\n二、美台恐慌指數爆表…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "ai",
+        "and",
+        "to",
+        "雀巢",
+        "the"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 雀巢和微軟合作將AI導入生產綫和產品推廣",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795358310.A.0A1.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T22:38:28+08:00",
+          "summary": "Nestle teams up with Microsoft and Boston Dynamics to expand AI use\n\n原文連結：\nhttps://www.investing.com/news/stock-market-news/nestle-teams-up-with-micro…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US INTC 英特爾",
+      "keywords": [
+        "仁勳",
+        "黃仁",
+        "美元",
+        "兆美",
+        "謝金"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "[新聞] 全球蒸發10兆美元！黃仁勳回歸有望？謝金",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795359511.A.56F.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T22:58:28+08:00",
+          "summary": "全球蒸發10兆美元！黃仁勳回歸有望？謝金河曝關鍵：世界發現不能沒有他\n\n22:15 2026/11/22 中時新聞網 于川\nhttps://www.chinatimes.com/realtimenews/20261122003213-260410?chdtv\n輝達（Nvidia）前執行長黃仁勳日前因…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "大盤/未分類",
+      "keywords": [
+        "市場",
+        "5",
+        "美元",
+        "歐盟",
+        "3"
+      ],
+      "article_count": 5,
+      "articles": [
+        {
+          "title": "歐盟擬向科技巨頭課徵3%數位稅 2.04兆歐元預算修訂案引發法德分歧",
+          "link": "https://news.cnyes.com/news/id/6669853",
+          "source": "cnyes",
+          "pubdate": "2026-11-22T19:00:02+08:00",
+          "summary": "鉅亨網編譯劉祥航 綜合報導2026-11-22 19:00\n歐洲理事會主席科斯塔(Antonio Costa)周六(21日)提出歐盟 2028 至 2034 年長期預算(MFF)最新修訂草案。為了減輕各國直接財政負擔，科斯塔主張向全球大型科技企業課徵 3% 數位服務稅，並同步開徵電子廢棄物稅與提高菸…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E6%AD%90%E7%9B%9F%E6%93%AC%E5%90%91%E7%A7%91%E6%8A%80%E5%B7%A8%E9%A0%AD%E8%AA%B2%E5%BE%B53-%E6%95%B8%E4%BD%8D%E7%A8%85-2-04%E5%85%86%E6%AD%90%E5%85%83%E9%A0%90%E7%AE%97%E4%BF%AE%E8%A8%82%E6%A1%88%E5%BC%95%E7%99%BC%E6%B3%95%E5%BE%B7%E5%88%86%E6%AD%A7-110002777.html",
+              "title": "歐盟擬向科技巨頭課徵3%數位稅 2.04兆歐元預算修訂案引發法德分歧"
+            }
+          ]
+        },
+        {
+          "title": "比特幣崩了！5.5萬美元背後 加密市場發生了什麼？",
+          "link": "https://news.cnyes.com/news/id/6669851",
+          "source": "cnyes",
+          "pubdate": "2026-11-22T16:40:04+08:00",
+          "summary": "鉅亨網新聞中心2026-11-22 16:40\n在美股崩跌的背景下，比特幣也遭遇強勁的拋售賣壓，並跌破 6 萬美元心理關卡，一度下探至 55,251.60 美元，創下自 2024 年 9 月以來的新低。根據《路透》報導，比特幣隨後雖短暫重回 6 萬美元上方，但市場避險情緒依然高漲。\n比特幣崩了！5.…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 股市穩定基金上膛！南韓祭出穩市三箭",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795356263.A.399.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T22:04:21+08:00",
+          "summary": "原文標題：\n請勿刪減或自創標題，違者4-1處分，此行請刪除\n股市穩定基金上膛！南韓祭出穩市三箭\n嚴打非法放空三個月\n原文連結：\n網址超過一行，請用縮網址，連結不能點擊者板規 1-2-2 處分\n。\nhttps://news.cnyes.com/news/id/6669859\n發布時間：\n請勿張貼超過3…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 融資擔保率降至120％? 6400戶追繳戶暫鬆",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795359681.A.E8A.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T23:01:19+08:00",
+          "summary": "原文標題：\n融資擔保率降至120％?\n6400戶追繳戶暫鬆一口氣\n原文連結：\nhttps://reurl.cc/EYkWWn\n發布時間：\n2026/11/22 18:03\n記者署名：\n記者張慧雯／台北報導\n原文內容：\n美股跌勢擴大、台股周一開盤恐遭血洗，繼金管會祭出「限空令3.0」後，今日證交所也…",
+          "additional_sources": []
+        },
+        {
+          "title": "[新聞] 獨／卓揆明天下午邀產業界開財經會議 金",
+          "link": "https://www.ptt.cc/bbs/Stock/M.1795359868.A.D07.html",
+          "source": "ptt",
+          "pubdate": "2026-11-22T23:04:26+08:00",
+          "summary": "獨／卓揆明天下午邀產業界開財經會議 金控大老受邀\n\n聯合報 記者朱漢崙、黃婉婷／台北即時報導 11/22 22:51\n\n據透露，閣揆卓榮泰將在周一（明日）下午召集包括金融業以及其他產業代表，和部會首長\n召開大型財經會議討論護市大計，可說是歷來卓揆所召集護市會議規模最大的一場，不僅財\n政部、經濟部、國…",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "ALL"
+}
