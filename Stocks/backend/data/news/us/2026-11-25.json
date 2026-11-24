@@ -1,0 +1,241 @@
+{
+  "date": "2026-11-25",
+  "generated_at": "2026-11-25T02:43:29.059550",
+  "group_count": 4,
+  "total_articles": 21,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "美元",
+        "ai",
+        "公司",
+        "基金",
+        "企業"
+      ],
+      "article_count": 12,
+      "articles": [
+        {
+          "title": "輝達GTC新品發表撞期國會問話！黃仁勳回鍋後硬仗接連來",
+          "link": "https://news.cnyes.com/news/id/6671157",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T01:30:12+08:00",
+          "summary": "鉅亨網編譯段智恆2026-11-25 01:30\n據《CNBC》報導，黃仁勳重掌輝達(NVDA-US)後，下周將面對產品競爭與國會調查的雙重考驗。他預定12月1日接受眾議院三個委員會閉門問話，12月3日再出席參議院公開聽證；輝達則希望藉同期登場的華府GTC大會，向客戶與投資人證明，公司的AI創新與產…",
+          "additional_sources": [
+            {
+              "source": "yahoo",
+              "link": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94gtc%E6%96%B0%E5%93%81%E7%99%BC%E8%A1%A8%E6%92%9E%E6%9C%9F%E5%9C%8B%E6%9C%83%E5%95%8F%E8%A9%B1-%E9%BB%83%E4%BB%81%E5%8B%B3%E5%9B%9E%E9%8D%8B%E5%BE%8C%E7%A1%AC%E4%BB%97%E6%8E%A5%E9%80%A3%E4%BE%86-173012228.html",
+              "title": "輝達GTC新品發表撞期國會問話！黃仁勳回鍋後硬仗接連來"
+            }
+          ]
+        },
+        {
+          "title": "美國期中選後信心大翻身！11月消費者信心衝近2年新高 遠超預期",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E6%9C%9F%E4%B8%AD%E9%81%B8%E5%BE%8C%E4%BF%A1%E5%BF%83%E5%A4%A7%E7%BF%BB%E8%BA%AB-11%E6%9C%88%E6%B6%88%E8%B2%BB%E8%80%85%E4%BF%A1%E5%BF%83%E8%A1%9D%E8%BF%912%E5%B9%B4%E6%96%B0%E9%AB%98-%E9%81%A0%E8%B6%85%E9%A0%90%E6%9C%9F-163019647.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:30:19+08:00",
+          "summary": "美國11月消費者信心指數升11.4點至103.3，創2025年1月來新高，遠高於預估92.5 現況指數升至132.8、預期指數至83.6；工作機會看法改善，期中選舉後不確定性降 未來一年通膨預期仍達5",
+          "additional_sources": [
+            {
+              "source": "cnyes",
+              "link": "https://news.cnyes.com/news/id/6671128",
+              "title": "美國期中選後信心大翻身！11月消費者信心衝近2年新高 遠超預期"
+            }
+          ]
+        },
+        {
+          "title": "專家警告失控 AI 宛如內部威脅 點名生產環境身分控管成防護核心",
+          "link": "https://tw.stock.yahoo.com/news/%E5%B0%88%E5%AE%B6%E8%AD%A6%E5%91%8A%E5%A4%B1%E6%8E%A7-ai-%E5%AE%9B%E5%A6%82%E5%85%A7%E9%83%A8%E5%A8%81%E8%84%85-%E9%BB%9E%E5%90%8D%E7%94%9F%E7%94%A2%E7%92%B0%E5%A2%83%E8%BA%AB%E5%88%86%E6%8E%A7%E7%AE%A1%E6%88%90%E9%98%B2%E8%AD%B7%E6%A0%B8%E5%BF%83-182731870.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T02:27:31+08:00",
+          "summary": "商傳媒｜葉安庭／綜合外電報導在軟體開發者技術大會 QCon San Francisco 現場，多位資安專家針對企業導入 AI Agent（自主代理）的資安防護提出示警，指出失控的代理人本質上如同企業內",
+          "additional_sources": []
+        },
+        {
+          "title": "個人 AI 代理人湧入官網 兩大通訊協定掀客服變革",
+          "link": "https://tw.stock.yahoo.com/news/%E5%80%8B%E4%BA%BA-ai-%E4%BB%A3%E7%90%86%E4%BA%BA%E6%B9%A7%E5%85%A5%E5%AE%98%E7%B6%B2-%E5%85%A9%E5%A4%A7%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9A%E6%8E%80%E5%AE%A2%E6%9C%8D%E8%AE%8A%E9%9D%A9-180217820.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T02:02:17+08:00",
+          "summary": "圖／示意圖商傳媒｜林昭衡／綜合外電報導越來越多消費者開始指派個人 AI 代理人（Agent）代勞各類繁瑣事務，從比價購物、提出投訴到爭議帳單處理，這股風潮正迅速衝擊企業的客戶體驗（CX）架構。相關調查",
+          "additional_sources": []
+        },
+        {
+          "title": "AI第三波市場商機轉向資安防禦 SOC成科技角力新戰場",
+          "link": "https://tw.stock.yahoo.com/news/ai%E7%AC%AC%E4%B8%89%E6%B3%A2%E5%B8%82%E5%A0%B4%E5%95%86%E6%A9%9F%E8%BD%89%E5%90%91%E8%B3%87%E5%AE%89%E9%98%B2%E7%A6%A6-soc%E6%88%90%E7%A7%91%E6%8A%80%E8%A7%92%E5%8A%9B%E6%96%B0%E6%88%B0%E5%A0%B4-174117327.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T01:41:17+08:00",
+          "summary": "圖／示意圖商傳媒｜葉安庭／綜合外電報導繼程式開發與客戶支援服務之後，人工智慧（AI）正在資安防禦領域開闢下一個關鍵市場。創投分析專家 Tomasz Tunguz 指出，AI 技術在經歷前兩波應用熱潮後",
+          "additional_sources": []
+        },
+        {
+          "title": "Moody's將互連智慧內建於客戶建構AI所用的平台",
+          "link": "https://tw.stock.yahoo.com/news/moodys%E5%B0%87%E4%BA%92%E9%80%A3%E6%99%BA%E6%85%A7%E5%85%A7%E5%BB%BA%E6%96%BC%E5%AE%A2%E6%88%B6%E5%BB%BA%E6%A7%8Bai%E6%89%80%E7%94%A8%E7%9A%84%E5%B9%B3%E5%8F%B0-171300399.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T01:13:00+08:00",
+          "summary": "紐約, November 24, 2026--(美國商業資訊)--Moody's Corporation (NYSE: MCO)今日宣布推出零複製資料共用功能。藉助這一全新的方式，客戶無需移動或複製資",
+          "additional_sources": []
+        },
+        {
+          "title": "《強勢美股特報》MRNA,TTWO,HUM,ACN等7檔",
+          "link": "https://tw.stock.yahoo.com/news/%E5%BC%B7%E5%8B%A2%E7%BE%8E%E8%82%A1%E7%89%B9%E5%A0%B1-mrna-ttwo-hum-acn%E7%AD%897%E6%AA%94-171000539.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T01:10:00+08:00",
+          "summary": "MoneyDJ新聞 2026-11-25 01:10:24 數位內容中心 發佈Moderna（MRNA.US）：成交價226.95美元，上漲7.01%，開盤212.68美元，盤中高點227.84美元，",
+          "additional_sources": []
+        },
+        {
+          "title": "法國量子新創Quandela結盟漢民科技 攻光學量子運算技術",
+          "link": "https://tw.stock.yahoo.com/news/%E6%B3%95%E5%9C%8B%E9%87%8F%E5%AD%90%E6%96%B0%E5%89%B5quandela%E7%B5%90%E7%9B%9F%E6%BC%A2%E6%B0%91%E7%A7%91%E6%8A%80-%E6%94%BB%E5%85%89%E5%AD%B8%E9%87%8F%E5%AD%90%E9%81%8B%E7%AE%97%E6%8A%80%E8%A1%93-163430135.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:34:30+08:00",
+          "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導法國量子光電新創公司 Quandela 於 2026 年 11 月 10 日至 11 日舉辦「Quantum Taiwan 2026」活動，聚焦全球量子技術進展與",
+          "additional_sources": []
+        },
+        {
+          "title": "美廣告商推AI媒合平台 打破創意產業同溫層",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%BB%A3%E5%91%8A%E5%95%86%E6%8E%A8ai%E5%AA%92%E5%90%88%E5%B9%B3%E5%8F%B0-%E6%89%93%E7%A0%B4%E5%89%B5%E6%84%8F%E7%94%A2%E6%A5%AD%E5%90%8C%E6%BA%AB%E5%B1%A4-162734660.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:27:34+08:00",
+          "summary": "圖／本報資料庫商傳媒｜林昭衡／綜合外電報導廣告圈長期仰賴少數熟面孔的生態，如今迎來新型態科技工具介入。美國創意代理商 SuperBloom House 宣布開發名為 Stove 的人工智慧平台，專門協",
+          "additional_sources": []
+        },
+        {
+          "title": "《強勢美股特報》DKS,BMRN,BURL,TEX等10檔",
+          "link": "https://tw.stock.yahoo.com/news/%E5%BC%B7%E5%8B%A2%E7%BE%8E%E8%82%A1%E7%89%B9%E5%A0%B1-dks-bmrn-burl-tex%E7%AD%8910%E6%AA%94-161400360.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:14:00+08:00",
+          "summary": "MoneyDJ新聞 2026-11-25 00:14:31 數位內容中心 發佈Dick's Sporting Goods（DKS.US）：成交價154.05美元，上漲15.25%，開盤148.75美元",
+          "additional_sources": []
+        },
+        {
+          "title": "台股下跌時可以買嗎？15年老牌科技基金經理人教戰：分批與定期定額 3 大指標",
+          "link": "https://tw.news.yahoo.com/%E5%8F%B0%E8%82%A1%E4%B8%8B%E8%B7%8C%E6%99%82%E5%8F%AF%E4%BB%A5%E8%B2%B7%E5%97%8E-15%E5%B9%B4%E8%80%81%E7%89%8C%E7%A7%91%E6%8A%80%E5%9F%BA%E9%87%91%E7%B6%93%E7%90%86%E4%BA%BA%E6%95%99%E6%88%B0-%E5%88%86%E6%89%B9%E8%88%87%E5%AE%9A%E6%9C%9F%E5%AE%9A%E9%A1%8D-3-%E5%A4%A7%E6%8C%87%E6%A8%99-161100184.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:11:00+08:00",
+          "summary": "許多投資人常陷入「該趁低點單筆加碼，還是維持定期定額」的兩難。若觀察科技股評價（如預估本益比）已隨股價回落，且企業獲利預期維持穩健，手上有額外長期資金的投資人可評估擇機分批買入；至於已經在定期定額的投",
+          "additional_sources": []
+        },
+        {
+          "title": "AI失業潮恐沒想像嚴重！美企明年擬擴大招聘 逾3成看好AI帶動增聘",
+          "link": "https://tw.stock.yahoo.com/news/ai%E5%A4%B1%E6%A5%AD%E6%BD%AE%E6%81%90%E6%B2%92%E6%83%B3%E5%83%8F%E5%9A%B4%E9%87%8D-%E7%BE%8E%E4%BC%81%E6%98%8E%E5%B9%B4%E6%93%AC%E6%93%B4%E5%A4%A7%E6%8B%9B%E8%81%98-%E9%80%BE3%E6%88%90%E7%9C%8B%E5%A5%BDai%E5%B8%B6%E5%8B%95%E5%A2%9E%E8%81%98-160005522.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:00:05+08:00",
+          "summary": "ZipRecruiter調查：67%美企計劃明年增招，高於2026年63%，且更願為AI技能人才加薪。 Bachaud稱AI已從科技業擴散至各產業，資料中心、工程與辦公職務都將受影響。 今年前10個月",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US NVDA 輝達",
+      "keywords": [
+        "仁勳",
+        "輝達",
+        "黃仁",
+        "投資",
+        "市場"
+      ],
+      "article_count": 6,
+      "articles": [
+        {
+          "title": "全球科技巨頭狂擲資金 經濟學家拆解AI過度投資背後的權力爭奪",
+          "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E7%A7%91%E6%8A%80%E5%B7%A8%E9%A0%AD%E7%8B%82%E6%93%B2%E8%B3%87%E9%87%91-%E7%B6%93%E6%BF%9F%E5%AD%B8%E5%AE%B6%E6%8B%86%E8%A7%A3ai%E9%81%8E%E5%BA%A6%E6%8A%95%E8%B3%87%E8%83%8C%E5%BE%8C%E7%9A%84%E6%AC%8A%E5%8A%9B%E7%88%AD%E5%A5%AA-182514228.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T02:25:14+08:00",
+          "summary": "商傳媒｜吳承岳／台北報導全球人工智慧熱潮持續推升科技股行情，半導體與 AI 供應鏈企業市值屢創新高。然而，在這波由硬體採購與基礎建設引爆的資本狂潮背後，市場專家與學者開始警示當前資本投入可能已脫離單純",
+          "additional_sources": []
+        },
+        {
+          "title": "美股還能再漲近25%？德銀喊標普2027年底衝9000點",
+          "link": "https://news.cnyes.com/news/id/6671051",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T02:30:02+08:00",
+          "summary": "鉅亨網編譯段智恆2026-11-25 02:30\n據《巴隆周刊》周二(24日)報導，德意志銀行(DB-US)看好企業獲利持續成長、人工智慧(AI)投資題材重拾動能，預估標普500指數2027年底可升至9000點，相較報導時水準有近25%上漲空間，位居華爾街最樂觀預測之列。德銀認為，輝達(NVDA-U…",
+          "additional_sources": []
+        },
+        {
+          "title": "才押中輝達反彈！億萬富豪大膽預言：美股至少得跌三分之一",
+          "link": "https://news.cnyes.com/news/id/6671117",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T01:59:20+08:00",
+          "summary": "鉅亨網編譯王貞懿2026-11-25 01:59\n英國億萬富豪投資人梅隆 (Jim Mellon) 上周逆勢買進輝達 (NVDA-US)，理由之一就是黃仁勳可能回歸，結果真的押中了。不過，這筆漂亮的交易並沒有改變他對美股的看法，他反而建議投資人別把錢全押在美股上。\n據《MarketWatch》報導，…",
+          "additional_sources": []
+        },
+        {
+          "title": "黃仁勳回歸狂歡退燒！輝達盤中挫逾8% 分析師提醒「慶祝後宿醉」",
+          "link": "https://news.cnyes.com/news/id/6671159",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T01:00:08+08:00",
+          "summary": "鉅亨網編譯段智恆2026-11-25 01:00\n據《巴隆周刊》周二(24日)報導，黃仁勳重返輝達(NVDA-US)帶動的股價狂歡迅速降溫。該股繼周一大漲約31%後，周二盤中下跌近8.4%，暫報151.39美元。分析師提醒，執行長回歸有助提振信心，但政治、公司治理與調查風險，仍須納入投資評估。\n黃仁…",
+          "additional_sources": []
+        },
+        {
+          "title": "美股急漲急跌洗爆投資人！現在追高還是繼續觀望？",
+          "link": "https://news.cnyes.com/news/id/6671118",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T00:51:07+08:00",
+          "summary": "鉅亨網新聞中心2026-11-25 00:51\n美股歷經劇烈拋售後強勢反彈，除了黃仁勳重返輝達 (NVDA-US) 執行長職位的利多消息，選擇權避險、槓桿 ETF 部位調整及空頭回補等交易機制驅動的買盤也放大漲勢。不過，華爾街分析師警告，單日大漲並不代表趨勢反轉，長期行情仍取決於人工智慧 (AI)…",
+          "additional_sources": []
+        },
+        {
+          "title": "川普介入黃仁勳復職引爆華府風暴！民主黨誓言徹查川普和輝達、共和黨也不買帳",
+          "link": "https://news.cnyes.com/news/id/6670957",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T00:10:08+08:00",
+          "summary": "鉅亨網編譯莊閔棻2026-11-25 00:10\n輝達(NVDA-US) 董事會宣布恢復黃仁勳執行長職務，原本試圖平息公司內部風波，卻意外引爆美國國會兩黨反彈。由於美國總統川普坦承親自介入復職決策，共和、民主兩黨議員紛紛要求釐清政府在其中扮演的角色，並揚言擴大調查，黃仁勳也將面臨國會聽證與問詢。\n川…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US META Meta",
+      "keywords": [
+        "medisca",
+        "產品",
+        "合作",
+        "生產",
+        "anthropic"
+      ],
+      "article_count": 2,
+      "articles": [
+        {
+          "title": "Medisca 推出肽類產品平台，以大額投資拓展全球生產合作並取得知識產權",
+          "link": "https://tw.stock.yahoo.com/news/medisca-%E6%8E%A8%E5%87%BA%E8%82%BD%E9%A1%9E%E7%94%A2%E5%93%81%E5%B9%B3%E5%8F%B0-%E4%BB%A5%E5%A4%A7%E9%A1%8D%E6%8A%95%E8%B3%87%E6%8B%93%E5%B1%95%E5%85%A8%E7%90%83%E7%94%9F%E7%94%A2%E5%90%88%E4%BD%9C%E4%B8%A6%E5%8F%96%E5%BE%97%E7%9F%A5%E8%AD%98%E7%94%A2%E6%AC%8A-164700383.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:47:00+08:00",
+          "summary": "滿地可, November 24, 2026--(美國商業資訊)--Medisca 今日宣佈推出 Medisca Peptides 網上平台，並以在全球生產合作、肽類開發及特定原料藥（API）生產知識",
+          "additional_sources": []
+        },
+        {
+          "title": "Anthropic上市不到一周就跌破發行價！三大風險浮現 被動買盤能否救援？",
+          "link": "https://news.cnyes.com/news/id/6671114",
+          "source": "cnyes",
+          "pubdate": "2026-11-25T00:26:56+08:00",
+          "summary": "鉅亨網新聞中心2026-11-25 00:26\n人工智慧 (AI) 公司 Anthropic (ANT-US) 上市不到一周便跌破首次公開發行 (IPO) 價格，周二 (24 日) 早盤一度重挫逾 8%，最低觸及 80.25 美元。多重風險浮現，市場開始重新審視 AI 企業的高估值能否持續。\nAnt…",
+          "additional_sources": []
+        }
+      ]
+    },
+    {
+      "group": "US MSFT 微軟",
+      "keywords": [
+        "修補",
+        "風險",
+        "營運",
+        "qualys",
+        "漏洞"
+      ],
+      "article_count": 1,
+      "articles": [
+        {
+          "title": "高知特聯手資安廠Qualys 推AI託管式資安風險營運架構",
+          "link": "https://tw.stock.yahoo.com/news/%E9%AB%98%E7%9F%A5%E7%89%B9%E8%81%AF%E6%89%8B%E8%B3%87%E5%AE%89%E5%BB%A0qualys-%E6%8E%A8ai%E8%A8%97%E7%AE%A1%E5%BC%8F%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E7%87%9F%E9%81%8B%E6%9E%B6%E6%A7%8B-161552725.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-25T00:15:52+08:00",
+          "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導面對企業漏洞數量激增與前沿人工智慧帶來的威脅，資訊服務巨擘高知特（Cognizant）與資安廠商 Qualys 擴大戰略合作，透過「Qualys Global",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "US"
+}
