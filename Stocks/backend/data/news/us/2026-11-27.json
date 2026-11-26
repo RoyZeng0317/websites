@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-27",
+  "generated_at": "2026-11-27T01:36:59.337225",
+  "group_count": 1,
+  "total_articles": 3,
+  "groups": [
+    {
+      "group": "US GOOGL Alphabet",
+      "keywords": [
+        "報導",
+        "美國",
+        "台灣",
+        "記者",
+        "台股"
+      ],
+      "article_count": 3,
+      "articles": [
+        {
+          "title": "美新創研發免加壓固態電池 能量密度達傳統鋰電池兩倍",
+          "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E6%96%B0%E5%89%B5%E7%A0%94%E7%99%BC%E5%85%8D%E5%8A%A0%E5%A3%93%E5%9B%BA%E6%85%8B%E9%9B%BB%E6%B1%A0-%E8%83%BD%E9%87%8F%E5%AF%86%E5%BA%A6%E9%81%94%E5%82%B3%E7%B5%B1%E9%8B%B0%E9%9B%BB%E6%B1%A0%E5%85%A9%E5%80%8D-165015791.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-27T00:50:15+08:00",
+          "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導外媒《Interesting Engineering》報導，美國紐約能源新創公司 InfinitEnergy 正在研發一種新型固態電池技術，運作時無需依賴外",
+          "additional_sources": []
+        },
+        {
+          "title": "瑞銀估美自駕計程車規模2040年達900億美元 車隊衝上60萬輛",
+          "link": "https://tw.stock.yahoo.com/news/%E7%91%9E%E9%8A%80%E4%BC%B0%E7%BE%8E%E8%87%AA%E9%A7%95%E8%A8%88%E7%A8%8B%E8%BB%8A%E8%A6%8F%E6%A8%A12040%E5%B9%B4%E9%81%94900%E5%84%84%E7%BE%8E%E5%85%83-%E8%BB%8A%E9%9A%8A%E8%A1%9D%E4%B8%8A60%E8%90%AC%E8%BC%9B-164017137.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-27T00:40:17+08:00",
+          "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導無人駕駛計程車（Robotaxi）正迎來爆發性成長。瑞士跨國銀行瑞銀（UBS）最新研究報告預測，美國自駕計程車市場規模預計在 2040 年達到約 900 億美元",
+          "additional_sources": []
+        },
+        {
+          "title": "古典電腦逆襲 效能追平並超越IBM 70量子位元實驗",
+          "link": "https://tw.stock.yahoo.com/news/%E5%8F%A4%E5%85%B8%E9%9B%BB%E8%85%A6%E9%80%86%E8%A5%B2-%E6%95%88%E8%83%BD%E8%BF%BD%E5%B9%B3%E4%B8%A6%E8%B6%85%E8%B6%8Aibm-70%E9%87%8F%E5%AD%90%E4%BD%8D%E5%85%83%E5%AF%A6%E9%A9%97-161719252.html",
+          "source": "yahoo",
+          "pubdate": "2026-11-27T00:17:19+08:00",
+          "summary": "商傳媒｜何映辰／台北報導一項最新研究顯示，傳統超級電腦在特定圖態（graph state）運算任務中，已成功追平甚至超越 70 個量子位元硬體的運算表現。這項發現對現行量子霸權的驗證標準提出了直接挑戰",
+          "additional_sources": []
+        }
+      ]
+    }
+  ],
+  "market": "US"
+}
